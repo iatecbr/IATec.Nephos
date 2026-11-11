@@ -114,9 +114,15 @@
   pointer-events: none;
 }
 
+/*
+ * `--nph-button-focus-border` is the one public focus hook (DSA-72): a piece that hosts a
+ * button on a surface where the severity color falls below 3:1 sets it on that button, with
+ * `focus/border`. Unset, the border is the severity one, as always. Set on the button, never
+ * on a host that holds other buttons: custom properties inherit.
+ */
 .control:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
-  border: var(--nph-border-width) solid var(--_focus-border);
+  border: var(--nph-border-width) solid var(--nph-button-focus-border, var(--_focus-border));
   border-radius: var(--nph-focus-border-radius-control);
 }
 

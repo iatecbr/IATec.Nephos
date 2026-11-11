@@ -19,7 +19,7 @@
  * `sidebarItemDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the
  * translation. Technical identifiers appear literally and are the same in any language.
  */
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
@@ -195,7 +195,7 @@ export const Documentation: Story = {
             ${demo(
               panel(html`${d.subitems.map(
                 (label: string, position: number) =>
-                  html`<nph-sidebar-subitem label=${label} href="#sub" ?active=${position === 0} ?options=${position === d.subitems.length - 1}></nph-sidebar-subitem>`,
+                  html`<nph-sidebar-subitem label=${label} href=${position === d.subitems.length - 1 ? nothing : '#sub'} ?active=${position === 0} ?options=${position === d.subitems.length - 1}></nph-sidebar-subitem>`,
               )}`),
               d.subitemCaption,
             )}

@@ -120,7 +120,7 @@
 
 .control:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
-  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border: var(--nph-border-width) solid var(--nph-focus-border);
   border-radius: var(--nph-focus-border-radius-sidebar-item);
 }
 

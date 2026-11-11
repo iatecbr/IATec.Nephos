@@ -156,9 +156,10 @@ export const Subitem: Story = {
       html`<span style=${cellWidth}
         ><nph-sidebar-subitem
           label=${first ?? ''}
-          href="#sub"
+          href=${options ? nothing : '#sub'}
           ?options=${options}
-          ?active=${state.active ?? false}
+          ?expanded=${options && (state.active ?? false)}
+          ?active=${!options && (state.active ?? false)}
           ?disabled=${state.disabled ?? false}
         ></nph-sidebar-subitem
       ></span>`;

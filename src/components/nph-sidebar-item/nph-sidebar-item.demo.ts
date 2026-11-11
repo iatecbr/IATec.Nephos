@@ -12,7 +12,7 @@
  * buttons". The functions take the visible text as arguments: this file holds none,
  * because every visible text comes from the language dictionary of the page that calls it.
  */
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import '../nph-sidebar-rail-button/nph-sidebar-rail-button';
@@ -114,7 +114,7 @@ export function openGroup(text: MenuText): TemplateResult {
         (label, index) =>
           html`<nph-sidebar-subitem
             label=${label}
-            href=${`#sub-${index + 1}`}
+            href=${index === text.subitems.length - 1 ? nothing : `#sub-${index + 1}`}
             ?active=${index === 0}
             ?options=${index === text.subitems.length - 1}
           ></nph-sidebar-subitem>`,

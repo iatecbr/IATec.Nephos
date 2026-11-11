@@ -34,7 +34,7 @@ afterEach(async () => {
 async function mount(props: Partial<NphSidebarSubitem> = {}): Promise<NphSidebarSubitem> {
   const subitem = document.createElement('nph-sidebar-subitem');
   subitem.style.inlineSize = '240px';
-  Object.assign(subitem, { label: 'Monthly', href: '#monthly', ...props });
+  Object.assign(subitem, { label: 'Monthly', href: props.options === true ? '' : '#monthly', ...props });
   document.body.append(subitem);
   await subitem.updateComplete;
   return subitem;
@@ -84,21 +84,24 @@ describe('registration and API', () => {
 
   it('the public API is exactly P98: no icon, no counter, no more actions', () => {
     const declared = [...(NphSidebarSubitem as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared.sort()).toEqual(['active', 'disabled', 'href', 'label', 'options', 'tooltip']);
+    expect(declared.sort()).toEqual(['active', 'controls', 'disabled', 'expanded', 'href', 'label', 'options', 'tooltip']);
   });
 
   it('has the defaults of the set: options no, at rest, no balloon', () => {
     const subitem = document.createElement('nph-sidebar-subitem');
     expect(subitem.options).toBe(false);
+    expect(subitem.expanded).toBe(false);
     expect(subitem.active).toBe(false);
     expect(subitem.disabled).toBe(false);
     expect(subitem.tooltip).toBe('');
   });
 
-  it('reflects active, options and disabled, which the CSS reads', async () => {
-    const subitem = await mount({ active: true, options: true, disabled: true });
-    expect(subitem.hasAttribute('active')).toBe(true);
+  it('reflects active, options, expanded and disabled, which the CSS reads', async () => {
+    const link = await mount({ active: true });
+    expect(link.hasAttribute('active')).toBe(true);
+    const subitem = await mount({ options: true, expanded: true, disabled: true });
     expect(subitem.hasAttribute('options')).toBe(true);
+    expect(subitem.hasAttribute('expanded')).toBe(true);
     expect(subitem.hasAttribute('disabled')).toBe(true);
   });
 
@@ -149,17 +152,75 @@ describe('the link', () => {
     expect(control(subitem).getAttribute('aria-current')).toBe('page');
   });
 
-  it('options shows the chevron-right arrow at icon/size-sm, visual only', async () => {
-    const subitem = await mount();
-    expect(arrow(subitem)).toBeNull();
-    subitem.options = true;
-    await subitem.updateComplete;
+  it('options shows the chevron-right arrow at icon/size-sm and makes the line a disclosure button (D-4)', async () => {
+    const link = await mount();
+    expect(arrow(link)).toBeNull();
+    expect(control(link).tagName).toBe('A');
+    const subitem = await mount({ options: true });
     expect(arrow(subitem)?.name).toBe('chevron-right');
     expect(arrow(subitem)?.size).toBe('sm');
-    expect(control(subitem).tagName).toBe('A');
+    expect(control(subitem).tagName).toBe('BUTTON');
+    expect(control(subitem).hasAttribute('href')).toBe(false);
+    expect(control(subitem).getAttribute('aria-expanded')).toBe('false');
     await (arrow(subitem) as NphIcon).updateComplete;
     const node = await axNode(control(subitem));
+    expect(node.role).toBe('button');
     expect(node.name).toBe('Monthly');
+  });
+
+  it('a click, Enter or Space on options toggles expanded and fires nph-toggle once, out of the shadow root', async () => {
+    const subitem = await mount({ options: true });
+    const seen: boolean[] = [];
+    subitem.addEventListener('nph-toggle', (event) => {
+      expect(event.composed).toBe(true);
+      expect(event.bubbles).toBe(true);
+      seen.push((event as CustomEvent<{ expanded: boolean }>).detail.expanded);
+    });
+    await userEvent.click(control(subitem));
+    expect(subitem.expanded).toBe(true);
+    expect(control(subitem).getAttribute('aria-expanded')).toBe('true');
+    control(subitem).focus();
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    expect(seen).toEqual([true, false, true]);
+  });
+
+  it('setting expanded from code fires nothing, and opening it closes its balloon', async () => {
+    const subitem = await mount({ options: true, tooltip: 'Monthly report' });
+    const seen = vi.fn();
+    subitem.addEventListener('nph-toggle', seen);
+    subitem.expanded = true;
+    await subitem.updateComplete;
+    expect(seen).not.toHaveBeenCalled();
+    subitem.expanded = false;
+    await subitem.updateComplete;
+    const tooltip = balloon(subitem) as NphTooltip;
+    tooltip.open = true;
+    await tooltip.updateComplete;
+    await userEvent.click(control(subitem));
+    expect(tooltip.open).toBe(false);
+  });
+
+  it('controls points the options button to an element outside its shadow root (D-4)', async () => {
+    const subitem = await mount({ options: true });
+    const target = document.createElement('div');
+    document.body.append(target);
+    subitem.controls = target;
+    await subitem.updateComplete;
+    const button = control(subitem) as HTMLElement & { ariaControlsElements: readonly Element[] | null };
+    expect(button.ariaControlsElements).toEqual([target]);
+  });
+
+  it('options with an href, or active, renders nothing and complains once per cause', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const withHref = await mount({ options: true, href: '#monthly' });
+    expect(withHref.shadowRoot?.childElementCount).toBe(0);
+    expect(String(error.mock.calls[0]?.[0])).toMatch(/a subitem with options has no href/);
+    error.mockClear();
+    const current = await mount({ options: true, active: true });
+    expect(current.shadowRoot?.childElementCount).toBe(0);
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(String(error.mock.calls[0]?.[0])).toMatch(/never active/);
   });
 
   it('the click is the native click, which reaches the host', async () => {
@@ -231,13 +292,13 @@ describe('colors, type and measures', () => {
 });
 
 describe('focus and balloon', () => {
-  it('keyboard focus draws the color/primary border and the focus/halo halo, in the item radii', async () => {
+  it('keyboard focus draws the focus/border border and the focus/halo halo, in the item radii (DSA-72)', async () => {
     const subitem = await mount();
     await userEvent.keyboard('{Tab}');
     expect(subitem.shadowRoot?.activeElement).toBe(control(subitem));
     const border = getComputedStyle(control(subitem), '::before');
     const halo = getComputedStyle(control(subitem), '::after');
-    expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-focus-border'));
     expect(border.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-border-radius-sidebar-item'));
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     expect(halo.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-radius-sidebar-item'));

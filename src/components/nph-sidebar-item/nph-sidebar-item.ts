@@ -23,8 +23,10 @@
  *   It does not follow `label`; empty turns it off;
  * - `actions` and `actions-label`: the entries of the `nph-dropdown-menu` that the more
  *   actions button opens, and the name of that button. The button is the icon-only
- *   `nph-button` ghost and compact with `ellipsis-vertical`, at the end of the line, shown
- *   on hover and focus, for mouse and keyboard only (P98);
+ *   `nph-button` secondary, ghost and compact with `ellipsis-vertical`, at the end of the
+ *   line, shown on hover and focus, for mouse and keyboard only (P98, D-3 answered in P116);
+ * - `controls`: the element a group opens, set by `nph-sidebar` (P116). An id cannot cross the
+ *   shadow root, so the group button takes it as `ariaControlsElements`. Property only;
  * - the event `nph-toggle` (bubbles, composed), with `detail: { expanded }`, fired only when
  *   the person opens or closes a group. The `nph-item-select` of the menu is fired again on
  *   the host, with the same `detail`. A link fires nothing of its own: the click is the
@@ -100,6 +102,7 @@ export class NphSidebarItem extends LitElement {
     tooltip: { type: String },
     actions: { attribute: false },
     actionsLabel: { type: String, attribute: 'actions-label' },
+    controls: { attribute: false },
   };
 
   declare type: NphSidebarItemType;
@@ -114,6 +117,8 @@ export class NphSidebarItem extends LitElement {
   declare tooltip: string;
   declare actions: readonly NphDropdownMenuEntry[];
   declare actionsLabel: string;
+  /** What a group opens, in an ancestor shadow root: the group button points to it (P116). */
+  declare controls: HTMLElement | null;
 
   private valid = false;
 
@@ -130,6 +135,7 @@ export class NphSidebarItem extends LitElement {
     this.tooltip = '';
     this.actions = [];
     this.actionsLabel = '';
+    this.controls = null;
     /* A disabled line lets no click through, `click()` on the host included. */
     this.addEventListener('click', (event) => this.blockDisabled(event), { capture: true });
     /*
@@ -216,6 +222,16 @@ export class NphSidebarItem extends LitElement {
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
   }
 
+  protected override updated(): void {
+    /* `aria-controls` by id cannot cross the shadow root; the element reflection can (P116). */
+    const button = this.renderRoot.querySelector<HTMLElement & { ariaControlsElements: readonly Element[] | null }>(
+      'button.control',
+    );
+    if (button !== null) {
+      button.ariaControlsElements = this.controls === null || this.controls === undefined ? null : [this.controls];
+    }
+  }
+
   private toggle(): void {
     if (this.disabled) {
       return;
@@ -282,6 +298,7 @@ export class NphSidebarItem extends LitElement {
         ? html`<nph-button
               class="actions"
               id=${ACTIONS_ID}
+              severity="secondary"
               emphasis="ghost"
               size="compact"
               icon-start="ellipsis-vertical"

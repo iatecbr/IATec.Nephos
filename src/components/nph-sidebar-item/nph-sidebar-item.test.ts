@@ -108,7 +108,7 @@ describe('registration and API', () => {
   it('the public API is exactly P98', () => {
     const declared = [...(NphSidebarItem as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
     expect(declared.sort()).toEqual(
-      ['actions', 'actionsLabel', 'active', 'counter', 'disabled', 'expanded', 'href', 'icon', 'label', 'tooltip', 'type'].sort(),
+      ['actions', 'actionsLabel', 'active', 'controls', 'counter', 'disabled', 'expanded', 'href', 'icon', 'label', 'tooltip', 'type'].sort(),
     );
     expect([...NPH_SIDEBAR_ITEM_TYPES]).toEqual(['link', 'group']);
     expect(NPH_SIDEBAR_ITEM_TOGGLE_EVENT).toBe('nph-toggle');
@@ -326,6 +326,19 @@ describe('the group', () => {
     expect(icon(item).variant).toBe('solid');
   });
 
+  it('controls points the group button to an element outside its shadow root (DSA-72)', async () => {
+    const item = await mount({ type: 'group', href: '' });
+    const target = document.createElement('div');
+    document.body.append(target);
+    item.controls = target;
+    await item.updateComplete;
+    const button = control(item) as HTMLElement & { ariaControlsElements: readonly Element[] | null };
+    expect(button.ariaControlsElements).toEqual([target]);
+    item.controls = null;
+    await item.updateComplete;
+    expect(button.ariaControlsElements).toBeNull();
+  });
+
   it('the browser computes a button with its expanded state', async () => {
     const item = await mount({ type: 'group', href: '', label: 'Reports', icon: 'folder' });
     await settle(item);
@@ -475,13 +488,13 @@ describe('colors, type and measures', () => {
 });
 
 describe('focus', () => {
-  it('keyboard focus draws the color/primary border and the focus/halo halo outside the line', async () => {
+  it('keyboard focus draws the focus/border border and the focus/halo halo outside the line (DSA-72)', async () => {
     const item = await mount();
     await userEvent.keyboard('{Tab}');
     expect(item.shadowRoot?.activeElement).toBe(control(item));
     const border = getComputedStyle(control(item), '::before');
     const halo = getComputedStyle(control(item), '::after');
-    expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-focus-border'));
     expect(Number.parseFloat(border.borderTopWidth)).toBeCloseTo(px('--nph-border-width'), 1);
     expect(border.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-border-radius-sidebar-item'));
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
@@ -546,9 +559,10 @@ describe('more actions', () => {
     return item;
   }
 
-  it('is the icon-only nph-button, ghost and compact, with ellipsis-vertical and its own name', async () => {
+  it('is the icon-only nph-button, secondary, ghost and compact, with ellipsis-vertical and its own name (D-3)', async () => {
     const item = await withActions();
-    const button = actionsButton(item) as HTMLElement & { emphasis: string; size: string; iconStart: string; label: string };
+    const button = actionsButton(item) as HTMLElement & { severity: string; emphasis: string; size: string; iconStart: string; label: string };
+    expect(button.severity).toBe('secondary');
     expect(button.emphasis).toBe('ghost');
     expect(button.size).toBe('compact');
     expect(button.iconStart).toBe('ellipsis-vertical');
@@ -646,7 +660,8 @@ describe('token contract', () => {
 
   it('never consumes a core or theme token, nor the ring the evidence does not use', () => {
     expect(componentCss).not.toMatch(/--nph-core-|--nph-theme-/);
-    expect(cssWithoutComments).not.toMatch(/--nph-focus-border\)|--nph-focus-ring-sidebar|--nph-sidebar-item-background-active/);
+    expect(cssWithoutComments).not.toMatch(/--nph-focus-ring-sidebar|--nph-sidebar-item-background-active|--nph-color-primary\)/);
+    expect(cssWithoutComments).toMatch(/solid var\(--nph-focus-border\)/);
   });
 
   it('the CSS has no literal color, measure or duration', () => {
