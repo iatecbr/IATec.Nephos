@@ -12425,6 +12425,7 @@
       "A coluna de texto para na largura máxima. O rótulo de uma etapa pendente, concluída ou com erro fica numa linha e termina em reticências, e o texto inteiro aparece num balão no hover e no foco. O rótulo da etapa atual quebra em até duas linhas e nunca é cortado. A descrição vai até duas linhas.",
       "O conector preenche o espaço entre as etapas e nunca fica mais estreito que a largura mínima. Com mais de sete etapas, divida o processo: o stepper nunca recolhe etapas.",
       "Abaixo de 600 px de largura própria, o stepper vira uma barra de progresso do tipo etapas, com \"Etapa 2 de 4\" e o rótulo da etapa atual. Conta a largura do stepper, não a da janela; o stepper se estica até a largura de onde mora, então numa linha flex dê a ele flex: 1.",
+      "Quando falta espaço acima dessa largura, a coluna de texto das etapas cede o seu espaço primeiro e o marcador e o conector mantêm o mínimo; se nem isso couber, a lista rola na horizontal e recebe o Tab sozinha.",
       "Na largura estreita, uma etapa com erro não aparece como erro: a barra mostra só a posição.",
       "Com movimento reduzido nada se move: a cor de um status muda de uma vez."
     ],

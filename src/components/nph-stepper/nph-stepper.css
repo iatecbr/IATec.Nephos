@@ -35,6 +35,29 @@
   display: block;
 }
 
+/*
+ * When the steps do not fit, the list scrolls sideways instead of letting a step fall below its marker
+ * or on its connector (P117, item 9). The scroller clips what is outside it, and the focus is drawn
+ * outside the step, so the scroller carries the room of the focus border and the halo as padding and
+ * takes it back with a negative margin: nothing moves and nothing is clipped.
+ */
+.scroller {
+  --_focus-room: calc(var(--nph-stepper-focus-border-width) + var(--nph-stepper-focus-ring-width));
+  margin: calc(-1 * var(--_focus-room));
+  padding: var(--_focus-room);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  outline: none;
+}
+
+/* A list that scrolls takes the Tab key itself, so the keyboard can scroll it (WCAG 2.1.1). */
+.scroller:focus-visible {
+  border-radius: var(--nph-stepper-focus-border-radius);
+  box-shadow:
+    0 0 0 var(--nph-stepper-focus-border-width) var(--nph-stepper-focus-border),
+    0 0 0 calc(var(--nph-stepper-focus-border-width) + var(--nph-stepper-focus-ring-width)) var(--nph-stepper-focus-ring);
+}
+
 .narrow {
   display: none;
 }
@@ -58,16 +81,25 @@
   list-style: none;
 }
 
-/* A step with the connector that follows it: the connector takes the room the steps leave. */
+/*
+ * A step with the connector that follows it: the connector takes the room the steps leave. The least an
+ * item takes is its structural minimum: the step area around its marker, then the connector at
+ * `stepper/connector-min-width` with its gap on each side. The text column may shrink to nothing (a cut
+ * label ends in an ellipsis and a balloon), but never the marker or the connector: below the sum of the
+ * minimums the list scrolls.
+ */
 .item {
+  --_step-min: calc(2 * var(--nph-stepper-item-padding-x) + var(--nph-stepper-marker-size) + var(--nph-stepper-item-gap));
   display: flex;
   flex: 1 1 auto;
   align-items: flex-start;
-  min-inline-size: 0;
+  min-inline-size: calc(var(--_step-min) + var(--nph-stepper-connector-min-width) + 2 * var(--nph-stepper-connector-gap));
 }
 
+/* The last step has no connector. It keeps its own width, so a short last label is not cut by the squeeze. */
 .item:last-child {
   flex: none;
+  min-inline-size: var(--_step-min);
 }
 
 /* The current step never gives up room: the squeeze falls on the steps that end in an ellipsis and a balloon. */
@@ -84,7 +116,7 @@
   flex: 0 1 auto;
   align-items: flex-start;
   gap: var(--nph-stepper-item-gap);
-  min-inline-size: 0;
+  min-inline-size: var(--_step-min);
   margin: 0;
   padding: var(--nph-stepper-item-padding-y) var(--nph-stepper-item-padding-x);
   border: 0;

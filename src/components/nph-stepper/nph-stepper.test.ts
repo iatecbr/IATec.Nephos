@@ -92,6 +92,8 @@ const connectors = (stepper: NphStepper): HTMLElement[] => [...root(stepper).que
 const tooltips = (stepper: NphStepper): NphTooltip[] => [...root(stepper).querySelectorAll<NphTooltip>('nph-tooltip')];
 const narrow = (stepper: NphStepper): NphProgress => root(stepper).querySelector('nph-progress') as NphProgress;
 const nav = (stepper: NphStepper): HTMLElement => root(stepper).querySelector('nav') as HTMLElement;
+const wide = (stepper: NphStepper): HTMLElement => root(stepper).querySelector('.wide') as HTMLElement;
+const scroller = (stepper: NphStepper): HTMLElement => root(stepper).querySelector('.scroller') as HTMLElement;
 
 function resolved(property: string, token: string): string {
   const probe = document.createElement('div');
@@ -143,7 +145,7 @@ describe('registration and API', () => {
 
   it('the public API is exactly P117', () => {
     const declared = [...(NphStepper as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()].filter(
-      (name) => name !== 'cutSteps',
+      (name) => !['cutSteps', 'overflowing'].includes(name),
     );
     expect(declared.sort()).toEqual(
       [
@@ -881,6 +883,92 @@ describe('the width of the text', () => {
   });
 });
 
+describe('when the room runs short', () => {
+  const LONG = 'A very long label that does not fit in the column';
+  /** Seven steps with the text column at its maximum: the case that needs the most room. */
+  const heavy = (): NphStep[] =>
+    Array.from({ length: 7 }, (_, index) => ({ label: `${LONG} ${String(index + 1)}`, description: `${LONG} and its support line ${String(index + 1)}` }));
+
+  /** Every box the interaction needs, in list order: the step areas and the connectors. */
+  function boxes(stepper: NphStepper) {
+    return {
+      steps: [...root(stepper).querySelectorAll<HTMLElement>('.step')].map((element) => element.getBoundingClientRect()),
+      markers: [...root(stepper).querySelectorAll<HTMLElement>('.marker')].map((element) => element.getBoundingClientRect()),
+      connectors: connectors(stepper).map((element) => element.getBoundingClientRect()),
+    };
+  }
+
+  /** The area of the step holds its marker and the steps and connectors do not touch, in the order of the line. */
+  function expectNoOverlap(stepper: NphStepper): void {
+    const { steps, markers, connectors: lines } = boxes(stepper);
+    const gap = px('--nph-stepper-connector-gap');
+    const markerSize = px('--nph-stepper-marker-size');
+    steps.forEach((step, index) => {
+      const marker = markers[index] as DOMRect;
+      expect(step.width, `step ${String(index + 1)} holds its marker`).toBeGreaterThanOrEqual(markerSize + 2 * px('--nph-stepper-item-padding-x') - 0.5);
+      expect(marker.left, `marker ${String(index + 1)} inside its area`).toBeGreaterThanOrEqual(step.left - 0.5);
+      expect(marker.right, `marker ${String(index + 1)} inside its area`).toBeLessThanOrEqual(step.right + 0.5);
+      expect(marker.width).toBeCloseTo(markerSize, 1);
+      const line = lines[index];
+      if (line !== undefined) {
+        expect(line.left - step.right, `gap before connector ${String(index + 1)}`).toBeGreaterThanOrEqual(gap - 0.5);
+        const next = steps[index + 1] as DOMRect;
+        expect(next.left - line.right, `gap after connector ${String(index + 1)}`).toBeGreaterThanOrEqual(gap - 0.5);
+        expect(line.width, `connector ${String(index + 1)}`).toBeGreaterThanOrEqual(px('--nph-stepper-connector-min-width') - 0.5);
+      }
+    });
+  }
+
+  for (const width of ['600px', '608px', '700px']) {
+    it(`seven steps with the text at its maximum, at ${width}: no step falls below its marker and nothing overlaps`, async () => {
+      const stepper = await mount({ steps: heavy(), current: 4 }, width);
+      expect(getComputedStyle(wide(stepper)).display).toBe('block');
+      expectNoOverlap(stepper);
+    });
+  }
+
+  it('the list scrolls when the minimums do not fit, and then the scroller takes the Tab key', async () => {
+    const stepper = await mount({ steps: heavy(), current: 4 }, '600px');
+    const area = scroller(stepper);
+    await vi.waitFor(() => expect(area.getAttribute('tabindex')).toBe('0'));
+    expect(area.scrollWidth).toBeGreaterThan(area.clientWidth);
+    expect(getComputedStyle(area).overflowX).toBe('auto');
+    expectNoOverlap(stepper);
+    /* The last step is reached by scrolling, and the keyboard scrolls the region. */
+    area.focus();
+    expect(root(stepper).activeElement).toBe(area);
+    area.scrollLeft = area.scrollWidth;
+    expect(area.scrollLeft).toBeGreaterThan(0);
+  });
+
+  it('the focus ring of a step is not clipped by the scroller', async () => {
+    const stepper = await mount({ steps: heavy(), current: 4 }, '600px');
+    const first = step(stepper, 0);
+    first.focus();
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    await userEvent.tab();
+    const area = scroller(stepper).getBoundingClientRect();
+    const ring = getComputedStyle(first, '::after');
+    const reach = px('--nph-stepper-focus-border-width') + px('--nph-stepper-focus-ring-width');
+    expect(first.getBoundingClientRect().top - reach).toBeGreaterThanOrEqual(area.top - 0.5);
+    expect(Number.parseFloat(ring.borderTopWidth)).toBeCloseTo(px('--nph-stepper-focus-ring-width'), 1);
+  });
+
+  it('a list that fits does not scroll and takes no Tab stop of its own', async () => {
+    const stepper = await mount({}, '60rem');
+    expect(scroller(stepper).hasAttribute('tabindex')).toBe(false);
+    expect(scroller(stepper).scrollWidth).toBeLessThanOrEqual(scroller(stepper).clientWidth);
+  });
+
+  it('the text column gives up its room first, down to nothing, while the marker and the connector stay', async () => {
+    const stepper = await mount({ steps: heavy(), current: 4 }, '608px');
+    const other = step(stepper, 0).querySelector('.text') as HTMLElement;
+    expect(other.getBoundingClientRect().width).toBeLessThan(px('--nph-stepper-text-max-width'));
+    expect(tooltips(stepper).length).toBeGreaterThan(0);
+    expectNoOverlap(stepper);
+  });
+});
+
 describe('the cut label and its balloon', () => {
   const LONG = 'A very long label that does not fit in the column';
 
@@ -957,13 +1045,13 @@ describe('the cut label and its balloon', () => {
 describe('the narrow width', () => {
   it('wide: the list is drawn and nph-progress is not', async () => {
     const stepper = await mount({}, '60rem');
-    expect(getComputedStyle(nav(stepper)).display).toBe('block');
+    expect(getComputedStyle(wide(stepper)).display).toBe('block');
     expect(getComputedStyle(narrow(stepper)).display).toBe('none');
   });
 
   it('below 600 px of its own width it becomes nph-progress of the steps type, and the list leaves', async () => {
     const stepper = await mount({}, '37rem');
-    expect(getComputedStyle(nav(stepper)).display).toBe('none');
+    expect(getComputedStyle(wide(stepper)).display).toBe('none');
     expect(getComputedStyle(narrow(stepper)).display).toBe('block');
     expect(narrow(stepper).type).toBe('steps');
     expect(narrow(stepper).steps).toBe(4);
@@ -976,27 +1064,27 @@ describe('the narrow width', () => {
   it('exactly 600 px is still the list', async () => {
     const stepper = await mount({}, '600px');
     expect(stepper.getBoundingClientRect().width).toBeCloseTo(600, 0);
-    expect(getComputedStyle(nav(stepper)).display).toBe('block');
+    expect(getComputedStyle(wide(stepper)).display).toBe('block');
     const less = await mount({}, '599px');
-    expect(getComputedStyle(nav(less)).display).toBe('none');
+    expect(getComputedStyle(wide(less)).display).toBe('none');
   });
 
   it('it is the width of the stepper that counts, not the window', async () => {
     const narrowStepper = await mount({}, '20rem');
-    expect(getComputedStyle(nav(narrowStepper)).display).toBe('none');
+    expect(getComputedStyle(wide(narrowStepper)).display).toBe('none');
     /* The window of the test is narrower than 600 px; a stepper wider than that draws the list anyway. */
     const wideStepper = await mount({}, '60rem');
     expect(wideStepper.getBoundingClientRect().width).toBeGreaterThan(window.innerWidth);
-    expect(getComputedStyle(nav(wideStepper)).display).toBe('block');
+    expect(getComputedStyle(wide(wideStepper)).display).toBe('block');
   });
 
   it('follows the stepper when the room changes, both ways', async () => {
     const stepper = await mount({}, '60rem');
     const holder = stepper.parentElement as HTMLElement;
     holder.style.inlineSize = '20rem';
-    await vi.waitFor(() => expect(getComputedStyle(nav(stepper)).display).toBe('none'));
+    await vi.waitFor(() => expect(getComputedStyle(wide(stepper)).display).toBe('none'));
     holder.style.inlineSize = '60rem';
-    await vi.waitFor(() => expect(getComputedStyle(nav(stepper)).display).toBe('block'));
+    await vi.waitFor(() => expect(getComputedStyle(wide(stepper)).display).toBe('block'));
     expect(getComputedStyle(narrow(stepper)).display).toBe('none');
   });
 
@@ -1033,7 +1121,7 @@ describe('the narrow width', () => {
     row.append(stepper);
     document.body.append(row);
     await settle(stepper);
-    expect(getComputedStyle(nav(stepper)).display).toBe('block');
+    expect(getComputedStyle(wide(stepper)).display).toBe('block');
   });
 });
 

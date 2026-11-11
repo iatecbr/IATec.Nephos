@@ -7189,7 +7189,16 @@ names follow P64.
    (`37.5rem`), as P87 does for the breakpoint of `nph-dialog`. `design.md` lists "create a breakpoint
    outside the four" as a mistake for the page grid (A55); this is a threshold of one component, accepted
    by Indiane in the documentation, and it is not a page breakpoint (D-2). `nph-progress` here has no
-   error: a step with an error does not show as an error on the narrow width (D-3).
+   error: a step with an error does not show as an error on the narrow width (D-3). Between 600 px and the
+   room the steps need, the text column gives up its room first, down to nothing (a cut label ends in an
+   ellipsis and a balloon), and the marker and the connector keep their structural minimum: the step area
+   around the marker, and the connector at `stepper/connector-min-width` with its gap on each side. The
+   current step keeps its width and so does the last one. Below the sum of those minimums, such as seven
+   steps whose text is at its maximum at 600 px, the contract says nothing, and the list scrolls sideways
+   inside its own box and takes the Tab key itself, so the keyboard can scroll it (WCAG 2.1.1). The
+   scroller carries the room of the focus border and the halo as padding and takes it back with a negative
+   margin, so the focus of a step is not clipped, and the balloons stay outside it. No token minimum is
+   reduced.
 
 10. **Only color moves.** The change of a status and the hover run on `stepper/state-duration` and change
     color and background. With reduced motion nothing moves (DSA-62 D-3).

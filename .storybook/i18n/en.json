@@ -12425,6 +12425,7 @@
       "The text column stops at its maximum width. The label of a pending, completed or error step stays on one line and ends in an ellipsis, and its whole text shows in a balloon on hover and on focus. The label of the current step wraps to up to two lines and is never cut. The description goes up to two lines.",
       "The connector fills the space between the steps and never gets narrower than its minimum width. With more than seven steps, split the process: the stepper never collapses steps.",
       "Below 600 px of its own width, the stepper becomes a progress bar of the steps type, with \"Step 2 of 4\" and the label of the current step. The width that counts is the stepper, not the window; the stepper stretches to the width of where it lives, so in a flex row give it flex: 1.",
+      "When the room runs short above that width, the text column of the steps gives up its room first and the marker and the connector keep their minimum; if even that does not fit, the list scrolls sideways and takes the Tab key itself.",
       "On the narrow width, a step with an error does not show as an error: the bar shows the position only.",
       "With reduced motion nothing moves: the color of a status changes at once."
     ],

@@ -52,7 +52,9 @@
  * step stays on one line and is cut with an ellipsis, and the whole text opens in `nph-tooltip`; the
  * label of the current step wraps to up to two lines and is never cut. The description goes up to two
  * lines. The connector fills the space between the steps and never gets narrower than
- * `stepper/connector-min-width`. Below 600 px of its own width the stepper becomes `nph-progress` of
+ * `stepper/connector-min-width`. When the room runs short, the text column of the steps gives up its room
+ * first, down to nothing, and the marker and the connector keep their structural minimum: below the sum
+ * of those minimums the list scrolls sideways and takes the Tab key itself (P117). Below 600 px of its own width the stepper becomes `nph-progress` of
  * the steps type, with "Step 2 of 4" and the current label (DSA-65). It measures the host, not the
  * window; a query does not accept a custom property, so the 600 px is written in the CSS, as the
  * breakpoint of `nph-dialog` is (P87). The stepper stretches to the width of where it lives: in a
@@ -160,6 +162,7 @@ export class NphStepper extends LitElement {
      * called `ariaLabel`: that name is the native ARIA reflection of every element. */
     hostName: { type: String, attribute: 'aria-label' },
     cutSteps: { state: true },
+    overflowing: { state: true },
   };
 
   /** The steps, in order, from 2 to 7. */
@@ -195,6 +198,9 @@ export class NphStepper extends LitElement {
   /** The positions (0-based) of the steps whose label is cut. Measured, not API. */
   declare protected cutSteps: readonly number[];
 
+  /** Whether the structural minimums of the steps do not fit and the list scrolls. Measured, not API. */
+  declare protected overflowing: boolean;
+
   private problem: string | null = null;
   private reported = '';
   private warned = new Set<string>();
@@ -214,6 +220,7 @@ export class NphStepper extends LitElement {
     this.stepText = null;
     this.hostName = null;
     this.cutSteps = [];
+    this.overflowing = false;
   }
 
   override connectedCallback(): void {
@@ -359,7 +366,7 @@ export class NphStepper extends LitElement {
     if (this.resizeObserver === undefined) {
       return;
     }
-    const targets = [...this.renderRoot.querySelectorAll('.label')];
+    const targets = [...this.renderRoot.querySelectorAll('.scroller, .label')];
     const same = targets.length === this.observed.length && targets.every((node, index) => node === this.observed[index]);
     if (!same) {
       this.resizeObserver.disconnect();
@@ -420,6 +427,13 @@ export class NphStepper extends LitElement {
     }
     if (cut.length !== this.cutSteps.length || cut.some((value, position) => value !== this.cutSteps[position])) {
       this.cutSteps = cut;
+    }
+    /* The list scrolls only when the marker and the connector of every step do not fit: the text gives up
+       its room first, down to nothing. */
+    const scroller = this.renderRoot.querySelector<HTMLElement>('.scroller');
+    const overflowing = scroller !== null && scroller.scrollWidth > scroller.clientWidth;
+    if (overflowing !== this.overflowing) {
+      this.overflowing = overflowing;
     }
   }
 
@@ -513,16 +527,20 @@ export class NphStepper extends LitElement {
       return nothing;
     }
     const name = this.name();
-    return html`<nav class="wide" aria-label=${name === null ? nothing : name}>
-        <ol class="list">
-          ${this.steps.map((_, index) => this.renderItem(index))}
-        </ol>
+    return html`<div class="wide">
+        <div class="scroller" tabindex=${this.overflowing ? '0' : nothing}>
+          <nav aria-label=${name === null ? nothing : name}>
+            <ol class="list">
+              ${this.steps.map((_, index) => this.renderItem(index))}
+            </ol>
+          </nav>
+        </div>
         ${this.steps.map((_, index) =>
           this.hasBalloon(index)
             ? html`<nph-tooltip for=${`step-${String(index)}`} .text=${text((this.steps[index] as NphStep).label)}></nph-tooltip>`
             : nothing,
         )}
-      </nav>
+      </div>
       ${this.renderNarrow()}`;
   }
 }

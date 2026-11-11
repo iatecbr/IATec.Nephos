@@ -12425,6 +12425,7 @@
       "La columna de texto se detiene en el ancho máximo. La etiqueta de un paso pendiente, completado o con error queda en una línea y termina en puntos suspensivos, y el texto completo aparece en un globo al pasar el puntero y con el foco. La etiqueta del paso actual se parte en hasta dos líneas y nunca se corta. La descripción llega hasta dos líneas.",
       "El conector llena el espacio entre los pasos y nunca queda más estrecho que el ancho mínimo. Con más de siete pasos, divide el proceso: el stepper nunca recoge pasos.",
       "Por debajo de 600 px de ancho propio, el stepper se vuelve una barra de progreso del tipo pasos, con \"Paso 2 de 4\" y la etiqueta del paso actual. Cuenta el ancho del stepper, no el de la ventana; el stepper se estira hasta el ancho de donde vive, así que en una fila flex dale flex: 1.",
+      "Cuando falta espacio por encima de ese ancho, la columna de texto de los pasos cede su espacio primero y el marcador y el conector mantienen su mínimo; si ni eso cabe, la lista se desplaza en horizontal y recibe el Tab por sí sola.",
       "En el ancho estrecho, un paso con error no aparece como error: la barra muestra solo la posición.",
       "Con movimiento reducido nada se mueve: el color de un estado cambia de inmediato."
     ],
