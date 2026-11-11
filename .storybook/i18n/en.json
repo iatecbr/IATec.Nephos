@@ -446,7 +446,20 @@
     "components-nph-stepper-validation--narrow": "Narrow",
     "components-nph-stepper-validation--form": "Form",
     "components-nph-stepper-validation--examples": "Examples",
-    "components-nph-stepper-validation--brands": "Brands"
+    "components-nph-stepper-validation--brands": "Brands",
+    "components-nph-tree-docs": "Docs",
+    "components-nph-tree-docs--documentation": "Documentation",
+    "components-nph-tree-validation": "Validation",
+    "components-nph-tree-validation--selections": "Selections",
+    "components-nph-tree-validation--items": "Items",
+    "components-nph-tree-validation--states": "States",
+    "components-nph-tree-validation--multiple": "Multiple",
+    "components-nph-tree-validation--loading": "Loading",
+    "components-nph-tree-validation--empty": "Empty",
+    "components-nph-tree-validation--width": "Width",
+    "components-nph-tree-validation--container": "Container",
+    "components-nph-tree-validation--examples": "Examples",
+    "components-nph-tree-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7863,7 +7876,17 @@
       "components-nph-stepper-validation--narrow": "Below 600 px of its own width the stepper becomes a progress bar of the steps type, with \"Step 2 of 4\" and the label of the current step. The width counts the stepper, not the window.",
       "components-nph-stepper-validation--form": "The stepper at the top of a form inside a card, with the content of the current step right below it.",
       "components-nph-stepper-validation--examples": "The three required examples, each in light and dark mode: the sign-up in four steps on step 2, the step with an error and its reason, and the linear stepper in three steps.",
-      "components-nph-stepper-validation--brands": "The seven brands in light and dark mode: the ring and the number of the current step, the check of the completed ones and the connector before the current step follow the brand of the frame."
+      "components-nph-stepper-validation--brands": "The seven brands in light and dark mode: the ring and the number of the current step, the check of the completed ones and the connector before the current step follow the brand of the frame.",
+      "components-nph-tree-validation--selections": "The three selections: none opens and closes the branches with no choice, single chooses one item with the surface and the bar, and multiple puts a box on every item, with the parent mixed.",
+      "components-nph-tree-validation--items": "The three types of item, the closed branch, the open branch and the leaf, with the icons off and on: the leaf keeps the place of the chevron, so the labels line up, and the icon is on every node or on none.",
+      "components-nph-tree-validation--states": "The states that show at rest: the selected item, the disabled item, and the selected disabled item, which keeps the surface, the bar and the label under the disabled opacity. Hover and focus show up with the pointer and the keyboard, and the tests prove them.",
+      "components-nph-tree-validation--multiple": "Multiple selection: a parent is mixed when only part of its children is checked, a disabled item stays out of the count and out of the cascade, check-strictly makes every item independent, and the icons may be on.",
+      "components-nph-tree-validation--loading": "The first load with three skeleton rows, the branch that loads with the spinner in place of the chevron, and the branch that failed with the error row and its action, Try again.",
+      "components-nph-tree-validation--empty": "The tree with no items shows the empty state in place of the list.",
+      "components-nph-tree-validation--width": "The label is cut on one line with an ellipsis and its whole text in a balloon, and the levels indent by one step each, with no depth limit.",
+      "components-nph-tree-validation--container": "The tree has no background, border or height of its own: the card gives the surface and the scroll, the item does not shrink, and the border of the item at the edge stays whole.",
+      "components-nph-tree-validation--examples": "The three required examples, each in light and dark mode: the destination folder in single selection, the permissions by area in multiple selection with the parent mixed, and a branch that loads next to a branch that failed to load.",
+      "components-nph-tree-validation--brands": "The seven brands in light and dark mode: the surface, the bar, the chevron, the icon and the box of the selected item follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -13026,5 +13049,365 @@
     ],
     "formTitle": "Address",
     "formText": "Where should we send your invoices?"
+  },
+  "treeDocs": {
+    "summary": "Items organized in levels, such as folders and files: the person opens and closes each branch and chooses one item or several.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-tree spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P118. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "Data with two or more levels, where the person needs to see where each item is, open the branch that matters and choose one item or several.",
+      "Choose a folder, a unit or a category inside a hierarchy: single selection.",
+      "Check several branches at once, such as permissions by area: multiple selection, with the parent mixed when only part of the children is checked.",
+      "Explore and open the levels with no choice: no selection.",
+      "The data are folders and files: turn the icons on, on every node of the tree.",
+      "Children that load on demand: a branch with no loaded children loads when it opens, and a branch that failed shows the error row with Try again."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For the main navigation menu of the product: use nph-sidebar.",
+      "To show and hide the content of a section: use nph-accordion.",
+      "For data with one level only: use a list or a table.",
+      "For data with columns: use the tree of nph-table; the Tree Table is another piece.",
+      "To choose a value from a list that opens in a layer: the Tree Select is another piece.",
+      "For a structure deeper than five levels: review the structure before using it.",
+      "To carry actions on each row, such as rename and delete: put them in an nph-context-menu opened by the item; the row carries no button."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "items",
+        "The nodes of the first level, as a list of { id, label, children, branch, disabled, loading, error }. Property only: set from JavaScript, and replaced when it changes, never changed in place. id is required and unique in the whole tree; label is required. A node is a branch when it has children or branch is true, and a leaf otherwise. branch true with no children is a branch that is not loaded yet. disabled makes the item take focus and do nothing; loading says the branch is loading; error says its children could not be loaded."
+      ],
+      [
+        "selection",
+        "none (default) opens and closes the branches with no choice; single chooses one item; multiple puts a checkbox on every item. Reflected to the attribute."
+      ],
+      [
+        "selected",
+        "The id of the chosen item, in single selection. The current state: the person changes it, the code may set it, and setting it from code fires no event."
+      ],
+      [
+        "checked",
+        "The ids of the checked items, in multiple selection. The current state, like selected. With the cascade on, a checked parent checks its enabled children."
+      ],
+      [
+        "expanded",
+        "The ids of the open branches. The current state, like selected: the person opens and closes, and the code may set it."
+      ],
+      [
+        "icons",
+        "Off by default. On, the folder (closed branch), the open folder (open branch) and the file (leaf), on every node of the tree. Reflected to the attribute."
+      ],
+      [
+        "check-strictly",
+        "Off by default. On, the cascade of the multiple selection is turned off: every item is independent and no parent is mixed. Reflected to the attribute; in code, checkStrictly."
+      ],
+      [
+        "loading",
+        "The first load of the tree: three skeleton rows in place of the list, while items is empty. A branch that opens with no children loads on its own. Reflected to the attribute."
+      ],
+      [
+        "label",
+        "The accessible name of the tree, when the host has no aria-label and no aria-labelledby. Already localized."
+      ],
+      [
+        "aria-label and aria-labelledby",
+        "The accessible name of the tree, on the host: the host is the tree, so both name it as they name any element."
+      ],
+      [
+        "empty-heading and empty-description",
+        "The title and the line of the empty tree, such as No items and This folder has no items yet. Already localized."
+      ],
+      [
+        "error-text and retry-text",
+        "The phrase and the action of the error row, such as Couldn't load. and Try again. Already localized."
+      ],
+      [
+        "nph-tree-toggle",
+        "The event the person fires by opening or closing a branch, with detail { id, expanded }. It bubbles and is composed. Setting expanded from code fires nothing."
+      ],
+      [
+        "nph-tree-select",
+        "The event of single selection when the person chooses an item that was not the chosen one, with detail { id }. It bubbles and is composed."
+      ],
+      [
+        "nph-tree-check",
+        "The event of multiple selection when the person checks or unchecks an item, with detail { id, checked, value }: the item, its new state and the whole list of checked ids, the cascade included. It bubbles and is composed."
+      ],
+      [
+        "nph-tree-load",
+        "The event for a branch that is not loaded when the person opens it, and for Try again on the error row, with detail { id, retry }. The page loads the children and replaces items. It bubbles and is composed."
+      ],
+      [
+        "focus()",
+        "Puts the focus on the item that held it last, else on the Tab stop: the host is not focusable itself. A menu opened on the tree (nph-context-menu) calls it when it closes."
+      ],
+      [
+        "itemIdOf(element)",
+        "The id of the node whose row holds the element, or null. A menu opened on the tree (nph-context-menu) reports the element under the pointer as its origin; this says which node the menu is for."
+      ],
+      [
+        "size, depth, background and height",
+        "Not properties: one size, no depth limit (review the structure above five levels), and the tree has no background, border or height of its own: the container gives the surface and the scroll."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-tree id=\"files\" selection=\"single\" icons label=\"Files\" empty-heading=\"No items\" empty-description=\"This folder has no items yet.\" error-text=\"Couldn't load.\" retry-text=\"Try again\"></nph-tree>\n<script>\n  files.items = [\n    { id: 'documents', label: 'Documents', children: [{ id: 'reports', label: 'Reports' }] },\n    { id: 'readme', label: 'Read me' },\n  ];\n  files.addEventListener('nph-tree-select', (event) => {\n    console.log(event.detail.id);\n  });\n</script>",
+    "usageTag": "The tag of the piece. The nodes come as data in the items property, set from JavaScript; the page listens to nph-tree-select, nph-tree-check, nph-tree-toggle and nph-tree-load.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-tree (5876:216753); docs/decisoes-tecnicas.md › P118",
+    "selectionTitle": "Selection and cascade",
+    "selectionCaption": "No selection, single selection with the chosen item, and multiple selection with the parent mixed.",
+    "selectionUseHeader": [
+      "Selection",
+      "What it does"
+    ],
+    "selectionUse": [
+      {
+        "value": "none",
+        "label": "Opens and closes the branches. A click on the row, or Enter, opens and closes the branch; there is no chosen item and no box."
+      },
+      {
+        "value": "single",
+        "label": "Chooses one item: the surface, a bar on the start edge and the label in medium weight. The chevron opens; the rest of the row chooses, a branch included. Enter and Space choose."
+      },
+      {
+        "value": "multiple",
+        "label": "A box on every item. A click on the row, or Space, checks and unchecks; Enter checks a leaf and opens or closes a branch; the chevron only opens and closes."
+      }
+    ],
+    "selectionRules": [
+      "The chevron opens and closes a branch; the rest of the row chooses. The checkbox is never on the selected item of single selection: they are two marks for the same choice.",
+      "The cascade is on in multiple selection: checking a parent checks its enabled children, closed branches included; unchecking a child leaves the parent mixed; checking the last child checks the parent.",
+      "A disabled item takes focus by the arrows and does nothing. It stays out of the count of its parent and out of the cascade, and keeps its own state, and a disabled branch neither hands its mark to its children nor takes theirs; the selected disabled item keeps its surface, bar and label under the disabled opacity.",
+      "With check-strictly every item is independent and no parent is mixed.",
+      "Hover only paints the row: it does not move the focus and it does not choose. The item with focus takes no hover background."
+    ],
+    "loadingTitle": "Loading, error, empty and long labels",
+    "loadingCaption": "The first load, the branch that loads and the one that failed, the empty tree and the cut label.",
+    "loading": [
+      "The first load of the tree is loading with an empty items: three skeleton rows, each at the height of the item. The failure of that first load has no row: the page shows its own message.",
+      "A branch that is open, has branch true, no children and no error loads: the spinner takes the place of the chevron, the item is busy and the page is asked once with nph-tree-load. The page replaces items with the children, or with error true.",
+      "If the load fails, the error row enters the group, aligned to the indent of the children, with the triangle, the phrase and Try again. Enter or a click on it tries again: the row goes to loading until items brings that branch back as another object or without error, and nph-tree-load fires with retry true. The name read is \"Couldn't load. Try again\".",
+      "The empty tree shows the empty state in place of the list.",
+      "The label stays on one line and is cut with an ellipsis; the whole text shows in a balloon, at once on the focus of the item and after a short wait on hover, and reaches the screen reader whole.",
+      "The chevron turns a quarter when a branch opens; with reduced motion it swaps with no turning. When the item that holds the focus leaves, the focus goes to the nearest branch that is still drawn."
+    ],
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Input",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab and Shift+Tab",
+        "The tree has one Tab stop: the chosen item, or the first. The next Tab leaves the tree."
+      ],
+      [
+        "Down and Up",
+        "The next and the previous visible item, without opening or closing. They pass through a disabled item, which takes focus and does nothing."
+      ],
+      [
+        "Right",
+        "On a closed branch, opens it and keeps the focus; on an open branch, goes down to the first child; on a leaf, does nothing. In right-to-left writing, Left does this."
+      ],
+      [
+        "Left",
+        "On an open branch, closes it; on a child, goes up to the parent; on a closed root item, does nothing. In right-to-left writing, Right does this."
+      ],
+      [
+        "Home and End",
+        "The first and the last visible item."
+      ],
+      [
+        "Asterisk",
+        "Opens all the siblings of the item with focus."
+      ],
+      [
+        "A letter",
+        "Moves the focus to the next visible item whose label starts with it, around the end."
+      ],
+      [
+        "Enter",
+        "Single selection: chooses. No selection: opens or closes the branch. Multiple selection: opens or closes a branch and checks a leaf. On the error row: tries again."
+      ],
+      [
+        "Space",
+        "Single selection: chooses. Multiple selection: checks and unchecks, with the cascade. No selection: does nothing."
+      ],
+      [
+        "Esc",
+        "Not the tree's: inside a popover, Esc belongs to the container."
+      ],
+      [
+        "Pointer",
+        "Hover paints the row and moves no focus. A click on the chevron opens and closes; a click on the row chooses, checks, or opens and closes by the selection, and puts the focus on the item."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It lives in a card, a panel or a popover, which gives the surface and the scroll: the tree has no background, border or height of its own and sets no overflow.",
+      "It works with nph-checkbox (the box of multiple selection), nph-icon (the chevron, the folder, the file and the triangle), nph-spinner (a branch that loads), nph-skeleton (the first load), nph-empty (the empty tree) and nph-tooltip (the cut label).",
+      "Rename and delete go to an nph-context-menu opened by the item, with the host of the tree as its object; itemIdOf says which node it is for. The row carries no button.",
+      "It is not the main navigation menu (nph-sidebar), it does not show and hide content (nph-accordion), and the tree inside a table is the one of nph-table. The Tree Select and the Tree Table are other pieces."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Chevron target",
+        "A square target at the start of the row with the chevron of a branch, which turns a quarter when it opens. The leaf keeps the place, empty, so the labels line up. While loading, the spinner takes its place."
+      ],
+      [
+        "Box",
+        "The nph-checkbox of multiple selection, right after the chevron, with no label of its own: the item carries the state."
+      ],
+      [
+        "Icon",
+        "The folder, the open folder or the file, on every node or on none."
+      ],
+      [
+        "Label",
+        "The text of the item, on one line and cut with an ellipsis. Selected, it takes medium weight."
+      ],
+      [
+        "Selection bar",
+        "A bar on the start edge of the row, from top to bottom, on the selected item of single selection."
+      ],
+      [
+        "Focus border",
+        "A border drawn inside the whole row, over the bar. On a disabled item it stays at full opacity."
+      ],
+      [
+        "Error row",
+        "Inside the group of the branch, aligned to the indent of the children: the triangle, the phrase and Try again."
+      ],
+      [
+        "Group",
+        "The children of an open branch, indented by one step per level, with no space between the items."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The host is a tree. Each node is a treeitem and each open branch a group. aria-expanded on the branches; aria-selected in single selection and aria-checked (true, false or mixed) in multiple, never both; aria-multiselectable in multiple; aria-level, aria-setsize and aria-posinset on every item; aria-disabled on a disabled item; aria-busy on a branch that loads."
+      ],
+      [
+        "Accessible name",
+        "The tree is named by aria-label, aria-labelledby or label. Each item is read by its label; the chevron, the icon, the box and the spinner are hidden. The error row is read as the phrase and the action together."
+      ],
+      [
+        "Keyboard",
+        "One Tab stop; the arrows, Home, End, the asterisk and a letter move inside, as in the WAI-ARIA tree view pattern. Enter and Space act by the selection."
+      ],
+      [
+        "Visible focus",
+        "A border inside the whole row, over the selected item and the bar, at full opacity even on a disabled item. The item with focus takes no hover background, so the border keeps its contrast."
+      ],
+      [
+        "Color is not the only sign",
+        "Selected: the surface, the bar and the weight of the label. Checked and mixed: the box. Open and closed: the chevron. Error: the triangle and the phrase."
+      ],
+      [
+        "Contrast",
+        "The label meets 4.5:1 in both themes; the chevron, the icons, the bar and the focus border meet 3:1. A disabled item is exempt."
+      ],
+      [
+        "Target size",
+        "The whole row is the target, 36 high. The chevron and the box have a target of 24 by 24."
+      ],
+      [
+        "Cut text",
+        "The whole label shows in a balloon, on focus and on hover, and reaches the screen reader whole."
+      ],
+      [
+        "Known limits",
+        "The box does not take its own hover when the pointer is over the row, because nph-checkbox hovers only inside its own shadow root; the focus border of the disabled item waits for a decision; the tree does not scroll by itself, since the container gives the scroll."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: the destination folder in single selection; the permissions by area in multiple selection, with the parent mixed; and a branch that loads next to a branch that failed to load.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-tree spec sheet — purpose, selections, behavior, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P118 (API and semantics), P01, P02 and P03.",
+      "design.md — the tree/* tokens and the focus and motion tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Tree, documentation frame nph-tree (5876:216753).",
+      "WAI-ARIA Authoring Practices — Tree View pattern and Focusability of disabled controls.",
+      "WCAG 2.2 — Focus Visible, Non-text Contrast, Use of Color and Target Size (Minimum)."
+    ],
+    "sourceSpec": "nph-tree spec sheet; Figma, frame nph-tree (5876:216753)",
+    "sourceApi": "nph-tree spec sheet; docs/decisoes-tecnicas.md › P118",
+    "sourceAnatomy": "Figma, sets 5485:350, 5485:421 and 5485:766; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "treeValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "explorerLabel": "Files",
+    "destinationLabel": "Destination folder",
+    "permissionsLabel": "Permissions by area",
+    "loadLabel": "Shared files",
+    "emptyHeading": "No items",
+    "emptyDescription": "This folder has no items yet.",
+    "errorText": "Couldn't load.",
+    "retryText": "Try again",
+    "documents": "Documents",
+    "reports": "Reports",
+    "q1": "Q1 report",
+    "q2": "Q2 report",
+    "notes": "Notes",
+    "images": "Images",
+    "logo": "Logo",
+    "photos": "Photos",
+    "archive": "Archive",
+    "oldFiles": "Old files",
+    "readme": "Read me",
+    "sales": "Sales",
+    "leads": "Leads",
+    "quotes": "Quotes",
+    "invoices": "Invoices",
+    "support": "Support",
+    "tickets": "Tickets",
+    "chat": "Chat",
+    "finance": "Finance",
+    "payments": "Payments",
+    "refunds": "Refunds",
+    "sharedDrive": "Shared drive",
+    "backups": "Backups",
+    "longLabel": "Quarterly report with the numbers of every region and the notes of the whole team",
+    "levels": [
+      "Company",
+      "Region",
+      "Country",
+      "City",
+      "Office",
+      "Team"
+    ],
+    "itemName": "Item",
+    "destinationTitle": "Choose the destination folder",
+    "permissionsTitle": "Check the permissions by area",
+    "loadTitle": "A branch that loads and a branch that failed"
   }
 }

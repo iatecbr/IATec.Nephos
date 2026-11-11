@@ -74,6 +74,7 @@ P62.4 subsection for the detail).
 | **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. The balloon of the cut tab (D-1), the names of the arrows (D-2), `99+` (D-3) and the cut label in the segmented and tab button styles (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P116** | API and semantics of `nph-sidebar`; the focus hook of `nph-button`; the disclosure of the subitem and of the rail button (amends P98) | 11/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing `items`, `mode`, `open`, the events, the flyout panel or the focus hook later requires redoing every consumer. The `sidebar` icon in `nph-icon` (D-1), the dark logo (D-2) and the current page in a collapsed group (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) the focusable span of a cut pending step (D-4) and the connector against a status set out of position (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P118** | API and semantics of `nph-tree` | 11/11/2026 | Low now. No piece consumes it yet; the Tree Select and the Tree Table will, and changing `items`, the state properties `selection`, `selected`, `checked` and `expanded`, the cascade, the events `nph-tree-toggle`, `nph-tree-select`, `nph-tree-check` and `nph-tree-load`, the load on demand, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The Tree Table against the tree of `nph-table` (D-1) and the focus border of the disabled item (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -7453,11 +7454,189 @@ change in `nph-icon`, `nph-tooltip` or `nph-progress`. The contrast of the brand
 **Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-5 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
+## P118 — `nph-tree`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5876:216753`, sets `5485:350`, `5485:421`
+and `5485:766`) gives the Figma properties `tipo`, `estado`, `checkbox`, `ícone`, `rótulo`,
+`conteúdo` and `seleção`, the behavior of the WAI-ARIA APG tree view, the accessibility and the
+limits, and leaves the code API to the code, with nine points open in the task. Seven points need a
+decision of their own:
+
+- the documentation names three parts, the item, the group of children and the tree, and the roles
+  `tree`, `group` and `treeitem`, the roving Tab stop, the typing of a letter, the balloon of a cut
+  label (which `nph-tooltip` looks up in its own root) and the cascade of the selection all cross
+  those parts: the code has to say whether the parts are tags or drawn parts;
+- the evidence says how the selection behaves but not how it goes in and out of the piece: the
+  chosen item, the checked and mixed items, the open branches, the icon and the loading and error of
+  each branch are all data the page must set and the person changes;
+- the evidence says a branch with no loaded children "goes to loading" and that "Try again" is the
+  action of the item, without saying how the page is asked, how it answers or how the failure is
+  told;
+- the texts ("Couldn't load.", "Try again", "No items", "This folder has no items yet.") are in the
+  language of the consuming application, and the piece writes no word of its own;
+- `nph-tooltip` opens only on an element in the Tab order (P77), and in a tree with one Tab stop only
+  one item is in it, while the evidence asks for the balloon on hover over any cut label;
+- the evidence says rename and delete go to an `nph-context-menu` opened by the item, and a menu
+  reports the element under the pointer, which with open Shadow DOM is inside the tree;
+- the evidence says nothing about input the contract does not accept, such as a repeated id, and
+  nothing about where the focus goes when the item that holds it leaves.
+
+**Decision.** `nph-tree` is a Web Component with **open Shadow DOM** (P01), in **one tag**, with its
+CSS in its own file imported `?inline`. It has no `::part`, no slot, no color property and no form
+association. Anatomy only through semantic tokens, the `tree/*` ones, the text roles and the motion
+pair. What it rejects renders nothing and emits `console.error` only in development, once per cause:
+the rule of P21. An empty `items` is a mount (P68). The names follow P64.
+
+1. **One tag; the three Figma sets are drawn parts.** The item, the group and the tree are parts the
+   piece draws in one shadow root, not tags (`nph-tree-item` and `nph-tree-group` do not exist). The
+   roles, the Tab stop, the keys, the balloon and the cascade need one root, as the tree of
+   `nph-table` does (P101); and the Tree Select and the Tree Table take the whole `nph-tree`.
+
+2. **`items` is a property.** A list of `{ id, label, children?, branch?, disabled?, loading?,
+   error? }`, set by property only: a list of objects does not serialize to an attribute. `id` is a
+   unique non-empty string and is the value every other property and event carries. A node is a
+   branch when it has `children` or `branch: true`; `branch: true` with no `children` is a branch not
+   loaded yet. There is no depth limit in the piece (the documentation asks to review the structure
+   above five levels). The list is replaced, never changed in place; the render is keyed by `id`, so
+   an item that leaves takes its own element, and its focus, with it.
+
+3. **The selection is state the person and the code both change.** `selection` is `none` (default),
+   `single` or `multiple` and reflects. `selected` (an id) is read in single selection, `checked` (a
+   list of ids) in multiple, and `expanded` (a list of ids) in every one; they are the current state,
+   as in the native controls, so the person changes them and an event says so, and setting them from
+   code fires nothing. Ids the piece does not know are ignored in silence, because a node may arrive
+   later. `icons` is one boolean for the whole tree, so the icon is on every node or on none by
+   construction.
+
+4. **The cascade.** On by default in multiple selection: checking a parent checks its enabled
+   children, a parent is checked when all its enabled children are, mixed when only part of them is,
+   and a mixed or unchecked item gets checked by a click. A disabled item keeps its own state, is not
+   changed by the cascade and stays out of the count of its parent; a disabled branch neither hands its
+   mark to its children nor takes theirs. A parent whose children are all
+   disabled is checked by its own mark. A checked parent whose children load later checks them.
+   `check-strictly` (`checkStrictly`) turns the cascade off, and then nothing is mixed. The list in
+   `nph-tree-check` holds the ids in the checked state, in the order of the tree, closed branches
+   included.
+
+5. **The events.** All `bubbles` and `composed`, and only when the person acts: `nph-tree-toggle`
+   `{ id, expanded }`; `nph-tree-select` `{ id }` (single selection, only when the choice changes);
+   `nph-tree-check` `{ id, checked, value }`, where `value` is the new whole list; and
+   `nph-tree-load` `{ id, retry }`.
+
+6. **Load on demand is derived from the data.** A branch that is open, has `branch: true`, has no
+   `children` and no `error` is loading, and so is a branch with `loading: true`: the spinner takes
+   the place of the chevron and the item carries `aria-busy`. The piece fires `nph-tree-load` once
+   when the person opens such a branch, and once more only after the page has answered (opening,
+   closing and opening it again before the answer asks nothing); the page loads and replaces `items` with the `children`, or
+   with `error: true`, which shows the error row in place of the children. Pressing "Try again"
+   (Enter or a click on the error row) fires `nph-tree-load` with `retry: true` and the row goes to
+   loading at once, until `items` brings that branch back as another object or without `error`: an
+   update of some other branch keeps the retries still waiting. A branch opened by the code loads but does not fire
+   the event: the page that opened it loads it. The first load of the tree is `loading` with an empty
+   `items`: three `nph-skeleton` rows at the height of the item, `aria-hidden`, and the host busy.
+   The failure of that first load has no row in the contract, so the page shows its own message.
+
+7. **The texts are properties of the consumer.** `empty-heading` and `empty-description` for the
+   empty tree (`nph-empty`), `error-text` and `retry-text` for the error row. `aria-label`,
+   `aria-labelledby` or `label` name the tree. A text the piece needs and the consumer did not give
+   draws without it and warns once in development, since it may arrive after the first render.
+
+8. **The host is the tree.** `role="tree"` is set through `ElementInternals`, so `aria-label` and
+   `aria-labelledby` of the host name it (a reference cannot cross into a shadow root), and
+   `aria-multiselectable` and `aria-busy` follow the state. Inside, a `treeitem` per node and a
+   `group` per open branch; the group is the sibling of its item, and the item owns it by
+   `aria-owns`, so the box of the item is only the row: the focus, the hover and the scroll to the
+   focus are the row's. The tree has no role while it is empty. The name of an item is its `label`,
+   set as `aria-label`, so the children it owns never enter it; a cut label with a balloon is named
+   by the balloon (`relation="name"`), which holds the same text. `aria-selected` on every item in
+   single selection, `aria-checked` on every item in multiple, never both; `aria-level`,
+   `aria-setsize` and `aria-posinset` on every item, the error row included. The error row is a
+   `treeitem` inside the group of its branch, named by the phrase and the action together.
+
+9. **The keyboard.** One Tab stop, by roving `tabindex`: while the focus is inside, the item with
+   focus holds it; when the focus leaves the tree, the stop goes back to the chosen item if it is
+   drawn, else to the first, so the next Tab enters there, as the contract says. Down and Up pass through a disabled item, which takes focus with
+   `aria-disabled` and does nothing; Right and Left open, close and go down and up as the APG says,
+   and in right-to-left writing they swap; Home, End, the asterisk and a letter (the next label
+   that starts with it, around the end) are the APG's; Enter and Space follow the selection (single
+   chooses; multiple checks, and Enter on a branch opens or closes it; none opens or closes with
+   Enter and Space does nothing). Esc and Tab belong to the container. When the item that holds the
+   focus leaves, because its parent closed or `items` was replaced, the focus goes to the nearest
+   ancestor still drawn, else to the Tab stop; when the focus was elsewhere, the piece takes none.
+
+10. **The pointer.** The chevron opens and closes; the rest of the row chooses (single), checks
+    (multiple) or, with no selection, opens and closes. Hover only paints: it moves no focus and
+    chooses nothing. A click puts the focus on the item with no focus border: the border is for the
+    keyboard (`:focus-visible`).
+
+11. **The balloon of a cut label.** The label is one line cut by an ellipsis, measured
+    (`ResizeObserver`, `document.fonts.ready` and every update, as `nph-tabs` and `nph-stepper`); a
+    cut label gets an `nph-tooltip` with the whole text. The balloon opens only on an element in the
+    Tab order (P77), so the piece gives the stop where the evidence needs it: an item takes
+    `tabindex="0"` before the focus moves to it by the keyboard, and, over a cut label, in the
+    capture phase of `pointerenter`, before the balloon hears the pointer. The stop goes back when
+    the pointer goes to another item or leaves the tree, when the person presses Tab, and when
+    another item takes focus. The pointer leaving is read on the host, not on the list, because the
+    balloons are drawn beside the list: going from the item onto its balloon keeps both. It is a
+    bounded exception to the single Tab stop and it is tested.
+
+12. **Context menu.** The object of an `nph-context-menu` is the host of the tree. `itemIdOf(element)`
+    returns the `id` of the node whose row holds the element, so the `origin` the menu reports (the
+    first element of the composed path, or the focused item when the menu opens from the keyboard)
+    says which node it is for. The tree cancels no `contextmenu`. The host is not focusable, and a
+    menu that closes calls `focus()` on its object, so `focus()` on the host puts the focus on the item
+    that held it last, or the one a menu was opened on by the pointer, else on the Tab stop.
+
+13. **The checkbox of the item.** `nph-checkbox` is drawn `inert` and `aria-hidden`, with the label of
+    the item as its `label` (the dropdown menu does the same, P92), and is never `disabled` by the
+    tree, so the opacity of the item fades it once. The box does not take its own hover when the
+    pointer is over the row: `nph-checkbox` hovers only through `:hover` in its own shadow root and
+    has no way to be forced; it is the limit of DSA-45 D-3, which the evidence says the tree
+    inherits, and of DSA-17 D7 for the checked box. A change in `nph-checkbox` is outside this task.
+
+14. **Look and movement.** The face of the row carries the background, the bar and the opacity of a
+    disabled item; the focus border is the `::after` of the row, drawn inside, over the bar and at
+    full opacity (the recommendation of D-2). Focus wins over hover; selected with hover is selected.
+    The chevron is one `chevron-right` that turns a quarter in `motion/expand-duration` and
+    `motion/expand-easing`; the open chevron is that glyph turned, the same drawing as
+    `chevron-down`; with reduced motion it swaps with no turning. The spinner takes `color/primary`
+    (the accepted Figma binds it, `nph-spinner` takes `currentColor`). Right-to-left writing mirrors
+    the indent, the bar and the closed chevron. With forced colors the selection and the focus use
+    system colors. Nothing else moves.
+
+15. **Tokens.** Only `--nph-tree-*` (all twenty-five), the text roles `--nph-text-body-md-*` and
+    `--nph-text-label-md-*`, the motion pair and `--nph-color-primary`. No token was created or
+    changed, and the CSS has no literal measure.
+
+**Source.** Documentation `5876:216753` and sets `5485:350`, `5485:421` and `5485:766` of the Figma
+file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 11/11/2026 with the Figma UX QA and the textual audit
+approved, and the points of its approval page. The one tag, the shape of `items`, the state
+properties, the events, the derivation of the loading, the texts of the consumer, the host role, the
+hand-given Tab stop, `itemIdOf` and the invalid-input rule are a technical proposal of this
+implementation.
+
+**Out of scope.** The Tree Select and the Tree Table, and the tree of `nph-table`. A token, new or
+changed. A change in `nph-checkbox`, `nph-icon`, `nph-spinner`, `nph-skeleton`, `nph-empty` or
+`nph-tooltip`. Guide lines, a depth limit, a button inside the row, drag and drop, and the failure of
+the first load of the tree.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the Tree Table.** Whether the Tree Table reuses the cell of the tree of `nph-table` and
+  stays apart from `nph-tree`, or the two are unified. Recommended: keep both. It is decided in the
+  plan of the Tree Table, and it does not block this task.
+- **D-2 — the focus of the disabled item.** The disabled item takes focus by the arrows, and Figma has
+  no disabled-with-focus variant. Whether the focus border fades with the item or stays on top at full
+  opacity. Recommended, and built: on top, at full opacity. It does not block the pull request.
+
+**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-1 and D-2 wait for Indiane. API
+and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
 ---
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116 or P117 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117 or P118 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

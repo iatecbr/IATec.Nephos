@@ -1,0 +1,286 @@
+/**
+ * Internal style of `nph-tree`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `tree/*` ones, which alias a semantic token (or, by recorded decision, a core
+ * one), the text roles `text/body-md` and `text/label-md`, the `motion/expand-*` pair and
+ * `color/primary` for the spinner that replaces the chevron. The state of an item is read from the
+ * ARIA attributes the item carries and from `data-selected`.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `none`, `100%`,
+ * `nowrap` (a label stays on one line), `ellipsis` (the cut label), `-1` (the mirrored chevron in
+ * right-to-left writing), `90deg` (the chevron turns a quarter) and the system colors of forced
+ * colors, which the user's palette decides.
+ *
+ * THE ROW — the `item` is the row and the `treeitem`: its box is only the row, and the group of its
+ * children is its sibling, so the focus and the hover are the row's, and a scroll to the focus shows
+ * the whole row. The `face` inside it carries the background, the selection bar and the opacity of a
+ * disabled item; the focus border is drawn by the `item` over the face, at full opacity, inside the
+ * whole row (D-2 of the task). The tree has no background, border or height of its own, and sets no
+ * `overflow`: it lives in a container that gives the surface and the scroll, and the border of the
+ * item that scrolls to the edge is not clipped by the tree.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid tree. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+.tree {
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--nph-tree-padding);
+  list-style: none;
+}
+
+/* The level: the children of an open branch are indented by one step, with no space between items. */
+.group {
+  margin: 0;
+  padding: 0;
+  padding-inline-start: var(--nph-tree-indent);
+  list-style: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+/* ----- the row ---------------------------------------------------------------- */
+
+.item {
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  block-size: var(--nph-tree-item-height);
+  border-radius: var(--nph-tree-item-radius);
+  outline: none;
+  cursor: pointer;
+  /* The label is never selected by a drag that starts on a row: the row is a control. */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.face {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-tree-item-gap);
+  block-size: 100%;
+  padding-inline: var(--nph-tree-item-padding-inline);
+  border-radius: inherit;
+  overflow: hidden;
+  color: var(--nph-tree-item-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+/* The label takes the rest of the row, on one line, cut with an ellipsis. */
+.label {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The chevron target: the chevron and the padding that makes its target. The leaf keeps the place, empty. */
+.toggle {
+  --_target: calc(var(--nph-tree-toggle-icon-size) + 2 * var(--nph-tree-toggle-padding));
+
+  flex: none;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  inline-size: var(--_target);
+  block-size: var(--_target);
+  padding: var(--nph-tree-toggle-padding);
+  color: var(--nph-tree-toggle-foreground);
+}
+
+.toggle nph-spinner {
+  /* The spinner takes `currentColor`; the accepted Figma binds it to `color/primary`. */
+  color: var(--nph-color-primary);
+}
+
+/* The chevron and the spinner that replaces it share the box of `tree/toggle-icon-size`. */
+.chevron {
+  inline-size: var(--nph-tree-toggle-icon-size);
+  block-size: var(--nph-tree-toggle-icon-size);
+}
+
+/* The folder, the file and the error icon share the box of `tree/icon-size`. */
+.node-icon,
+.error-icon {
+  inline-size: var(--nph-tree-icon-size);
+  block-size: var(--nph-tree-icon-size);
+}
+
+.node-icon {
+  flex: none;
+  color: var(--nph-tree-icon-foreground);
+}
+
+.box {
+  flex: none;
+}
+
+/* ----- the movement: the chevron turns a quarter ----------------------------- */
+
+.chevron {
+  transform: none;
+  transition-property: transform;
+  transition-duration: var(--nph-motion-expand-duration);
+  transition-timing-function: var(--nph-motion-expand-easing);
+}
+
+.item[aria-expanded='true'] .chevron {
+  transform: rotate(90deg);
+}
+
+/* Right-to-left writing: the closed chevron points to the start, which is the left. */
+:host(:dir(rtl)) .chevron {
+  transform: scaleX(-1);
+}
+
+:host(:dir(rtl)) .item[aria-expanded='true'] .chevron {
+  transform: rotate(90deg);
+}
+
+/* Reduced motion: the chevron swaps with no turning. */
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+/* ----- the states ------------------------------------------------------------- */
+
+/* Hover paints the background and the label. The item with focus does not take it, and the selected one keeps its own. */
+.item:not([aria-disabled='true'], [data-selected], :focus-visible):hover .face {
+  background-color: var(--nph-tree-item-background-hover);
+  color: var(--nph-tree-item-foreground-hover);
+}
+
+/* Selected, in single selection: background, bar and the label in medium weight. */
+.item[data-selected] .face {
+  background-color: var(--nph-tree-item-background-selected);
+  color: var(--nph-tree-item-foreground-selected);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.item[data-selected] .face::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--nph-tree-indicator-width);
+  background-color: var(--nph-tree-indicator-background);
+}
+
+.item[data-selected] .toggle {
+  color: var(--nph-tree-toggle-foreground-selected);
+}
+
+.item[data-selected] .node-icon {
+  color: var(--nph-tree-icon-foreground-selected);
+}
+
+/* Disabled: the whole face fades, once. The item still takes focus, and its border stays at full opacity. */
+.item[aria-disabled='true'] {
+  cursor: default;
+}
+
+.item[aria-disabled='true'] .face {
+  opacity: var(--nph-tree-item-disabled-opacity);
+}
+
+/* Focus: a border drawn inside the whole row, over the bar of the selected item. */
+.item:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: var(--nph-tree-focus-border-width) solid var(--nph-tree-focus-border);
+  border-radius: var(--nph-tree-focus-border-radius);
+  pointer-events: none;
+}
+
+/* ----- the error row ---------------------------------------------------------- */
+
+.error-icon {
+  color: var(--nph-tree-error-icon-foreground);
+}
+
+.error-text {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* "Try again" is told apart by the weight. */
+.retry {
+  flex: none;
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* ----- the first load: three skeleton rows, each at the height of the item ------- */
+
+.skeleton {
+  box-sizing: border-box;
+  padding: var(--nph-tree-padding);
+}
+
+.skeleton-row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  block-size: var(--nph-tree-item-height);
+  padding-inline: var(--nph-tree-item-padding-inline);
+}
+
+.skeleton-row nph-skeleton {
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
+/* ----- forced colors ---------------------------------------------------------- */
+
+/* The browser drops backgrounds and keeps borders: the selection is told by system colors. */
+@media (forced-colors: active) {
+  .item:focus-visible::after {
+    border-color: Highlight;
+  }
+
+  .item[data-selected] .face {
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .item[data-selected] .face::before {
+    background-color: HighlightText;
+  }
+
+  .item[data-selected] .toggle,
+  .item[data-selected] .node-icon {
+    color: HighlightText;
+  }
+}

@@ -446,7 +446,20 @@
     "components-nph-stepper-validation--narrow": "Estrecho",
     "components-nph-stepper-validation--form": "Formulario",
     "components-nph-stepper-validation--examples": "Ejemplos",
-    "components-nph-stepper-validation--brands": "Marcas"
+    "components-nph-stepper-validation--brands": "Marcas",
+    "components-nph-tree-docs": "Docs",
+    "components-nph-tree-docs--documentation": "Documentación",
+    "components-nph-tree-validation": "Validación",
+    "components-nph-tree-validation--selections": "Selecciones",
+    "components-nph-tree-validation--items": "Elementos",
+    "components-nph-tree-validation--states": "Estados",
+    "components-nph-tree-validation--multiple": "Múltiple",
+    "components-nph-tree-validation--loading": "Carga",
+    "components-nph-tree-validation--empty": "Vacío",
+    "components-nph-tree-validation--width": "Ancho",
+    "components-nph-tree-validation--container": "Contenedor",
+    "components-nph-tree-validation--examples": "Ejemplos",
+    "components-nph-tree-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7863,7 +7876,17 @@
       "components-nph-stepper-validation--narrow": "Por debajo de 600 px de ancho propio el stepper se vuelve una barra de progreso del tipo pasos, con \"Paso 2 de 4\" y la etiqueta del paso actual. Cuenta el ancho del stepper, no el de la ventana.",
       "components-nph-stepper-validation--form": "El stepper en la parte superior de un formulario dentro de una tarjeta, con el contenido del paso actual justo debajo.",
       "components-nph-stepper-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el registro en cuatro pasos en el paso 2, el paso con error y su motivo, y el stepper lineal en tres pasos.",
-      "components-nph-stepper-validation--brands": "Las siete marcas en modo claro y oscuro: el anillo y el número del paso actual, el check de los completados y el conector antes del paso actual siguen la marca del marco."
+      "components-nph-stepper-validation--brands": "Las siete marcas en modo claro y oscuro: el anillo y el número del paso actual, el check de los completados y el conector antes del paso actual siguen la marca del marco.",
+      "components-nph-tree-validation--selections": "Las tres selecciones: none abre y cierra las ramas sin elección, single elige un elemento con la superficie y la barra, y multiple pone una caja en cada elemento, con el padre mixto.",
+      "components-nph-tree-validation--items": "Los tres tipos de elemento, la rama cerrada, la rama abierta y la hoja, con los iconos apagados y encendidos: la hoja guarda el lugar del chevron, para que las etiquetas se alineen, y el icono aparece en todos los nodos o en ninguno.",
+      "components-nph-tree-validation--states": "Los estados que se ven en reposo: el elemento elegido, el elemento deshabilitado y el elemento elegido y deshabilitado, que mantiene la superficie, la barra y la etiqueta bajo la opacidad de deshabilitado. El hover y el foco aparecen con el puntero y el teclado, y las pruebas los demuestran.",
+      "components-nph-tree-validation--multiple": "Selección múltiple: un padre queda mixto cuando solo una parte de sus hijos está marcada, un elemento deshabilitado queda fuera del conteo y fuera de la cascada, check-strictly vuelve independiente a cada elemento, y los iconos pueden estar encendidos.",
+      "components-nph-tree-validation--loading": "La primera carga con tres filas de skeleton, la rama que carga con el spinner en lugar del chevron, y la rama que falló con la fila de error y su acción, Reintentar.",
+      "components-nph-tree-validation--empty": "El árbol sin elementos muestra el estado vacío en lugar de la lista.",
+      "components-nph-tree-validation--width": "La etiqueta se corta en una sola línea, con puntos suspensivos y el texto entero en un globo, y los niveles sangran un paso cada uno, sin límite de profundidad.",
+      "components-nph-tree-validation--container": "El árbol no tiene fondo, borde ni altura propia: la tarjeta da la superficie y el desplazamiento, el elemento no se encoge, y el borde del elemento en el extremo sigue entero.",
+      "components-nph-tree-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: la carpeta de destino en la selección single, los permisos por área en la selección multiple con el padre mixto, y una rama que carga junto a una rama que falló al cargar.",
+      "components-nph-tree-validation--brands": "Las siete marcas en modo claro y oscuro: la superficie, la barra, el chevron, el icono y la caja del elemento elegido siguen la marca del marco."
     }
   },
   "multiComboboxDocs": {
@@ -13026,5 +13049,365 @@
     ],
     "formTitle": "Dirección",
     "formText": "¿A dónde debemos enviar tus facturas?"
+  },
+  "treeDocs": {
+    "summary": "Elementos organizados en niveles, como carpetas y archivos: la persona abre y cierra cada rama y elige un elemento o varios.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-tree, design.md para los tokens y docs/decisoes-tecnicas.md para la P118. El archivo DS-IA-NEPHOS 5.0 en Figma es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Datos con dos o más niveles, en los que la persona necesita ver dónde está cada elemento, abrir la rama que importa y elegir un elemento o varios.",
+      "Elegir una carpeta, una unidad o una categoría dentro de una jerarquía: selección single.",
+      "Marcar varias ramas a la vez, como permisos por área: selección multiple, con el padre mixto cuando solo una parte de los hijos está marcada.",
+      "Explorar y abrir los niveles sin elección: sin selección.",
+      "Los datos son carpetas y archivos: activa los iconos, en todos los nodos del árbol.",
+      "Hijos que cargan bajo demanda: una rama sin hijos cargados carga cuando se abre, y una rama que falló muestra la fila de error con Reintentar."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para el menú de navegación principal del producto: usa nph-sidebar.",
+      "Para mostrar y ocultar el contenido de una sección: usa nph-accordion.",
+      "Para datos con un solo nivel: usa una lista o una tabla.",
+      "Para datos con columnas: usa el árbol de nph-table; la Tree Table es otra pieza.",
+      "Para elegir un valor de una lista que se abre en una capa: el Tree Select es otra pieza.",
+      "Para una estructura de más de cinco niveles: revisa la estructura antes de usarla.",
+      "Para llevar acciones en cada fila, como renombrar y eliminar: ponlas en un nph-context-menu abierto por el elemento; la fila no lleva botón."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "items",
+        "Los nodos del primer nivel, como una lista de { id, label, children, branch, disabled, loading, error }. Solo propiedad: se define desde JavaScript y se reemplaza cuando cambia, nunca se modifica en su lugar. id es obligatorio y único en todo el árbol; label es obligatorio. Un nodo es una rama cuando tiene children o branch es true, y una hoja en el resto. branch true sin children es una rama aún no cargada. disabled hace que el elemento reciba el foco y no haga nada; loading dice que la rama está cargando; error dice que no se pudieron cargar sus hijos."
+      ],
+      [
+        "selection",
+        "none (por defecto) abre y cierra las ramas sin elección; single elige un elemento; multiple pone un checkbox en cada elemento. Reflejada en el atributo."
+      ],
+      [
+        "selected",
+        "El id del elemento elegido, en la selección single. El estado actual: la persona lo cambia, el código puede definirlo, y definirlo desde el código no dispara evento."
+      ],
+      [
+        "checked",
+        "Los ids de los elementos marcados, en la selección multiple. El estado actual, como selected. Con la cascada activada, un padre marcado marca a sus hijos habilitados."
+      ],
+      [
+        "expanded",
+        "Los ids de las ramas abiertas. El estado actual, como selected: la persona abre y cierra, y el código puede definirlo."
+      ],
+      [
+        "icons",
+        "Apagado por defecto. Encendido, la carpeta (rama cerrada), la carpeta abierta (rama abierta) y el archivo (hoja), en todos los nodos del árbol. Reflejada en el atributo."
+      ],
+      [
+        "check-strictly",
+        "Apagado por defecto. Encendido, la cascada de la selección multiple se apaga: cada elemento es independiente y ningún padre queda mixto. Reflejada en el atributo; en el código, checkStrictly."
+      ],
+      [
+        "loading",
+        "La primera carga del árbol: tres filas de skeleton en lugar de la lista, mientras items está vacío. Una rama que se abre sin hijos carga por sí sola. Reflejada en el atributo."
+      ],
+      [
+        "label",
+        "El nombre accesible del árbol, cuando el host no tiene aria-label ni aria-labelledby. Ya localizado."
+      ],
+      [
+        "aria-label y aria-labelledby",
+        "El nombre accesible del árbol, en el host: el host es el árbol, así que los dos lo nombran como nombran cualquier elemento."
+      ],
+      [
+        "empty-heading y empty-description",
+        "El título y la línea del árbol vacío, como Sin elementos y Esta carpeta aún no tiene elementos. Ya localizados."
+      ],
+      [
+        "error-text y retry-text",
+        "La frase y la acción de la fila de error, como No se pudo cargar. y Reintentar. Ya localizadas."
+      ],
+      [
+        "nph-tree-toggle",
+        "El evento que la persona dispara al abrir o cerrar una rama, con detail { id, expanded }. Sube por el árbol y es compuesto. Definir expanded desde el código no dispara nada."
+      ],
+      [
+        "nph-tree-select",
+        "El evento de la selección single cuando la persona elige un elemento que no era el elegido, con detail { id }. Sube por el árbol y es compuesto."
+      ],
+      [
+        "nph-tree-check",
+        "El evento de la selección multiple cuando la persona marca o desmarca un elemento, con detail { id, checked, value }: el elemento, su nuevo estado y la lista entera de ids marcados, la cascada incluida. Sube por el árbol y es compuesto."
+      ],
+      [
+        "nph-tree-load",
+        "El evento de una rama no cargada cuando la persona la abre, y de Reintentar en la fila de error, con detail { id, retry }. La página carga los hijos y reemplaza items. Sube por el árbol y es compuesto."
+      ],
+      [
+        "focus()",
+        "Pone el foco en el elemento que lo tuvo por última vez, o en la parada de Tab: el host en sí no recibe foco. Un menú abierto en el árbol (nph-context-menu) lo llama al cerrarse."
+      ],
+      [
+        "itemIdOf(element)",
+        "El id del nodo cuya fila contiene el elemento, o null. Un menú abierto en el árbol (nph-context-menu) informa el elemento bajo el puntero como origen; esto dice para qué nodo es el menú."
+      ],
+      [
+        "tamaño, profundidad, fondo y altura",
+        "No son propiedades: un solo tamaño, sin límite de profundidad (revisa la estructura por encima de cinco niveles), y el árbol no tiene fondo, borde ni altura propia: el contenedor da la superficie y el desplazamiento."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-tree id=\"files\" selection=\"single\" icons label=\"Archivos\" empty-heading=\"Sin elementos\" empty-description=\"Esta carpeta aún no tiene elementos.\" error-text=\"No se pudo cargar.\" retry-text=\"Reintentar\"></nph-tree>\n<script>\n  files.items = [\n    { id: 'documents', label: 'Documentos', children: [{ id: 'reports', label: 'Informes' }] },\n    { id: 'readme', label: 'Léeme' },\n  ];\n  files.addEventListener('nph-tree-select', (event) => {\n    console.log(event.detail.id);\n  });\n</script>",
+    "usageTag": "La etiqueta de la pieza. Los nodos llegan como datos en la propiedad items, definida desde JavaScript; la página escucha nph-tree-select, nph-tree-check, nph-tree-toggle y nph-tree-load.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, marco nph-tree (5876:216753); docs/decisoes-tecnicas.md › P118",
+    "selectionTitle": "Selección y cascada",
+    "selectionCaption": "Sin selección, selección single con el elemento elegido, y selección multiple con el padre mixto.",
+    "selectionUseHeader": [
+      "Selección",
+      "Qué hace"
+    ],
+    "selectionUse": [
+      {
+        "value": "none",
+        "label": "Abre y cierra las ramas. Un clic en la fila, o Enter, abre y cierra la rama; no hay elemento elegido ni caja."
+      },
+      {
+        "value": "single",
+        "label": "Elige un elemento: la superficie, una barra en el borde inicial y la etiqueta en peso medio. El chevron abre; el resto de la fila elige, también en una rama. Enter y Espacio eligen."
+      },
+      {
+        "value": "multiple",
+        "label": "Una caja en cada elemento. Un clic en la fila, o Espacio, marca y desmarca; Enter marca una hoja y abre o cierra una rama; el chevron solo abre y cierra."
+      }
+    ],
+    "selectionRules": [
+      "El chevron abre y cierra una rama; el resto de la fila elige. El checkbox nunca aparece en el elemento elegido de la selección single: serían dos marcas para la misma elección.",
+      "La cascada está activada en la selección multiple: marcar un padre marca a sus hijos habilitados, también los de ramas cerradas; desmarcar un hijo deja al padre mixto; marcar al último hijo marca al padre.",
+      "Un elemento deshabilitado recibe el foco con las flechas y no hace nada. Queda fuera del conteo de su padre y fuera de la cascada, y mantiene su propio estado, y una rama deshabilitada ni pasa su marca a los hijos ni recibe la de ellos; el elemento elegido y deshabilitado mantiene la superficie, la barra y la etiqueta bajo la opacidad de deshabilitado.",
+      "Con check-strictly cada elemento es independiente y ningún padre queda mixto.",
+      "El hover solo pinta la fila: no mueve el foco y no elige. El elemento con foco no recibe fondo de hover."
+    ],
+    "loadingTitle": "Carga, error, vacío y etiquetas largas",
+    "loadingCaption": "La primera carga, la rama que carga y la que falló, el árbol vacío y la etiqueta cortada.",
+    "loading": [
+      "La primera carga del árbol es loading con items vacío: tres filas de skeleton, cada una a la altura del elemento. El fallo de esa primera carga no tiene fila: la página muestra su propio mensaje.",
+      "Una rama que está abierta, tiene branch true, no tiene children ni error carga: el spinner ocupa el lugar del chevron, el elemento queda ocupado y se avisa a la página una vez con nph-tree-load. La página reemplaza items por los hijos, o por error true.",
+      "Si la carga falla, la fila de error entra en el grupo, alineada con la sangría de los hijos, con el triángulo, la frase y Reintentar. Enter o un clic en ella reintenta: la fila vuelve a loading hasta que items traiga esa rama de vuelta como otro objeto o sin error, y nph-tree-load se dispara con retry true. El nombre leído es \"No se pudo cargar. Reintentar\".",
+      "El árbol vacío muestra el estado vacío en lugar de la lista.",
+      "La etiqueta queda en una sola línea y se corta con puntos suspensivos; el texto entero aparece en un globo, de inmediato con el foco del elemento y tras una espera corta con el hover, y llega entero al lector de pantalla.",
+      "El chevron gira un cuarto cuando una rama se abre; con movimiento reducido cambia sin girar. Cuando el elemento que tiene el foco sale, el foco va a la rama más cercana que aún está dibujada."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab y Shift+Tab",
+        "El árbol tiene una única parada del Tab: el elemento elegido, o el primero. El siguiente Tab sale del árbol."
+      ],
+      [
+        "Flecha abajo y flecha arriba",
+        "El elemento visible siguiente y el anterior, sin abrir ni cerrar. Pasan por un elemento deshabilitado, que recibe el foco y no hace nada."
+      ],
+      [
+        "Flecha derecha",
+        "En una rama cerrada, la abre y mantiene el foco; en una rama abierta, baja al primer hijo; en una hoja, no hace nada. En la escritura de derecha a izquierda, la flecha izquierda hace esto."
+      ],
+      [
+        "Flecha izquierda",
+        "En una rama abierta, la cierra; en un hijo, sube al padre; en un elemento raíz cerrado, no hace nada. En la escritura de derecha a izquierda, la flecha derecha hace esto."
+      ],
+      [
+        "Home y End",
+        "El primer y el último elemento visible."
+      ],
+      [
+        "Asterisco",
+        "Abre todos los hermanos del elemento con foco."
+      ],
+      [
+        "Una letra",
+        "Mueve el foco al siguiente elemento visible cuya etiqueta empieza con ella, volviendo al principio al llegar al final."
+      ],
+      [
+        "Enter",
+        "Selección single: elige. Sin selección: abre o cierra la rama. Selección multiple: abre o cierra una rama y marca una hoja. En la fila de error: reintenta."
+      ],
+      [
+        "Espacio",
+        "Selección single: elige. Selección multiple: marca y desmarca, con la cascada. Sin selección: no hace nada."
+      ],
+      [
+        "Esc",
+        "No es del árbol: dentro de un popover, el Esc pertenece al contenedor."
+      ],
+      [
+        "Puntero",
+        "El hover pinta la fila y no mueve el foco. Un clic en el chevron abre y cierra; un clic en la fila elige, marca, o abre y cierra según la selección, y pone el foco en el elemento."
+      ]
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Vive en una tarjeta, panel o popover, que da la superficie y el desplazamiento: el árbol no tiene fondo, borde ni altura propia y no define overflow.",
+      "Trabaja con nph-checkbox (la caja de la selección multiple), nph-icon (el chevron, la carpeta, el archivo y el triángulo), nph-spinner (una rama que carga), nph-skeleton (la primera carga), nph-empty (el árbol vacío) y nph-tooltip (la etiqueta cortada).",
+      "Renombrar y eliminar van a un nph-context-menu abierto por el elemento, con el host del árbol como objeto; itemIdOf dice para qué nodo es. La fila no lleva botón.",
+      "No es el menú de navegación principal (nph-sidebar), no muestra y oculta contenido (nph-accordion), y el árbol dentro de una tabla es el de nph-table. El Tree Select y la Tree Table son otras piezas."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Objetivo del chevron",
+        "Un objetivo cuadrado al inicio de la fila con el chevron de una rama, que gira un cuarto cuando se abre. La hoja guarda el lugar, vacío, para que las etiquetas se alineen. Durante la carga, el spinner ocupa su lugar."
+      ],
+      [
+        "Caja",
+        "El nph-checkbox de la selección multiple, justo después del chevron, sin etiqueta propia: el elemento lleva el estado."
+      ],
+      [
+        "Icono",
+        "La carpeta, la carpeta abierta o el archivo, en todos los nodos o en ninguno."
+      ],
+      [
+        "Etiqueta",
+        "El texto del elemento, en una sola línea y cortado con puntos suspensivos. Elegido, toma peso medio."
+      ],
+      [
+        "Barra de selección",
+        "Una barra en el borde inicial de la fila, de arriba abajo, en el elemento elegido de la selección single."
+      ],
+      [
+        "Borde de foco",
+        "Un borde dibujado por dentro de toda la fila, sobre la barra. En un elemento deshabilitado queda con la opacidad total."
+      ],
+      [
+        "Fila de error",
+        "Dentro del grupo de la rama, alineada con la sangría de los hijos: el triángulo, la frase y Reintentar."
+      ],
+      [
+        "Grupo",
+        "Los hijos de una rama abierta, con sangría de un paso por nivel, sin espacio entre los elementos."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El host es un árbol (tree). Cada nodo es un treeitem y cada rama abierta un group. aria-expanded en las ramas; aria-selected en la selección single y aria-checked (true, false o mixed) en la multiple, nunca los dos; aria-multiselectable en la multiple; aria-level, aria-setsize y aria-posinset en cada elemento; aria-disabled en un elemento deshabilitado; aria-busy en una rama que carga."
+      ],
+      [
+        "Nombre accesible",
+        "El árbol se nombra con aria-label, aria-labelledby o label. Cada elemento se lee por su etiqueta; el chevron, el icono, la caja y el spinner quedan ocultos. La fila de error se lee como la frase y la acción juntas."
+      ],
+      [
+        "Teclado",
+        "Una única parada del Tab; las flechas, Home, End, el asterisco y una letra se mueven por dentro, como en el patrón Tree View de WAI-ARIA. Enter y Espacio actúan según la selección."
+      ],
+      [
+        "Foco visible",
+        "Un borde por dentro de toda la fila, sobre el elemento elegido y la barra, con opacidad total incluso en un elemento deshabilitado. El elemento con foco no recibe fondo de hover, para que el borde mantenga el contraste."
+      ],
+      [
+        "El color no es la única señal",
+        "Elegido: la superficie, la barra y el peso de la etiqueta. Marcado y mixto: la caja. Abierto y cerrado: el chevron. Error: el triángulo y la frase."
+      ],
+      [
+        "Contraste",
+        "La etiqueta alcanza 4,5:1 en los dos temas; el chevron, los iconos, la barra y el borde de foco alcanzan 3:1. Un elemento deshabilitado está exento."
+      ],
+      [
+        "Tamaño del objetivo",
+        "La fila entera es el objetivo, con 36 de alto. El chevron y la caja tienen un objetivo de 24 por 24."
+      ],
+      [
+        "Texto cortado",
+        "La etiqueta entera aparece en un globo, con el foco y con el hover, y llega entera al lector de pantalla."
+      ],
+      [
+        "Límites conocidos",
+        "La caja no recibe su propio hover cuando el puntero está sobre la fila, porque el nph-checkbox solo reacciona al hover dentro de su propio shadow root; el borde de foco del elemento deshabilitado espera una decisión; el árbol no se desplaza solo, ya que el contenedor da el desplazamiento."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: la carpeta de destino en la selección single; los permisos por área en la selección multiple, con el padre mixto; y una rama que carga junto a una rama que falló al cargar.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-tree — propósito, selecciones, comportamiento, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P118 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens tree/* y los tokens de foco y de movimiento.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Tree, marco de documentación nph-tree (5876:216753).",
+      "WAI-ARIA Authoring Practices — patrón Tree View y Focusability of disabled controls.",
+      "WCAG 2.2 — Focus Visible, Non-text Contrast, Use of Color y Target Size (Minimum)."
+    ],
+    "sourceSpec": "Ficha del nph-tree; Figma, marco nph-tree (5876:216753)",
+    "sourceApi": "Ficha del nph-tree; docs/decisoes-tecnicas.md › P118",
+    "sourceAnatomy": "Figma, conjuntos 5485:350, 5485:421 y 5485:766; design.md",
+    "matrixLabel": "Matriz del componente"
+  },
+  "treeValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "explorerLabel": "Archivos",
+    "destinationLabel": "Carpeta de destino",
+    "permissionsLabel": "Permisos por área",
+    "loadLabel": "Archivos compartidos",
+    "emptyHeading": "Sin elementos",
+    "emptyDescription": "Esta carpeta aún no tiene elementos.",
+    "errorText": "No se pudo cargar.",
+    "retryText": "Reintentar",
+    "documents": "Documentos",
+    "reports": "Informes",
+    "q1": "Informe del 1.er trim.",
+    "q2": "Informe del 2.º trim.",
+    "notes": "Notas",
+    "images": "Imágenes",
+    "logo": "Logotipo",
+    "photos": "Fotos",
+    "archive": "Archivo histórico",
+    "oldFiles": "Archivos antiguos",
+    "readme": "Léeme",
+    "sales": "Ventas",
+    "leads": "Leads",
+    "quotes": "Presupuestos",
+    "invoices": "Facturas",
+    "support": "Soporte",
+    "tickets": "Tickets",
+    "chat": "Chat",
+    "finance": "Finanzas",
+    "payments": "Pagos",
+    "refunds": "Reembolsos",
+    "sharedDrive": "Unidad compartida",
+    "backups": "Copias de seguridad",
+    "longLabel": "Informe trimestral con los números de cada región y las notas de todo el equipo",
+    "levels": [
+      "Empresa",
+      "Región",
+      "País",
+      "Ciudad",
+      "Oficina",
+      "Equipo"
+    ],
+    "itemName": "Elemento",
+    "destinationTitle": "Elige la carpeta de destino",
+    "permissionsTitle": "Marca los permisos por área",
+    "loadTitle": "Una rama que carga y una rama que falló"
   }
 }

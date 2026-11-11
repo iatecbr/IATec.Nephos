@@ -236,6 +236,7 @@ dictionaryDefinitions:
       - msup
       - mtable
       - mtext
+      - multiselectable
       - nodetype
       - novalidate
       - nums
