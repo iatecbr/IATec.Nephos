@@ -89,7 +89,6 @@ import {
   NPH_FILE_UPLOAD_ITEM_STATUSES,
   fill,
   isSafeFileHref,
-  languageOf,
 } from '../nph-file-upload-item/nph-file-upload-item';
 import type { NphFileUploadItem, NphFileUploadKind, NphFileUploadStatus } from '../nph-file-upload-item/nph-file-upload-item';
 import uploadCss from './nph-file-upload.css?inline';
@@ -349,6 +348,9 @@ export class NphFileUpload extends LitElement {
   private previous: Map<string, Snapshot> | null = null;
   private pending: PendingFocus | null = null;
   private dragDepth = 0;
+  /** The message that waits for the region to be cleared before it is written. */
+  private publish: string | null = null;
+  private publishFrame = 0;
   /** The picture each thumbnail was made from, so a new file for the same id makes a new thumbnail. */
   private made = new Map<string, { source: Blob; url: string | null }>();
 
@@ -402,6 +404,9 @@ export class NphFileUpload extends LitElement {
     }
     this.made.clear();
     this.thumbnails = new Map();
+    cancelAnimationFrame(this.publishFrame);
+    this.publishFrame = 0;
+    this.publish = null;
     this.dragDepth = 0;
     this.dragging = false;
   }
@@ -514,7 +519,15 @@ export class NphFileUpload extends LitElement {
       return;
     }
     this.warnMissingTexts();
-    this.syncThumbnails();
+    if (this.publish !== null && this.publishFrame === 0) {
+      this.publishFrame = requestAnimationFrame(() => {
+        this.publishFrame = 0;
+        if (this.publish !== null) this.announcement = this.publish;
+        this.publish = null;
+      });
+    }
+    /* A zone that left the page makes no thumbnail: nobody would give it back. */
+    if (this.isConnected) this.syncThumbnails();
     if (changed.has('files')) {
       void this.settleFocus();
     }
@@ -576,7 +589,10 @@ export class NphFileUpload extends LitElement {
     }
     const said = messages.filter((message) => message !== '').join(' ');
     if (said !== '') {
-      this.announcement = said;
+      /* The region is cleared first and the message comes in a later frame: the same text twice in a row
+         (`1 files added`, a failure again after Try again) is a new node, and is announced again. */
+      this.announcement = '';
+      this.publish = said;
     }
   }
 
@@ -589,6 +605,14 @@ export class NphFileUpload extends LitElement {
   /** Makes the thumbnail of each image entry that has none, and gives back the ones of entries that left. */
   private syncThumbnails(): void {
     const ids = new Set<string>();
+    let next: ReadonlyMap<string, string> = this.thumbnails;
+    const forget = (id: string): void => {
+      if (next.has(id)) {
+        const copy = new Map(next);
+        copy.delete(id);
+        next = copy;
+      }
+    };
     for (const entry of this.files) {
       ids.add(entry.id);
       const file = entry.file;
@@ -598,6 +622,8 @@ export class NphFileUpload extends LitElement {
       const made = this.made.get(entry.id);
       if (made?.source === file) continue;
       if (made?.url) URL.revokeObjectURL(made.url);
+      /* The old picture is not shown while the new one is made, nor when it cannot be read. */
+      forget(entry.id);
       const record = { source: file as Blob, url: null as string | null };
       this.made.set(entry.id, record);
       void makeThumbnail(file).then((url) => {
@@ -612,17 +638,14 @@ export class NphFileUpload extends LitElement {
         }
       });
     }
-    let dropped = false;
-    const next = new Map(this.thumbnails);
     for (const [id, made] of [...this.made]) {
       if (!ids.has(id)) {
         if (made.url !== null) URL.revokeObjectURL(made.url);
         this.made.delete(id);
-        next.delete(id);
-        dropped = true;
+        forget(id);
       }
     }
-    if (dropped) this.thumbnails = next;
+    if (next !== this.thumbnails) this.thumbnails = next;
   }
 
   /* ----- focus ------------------------------------------------------------- */
@@ -782,7 +805,6 @@ export class NphFileUpload extends LitElement {
         .retryText=${this.retryText}
         .removeLabel=${this.removeLabel}
         .cancelLabel=${this.cancelLabel}
-        lang=${languageOf(this)}
         @nph-file-upload-remove=${(event: CustomEvent<{ id: string }>) => this.onRemove(event)}
         @nph-file-upload-retry=${(event: CustomEvent<{ id: string }>) => this.onRetry(event)}
       ></nph-file-upload-item>

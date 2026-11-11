@@ -124,9 +124,18 @@ export function formatBytes(bytes: number, locale: string): string {
   return `${number} ${UNITS[unit] as string}`;
 }
 
-/** The language of an element: its own, the document's, then the browser's. */
+/**
+ * The language of an element: the closest `lang` of the element or of an ancestor, crossing the shadow
+ * roots through their hosts (`HTMLElement.lang` is only the attribute of the element itself), then the
+ * document's, then the browser's.
+ */
 export function languageOf(element: HTMLElement): string {
-  return element.lang || document.documentElement.lang || navigator.language || 'en';
+  let node: Node | null = element;
+  while (node !== null) {
+    if (node instanceof HTMLElement && node.lang !== '') return node.lang;
+    node = node.parentNode ?? (node instanceof ShadowRoot ? node.host : null);
+  }
+  return document.documentElement.lang || navigator.language || 'en';
 }
 
 /** Fills the `{name}` markers of a text with the values, leaving an unknown marker as it is. */

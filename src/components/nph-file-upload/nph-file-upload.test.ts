@@ -372,6 +372,21 @@ describe('the states of the zone', () => {
     expect(area(await mount()).hasAttribute('aria-disabled')).toBe(false);
   });
 
+  it('disabled: the button is not dimmed twice, so the whole zone is at the disabled opacity once', async () => {
+    const zone = await mount({ disabled: true, files: FILES });
+    const opacity = Number.parseFloat(resolved('opacity', '--nph-file-upload-disabled-opacity'));
+    expect(getComputedStyle(choose(zone)).opacity).toBe('1');
+    expect(Number.parseFloat(getComputedStyle(area(zone)).opacity)).toBe(opacity);
+    const item = itemsOf(zone)[0] as NphFileUploadItem;
+    expect(getComputedStyle(item.shadowRoot?.querySelector('.remove') as HTMLElement).opacity).toBe('1');
+    expect(Number.parseFloat(getComputedStyle(item.shadowRoot?.querySelector('.item') as HTMLElement).opacity)).toBe(opacity);
+  });
+
+  it('limit: the button alone is disabled, at the opacity of its own', async () => {
+    const zone = await mount({ maxFiles: 3, files: FILES });
+    expect(getComputedStyle(choose(zone)).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+  });
+
   it('error + disabled and limit + disabled: disabled wins, with no state border and no state background', async () => {
     for (const props of [{ error: 'No.' }, { maxFiles: 3, files: FILES }]) {
       const zone = await mount({ ...props, disabled: true });
@@ -781,7 +796,7 @@ describe('the list', () => {
     expect(uploading.bytes).toBe(2_400_000);
     expect(uploading.size).toBe('large');
     expect(uploading.uploadingText).toBe('Uploading · {progress}%');
-    expect(uploading.lang).toBe('pt-BR');
+    expect(uploading.hasAttribute('lang')).toBe(false);
     expect(textOf(uploading.shadowRoot?.querySelector('.meta') ?? null)).toBe('PDF · 2,4 MB');
     expect(error.reason).toBe('Network failure while uploading.');
     expect(done.href).toBe('/files/ata.pdf');
@@ -838,6 +853,38 @@ describe('the list', () => {
     await settle(zone);
     expect(itemsOf(zone)).toHaveLength(3);
     expect(zone.files).toHaveLength(3);
+  });
+});
+
+describe('the language of the sizes: the closest lang, through the ancestors and the shadow roots', () => {
+  it('writes the size in the language of an ancestor, not of the document', async () => {
+    document.documentElement.lang = 'en';
+    const holder = document.createElement('section');
+    holder.lang = 'pt-BR';
+    const zone = document.createElement('nph-file-upload');
+    Object.assign(zone, { ...TEXTS, files: [{ id: 'a', name: 'a.pdf', size: 2_400_000 }] });
+    holder.append(zone);
+    document.body.append(holder);
+    await settle(zone);
+    expect(textOf(itemsOf(zone)[0]?.shadowRoot?.querySelector('.meta') ?? null)).toBe('PDF · 2,4 MB');
+    holder.lang = 'en';
+    zone.requestUpdate();
+    for (const item of itemsOf(zone)) item.requestUpdate();
+    await settle(zone);
+    expect(textOf(itemsOf(zone)[0]?.shadowRoot?.querySelector('.meta') ?? null)).toBe('PDF · 2.4 MB');
+    document.documentElement.lang = '';
+  });
+});
+
+describe('the icon of the zone reads the token of the zone', () => {
+  it('an override of file-upload/icon-size changes the icon, and only the icon of the zone', async () => {
+    const zone = await mount({ files: FILES });
+    expect(icon(zone).getBoundingClientRect().width).toBe(px('--nph-file-upload-icon-size'));
+    zone.style.setProperty('--nph-file-upload-icon-size', '40px');
+    await settle(zone);
+    expect(icon(zone).getBoundingClientRect().width).toBe(40);
+    const inner = itemsOf(zone)[0]?.shadowRoot?.querySelector('.type-icon') as HTMLElement;
+    expect(inner.getBoundingClientRect().width).toBe(px('--nph-icon-size-sm'));
   });
 });
 
@@ -974,6 +1021,34 @@ describe('the live region', () => {
     zone.files = [...(zone.files as NphFileUploadEntry[]), { id: 'big', name: 'big.pdf', status: 'error', reason: 'Larger than 5 MB.' }];
     await settle(zone);
     expect(textOf(live(zone))).toBe('Error: big.pdf not sent. Larger than 5 MB.');
+  });
+
+  it('announces the same message twice in a row: the region is cleared and written again', async () => {
+    const zone = await mount({ files: [] });
+    zone.files = [{ id: 'a', name: 'a.pdf' }];
+    await settle(zone);
+    expect(textOf(live(zone))).toBe('1 files added');
+    zone.files = [...(zone.files as NphFileUploadEntry[]), { id: 'b', name: 'b.pdf' }];
+    await zone.updateComplete;
+    expect(textOf(live(zone))).toBe('');
+    await settle(zone);
+    expect(textOf(live(zone))).toBe('1 files added');
+  });
+
+  it('says a repeated failure again after Try again', async () => {
+    const failed = { id: 'a', name: 'a.pdf', status: 'error' as const, reason: 'Network failure while uploading.' };
+    const zone = await mount({ files: [{ id: 'a', name: 'a.pdf', status: 'uploading', progress: 5 }] });
+    zone.files = [failed];
+    await settle(zone);
+    const first = textOf(live(zone));
+    expect(first).toContain('Error: a.pdf not sent.');
+    zone.files = [{ id: 'a', name: 'a.pdf', status: 'uploading', progress: 0 }];
+    await settle(zone);
+    zone.files = [failed];
+    await zone.updateComplete;
+    expect(textOf(live(zone))).toBe('');
+    await settle(zone);
+    expect(textOf(live(zone))).toBe(first);
   });
 
   it('announces a removal, with the name', async () => {
@@ -1194,6 +1269,35 @@ describe('the thumbnail of an image', () => {
     const second = itemsOf(zone)[0]?.thumbnail as string;
     zone.remove();
     expect(revoke).toHaveBeenCalledWith(second);
+  });
+
+  it('shows no thumbnail of the old file while the new one is made, and the icon when it cannot be read', async () => {
+    const zone = await mount({ files: [{ id: 'p', name: 'photo.png', file: await picture(100, 100) }] });
+    await vi.waitFor(() => expect(itemsOf(zone)[0]?.thumbnail).toMatch(/^blob:/), { timeout: 3000 });
+    const broken = new File(['not a picture'], 'broken.png', { type: 'image/png' });
+    zone.files = [{ id: 'p', name: 'broken.png', file: broken }];
+    await settle(zone);
+    expect(itemsOf(zone)[0]?.thumbnail).toBeNull();
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    await settle(zone);
+    expect(itemsOf(zone)[0]?.thumbnail).toBeNull();
+    expect(itemsOf(zone)[0]?.shadowRoot?.querySelector('.box nph-icon')?.getAttribute('name')).toBe('file-image');
+  });
+
+  it('makes no thumbnail again after the zone left the page, and every address is given back', async () => {
+    const make = vi.spyOn(URL, 'createObjectURL');
+    const revoke = vi.spyOn(URL, 'revokeObjectURL');
+    const zone = await mount({ files: [{ id: 'p', name: 'photo.png', file: await picture(100, 100) }] });
+    await vi.waitFor(() => expect(itemsOf(zone)[0]?.thumbnail).toMatch(/^blob:/), { timeout: 3000 });
+    zone.parentElement?.remove();
+    await zone.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    const made = make.mock.calls.length;
+    const given = revoke.mock.calls.length;
+    expect(made).toBeGreaterThan(0);
+    expect(given).toBe(made);
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    expect(make.mock.calls.length).toBe(made);
   });
 
   it('makes a new thumbnail when the file of the same entry changes, and gives the old one back', async () => {

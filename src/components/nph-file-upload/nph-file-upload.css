@@ -61,6 +61,8 @@
 }
 
 .zone-icon {
+  /* The icon reads its box from the global size token: the one of the zone is handed to it here. */
+  --nph-icon-size-lg: var(--nph-file-upload-icon-size);
   color: var(--nph-file-upload-icon-foreground);
 }
 
@@ -153,6 +155,11 @@
 /* Disabled wins: no state border and no state background, only the opacity (rule T11). */
 .zone[data-state='disabled'] {
   opacity: var(--nph-file-upload-disabled-opacity);
+}
+
+/* The disabled button already dims itself: inside the dimmed zone it stays at full, so the effect is not doubled. */
+.zone[data-state='disabled'] .choose {
+  opacity: 1;
 }
 
 /* ----- the list -------------------------------------------------------------- */

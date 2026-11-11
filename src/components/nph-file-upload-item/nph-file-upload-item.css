@@ -67,6 +67,11 @@
   opacity: var(--nph-file-upload-disabled-opacity);
 }
 
+/* The disabled buttons dim themselves: inside the dimmed item they stay at full, so the effect is not doubled. */
+.item[data-disabled='true'] nph-button {
+  opacity: 1;
+}
+
 /* ----- the box --------------------------------------------------------------- */
 
 .box {
