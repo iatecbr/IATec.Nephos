@@ -9,7 +9,7 @@
  * Metadata (P71), and `src/shared/docs/sheet-lists.test.ts` checks every page.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { render } from 'lit';
+import { nothing, render } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import '../../tokens/generated/tokens.css';
@@ -175,6 +175,31 @@ describe('nph-sidebar Documentation', () => {
       await vi.waitFor(() => expect(levels(collapsed)).toEqual([]));
     });
   }
+
+  it('removing the page disconnects the observers of the examples and drops the presses still waiting', async () => {
+    const observed = new Set<IntersectionObserver>();
+    const disconnected = new Set<IntersectionObserver>();
+    const observe = IntersectionObserver.prototype.observe;
+    const disconnect = IntersectionObserver.prototype.disconnect;
+    vi.spyOn(IntersectionObserver.prototype, 'observe').mockImplementation(function (this: IntersectionObserver, element: Element) {
+      observed.add(this);
+      return observe.call(this, element);
+    });
+    vi.spyOn(IntersectionObserver.prototype, 'disconnect').mockImplementation(function (this: IntersectionObserver) {
+      disconnected.add(this);
+      return disconnect.call(this);
+    });
+    const target = renderInLocale('en');
+    const menus = [...target.querySelectorAll<NphSidebar>('nph-sidebar')];
+    expect(observed.size).toBeGreaterThan(0);
+    expect(disconnected.size).toBe(0);
+    render(nothing, target);
+    expect([...observed].every((observer) => disconnected.has(observer))).toBe(true);
+    /* Nothing is pressed after the removal: the menus stay closed. */
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(menus.every((menu) => menu.openSecond === null && menu.openThird === null)).toBe(true);
+    vi.restoreAllMocks();
+  });
 
   it('the phone button opens the mobile menu, and Esc closes it and gives the focus back', async () => {
     const target = renderInLocale('en');

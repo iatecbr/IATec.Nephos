@@ -152,27 +152,39 @@ async function press(sidebar: NphSidebar, opener: Opener): Promise<void> {
   const piece = target as HTMLElement & { updateComplete?: Promise<unknown> };
   await piece.updateComplete;
   const control = opener.kind === 'option' ? target : (target.shadowRoot?.querySelector<HTMLElement>('.control') ?? null);
+  /* Already open (the example came back on the screen): pressing again would close it. */
+  if (control?.getAttribute('aria-expanded') === 'true') return;
   control?.click();
   await sidebar.updateComplete;
   await frames();
 }
 
-const watching = new WeakSet<Element>();
-
 /**
  * Presses the openers, in order, while the example is on the screen: the flyout panels of the
  * example. A panel stays inside the window, so one left open under an example that scrolled away
  * would cover the page: the panels close when the example leaves the screen and open again when it
- * comes back.
+ * comes back. The observer lives with the template part: `ref` calls back with `undefined` when the
+ * part is removed, and then the observer is disconnected and the presses still waiting are dropped,
+ * so a menu that left the page is not kept alive. When the element comes back, it is watched again.
  */
 function showing(openers: readonly Opener[]) {
+  let observer: IntersectionObserver | undefined;
+  let shown = false;
+  let run = 0;
+  const stop = (): void => {
+    observer?.disconnect();
+    observer = undefined;
+    shown = false;
+    run += 1;
+  };
   return ref((element) => {
-    if (openers.length === 0 || !(element instanceof HTMLElement) || watching.has(element)) return;
-    watching.add(element);
+    if (!(element instanceof HTMLElement)) {
+      stop();
+      return;
+    }
+    if (openers.length === 0 || observer !== undefined) return;
     const sidebar = element as NphSidebar;
-    let shown = false;
-    let run = 0;
-    const observer = new IntersectionObserver(
+    observer = new IntersectionObserver(
       (changes) => {
         const visible = changes.some((change) => change.isIntersecting);
         if (visible && !shown) {
