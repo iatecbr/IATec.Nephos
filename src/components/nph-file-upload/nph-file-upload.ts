@@ -409,6 +409,10 @@ export class NphFileUpload extends LitElement {
     this.publish = null;
     this.dragDepth = 0;
     this.dragging = false;
+    /* What waited for the page or for the pointer is not wanted by a zone that left. */
+    this.pending = null;
+    this.pointerOnButton = false;
+    this.focusOnButton = false;
   }
 
   /** The focus of the host goes to the "Choose files" button, which is where the zone is operated. */
@@ -592,7 +596,8 @@ export class NphFileUpload extends LitElement {
       /* The region is cleared first and the message comes in a later frame: the same text twice in a row
          (`1 files added`, a failure again after Try again) is a new node, and is announced again. */
       this.announcement = '';
-      this.publish = said;
+      /* Two changes inside one frame are said together: the second never takes the first one's place. */
+      this.publish = this.publish === null ? said : `${this.publish} ${said}`;
     }
   }
 
@@ -617,6 +622,13 @@ export class NphFileUpload extends LitElement {
       ids.add(entry.id);
       const file = entry.file;
       if (this.kindOf(entry) !== 'image' || text(entry.thumbnail) !== '' || file === undefined || !file.type.startsWith('image/')) {
+        /* An entry that stopped needing a thumbnail gives its own back at once, not when it leaves. */
+        const stale = this.made.get(entry.id);
+        if (stale !== undefined) {
+          if (stale.url !== null) URL.revokeObjectURL(stale.url);
+          this.made.delete(entry.id);
+          forget(entry.id);
+        }
         continue;
       }
       const made = this.made.get(entry.id);
@@ -667,6 +679,9 @@ export class NphFileUpload extends LitElement {
       return;
     }
     await this.updateComplete;
+    if (!this.isConnected) {
+      return;
+    }
     const items = this.items();
     await Promise.all(items.map((item) => item.updateComplete));
     if (pending.kind === 'remove') {

@@ -951,6 +951,20 @@ describe('the focus', () => {
     expect(activeRemove(zone)).toBe('a');
   });
 
+  it('forgets what waited for the page when the zone leaves, and never moves a focus afterwards', async () => {
+    const zone = await mount({ files: sent('a', 'b') });
+    const item = itemsOf(zone)[0] as NphFileUploadItem;
+    (item.shadowRoot?.querySelector('.remove') as HTMLElement).click();
+    const holder = zone.parentElement as HTMLElement;
+    holder.remove();
+    zone.files = sent('b');
+    await zone.updateComplete;
+    document.body.append(holder);
+    await settle(zone);
+    await wait(30);
+    expect(root(zone).activeElement).toBeNull();
+  });
+
   it('does not take the focus away from where the person went', async () => {
     const outside = document.createElement('button');
     document.body.append(outside);
@@ -1049,6 +1063,15 @@ describe('the live region', () => {
     expect(textOf(live(zone))).toBe('');
     await settle(zone);
     expect(textOf(live(zone))).toBe(first);
+  });
+
+  it('says two changes of the same frame together, the second never replacing the first', async () => {
+    const zone = await mount({ files: [{ id: 'a', name: 'a.pdf', status: 'uploading', progress: 80 }, { id: 'b', name: 'b.pdf' }] });
+    zone.files = [{ id: 'a', name: 'a.pdf', status: 'sent' }, { id: 'b', name: 'b.pdf' }];
+    await zone.updateComplete;
+    zone.files = [{ id: 'a', name: 'a.pdf', status: 'sent' }];
+    await settle(zone);
+    expect(textOf(live(zone))).toBe('a.pdf sent b.pdf removed');
   });
 
   it('announces a removal, with the name', async () => {
@@ -1298,6 +1321,17 @@ describe('the thumbnail of an image', () => {
     expect(given).toBe(made);
     await new Promise((resolve) => setTimeout(resolve, 200));
     expect(make.mock.calls.length).toBe(made);
+  });
+
+  it('gives the address back at once when the entry stops being an image', async () => {
+    const revoke = vi.spyOn(URL, 'revokeObjectURL');
+    const zone = await mount({ files: [{ id: 'p', name: 'photo.png', file: await picture(100, 100) }] });
+    await vi.waitFor(() => expect(itemsOf(zone)[0]?.thumbnail).toMatch(/^blob:/), { timeout: 3000 });
+    const url = itemsOf(zone)[0]?.thumbnail as string;
+    zone.files = [{ id: 'p', name: 'photo.png', kind: 'file', file: await picture(100, 100) }];
+    await settle(zone);
+    expect(revoke).toHaveBeenCalledWith(url);
+    expect(itemsOf(zone)[0]?.thumbnail).toBeNull();
   });
 
   it('makes a new thumbnail when the file of the same entry changes, and gives the old one back', async () => {
