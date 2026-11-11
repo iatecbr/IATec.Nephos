@@ -92,6 +92,11 @@
   background: none;
 }
 
+/* The thumbnail reads its frame from the global size token: the one of the item is handed to it here, and its corner stays `image/radius-sm`. */
+.box[data-image] nph-image {
+  --nph-image-size-sm: var(--nph-file-upload-item-thumbnail-size);
+}
+
 .type-icon {
   flex: none;
 }

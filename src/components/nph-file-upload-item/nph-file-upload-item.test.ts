@@ -246,6 +246,18 @@ describe('the box: the icon of the kind or the thumbnail', () => {
     expect(getComputedStyle(part(item, '.box') as HTMLElement).backgroundColor).toBe('rgba(0, 0, 0, 0)');
   });
 
+  it('follows an override of file-upload-item/thumbnail-size: the box and the thumbnail change together, with the corner of the image', async () => {
+    const item = await mount({ kind: 'image', thumbnail: 'data:image/gif;base64,R0lGODlhAQABAAAAACw=' });
+    item.style.setProperty('--nph-file-upload-item-thumbnail-size', '48px');
+    await settle(item);
+    const box = (part(item, '.box') as HTMLElement).getBoundingClientRect();
+    const image = (part(item, '.box nph-image') as HTMLElement).getBoundingClientRect();
+    expect([box.width, box.height]).toEqual([48, 48]);
+    expect([image.width, image.height]).toEqual([48, 48]);
+    const host = part(item, '.box nph-image') as HTMLElement;
+    expect(getComputedStyle(host).borderTopLeftRadius).toBe(resolved('width', '--nph-image-radius-sm'));
+  });
+
   it('draws file-image while an image has no thumbnail yet', async () => {
     const item = await mount({ kind: 'image' });
     expect(part(item, '.box nph-icon')?.getAttribute('name')).toBe('file-image');
