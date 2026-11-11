@@ -556,8 +556,9 @@ export class NphTree extends LitElement {
         key = this.parentOf.get(key);
       }
     }
-    if (changed.has('items')) this.pruneRetries();
     this.problem = this.validate();
+    /* Only a valid list is walked: an invalid one is reported and drawn as nothing, retries kept for later. */
+    if (changed.has('items') && this.problem === null) this.pruneRetries();
     if (this.problem !== null) {
       /* One message per cause: a re-render with the same input stays silent. */
       if (this.problem !== this.reported) {

@@ -1091,6 +1091,21 @@ describe('load on demand', () => {
     expect(root(tree).querySelector('.error-item')).not.toBeNull();
   });
 
+  it('an invalid items replaced during a pending Try again is reported and draws nothing, and the retry waits for a valid list', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const failing: NphTreeNode = { id: 'a', label: 'A', branch: true, error: true };
+    const tree = await mount({ items: [failing], expanded: ['a'] });
+    await userEvent.click(root(tree).querySelector('.retry') as HTMLElement);
+    await settle(tree);
+    tree.items = [null as unknown as NphTreeNode];
+    await tree.updateComplete;
+    expect(tree.hasAttribute('data-nph-rendered')).toBe(false);
+    expect(error).toHaveBeenCalledTimes(1);
+    tree.items = [failing];
+    await settle(tree);
+    expect(item(tree, 'a').getAttribute('aria-busy')).toBe('true');
+  });
+
   it('on the error row Left goes up to the branch and Right does nothing', async () => {
     const tree = await mount({ items: [{ id: 'remote', label: 'Remote', branch: true, error: true }], expanded: ['remote'] });
     await enter(tree);
