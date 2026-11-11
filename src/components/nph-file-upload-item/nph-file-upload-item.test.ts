@@ -8,6 +8,7 @@
  * the names of the buttons, the events and the disabled item.
  */
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { MockInstance } from 'vitest';
 import { userEvent } from 'vitest/browser';
 
 import '@fontsource/noto-sans/latin-400.css';
@@ -35,8 +36,8 @@ beforeAll(async () => {
 /** The listeners a test puts on the page; aborted at the end of each test, so none leaks into the next. */
 let listeners = new AbortController();
 
-let errors: ReturnType<typeof vi.spyOn>;
-let warnings: ReturnType<typeof vi.spyOn>;
+let errors: MockInstance<typeof console.error>;
+let warnings: MockInstance<typeof console.warn>;
 
 beforeEach(() => {
   errors = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -60,7 +61,7 @@ const TEXTS = {
   cancelLabel: 'Cancel upload of {name}',
 };
 
-const NAME = 'relatorio-anual-2026.pdf';
+const NAME = 'annual-report-2026.pdf';
 
 async function mount(props: Partial<NphFileUploadItem> = {}, width = '30rem'): Promise<NphFileUploadItem> {
   const holder = document.createElement('div');
@@ -161,7 +162,7 @@ describe('the lines of the item', () => {
   });
 
   it('cuts the name on one line with an ellipsis and keeps the whole name in the title', async () => {
-    const long = `${'relatorio-anual-'.repeat(8)}2026.pdf`;
+    const long = `${'annual-report-'.repeat(8)}2026.pdf`;
     const item = await mount({ name: long }, '24rem');
     const name = part(item, '.name') as HTMLElement;
     const style = getComputedStyle(name);
@@ -424,9 +425,9 @@ describe('events', () => {
 
 describe('a saved file: the name is a link with a click area across the row', () => {
   it('draws the name as a link to the address, and as text when there is none', async () => {
-    const done = await mount({ status: 'done', href: '/files/relatorio.pdf' });
+    const done = await mount({ status: 'done', href: '/files/report.pdf' });
     const link = part(done, 'a.name') as HTMLAnchorElement;
-    expect(link.getAttribute('href')).toBe('/files/relatorio.pdf');
+    expect(link.getAttribute('href')).toBe('/files/report.pdf');
     expect(link.textContent?.trim()).toBe(NAME);
     const noHref = await mount({ status: 'done' });
     expect(part(noHref, 'a')).toBeNull();
@@ -534,6 +535,11 @@ describe('the disabled item: disabled wins (rule T11)', () => {
     expect(style.opacity).toBe(resolved('opacity', '--nph-file-upload-disabled-opacity'));
     expect(part(item, '.status')).toBeNull();
     expect(part(item, '.retry')).toBeNull();
+  });
+
+  it('says it to assistive technology, and only when disabled', async () => {
+    expect(row(await mount({ disabled: true })).getAttribute('aria-disabled')).toBe('true');
+    expect(row(await mount()).hasAttribute('aria-disabled')).toBe(false);
   });
 
   it('disables the × for real and takes the name out of the links', async () => {

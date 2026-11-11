@@ -811,6 +811,7 @@ export class NphFileUpload extends LitElement {
         role=${label === '' ? nothing : 'group'}
         aria-label=${label === '' ? nothing : label}
         aria-describedby=${describedBy === '' ? nothing : describedBy}
+        aria-disabled=${this.disabled ? 'true' : nothing}
         data-state=${state}
         data-format=${this.format}
         @dragenter=${(event: DragEvent) => this.onDragEnter(event)}

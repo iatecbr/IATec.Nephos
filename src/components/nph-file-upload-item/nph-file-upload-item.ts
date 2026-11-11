@@ -488,7 +488,7 @@ export class NphFileUploadItem extends LitElement {
     if (this.problem !== null) {
       return nothing;
     }
-    return html`<div class="item" data-status=${this.look} data-kind=${this.kind} data-disabled=${this.disabled ? 'true' : 'false'}>
+    return html`<div class="item" data-status=${this.look} data-kind=${this.kind} data-disabled=${this.disabled ? 'true' : 'false'} aria-disabled=${this.disabled ? 'true' : nothing}>
       ${this.renderBox()}
       <span class="texts"
         >${this.renderName()}${this.metaText() === '' ? nothing : html`<span class="meta">${this.metaText()}</span>`}${this.renderStatus()}</span

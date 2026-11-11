@@ -459,7 +459,20 @@
     "components-nph-tree-validation--width": "Largura",
     "components-nph-tree-validation--container": "Contêiner",
     "components-nph-tree-validation--examples": "Exemplos",
-    "components-nph-tree-validation--brands": "Marcas"
+    "components-nph-tree-validation--brands": "Marcas",
+    "components-nph-file-upload-docs": "Docs",
+    "components-nph-file-upload-docs--documentation": "Documentação",
+    "components-nph-file-upload-validation": "Validação",
+    "components-nph-file-upload-validation--states": "Estados",
+    "components-nph-file-upload-validation--dragging": "Arrastando",
+    "components-nph-file-upload-validation--formats": "Formatos",
+    "components-nph-file-upload-validation--items": "Itens",
+    "components-nph-file-upload-validation--kinds": "Tipos",
+    "components-nph-file-upload-validation--limit": "Limite",
+    "components-nph-file-upload-validation--width": "Largura",
+    "components-nph-file-upload-validation--field": "Campo",
+    "components-nph-file-upload-validation--examples": "Exemplos",
+    "components-nph-file-upload-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7886,7 +7899,17 @@
       "components-nph-tree-validation--width": "O rótulo é cortado numa linha só, com reticências e o texto inteiro num balão, e os níveis recuam um passo cada, sem limite de profundidade.",
       "components-nph-tree-validation--container": "A árvore não tem fundo, borda nem altura própria: o cartão dá a superfície e a rolagem, o item não encolhe, e a borda do item na ponta continua inteira.",
       "components-nph-tree-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: a pasta de destino na seleção single, as permissões por área na seleção multiple com o pai misto, e um ramo que carrega ao lado de um ramo que falhou ao carregar.",
-      "components-nph-tree-validation--brands": "As sete marcas no modo claro e escuro: a superfície, a barra, o chevron, o ícone e a caixa do item escolhido seguem a marca do quadro."
+      "components-nph-tree-validation--brands": "As sete marcas no modo claro e escuro: a superfície, a barra, o chevron, o ícone e a caixa do item escolhido seguem a marca do quadro.",
+      "components-nph-file-upload-validation--states": "Os estados que a página define: vazio, com a regra que diz o que é aceito; erro, com o motivo no lugar da regra; limite, com a frase que diz o limite e o botão desabilitado; e desabilitado, que vence os outros e não deixa borda nem fundo de estado.",
+      "components-nph-file-upload-validation--dragging": "Arrastando é um estado próprio: a história arrasta arquivos sobre a zona, e aparecem as cores da marca, a frase Solte para adicionar os arquivos e o ícone sólido, enquanto o botão sai com o lugar mantido, para a altura não mudar.",
+      "components-nph-file-upload-validation--formats": "Os dois formatos: empilhado e centralizado, e em uma linha. O formato compacto só vale quando a zona tem pelo menos 668 px de largura, lida da zona e não da janela; abaixo disso a zona usa o formato padrão e nunca quebra em linhas. O tamanho grande acompanha o formulário.",
+      "components-nph-file-upload-validation--items": "Os cinco status de um item em uma lista: pronto, enviando com o spinner e a porcentagem, enviado, erro com o motivo e Tentar de novo, e concluído com o nome como link. Com a zona desabilitada, os itens voltam ao visual de pronto.",
+      "components-nph-file-upload-validation--kinds": "O tipo imagem, com a miniatura no nph-image, em todos os status; a última imagem ainda não tem miniatura e mostra o ícone file-image. O tipo arquivo mostra file-lines.",
+      "components-nph-file-upload-validation--limit": "O limite atingido, com o botão desabilitado e a regra que diz como liberar espaço; um arquivo acima do tamanho máximo, que entra como item em erro com o motivo; e um limite ultrapassado, dito pela zona em erro.",
+      "components-nph-file-upload-validation--width": "Um nome que não cabe é cortado em uma linha com reticências e o nome inteiro chega ao leitor de tela; um motivo longo quebra em linhas e o item cresce.",
+      "components-nph-file-upload-validation--field": "A zona como o controle do nph-field, com o rótulo, o asterisco e o texto de apoio do campo e o motivo na zona; e a zona compacta em um formulário com outro campo.",
+      "components-nph-file-upload-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: a zona vazia com a sua regra, a lista em uso com um envio em andamento, um erro e um arquivo concluído, e o limite atingido.",
+      "components-nph-file-upload-validation--brands": "As sete marcas em modo claro e escuro: as cores de arrastando, a caixa do item e o anel de foco seguem a marca."
     }
   },
   "multiComboboxDocs": {
@@ -13409,5 +13432,332 @@
     "destinationTitle": "Escolha a pasta de destino",
     "permissionsTitle": "Marque as permissões por área",
     "loadTitle": "Um ramo que carrega e um ramo que falhou"
+  },
+  "fileUploadDocs": {
+    "summary": "A zona de soltar que recebe arquivos em um formulário, pelo botão ou arrastando, com a lista dos arquivos logo abaixo, cada um com o estado do seu envio.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-file-upload, o design.md para os tokens e docs/decisoes-tecnicas.md para a P119. O arquivo DS-IA-NEPHOS 5.0 no Figma é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Um formulário em que a pessoa anexa vários arquivos a um registro e confere a lista antes de salvar.",
+      "O campo aceita vários arquivos e a pessoa precisa ver, antes de escolher, os formatos, o tamanho e o número aceitos: escreva-os na regra.",
+      "Os arquivos são o centro da seção: o formato padrão.",
+      "A zona divide o formulário com outros campos: o formato compacto, em um contêiner de 668 px ou mais.",
+      "O envio junto com o formulário é o caminho comum: o item em pronto.",
+      "Cada arquivo vale por si, sem botão de salvar: o envio automático, em que a página põe o item em enviando assim que o arquivo chega.",
+      "Mostrar os arquivos já salvos como itens concluídos, com o nome como link que abre o arquivo."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para um arquivo só: use o campo de arquivo único (nph-input-file), não esta zona.",
+      "Para mostrar os arquivos de um registro fora do formulário, em colunas de tabela: isso é uma composição com o nph-data-table.",
+      "Para mostrar o erro só pela cor da zona: a regra vira o motivo, com o circle-xmark.",
+      "Para usar o tamanho compacto no botão ou no botão de remover: use padrão ou grande, como o resto do formulário.",
+      "Para pedir um endereço da web, confirmar uma remoção ou mostrar um estado extra para erro do servidor: estão fora do componente.",
+      "Para fazer da zona inteira um botão: o gatilho é o botão Escolher arquivos; a zona não recebe foco."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "files",
+        "A lista de arquivos, só como propriedade, e a página é dona dela: a zona não guarda lista, não envia nada e não tem associação ao formulário. Cada entrada é { id, name, size, format, kind, status, progress, reason, href, thumbnail, file }; id (único) e name são obrigatórios. status é ready (padrão), uploading (exige progress de 0 a 100), sent, error ou done (exige href para abrir o arquivo)."
+      ],
+      [
+        "format",
+        "default (empilhado e centralizado) ou compact (uma linha). O formato compacto só vale quando a zona tem pelo menos 668 px de largura. Refletido no atributo."
+      ],
+      [
+        "accept, max-size e max-files",
+        "O que a zona aceita: os tipos como o campo de arquivo nativo os escreve (.pdf, image/*), o maior arquivo em bytes e o máximo de arquivos na lista. A zona fica no estado de limite quando max-files é atingido."
+      ],
+      [
+        "error",
+        "O motivo de um erro da zona. Preenchido, a zona vai ao estado de erro e o motivo ocupa o lugar da regra. A zona nunca fica vermelha sem um motivo."
+      ],
+      [
+        "disabled e size",
+        "disabled esmaece a zona inteira e vence erro, limite e arrastando. size é default (padrão) ou large, o tamanho do formulário para os botões; compact é inválido."
+      ],
+      [
+        "label, description, invalid e required",
+        "O contrato campo–controle do nph-field, que os escreve: o label nomeia o grupo, a description o descreve, invalid com uma mensagem põe a zona em erro, e required só reflete."
+      ],
+      [
+        "prompt, button-text, dragging-text, rule, limit-text e limit-rule",
+        "Os textos da zona, já traduzidos: a frase, o botão, a frase durante o arraste, a regra que diz o que é aceito, e a frase e a regra do limite."
+      ],
+      [
+        "uploading-text, sent-text, done-text, retry-text, remove-label e cancel-label",
+        "Os textos dos itens, já traduzidos. uploading-text tem {progress}; remove-label e cancel-label têm {name}, preenchido com o nome do arquivo."
+      ],
+      [
+        "added-text, sent-announcement, error-announcement e removed-announcement",
+        "As mensagens da região viva, já traduzidas, com {count}, {name} e {reason}."
+      ],
+      [
+        "nph-file-upload-add",
+        "O evento disparado quando a pessoa escolhe ou solta arquivos, com detail { files, rejected }: os arquivos que passam, e os outros com o motivo type, size ou count. Borbulha e é composto. Definir files por código não dispara nada."
+      ],
+      [
+        "nph-file-upload-remove e nph-file-upload-retry",
+        "Os eventos de um item: detail { id, cancel } e { id }. Borbulham e são compostos. A zona não remove nada: a página tira a entrada de files."
+      ],
+      [
+        "nph-file-upload-item",
+        "A segunda tag da peça, a linha de um arquivo. A zona desenha uma para cada entrada; ela também funciona sozinha como a linha de uma lista de arquivos salvos."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-file-upload id=\"attachments\" label=\"Anexos\" accept=\".pdf,.png,.jpg\" max-size=\"5000000\" max-files=\"5\" prompt=\"Arraste os arquivos aqui ou\" button-text=\"Escolher arquivos\" dragging-text=\"Solte para adicionar os arquivos\" rule=\"PDF, PNG ou JPG · até 5 MB · até 5 arquivos\" limit-text=\"Limite de 5 arquivos atingido\" limit-rule=\"Remova um arquivo para adicionar outro.\" uploading-text=\"Enviando · {progress}%\" sent-text=\"Enviado\" done-text=\"Salvo\" retry-text=\"Tentar de novo\" remove-label=\"Remover {name}\" cancel-label=\"Cancelar o envio de {name}\"></nph-file-upload>\n<script>\n  const zone = document.getElementById('attachments');\n  zone.files = [];\n  zone.addEventListener('nph-file-upload-add', (event) => {\n    zone.files = [...zone.files, ...event.detail.files.map((file) => ({ id: crypto.randomUUID(), name: file.name, size: file.size, file }))];\n  });\n</script>",
+    "usageTag": "A tag da peça. Os arquivos vêm como dados na propriedade files, definida por JavaScript; a página ouve os três eventos, muda files e a zona desenha, move o foco e anuncia.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-file-upload (5311:8328); docs/decisoes-tecnicas.md › P119",
+    "statesTitle": "Estados da zona",
+    "statesCaption": "A zona vazia, com erro, no limite e desabilitada. Hover e foco vêm do botão; arrastando aparece quando arquivos passam sobre a zona.",
+    "statesUseHeader": [
+      "Estado",
+      "O que mostra"
+    ],
+    "statesUse": [
+      {
+        "value": "empty",
+        "label": "Uma borda tracejada, o ícone de nuvem em light, a frase, o botão Escolher arquivos e a regra que diz os formatos, o tamanho e o limite."
+      },
+      {
+        "value": "hover e focus",
+        "label": "O ponteiro ou o foco do teclado no botão muda o botão e deixa o ícone sólido. A borda não muda, e longe do botão a zona não reage."
+      },
+      {
+        "value": "dragging",
+        "label": "As cores da marca, a frase Solte para adicionar os arquivos e o ícone sólido. O botão sai com o lugar mantido, para a altura não mudar."
+      },
+      {
+        "value": "error",
+        "label": "As cores de erro e o motivo no lugar da regra, com o circle-xmark. O botão fica, para a pessoa tentar de novo."
+      },
+      {
+        "value": "limit",
+        "label": "As cores de aviso, a frase que diz o limite, a regra que diz como liberar espaço e o botão desabilitado."
+      },
+      {
+        "value": "disabled",
+        "label": "A zona inteira esmaecida, com um disabled de verdade no botão. Desabilitado vence erro, limite e arrastando."
+      }
+    ],
+    "itemsTitle": "Os itens da lista",
+    "itemsCaption": "Os cinco status de um item, e o tipo imagem com a sua miniatura.",
+    "itemsUseHeader": [
+      "Status",
+      "O que mostra"
+    ],
+    "itemsUse": [
+      {
+        "value": "ready",
+        "label": "O arquivo está escolhido e vai junto com o formulário: o nome, depois o formato e o tamanho."
+      },
+      {
+        "value": "uploading",
+        "label": "O spinner e Enviando · 64%, sem barra. O progresso está no texto e em uma barra de progresso, sem anúncio a cada percentual."
+      },
+      {
+        "value": "sent",
+        "label": "O circle-check e a palavra, nas cores de sucesso."
+      },
+      {
+        "value": "error",
+        "label": "O motivo com o circle-xmark e Tentar de novo. O item cresce quando o motivo quebra em linhas."
+      },
+      {
+        "value": "done",
+        "label": "O arquivo já está salvo: o nome é um link que o abre, com a área de clique na linha toda. No hover o nome fica sublinhado e a borda muda; no foco o anel desenha a linha inteira."
+      },
+      {
+        "value": "image",
+        "label": "O tipo com miniatura no nph-image, 32 por 32, recortada do arquivo escolhido em 64 por 64. Sem miniatura ainda, o ícone file-image."
+      }
+    ],
+    "choiceTitle": "Escolher, validar e a lista",
+    "choiceCaption": "A zona dentro do nph-field, com o rótulo, o texto de apoio e uma lista em uso.",
+    "choice": [
+      "O botão Escolher arquivos abre o seletor de arquivos do sistema e a zona recebe os arquivos soltos. Arrastar nunca é o único caminho: o botão é a alternativa. A zona inteira não é um botão e não recebe foco.",
+      "A zona confere o que a pessoa escolheu, arquivo por arquivo e nesta ordem: o tipo, o tamanho e a vaga que sobra em max-files. Dispara nph-file-upload-add com os arquivos que passam e com os que não passam, cada um com o seu motivo.",
+      "A página decide o que mostrar. Ela põe os arquivos aceitos em files, como ready, ou como uploading quando o envio é automático; põe um arquivo acima do tamanho como item em erro com o motivo; e diz um tipo não aceito ou um limite ultrapassado no erro da zona.",
+      "A zona é controlada: não guarda lista, não envia nada e não tem associação ao formulário. A página define o status e o progresso de cada arquivo, tira uma entrada de files quando a pessoa a remove e envia o arquivo de novo em Tentar de novo.",
+      "A região viva diz o que foi adicionado, enviado, falhou e removido, comparando a lista antes e depois. Não diz nada na primeira renderização, e um arquivo que chega concluído não é adicionado.",
+      "Depois de uma remoção o foco vai ao botão de remover do próximo item, depois do anterior, depois ao botão. Depois de Tentar de novo vai ao botão de remover do mesmo item, porque o botão de tentar sai."
+    ],
+    "widthTitle": "Formatos e largura",
+    "widthCaption": "O formato compacto em 48rem, o mesmo formato em um contêiner mais estreito e um nome longo que é cortado.",
+    "width": [
+      "O formato padrão empilha o ícone, a frase, o botão e a regra, centralizados, e tem 186 de altura. O formato compacto é uma linha, com 66 de altura, para um formulário com outros campos.",
+      "O formato compacto só vale quando a zona tem pelo menos 668 px de largura, lida da zona e não da janela. Abaixo disso a zona usa o formato padrão e nunca quebra em linhas.",
+      "A zona se estica até a largura de onde mora e não traz nenhuma própria: em um pai que se ajusta ao conteúdo, dê uma largura a ela.",
+      "A lista não tem rolagem própria. Ela cresce para baixo, item abaixo de item, e rola com a página, até o limite de arquivos da regra.",
+      "O nome de um arquivo é cortado em uma linha com reticências, e o nome inteiro chega ao leitor de tela pelo link e pelo botão de remover. O motivo e o status quebram em linhas e o item cresce."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "O que faz"
+    ],
+    "keyboard": [
+      [
+        "Tab e Shift+Tab",
+        "Movem o foco ao botão Escolher arquivos e depois por cada item na ordem visual: o link do nome de um arquivo concluído, Tentar de novo em um erro e o botão de remover. A zona não recebe foco."
+      ],
+      [
+        "Enter e Espaço",
+        "No botão, abrem o seletor de arquivos do sistema. No botão de remover, removem o arquivo ou cancelam o envio. Em Tentar de novo, enviam o arquivo outra vez."
+      ],
+      [
+        "Enter no link do nome",
+        "Abre o arquivo salvo. O Espaço não faz nada, como em um link."
+      ],
+      [
+        "Depois do seletor",
+        "Quando ele fecha, com arquivos ou sem, o foco volta ao botão Escolher arquivos."
+      ],
+      [
+        "Depois de uma remoção",
+        "O foco vai ao botão de remover do próximo item, depois do anterior, depois ao botão. Só se move se foi perdido."
+      ],
+      [
+        "Ponteiro",
+        "O hover no botão o pinta e deixa o ícone sólido; o hover não move o foco. Arrastar arquivos sobre a zona é um estado próprio."
+      ],
+      [
+        "Esc",
+        "Não se aplica: a peça não abre camada flutuante."
+      ]
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "A zona ocupa o lugar do controle do nph-field, que traz o rótulo, o asterisco e o texto de apoio. O motivo do erro fica na zona, no lugar da regra.",
+      "Funciona com o nph-button (Escolher arquivos, Tentar de novo e o botão de remover), o nph-icon, o nph-spinner (o envio em andamento) e o nph-image (a miniatura).",
+      "Para um arquivo só, use o campo de arquivo único (nph-input-file). Os arquivos de um registro fora do formulário, em colunas de tabela, são uma composição com o nph-data-table."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Zona",
+        "A área de soltar, com borda tracejada, canto e espaçamento próprios. Recebe os arquivos soltos."
+      ],
+      [
+        "Ícone",
+        "O cloud-arrow-up do nph-icon, em light no vazio e no desabilitado e sólido em hover, foco, arrastando, erro e limite."
+      ],
+      [
+        "Frase e botão",
+        "A frase e o botão Escolher arquivos, secondary solid, que abre o seletor. Durante o arraste a frase muda e o botão sai com o lugar mantido."
+      ],
+      [
+        "Regra",
+        "Os formatos, o tamanho máximo e o limite em uma linha. No erro vira o motivo com o circle-xmark; no limite diz como liberar espaço."
+      ],
+      [
+        "Item",
+        "Uma caixa com o ícone file-lines, ou a miniatura; o nome; o formato e o tamanho; e a linha de status."
+      ],
+      [
+        "Ações do item",
+        "Tentar de novo, só em um erro, e o botão de remover, em todos os status, no fim da linha."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Um grupo nomeado pelo rótulo, com o botão, a regra e a lista. A zona não é um botão. O progresso é uma barra de progresso na linha de status do item. O nome de um arquivo concluído é um link cuja área de clique se estica pela linha, e o botão de remover é um irmão."
+      ],
+      [
+        "Nome acessível",
+        "O botão usa o seu texto visível. O botão de remover traz o nome do arquivo: Remover X, ou Cancelar o envio de X durante o envio."
+      ],
+      [
+        "Região viva",
+        "Uma região polida anuncia os arquivos adicionados, enviados, que falharam e removidos, sem mover o foco, e nada a cada percentual do progresso."
+      ],
+      [
+        "Descrição",
+        "A regra e o motivo descrevem o grupo da zona. O nph-button não repassa aria-describedby para dentro da sua própria sombra, então a descrição não está no botão em si."
+      ],
+      [
+        "Contraste e cor",
+        "O texto cumpre 4,5:1 nos dois temas. A borda tracejada não identifica o controle, o botão identifica. Todo estado colorido tem texto e ícone."
+      ],
+      [
+        "Tamanho do alvo",
+        "O botão e o botão de remover usam o tamanho do formulário, padrão ou grande, nunca compacto: pelo menos 24 por 24."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: a zona vazia com a sua regra; a lista em uso, com um envio em andamento, um erro e um arquivo concluído; e o limite atingido.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-file-upload — propósito, estados, comportamento, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P119 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens file-upload/* e file-upload-item/* e os tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — quadro de documentação nph-file-upload (5311:8328).",
+      "WAI-ARIA APG, padrão Button; WCAG 2.2, 2.4.3 Ordem do foco, 2.5.7 Movimentos de arrastar e 4.1.3 Mensagens de status.",
+      "Salt, React Aria, GOV.UK e Carbon — a zona de soltar arquivos e o envio de arquivos."
+    ],
+    "sourceSpec": "Ficha do nph-file-upload; Figma, quadro nph-file-upload (5311:8328)",
+    "sourceApi": "Ficha do nph-file-upload; docs/decisoes-tecnicas.md › P119",
+    "sourceAnatomy": "Figma, conjuntos 5297:7473 e 5298:7669; design.md",
+    "matrixLabel": "Matriz do componente"
+  },
+  "fileUploadValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "fieldLabel": "Anexos",
+    "fieldHelp": "Anexe o contrato assinado e os documentos de apoio.",
+    "prompt": "Arraste os arquivos aqui ou",
+    "buttonText": "Escolher arquivos",
+    "draggingText": "Solte para adicionar os arquivos",
+    "rule": "PDF, PNG ou JPG · até 5 MB · até 5 arquivos",
+    "limitText": "Limite de 5 arquivos atingido",
+    "limitRule": "Remova um arquivo para adicionar outro.",
+    "uploadingText": "Enviando · {progress}%",
+    "sentText": "Enviado",
+    "doneText": "Salvo",
+    "retryText": "Tentar de novo",
+    "removeLabel": "Remover {name}",
+    "cancelLabel": "Cancelar o envio de {name}",
+    "addedText": "{count} arquivos adicionados",
+    "sentAnnouncement": "{name} enviado",
+    "errorAnnouncement": "Erro: {name} não foi enviado. {reason}",
+    "removedAnnouncement": "{name} removido",
+    "typeError": "Tipo de arquivo não aceito. Use PDF, PNG ou JPG.",
+    "countError": "Você pode anexar até 5 arquivos.",
+    "fileReport": "relatorio-anual-2026.pdf",
+    "fileContract": "contrato-assinado.pdf",
+    "fileMinutes": "ata-da-reuniao.pdf",
+    "filePhoto": "foto-da-equipe.png",
+    "fileLogo": "logotipo-da-empresa.jpg",
+    "fileLong": "relatorio-anual-do-exercicio-2026-com-todos-os-anexos-assinados-e-a-revisao-final.pdf",
+    "networkReason": "Falha de rede durante o envio.",
+    "sizeReason": "O arquivo é maior que 5 MB.",
+    "otherLabel": "Nome do projeto",
+    "otherValue": "Nephos"
   }
 }

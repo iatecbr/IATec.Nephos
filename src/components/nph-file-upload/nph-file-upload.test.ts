@@ -11,6 +11,7 @@
  * contract.
  */
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { MockInstance } from 'vitest';
 import { userEvent } from 'vitest/browser';
 
 import '@fontsource/noto-sans/latin-400.css';
@@ -40,8 +41,8 @@ beforeAll(async () => {
 /** The listeners a test puts on the page; aborted at the end of each test, so none leaks into the next. */
 let listeners = new AbortController();
 
-let errors: ReturnType<typeof vi.spyOn>;
-let warnings: ReturnType<typeof vi.spyOn>;
+let errors: MockInstance<typeof console.error>;
+let warnings: MockInstance<typeof console.warn>;
 
 beforeEach(() => {
   errors = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -77,9 +78,9 @@ const TEXTS = {
 };
 
 const FILES: NphFileUploadEntry[] = [
-  { id: 'a', name: 'relatorio-anual-2026.pdf', size: 2_400_000, status: 'uploading', progress: 64 },
-  { id: 'b', name: 'contrato.pdf', size: 800_000, status: 'error', reason: 'Network failure while uploading.' },
-  { id: 'c', name: 'ata-reuniao.pdf', size: 120_000, status: 'done', href: '/files/ata.pdf' },
+  { id: 'a', name: 'annual-report-2026.pdf', size: 2_400_000, status: 'uploading', progress: 64 },
+  { id: 'b', name: 'contract.pdf', size: 800_000, status: 'error', reason: 'Network failure while uploading.' },
+  { id: 'c', name: 'meeting-minutes.pdf', size: 120_000, status: 'done', href: '/files/ata.pdf' },
 ];
 
 /** A zone in a block of its own width, so the container query has a width to read. */
@@ -364,6 +365,11 @@ describe('the states of the zone', () => {
     expect(getComputedStyle(area(zone)).opacity).toBe(resolved('opacity', '--nph-file-upload-disabled-opacity'));
     expect(nativeButton(zone).disabled).toBe(true);
     expect((part(zone, '.input') as HTMLInputElement).disabled).toBe(true);
+  });
+
+  it('disabled: the zone says it to assistive technology, and is not disabled otherwise', async () => {
+    expect(area(await mount({ disabled: true })).getAttribute('aria-disabled')).toBe('true');
+    expect(area(await mount()).hasAttribute('aria-disabled')).toBe(false);
   });
 
   it('error + disabled and limit + disabled: disabled wins, with no state border and no state background', async () => {
