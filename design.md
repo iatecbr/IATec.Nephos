@@ -571,12 +571,12 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1. Also the clickable nph-stepper step (stepper/focus-border), with no hover background under the focus. Also the focus border of the nph-tree item (tree/focus-border), drawn inside the row, with no hover background under the focus."
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1. Also the clickable nph-stepper step (stepper/focus-border), with no hover background under the focus. Also the focus border of the nph-tree item (tree/focus-border), drawn inside the row, with no hover background under the focus. Also the focus border of the nph-panel-menu subgroup (panel-menu/focus-border)."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
     escuro: theme/brand-halo-dark
-    use: "Focus HALO: the band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo and in dark mode to theme/brand-halo-dark, the tones chosen per brand so the focus border stays visible against the halo. It exists so the component does not point directly at the brand layer."
+    use: "Focus HALO: the band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo and in dark mode to theme/brand-halo-dark, the tones chosen per brand so the focus border stays visible against the halo. It exists so the component does not point directly at the brand layer. Also the focus halo of the nph-panel-menu subgroup (panel-menu/focus-ring)."
   focus/halo-info:
     css: '--nph-focus-halo-info'
     claro: core/info/200
@@ -1106,12 +1106,12 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline."
+    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline. Also the gap between the rows of the nph-panel-menu list, section, second and third level and loading rows (panel-menu/item-gap)."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
     valor: 8
-    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline)."
+    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item."
   space/stack-tight:
     css: '--nph-space-stack-tight'
     alias: core/space/100
@@ -1121,7 +1121,7 @@ tokens_space:
     css: '--nph-space-stack'
     alias: core/space/400
     valor: 16
-    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel."
+    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel. Also the gap between the main list and each section of the nph-panel-menu (panel-menu/section-gap)."
   space/section:
     css: '--nph-space-section'
     alias: core/space/700
@@ -1131,7 +1131,7 @@ tokens_space:
     css: '--nph-space-control-padding'
     alias: core/space/300
     valor: 12
-    use: "Inner horizontal padding of button, field and select - what is operated - the sides of the nph-badge and of the nph-tabs tab (tabs/item-padding-x). DO NOT USE on a card."
+    use: "Inner horizontal padding of button, field and select - what is operated - the sides of the nph-badge and of the nph-tabs tab (tabs/item-padding-x). DO NOT USE on a card. Also the gap between the icon place and the text line of the nph-panel-menu loading row (panel-menu/skeleton-gap), as the approved nph-sidebar loading row."
   space/container-padding:
     css: '--nph-space-container-padding'
     alias: core/space/400
@@ -1141,7 +1141,7 @@ tokens_space:
     css: '--nph-space-stack-snug'
     alias: core/space/200
     valor: 8
-    use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack. Also the gap between the icon, the action line and the rule of the nph-file-upload drop zone in the default format (file-upload/gap)."
+    use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack. Also the gap between the icon, the action line and the rule of the nph-file-upload drop zone in the default format (file-upload/gap). Also the gap between the section label and its items in the nph-panel-menu (panel-menu/label-gap): the vertical space after a header."
   space/inline-loose:
     css: '--nph-space-inline-loose'
     alias: core/space/300
@@ -1182,7 +1182,7 @@ tokens_control:
     css: '--nph-control-height-default'
     alias: core/control-height/default
     valor: 36
-    use: "Default height of button, field and select. When in doubt, it is this one. Also the height of the nph-tree item and of its error row (tree/item-height)."
+    use: "Default height of button, field and select. When in doubt, it is this one. Also the height of the nph-tree item and of its error row (tree/item-height). Also the height of the nph-panel-menu subgroup (panel-menu/subgroup-height)."
   control/height-large:
     css: '--nph-control-height-large'
     alias: core/control-height/large
@@ -1634,12 +1634,12 @@ tokens_alpha:
     css: '--nph-focus-ring-width'
     alias: core/focus-width/default
     valor: 4
-    use: "The thickness of EVERY focus ring: 4px, equal in both modes. NEVER pick it by hand: apply one of the focus-ring/* styles or the focus halo of rule 6. DO NOT reduce it to 1 or 2 on a small piece - the ring is what makes the product keyboard-navigable. WCAG 2.2 asks for at least 2px."
+    use: "The thickness of EVERY focus ring: 4px, equal in both modes. NEVER pick it by hand: apply one of the focus-ring/* styles or the focus halo of rule 6. DO NOT reduce it to 1 or 2 on a small piece - the ring is what makes the product keyboard-navigable. WCAG 2.2 asks for at least 2px. Also the thickness of the focus halo of the nph-panel-menu subgroup (panel-menu/focus-ring-width)."
   border/width:
     css: '--nph-border-width'
     alias: core/border-width/default
     valor: 1
-    use: "Thickness of border and of control, box and line outline."
+    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width)."
   focus/border-radius-control:
     css: '--nph-focus-border-radius-control'
     alias: core/radius/off-scale/7
@@ -1678,7 +1678,7 @@ tokens_alpha:
   state/disabled-opacity:
     css: '--nph-state-disabled-opacity'
     valor: 0.5
-    use: "Opacity of the disabled control, applied to the WHOLE control. WCAG exempts a disabled element from the minimum contrast, but disabled is NEVER the only sign: the control also stops responding and, when there is a reason, it is stated in text. Also the whole disabled nph-tree item (tree/item-disabled-opacity)."
+    use: "Opacity of the disabled control, applied to the WHOLE control. WCAG exempts a disabled element from the minimum contrast, but disabled is NEVER the only sign: the control also stops responding and, when there is a reason, it is stated in text. Also the whole disabled nph-tree item (tree/item-disabled-opacity). Also the whole disabled nph-panel-menu subgroup (panel-menu/subgroup-disabled-opacity)."
   state/hover-opacity:
     css: '--nph-state-hover-opacity'
     valor: 0.95
@@ -1972,12 +1972,12 @@ tokens_motion:
     css: '--nph-motion-expand-duration'
     alias: core/duration/300
     valor: 250
-    use: "Piece that grows or shrinks IN PLACE: accordion, expandable panel, table row that opens."
+    use: "Piece that grows or shrinks IN PLACE: accordion, expandable panel, table row that opens. Also the turn of the arrow and the growth of the block of the nph-panel-menu subgroup and group (panel-menu/expand-duration)."
   motion/expand-easing:
     css: '--nph-motion-expand-easing'
     alias: core/easing/standard
     valor: 'cubic-bezier(0.4, 0, 0.2, 1)'
-    use: "The curve of the expand role. USE always together with motion/expand-duration."
+    use: "The curve of the expand role. USE always together with motion/expand-duration. Also the curve of the nph-panel-menu expansion (panel-menu/expand-easing)."
 
   motion/loop-duration:
     css: '--nph-motion-loop-duration'
@@ -2050,12 +2050,12 @@ tokens_icon:
     css: '--nph-icon-size-sm'
     alias: core/icon-size/100
     valor: 16
-    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size)."
+    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size). Also the arrow of the nph-panel-menu subgroup (panel-menu/subgroup-icon-size)."
   icon/size-md:
     css: '--nph-icon-size-md'
     alias: core/icon-size/200
     valor: 20
-    use: "Menu item, tab and highlighted action, where 16 is small next to the label. DO NOT USE inside a button with text. On the icon-only nph-button, the icon follows the box: md in default."
+    use: "Menu item, tab and highlighted action, where 16 is small next to the label. DO NOT USE inside a button with text. On the icon-only nph-button, the icon follows the box: md in default. Also the icon place of the nph-panel-menu loading row (panel-menu/skeleton-icon-size)."
   icon/size-lg:
     css: '--nph-icon-size-lg'
     alias: core/icon-size/300

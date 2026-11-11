@@ -729,6 +729,8 @@
   --nph-tree-item-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-tree-indicator-width: var(--nph-core-focus-width-sm);
   --nph-tree-focus-border-width: var(--nph-core-focus-width-sm);
+  --nph-panel-menu-subgroup-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-panel-menu-nest-gap: var(--nph-core-space-300);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
@@ -920,6 +922,27 @@
   --nph-tree-toggle-padding: var(--nph-space-inline-tight);
   --nph-tree-icon-size: var(--nph-icon-size-sm);
   --nph-tree-focus-border-radius: var(--nph-radius-control);
+  --nph-panel-menu-subgroup-height: var(--nph-control-height-default);
+  --nph-panel-menu-subgroup-padding-x: var(--nph-sidebar-item-padding);
+  --nph-panel-menu-subgroup-padding-y: var(--nph-space-inline);
+  --nph-panel-menu-subgroup-gap: var(--nph-space-inline);
+  --nph-panel-menu-subgroup-radius: var(--nph-sidebar-item-radius);
+  --nph-panel-menu-subgroup-icon-size: var(--nph-icon-size-sm);
+  --nph-panel-menu-focus-border-width: var(--nph-border-width);
+  --nph-panel-menu-focus-border-radius: var(--nph-focus-border-radius-sidebar-item);
+  --nph-panel-menu-focus-ring-width: var(--nph-focus-ring-width);
+  --nph-panel-menu-focus-radius: var(--nph-focus-radius-sidebar-item);
+  --nph-panel-menu-nest-padding: var(--nph-sidebar-item-padding);
+  --nph-panel-menu-guide-width: var(--nph-border-width);
+  --nph-panel-menu-item-gap: var(--nph-space-inline-tight);
+  --nph-panel-menu-section-gap: var(--nph-space-stack);
+  --nph-panel-menu-label-gap: var(--nph-space-stack-snug);
+  --nph-panel-menu-expand-duration: var(--nph-motion-expand-duration);
+  --nph-panel-menu-expand-easing: var(--nph-motion-expand-easing);
+  --nph-panel-menu-skeleton-row-height: var(--nph-sidebar-item-height);
+  --nph-panel-menu-skeleton-row-padding: var(--nph-sidebar-item-padding);
+  --nph-panel-menu-skeleton-gap: var(--nph-space-control-padding);
+  --nph-panel-menu-skeleton-icon-size: var(--nph-icon-size-md);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1141,6 +1164,7 @@
   --nph-tree-toggle-foreground: var(--nph-color-muted-foreground);
   --nph-tree-icon-foreground: var(--nph-color-muted-foreground);
   --nph-tree-error-icon-foreground: var(--nph-status-error);
+  --nph-panel-menu-subgroup-foreground: var(--nph-sidebar-item-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
@@ -1217,6 +1241,11 @@
   --nph-tree-toggle-foreground-selected: var(--nph-color-primary-text);
   --nph-tree-icon-foreground-selected: var(--nph-color-primary-text);
   --nph-tree-focus-border: var(--nph-focus-border);
+  --nph-panel-menu-focus-border: var(--nph-focus-border);
+  --nph-panel-menu-focus-ring: var(--nph-focus-halo);
+  --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
+  --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
+  --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
