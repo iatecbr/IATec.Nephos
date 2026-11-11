@@ -1247,7 +1247,14 @@ describe('token contract', () => {
       expect(designMd, token).toContain(`  ${token}:`);
     }
     expect(designMd).toMatch(/Width of the nph-switch track: 40\. USE only on the nph-switch track, with the height of icon\/size-lg \(24\)/);
-    expect(designMd).toMatch(/focus\/border[\s\S]{0,600}Applies to checkbox, radio and switch/);
+    /* The entry of `focus/border` in design.md, from its key to the next key. Other pieces append their own
+       sentence to the `use` of a token, so a fixed window after the key goes stale; the sentence of this
+       piece must be inside the entry itself. */
+    const start = designMd.indexOf('\n  focus/border:\n');
+    const end = designMd.indexOf('\n  focus/halo:', start);
+    expect(start).toBeGreaterThan(-1);
+    expect(end).toBeGreaterThan(start);
+    expect(designMd.slice(start, end)).toContain('Applies to checkbox, radio and switch');
     expect(designMd).toMatch(/switch knob/);
     /* Reduced motion asks for core/duration/100; the piece uses its semantic alias, which design.md ties to the same core token. */
     expect(designMd).toMatch(/motion\/hover-duration:\s*\n\s*css: '--nph-motion-hover-duration'\s*\n\s*alias: core\/duration\/100/);
