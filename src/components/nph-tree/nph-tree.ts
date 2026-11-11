@@ -679,8 +679,21 @@ export class NphTree extends LitElement {
 
   /* ----- state changes ------------------------------------------------------ */
 
-  private dispatch<T>(name: string, detail: T): void {
-    this.dispatchEvent(new CustomEvent<T>(name, { detail, bubbles: true, composed: true }));
+  /* Each event is built with its own literal name, so the manifest of the package lists it. */
+  private emitToggle(detail: NphTreeToggleDetail): void {
+    this.dispatchEvent(new CustomEvent<NphTreeToggleDetail>('nph-tree-toggle', { detail, bubbles: true, composed: true }));
+  }
+
+  private emitSelect(detail: NphTreeSelectDetail): void {
+    this.dispatchEvent(new CustomEvent<NphTreeSelectDetail>('nph-tree-select', { detail, bubbles: true, composed: true }));
+  }
+
+  private emitCheck(detail: NphTreeCheckDetail): void {
+    this.dispatchEvent(new CustomEvent<NphTreeCheckDetail>('nph-tree-check', { detail, bubbles: true, composed: true }));
+  }
+
+  private emitLoad(detail: NphTreeLoadDetail): void {
+    this.dispatchEvent(new CustomEvent<NphTreeLoadDetail>('nph-tree-load', { detail, bubbles: true, composed: true }));
   }
 
   private setActive(key: string): void {
@@ -694,10 +707,10 @@ export class NphTree extends LitElement {
     if (open) next.add(row.node.id);
     else next.delete(row.node.id);
     this.expanded = [...next];
-    this.dispatch<NphTreeToggleDetail>('nph-tree-toggle', { id: row.node.id, expanded: open });
+    this.emitToggle({ id: row.node.id, expanded: open });
     if (open && NphTree.unloaded(row.node) && row.node.error !== true && row.node.loading !== true && !this.loadAsked.has(row.node.id)) {
       this.loadAsked.add(row.node.id);
-      this.dispatch<NphTreeLoadDetail>('nph-tree-load', { id: row.node.id, retry: false });
+      this.emitLoad({ id: row.node.id, retry: false });
     }
   }
 
@@ -743,14 +756,14 @@ export class NphTree extends LitElement {
     const id = row.node.id;
     this.retrying.set(id, row.node);
     this.requestUpdate();
-    this.dispatch<NphTreeLoadDetail>('nph-tree-load', { id, retry: true });
+    this.emitLoad({ id, retry: true });
   }
 
   /** Chooses an item in single selection. A choice that does not change fires nothing. */
   private choose(row: Row): void {
     if (this.selected === row.node.id) return;
     this.selected = row.node.id;
-    this.dispatch<NphTreeSelectDetail>('nph-tree-select', { id: row.node.id });
+    this.emitSelect({ id: row.node.id });
   }
 
   /** Checks or unchecks an item in multiple selection: a mixed or an unchecked item gets checked, a checked one unchecked. */
@@ -780,7 +793,7 @@ export class NphTree extends LitElement {
     }
     const value = this.checkedIds(this.computeChecks(next));
     this.checked = value;
-    this.dispatch<NphTreeCheckDetail>('nph-tree-check', { id, checked, value });
+    this.emitCheck({ id, checked, value });
   }
 
   /** What the row does when the person activates it, as a click on the row and as Enter do. */

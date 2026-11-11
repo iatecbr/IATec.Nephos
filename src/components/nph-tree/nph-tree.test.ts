@@ -18,6 +18,7 @@ import '@fontsource/noto-sans/latin-600.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-tree.css?raw';
+import componentSource from './nph-tree.ts?raw';
 import { NPH_TREE_SELECTIONS, NPH_TREE_SKELETON_ROWS, NphTree } from './nph-tree';
 import type { NphTreeCheckDetail, NphTreeLoadDetail, NphTreeNode, NphTreeSelectDetail, NphTreeToggleDetail } from './nph-tree';
 import { BRANDS } from '../../shared/docs/brands';
@@ -1793,6 +1794,15 @@ describe('color scheme', () => {
     const after = getComputedStyle(face(tree, 'docs')).backgroundColor;
     expect(after).not.toBe(before);
     expect(after).toBe(inside(holder, '--nph-tree-item-background-selected'));
+  });
+});
+
+describe('the manifest of the package', () => {
+  it('each event is built with its own literal name, so the analyzer lists the four of them', () => {
+    for (const name of ['nph-tree-toggle', 'nph-tree-select', 'nph-tree-check', 'nph-tree-load']) {
+      expect(componentSource, name).toContain(`new CustomEvent<`);
+      expect(componentSource, name).toMatch(new RegExp(`new CustomEvent<\\w+>\\('${name}'`));
+    }
   });
 });
 
