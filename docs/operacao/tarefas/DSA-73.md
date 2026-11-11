@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 720,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-stepper",
   "dependencies": [
     "DSA-03",
@@ -25,11 +25,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 406d9fa4c1df869b6253d6045e0ec55d1732cf17 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-73/review-and-merge-2026-11-11.md",
+      "result": "passed",
+      "verified_at": "2026-11-11",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -66,7 +66,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-73/figma-docs-accepted-2026-11-10.md"
+    "docs/operacao/evidencias/DSA-73/figma-docs-accepted-2026-11-10.md",
+    "docs/operacao/evidencias/DSA-73/review-and-merge-2026-11-11.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -80,8 +81,8 @@
     "excerpt": null,
     "converted_decision": "The nph-stepper documentation frame (5569:6530, page 1626:36) was accepted as the API and behavior specification of nph-stepper. COMPONENT_SET nph-stepper (5541:1622), 27 variants; the step set (5540:581), 13 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-73-stepper", "commit": null, "pr": 166 },
-  "context": "docs/operacao/contextos/DSA-73.md",
+  "git_review": { "branch": "feat/dsa-73-stepper", "commit": "406d9fa4c1df869b6253d6045e0ec55d1732cf17", "pr": 166 },
+  "context": null,
   "updated_at": "2026-11-11"
 }
 ```
