@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 740,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "done",
   "piece": "nph-tree",
   "dependencies": [
     "DSA-03",
@@ -28,11 +28,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor b0b20eb58b15910568143067ac34dfa21cf5b5be origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-75/review-and-merge-2026-11-11.md",
+      "result": "passed",
+      "verified_at": "2026-11-11",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -51,7 +51,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-75/figma-docs-accepted-2026-11-11.md"
+    "docs/operacao/evidencias/DSA-75/figma-docs-accepted-2026-11-11.md",
+    "docs/operacao/evidencias/DSA-75/review-and-merge-2026-11-11.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -65,8 +66,8 @@
     "excerpt": null,
     "converted_decision": "The nph-tree documentation frame (5876:216753, page 1626:35) was accepted as the API and behavior specification of nph-tree. COMPONENT_SET nph-tree item set (5485:350), COMPONENT_SET nph-tree group set (5485:421) and COMPONENT_SET nph-tree (5485:766). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-75-tree", "commit": null, "pr": 167 },
-  "context": "docs/operacao/contextos/DSA-75.md",
+  "git_review": { "branch": "feat/dsa-75-tree", "commit": "b0b20eb58b15910568143067ac34dfa21cf5b5be", "pr": 167 },
+  "context": null,
   "updated_at": "2026-11-11"
 }
 ```
