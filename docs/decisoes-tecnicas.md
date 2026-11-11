@@ -7791,7 +7791,10 @@ list is a mount: the zone alone, no error. The names follow P64.
 14. **Icons.** `file-lines` and `file-image`, light and solid, enter `nph-icon` with this change, as the
     task says: the map, the demo and a test of `nph-icon`, and the list `icones_nucleo` of `design.md`,
     which the test of `nph-icon` binds to the map (the precedent of DSA-54 and DSA-69; no token
-    changes). The Figma list of `conferir-nph-icon-figma.cjs` is not touched: its node ids are not in
+    changes). The edit of `design.md` is only the `conteudo_e_dados` line of `icones_nucleo`, under the
+    explicit authorization of Elvys for the `icones_nucleo` list, relayed by the orchestrator session
+    on 11/11/2026; it fulfills the instruction of the task, which puts the two icons in `nph-icon`, and
+    is in its own commit (`aee9d61`). The Figma list of `conferir-nph-icon-figma.cjs` is not touched: its node ids are not in
     the evidence.
 
 **Source.** Documentation `5311:8328` and sets `5297:7473` and `5298:7669` of the Figma file
