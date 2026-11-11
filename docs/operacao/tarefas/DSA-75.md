@@ -42,6 +42,12 @@
       "question": "Should the Tree Table reuse the cell of the tree of nph-table (Figma 2571:66335, already a treegrid) and keep it apart from the nph-tree, or should the two be unified? Recommended: keep both, because the row of a table has cells and widgets and the treeitem does not. It does not block this task: it is decided in the plan of the Tree Table.",
       "decider": "indiane",
       "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-2",
+      "question": "The disabled item receives focus by the arrows (APG, focusability of disabled controls), and Figma has no disabled-with-focus variant. Does the focus border fade with the item under state/disabled-opacity, or stay on top at full opacity? Recommended: on top, at full opacity, because WCAG 2.4.7 asks for a visible focus indicator and has no exception for inactive items, while the faded item stays exempt from contrast (WCAG 1.4.11). Until decided, draw the border on top at full opacity; it is a visual detail and does not block the build of the other states.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
     }
   ],
   "evidence": [
@@ -95,6 +101,9 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - How the nph-checkbox inside the item stays out of the Tab order while keeping its hover state on the hover of the row (`state=hover`), and how the checkbox takes its own hover (`color/input-hover`), which depends on the limit left open in DSA-45 D-3.
 - How the nph-tooltip opens on the focus of the item and on hover with the delay, and how the focus border is kept whole when the container scrolls.
 - Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.
+- Focus on the disabled item: pending decision D-2 (border on top at full opacity, or faded with the item).
+- The error row is a treeitem and takes the hover and the focus of the item; Figma has no separate state for it.
+- Right-to-left writing: Figma draws only left-to-right (bar on the left, `chevron-right` when closed). If the host supports right-to-left, mirror the bar, the indent and the chevron, and swap the Right and Left arrows, as the APG asks.
 
 ## Tokens that stay without a component token
 The pieces inside the item use their own tokens: nph-checkbox, nph-icon, nph-spinner, nph-skeleton, nph-empty and nph-tooltip. The typography of the label comes from the text styles (`text/body-md`, and `text/label-md` on the selected item and on "Try again"). The movement of the chevron uses `motion/expand-duration` and `motion/expand-easing`. The tree has no shadow style and no focus halo.
@@ -106,7 +115,7 @@ The 25 tokens (`tree/*`) came with this task and are on `v/5.0.0`. They are all 
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## What this task does not do
-The code does not create a token or change a token value. It does not change Figma. It does not change nph-checkbox, nph-icon, nph-spinner, nph-skeleton, nph-empty or nph-tooltip. It does not build the Tree Select nor the Tree Table, and it does not change the tree of nph-table. Pending point D-1 is decided in the plan of the Tree Table, not here.
+The code does not create a token or change a token value. It does not change Figma. It does not change nph-checkbox, nph-icon, nph-spinner, nph-skeleton, nph-empty or nph-tooltip. It does not build the Tree Select nor the Tree Table, and it does not change the tree of nph-table. Pending point D-1 is decided in the plan of the Tree Table, not here; D-2 is a visual detail decided in Figma.
 
 ## Outside this task
 Finding for the foundation, with no change here: `data-table/row-selected-indicator` on `color/primary` measures 2.86:1 over `color/primary-surface` in the Gerencial brand in dark, the same failure that took the tree to `color/primary-border`; the same holds for `dropdown/item-hover-icon-foreground` and for the check of the selected option of the nph-select. Nothing was changed in data-table, dropdown or select.
@@ -118,6 +127,7 @@ Finding for the foundation, with no change here: `data-table/row-selected-indica
 - WAI-ARIA APG, Focusability of disabled controls: https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#focusabilityofdisabledcontrols
 - Carbon, Tree view: https://carbondesignsystem.com/components/tree-view/usage/
 - Primer, Tree view: https://primer.style/product/components/tree-view/guidelines/
+- WCAG 2.2, Focus Visible: https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html
 - WCAG 2.2: Contrast (Minimum), Non-text Contrast, Use of Color, Focus Appearance, Focus Not Obscured and Target Size (Minimum)
 - `design.md` — the tokens named in the evidence
 - `fichas/_modelo.md`
