@@ -7327,7 +7327,8 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
 6. **Load on demand is derived from the data.** A branch that is open, has `branch: true`, has no
    `children` and no `error` is loading, and so is a branch with `loading: true`: the spinner takes
    the place of the chevron and the item carries `aria-busy`. The piece fires `nph-tree-load` once
-   when the person opens such a branch; the page loads and replaces `items` with the `children`, or
+   when the person opens such a branch, and once more only after the page has answered (opening,
+   closing and opening it again before the answer asks nothing); the page loads and replaces `items` with the `children`, or
    with `error: true`, which shows the error row in place of the children. Pressing "Try again"
    (Enter or a click on the error row) fires `nph-tree-load` with `retry: true` and the row goes to
    loading at once, until `items` brings that branch back as another object or without `error`: an
@@ -7385,7 +7386,7 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
     first element of the composed path, or the focused item when the menu opens from the keyboard)
     says which node it is for. The tree cancels no `contextmenu`. The host is not focusable, and a
     menu that closes calls `focus()` on its object, so `focus()` on the host puts the focus on the item
-    that held it last, else on the Tab stop.
+    that held it last, or the one a menu was opened on by the pointer, else on the Tab stop.
 
 13. **The checkbox of the item.** `nph-checkbox` is drawn `inert` and `aria-hidden`, with the label of
     the item as its `label` (the dropdown menu does the same, P92), and is never `disabled` by the

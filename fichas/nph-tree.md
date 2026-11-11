@@ -184,7 +184,7 @@ api:
     reflects: false
     constraint: >-
       Fires when the person opens a branch that is not loaded (branch true, no children, no error)
-      and when the person tries again on the error row, with detail { id, retry }. It bubbles and is
+      once per branch until the page answers, and when the person tries again on the error row, with detail { id, retry }. It bubbles and is
       composed. The page loads the children and replaces items: with them the branch gives the
       chevron back, and with error true the error row shows. After a Try again the row goes to
       loading until items brings that branch back as another object or without error; an update of some
@@ -195,7 +195,7 @@ api:
     default: "not_applicable"
     reflects: false
     constraint: >-
-      focus(options) on the host puts the focus on the item that held it last, else on the Tab stop,
+      focus(options) on the host puts the focus on the item that held it last, or the one a menu was opened on by the pointer, else on the Tab stop,
       because the host is not focusable itself. A menu opened on the tree (nph-context-menu) calls it
       when it closes, so the focus goes back to the item the menu was opened on.
   itemIdOf:

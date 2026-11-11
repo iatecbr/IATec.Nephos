@@ -243,6 +243,9 @@ export class NphTree extends LitElement {
   /* The branches whose "Try again" was pressed, until the consumer replaces `items`. */
   private retrying = new Map<string, NphTreeNode>();
 
+  /* The branches whose first load was asked for and not answered yet: opening one again asks nothing. */
+  private loadAsked = new Set<string>();
+
   /* The item that held the focus last, for `focus()`: a menu that closes gives the focus back to the host. */
   private lastFocusKey: string | null = null;
 
@@ -276,6 +279,7 @@ export class NphTree extends LitElement {
     /* On the host, not on the list: the balloons are drawn beside the list, and going from a cut item
        onto its balloon must not take the Tab stop away from the item (WCAG 1.4.13). */
     this.addEventListener('pointerleave', this.onPointerleave);
+    this.addEventListener('contextmenu', this.onContextmenu);
   }
 
   override connectedCallback(): void {
@@ -558,7 +562,10 @@ export class NphTree extends LitElement {
     }
     this.problem = this.validate();
     /* Only a valid list is walked: an invalid one is reported and drawn as nothing, retries kept for later. */
-    if (changed.has('items') && this.problem === null) this.pruneRetries();
+    if (changed.has('items') && this.problem === null) {
+      this.pruneRetries();
+      this.pruneLoads();
+    }
     if (this.problem !== null) {
       /* One message per cause: a re-render with the same input stays silent. */
       if (this.problem !== this.reported) {
@@ -688,7 +695,8 @@ export class NphTree extends LitElement {
     else next.delete(row.node.id);
     this.expanded = [...next];
     this.dispatch<NphTreeToggleDetail>('nph-tree-toggle', { id: row.node.id, expanded: open });
-    if (open && NphTree.unloaded(row.node) && row.node.error !== true && row.node.loading !== true) {
+    if (open && NphTree.unloaded(row.node) && row.node.error !== true && row.node.loading !== true && !this.loadAsked.has(row.node.id)) {
+      this.loadAsked.add(row.node.id);
       this.dispatch<NphTreeLoadDetail>('nph-tree-load', { id: row.node.id, retry: false });
     }
   }
@@ -710,6 +718,23 @@ export class NphTree extends LitElement {
     for (const [id, pressed] of this.retrying) {
       const now = found.get(id);
       if (now === undefined || now !== pressed || now.error !== true) this.retrying.delete(id);
+    }
+  }
+
+  /** A first load is answered when its branch comes back with children or with an error, or is gone. */
+  private pruneLoads(): void {
+    if (this.loadAsked.size === 0) return;
+    const found = new Map<string, NphTreeNode>();
+    const walk = (nodes: readonly NphTreeNode[]): void => {
+      for (const node of nodes) {
+        if (this.loadAsked.has(node.id)) found.set(node.id, node);
+        if (Array.isArray(node.children)) walk(node.children);
+      }
+    };
+    if (Array.isArray(this.items)) walk(this.items);
+    for (const id of [...this.loadAsked]) {
+      const now = found.get(id);
+      if (now === undefined || now.children !== undefined || now.error === true || now.branch !== true) this.loadAsked.delete(id);
     }
   }
 
@@ -747,8 +772,9 @@ export class NphTree extends LitElement {
       /* The parents are decided again from their children: a checked parent with an unchecked child is no longer checked. */
       let parent = this.parentOf.get(id);
       while (parent !== null && parent !== undefined) {
-        /* A disabled ancestor keeps its own state: the cascade does not reach it. */
-        if (this.rowByKey.get(parent)?.node.disabled !== true) next.delete(parent);
+        /* A disabled ancestor is out of the count, so nothing above it depends on this item: the climb stops. */
+        if (this.rowByKey.get(parent)?.node.disabled === true) break;
+        next.delete(parent);
         parent = this.parentOf.get(parent);
       }
     }
@@ -805,6 +831,16 @@ export class NphTree extends LitElement {
   private get rtl(): boolean {
     return getComputedStyle(this).direction === 'rtl';
   }
+
+  /**
+   * A menu opened on an item by the pointer or by touch gives the focus back to the host when it closes:
+   * the item it was opened on is where the focus goes, with no change of the selection.
+   */
+  private readonly onContextmenu = (event: MouseEvent): void => {
+    const item = event.composedPath().find((target) => target instanceof HTMLElement && target.getAttribute('role') === 'treeitem');
+    const key = item instanceof HTMLElement ? item.dataset.key : undefined;
+    if (key !== undefined && this.rowByKey.has(key)) this.lastFocusKey = key;
+  };
 
   private readonly onDocumentKeydown = (event: KeyboardEvent): void => {
     if (event.key === 'Tab' && this.hoverStops.size > 0) this.releaseHoverStops();

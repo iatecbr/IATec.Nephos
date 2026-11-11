@@ -945,6 +945,18 @@ describe('selection', () => {
     expect(item(tree, 'p').getAttribute('aria-checked')).toBe('true');
   });
 
+  it('multiple: a mark above a disabled branch does not depend on what is checked below it', async () => {
+    const items: NphTreeNode[] = [{ id: 'g', label: 'G', children: [{ id: 'p', label: 'P', disabled: true, children: [{ id: 'a', label: 'A' }] }] }];
+    const tree = await mount({ selection: 'multiple', items, checked: ['g'], expanded: ['g', 'p'] });
+    await userEvent.click(labelOf(tree, 'a'));
+    await settle(tree);
+    expect(tree.checked).toEqual(['g', 'a']);
+    await userEvent.click(labelOf(tree, 'a'));
+    await settle(tree);
+    expect(tree.checked).toEqual(['g']);
+    expect(item(tree, 'g').getAttribute('aria-checked')).toBe('true');
+  });
+
   it('multiple: a parent whose children are all disabled is checked by its own mark', async () => {
     const items: NphTreeNode[] = [{ id: 'p', label: 'P', children: [{ id: 'a', label: 'A', disabled: true }] }];
     const tree = await mount({ selection: 'multiple', items });
@@ -997,6 +1009,25 @@ describe('load on demand', () => {
     expect(toggleOf(tree, 'remote').querySelector('nph-icon')).toBeNull();
     expect(root(tree).querySelector('[role="group"]')).toBeNull();
     expect(getComputedStyle(toggleOf(tree, 'remote').querySelector('nph-spinner') as HTMLElement).color).toBe(color('--nph-color-primary'));
+  });
+
+  it('opening, closing and opening a branch again before the answer asks for the children once', async () => {
+    const tree = await mount({ items: LAZY });
+    const loads = collect<NphTreeLoadDetail>(tree, 'nph-tree-load');
+    await userEvent.click(toggleOf(tree, 'remote'));
+    await userEvent.click(toggleOf(tree, 'remote'));
+    await userEvent.click(toggleOf(tree, 'remote'));
+    await settle(tree);
+    expect(loads).toEqual([{ id: 'remote', retry: false }]);
+    expect(tree.expanded).toEqual(['remote']);
+    /* The answer comes: with children it is loaded; a new branch with no children, closed and opened, asks again. */
+    tree.items = [{ id: 'remote', label: 'Remote', branch: true, children: [{ id: 'one', label: 'One' }] }, LAZY[1] as NphTreeNode];
+    await settle(tree);
+    tree.items = LAZY;
+    await settle(tree);
+    await userEvent.click(toggleOf(tree, 'remote'));
+    await userEvent.click(toggleOf(tree, 'remote'));
+    expect(loads).toHaveLength(2);
   });
 
   it('a branch that is already loading, or opened by the code, asks for nothing', async () => {
@@ -1561,6 +1592,26 @@ describe('the host and a menu opened on the tree', () => {
     (document.activeElement as HTMLElement).blur();
     tree.focus();
     expect(focusedKey(tree)).toBe('notes');
+  });
+
+  it('a menu opened on another item by the pointer gives the focus back to that item, with no change of the selection', async () => {
+    const tree = await mount({ selection: 'single', selected: 'docs' });
+    tree.id = 'pointer-tree';
+    const menu = document.createElement('nph-context-menu') as NphContextMenu;
+    menu.setAttribute('for', 'pointer-tree');
+    menu.label = 'Actions';
+    menu.items = [{ value: 'rename', text: 'Rename' }];
+    document.body.append(menu);
+    await menu.updateComplete;
+    await enter(tree);
+    expect(focusedKey(tree)).toBe('docs');
+    labelOf(tree, 'images').dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, composed: true, cancelable: true, clientX: 20, clientY: 20 }));
+    await vi.waitFor(() => expect(menu.open).toBe(true));
+    await userEvent.keyboard('{Escape}');
+    await vi.waitFor(() => expect(menu.open).toBe(false));
+    await tree.updateComplete;
+    expect(focusedKey(tree)).toBe('images');
+    expect(tree.selected).toBe('docs');
   });
 
   it('a menu opened on the item from the keyboard gives the focus back to that item when it closes with Esc', async () => {
