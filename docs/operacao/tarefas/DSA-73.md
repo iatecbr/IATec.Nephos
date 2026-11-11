@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 720,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-stepper",
   "dependencies": [
     "DSA-03",
@@ -80,7 +80,7 @@
     "excerpt": null,
     "converted_decision": "The nph-stepper documentation frame (5569:6530, page 1626:36) was accepted as the API and behavior specification of nph-stepper. COMPONENT_SET nph-stepper (5541:1622), 27 variants; the step set (5540:581), 13 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-73-stepper", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-73-stepper", "commit": null, "pr": 166 },
   "context": "docs/operacao/contextos/DSA-73.md",
   "updated_at": "2026-11-11"
 }
