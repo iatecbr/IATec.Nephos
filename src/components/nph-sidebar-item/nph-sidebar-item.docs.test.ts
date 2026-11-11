@@ -329,11 +329,17 @@ describe('nph-sidebar-item Validation: text only from the dictionary', () => {
       const subitems = group.nextElementSibling as HTMLElement;
       expect(subitems.querySelector('nph-sidebar-subitem')).not.toBeNull();
       const control = group.shadowRoot?.querySelector('.control') as HTMLElement;
-      await userEvent.click(control);
+      /*
+       * The activation of the group button, not a real pointer: the page holds fourteen frames, and a
+       * pointer click scrolls to the button and waits for it to be stable, a round trip per click
+       * that a slow agent stretches past the time of the test. `click()` runs the same handlers
+       * at once, so there is nothing to wait for but the update of the group.
+       */
+      control.click();
       await group.updateComplete;
       expect(group.expanded).toBe(false);
       expect(getComputedStyle(subitems).display).toBe('none');
-      await userEvent.click(control);
+      control.click();
       await group.updateComplete;
       expect(group.expanded).toBe(true);
       expect(getComputedStyle(subitems).display).toBe('flex');
