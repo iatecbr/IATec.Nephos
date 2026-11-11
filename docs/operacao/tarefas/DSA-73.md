@@ -39,6 +39,24 @@
       "question": "Should the foundation fix the brand and error colors on color/dialog in dark, for every component on a dialog? Inside a dialog, in dark, some fall below the contrast minimum (status/error-text 3.62, color/primary-text 4.02, focus/border and the current ring 2.56, error background 2.61). The stepper keeps its tokens. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-10"
+    },
+    {
+      "id": "D-2",
+      "question": "The accepted contract says the stepper becomes nph-progress below 600 px. 600 is not one of the four breakpoints of design.md (md 768, lg, xl, xxl) and a query takes no custom property, so the code writes 37.5rem in a container query on the stepper, which reads its own width and not the window. Do you confirm the value, or choose another? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-3",
+      "question": "On the narrow width the stepper draws nph-progress of the steps type, which shows the position only: a step with an error does not show as an error there. Do you confirm it, or ask for the error status of the progress when a step has one? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-4",
+      "question": "The balloon of a cut label on a pending step of the linear stepper needs a focusable span with no role, which is the reading of a rule the evidence marks open for confirmation, and the hover background paints only the steps that can be activated. Do you confirm the reading, or ask for another? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
     }
   ],
   "evidence": [
@@ -58,7 +76,7 @@
   },
   "git_review": { "branch": "feat/dsa-73-stepper", "commit": null, "pr": null },
   "context": "docs/operacao/contextos/DSA-73.md",
-  "updated_at": "2026-11-10"
+  "updated_at": "2026-11-11"
 }
 ```
 

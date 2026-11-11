@@ -72,6 +72,7 @@ P62.4 subsection for the detail).
 | **P113** | API and semantics of `nph-context-menu`; the accepted changes of `nph-dropdown-menu` and `nph-icon` | 08/11/2026 | Low now. No piece consumes the context menu yet; `nph-data-table` is its first expected parent, so changing `for`, `items`, `open-submenu`, `size`, the event `nph-item-select` (with `origin`) or the invalid-input rule later requires redoing every consumer. The `nph-dropdown-menu` change is visual only | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P114** | The answers of 2026-11-09 applied in the code: the size of `nph-switch`, the focus of the dropdown item, the open trigger of `nph-button`, the disclosure and motion of `nph-navigation-menu` and the other choices (amends P87, P111 and P113) | 09/11/2026 | Low. The pieces are not consumed by another piece beyond the dropdown item that draws the small switch; changing `size` of `nph-switch`, `NPH_PROGRESS_MIN_STEPS` or the narrow rows of `nph-navigation-menu` later requires redoing every consumer | Answers by Indiane on 2026-11-09, in the tasks. The choices are reviewed in the pull request that brings them |
 | **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. The balloon of the cut tab (D-1), the names of the arrows (D-2), `99+` (D-3) and the cut label in the segmented and tab button styles (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) and the focusable span of a cut pending step (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -7074,9 +7075,173 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P117 — `nph-stepper`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5569:6530`, sets `5541:1622` and `5540:581`)
+gives the Figma properties `etapas`, `atual`, `status`, `estado`, `rótulo`, `número`, `descrição`,
+`texto da descrição` and `opcional`, the behavior of a navigation with an ordered list and links
+(W3C multi-page forms tutorial, APG Link pattern), the accessibility and the width limits, and leaves
+the code API to the code, with eleven points open in the task. Eight points need a decision of their
+own:
+
+- the steps are a list of items with a label, an optional description, an optional mark, a status and a
+  state of their own, and the Figma sets the status from the position of `atual` while the evidence says
+  that "the page sets the status of each step": the code has to say how the list goes in and how the
+  status is set;
+- the evidence says a step is "a link or a button" and that "the page sets which steps are clickable",
+  without saying what makes it one or the other, and the piece must not move the current step by
+  itself;
+- the hidden status text ("Completed", "Pending", "With error"), the word "Optional" and the "Step 2
+  of 4" of the narrow width are text in the language of the consuming application, and the piece writes
+  no word of its own;
+- the evidence says a cut label shows the whole text in `nph-tooltip`, and the tooltip opens only on an
+  element that takes focus (P77), while a pending step of the linear stepper is not clickable and takes
+  no Tab;
+- the evidence says below 600 px the stepper "becomes" `nph-progress` of the steps type, without saying
+  how the switch is made, and a query does not accept a custom property;
+- the evidence says nothing about input the contract does not accept, such as a status on the current
+  step or an eighth step;
+- the evidence leaves open where `aria-current="step"` sits when the current step is not a link, and
+  whether the description and "Optional" enter the accessible name;
+- the number, the label and the description use the text styles directly, with no token of their own.
+
+**Decision.** `nph-stepper` is a Web Component with **open Shadow DOM** (P01), in one tag, with its CSS
+in its own file imported `?inline`. It has no `::part`, no slot, no color property, no form association
+and no vertical orientation. Anatomy only through semantic tokens, the `stepper/*` ones, the text roles
+and the global focus ones. What it rejects renders nothing and emits `console.error` only in
+development, once per cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The
+names follow P64.
+
+1. **One component, `steps` is a property.** The steps are a list of
+   `{ label, description?, optional?, status?, disabled?, href? }`, set by property only (no attribute,
+   no slot): a list of objects does not serialize to an attribute. From 2 to 7 steps: two are allowed
+   (DSA-65 D-1), the documentation asks for three to seven, and seven is the maximum; the piece never
+   collapses steps (DSA-66 D-1 does not apply). `label` is one or two words, already localized.
+   `description` is the support line, up to two lines, and on a step with an error it is the reason.
+   `optional` shows the word of `optional-label`.
+
+2. **`current` and the statuses.** `current` is an integer from 1 to the number of steps (the Figma
+   `atual`), 1 by default, set by the page. The piece keeps no state: a click does not move it. The
+   status of a step is `current` at that position, else the `status` it was given (`pending`,
+   `completed` or `error`), else the one its position says: completed before `current`, pending after
+   it. So the page can mark an error on any step, and a completed step after the current one in a
+   non-linear process. The step at `current` takes no `status` and no `disabled`: the evidence says a
+   blocked step cannot be the current one, and the current step is where the person is.
+
+3. **`non-linear` and what is clickable.** `non-linear` is a boolean that reflects. Linear (the default):
+   only the completed steps and the steps with an error are clickable. Non-linear: the pending steps are
+   clickable too. A disabled step and the current step are never clickable, in either mode. A
+   clickable step is an `a` when it has `href` and a `button` when it has none, so the page decides
+   between a route and an action with the property it already has.
+
+4. **The event is `nph-step-select`.** A button step fires it, `bubbles` and `composed`, with
+   `detail: { step }`, the 1-based position, only when the person activates the step: never when code
+   sets `current`. A link step fires only the native `click`, which a router handles as it handles any
+   link, as the level of `nph-breadcrumb` does (P109). The piece does not change `current`, move the
+   focus or update the page title: the page does, as the evidence says (appendix D). `href` takes
+   `http:`, `https:`, `mailto:`, `tel:` or a relative address, parsed as the browser would
+   (`java\nscript:` is caught); any other protocol is invalid input.
+
+5. **The texts are properties of the consumer.** `completed-label`, `pending-label` and `error-label`
+   are the hidden text at the start of each step; `optional-label` is the word "Optional"; `step-text`
+   is the text of the narrow width, with the markers `{current}` and `{count}` filled in by the piece, in
+   any order the language needs (the marker rule of `nph-pagination`). `label` names the `nav` and the
+   host `aria-label` does it when there is no `label`, read by a property whose attribute is
+   `aria-label` since a property called `ariaLabel` is the native ARIA reflection (P107, P109). A text
+   the piece needs and the consumer did not give draws without it and warns once in development, since
+   it may arrive after the first render.
+
+6. **Invalid input.** The rule of P21: nothing is drawn and `console.error` is emitted in development,
+   once per cause, for a `steps` that is not a list or has fewer than 2 or more than 7 steps, a `current`
+   that is not an integer from 1 to the number of steps, a step that is not an object or has no `label`,
+   a `status` outside the list, a `status` or `disabled` on the current step, and an unsafe `href`. A
+   re-render with the same input stays silent, and a fixed input draws again with no leftover.
+
+7. **Semantics.** A `nav` with an ordered list, one list item per step, and no tablist: the arrow keys
+   do nothing. The current step is a `span` with `aria-current="step"` (on the element of the step, not on
+   the list item, so a screen reader that announces the current state of a link announces it here too);
+   it is not a Tab stop. A disabled step is a `span` with `aria-disabled="true"` and is not a Tab stop. The
+   hidden status text opens each step, with no hidden text on the current one, since the attribute says
+   it, and a disabled step with an error carries the pending text, because it looks pending (rule T11).
+   The description and "Optional" are part of the step, so they enter its name by content and the reason
+   of an error is read. The marker is `aria-hidden`. The connector is a decorative element of the list
+   item of the step before it, `aria-hidden`, with no list item of its own.
+
+8. **The cut label and its balloon.** The label of a pending, completed or error step is one line, cut by
+   an ellipsis, and measured (`ResizeObserver` on the labels, `document.fonts.ready` and every update, as
+   `nph-tabs`); only a cut label of a step that can take focus gets an `nph-tooltip` with the whole text
+   as its description (the default relation, as P115 does). A clickable step is already a Tab stop. A
+   pending step of the linear stepper is not clickable and takes no Tab, so when its label is cut it
+   becomes a `span` with `tabindex="0"`, only to open the balloon: the reading of the evidence, "inferred
+   from the linear rule and DSA-48, open for confirmation" (D-4). The current label is never cut: it wraps
+   to up to two lines. A disabled step gets no balloon, because `nph-tooltip` opens only on an element
+   that takes focus; the screen reader has the whole name by content. The hover wait, the focus without
+   wait, the cancel by a click and Esc are the behavior of `nph-tooltip` itself (DSA-48 D1 and D2).
+
+9. **The narrow width is `nph-progress`, drawn by the stepper.** The stepper draws both the list and an
+   `nph-progress` of the steps type (`steps`, `step`, the label of the current step as `label`, the
+   `step-text` as `value-text`), and a container query on the host hides one of them with `display: none`,
+   which takes it out of the accessibility tree. The width that counts is the one of the stepper, not the
+   window: a stepper in a card on a wide screen is as narrow as the card. The host takes inline size
+   containment for it, so it stretches to the width of where it lives and has no width of its own: in a
+   shrink-to-fit parent the page gives it one, which is a limit recorded in the sheet. A query does not
+   accept a custom property, so the 600 px of the accepted contract is written in the CSS, in `rem`
+   (`37.5rem`), as P87 does for the breakpoint of `nph-dialog`. `design.md` lists "create a breakpoint
+   outside the four" as a mistake for the page grid (A55); this is a threshold of one component, accepted
+   by Indiane in the documentation, and it is not a page breakpoint (D-2). `nph-progress` here has no
+   error: a step with an error does not show as an error on the narrow width (D-3).
+
+10. **Only color moves.** The change of a status and the hover run on `stepper/state-duration` and change
+    color and background. With reduced motion nothing moves (DSA-62 D-3).
+
+11. **Hover and focus.** Hover paints the pending and completed steps that can be activated with
+    `stepper/item-background-hover`; on the step with an error it only underlines the label. A pending
+    step that takes no activation is not painted: the paint would say it can be clicked. A focused step
+    has no hover background (`focus/border` on `color/accent` is below 3:1 in dark in some brands). The
+    focus is a border and a halo outside the step area, drawn by `::before` and `::after`, centered on it,
+    which nothing clips because the connector keeps the steps apart. The current step has rest only.
+
+12. **Tokens.** Only `--nph-stepper-*`, the text roles `--nph-text-label-sm-*` (the number),
+    `--nph-text-label-md-*` (the label), `--nph-text-label-md-strong-*` (the current label),
+    `--nph-text-body-sm-*` (the description and "Optional") and the motion easing. No token was created
+    or changed. The CSS has one literal measure, the `37.5rem` of the container query (item 9).
+
+**Source.** Documentation `5569:6530` and sets `5541:1622` and `5540:581` of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 10/11/2026 with the Figma UX QA and the textual audit
+approved, and the points of its approval page. The property names, the shape of `steps`, the way a step
+becomes a link or a button, the event, the invalid-input rule, the texts of the consumer, the balloon of
+the cut label and the way the narrow width is drawn are a technical proposal of this implementation.
+
+**Out of scope.** The vertical stepper, which waits for `nph-collapsible`. A token, new or changed. A
+change in `nph-icon`, `nph-tooltip` or `nph-progress`. The contrast of the brand and error colors on
+`color/dialog` in dark (D-1 of the task). A collapse of the steps. A form association.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the contrast on a dialog in dark.** Inside a dialog, in dark, some brand and error colors fall
+  below the contrast minimum (`status/error-text` 3.62, `color/primary-text` 4.02, `focus/border` and the
+  current ring 2.56, the error background 2.61). The stepper keeps its tokens. She decides whether the
+  foundation fixes them for every component on a dialog. It does not block the pull request.
+- **D-2 — the 600 px.** The accepted contract says 600 px; it is not one of the four breakpoints of
+  `design.md` (`md` 768, `lg`, `xl`, `xxl`), and a query takes no custom property, so the code writes
+  `37.5rem` and reads the width of the stepper, not the window. She confirms the value or chooses
+  another.
+- **D-3 — the error on the narrow width.** `nph-progress` of the steps type shows the position only; a
+  step with an error does not show as an error. She confirms it, or asks for the error status of the
+  progress when a step has one.
+- **D-4 — the cut pending step.** The balloon of a pending step of the linear stepper needs a focusable
+  `span` with no role, which is the reading of a rule the evidence marks "open for confirmation", and the
+  hover background paints only the steps that can be activated. She confirms the reading, or asks for
+  another.
+
+**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-4 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114 or P115 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115 or P117 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

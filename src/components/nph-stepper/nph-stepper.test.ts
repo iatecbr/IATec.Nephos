@@ -27,6 +27,7 @@ import {
   isSafeHref,
 } from './nph-stepper';
 import type { NphStep, NphStepSelectDetail } from './nph-stepper';
+import { BRANDS } from '../../shared/docs/brands';
 import type { NphProgress } from '../nph-progress/nph-progress';
 import type { NphTooltip } from '../nph-tooltip/nph-tooltip';
 
@@ -980,8 +981,8 @@ describe('the narrow width', () => {
   });
 
   it('the step text is filled in with {current} and {count}, in any order the language needs', async () => {
-    const stepper = await mount({ stepText: '{count} etapas, etapa {current}', current: 3 }, '20rem');
-    expect(narrow(stepper).valueText).toBe('4 etapas, etapa 3');
+    const stepper = await mount({ stepText: '{count} steps in all, now the number {current}', current: 3 }, '20rem');
+    expect(narrow(stepper).valueText).toBe('4 steps in all, now the number 3');
     expect(narrow(stepper).step).toBe(3);
     expect(narrow(stepper).label).toBe('Payment');
   });
@@ -1119,6 +1120,9 @@ describe('motion', () => {
   });
 });
 
+/** A brand whose colors differ from the ones the page loads by default. */
+const OTHER_BRAND = BRANDS.at(-1) as string;
+
 describe('color scheme', () => {
   /** The value a token resolves to inside a holder, where the color scheme attribute lives. */
   function inside(holder: HTMLElement, token: string): string {
@@ -1149,7 +1153,7 @@ describe('color scheme', () => {
     const before = getComputedStyle(marker(stepper, 0)).backgroundColor;
     /* The brand and the scheme are set together, on the element that resolves the tokens (P67). */
     holder.setAttribute('data-nph-color-scheme', 'light');
-    holder.setAttribute('data-nph-brand', 'igrejas');
+    holder.setAttribute('data-nph-brand', OTHER_BRAND);
     await frame();
     await wait(300);
     const after = getComputedStyle(marker(stepper, 0)).backgroundColor;

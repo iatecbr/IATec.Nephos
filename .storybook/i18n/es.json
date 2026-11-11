@@ -393,6 +393,19 @@
     "components-nph-tabs-validation--direction": "Dirección",
     "components-nph-tabs-validation--examples": "Ejemplos",
     "components-nph-tabs-validation--brands": "Marcas",
+    "components-nph-stepper-docs": "Docs",
+    "components-nph-stepper-docs--documentation": "Documentación",
+    "components-nph-stepper-validation": "Validación",
+    "components-nph-stepper-validation--statuses": "Estados de paso",
+    "components-nph-stepper-validation--counts": "Cantidades",
+    "components-nph-stepper-validation--content": "Contenido",
+    "components-nph-stepper-validation--states": "Estados",
+    "components-nph-stepper-validation--navigation": "Navegación",
+    "components-nph-stepper-validation--width": "Ancho",
+    "components-nph-stepper-validation--narrow": "Estrecho",
+    "components-nph-stepper-validation--form": "Formulario",
+    "components-nph-stepper-validation--examples": "Ejemplos",
+    "components-nph-stepper-validation--brands": "Marcas",
     "components-nph-navigation-menu-docs": "Docs",
     "components-nph-navigation-menu-docs--documentation": "Documentación",
     "components-nph-navigation-menu-validation": "Validación",
@@ -7819,7 +7832,17 @@
       "components-nph-tabs-validation--panels": "El panel es contenido del consumidor, encajado por el valor de cada pestaña: solo aparece el panel de la pestaña activa, y la lista queda encima de él.",
       "components-nph-tabs-validation--direction": "Escritura de derecha a izquierda: la lista se lee desde la derecha y las flechas siguen los extremos de la línea.",
       "components-nph-tabs-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: pedidos por etapa con icono, contador y tag; el detalle del pedido dentro de un panel; y las flechas en los dos extremos cuando las pestañas no caben.",
-      "components-nph-tabs-validation--brands": "Las siete marcas en modo claro y oscuro: la etiqueta y la línea de la pestaña activa, el contador, la tag y el foco siguen la marca del marco."
+      "components-nph-tabs-validation--brands": "Las siete marcas en modo claro y oscuro: la etiqueta y la línea de la pestaña activa, el contador, la tag y el foco siguen la marca del marco.",
+      "components-nph-stepper-validation--statuses": "Los cuatro estados en un stepper: los pasos completados con un check, el paso actual con un anillo y una etiqueta más fuerte, los pasos pendientes con un número en un contorno fino y el paso con error con un triángulo y su motivo.",
+      "components-nph-stepper-validation--counts": "De dos a siete pasos: dos están permitidos, la documentación pide de tres a siete, y siete es el máximo. El conector llena el espacio entre los pasos.",
+      "components-nph-stepper-validation--content": "Lo que un paso activa: la línea de apoyo debajo de la etiqueta, la palabra \"Opcional\" y el motivo de un error en la descripción, en el color de error.",
+      "components-nph-stepper-validation--states": "Pasos deshabilitados y los estados combinados: un paso completado y deshabilitado mantiene el fondo y el check, y un paso con error deshabilitado vuelve al aspecto de pendiente. El hover y el foco aparecen con el puntero y el teclado, y las pruebas los comprueban.",
+      "components-nph-stepper-validation--navigation": "El stepper lineal, en el que solo los pasos completados y los que tienen error permiten volver, y el no lineal, en el que los pendientes también se pueden pulsar y un paso deshabilitado no.",
+      "components-nph-stepper-validation--width": "La columna de texto se detiene en su máximo: una etiqueta pendiente, completada o con error termina en puntos suspensivos con el texto completo en un globo, la etiqueta actual se parte en dos líneas, y el conector nunca queda más estrecho que su mínimo.",
+      "components-nph-stepper-validation--narrow": "Por debajo de 600 px de ancho propio el stepper se vuelve una barra de progreso del tipo pasos, con \"Paso 2 de 4\" y la etiqueta del paso actual. Cuenta el ancho del stepper, no el de la ventana.",
+      "components-nph-stepper-validation--form": "El stepper en la parte superior de un formulario dentro de una tarjeta, con el contenido del paso actual justo debajo.",
+      "components-nph-stepper-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el registro en cuatro pasos en el paso 2, el paso con error y su motivo, y el stepper lineal en tres pasos.",
+      "components-nph-stepper-validation--brands": "Las siete marcas en modo claro y oscuro: el anillo y el número del paso actual, el check de los completados y el conector antes del paso actual siguen la marca del marco."
     }
   },
   "multiComboboxDocs": {
@@ -12281,5 +12304,291 @@
     },
     "detailTitle": "Pedido 2481",
     "detailText": "Compra de dos portátiles para el equipo de soporte, a la espera de la aprobación del presupuesto."
+  },
+  "stepperDocs": {
+    "summary": "Los pasos de un proceso en orden, y el paso en el que está la persona: los completados, el actual, los que faltan y los que tienen error.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-stepper, design.md para los tokens y docs/decisoes-tecnicas.md para la P117. El archivo DS-IA-NEPHOS 5.0 en Figma es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Un proceso con pasos en orden y en número fijo, en el que la persona necesita saber cuánto falta: registro, contratación, configuración. Termínalo con un paso de revisión antes de enviar.",
+      "El orden es obligatorio: el stepper lineal, en el que solo los pasos completados y los que tienen error se pueden pulsar.",
+      "El orden es sugerido: el stepper no lineal, en el que los pasos pendientes también se pueden pulsar.",
+      "La etiqueta sola no dice lo que pide el paso, y siempre en un error activo, para decir el motivo: activa la descripción.",
+      "El paso se puede omitir: márcalo como opcional en lugar de dejarlo fuera.",
+      "En la parte superior de un formulario, tarjeta o diálogo, con el contenido del paso actual justo debajo."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para vistas sin orden, como las pestañas de un perfil: usa nph-tabs.",
+      "Para mostrar cuánto de una tarea está hecho sin pasos nombrados: usa nph-progress.",
+      "Para el lugar en una jerarquía: usa nph-breadcrumb.",
+      "Para un proceso de más de 7 pasos: divide el proceso.",
+      "Para dos steppers en la misma página, o uno dentro del otro: usa un solo stepper en la parte superior del proceso; los subpasos quedan dentro del paso.",
+      "Para una frase entera en la etiqueta: escribe una o dos palabras, con el detalle en la descripción.",
+      "Para un proceso vertical: el stepper vertical espera a nph-collapsible y todavía no existe."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "steps",
+        "Los pasos, en orden, como una lista de { label, description, optional, status, disabled, href }. Solo propiedad: se define desde JavaScript. De 2 a 7 pasos. label es obligatorio y tiene una o dos palabras; description es la línea de apoyo y, en un paso con error, el motivo; optional muestra la palabra Opcional; status es pending, completed o error y, sin él, viene de la posición; disabled impide activar el paso; href convierte un paso pulsable en un enlace. El paso en current no acepta status ni disabled."
+      ],
+      [
+        "current",
+        "La posición del paso actual, de 1 al número de pasos. 1 por defecto. La página la define: el stepper no guarda estado, y un clic no la mueve."
+      ],
+      [
+        "non-linear",
+        "Apagado (por defecto), el stepper es lineal: solo los pasos completados y los que tienen error se pueden pulsar. Encendido, los pendientes también. Un paso deshabilitado y el paso actual nunca. Reflejada en el atributo."
+      ],
+      [
+        "label",
+        "El nombre accesible de la navegación. Ya localizado."
+      ],
+      [
+        "aria-label",
+        "El nombre accesible de la navegación cuando no hay label."
+      ],
+      [
+        "completed-label, pending-label y error-label",
+        "El texto oculto que abre cada paso y dice su estado, como Completado, Pendiente y Con error. Ya localizado."
+      ],
+      [
+        "optional-label",
+        "La palabra Opcional, dibujada en un paso con optional activado. Ya localizada."
+      ],
+      [
+        "step-text",
+        "El texto del ancho estrecho, con {current} y {count}, como Paso {current} de {count}. Ya localizado."
+      ],
+      [
+        "nph-step-select",
+        "El evento que dispara un paso-botón cuando la persona lo activa, con detail { step }, la posición desde 1. Sube por el árbol y es composed. Un paso con href dispara solo el clic nativo. Definir current desde código no dispara nada."
+      ],
+      [
+        "size, orientation y width",
+        "No son propiedades: un solo tamaño, solo horizontal (el stepper vertical espera a nph-collapsible), y el stepper se estira hasta el ancho de donde vive."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-stepper id=\"signup\" current=\"2\" label=\"Pasos del registro\" completed-label=\"Completado\" pending-label=\"Pendiente\" error-label=\"Con error\" optional-label=\"Opcional\" step-text=\"Paso {current} de {count}\"></nph-stepper>\n<script>\n  signup.steps = [\n    { label: 'Cuenta' },\n    { label: 'Dirección' },\n    { label: 'Pago' },\n    { label: 'Revisión' },\n  ];\n  signup.addEventListener('nph-step-select', (event) => {\n    signup.current = event.detail.step;\n  });\n</script>",
+    "usageTag": "La etiqueta de la pieza. Los pasos llegan como datos en la propiedad steps, definida desde JavaScript; la página escucha nph-step-select, cambia current y mueve el foco al título del nuevo paso.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, marco nph-stepper (5569:6530); docs/decisoes-tecnicas.md › P117",
+    "statusesTitle": "Estados y contenido",
+    "statusesCaption": "Los cuatro estados, el motivo de un error en la descripción y la línea de apoyo con la palabra Opcional.",
+    "statusesUseHeader": [
+      "Estado",
+      "Qué muestra"
+    ],
+    "statusesUse": [
+      {
+        "value": "completed",
+        "label": "Un check sobre el fondo de la marca. Es un paso antes del actual y se puede pulsar para volver y revisar."
+      },
+      {
+        "value": "current",
+        "label": "Un anillo y una etiqueta más fuerte. Es donde está la persona: no tiene hover, foco ni Tab, y la etiqueta se parte en dos líneas en lugar de cortarse."
+      },
+      {
+        "value": "pending",
+        "label": "Un número en un contorno fino sobre un fondo suave. Es un paso después del actual; en el stepper lineal no se puede pulsar."
+      },
+      {
+        "value": "error",
+        "label": "Un triángulo sobre el fondo de error, la etiqueta en el color de error y el motivo en la descripción. Se puede pulsar y, en hover, solo subraya la etiqueta."
+      }
+    ],
+    "navigationTitle": "Navegación",
+    "navigationCaption": "El stepper lineal, el no lineal con un paso deshabilitado, y los pasos deshabilitados con el motivo de un error.",
+    "navigation": [
+      "Lineal es lo predeterminado: solo los pasos completados y los que tienen error se pueden pulsar, para volver y revisar. El no lineal hace pulsables también los pendientes, cuando el orden es solo sugerido.",
+      "Un paso pulsable es un enlace cuando tiene href y un botón cuando no lo tiene. Un enlace dispara solo el clic nativo; un botón dispara nph-step-select con la posición.",
+      "La página define el paso actual, el estado de cada paso y cuáles están deshabilitados. El stepper no guarda estado: después del evento, la página cambia current, mueve el foco al título del nuevo paso y actualiza el título de la página.",
+      "Un paso deshabilitado se atenúa y no se puede activar. Un paso completado y deshabilitado mantiene el fondo y el check; un paso con error deshabilitado vuelve al aspecto de pendiente, y el motivo solo aparece con la descripción activada.",
+      "Volver y Continuar van en el pie del formulario, no en el stepper. El botón valida el paso antes de avanzar y dice el nombre del siguiente."
+    ],
+    "widthTitle": "Ancho y pantallas estrechas",
+    "widthCaption": "La etiqueta cortada, la etiqueta actual que se parte y el stepper por debajo de 600 px de ancho propio.",
+    "width": [
+      "La columna de texto se detiene en el ancho máximo. La etiqueta de un paso pendiente, completado o con error queda en una línea y termina en puntos suspensivos, y el texto completo aparece en un globo al pasar el puntero y con el foco. La etiqueta del paso actual se parte en hasta dos líneas y nunca se corta. La descripción llega hasta dos líneas.",
+      "El conector llena el espacio entre los pasos y nunca queda más estrecho que el ancho mínimo. Con más de siete pasos, divide el proceso: el stepper nunca recoge pasos.",
+      "Por debajo de 600 px de ancho propio, el stepper se vuelve una barra de progreso del tipo pasos, con \"Paso 2 de 4\" y la etiqueta del paso actual. Cuenta el ancho del stepper, no el de la ventana; el stepper se estira hasta el ancho de donde vive, así que en una fila flex dale flex: 1.",
+      "En el ancho estrecho, un paso con error no aparece como error: la barra muestra solo la posición.",
+      "Con movimiento reducido nada se mueve: el color de un estado cambia de inmediato."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab y Shift+Tab",
+        "Mueven el foco por los pasos pulsables, en el orden de la lista. El paso actual y un paso deshabilitado no reciben Tab. Un paso pendiente del stepper lineal con etiqueta cortada recibe Tab solo para abrir el globo: no es un enlace."
+      ],
+      [
+        "Enter",
+        "Activa el paso pulsable. En un paso-botón, el Espacio también lo activa; en un enlace, el Espacio desplaza la página, como hace el navegador."
+      ],
+      [
+        "Flechas",
+        "No hacen nada: cada paso es una parada de Tab propia, ya que el stepper es navegación y no un tablist."
+      ],
+      [
+        "Esc",
+        "Cierra el globo de una etiqueta cortada, sin mover el foco."
+      ],
+      [
+        "Puntero",
+        "El hover solo pinta el paso; no mueve el foco. El globo de una etiqueta cortada se abre tras una espera corta con el puntero y de inmediato con el foco, y un clic cancela la espera."
+      ],
+      [
+        "Foco en el cambio de paso",
+        "La página mueve el foco al título del nuevo paso. El stepper no mueve el foco por sí solo."
+      ]
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Vive en la parte superior de un formulario, tarjeta o diálogo, sin fondo, borde ni margen propios; el contenido del paso actual viene justo debajo.",
+      "Funciona con nph-icon (el check y el triángulo del marcador), nph-tooltip (la etiqueta cortada) y nph-progress (su forma en el ancho estrecho). Volver y Continuar son nph-button en el pie del formulario.",
+      "Es la pieza siguiente de la familia de la posición en un camino: nph-breadcrumb y nph-tabs llevan a nph-stepper, que se vuelve nph-progress por debajo de 600 px.",
+      "El stepper vertical todavía no existe: espera a nph-collapsible."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Paso",
+        "El área que abraza el marcador y los textos, con padding y esquinas propios. Es el objetivo del clic y mide al menos 32 de alto."
+      ],
+      [
+        "Marcador",
+        "Un círculo al inicio del paso, alineado arriba: el número, el check o el triángulo queda en el centro. El pendiente tiene un contorno fino, el actual un anillo de 2 px, el completado y el de error un fondo sólido."
+      ],
+      [
+        "Etiqueta",
+        "El texto del paso, centrado en vertical con el marcador, en una línea y cortado con puntos suspensivos; la etiqueta actual se parte en hasta dos líneas."
+      ],
+      [
+        "Descripción",
+        "La línea de apoyo debajo de la etiqueta, hasta dos líneas. En un paso con error, dice el motivo."
+      ],
+      [
+        "Opcional",
+        "La palabra Opcional al final de la columna de texto."
+      ],
+      [
+        "Conector",
+        "Una línea fina entre dos pasos, que pasa por el centro del marcador; en el color de la marca antes del paso actual y en el neutro después de él."
+      ],
+      [
+        "Foco",
+        "Un borde y un halo fuera del área del paso, con las esquinas siguiendo el área. Un paso con foco no tiene fondo de hover."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un nav, con nombre, y una lista ordenada. Un paso es un enlace o un botón cuando se puede activar y texto en el resto. El paso actual lleva aria-current=\"step\"; un paso deshabilitado lleva aria-disabled=\"true\". No es un tablist."
+      ],
+      [
+        "Nombre accesible",
+        "Cada paso se lee por su etiqueta, con el estado como texto oculto al inicio. El paso actual no tiene texto oculto, porque aria-current ya lo dice. La descripción y el Opcional forman parte del paso, así que el motivo de un error se lee. El marcador queda oculto a la tecnología de apoyo."
+      ],
+      [
+        "Teclado",
+        "Solo los pasos pulsables reciben Tab, en el orden de la lista; Enter activa el paso. Las flechas no hacen nada."
+      ],
+      [
+        "Foco visible",
+        "Un borde y un halo fuera del área del paso, en un paso pulsable. Un paso con foco no tiene fondo de hover, para que el borde de foco mantenga el contraste."
+      ],
+      [
+        "El color no es la única señal",
+        "Cada estado tiene su forma: un número en un contorno fino, un anillo y una etiqueta más fuerte, un check, un triángulo y el motivo en texto. En hover, el paso con error recibe un subrayado."
+      ],
+      [
+        "Contraste",
+        "La etiqueta, el número y la descripción superan 4,5:1 sobre el fondo y la tarjeta; el anillo, el fondo de error y el borde de foco superan 3:1. Dentro de un diálogo, en oscuro, algunos colores de marca y de error quedan por debajo: es una cuestión para la fundación."
+      ],
+      [
+        "Tamaño del objetivo",
+        "El área entera del paso es el objetivo, con al menos 32 de alto, por encima del mínimo de 24."
+      ],
+      [
+        "Texto cortado",
+        "Una etiqueta cortada muestra el texto completo en un globo, al pasar el puntero y con el foco, y Esc lo cierra."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: el registro en cuatro pasos en el paso 2; el paso con error y su motivo; y el stepper lineal en tres pasos.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-stepper — propósito, estados, comportamiento, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P117 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens stepper/* y los tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Stepper, marco de documentación nph-stepper (5569:6530).",
+      "W3C WAI, tutorial de formularios de varias páginas, y el patrón Link de la WAI-ARIA APG.",
+      "MDN — aria-current."
+    ],
+    "sourceSpec": "Ficha del nph-stepper; Figma, marco nph-stepper (5569:6530)",
+    "sourceApi": "Ficha del nph-stepper; docs/decisoes-tecnicas.md › P117",
+    "sourceAnatomy": "Figma, conjuntos 5541:1622 y 5540:581; design.md",
+    "matrixLabel": "Matriz del componente"
+  },
+  "stepperValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "navLabel": "Pasos del registro",
+    "completedLabel": "Completado",
+    "pendingLabel": "Pendiente",
+    "errorLabel": "Con error",
+    "optionalLabel": "Opcional",
+    "stepText": "Paso {current} de {count}",
+    "account": "Cuenta",
+    "address": "Dirección",
+    "payment": "Pago",
+    "review": "Revisión",
+    "accountSupport": "Nombre y correo",
+    "addressSupport": "Dónde entregar",
+    "paymentSupport": "Tarjeta o factura",
+    "errorReason": "Corrige 2 campos",
+    "longLabel": "Dirección de facturación y datos de la factura",
+    "threeSteps": [
+      "Datos",
+      "Documentos",
+      "Confirmar"
+    ],
+    "fiveSteps": [
+      "Cuenta",
+      "Perfil",
+      "Equipo",
+      "Facturación",
+      "Lanzamiento"
+    ],
+    "formTitle": "Dirección",
+    "formText": "¿A dónde debemos enviar tus facturas?"
   }
 }
