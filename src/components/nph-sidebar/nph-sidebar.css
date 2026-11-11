@@ -253,6 +253,17 @@
   overscroll-behavior: contain;
 }
 
+/*
+ * In the collapsed menu the counter of the first rail button rises above it and its outline adds
+ * more: `space/inline-tight` for each. The list takes that room on top, instead of the room of the
+ * halo, and gives it back with the margin.
+ */
+:host([mode='collapsed']) .list {
+  --_top: max(var(--_ring), calc(2 * var(--nph-space-inline-tight)));
+  margin-block-start: calc(-1 * var(--_top));
+  padding-block-start: var(--_top);
+}
+
 .section {
   display: flex;
   flex-direction: column;
@@ -402,7 +413,9 @@ dialog.panel[data-open] {
  * top is `space/inline`, the distance to the opener: the script reads it and takes it back, so
  * the panel sits to the side of the opener with its top aligned. Its width is what its options
  * need, at least as wide as a line of the expanded menu and at most `layout/input-width`, the
- * width of the floating menus; Figma draws 220 and has no token for it (open point of DSA-72).
+ * width of the floating menus; both limits give way to the window, so a narrow window or a large
+ * font never pushes the panel off the screen. Figma draws 220 and has no token for it (open point
+ * of DSA-72).
  */
 .flyout {
   position: fixed;
@@ -413,7 +426,7 @@ dialog.panel[data-open] {
   padding-block: var(--nph-space-inline);
   padding-inline: var(--nph-sidebar-item-padding);
   inline-size: max-content;
-  min-inline-size: calc(var(--nph-sidebar-panel-width) - 2 * var(--nph-sidebar-panel-spacing));
+  min-inline-size: min(calc(var(--nph-sidebar-panel-width) - 2 * var(--nph-sidebar-panel-spacing)), 100%);
   max-inline-size: min(var(--nph-layout-input-width), 100%);
   border: var(--nph-border-width) solid var(--nph-sidebar-flyout-border);
   border-radius: var(--nph-sidebar-flyout-radius);

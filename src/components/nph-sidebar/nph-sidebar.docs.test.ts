@@ -155,17 +155,24 @@ describe('nph-sidebar Documentation', () => {
       expect(third?.querySelector<NphSidebar>('nph-sidebar')?.mode).toBe('expanded');
     });
 
-    it(`${locale}: the examples show the flyout panels open: the second level next to the rail button and the third level next to the option`, async () => {
+    it(`${locale}: an example shows its flyout panels open while it is on the screen, and closes them when it leaves`, async () => {
       const target = renderInLocale(locale);
       const examples = target.querySelector('section#required-examples') as HTMLElement;
-      const collapsed = [...examples.querySelectorAll('figure[data-nph-color-scheme]')][6]?.querySelector<NphSidebar>('nph-sidebar') as NphSidebar;
-      await vi.waitFor(() => {
-        expect([...(collapsed.shadowRoot?.querySelectorAll('.flyout') ?? [])].map((panel) => panel.getAttribute('data-level'))).toEqual(['2', '3']);
-      });
-      const expanded = [...examples.querySelectorAll('figure[data-nph-color-scheme]')][8]?.querySelector<NphSidebar>('nph-sidebar') as NphSidebar;
-      await vi.waitFor(() => {
-        expect([...(expanded.shadowRoot?.querySelectorAll('.flyout') ?? [])].map((panel) => panel.getAttribute('data-level'))).toEqual(['3']);
-      });
+      const figures = [...examples.querySelectorAll('figure[data-nph-color-scheme]')];
+      const levels = (menu: NphSidebar): Array<string | null> =>
+        [...(menu.shadowRoot?.querySelectorAll('.flyout') ?? [])].map((panel) => panel.getAttribute('data-level'));
+      const collapsed = figures[6]?.querySelector<NphSidebar>('nph-sidebar') as NphSidebar;
+      const expanded = figures[8]?.querySelector<NphSidebar>('nph-sidebar') as NphSidebar;
+      /* Far apart on the page: the one at the top of the screen opens, the other one stays closed. */
+      (figures[6] as HTMLElement).style.display = 'block';
+      document.body.prepend(figures[6] as HTMLElement);
+      await vi.waitFor(() => expect(levels(collapsed)).toEqual(['2', '3']));
+      expect(levels(expanded)).toEqual([]);
+      /* The first one leaves the screen: its panels close, and the second one opens. */
+      (figures[6] as HTMLElement).style.display = 'none';
+      document.body.prepend(figures[8] as HTMLElement);
+      await vi.waitFor(() => expect(levels(expanded)).toEqual(['3']));
+      await vi.waitFor(() => expect(levels(collapsed)).toEqual([]));
     });
   }
 

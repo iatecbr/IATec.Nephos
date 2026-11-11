@@ -834,6 +834,39 @@ describe('the flyout panel of the collapsed menu', () => {
     }
   });
 
+  it('with a large font in a narrow window, the panel keeps its minimum inside the window', async () => {
+    await page.viewport(320, 800);
+    document.documentElement.style.fontSize = '200%';
+    try {
+      const sidebar = await mount({ mode: 'collapsed' });
+      await userEvent.click(innerControl(rail(sidebar, 3)));
+      await entered(sidebar);
+      const [panel] = flyouts(sidebar) as [HTMLElement];
+      const box = panel.getBoundingClientRect();
+      expect(box.width).toBeLessThanOrEqual(window.innerWidth + 0.5);
+      expect(box.left).toBeGreaterThanOrEqual(-0.5);
+      expect(box.right).toBeLessThanOrEqual(window.innerWidth + 0.5);
+    } finally {
+      document.documentElement.style.fontSize = '';
+      await page.viewport(1280, 900);
+    }
+  });
+
+  it('in the collapsed menu the counter of an active first rail button, with its outline, is not clipped on top', async () => {
+    const items: NphSidebarEntry[] = [{ label: 'Inbox', icon: 'inbox', href: '#inbox', counter: 12, active: true }];
+    const sidebar = await mount({ mode: 'collapsed', items });
+    await settle(sidebar);
+    const list = one(sidebar, '.list') as HTMLElement;
+    const pill = (rail(sidebar, 0).shadowRoot as ShadowRoot).querySelector('.counter') as HTMLElement;
+    const outline = Number.parseFloat(getComputedStyle(pill).outlineWidth);
+    expect(outline).toBeGreaterThan(0);
+    expect(pill.getBoundingClientRect().top - outline).toBeGreaterThanOrEqual(list.getBoundingClientRect().top - 0.5);
+    /* The room is given back: the first button starts where it would without it. */
+    const panel = one(sidebar, '.nav') as HTMLElement;
+    const without = innerControl(rail(sidebar, 0)).getBoundingClientRect().top - panel.getBoundingClientRect().top;
+    expect(without).toBeGreaterThan(0);
+  });
+
   it('a panel that does not fit at the end goes to the other side of the opener', async () => {
     const host = document.createElement('div');
     host.style.cssText = 'position:absolute;inset-block:0;inset-inline-end:0;';

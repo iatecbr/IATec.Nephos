@@ -157,22 +157,46 @@ async function press(sidebar: NphSidebar, opener: Opener): Promise<void> {
   await frames();
 }
 
-const pressed = new WeakSet<Element>();
+const watching = new WeakSet<Element>();
 
-/** Presses the openers, in order, once the menu has drawn: the flyout panels of the example. */
+/**
+ * Presses the openers, in order, while the example is on the screen: the flyout panels of the
+ * example. A panel stays inside the window, so one left open under an example that scrolled away
+ * would cover the page: the panels close when the example leaves the screen and open again when it
+ * comes back.
+ */
 function showing(openers: readonly Opener[]) {
   return ref((element) => {
-    if (!(element instanceof HTMLElement) || pressed.has(element)) return;
-    pressed.add(element);
+    if (openers.length === 0 || !(element instanceof HTMLElement) || watching.has(element)) return;
+    watching.add(element);
     const sidebar = element as NphSidebar;
-    void (async () => {
-      await customElements.whenDefined('nph-sidebar');
-      await sidebar.updateComplete;
-      await frames();
-      for (const opener of openers) {
-        await press(sidebar, opener);
-      }
-    })();
+    let shown = false;
+    let run = 0;
+    const observer = new IntersectionObserver(
+      (changes) => {
+        const visible = changes.some((change) => change.isIntersecting);
+        if (visible && !shown) {
+          shown = true;
+          const mine = (run += 1);
+          void (async () => {
+            await customElements.whenDefined('nph-sidebar');
+            await sidebar.updateComplete;
+            await frames();
+            for (const opener of openers) {
+              if (!shown || mine !== run) return;
+              await press(sidebar, opener);
+            }
+          })();
+        } else if (!visible && shown) {
+          shown = false;
+          run += 1;
+          sidebar.openSecond = null;
+          sidebar.openThird = null;
+        }
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(element);
   });
 }
 
