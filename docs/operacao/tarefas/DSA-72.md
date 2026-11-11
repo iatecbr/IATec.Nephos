@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 710,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-03",
@@ -31,10 +31,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-72/review-and-merge-2026-11-11.md",
+      "result": "passed",
+      "verified_at": "2026-11-11",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -65,7 +65,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-72/figma-docs-accepted-2026-11-10.md"
+    "docs/operacao/evidencias/DSA-72/figma-docs-accepted-2026-11-10.md",
+    "docs/operacao/evidencias/DSA-72/review-and-merge-2026-11-11.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -80,8 +81,8 @@
     "excerpt": null,
     "converted_decision": "The nph-sidebar documentation frame (4633:27036, page 1367:2) was accepted as the API and behavior specification of nph-sidebar. COMPONENT_SET nph-sidebar (4605:9647), 6 variants; the flyout panel (4605:9612); the flyout option set (4605:9599), 11 variants; the logo set (4605:9589); the label set (4605:9594). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-72-sidebar", "commit": "cc3ff2c", "pr": 165 },
-  "context": "docs/operacao/contextos/DSA-72.md",
+  "git_review": { "branch": "feat/dsa-72-sidebar", "commit": "779ad65e1dfaf7ba125c360bd8af1b3ce21e775d", "pr": 165 },
+  "context": null,
   "updated_at": "2026-11-11"
 }
 ```
