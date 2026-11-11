@@ -92,6 +92,16 @@
   justify-content: center;
 }
 
+/* The collapse and close buttons go to the end of the row, with the logo or without it. */
+.toggle,
+.close {
+  margin-inline-start: auto;
+}
+
+:host([mode='collapsed']) .toggle {
+  margin-inline-start: 0;
+}
+
 .middle {
   display: flex;
   flex: 1 1 auto;
@@ -165,7 +175,8 @@
   justify-content: center;
   inline-size: var(--nph-control-height-default);
   block-size: var(--nph-control-height-default);
-  margin: 0;
+  margin-block: 0;
+  margin-inline-end: 0;
   padding: 0;
   border: none;
   border-radius: var(--nph-radius-control);

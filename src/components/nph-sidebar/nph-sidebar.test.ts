@@ -483,6 +483,42 @@ describe('the expanded menu', () => {
   });
 });
 
+describe('the collapse and close buttons with no logo', () => {
+  const end = (sidebar: NphSidebar, selector: string): { button: DOMRect; row: DOMRect } => ({
+    button: (one(sidebar, selector) as HTMLElement).getBoundingClientRect(),
+    row: (one(sidebar, '.top') as HTMLElement).getBoundingClientRect(),
+  });
+
+  it('expanded: the collapse button is at the end of the row, not at the start', async () => {
+    const sidebar = await mount();
+    expect(one(sidebar, '.logo')).toBeNull();
+    const { button, row } = end(sidebar, '.toggle');
+    expect(button.right).toBeCloseTo(row.right, 0);
+    expect(button.left).toBeGreaterThan(row.left + button.width);
+  });
+
+  it('mobile: the close button is at the end of the row, not at the start', async () => {
+    const sidebar = await mount({ mode: 'mobile', open: true });
+    expect(one(sidebar, '.logo')).toBeNull();
+    const { button, row } = end(sidebar, '.close');
+    expect(button.right).toBeCloseTo(row.right, 0);
+    expect(button.left).toBeGreaterThan(row.left + button.width);
+  });
+
+  it('collapsed: the collapse button stays centered below the mark area', async () => {
+    const sidebar = await mount({ mode: 'collapsed' });
+    expect(one(sidebar, '.logo')).toBeNull();
+    const { button, row } = end(sidebar, '.toggle');
+    expect(button.left + button.width / 2).toBeCloseTo(row.left + row.width / 2, 0);
+  });
+
+  it('with a logo, the button is still at the end of the row', async () => {
+    const sidebar = await mount({ logoSrc: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20"/>', logoLabel: 'Nephos' });
+    const { button, row } = end(sidebar, '.toggle');
+    expect(button.right).toBeCloseTo(row.right, 0);
+  });
+});
+
 describe('the collapse button and the collapsed menu', () => {
   it('the collapse button names the action, carries aria-expanded and keeps the place of the sidebar icon with a skeleton (D-1)', async () => {
     const sidebar = await mount();
