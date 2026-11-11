@@ -930,6 +930,21 @@ describe('selection', () => {
     expect(item(tree, 'c').getAttribute('aria-checked')).toBe('true');
   });
 
+  it('multiple: a disabled branch keeps its own mark when an enabled child is toggled, and does not hand it to the child', async () => {
+    const items: NphTreeNode[] = [{ id: 'p', label: 'P', disabled: true, children: [{ id: 'a', label: 'A' }, { id: 'b', label: 'B' }] }];
+    const tree = await mount({ selection: 'multiple', items, checked: ['p'], expanded: ['p'] });
+    expect(item(tree, 'p').getAttribute('aria-checked')).toBe('true');
+    expect(item(tree, 'a').getAttribute('aria-checked')).toBe('false');
+    await userEvent.click(labelOf(tree, 'a'));
+    await settle(tree);
+    expect(tree.checked).toEqual(['p', 'a']);
+    await userEvent.click(labelOf(tree, 'a'));
+    await settle(tree);
+    expect(tree.checked).toEqual(['p']);
+    expect(item(tree, 'a').getAttribute('aria-checked')).toBe('false');
+    expect(item(tree, 'p').getAttribute('aria-checked')).toBe('true');
+  });
+
   it('multiple: a parent whose children are all disabled is checked by its own mark', async () => {
     const items: NphTreeNode[] = [{ id: 'p', label: 'P', children: [{ id: 'a', label: 'A', disabled: true }] }];
     const tree = await mount({ selection: 'multiple', items });
@@ -1052,6 +1067,30 @@ describe('load on demand', () => {
     expect(loads).toHaveLength(2);
   });
 
+  it('a Try again waits for its own branch: the items of another branch do not give it back the error', async () => {
+    const failing = (id: string): NphTreeNode => ({ id, label: id.toUpperCase(), branch: true, error: true });
+    const a = failing('a');
+    const b = failing('b');
+    const tree = await mount({ items: [a, b], expanded: ['a', 'b'] });
+    await userEvent.click(root(tree).querySelectorAll<HTMLElement>('.retry')[0] as HTMLElement);
+    await settle(tree);
+    await userEvent.click(root(tree).querySelector('.retry') as HTMLElement);
+    await settle(tree);
+    expect(root(tree).querySelector('.error-item')).toBeNull();
+    expect(item(tree, 'a').getAttribute('aria-busy')).toBe('true');
+    expect(item(tree, 'b').getAttribute('aria-busy')).toBe('true');
+    /* B answers with its children; A is the same object and still waits. */
+    tree.items = [a, { id: 'b', label: 'B', branch: true, children: [{ id: 'b1', label: 'B1' }] }];
+    await settle(tree);
+    expect(item(tree, 'a').getAttribute('aria-busy')).toBe('true');
+    expect(root(tree).querySelector('.error-item')).toBeNull();
+    expect(keys(tree)).toEqual(['a', 'b', 'b1']);
+    /* A answers with a failure again: it is a new object, so the row comes back. */
+    tree.items = [failing('a'), tree.items[1] as NphTreeNode];
+    await settle(tree);
+    expect(root(tree).querySelector('.error-item')).not.toBeNull();
+  });
+
   it('on the error row Left goes up to the branch and Right does nothing', async () => {
     const tree = await mount({ items: [{ id: 'remote', label: 'Remote', branch: true, error: true }], expanded: ['remote'] });
     await enter(tree);
@@ -1167,6 +1206,20 @@ describe('itemIdOf', () => {
     expect(tree.itemIdOf(item(tree, 'reports'))).toBe('reports');
     expect(tree.itemIdOf(document.body)).toBeNull();
     expect(tree.itemIdOf(null)).toBeNull();
+  });
+
+  it('finds the node from inside the drawing of an icon, which lives in a shadow root of its own', async () => {
+    const tree = await mount({ icons: true, expanded: ['docs'] });
+    const drawing = (host: Element | null): Element => host?.shadowRoot?.querySelector('svg path') as Element;
+    const chevron = toggleOf(tree, 'docs').querySelector('nph-icon');
+    const folder = item(tree, 'reports').querySelector('.node-icon');
+    expect(drawing(chevron)).not.toBeNull();
+    expect(tree.itemIdOf(drawing(chevron))).toBe('docs');
+    expect(tree.itemIdOf(drawing(folder))).toBe('reports');
+    const seen: (string | null)[] = [];
+    document.body.addEventListener('contextmenu', (event) => seen.push(tree.itemIdOf(event.composedPath()[0] as Element)), { signal: listeners.signal });
+    drawing(folder).dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, composed: true, cancelable: true }));
+    expect(seen).toEqual(['reports']);
   });
 
   it('answers the branch for its error row', async () => {
@@ -1446,6 +1499,27 @@ describe('the cut label and its balloon', () => {
     expect(item(tree, 'long-two').tabIndex).toBe(0);
     await userEvent.hover(document.body);
     await vi.waitFor(() => expect(balloon.open).toBe(false));
+    expect(item(tree, 'long-two').tabIndex).toBe(-1);
+  });
+
+  it('Tab from a button before the tree, or Shift+Tab from one after it, enters on the Tab stop, not on the item the pointer is over', async () => {
+    const tree = await mount({ items: [...items, { id: 'tail', label: 'Tail' }] }, '14rem');
+    await frame();
+    await settle(tree);
+    const before = document.createElement('button');
+    const after = document.createElement('button');
+    tree.parentElement?.before(before);
+    tree.parentElement?.after(after);
+    await userEvent.hover(labelOf(tree, 'long-two'));
+    expect(item(tree, 'long-two').tabIndex).toBe(0);
+    after.focus();
+    await userEvent.tab({ shift: true });
+    expect(focusedKey(tree)).toBe('long');
+    (document.activeElement as HTMLElement).blur();
+    await userEvent.hover(labelOf(tree, 'long-two'));
+    before.focus();
+    await userEvent.tab();
+    expect(focusedKey(tree)).toBe('long');
     expect(item(tree, 'long-two').tabIndex).toBe(-1);
   });
 

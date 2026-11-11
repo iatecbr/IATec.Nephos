@@ -12755,7 +12755,7 @@
     "selectionRules": [
       "The chevron opens and closes a branch; the rest of the row chooses. The checkbox is never on the selected item of single selection: they are two marks for the same choice.",
       "The cascade is on in multiple selection: checking a parent checks its enabled children, closed branches included; unchecking a child leaves the parent mixed; checking the last child checks the parent.",
-      "A disabled item takes focus by the arrows and does nothing. It stays out of the count of its parent and out of the cascade, and keeps its own state; the selected disabled item keeps its surface, bar and label under the disabled opacity.",
+      "A disabled item takes focus by the arrows and does nothing. It stays out of the count of its parent and out of the cascade, and keeps its own state, and a disabled branch neither hands its mark to its children nor takes theirs; the selected disabled item keeps its surface, bar and label under the disabled opacity.",
       "With check-strictly every item is independent and no parent is mixed.",
       "Hover only paints the row: it does not move the focus and it does not choose. The item with focus takes no hover background."
     ],
@@ -12764,7 +12764,7 @@
     "loading": [
       "The first load of the tree is loading with an empty items: three skeleton rows, each at the height of the item. The failure of that first load has no row: the page shows its own message.",
       "A branch that is open, has branch true, no children and no error loads: the spinner takes the place of the chevron, the item is busy and the page is asked once with nph-tree-load. The page replaces items with the children, or with error true.",
-      "If the load fails, the error row enters the group, aligned to the indent of the children, with the triangle, the phrase and Try again. Enter or a click on it tries again: the row goes to loading until items is replaced, and nph-tree-load fires with retry true. The name read is \"Couldn't load. Try again\".",
+      "If the load fails, the error row enters the group, aligned to the indent of the children, with the triangle, the phrase and Try again. Enter or a click on it tries again: the row goes to loading until items brings that branch back as another object or without error, and nph-tree-load fires with retry true. The name read is \"Couldn't load. Try again\".",
       "The empty tree shows the empty state in place of the list.",
       "The label stays on one line and is cut with an ellipsis; the whole text shows in a balloon, at once on the focus of the item and after a short wait on hover, and reaches the screen reader whole.",
       "The chevron turns a quarter when a branch opens; with reduced motion it swaps with no turning. When the item that holds the focus leaves, the focus goes to the nearest branch that is still drawn."

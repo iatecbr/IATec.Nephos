@@ -241,7 +241,7 @@ export class NphTree extends LitElement {
   private nextDomId = 0;
 
   /* The branches whose "Try again" was pressed, until the consumer replaces `items`. */
-  private retrying = new Set<string>();
+  private retrying = new Map<string, NphTreeNode>();
 
   /* The item that held the focus last, for `focus()`: a menu that closes gives the focus back to the host. */
   private lastFocusKey: string | null = null;
@@ -286,6 +286,9 @@ export class NphTree extends LitElement {
     /* A tree moved to another place observes its labels again: the observer was disconnected when it
        left, and only an update installs it. */
     if (this.hasUpdated) this.requestUpdate();
+    /* Tab, from anywhere on the page, gives back the stops taken for a balloon: Shift+Tab from a button
+       after the tree, or Tab from one before it, enters on the chosen item, not on the one hovered. */
+    document.addEventListener('keydown', this.onDocumentKeydown, true);
   }
 
   override disconnectedCallback(): void {
@@ -294,6 +297,7 @@ export class NphTree extends LitElement {
     this.resizeObserver = undefined;
     this.observed = [];
     this.releaseHoverStops();
+    document.removeEventListener('keydown', this.onDocumentKeydown, true);
   }
 
   /* ----- public ------------------------------------------------------------ */
@@ -304,11 +308,19 @@ export class NphTree extends LitElement {
    * that is. The error row answers with the branch it belongs to.
    */
   itemIdOf(element: Element | null | undefined): string | null {
-    const item = element?.closest?.('[role="treeitem"]');
-    if (!(item instanceof HTMLElement) || !this.renderRoot.contains(item)) return null;
-    const key = item.dataset.key ?? '';
-    const row = this.rowByKey.get(key);
-    return row === undefined ? null : row.node.id;
+    /* The element may be inside the shadow root of a piece of the row, such as the drawing of an icon:
+       `closest()` stops at that root, so the search goes up through the hosts until it meets the row. */
+    let node: Element | null = element ?? null;
+    while (node !== null) {
+      const item = node.closest('[role="treeitem"]');
+      if (item instanceof HTMLElement && this.renderRoot.contains(item)) {
+        const row = this.rowByKey.get(item.dataset.key ?? '');
+        return row === undefined ? null : row.node.id;
+      }
+      const root = node.getRootNode();
+      node = root instanceof ShadowRoot && root !== this.renderRoot ? root.host : null;
+    }
+    return null;
   }
 
   /**
@@ -379,7 +391,7 @@ export class NphTree extends LitElement {
 
   /** Whether the branch loads now: the node says so, "Try again" was pressed, or it has no children and no failure. */
   private loadsNow(node: NphTreeNode): boolean {
-    if (this.retrying.has(node.id) || node.loading === true) return true;
+    if (this.retrying.get(node.id) === node || node.loading === true) return true;
     return NphTree.unloaded(node) && node.error !== true;
   }
 
@@ -453,7 +465,8 @@ export class NphTree extends LitElement {
       const children = Array.isArray(node.children) ? node.children : [];
       let state: CheckState = own ? 'checked' : 'unchecked';
       if (!cascade || children.length === 0 || node.disabled === true) {
-        for (const child of children) visit(child, cascade && own && child.disabled !== true);
+        /* A disabled node keeps its own mark and neither gives it to its children nor takes theirs. */
+        for (const child of children) visit(child, false);
       } else {
         const counted: CheckState[] = [];
         for (const child of children) {
@@ -543,7 +556,7 @@ export class NphTree extends LitElement {
         key = this.parentOf.get(key);
       }
     }
-    if (changed.has('items')) this.retrying.clear();
+    if (changed.has('items')) this.pruneRetries();
     this.problem = this.validate();
     if (this.problem !== null) {
       /* One message per cause: a re-render with the same input stays silent. */
@@ -679,10 +692,30 @@ export class NphTree extends LitElement {
     }
   }
 
+  /**
+   * A new `items` answers a "Try again" when the branch it was pressed on comes back as another object,
+   * or no longer fails: an update of some other branch keeps the retries that are still waiting.
+   */
+  private pruneRetries(): void {
+    if (this.retrying.size === 0) return;
+    const found = new Map<string, NphTreeNode>();
+    const walk = (nodes: readonly NphTreeNode[]): void => {
+      for (const node of nodes) {
+        if (this.retrying.has(node.id)) found.set(node.id, node);
+        if (Array.isArray(node.children)) walk(node.children);
+      }
+    };
+    if (Array.isArray(this.items)) walk(this.items);
+    for (const [id, pressed] of this.retrying) {
+      const now = found.get(id);
+      if (now === undefined || now !== pressed || now.error !== true) this.retrying.delete(id);
+    }
+  }
+
   /** "Try again" on the error row of a branch: the row turns into loading and the consumer is asked again. */
   private retry(row: Row): void {
     const id = row.node.id;
-    this.retrying.add(id);
+    this.retrying.set(id, row.node);
     this.requestUpdate();
     this.dispatch<NphTreeLoadDetail>('nph-tree-load', { id, retry: true });
   }
@@ -713,7 +746,8 @@ export class NphTree extends LitElement {
       /* The parents are decided again from their children: a checked parent with an unchecked child is no longer checked. */
       let parent = this.parentOf.get(id);
       while (parent !== null && parent !== undefined) {
-        next.delete(parent);
+        /* A disabled ancestor keeps its own state: the cascade does not reach it. */
+        if (this.rowByKey.get(parent)?.node.disabled !== true) next.delete(parent);
         parent = this.parentOf.get(parent);
       }
     }
@@ -771,11 +805,12 @@ export class NphTree extends LitElement {
     return getComputedStyle(this).direction === 'rtl';
   }
 
+  private readonly onDocumentKeydown = (event: KeyboardEvent): void => {
+    if (event.key === 'Tab' && this.hoverStops.size > 0) this.releaseHoverStops();
+  };
+
   private readonly onKeydown = (event: KeyboardEvent): void => {
-    if (event.key === 'Tab') {
-      this.releaseHoverStops();
-      return;
-    }
+    if (event.key === 'Tab') return;
     if (event.ctrlKey || event.metaKey || event.altKey) return;
     const target = (event.target as Element | null)?.closest?.('[role="treeitem"]');
     if (!(target instanceof HTMLElement) || !this.renderRoot.contains(target)) return;

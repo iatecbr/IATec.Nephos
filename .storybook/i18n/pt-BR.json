@@ -12755,7 +12755,7 @@
     "selectionRules": [
       "O chevron abre e fecha um ramo; o resto da linha escolhe. O checkbox nunca aparece no item escolhido da seleção single: seriam duas marcas para a mesma escolha.",
       "A cascata está ligada na seleção multiple: marcar um pai marca os filhos habilitados dele, inclusive os de ramos fechados; desmarcar um filho deixa o pai misto; marcar o último filho marca o pai.",
-      "Um item desabilitado recebe o foco pelas setas e não faz nada. Ele fica fora da contagem do pai e fora da cascata, e mantém o próprio estado; o item escolhido e desabilitado mantém a superfície, a barra e o rótulo sob a opacidade de desabilitado.",
+      "Um item desabilitado recebe o foco pelas setas e não faz nada. Ele fica fora da contagem do pai e fora da cascata, e mantém o próprio estado, e um ramo desabilitado nem passa a marca aos filhos nem recebe a deles; o item escolhido e desabilitado mantém a superfície, a barra e o rótulo sob a opacidade de desabilitado.",
       "Com check-strictly cada item é independente e nenhum pai fica misto.",
       "O hover só pinta a linha: não move o foco e não escolhe. O item com foco não recebe fundo de hover."
     ],
@@ -12764,7 +12764,7 @@
     "loading": [
       "O primeiro carregamento da árvore é loading com items vazio: três linhas de skeleton, cada uma na altura do item. A falha desse primeiro carregamento não tem linha: a página mostra a própria mensagem.",
       "Um ramo que está aberto, tem branch true, não tem children nem error carrega: o spinner toma o lugar do chevron, o item fica ocupado e a página é avisada uma vez com nph-tree-load. A página substitui items pelos filhos, ou por error true.",
-      "Se o carregamento falha, a linha de erro entra no grupo, alinhada ao recuo dos filhos, com o triângulo, a frase e Tentar de novo. Enter ou um clique nela tenta de novo: a linha volta para loading até items ser substituído, e nph-tree-load dispara com retry true. O nome lido é \"Não foi possível carregar. Tentar de novo\".",
+      "Se o carregamento falha, a linha de erro entra no grupo, alinhada ao recuo dos filhos, com o triângulo, a frase e Tentar de novo. Enter ou um clique nela tenta de novo: a linha volta para loading até items trazer esse ramo de volta como outro objeto ou sem error, e nph-tree-load dispara com retry true. O nome lido é \"Não foi possível carregar. Tentar de novo\".",
       "A árvore vazia mostra o estado vazio no lugar da lista.",
       "O rótulo fica numa linha só e é cortado com reticências; o texto inteiro aparece num balão, na hora no foco do item e depois de uma espera curta no hover, e chega inteiro ao leitor de tela.",
       "O chevron gira um quarto quando um ramo abre; com movimento reduzido ele troca sem girar. Quando o item que tem o foco sai, o foco vai para o ramo mais próximo que ainda está desenhado."

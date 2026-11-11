@@ -12755,7 +12755,7 @@
     "selectionRules": [
       "El chevron abre y cierra una rama; el resto de la fila elige. El checkbox nunca aparece en el elemento elegido de la selección single: serían dos marcas para la misma elección.",
       "La cascada está activada en la selección multiple: marcar un padre marca a sus hijos habilitados, también los de ramas cerradas; desmarcar un hijo deja al padre mixto; marcar al último hijo marca al padre.",
-      "Un elemento deshabilitado recibe el foco con las flechas y no hace nada. Queda fuera del conteo de su padre y fuera de la cascada, y mantiene su propio estado; el elemento elegido y deshabilitado mantiene la superficie, la barra y la etiqueta bajo la opacidad de deshabilitado.",
+      "Un elemento deshabilitado recibe el foco con las flechas y no hace nada. Queda fuera del conteo de su padre y fuera de la cascada, y mantiene su propio estado, y una rama deshabilitada ni pasa su marca a los hijos ni recibe la de ellos; el elemento elegido y deshabilitado mantiene la superficie, la barra y la etiqueta bajo la opacidad de deshabilitado.",
       "Con check-strictly cada elemento es independiente y ningún padre queda mixto.",
       "El hover solo pinta la fila: no mueve el foco y no elige. El elemento con foco no recibe fondo de hover."
     ],
@@ -12764,7 +12764,7 @@
     "loading": [
       "La primera carga del árbol es loading con items vacío: tres filas de skeleton, cada una a la altura del elemento. El fallo de esa primera carga no tiene fila: la página muestra su propio mensaje.",
       "Una rama que está abierta, tiene branch true, no tiene children ni error carga: el spinner ocupa el lugar del chevron, el elemento queda ocupado y se avisa a la página una vez con nph-tree-load. La página reemplaza items por los hijos, o por error true.",
-      "Si la carga falla, la fila de error entra en el grupo, alineada con la sangría de los hijos, con el triángulo, la frase y Reintentar. Enter o un clic en ella reintenta: la fila vuelve a loading hasta que se reemplace items, y nph-tree-load se dispara con retry true. El nombre leído es \"No se pudo cargar. Reintentar\".",
+      "Si la carga falla, la fila de error entra en el grupo, alineada con la sangría de los hijos, con el triángulo, la frase y Reintentar. Enter o un clic en ella reintenta: la fila vuelve a loading hasta que items traiga esa rama de vuelta como otro objeto o sin error, y nph-tree-load se dispara con retry true. El nombre leído es \"No se pudo cargar. Reintentar\".",
       "El árbol vacío muestra el estado vacío en lugar de la lista.",
       "La etiqueta queda en una sola línea y se corta con puntos suspensivos; el texto entero aparece en un globo, de inmediato con el foco del elemento y tras una espera corta con el hover, y llega entero al lector de pantalla.",
       "El chevron gira un cuarto cuando una rama se abre; con movimiento reducido cambia sin girar. Cuando el elemento que tiene el foco sale, el foco va a la rama más cercana que aún está dibujada."

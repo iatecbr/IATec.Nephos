@@ -7312,7 +7312,8 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
 4. **The cascade.** On by default in multiple selection: checking a parent checks its enabled
    children, a parent is checked when all its enabled children are, mixed when only part of them is,
    and a mixed or unchecked item gets checked by a click. A disabled item keeps its own state, is not
-   changed by the cascade and stays out of the count of its parent. A parent whose children are all
+   changed by the cascade and stays out of the count of its parent; a disabled branch neither hands its
+   mark to its children nor takes theirs. A parent whose children are all
    disabled is checked by its own mark. A checked parent whose children load later checks them.
    `check-strictly` (`checkStrictly`) turns the cascade off, and then nothing is mixed. The list in
    `nph-tree-check` holds the ids in the checked state, in the order of the tree, closed branches
@@ -7329,7 +7330,8 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
    when the person opens such a branch; the page loads and replaces `items` with the `children`, or
    with `error: true`, which shows the error row in place of the children. Pressing "Try again"
    (Enter or a click on the error row) fires `nph-tree-load` with `retry: true` and the row goes to
-   loading at once, until `items` is replaced. A branch opened by the code loads but does not fire
+   loading at once, until `items` brings that branch back as another object or without `error`: an
+   update of some other branch keeps the retries still waiting. A branch opened by the code loads but does not fire
    the event: the page that opened it loads it. The first load of the tree is `loading` with an empty
    `items`: three `nph-skeleton` rows at the height of the item, `aria-hidden`, and the host busy.
    The failure of that first load has no row in the contract, so the page shows its own message.

@@ -67,7 +67,7 @@ api:
       With the cascade on, a checked parent checks all its enabled children, and the list the person
       produces holds the ids that are in the checked state, a parent among them once all its enabled
       children are checked. A disabled item keeps its own state and stays out of the count of its
-      parent. Ids the tree does not know are ignored. Ignored in the other selections.
+      parent; a disabled branch neither hands its mark to its children nor takes theirs. Ids the tree does not know are ignored. Ignored in the other selections.
   expanded:
     type: array
     required: false
@@ -187,7 +187,8 @@ api:
       and when the person tries again on the error row, with detail { id, retry }. It bubbles and is
       composed. The page loads the children and replaces items: with them the branch gives the
       chevron back, and with error true the error row shows. After a Try again the row goes to
-      loading until items is replaced.
+      loading until items brings that branch back as another object or without error; an update of some
+      other branch keeps the retries still waiting.
   focus:
     type: method
     required: false
