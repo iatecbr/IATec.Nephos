@@ -101,6 +101,13 @@
       "reflects": false,
       "constraint": "The accessible name of the more actions button, already localized. Required with actions: without it, the item draws nothing and emits console.error in development."
     },
+    "controls": {
+      "type": "object",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The element a group opens, set by nph-sidebar (property only). An id cannot cross the shadow root, so the group button takes it as ariaControlsElements."
+    },
     "nph-toggle": {
       "type": "event",
       "required": false,
@@ -157,8 +164,8 @@
       "changes_for_user": "The open group: the label and the solid icon in sidebar/item-foreground-open, the label in text/label-md and the arrow up."
     },
     "focus": {
-      "token": "color/primary",
-      "changes_for_user": "Keyboard focus: border border/width in color/primary and halo focus/ring-width in focus/halo around the whole line, outside it."
+      "token": "focus/border",
+      "changes_for_user": "Keyboard focus: border border/width in focus/border and halo focus/ring-width in focus/halo around the whole line, outside it."
     },
     "disabled": {
       "token": "state/disabled-opacity",
@@ -185,8 +192,8 @@
     "active": "sidebar/item-foreground-active",
     "open": "sidebar/item-foreground-open",
     "counter": "text/label-sm in sidebar/item-badge-foreground on sidebar/item-badge-background, icon/size-md high, space/inline on the sides, radius/full",
-    "more_actions": "nph-button icon-only, ghost and compact, with ellipsis-vertical, sidebar/item-padding from the end",
-    "focus": "border border/width in color/primary, focus/border-radius-sidebar-item; halo focus/ring-width in focus/halo, focus/radius-sidebar-item",
+    "more_actions": "nph-button icon-only, secondary, ghost and compact, with ellipsis-vertical, sidebar/item-padding from the end",
+    "focus": "border border/width in focus/border, focus/border-radius-sidebar-item; halo focus/ring-width in focus/halo, focus/radius-sidebar-item",
     "disabled": "state/disabled-opacity"
   },
   "ai_hints": [
@@ -198,14 +205,14 @@
     "In the collapsed menu, use nph-sidebar-rail-button; inside an open group, use nph-sidebar-subitem."
   ],
   "accessibility": {
-    "semantics": "A link with aria-current=page on the current page; a group is a button with aria-expanded. Disabled, the link has no href, keeps role link and gains aria-disabled.",
+    "semantics": "A link with aria-current=page on the current page; a group is a button with aria-expanded and aria-controls. Disabled, the link has no href, keeps role link and gains aria-disabled.",
     "accessible_name": "The label; the counter number is read as text inside the name of the link. The icon and the arrow are hidden from the screen reader. The more actions button is named by actions-label, and the balloon is the description of the line.",
     "keyboard": [
       "Tab: reaches the line and then, when there is one, the more actions button; Shift+Tab comes back.",
       "Enter: follows the link.",
       "Enter and Space: open and close a group."
     ],
-    "focus": "Border color/primary and halo focus/halo around the whole line, keyboard only, as in nph-button.",
+    "focus": "Border focus/border and halo focus/halo around the whole line, keyboard only.",
     "contrast": "Label, number and icon pass 4.5:1 and 3:1 against the line background, sidebar/panel-background at rest and focus and sidebar/item-background-hover on hover, and the number against sidebar/item-badge-background, in both modes; the focus border passes 3:1 against sidebar/panel-background. Disabled is exempt.",
     "color_alternative": "Active also switches the icon to solid and the label to text/label-md; an open group shows the arrow up; the counter carries the number as text."
   },
@@ -248,10 +255,10 @@
     "Using the item to choose an option or open actions in a menu."
   ],
   "sources": {
-    "design_md": "design.md, color/primary, focus/halo, focus/ring-width, border/width, space/control-padding, space/inline, icon/size-md, icon/size-sm, radius/full, text/body-md, text/label-md, text/label-sm and state/disabled-opacity; the sidebar/* tokens and the focus radii are in src/tokens/source/semantic.tokens.json",
-    "decision": "P98 — API and semantics of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button",
+    "design_md": "design.md, focus/border, focus/halo, focus/ring-width, border/width, space/control-padding, space/inline, icon/size-md, icon/size-sm, radius/full, text/body-md, text/label-md, text/label-sm and state/disabled-opacity; the sidebar/* tokens and the focus radii are in src/tokens/source/semantic.tokens.json",
+    "decision": "P98 — API and semantics of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button; P116 for more actions in secondary, the focus border and controls",
     "tests": "src/components/nph-sidebar-item/nph-sidebar-item.test.ts and nph-sidebar-item.docs.test.ts",
-    "usage_evidence": "the required examples of the nph-sidebar-item Docs page; nph-sidebar is not built yet",
+    "usage_evidence": "the required examples of the nph-sidebar-item Docs page and of the nph-sidebar Docs page",
     "storybook": "src/components/nph-sidebar-item/nph-sidebar-item.stories.ts and nph-sidebar-item.docs.stories.ts",
     "figma": "DS-IA-NEPHOS 5.0, board nph-sidebar-item 1366:2, documentation 2723:460, set 2251:51271"
   }

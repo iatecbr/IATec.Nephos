@@ -118,6 +118,14 @@ api:
     constraint: >-
       The accessible name of the more actions button, already localized. Required with
       actions: without it, the item draws nothing and emits console.error in development.
+  controls:
+    type: object
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      The element a group opens, set by nph-sidebar (property only). An id cannot cross the
+      shadow root, so the group button takes it as ariaControlsElements.
   nph-toggle:
     type: event
     required: false
@@ -165,8 +173,8 @@ states:
     token: sidebar/item-foreground-open
     changes_for_user: "The open group: the label and the solid icon in sidebar/item-foreground-open, the label in text/label-md and the arrow up."
   focus:
-    token: color/primary
-    changes_for_user: "Keyboard focus: border border/width in color/primary and halo focus/ring-width in focus/halo around the whole line, outside it."
+    token: focus/border
+    changes_for_user: "Keyboard focus: border border/width in focus/border and halo focus/ring-width in focus/halo around the whole line, outside it."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole line at state/disabled-opacity, with no hover; it cannot be reached by Tab."
@@ -189,8 +197,8 @@ tokens:
   active: sidebar/item-foreground-active
   open: sidebar/item-foreground-open
   counter: "text/label-sm in sidebar/item-badge-foreground on sidebar/item-badge-background, icon/size-md high, space/inline on the sides, radius/full"
-  more_actions: "nph-button icon-only, ghost and compact, with ellipsis-vertical, sidebar/item-padding from the end"
-  focus: "border border/width in color/primary, focus/border-radius-sidebar-item; halo focus/ring-width in focus/halo, focus/radius-sidebar-item"
+  more_actions: "nph-button icon-only, secondary, ghost and compact, with ellipsis-vertical, sidebar/item-padding from the end"
+  focus: "border border/width in focus/border, focus/border-radius-sidebar-item; halo focus/ring-width in focus/halo, focus/radius-sidebar-item"
   disabled: state/disabled-opacity
 ai_hints:
   - "Use nph-sidebar-item for a line of the lateral menu; for an action, use nph-button."
@@ -200,13 +208,13 @@ ai_hints:
   - "Give more actions only actions that the destination page also offers."
   - "In the collapsed menu, use nph-sidebar-rail-button; inside an open group, use nph-sidebar-subitem."
 accessibility:
-  semantics: "A link with aria-current=page on the current page; a group is a button with aria-expanded. Disabled, the link has no href, keeps role link and gains aria-disabled."
+  semantics: "A link with aria-current=page on the current page; a group is a button with aria-expanded and aria-controls. Disabled, the link has no href, keeps role link and gains aria-disabled."
   accessible_name: "The label; the counter number is read as text inside the name of the link. The icon and the arrow are hidden from the screen reader. The more actions button is named by actions-label, and the balloon is the description of the line."
   keyboard:
     - "Tab: reaches the line and then, when there is one, the more actions button; Shift+Tab comes back."
     - "Enter: follows the link."
     - "Enter and Space: open and close a group."
-  focus: "Border color/primary and halo focus/halo around the whole line, keyboard only, as in nph-button."
+  focus: "Border focus/border and halo focus/halo around the whole line, keyboard only."
   contrast: "Label, number and icon pass 4.5:1 and 3:1 against the line background, sidebar/panel-background at rest and focus and sidebar/item-background-hover on hover, and the number against sidebar/item-badge-background, in both modes; the focus border passes 3:1 against sidebar/panel-background. Disabled is exempt."
   color_alternative: "Active also switches the icon to solid and the label to text/label-md; an open group shows the arrow up; the counter carries the number as text."
 invalid_combinations:
@@ -231,10 +239,10 @@ anti_patterns:
   - "Writing text in the counter."
   - "Using the item to choose an option or open actions in a menu."
 sources:
-  design_md: "design.md, color/primary, focus/halo, focus/ring-width, border/width, space/control-padding, space/inline, icon/size-md, icon/size-sm, radius/full, text/body-md, text/label-md, text/label-sm and state/disabled-opacity; the sidebar/* tokens and the focus radii are in src/tokens/source/semantic.tokens.json"
-  decision: "P98 — API and semantics of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button"
+  design_md: "design.md, focus/border, focus/halo, focus/ring-width, border/width, space/control-padding, space/inline, icon/size-md, icon/size-sm, radius/full, text/body-md, text/label-md, text/label-sm and state/disabled-opacity; the sidebar/* tokens and the focus radii are in src/tokens/source/semantic.tokens.json"
+  decision: "P98 — API and semantics of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button; P116 for more actions in secondary, the focus border and controls"
   tests: "src/components/nph-sidebar-item/nph-sidebar-item.test.ts and nph-sidebar-item.docs.test.ts"
-  usage_evidence: "the required examples of the nph-sidebar-item Docs page; nph-sidebar is not built yet"
+  usage_evidence: "the required examples of the nph-sidebar-item Docs page and of the nph-sidebar Docs page"
   storybook: "src/components/nph-sidebar-item/nph-sidebar-item.stories.ts and nph-sidebar-item.docs.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, board nph-sidebar-item 1366:2, documentation 2723:460, set 2251:51271"
 ---
@@ -298,7 +306,7 @@ actions on a disabled line.
 | `hover` | `sidebar/item-background-hover` | The whole line, the more actions button included; the colors of rest |
 | `active` | `sidebar/item-foreground-active` | No background; the label and the solid icon in its color, the label in `text/label-md` |
 | open group | `sidebar/item-foreground-open` | The label and the solid icon in its color, `text/label-md` and the arrow up |
-| `focus` | `color/primary`, `focus/halo` | Border `border/width` and halo `focus/ring-width` around the whole line, keyboard only |
+| `focus` | `focus/border`, `focus/halo` | Border `border/width` and halo `focus/ring-width` around the whole line, keyboard only |
 | `disabled` | `state/disabled-opacity` | The whole line fades, with no hover, out of the Tab order |
 
 **Feedback and focus:** keyboard focus draws the border and the halo outside the line, in
@@ -323,10 +331,10 @@ ring. More actions shows on hover and focus.
 
 | Criterion | Rule |
 |---|---|
-| Semantics | A link with `aria-current="page"` on the current page; a group is a `button` with `aria-expanded`. Disabled, the link has no `href`, keeps `role="link"` and gains `aria-disabled` |
+| Semantics | A link with `aria-current="page"` on the current page; a group is a `button` with `aria-expanded` and `aria-controls`. Disabled, the link has no `href`, keeps `role="link"` and gains `aria-disabled` |
 | Accessible name | The label; the counter number is read as text inside the name of the link. The icon and the arrow are hidden. More actions is named by `actions-label`; the balloon is the description of the line |
 | Keyboard | Tab reaches the line and then the more actions button; Enter follows the link; Enter and Space open and close a group |
-| Focus | Border `color/primary` and halo `focus/halo` around the whole line, keyboard only, as in `nph-button` |
+| Focus | Border `focus/border` and halo `focus/halo` around the whole line, keyboard only |
 | Contrast | Label, number and icon pass 4.5:1 and 3:1 against `sidebar/panel-background` and `sidebar/item-background-hover`, and the number against `sidebar/item-badge-background`, in both modes. Disabled is exempt |
 | Alternative to color | Active also switches the icon to solid and the label to `text/label-md`; an open group shows the arrow up |
 | Touch target | The whole line, `sidebar/item-height`. More actions is small and serves mouse and keyboard only |
@@ -339,7 +347,8 @@ ring. More actions shows on hover and focus.
 `nph-button`, `nph-dropdown-menu` and `nph-tooltip`, its inner pieces.
 
 **What is the parent:** `nph-sidebar`, which decides the expanded or collapsed mode, the
-width and the switch of the item for the rail button. It is not built yet.
+width and the switch of the item for the rail button, and draws the subitems of an open
+group.
 
 **What is the child:** `nph-icon`, the icon and the arrow; `nph-button` and
 `nph-dropdown-menu`, more actions; `nph-tooltip`, the balloon.
@@ -359,8 +368,8 @@ width and the switch of the item for the rail button. It is not built yet.
 | Hover | `sidebar/item-background-hover` |
 | Active and open | `sidebar/item-foreground-active`, `sidebar/item-foreground-open` |
 | Counter | `text/label-sm` in `sidebar/item-badge-foreground` on `sidebar/item-badge-background`, `icon/size-md` high, `space/inline` on the sides, `radius/full` |
-| More actions | `nph-button` icon-only, ghost and compact, `ellipsis-vertical`, `sidebar/item-padding` from the end |
-| Focus | Border `border/width` in `color/primary`, `focus/border-radius-sidebar-item`; halo `focus/ring-width` in `focus/halo`, `focus/radius-sidebar-item` |
+| More actions | `nph-button` icon-only, secondary, ghost and compact, `ellipsis-vertical`, `sidebar/item-padding` from the end |
+| Focus | Border `border/width` in `focus/border`, `focus/border-radius-sidebar-item`; halo `focus/ring-width` in `focus/halo`, `focus/radius-sidebar-item` |
 | Disabled | `state/disabled-opacity` |
 
 **Usage restrictions:** the item has no background at rest and when active: the panel of
@@ -406,15 +415,15 @@ collapsed menu, with one `nph-sidebar-rail-button` per page.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `color/primary`, `focus/halo`, `focus/ring-width`,
+- **The repository `design.md`:** `focus/border`, `focus/halo`, `focus/ring-width`,
   `border/width`, `space/control-padding`, `space/inline`, `icon/size-md`, `icon/size-sm`,
   `radius/full`, `text/body-md`, `text/label-md`, `text/label-sm` and
   `state/disabled-opacity`. The `sidebar/*` tokens and the focus radii are in
   `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P98, the API and semantics of `nph-sidebar-item`,
   `nph-sidebar-subitem` and `nph-sidebar-rail-button`.
-- **Pending decisions:** D-1 to D-4 of the task DSA-53; D-3, the severity of more actions,
-  belongs to this piece.
+- **Pending decisions:** none. The answers of D-1 to D-4 of the task DSA-53 are applied in
+  P116: more actions is secondary, and the focus border is `focus/border`.
 - **Tests:** `src/components/nph-sidebar-item/nph-sidebar-item.test.ts` and
   `nph-sidebar-item.docs.test.ts`.
 - **Usage evidence:** the required examples of the `nph-sidebar-item` Docs page.

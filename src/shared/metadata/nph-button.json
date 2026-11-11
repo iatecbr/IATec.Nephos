@@ -293,7 +293,7 @@
       "Space activates.",
       "In the icon-only button, keyboard focus opens the tooltip at once and Esc closes it; Enter and Space leave it alone."
     ],
-    "focus": "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item.",
+    "focus": "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item. One public hook, the custom property --nph-button-focus-border, sets the color of the border where a piece needs focus/border on its surface (nph-sidebar, DSA-72); unset, it changes nothing.",
     "contrast": "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The primary and danger outline borders pass 3:1; the secondary outline border is 1.93:1 in the light scheme and 4.18:1 in the dark one, an accepted exception because the text, or the icon with its label and tooltip, identifies the button. The focus border of primary has the limit described in `focus`.",
     "color_alternative": "The text says what happens on click; color is never the only sign of intent, focus or state."
   },

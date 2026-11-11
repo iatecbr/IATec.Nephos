@@ -72,6 +72,7 @@ P62.4 subsection for the detail).
 | **P113** | API and semantics of `nph-context-menu`; the accepted changes of `nph-dropdown-menu` and `nph-icon` | 08/11/2026 | Low now. No piece consumes the context menu yet; `nph-data-table` is its first expected parent, so changing `for`, `items`, `open-submenu`, `size`, the event `nph-item-select` (with `origin`) or the invalid-input rule later requires redoing every consumer. The `nph-dropdown-menu` change is visual only | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P114** | The answers of 2026-11-09 applied in the code: the size of `nph-switch`, the focus of the dropdown item, the open trigger of `nph-button`, the disclosure and motion of `nph-navigation-menu` and the other choices (amends P87, P111 and P113) | 09/11/2026 | Low. The pieces are not consumed by another piece beyond the dropdown item that draws the small switch; changing `size` of `nph-switch`, `NPH_PROGRESS_MIN_STEPS` or the narrow rows of `nph-navigation-menu` later requires redoing every consumer | Answers by Indiane on 2026-11-09, in the tasks. The choices are reviewed in the pull request that brings them |
 | **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. The balloon of the cut tab (D-1), the names of the arrows (D-2), `99+` (D-3) and the cut label in the segmented and tab button styles (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P116** | API and semantics of `nph-sidebar`; the focus hook of `nph-button`; the disclosure of the subitem and of the rail button (amends P98) | 11/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing `items`, `mode`, `open`, the events, the flyout panel or the focus hook later requires redoing every consumer. The `sidebar` icon in `nph-icon` (D-1), the dark logo (D-2) and the current page in a collapsed group (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -7074,9 +7075,203 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P116 — `nph-sidebar`: API and semantics; the focus hook of `nph-button`; the disclosure of the subitem and of the rail button (amends P98)
+
+**Technical conflict.** The accepted documentation (frame `4633:27036`, sets `4605:9647`, `4605:9612`,
+`4605:9599`, `4605:9589` and `4605:9594`) gives the Figma properties `modo`, `estado`, `botão de
+recolher` and `botão do canto`, the behavior of the APG Disclosure Navigation Menu and Dialog (Modal)
+patterns, the accessibility and the tokens, and leaves the code API to the code, with ten points open in
+the task. Eleven points need a decision of their own:
+
+- the item turns into the rail button in the collapsed mode, the flyout panel needs the children of an
+  item, and an ARIA reference (`aria-controls`) does not cross a shadow root: the code has to say how the
+  list goes in and who draws the pieces;
+- the rail button of DSA-53 is a link, and the collapsed menu needs a button that opens the flyout panel;
+  the subitem of DSA-53 with `options` is a link with an arrow, and Figma answered D-4: it opens the third
+  level, as a disclosure;
+- the group, the subitem with options and the rail button of a group point to a panel that lives in the
+  shadow root of the menu, outside their own;
+- the evidence asks for `sidebar/search-background` and `sidebar/search-border` on the search, and
+  `nph-input` has no hook for them and does not change;
+- the evidence asks for `focus/border` on the collapse and close buttons, and `nph-button` fixes the focus
+  border per severity (`color/primary` for primary), without a hook;
+- the collapse button needs the `sidebar` icon, which is not in `nph-icon` (D-1), and `nph-button` has no
+  slot, so it cannot hold a placeholder;
+- the flyout panel is in the top layer and has its own order of Tab, closing rules and limits of width,
+  which the evidence leaves to the code;
+- the mobile menu needs the focus trapped, the scrim and the close paths, and the evidence says the
+  scrim "is drawn by the screen";
+- who keeps the mode, who passes the current item, what an empty or failed list says and whether the code
+  offers a shortcut to collapse are open points of the task;
+- the evidence answers DSA-53 D-1 to D-4 for the item, the subitem and the rail button, and the code of
+  P98 differs in the counter position, the width of its outline, the severity of more actions and the
+  subitem with options;
+- the evidence says nothing about input the contract does not accept.
+
+**Decision.** `nph-sidebar` is a Web Component with **open Shadow DOM** (P01), in one tag, with its CSS in
+its own file imported `?inline`. It has no slot, no `::part` and no color property. Anatomy only through
+semantic tokens, the `sidebar/*` ones and the global focus ones. What it rejects renders nothing and emits
+`console.error` only in development, once per cause: the rule of P21. An empty list is a mount (P68). The
+names follow P64.
+
+1. **One tag; the entries are data.** `items` is a list, by property only, as `items` of
+   `nph-dropdown-menu` (P92) and `tabs` of `nph-tabs` (P115). A `{ type: 'label', text }` entry names the
+   group that follows it; a link has `label`, `icon`, `href` and optionally `active`, `counter`,
+   `disabled`, `tooltip`, `actions`, `actionsLabel` and `value`; a `group` has `label`, `icon`, `children`
+   and the same optional fields and `expanded`; a child has `label` and `href`, or `options` (the third
+   level, each with `label` and `href`), and `active`, `disabled`, `tooltip` and `value`. The menu draws
+   the item, the subitem and the rail button by instance (DSA-53), the flyout panel and its option itself
+   (they are inner parts, as the item of `nph-dropdown-menu`), the search with `nph-input`, the corner
+   button and the close button with `nph-button`, and the loading list with `nph-skeleton`. An entry that
+   cannot be drawn is left out with one error per cause. The menu replaces `items` when a group opens or
+   closes and never changes the objects of the consumer. The package takes one definition per folder (P91).
+   Two levels in the list, the third only in a flyout panel; there is no fourth level.
+
+2. **The mode is the product's, and the collapse button reports it.** `mode` is `expanded` (default),
+   `collapsed` or `mobile`, and reflects. The product chooses it, and switches to `mobile` below the `md`
+   breakpoint (768). The collapse button switches `expanded` and `collapsed` by itself and fires
+   `nph-mode-change` with `detail: { mode }`, as `nph-tabs` writes `value` and fires `nph-tab-change`
+   (P115); the product keeps the mode. Setting `mode` from code fires nothing. There is no keyboard
+   shortcut to collapse: `Ctrl+B` and `Cmd+B` belong to the browser and the editors, and the product can
+   bind its own. The current item is `active` in the data, as in the item of P98, and the product passes it.
+
+3. **The mobile menu is a modal `<dialog>`, as `nph-dialog` (P87).** `open` opens it, only in `mobile`, and
+   reflects; the product opens it with a button of its own. The person closes it with the close button
+   (`xmark`, the `nph-button` primary ghost), with Esc or with a click on the scrim, and the menu fires
+   `nph-close` first, bubbling, composed and cancelable, with `detail: { source }` (`close-button`,
+   `escape` or `scrim`); `preventDefault()` keeps it open, and then sets `open` to `false` itself. Setting
+   `open` from code fires nothing. It lives in the top layer with `showModal()`: the page is inert, the
+   focus is trapped and goes back to the button that opened it. The menu floats `sidebar/mobile-offset`
+   from the start, top and bottom edges, at `sidebar/panel-width`. **The scrim is the `::backdrop` of the
+   dialog**, in `sidebar/scrim`, as the `overlay/scrim` of `nph-dialog`: the evidence says the screen draws
+   it, but the piece that traps the focus and closes on the click outside has to own the backdrop, since
+   `nph-drawer` is out of the first version. `sidebar/scrim` is `overlay/scrim`, stronger in dark, and no
+   other strength was needed. The enter uses `motion/enter-*` and the exit `motion/exit-*`; with reduced
+   motion nothing moves, as DSA-62 D-3.
+
+4. **The flyout panel is a `popover="manual"`, drawn right after its opener.** It is in the top layer, as
+   `nph-dropdown-menu` (P92), with no `z-index` and no clipping by the scrolling list, and draws after its
+   opener in the DOM, so the next Tab enters it and Shift+Tab comes back. It opens on a click, Enter or
+   Space, never on hover. It sits to the side of the opener, with its top aligned and `space/inline` of
+   distance (the margin of the panel carries it, as the gap of P92; Figma gives 8 and no layout token, and
+   `sidebar/mobile-offset` is a position of the mobile menu, not this distance). It goes to the other side
+   when it does not fit and stays inside the window, and it scrolls only when it is taller than the window.
+   Its width is what its options need, at least a line of the expanded menu and at most
+   `layout/input-width`, the width of the floating menus: Figma draws 220, with no token, and a width token
+   goes to the next Figma batch. The title is the name of its opener. There is one panel per level; opening
+   another of the same level closes the first. Esc closes the innermost and gives the focus back to its
+   opener; a press outside, the focus leaving the menu, or a click on a link closes them. Opening a panel
+   closes the balloon of its opener. An option with `options` shows `chevron-right` and opens the third
+   level; it keeps the active look, with the arrow, when it holds the current page (T11), and the open look
+   with Regular weight otherwise. The opener carries `aria-expanded` and `aria-controls`.
+
+5. **`controls` crosses the shadow root.** An `aria-controls` by id cannot leave the shadow root of the item,
+   the subitem or the rail button. The three get `controls`, a property of the element, by property only
+   (no attribute), which the piece hands to its button as `ariaControlsElements` (a reference to an
+   element of an ancestor shadow root is allowed). `nph-sidebar` sets it. The group of the item now carries
+   `aria-controls` too, pointing to its subitems.
+
+6. **The disclosure of the subitem and of the rail button (amends P98, items 8 and 9).** A subitem with
+   `options` is a native `button` with `aria-expanded`, `expanded` (reflected) and the event `nph-toggle`
+   with `detail: { expanded }`, as the group of the item (P98, item 3): Figma answered DSA-53 D-4. It has
+   no `href` and is never `active`, each of them invalid input, as the group of the item. The rail button
+   gets `type`, `link` (default) or `group`, reflected: a group is a native `button` with `aria-expanded`,
+   `expanded` and `nph-toggle`, with no `href`, `counter` or `active`, and its flyout panel is the one of
+   the second level. Opening either closes its own balloon. The rail button of an open group draws the
+   hover background and the solid icon. This is the only way to give the collapsed menu a button that
+   opens a panel without a new tag.
+
+7. **The answers of DSA-53 in the three pieces (amends P98, items 4, 9 and 10).** The focus border of the
+   item, the subitem and the rail button is `focus/border`, not `color/primary` (the border fell below 3:1
+   against the dark panel in three brands). More actions is the `nph-button` **secondary**, ghost and
+   compact (D-3; P98 item 4 said the default severity). The counter of the rail button sits above the top
+   end corner: `space/inline-tight` above and `border/width` inside the end edge, the x 19 and y -4 of a 40
+   px button (D-1). The outline of the active counter is 4 px wide in `sidebar/panel-background`, decorative
+   and not tied to the focus ring (D-2): its width is `space/inline-tight`, which measures 4, not
+   `border/width` and not `focus/ring-width`.
+
+8. **The focus hook of `nph-button`.** `--nph-button-focus-border` is the one public hook: the color of the
+   focus border, `var(--nph-button-focus-border, <the color of the severity>)`, read once, on the border,
+   and not a token. Unset, nothing changes in any of the seven severities; the focus halo does not change.
+   `nph-sidebar` sets it to `focus/border` on its close button only; a custom property inherits, so the hook
+   is set on the button, never on the host of the menu, and the corner button keeps the default focus of
+   `nph-button`. `nph-icon-button` is the icon-only `nph-button`, so the hook covers it. A test proves the
+   default of the seven severities and the hook.
+
+9. **The collapse button keeps the place of the icon (D-1).** The `sidebar` icon is not in `nph-icon`, and
+   adding it is a foundation task that is not open. `nph-button` has no slot, so it cannot show a
+   placeholder; and the code does not invent another icon. The collapse button is a native `button` in the
+   shadow root of the menu, with the look of the `nph-button` primary ghost at `control/height-default` and
+   `focus/border`, and an `nph-skeleton` of `icon/size-md` in the place of the icon, as the Figma draws it.
+   It has `aria-label` (`collapse-label` or `expand-label`), `aria-expanded` and an `nph-tooltip` with the
+   name. When the icon enters `nph-icon`, the button becomes `nph-button` with `icon-start="sidebar"`: no
+   API changes.
+
+10. **The search is `nph-input`, unchanged.** `nph-input` has no hook for its background and border. The
+    menu redefines, on the search instance only, the two semantic tokens the field already reads:
+    `--nph-color-input` takes `sidebar/search-border` and `--nph-color-background` takes
+    `sidebar/search-background`. It is the cascade of custom properties of P02, which
+    `tokens-cascade.test.ts` already exercises; no token is created or changed, and the hover and focus
+    colors of the field stay its own. The search is drawn, in the expanded and mobile modes, only with
+    `search-label`, its accessible name; `search-placeholder` and `search-value` complete it, and
+    `nph-search-change` with `detail: { value }` follows the typing.
+
+11. **The text is the product's.** The menu writes no word: `label` (the landmark, and the dialog),
+    `collapse-label`, `expand-label`, `close-label`, `corner-label`, `search-label`, `logo-label`,
+    `empty-text` and `error-text` come from the consumer, in its language. A collapse or close button with
+    no name is not drawn, with one error; a missing `label` warns once and draws, as `nph-input`. The
+    corner button is drawn with `corner-label` and turned off by `hide-corner-button`; the collapse button
+    is turned off by `hide-collapse-button`: the Figma booleans, on by default, follow `hide-close` of
+    `nph-dialog` (P87). `empty-text` takes the place of an empty list and `error-text`, an alert, the place
+    of any list.
+
+12. **The logo, the loading state and the rest of the open points.** The logo is the image of the brand
+    library, not exported by Nephos: `logo-src`, `logo-mark-src` (the collapsed mode; `logo-src` when
+    empty), `logo-label` and `logo-href`; with an href it is a link named by `logo-label`, without it an
+    image with that text. It has no dark version (D-2). Loading draws six `nph-skeleton` rows (lines in
+    the expanded and mobile modes, blocks the size of a rail button in the collapsed one) with
+    `aria-busy="true"` on the list. The keyboard is Tab in reading order; the arrow keys between lines are
+    optional in the pattern and are not offered. The expanded and collapsed widths move on
+    `motion/expand-*`. The subitems of an open group are indented to the label of the group, and no
+    `sidebar/group-line` is drawn: the evidence keeps the one line between the search and the navigation.
+
+13. **Tokens.** Only `--nph-sidebar-*`, the global focus and motion ones, and the neighbors the evidence
+    names; no core or theme token. The scrolling list takes the room of the focus halo on every side and
+    gives it back with a negative margin, so the scroll clips the halo of no line. No token was created
+    or changed.
+
+**Source.** Documentation `4633:27036`, page `1367:2` and sets `4605:9647`, `4605:9612`, `4605:9599`,
+`4605:9589` and `4605:9594` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 09/11/2026 with
+the Figma UX QA and the textual audit approved, and the points of its approval page. The property names,
+the shape of `items`, the events, the mode and the focus rules, the reference by element, the type of the
+rail button, the focus hook, the skeleton in the collapse button, the redefinition of the search tokens,
+the invalid-input rule and the limits of the flyout width are a technical proposal of this implementation.
+
+**Out of scope.** A token, new or changed. The `sidebar` icon in `nph-icon` (D-1). A change in `nph-input`,
+`nph-icon`, `nph-skeleton` or `nph-tooltip`. A group collapsible by its label, a complementary area, an
+attached or inset surface and the `nph-drawer`. A keyboard shortcut to collapse. Arrow keys between lines.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the `sidebar` icon.** Adding it to `nph-icon` is a foundation task that is not open. Until then the
+  collapse button shows a skeleton in its place. She frees the task.
+- **D-2 — the dark logo.** The brand has not confirmed which version goes on a dark background. The dark
+  logo does not ship until it does.
+- **D-3 — the current page in a collapsed group.** The rail button of a group is never `active`, so in the
+  collapsed menu nothing shows that the current page is inside a group until its panel opens. She confirms
+  it, or asks for an active look on the rail button of the group that holds the current page.
+- **D-4 — the width of the flyout panel.** Figma draws 220 and has no token. The code takes the width the
+  options need, between a line of the expanded menu and `layout/input-width`. She asks for the token in the
+  next batch, or accepts the range.
+
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-4 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114 or P115 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115 or P116 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

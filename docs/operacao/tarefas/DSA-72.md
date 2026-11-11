@@ -50,6 +50,18 @@
       "question": "In dark, the logo shows its light version. The brand has not confirmed which version of the logo goes on a dark background. Indiane confirms it with the brand. It does not block the pull request; the dark logo does not ship until it is confirmed.",
       "decider": "indiane",
       "opened_at": "2026-11-10"
+    },
+    {
+      "id": "D-3",
+      "question": "In the collapsed menu, the rail button of a group is never active (a group is never the current page), so nothing shows that the current page is inside a group until its flyout panel opens. Indiane confirms it, or asks for an active look on the rail button of the group that holds the current page. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-4",
+      "question": "Figma draws the flyout panel fixed at 220 and has no width token. The code takes the width the options need, between a line of the expanded menu and layout/input-width. Indiane asks for the token in the next Figma batch, or accepts the range. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
     }
   ],
   "evidence": [
