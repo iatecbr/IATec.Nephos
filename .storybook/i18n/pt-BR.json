@@ -393,6 +393,19 @@
     "components-nph-tabs-validation--direction": "Direção",
     "components-nph-tabs-validation--examples": "Exemplos",
     "components-nph-tabs-validation--brands": "Marcas",
+    "components-nph-stepper-docs": "Docs",
+    "components-nph-stepper-docs--documentation": "Documentação",
+    "components-nph-stepper-validation": "Validação",
+    "components-nph-stepper-validation--statuses": "Status",
+    "components-nph-stepper-validation--counts": "Quantidades",
+    "components-nph-stepper-validation--content": "Conteúdo",
+    "components-nph-stepper-validation--states": "Estados",
+    "components-nph-stepper-validation--navigation": "Navegação",
+    "components-nph-stepper-validation--width": "Largura",
+    "components-nph-stepper-validation--narrow": "Estreito",
+    "components-nph-stepper-validation--form": "Formulário",
+    "components-nph-stepper-validation--examples": "Exemplos",
+    "components-nph-stepper-validation--brands": "Marcas",
     "components-nph-navigation-menu-docs": "Docs",
     "components-nph-navigation-menu-docs--documentation": "Documentação",
     "components-nph-navigation-menu-validation": "Validação",
@@ -7819,7 +7832,17 @@
       "components-nph-tabs-validation--panels": "O painel é conteúdo do consumidor, encaixado pelo valor de cada aba: só o painel da aba ativa aparece, e a lista fica em cima dele.",
       "components-nph-tabs-validation--direction": "Escrita da direita para a esquerda: a lista lê da direita e as setas acompanham as pontas da linha.",
       "components-nph-tabs-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: pedidos por etapa com ícone, contador e tag; o detalhe do pedido dentro de um painel; e as setas nas duas pontas quando as abas não cabem.",
-      "components-nph-tabs-validation--brands": "As sete marcas em modo claro e escuro: o rótulo e a linha da aba ativa, o contador, a tag e o foco seguem a marca do quadro."
+      "components-nph-tabs-validation--brands": "As sete marcas em modo claro e escuro: o rótulo e a linha da aba ativa, o contador, a tag e o foco seguem a marca do quadro.",
+      "components-nph-stepper-validation--statuses": "Os quatro status em um stepper: as etapas concluídas com um check, a etapa atual com um anel e um rótulo mais forte, as etapas pendentes com um número num contorno fino e a etapa com erro com um triângulo e o motivo.",
+      "components-nph-stepper-validation--counts": "De duas a sete etapas: duas são permitidas, a documentação pede de três a sete, e sete é o máximo. O conector preenche o espaço entre as etapas.",
+      "components-nph-stepper-validation--content": "O que uma etapa liga: a linha de apoio abaixo do rótulo, a palavra \"Opcional\" e o motivo de um erro na descrição, na cor de erro.",
+      "components-nph-stepper-validation--states": "Etapas desabilitadas e os estados combinados: uma etapa concluída e desabilitada mantém o fundo e o check, e uma etapa com erro desabilitada volta ao visual de pendente. O hover e o foco aparecem com o ponteiro e o teclado, e os testes os provam.",
+      "components-nph-stepper-validation--navigation": "O stepper linear, em que só as etapas concluídas e as com erro permitem voltar, e o não linear, em que as pendentes também são clicáveis e uma etapa desabilitada não é.",
+      "components-nph-stepper-validation--width": "A coluna de texto para no máximo: um rótulo pendente, concluído ou com erro termina em reticências com o texto inteiro num balão, o rótulo atual quebra em duas linhas, e o conector nunca fica mais estreito que o mínimo.",
+      "components-nph-stepper-validation--narrow": "Abaixo de 600 px de largura própria o stepper vira uma barra de progresso do tipo etapas, com \"Etapa 2 de 4\" e o rótulo da etapa atual. Conta a largura do stepper, não a da janela.",
+      "components-nph-stepper-validation--form": "O stepper no topo de um formulário dentro de um cartão, com o conteúdo da etapa atual logo abaixo.",
+      "components-nph-stepper-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: o cadastro em quatro etapas na etapa 2, a etapa com erro e o seu motivo, e o stepper linear em três etapas.",
+      "components-nph-stepper-validation--brands": "As sete marcas em modo claro e escuro: o anel e o número da etapa atual, o check das concluídas e o conector antes da etapa atual seguem a marca do quadro."
     }
   },
   "multiComboboxDocs": {
@@ -12281,5 +12304,292 @@
     },
     "detailTitle": "Pedido 2481",
     "detailText": "Compra de dois notebooks para a equipe de suporte, aguardando a aprovação do orçamento."
+  },
+  "stepperDocs": {
+    "summary": "As etapas de um processo em ordem, e a etapa em que a pessoa está: as concluídas, a atual, as que faltam e as com erro.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-stepper, o design.md para os tokens e docs/decisoes-tecnicas.md para a P117. O arquivo DS-IA-NEPHOS 5.0 no Figma é a fonte visual. Nenhuma regra nasce aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Um processo com etapas em ordem e em número fixo, em que a pessoa precisa saber quanto falta: cadastro, contratação, configuração. Termine com uma etapa de revisão antes de enviar.",
+      "A ordem é obrigatória: o stepper linear, em que só as etapas concluídas e as com erro são clicáveis.",
+      "A ordem é sugerida: o stepper não linear, em que as etapas pendentes também são clicáveis.",
+      "O rótulo sozinho não diz o que a etapa pede, e sempre num erro ativo, para dizer o motivo: ligue a descrição.",
+      "A etapa pode ser pulada: marque-a como opcional em vez de deixá-la de fora.",
+      "No topo de um formulário, cartão ou diálogo, com o conteúdo da etapa atual logo abaixo."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para visões sem ordem, como as abas de um perfil: use nph-tabs.",
+      "Para mostrar quanto de uma tarefa está feito sem etapas nomeadas: use nph-progress.",
+      "Para o lugar numa hierarquia: use nph-breadcrumb.",
+      "Para um processo de mais de 7 etapas: divida o processo.",
+      "Para dois steppers na mesma página, ou um dentro do outro: use um só stepper no topo do processo; as subetapas ficam dentro da etapa.",
+      "Para uma frase inteira no rótulo: escreva uma ou duas palavras, com o detalhe na descrição.",
+      "Para um processo vertical: o stepper vertical espera o nph-collapsible e ainda não existe."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "steps",
+        "As etapas, em ordem, como uma lista de { label, description, optional, status, disabled, href }. Só propriedade: definida por JavaScript. De 2 a 7 etapas. label é obrigatório e tem uma ou duas palavras; description é a linha de apoio e, numa etapa com erro, o motivo; optional mostra a palavra Opcional; status é pending, completed ou error e, sem ele, vem da posição; disabled impede ativar a etapa; href faz de uma etapa clicável um link. A etapa em current não aceita status nem disabled."
+      ],
+      [
+        "current",
+        "A posição da etapa atual, de 1 ao número de etapas. 1 por padrão. A página a define: o stepper não guarda estado, e um clique não a move."
+      ],
+      [
+        "non-linear",
+        "Desligado (padrão), o stepper é linear: só as etapas concluídas e as com erro são clicáveis. Ligado, as pendentes também são. Uma etapa desabilitada e a etapa atual nunca são. Refletida no atributo."
+      ],
+      [
+        "label",
+        "O nome acessível da navegação. Já localizado."
+      ],
+      [
+        "aria-label",
+        "O nome acessível da navegação quando não há label."
+      ],
+      [
+        "completed-label, pending-label e error-label",
+        "O texto oculto que abre cada etapa e diz o seu status, como Concluída, Pendente e Com erro. Já localizado."
+      ],
+      [
+        "optional-label",
+        "A palavra Opcional, desenhada numa etapa com optional ligado. Já localizada."
+      ],
+      [
+        "step-text",
+        "O texto da largura estreita, com {current} e {count}, como Etapa {current} de {count}. Já localizado."
+      ],
+      [
+        "nph-step-select",
+        "O evento que uma etapa-botão dispara quando a pessoa a ativa, com detail { step }, a posição a partir de 1. Sobe pela árvore e é composed. Uma etapa com href dispara só o clique nativo. Definir current por código não dispara nada."
+      ],
+      [
+        "size, orientation e width",
+        "Não são propriedades: um só tamanho, só horizontal (o stepper vertical espera o nph-collapsible), e o stepper se estica até a largura de onde mora."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-stepper id=\"signup\" current=\"2\" label=\"Etapas do cadastro\" completed-label=\"Concluída\" pending-label=\"Pendente\" error-label=\"Com erro\" optional-label=\"Opcional\" step-text=\"Etapa {current} de {count}\"></nph-stepper>\n<script>\n  signup.steps = [\n    { label: 'Conta' },\n    { label: 'Endereço' },\n    { label: 'Pagamento' },\n    { label: 'Revisão' },\n  ];\n  signup.addEventListener('nph-step-select', (event) => {\n    signup.current = event.detail.step;\n  });\n</script>",
+    "usageTag": "A tag da peça. As etapas chegam como dados na propriedade steps, definida por JavaScript; a página escuta nph-step-select, muda current e move o foco para o título da nova etapa.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-stepper (5569:6530); docs/decisoes-tecnicas.md › P117",
+    "statusesTitle": "Status e conteúdo",
+    "statusesCaption": "Os quatro status, o motivo de um erro na descrição e a linha de apoio com a palavra Opcional.",
+    "statusesUseHeader": [
+      "Status",
+      "O que mostra"
+    ],
+    "statusesUse": [
+      {
+        "value": "completed",
+        "label": "Um check no fundo da marca. É uma etapa antes da atual e pode ser clicada para voltar e rever."
+      },
+      {
+        "value": "current",
+        "label": "Um anel e um rótulo mais forte. É onde a pessoa está: não tem hover, foco nem Tab, e o rótulo quebra em duas linhas em vez de ser cortado."
+      },
+      {
+        "value": "pending",
+        "label": "Um número num contorno fino sobre um fundo suave. É uma etapa depois da atual; no stepper linear não pode ser clicada."
+      },
+      {
+        "value": "error",
+        "label": "Um triângulo no fundo de erro, o rótulo na cor de erro e o motivo na descrição. Pode ser clicada e, no hover, só sublinha o rótulo."
+      }
+    ],
+    "navigationTitle": "Navegação",
+    "navigationCaption": "O stepper linear, o não linear com uma etapa desabilitada, e as etapas desabilitadas com o motivo de um erro.",
+    "navigation": [
+      "Linear é o padrão: só as etapas concluídas e as com erro são clicáveis, para voltar e rever. O não linear torna as pendentes clicáveis também, quando a ordem é só sugerida.",
+      "Uma etapa clicável é um link quando tem href e um botão quando não tem. Um link dispara só o clique nativo; um botão dispara nph-step-select com a posição.",
+      "A página define a etapa atual, o status de cada etapa e quais estão desabilitadas. O stepper não guarda estado: depois do evento, a página muda current, move o foco para o título da nova etapa e atualiza o título da página.",
+      "Uma etapa desabilitada fica esmaecida e não pode ser ativada. Uma etapa concluída e desabilitada mantém o fundo e o check; uma etapa com erro desabilitada volta ao visual de pendente, e o motivo só aparece com a descrição ligada.",
+      "Voltar e Continuar ficam no rodapé do formulário, não no stepper. O botão valida a etapa antes de avançar e diz o nome da próxima."
+    ],
+    "widthTitle": "Largura e telas estreitas",
+    "widthCaption": "O rótulo cortado, o rótulo atual que quebra e o stepper abaixo de 600 px de largura própria.",
+    "width": [
+      "A coluna de texto para na largura máxima. O rótulo de uma etapa pendente, concluída ou com erro fica numa linha e termina em reticências, e o texto inteiro aparece num balão no hover e no foco. O rótulo da etapa atual quebra em até duas linhas e nunca é cortado. A descrição vai até duas linhas.",
+      "O conector preenche o espaço entre as etapas e nunca fica mais estreito que a largura mínima. Com mais de sete etapas, divida o processo: o stepper nunca recolhe etapas.",
+      "Abaixo de 600 px de largura própria, o stepper vira uma barra de progresso do tipo etapas, com \"Etapa 2 de 4\" e o rótulo da etapa atual. Conta a largura do stepper, não a da janela; o stepper se estica até a largura de onde mora, então numa linha flex dê a ele flex: 1.",
+      "Quando falta espaço acima dessa largura, a coluna de texto das etapas cede o seu espaço primeiro e o marcador e o conector mantêm o mínimo; se nem isso couber, a lista rola na horizontal e recebe o Tab sozinha.",
+      "Na largura estreita, uma etapa com erro não aparece como erro: a barra mostra só a posição.",
+      "Com movimento reduzido nada se move: a cor de um status muda de uma vez."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "O que faz"
+    ],
+    "keyboard": [
+      [
+        "Tab e Shift+Tab",
+        "Movem o foco pelas etapas clicáveis, na ordem da lista. A etapa atual e uma etapa desabilitada não recebem Tab. Uma etapa pendente do stepper linear com rótulo cortado recebe Tab só para abrir o balão: não é um link."
+      ],
+      [
+        "Enter",
+        "Ativa a etapa clicável. Numa etapa-botão, o Espaço também a ativa; num link, o Espaço rola a página, como o navegador faz."
+      ],
+      [
+        "Setas",
+        "Não fazem nada: cada etapa é uma parada de Tab própria, já que o stepper é navegação e não um tablist."
+      ],
+      [
+        "Esc",
+        "Fecha o balão de um rótulo cortado, sem mover o foco."
+      ],
+      [
+        "Ponteiro",
+        "O hover só pinta a etapa; não move o foco. O balão de um rótulo cortado abre depois de uma espera curta no hover e na hora no foco, e um clique cancela a espera."
+      ],
+      [
+        "Foco na troca de etapa",
+        "A página move o foco para o título da nova etapa. O stepper não move o foco sozinho."
+      ]
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Mora no topo de um formulário, cartão ou diálogo, sem fundo, borda nem margem próprios; o conteúdo da etapa atual vem logo abaixo.",
+      "Trabalha com nph-icon (o check e o triângulo do marcador), nph-tooltip (o rótulo cortado) e nph-progress (a sua forma na largura estreita). Voltar e Continuar são nph-button no rodapé do formulário.",
+      "É a peça seguinte da família da posição num caminho: nph-breadcrumb e nph-tabs levam ao nph-stepper, que vira nph-progress abaixo de 600 px.",
+      "O stepper vertical ainda não existe: espera o nph-collapsible."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Etapa",
+        "A área que abraça o marcador e os textos, com padding e cantos próprios. É o alvo do clique e tem pelo menos 32 de altura."
+      ],
+      [
+        "Marcador",
+        "Um círculo no início da etapa, alinhado ao topo: o número, o check ou o triângulo fica no centro. A pendente tem um contorno fino, a atual um anel de 2 px, a concluída e a com erro um fundo sólido."
+      ],
+      [
+        "Rótulo",
+        "O texto da etapa, centrado na vertical com o marcador, numa linha e cortado com reticências; o rótulo atual quebra em até duas linhas."
+      ],
+      [
+        "Descrição",
+        "A linha de apoio abaixo do rótulo, até duas linhas. Numa etapa com erro, diz o motivo."
+      ],
+      [
+        "Opcional",
+        "A palavra Opcional no fim da coluna de texto."
+      ],
+      [
+        "Conector",
+        "Uma linha fina entre duas etapas, passando pelo centro do marcador; na cor da marca antes da etapa atual e na neutra depois dela."
+      ],
+      [
+        "Foco",
+        "Uma borda e um halo fora da área da etapa, com os cantos acompanhando a área. Uma etapa com foco não tem fundo de hover."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Um nav, com nome, e uma lista ordenada. Uma etapa é um link ou um botão quando pode ser ativada e texto no resto. A etapa atual leva aria-current=\"step\"; uma etapa desabilitada leva aria-disabled=\"true\". Não é um tablist."
+      ],
+      [
+        "Nome acessível",
+        "Cada etapa é lida pelo rótulo, com o status como texto oculto no início. A etapa atual não tem texto oculto, porque o aria-current já diz. A descrição e o Opcional fazem parte da etapa, então o motivo de um erro é lido. O marcador fica oculto da tecnologia assistiva."
+      ],
+      [
+        "Teclado",
+        "Só as etapas clicáveis recebem Tab, na ordem da lista; o Enter ativa a etapa. As setas não fazem nada."
+      ],
+      [
+        "Foco visível",
+        "Uma borda e um halo fora da área da etapa, numa etapa clicável. Uma etapa com foco não tem fundo de hover, para a borda de foco manter o contraste."
+      ],
+      [
+        "A cor não é o único sinal",
+        "Cada status tem a sua forma: um número num contorno fino, um anel e um rótulo mais forte, um check, um triângulo e o motivo em texto. No hover, a etapa com erro ganha um sublinhado."
+      ],
+      [
+        "Contraste",
+        "O rótulo, o número e a descrição passam de 4,5:1 sobre o fundo e o cartão; o anel, o fundo de erro e a borda de foco passam de 3:1. Dentro de um diálogo, no escuro, algumas cores de marca e de erro ficam abaixo disso: é uma questão para a fundação."
+      ],
+      [
+        "Tamanho do alvo",
+        "A área inteira da etapa é o alvo, com pelo menos 32 de altura, acima do mínimo de 24."
+      ],
+      [
+        "Texto cortado",
+        "Um rótulo cortado mostra o texto inteiro num balão, no hover e no foco, e o Esc o fecha."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: o cadastro em quatro etapas na etapa 2; a etapa com erro e o seu motivo; e o stepper linear em três etapas.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-stepper — propósito, status, comportamento, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P117 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens stepper/* e os tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Stepper, quadro de documentação nph-stepper (5569:6530).",
+      "W3C WAI, tutorial de formulários de várias páginas, e o padrão Link da WAI-ARIA APG.",
+      "MDN — aria-current."
+    ],
+    "sourceSpec": "Ficha do nph-stepper; Figma, quadro nph-stepper (5569:6530)",
+    "sourceApi": "Ficha do nph-stepper; docs/decisoes-tecnicas.md › P117",
+    "sourceAnatomy": "Figma, conjuntos 5541:1622 e 5540:581; design.md",
+    "matrixLabel": "Matriz do componente"
+  },
+  "stepperValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "navLabel": "Etapas do cadastro",
+    "completedLabel": "Concluída",
+    "pendingLabel": "Pendente",
+    "errorLabel": "Com erro",
+    "optionalLabel": "Opcional",
+    "stepText": "Etapa {current} de {count}",
+    "account": "Conta",
+    "address": "Endereço",
+    "payment": "Pagamento",
+    "review": "Revisão",
+    "accountSupport": "Nome e e-mail",
+    "addressSupport": "Onde entregar",
+    "paymentSupport": "Cartão ou boleto",
+    "errorReason": "Corrija 2 campos",
+    "longLabel": "Endereço de cobrança e dados da nota fiscal",
+    "threeSteps": [
+      "Dados",
+      "Documentos",
+      "Confirmar"
+    ],
+    "fiveSteps": [
+      "Conta",
+      "Perfil",
+      "Equipe",
+      "Cobrança",
+      "Lançamento"
+    ],
+    "formTitle": "Endereço",
+    "formText": "Para onde devemos enviar as suas faturas?"
   }
 }

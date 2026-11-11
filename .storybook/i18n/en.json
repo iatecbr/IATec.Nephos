@@ -393,6 +393,19 @@
     "components-nph-tabs-validation--direction": "Direction",
     "components-nph-tabs-validation--examples": "Examples",
     "components-nph-tabs-validation--brands": "Brands",
+    "components-nph-stepper-docs": "Docs",
+    "components-nph-stepper-docs--documentation": "Documentation",
+    "components-nph-stepper-validation": "Validation",
+    "components-nph-stepper-validation--statuses": "Statuses",
+    "components-nph-stepper-validation--counts": "Counts",
+    "components-nph-stepper-validation--content": "Content",
+    "components-nph-stepper-validation--states": "States",
+    "components-nph-stepper-validation--navigation": "Navigation",
+    "components-nph-stepper-validation--width": "Width",
+    "components-nph-stepper-validation--narrow": "Narrow",
+    "components-nph-stepper-validation--form": "Form",
+    "components-nph-stepper-validation--examples": "Examples",
+    "components-nph-stepper-validation--brands": "Brands",
     "components-nph-navigation-menu-docs": "Docs",
     "components-nph-navigation-menu-docs--documentation": "Documentation",
     "components-nph-navigation-menu-validation": "Validation",
@@ -7819,7 +7832,17 @@
       "components-nph-tabs-validation--panels": "The panel is the consumer content, slotted by the value of each tab: only the panel of the active tab shows, and the list stays on top of it.",
       "components-nph-tabs-validation--direction": "Right-to-left writing: the list reads from the right and the arrows follow the ends of the line.",
       "components-nph-tabs-validation--examples": "The three required examples, each in light and dark mode: requests by step with icon, counter and tag; the request detail inside a panel; and the arrows at both ends when the tabs do not fit.",
-      "components-nph-tabs-validation--brands": "The seven brands in light and dark mode: the label and the line of the active tab, the counter, the tag and the focus follow the brand of the frame."
+      "components-nph-tabs-validation--brands": "The seven brands in light and dark mode: the label and the line of the active tab, the counter, the tag and the focus follow the brand of the frame.",
+      "components-nph-stepper-validation--statuses": "The four statuses in one stepper: the completed steps with a check, the current step with a ring and a stronger label, the pending steps with a number in a thin outline, and the step with an error with a triangle and its reason.",
+      "components-nph-stepper-validation--counts": "From two to seven steps: two are allowed, the documentation asks for three to seven, and seven is the maximum. The connector fills the space between the steps.",
+      "components-nph-stepper-validation--content": "What a step turns on: the support line below the label, the word \"Optional\", and the reason of an error in the description, in the error color.",
+      "components-nph-stepper-validation--states": "Disabled steps and the combined states: a completed step that is disabled keeps its background and its check, and a step with an error that is disabled goes back to the pending look. Hover and focus show up with the pointer and the keyboard, and the tests prove them.",
+      "components-nph-stepper-validation--navigation": "The linear stepper, where only the completed steps and the steps with an error go back, and the non-linear stepper, where the pending steps are clickable too and a disabled step is not.",
+      "components-nph-stepper-validation--width": "The text column stops at its maximum: a pending, completed or error label ends in an ellipsis with its whole text in a balloon, the current label wraps to two lines, and the connector never gets narrower than its minimum.",
+      "components-nph-stepper-validation--narrow": "Below 600 px of its own width the stepper becomes a progress bar of the steps type, with \"Step 2 of 4\" and the label of the current step. The width counts the stepper, not the window.",
+      "components-nph-stepper-validation--form": "The stepper at the top of a form inside a card, with the content of the current step right below it.",
+      "components-nph-stepper-validation--examples": "The three required examples, each in light and dark mode: the sign-up in four steps on step 2, the step with an error and its reason, and the linear stepper in three steps.",
+      "components-nph-stepper-validation--brands": "The seven brands in light and dark mode: the ring and the number of the current step, the check of the completed ones and the connector before the current step follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -12281,5 +12304,292 @@
     },
     "detailTitle": "Request 2481",
     "detailText": "Purchase of two laptops for the support team, waiting for the budget approval."
+  },
+  "stepperDocs": {
+    "summary": "The steps of a process in order, and the one the person is on: the completed steps, the current one, the ones still to do and the ones with an error.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-stepper spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P117. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "A process with steps in order and a fixed number, where the person needs to know how much is left: sign-up, hiring, setup. End it with a review step before sending.",
+      "The order is required: the linear stepper, where only the completed steps and the steps with an error are clickable.",
+      "The order is suggested: the non-linear stepper, where the pending steps are clickable too.",
+      "The label alone does not say what the step asks for, and always on an active error, to say the reason: turn on the description.",
+      "The step can be skipped: mark it optional instead of leaving it out.",
+      "At the top of a form, card or dialog, with the content of the current step right below it."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For views with no order, such as the tabs of a profile: use nph-tabs.",
+      "To show how much of a task is done with no named steps: use nph-progress.",
+      "For the place in a hierarchy: use nph-breadcrumb.",
+      "For a process of more than 7 steps: split the process.",
+      "For two steppers on the same page, or one inside the other: use one stepper at the top of the process; sub-steps stay inside the step.",
+      "For a whole sentence in the label: write one or two words, with the detail in the description.",
+      "For a vertical process: the vertical stepper waits for nph-collapsible and does not exist yet."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "steps",
+        "The steps, in order, as a list of { label, description, optional, status, disabled, href }. Property only: set from JavaScript. From 2 to 7 steps. label is required and has one or two words; description is the support line and, on a step with an error, the reason; optional shows the word Optional; status is pending, completed or error and, without it, comes from the position; disabled makes the step impossible to activate; href makes a clickable step a link. The step at current takes no status and no disabled."
+      ],
+      [
+        "current",
+        "The position of the current step, from 1 to the number of steps. 1 by default. The page sets it: the stepper keeps no state, and a click does not move it."
+      ],
+      [
+        "non-linear",
+        "Off (default), the stepper is linear: only the completed steps and the steps with an error are clickable. On, the pending steps are clickable too. A disabled step and the current step never are. Reflected to the attribute."
+      ],
+      [
+        "label",
+        "The accessible name of the navigation. Already localized."
+      ],
+      [
+        "aria-label",
+        "The accessible name of the navigation when there is no label."
+      ],
+      [
+        "completed-label, pending-label and error-label",
+        "The hidden text that opens each step and says its status, such as Completed, Pending and With error. Already localized."
+      ],
+      [
+        "optional-label",
+        "The word Optional, drawn on a step with optional on. Already localized."
+      ],
+      [
+        "step-text",
+        "The text of the narrow width, with {current} and {count}, such as Step {current} of {count}. Already localized."
+      ],
+      [
+        "nph-step-select",
+        "The event a button step fires when the person activates it, with detail { step }, the 1-based position. It bubbles and is composed. A step with href fires only the native click. Setting current from code fires nothing."
+      ],
+      [
+        "size, orientation and width",
+        "Not properties: one size, horizontal only (the vertical stepper waits for nph-collapsible), and the stepper stretches to the width of where it lives."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-stepper id=\"signup\" current=\"2\" label=\"Sign-up steps\" completed-label=\"Completed\" pending-label=\"Pending\" error-label=\"With error\" optional-label=\"Optional\" step-text=\"Step {current} of {count}\"></nph-stepper>\n<script>\n  signup.steps = [\n    { label: 'Account' },\n    { label: 'Address' },\n    { label: 'Payment' },\n    { label: 'Review' },\n  ];\n  signup.addEventListener('nph-step-select', (event) => {\n    signup.current = event.detail.step;\n  });\n</script>",
+    "usageTag": "The tag of the piece. The steps come as data in the steps property, set from JavaScript; the page listens to nph-step-select, changes current and moves the focus to the heading of the new step.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-stepper (5569:6530); docs/decisoes-tecnicas.md › P117",
+    "statusesTitle": "Statuses and content",
+    "statusesCaption": "The four statuses, the reason of an error in the description and the support line with the word Optional.",
+    "statusesUseHeader": [
+      "Status",
+      "What it shows"
+    ],
+    "statusesUse": [
+      {
+        "value": "completed",
+        "label": "A check on the brand background. It is a step before the current one, and it can be clicked to go back and review."
+      },
+      {
+        "value": "current",
+        "label": "A ring and a stronger label. It is where the person is: it takes no hover, no focus and no Tab, and its label wraps to two lines instead of being cut."
+      },
+      {
+        "value": "pending",
+        "label": "A number in a thin outline on a muted background. It is a step after the current one; in the linear stepper it cannot be clicked."
+      },
+      {
+        "value": "error",
+        "label": "A triangle on the error background, the label in the error color and the reason in the description. It can be clicked, and on hover it only underlines the label."
+      }
+    ],
+    "navigationTitle": "Navigation",
+    "navigationCaption": "The linear stepper, the non-linear one with a disabled step, and the disabled steps with the reason of an error.",
+    "navigation": [
+      "Linear is the default: only the completed steps and the steps with an error are clickable, to go back and review. Non-linear makes the pending steps clickable too, when the order is only suggested.",
+      "A clickable step is a link when it has href and a button when it has none. A link fires only the native click; a button fires nph-step-select with the position.",
+      "The page sets the current step, the status of each step and which steps are disabled. The stepper keeps no state: after the event, the page changes current, moves the focus to the heading of the new step and updates the page title.",
+      "A disabled step is dimmed and cannot be activated. A completed step that is disabled keeps its background and its check; a step with an error that is disabled goes back to the pending look, and its reason shows only when the description is on.",
+      "Back and Continue sit in the footer of the form, not in the stepper. The button validates the step before moving on and names the next one."
+    ],
+    "widthTitle": "Width and narrow screens",
+    "widthCaption": "The cut label, the current label that wraps, and the stepper below 600 px of its own width.",
+    "width": [
+      "The text column stops at its maximum width. The label of a pending, completed or error step stays on one line and ends in an ellipsis, and its whole text shows in a balloon on hover and on focus. The label of the current step wraps to up to two lines and is never cut. The description goes up to two lines.",
+      "The connector fills the space between the steps and never gets narrower than its minimum width. With more than seven steps, split the process: the stepper never collapses steps.",
+      "Below 600 px of its own width, the stepper becomes a progress bar of the steps type, with \"Step 2 of 4\" and the label of the current step. The width that counts is the stepper, not the window; the stepper stretches to the width of where it lives, so in a flex row give it flex: 1.",
+      "When the room runs short above that width, the text column of the steps gives up its room first and the marker and the connector keep their minimum; if even that does not fit, the list scrolls sideways and takes the Tab key itself.",
+      "On the narrow width, a step with an error does not show as an error: the bar shows the position only.",
+      "With reduced motion nothing moves: the color of a status changes at once."
+    ],
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Input",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab and Shift+Tab",
+        "Move the focus through the clickable steps, in list order. The current step and a disabled step take no Tab. A pending step of the linear stepper with a cut label takes Tab only to open the balloon: it is not a link."
+      ],
+      [
+        "Enter",
+        "Activates the clickable step. On a button step, Space activates it too; on a link, Space scrolls the page, as the browser does."
+      ],
+      [
+        "Arrow keys",
+        "Do nothing: each step is a Tab stop of its own, since the stepper is navigation and not a tablist."
+      ],
+      [
+        "Esc",
+        "Closes the balloon of a cut label, without moving the focus."
+      ],
+      [
+        "Pointer",
+        "Hover only paints the step; it does not move the focus. The balloon of a cut label opens after a short wait on hover and at once on focus, and a click cancels the wait."
+      ],
+      [
+        "Focus on a step change",
+        "The page moves the focus to the heading of the new step. The stepper does not move the focus by itself."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It lives at the top of a form, card or dialog, with no background, border or margin of its own; the content of the current step comes right below it.",
+      "It works with nph-icon (the check and the triangle of the marker), nph-tooltip (the cut label) and nph-progress (its shape on a narrow width). Back and Continue are nph-button in the footer of the form.",
+      "It is the next piece in the family of the position on a path: nph-breadcrumb and nph-tabs lead to nph-stepper, which becomes nph-progress below 600 px.",
+      "The vertical stepper does not exist yet: it waits for nph-collapsible."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Step",
+        "The area that hugs the marker and the texts, with its own padding and corners. It is the click target and at least 32 high."
+      ],
+      [
+        "Marker",
+        "A circle at the start of the step, aligned to the top: the number, the check or the triangle sits in its center. Pending has a thin outline, current a 2 px ring, completed and error a solid background."
+      ],
+      [
+        "Label",
+        "The text of the step, vertically centered with the marker, on one line and cut with an ellipsis; the current label wraps to up to two lines."
+      ],
+      [
+        "Description",
+        "The support line below the label, up to two lines. On a step with an error it says the reason."
+      ],
+      [
+        "Optional",
+        "The word Optional at the end of the text column."
+      ],
+      [
+        "Connector",
+        "A thin line between two steps, through the center of the marker; the brand color before the current step and the neutral one after it."
+      ],
+      [
+        "Focus",
+        "A border and a halo outside the step area, with the corners following the area. A focused step has no hover background."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A nav, named, with an ordered list. A step is a link or a button when it can be activated and text otherwise. The current step carries aria-current=\"step\"; a disabled step carries aria-disabled=\"true\". It is not a tablist."
+      ],
+      [
+        "Accessible name",
+        "Each step is read by its label, with the status as hidden text at the start. The current step has no hidden text, since aria-current says it. The description and Optional belong to the step, so the reason of an error is read. The marker is hidden from assistive technology."
+      ],
+      [
+        "Keyboard",
+        "Only the clickable steps take Tab, in list order; Enter activates a step. The arrow keys do nothing."
+      ],
+      [
+        "Visible focus",
+        "A border and a halo outside the step area, on a clickable step. A focused step has no hover background, so the focus border keeps its contrast."
+      ],
+      [
+        "Color is not the only sign",
+        "Each status has its own shape: a number in a thin outline, a ring and a stronger label, a check, a triangle and the reason in text. On hover, the step with an error gets an underline."
+      ],
+      [
+        "Contrast",
+        "The label, the number and the description meet 4.5:1 over the background and the card; the ring, the error background and the focus border meet 3:1. Inside a dialog, in dark, some brand and error colors fall below this: it is a question for the foundation."
+      ],
+      [
+        "Target size",
+        "The whole step area is the target, at least 32 high, above the minimum of 24."
+      ],
+      [
+        "Cut text",
+        "A cut label shows the whole text in a balloon, on hover and on focus, and Esc closes it."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: the sign-up in four steps on step 2; the step with an error and its reason; and the linear stepper in three steps.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-stepper spec sheet — purpose, statuses, behavior, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P117 (API and semantics), P01, P02 and P03.",
+      "design.md — the stepper/* tokens and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Stepper, documentation frame nph-stepper (5569:6530).",
+      "W3C WAI, multi-page forms tutorial, and the WAI-ARIA APG Link pattern.",
+      "MDN — aria-current."
+    ],
+    "sourceSpec": "nph-stepper spec sheet; Figma, frame nph-stepper (5569:6530)",
+    "sourceApi": "nph-stepper spec sheet; docs/decisoes-tecnicas.md › P117",
+    "sourceAnatomy": "Figma, sets 5541:1622 and 5540:581; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "stepperValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "navLabel": "Sign-up steps",
+    "completedLabel": "Completed",
+    "pendingLabel": "Pending",
+    "errorLabel": "With error",
+    "optionalLabel": "Optional",
+    "stepText": "Step {current} of {count}",
+    "account": "Account",
+    "address": "Address",
+    "payment": "Payment",
+    "review": "Review",
+    "accountSupport": "Name and email",
+    "addressSupport": "Where to deliver",
+    "paymentSupport": "Card or invoice",
+    "errorReason": "Fix 2 fields",
+    "longLabel": "Billing address and invoice details",
+    "threeSteps": [
+      "Details",
+      "Documents",
+      "Confirm"
+    ],
+    "fiveSteps": [
+      "Account",
+      "Profile",
+      "Team",
+      "Billing",
+      "Launch"
+    ],
+    "formTitle": "Address",
+    "formText": "Where should we send your invoices?"
   }
 }
