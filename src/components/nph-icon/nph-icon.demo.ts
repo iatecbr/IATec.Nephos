@@ -134,6 +134,8 @@ export const CATEGORIES: readonly CoreCategory[] = [
     'envelope',
     'file',
     'files',
+    'file-lines',
+    'file-image',
     'folder',
     'folder-open',
     'font-awesome',

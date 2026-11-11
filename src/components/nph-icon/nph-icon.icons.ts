@@ -184,6 +184,10 @@ import { faFile as lFile } from '@fortawesome/pro-light-svg-icons/faFile';
 import { faFile as sFile } from '@fortawesome/pro-solid-svg-icons/faFile';
 import { faFiles as lFiles } from '@fortawesome/pro-light-svg-icons/faFiles';
 import { faFiles as sFiles } from '@fortawesome/pro-solid-svg-icons/faFiles';
+import { faFileLines as lFileLines } from '@fortawesome/pro-light-svg-icons/faFileLines';
+import { faFileLines as sFileLines } from '@fortawesome/pro-solid-svg-icons/faFileLines';
+import { faFileImage as lFileImage } from '@fortawesome/pro-light-svg-icons/faFileImage';
+import { faFileImage as sFileImage } from '@fortawesome/pro-solid-svg-icons/faFileImage';
 import { faFolder as lFolder } from '@fortawesome/pro-light-svg-icons/faFolder';
 import { faFolder as sFolder } from '@fortawesome/pro-solid-svg-icons/faFolder';
 import { faFolderOpen as lFolderOpen } from '@fortawesome/pro-light-svg-icons/faFolderOpen';
@@ -308,6 +312,8 @@ export const NPH_ICON_NAMES = [
   'envelope',
   'file',
   'files',
+  'file-lines',
+  'file-image',
   'folder',
   'folder-open',
   'font-awesome',
@@ -436,6 +442,8 @@ const GLYPHS = {
   envelope: glyph(lEnvelope, sEnvelope),
   file: glyph(lFile, sFile),
   files: glyph(lFiles, sFiles),
+  'file-lines': glyph(lFileLines, sFileLines),
+  'file-image': glyph(lFileImage, sFileImage),
   folder: glyph(lFolder, sFolder),
   'folder-open': glyph(lFolderOpen, sFolderOpen),
   'font-awesome': glyph(lFontAwesome, sFontAwesome),

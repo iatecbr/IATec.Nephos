@@ -142,6 +142,33 @@ describe('arrow-pointer (DSA-69)', () => {
   });
 });
 
+describe('file-lines and file-image (DSA-74)', () => {
+  const NAMES = ['file-lines', 'file-image'];
+
+  it('are core names, listed in the content category of design.md (the fifth list of the block)', () => {
+    const start = designMd.indexOf('icones_nucleo:');
+    const block = designMd.slice(start, designMd.indexOf('icones_segunda_leva:'));
+    const content = [...block.matchAll(/icones:\s*\[([^\]]+)\]/g)][4]?.[1] ?? '';
+    const listed = content.split(',').map((name) => name.trim());
+    expect(listed).toContain('file');
+    for (const name of NAMES) {
+      expect(NPH_ICON_NAMES as readonly string[], name).toContain(name);
+      expect(listed, name).toContain(name);
+    }
+  });
+
+  it('draw a different artwork in light and in solid, with no error', async () => {
+    for (const name of NAMES) {
+      const light = await mount({ name, variant: 'light', size: 'sm' });
+      const solid = await mount({ name, variant: 'solid', size: 'sm' });
+      expect(pathOf(light).length, name).toBeGreaterThan(0);
+      expect(pathOf(solid).length, name).toBeGreaterThan(0);
+      expect(pathOf(solid), name).not.toBe(pathOf(light));
+    }
+    expect(errors).not.toHaveBeenCalled();
+  });
+});
+
 describe('variant', () => {
   it('light is the default when the attribute is absent', async () => {
     const withoutAttribute = await mount({ name: 'star', size: 'sm' });
