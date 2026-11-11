@@ -91,7 +91,7 @@
     "excerpt": null,
     "converted_decision": "The nph-file-upload documentation frame (5311:8328) was accepted as the API and behavior specification of nph-file-upload. COMPONENT_SET nph-file-upload (5297:7473) and COMPONENT_SET nph-file-upload-item (5298:7669). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-74-file-upload", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-74-file-upload", "commit": "2917762", "pr": 168 },
   "context": "docs/operacao/contextos/DSA-74.md",
   "updated_at": "2026-11-11"
 }
