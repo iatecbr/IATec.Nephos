@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 710,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-03",
@@ -80,7 +80,7 @@
     "excerpt": null,
     "converted_decision": "The nph-sidebar documentation frame (4633:27036, page 1367:2) was accepted as the API and behavior specification of nph-sidebar. COMPONENT_SET nph-sidebar (4605:9647), 6 variants; the flyout panel (4605:9612); the flyout option set (4605:9599), 11 variants; the logo set (4605:9589); the label set (4605:9594). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-72-sidebar", "commit": "cc3ff2c", "pr": 165 },
   "context": "docs/operacao/contextos/DSA-72.md",
   "updated_at": "2026-11-11"
 }

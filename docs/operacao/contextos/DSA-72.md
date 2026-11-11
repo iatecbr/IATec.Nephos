@@ -18,13 +18,16 @@ Implement `nph-sidebar` in the contract accepted in Figma, move the focus border
 - `design.md`, the sidebar, focus and scrim entries; `src/tokens/generated/tokens.css`: the `sidebar/*` tokens the evidence names, all present
 
 ## Changes
-In progress. See the pull request.
+- `nph-sidebar` (component, CSS, 66 tests, Validation stories, Docs page, sheet, dictionary) and P116.
+- Item, subitem, rail button and button: focus on `focus/border`, the disclosure of the subitem and of the rail button, `controls`, more actions in secondary and the focus hook of `nph-button`.
+- Pending decisions D-3 and D-4 added to the task.
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-72-sidebar origin/v/5.0.0`
+- The twelve proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-Not finished.
+Pull request 165 is open and under review. The proofs pass on the head, except two tests of the base (`nph-checkbox` and `nph-switch`, which read `design.md`).
 
 ## Evidence
 `docs/operacao/evidencias/DSA-72/figma-docs-accepted-2026-11-10.md`.
