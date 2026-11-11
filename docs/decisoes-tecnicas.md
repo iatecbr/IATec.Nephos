@@ -72,7 +72,7 @@ P62.4 subsection for the detail).
 | **P113** | API and semantics of `nph-context-menu`; the accepted changes of `nph-dropdown-menu` and `nph-icon` | 08/11/2026 | Low now. No piece consumes the context menu yet; `nph-data-table` is its first expected parent, so changing `for`, `items`, `open-submenu`, `size`, the event `nph-item-select` (with `origin`) or the invalid-input rule later requires redoing every consumer. The `nph-dropdown-menu` change is visual only | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P114** | The answers of 2026-11-09 applied in the code: the size of `nph-switch`, the focus of the dropdown item, the open trigger of `nph-button`, the disclosure and motion of `nph-navigation-menu` and the other choices (amends P87, P111 and P113) | 09/11/2026 | Low. The pieces are not consumed by another piece beyond the dropdown item that draws the small switch; changing `size` of `nph-switch`, `NPH_PROGRESS_MIN_STEPS` or the narrow rows of `nph-navigation-menu` later requires redoing every consumer | Answers by Indiane on 2026-11-09, in the tasks. The choices are reviewed in the pull request that brings them |
 | **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. The balloon of the cut tab (D-1), the names of the arrows (D-2), `99+` (D-3) and the cut label in the segmented and tab button styles (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) and the focusable span of a cut pending step (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) the focusable span of a cut pending step (D-4) and the connector against a status set out of position (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -7233,8 +7233,12 @@ change in `nph-icon`, `nph-tooltip` or `nph-progress`. The contrast of the brand
   `span` with no role, which is the reading of a rule the evidence marks "open for confirmation", and the
   hover background paints only the steps that can be activated. She confirms the reading, or asks for
   another.
+- **D-5 — a status against the position.** The page may give a step a status that its position does not
+  say, such as a pending step before the current one. The Figma draws only the position (completed
+  before, pending after), and the connector follows the position too: brand before the current step,
+  neutral after it. She confirms it, or asks for the connector to follow the status of the steps.
 
-**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-4 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-5 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---

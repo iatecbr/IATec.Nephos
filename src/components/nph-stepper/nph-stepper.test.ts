@@ -818,6 +818,12 @@ describe('the marker, the label and the connector', () => {
 
 describe('the width of the text', () => {
   const LONG = 'A very long label that does not fit in the column';
+  const longSteps4 = (): NphStep[] => [
+    { label: 'Billing address and invoice details' },
+    { label: 'Billing address and invoice details' },
+    { label: 'Billing address and invoice details' },
+    { label: 'Review' },
+  ];
 
   it('the text column stops at stepper/text-max-width', async () => {
     const stepper = await mount({ steps: [{ label: LONG, description: LONG }, STEPS[1] as NphStep, STEPS[2] as NphStep], current: 2 }, '90rem');
@@ -843,6 +849,20 @@ describe('the width of the text', () => {
     expect(Math.round(lines)).toBe(2);
     expect(element.scrollWidth).toBeLessThanOrEqual(element.clientWidth);
     expect(tooltips(stepper)).toHaveLength(0);
+  });
+
+  it('a squeezed stepper never cuts the current label: the other steps give up the room', async () => {
+    const stepper = await mount({ steps: longSteps4(), current: 2 }, '40rem');
+    const element = label(stepper, 1);
+    const shown = element.getBoundingClientRect().height;
+    element.style.setProperty('-webkit-line-clamp', 'none');
+    const whole = element.getBoundingClientRect().height;
+    element.style.removeProperty('-webkit-line-clamp');
+    expect(shown).toBeCloseTo(whole, 0);
+    expect(Math.round(shown / Number.parseFloat(getComputedStyle(element).lineHeight))).toBeLessThanOrEqual(2);
+    expect(step(stepper, 1).querySelector('.text')?.getBoundingClientRect().width).toBeGreaterThan(px('--nph-stepper-text-max-width') - 1);
+    /* The others end in an ellipsis and have their balloon. */
+    expect(tooltips(stepper).map((balloon) => balloon.getAttribute('for'))).toEqual(['step-0', 'step-2']);
   });
 
   it('a two-line current label sits next to one-line neighbors with the steps aligned to the top', async () => {

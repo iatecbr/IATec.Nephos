@@ -17,13 +17,16 @@ Build `nph-stepper` in the contract accepted in Figma on 2026-11-10: the steps o
 - `src/tokens/generated/tokens.css`: the `stepper/*` tokens
 
 ## Changes
-Component, CSS and tests of `nph-stepper`.
+Component, CSS and tests of `nph-stepper`; the stories (Validation), the Docs page, the dictionaries in three languages, the sheet `fichas/nph-stepper.md` with its Metadata, and P117 in `docs/decisoes-tecnicas.md`.
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-73-stepper origin/v/5.0.0`
+- `npx vitest run --project unit src/components/nph-stepper`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`
+- `npm run test:naming`, `npm run test:spelling`, `npm run test:i18n`, `npm run test:operacao`
 
 ## Result
-The task is in progress on the branch `feat/dsa-73-stepper`.
+The task is in progress on the branch `feat/dsa-73-stepper`. The component, its tests, stories, sheet and P117 are written; D-1 to D-5 wait for Indiane and do not block the pull request.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.

@@ -57,6 +57,12 @@
       "question": "The balloon of a cut label on a pending step of the linear stepper needs a focusable span with no role, which is the reading of a rule the evidence marks open for confirmation, and the hover background paints only the steps that can be activated. Do you confirm the reading, or ask for another? It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-5",
+      "question": "The page may give a step a status that its position does not say, such as a pending step before the current one. The Figma draws only the position, and the connector follows the position too (brand before the current step, neutral after it). Do you confirm it, or ask for the connector to follow the status of the steps? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
     }
   ],
   "evidence": [

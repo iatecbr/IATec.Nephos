@@ -162,7 +162,7 @@ export const Width: Story = {
       matrix(validationTitle(context, 'nph-stepper', page('width').storyId), [], [
         { label: 'label: cut', cells: [stepper(v, { steps: longSteps(v), current: 4, width: '60rem' })] },
         { label: 'label: wraps · status: current', cells: [stepper(v, { steps: longSteps(v), current: 1, width: '60rem' })] },
-        { label: 'connector: minimum width', cells: [stepper(v, { steps: longSteps(v), current: 4, width: MATRIX_WIDTH })] },
+        { label: 'connector: minimum width · status: current', cells: [stepper(v, { steps: longSteps(v), current: 2, width: MATRIX_WIDTH })] },
       ]),
     );
   },
