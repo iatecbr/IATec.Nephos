@@ -782,9 +782,10 @@ describe('the list', () => {
     expect(zone.getBoundingClientRect().height).toBeGreaterThan(area(zone).getBoundingClientRect().height + 12 * 60);
   });
 
-  it('is a list, with an item in each entry', async () => {
+  it('is a list, with an item in each entry, and says so to Safari, which drops the role of a list with no marker', async () => {
     const zone = await mount({ files: FILES });
     expect(part(zone, 'ul.list')).not.toBeNull();
+    expect(part(zone, 'ul.list')?.getAttribute('role')).toBe('list');
     expect(root(zone).querySelectorAll('ul.list > li')).toHaveLength(3);
   });
 

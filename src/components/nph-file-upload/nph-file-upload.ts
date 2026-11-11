@@ -893,7 +893,7 @@ export class NphFileUpload extends LitElement {
           @cancel=${() => this.focus()}
         />
       </div>
-      ${this.files.length === 0 ? nothing : html`<ul class="list">${this.files.map((entry) => this.renderItem(entry))}</ul>`}
+      ${this.files.length === 0 ? nothing : html`<ul class="list" role="list">${this.files.map((entry) => this.renderItem(entry))}</ul>`}
     </div>`;
   }
 }
