@@ -1079,7 +1079,7 @@ describe('more actions of an item', () => {
     await settle(sidebar);
     await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
     const seen: Array<Record<string, unknown>> = [];
-    sidebar.addEventListener('nph-item-select', (event) => seen.push({ ...(event as CustomEvent<Record<string, unknown>>).detail }));
+    sidebar.addEventListener('nph-item-select', (event) => seen.push({ ...(event as unknown as CustomEvent<Record<string, unknown>>).detail }));
     const menu = inbox.shadowRoot?.querySelector('nph-dropdown-menu') as HTMLElement;
     menu.dispatchEvent(new CustomEvent('nph-item-select', { bubbles: true, detail: { value: 'rename', checked: null } }));
     expect(seen).toEqual([{ value: 'rename', checked: null, item: 'inbox' }]);

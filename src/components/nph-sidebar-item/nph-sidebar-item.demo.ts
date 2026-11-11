@@ -4,7 +4,7 @@
  * It lives in a file that does not end in `.stories.ts`, so Storybook's glob does not
  * index it. The scenery here — the panel around the lines, its width, the gaps — is NOT a
  * precedent for component CSS: the pieces take every measure from tokens, and the panel is
- * `nph-sidebar`, which is not built here. The frame paints `sidebar/panel-background`,
+ * `nph-sidebar`, which draws them in its own pages. The frame paints `sidebar/panel-background`,
  * the background the evidence measures the contrast of the lines against.
  *
  * The three examples are the required ones of the accepted board (`2723:460`): "main menu

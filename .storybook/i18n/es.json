@@ -421,7 +421,19 @@
     "components-nph-hover-card-validation--in-sentence": "En una frase",
     "components-nph-hover-card-validation--direction": "Dirección",
     "components-nph-hover-card-validation--examples": "Ejemplos",
-    "components-nph-hover-card-validation--brands": "Marcas"
+    "components-nph-hover-card-validation--brands": "Marcas",
+    "components-nph-sidebar-docs": "Docs",
+    "components-nph-sidebar-docs--documentation": "Documentación",
+    "components-nph-sidebar-validation": "Validación",
+    "components-nph-sidebar-validation--modes": "Modos",
+    "components-nph-sidebar-validation--mobile": "Celular",
+    "components-nph-sidebar-validation--loading": "Cargando",
+    "components-nph-sidebar-validation--flyout": "Flyout",
+    "components-nph-sidebar-validation--parts": "Partes",
+    "components-nph-sidebar-validation--messages": "Mensajes",
+    "components-nph-sidebar-validation--invalid-input": "Entrada no válida",
+    "components-nph-sidebar-validation--examples": "Ejemplos",
+    "components-nph-sidebar-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7730,8 +7742,8 @@
       "components-nph-multi-combobox-validation--examples": "Los tres ejemplos obligatorios del tablero, en nph-field: dos opciones elegidas en reposo, en foco con texto escrito y la lista abierta, y muchas opciones en varias líneas, cada uno en modo claro y oscuro.",
       "components-nph-multi-combobox-validation--brands": "Las siete marcas en claro y oscuro: los chips usan la superficie primary de la marca del marco, y el borde y el halo de foco la siguen con Tab.",
       "components-nph-sidebar-item-validation--matrix": "type × state del ítem: enlace, contador, grupo cerrado y abierto, en reposo, activo y deshabilitado. Activo no existe en el grupo. Pase el mouse para el hover y presione Tab para el foco.",
-      "components-nph-sidebar-item-validation--subitem": "El subítem con opciones no y sí, en reposo, activo y deshabilitado: solo la etiqueta, y la flecha a la derecha con opciones (D-4).",
-      "components-nph-sidebar-item-validation--rail-button": "El botón del riel con el contador apagado y encendido, en reposo, activo y deshabilitado: el contador en la esquina superior del final (D-1), con contorno cuando está activo (D-2).",
+      "components-nph-sidebar-item-validation--subitem": "El subítem con opciones no y sí, en reposo, activo y deshabilitado: solo la etiqueta y, con opciones, la flecha a la derecha y un botón de disclosure, abierto o cerrado.",
+      "components-nph-sidebar-item-validation--rail-button": "El botón del riel con el contador apagado y encendido, en reposo, activo y deshabilitado, y el grupo, el disclosure de un ítem con hijos, cerrado, abierto y deshabilitado: el contador en la esquina superior del final, con contorno cuando está activo.",
       "components-nph-sidebar-item-validation--tooltip-and-more-actions": "El globo con el nombre completo de una etiqueta cortada, en hover y en foco; más acciones al final de la línea, en hover y en foco, abriendo su menú; el globo del botón del riel, siempre encendido.",
       "components-nph-sidebar-item-validation--invalid-input": "La entrada no válida no dibuja nada: un grupo activo, un contador con texto, un subítem sin href y un botón del riel sin label, cada uno con un error.",
       "components-nph-sidebar-item-validation--examples": "Los tres ejemplos obligatorios del tablero: menú principal con página actual y contador, grupo abierto con subítems y menú contraído con botones del riel, cada uno en modo claro y oscuro.",
@@ -7819,7 +7831,16 @@
       "components-nph-tabs-validation--panels": "El panel es contenido del consumidor, encajado por el valor de cada pestaña: solo aparece el panel de la pestaña activa, y la lista queda encima de él.",
       "components-nph-tabs-validation--direction": "Escritura de derecha a izquierda: la lista se lee desde la derecha y las flechas siguen los extremos de la línea.",
       "components-nph-tabs-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: pedidos por etapa con icono, contador y tag; el detalle del pedido dentro de un panel; y las flechas en los dos extremos cuando las pestañas no caben.",
-      "components-nph-tabs-validation--brands": "Las siete marcas en modo claro y oscuro: la etiqueta y la línea de la pestaña activa, el contador, la tag y el foco siguen la marca del marco."
+      "components-nph-tabs-validation--brands": "Las siete marcas en modo claro y oscuro: la etiqueta y la línea de la pestaña activa, el contador, la tag y el foco siguen la marca del marco.",
+      "components-nph-sidebar-validation--modes": "El menú expandido y el contraído, listos, con la página actual, un contador, un grupo abierto y una página deshabilitada. Pase el mouse para el hover y presione Tab para el foco.",
+      "components-nph-sidebar-validation--mobile": "El celular: el botón del producto abre el menú sobre la pantalla, con el scrim detrás y el botón de cerrar en lugar del botón de contraer. La story abre el claro; Esc, el botón de cerrar y el scrim lo cierran.",
+      "components-nph-sidebar-validation--loading": "El estado loading, expandido y contraído: filas de nph-skeleton en lugar de los ítems, con el logo, la búsqueda y el botón de la esquina en su lugar.",
+      "components-nph-sidebar-validation--flyout": "El panel flyout: junto al botón del riel en el segundo nivel, junto a la opción en el tercer nivel y junto al subítem en el menú expandido. Se abre con un clic, nunca con el hover.",
+      "components-nph-sidebar-validation--parts": "Los dos booleanos de Figma, el botón de contraer y el botón de la esquina, encendidos y apagados, en el menú expandido.",
+      "components-nph-sidebar-validation--messages": "El mensaje corto en lugar de la lista: sin ítems y con error. El producto entrega y traduce los dos.",
+      "components-nph-sidebar-validation--invalid-input": "Entrada no válida: un modo fuera de los tres no dibuja nada, y una entrada que no puede dibujarse queda fuera, cada una con un error.",
+      "components-nph-sidebar-validation--examples": "Los cuatro ejemplos obligatorios de la documentación: producto con muchas áreas, lista llegando, celular y menú contraído con su flyout, cada uno en modo claro y oscuro.",
+      "components-nph-sidebar-validation--brands": "Las siete marcas en claro y oscuro: la página actual, el contador, el grupo abierto y el botón del riel activo siguen la marca del marco, y el halo de foco con Tab también."
     }
   },
   "multiComboboxDocs": {
@@ -8294,12 +8315,12 @@
     "summary": "La línea del menú lateral que lleva a la persona a una página o abre un grupo de páginas. Viene como ítem de primer nivel, subítem de segundo nivel y botón del riel, que hace el papel del ítem cuando el menú está contraído.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas del nph-sidebar-item, del nph-sidebar-subitem y del nph-sidebar-rail-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P98. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas del nph-sidebar-item, del nph-sidebar-subitem y del nph-sidebar-rail-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P98 y la P116. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
     "sourceLabel": "Fuente:",
     "sourceFrame": "Figma, tablero nph-sidebar-item (1366:2), documentación 2723:460, conjuntos 2251:51271, 2251:51312 y 2251:51328",
-    "sourceApi": "Ficha del nph-sidebar-item; docs/decisoes-tecnicas.md › P98",
-    "sourceSubitem": "Ficha del nph-sidebar-subitem; docs/decisoes-tecnicas.md › P98",
-    "sourceRail": "Ficha del nph-sidebar-rail-button; tarea DSA-53, decisiones pendientes D-1 y D-2; docs/decisoes-tecnicas.md › P98",
+    "sourceApi": "ficha del nph-sidebar-item; docs/decisoes-tecnicas.md › P98 y P116",
+    "sourceSubitem": "ficha del nph-sidebar-subitem; docs/decisoes-tecnicas.md › P98 y P116",
+    "sourceRail": "ficha del nph-sidebar-rail-button; docs/decisoes-tecnicas.md › P98 y P116",
     "sourceAccessibility": "Figma, documentación 2723:460; nph-sidebar-item.test.ts, nph-sidebar-subitem.test.ts y nph-sidebar-rail-button.test.ts",
     "matrixLabel": "type × state",
     "description": "Use nph-sidebar-item dentro de nph-sidebar para navegar entre las áreas del producto. El ítem es la línea de primer nivel; el subítem es la línea de segundo nivel, dentro de un grupo; el botón del riel muestra solo el ícono cuando el menú está contraído. No reemplaza a nph-panel-menu, que organiza la navegación dentro del contenido, ni a nph-dropdown-menu, que abre acciones y opciones.",
@@ -8365,7 +8386,11 @@
       ],
       [
         "actions, actions-label",
-        "Las entradas del nph-dropdown-menu de más acciones, y el nombre accesible de su botón. Con actions y sin actions-label, el ítem no se renderiza."
+        "Las entradas del nph-dropdown-menu de más acciones y el nombre accesible de su botón, el nph-button secondary, ghost y compact solo con ícono. Con actions y sin actions-label, el ítem no se renderiza."
+      ],
+      [
+        "controls",
+        "El elemento que un grupo abre, definido por el nph-sidebar. Un id no atraviesa el shadow root, así que el botón del grupo recibe el propio elemento como aria-controls. Solo por propiedad."
       ],
       [
         "nph-toggle",
@@ -8432,7 +8457,7 @@
       ],
       [
         "focus",
-        "Borde border/width en color/primary y halo focus/ring-width en focus/halo alrededor de toda la línea, solo con el teclado."
+        "Borde border/width en focus/border y halo focus/ring-width en focus/halo alrededor de toda la línea, solo con teclado."
       ],
       [
         "disabled",
@@ -8440,7 +8465,7 @@
       ]
     ],
     "subitemTitle": "Subítem",
-    "subitemText": "nph-sidebar-subitem es la línea de segundo nivel, dentro de un grupo abierto: solo la etiqueta, en control/height-default, con space/inline arriba y abajo y sidebar/item-padding a los lados. Con options, la flecha a la derecha dice que lleva a una lista de opciones; el subítem sigue siendo un enlace (D-4).",
+    "subitemText": "El nph-sidebar-subitem es la línea del segundo nivel, dentro de un grupo abierto: solo la etiqueta, en control/height-default, con space/inline arriba y abajo y sidebar/item-padding a los lados. Con options, la flecha a la derecha dice que abre una lista de opciones en el panel flyout del nph-sidebar: el subítem pasa a ser un botón de disclosure con aria-expanded, no un enlace.",
     "subitemCaption": "Activo, en reposo y con opciones.",
     "subitemApi": [
       [
@@ -8449,15 +8474,19 @@
       ],
       [
         "href",
-        "La página a la que lleva el subítem. Obligatorio, salvo deshabilitado."
+        "La página a la que lleva el subítem. Obligatorio, salvo que esté deshabilitado o con options; con options no tiene href."
       ],
       [
         "active",
-        "La página actual: aria-current=\"page\", sidebar/item-foreground-active y text/label-md."
+        "La página actual: aria-current=\"page\", sidebar/item-foreground-active y text/label-md. Nunca con options."
       ],
       [
         "options",
-        "La flecha chevron-right en icon/size-sm, solo visual."
+        "La flecha chevron-right en icon/size-sm. Hace de la línea un botón de disclosure que abre el tercer nivel en un panel flyout."
+      ],
+      [
+        "expanded",
+        "Las opciones están abiertas: aria-expanded y el aspecto de abierto. Solo con options."
       ],
       [
         "disabled",
@@ -8466,12 +8495,24 @@
       [
         "tooltip",
         "El texto del nph-tooltip con el nombre completo, en hover y en foco."
+      ],
+      [
+        "controls",
+        "El elemento que las opciones abren, definido por el nph-sidebar y usado como aria-controls. Solo por propiedad."
+      ],
+      [
+        "nph-toggle",
+        "Se dispara cuando la persona abre o cierra las opciones, con detail.expanded. Sube por el árbol y atraviesa shadow roots. Definir expanded desde el código no dispara nada."
       ]
     ],
     "railTitle": "Botón del riel",
-    "railText": "nph-sidebar-rail-button hace el papel del ítem cuando nph-sidebar está contraído: un cuadrado de sidebar/rail-button-size solo con el ícono. El label es su nombre y el texto del globo, que siempre está encendido. El contador queda en la esquina superior del final (D-1) y, cuando está activo, gana un contorno en sidebar/panel-background (D-2).",
-    "railCaption": "En reposo, activo, con el contador, activo con el contador y deshabilitado.",
+    "railText": "El nph-sidebar-rail-button hace el papel del ítem cuando el nph-sidebar está contraído: un cuadrado de sidebar/rail-button-size solo con el ícono. El label es su nombre y el texto del globo, que siempre está encendido. El contador queda en la esquina superior del final y, cuando está activo, gana un contorno de 4 px en sidebar/panel-background. Un botón del riel de type group es el disclosure de un ítem con hijos: abre el panel flyout del nph-sidebar.",
+    "railCaption": "En reposo, activo, con contador, activo con contador, deshabilitado, y el grupo cerrado y abierto.",
     "railApi": [
+      [
+        "type",
+        "link (predeterminado) lleva a una página; group es el disclosure de un ítem con hijos y abre el panel flyout del nph-sidebar. Un grupo no tiene href ni contador, y nunca es activo."
+      ],
       [
         "label",
         "El nombre de la página, obligatorio: el aria-label del enlace y el texto del globo."
@@ -8482,7 +8523,7 @@
       ],
       [
         "href",
-        "La página a la que lleva. Obligatorio, salvo deshabilitado."
+        "La página a la que lleva. Obligatorio en un enlace, salvo que esté deshabilitado."
       ],
       [
         "active",
@@ -8490,20 +8531,32 @@
       ],
       [
         "counter",
-        "Un número entero desde cero, leído en el nombre del enlace, después de la etiqueta."
+        "Un número entero de cero en adelante, leído en el nombre del enlace, después del label. Una píldora en la esquina superior del final, con contorno de 4 px cuando está activo. Solo en un enlace."
+      ],
+      [
+        "expanded",
+        "El panel flyout del grupo está abierto: aria-expanded, el ícono sólido y el fondo de hover. Solo en un grupo."
       ],
       [
         "disabled",
         "state/disabled-opacity, fuera del orden del Tab, sin globo."
+      ],
+      [
+        "controls",
+        "El elemento que el grupo abre, definido por el nph-sidebar y usado como aria-controls. Solo por propiedad."
+      ],
+      [
+        "nph-toggle",
+        "Se dispara cuando la persona abre o cierra el grupo, con detail.expanded. Sube por el árbol y atraviesa shadow roots. Definir expanded desde el código no dispara nada."
       ]
     ],
     "moreActionsTitle": "Tooltip y más acciones",
-    "moreActionsText": "tooltip enciende el nph-tooltip con el nombre completo, en hover y en foco: enciéndalo cuando la etiqueta puede cortarse. Más acciones es el nph-button solo con ícono, ghost y compacto, con ellipsis-vertical, al final de la línea, en hover y en foco; abre un nph-dropdown-menu con las acciones. Sirve solo al mouse y al teclado: en el táctil no aparece, por eso las mismas acciones están en la página de destino.",
+    "moreActionsText": "tooltip enciende el nph-tooltip con el nombre completo, en hover y en foco: enciéndalo cuando la etiqueta pueda cortarse. Más acciones es el nph-button solo con ícono, secondary, ghost y compact, con ellipsis-vertical, al final de la línea, en hover y en foco; abre un nph-dropdown-menu con las acciones. Atiende solo mouse y teclado: en táctil no aparece, así que las mismas acciones están en la página de destino.",
     "moreActionsCaption": "Una etiqueta cortada con su globo, y un ítem con más acciones. Pase el mouse sobre ellos, o presione Tab.",
     "relationsTitle": "Relaciones y contexto",
     "relations": [
-      "Las piezas viven dentro de nph-sidebar, que decide el modo expandido o contraído, el ancho y el cambio del ítem por el botón del riel. El ítem ocupa el ancho que recibe.",
-      "El grupo abre sus subítems justo debajo de él. El subítem con la flecha a la derecha dice que lleva a una lista de opciones.",
+      "Las piezas viven dentro del nph-sidebar, que decide el modo expandido o contraído, el ancho, el cambio del ítem por el botón del riel y el panel flyout. El ítem ocupa el ancho que recibe.",
+      "Un grupo abre sus subítems justo debajo. Un subítem con la flecha a la derecha abre una lista de opciones en un panel flyout; el botón del riel de un grupo abre el panel flyout de sus hijos.",
       "El globo es nph-tooltip, más acciones es nph-button con nph-dropdown-menu, y el contador usa la paleta primaria. Cada pieza guarda su estado y su foco.",
       "Espacio: space/control-padding entre ícono y etiqueta y sidebar/item-padding alrededor del ítem; en el subítem, space/inline entre etiqueta y flecha y arriba y abajo, y sidebar/item-padding a los lados."
     ],
@@ -8531,7 +8584,7 @@
       ],
       [
         "5. Más acciones",
-        "El nph-button solo con ícono, ghost y compacto, con ellipsis-vertical, al final, en hover y en foco."
+        "El nph-button solo con ícono, secondary, ghost y compact, con ellipsis-vertical, al final, en hover y en foco."
       ],
       [
         "6. Tooltip",
@@ -8543,7 +8596,7 @@
       ],
       [
         "8. Foco",
-        "Borde color/primary y halo focus/halo alrededor de la línea, en focus/border-radius-sidebar-item y focus/radius-sidebar-item; en el botón del riel, focus/border-radius-container y focus/radius-container."
+        "Borde focus/border y halo focus/halo alrededor de la línea, en focus/border-radius-sidebar-item y focus/radius-sidebar-item; en el botón del riel, focus/border-radius-container y focus/radius-container."
       ]
     ],
     "accessibilityTitle": "Accesibilidad",
@@ -8554,7 +8607,7 @@
     "accessibility": [
       [
         "Semántica",
-        "El ítem y el subítem son enlaces, con aria-current=\"page\" en la página actual; el grupo es un botón con aria-expanded. Deshabilitado, el enlace queda sin href, mantiene role link y gana aria-disabled."
+        "El ítem y el subítem son enlaces, con aria-current=\"page\" en la página actual. Un grupo, un subítem con options y el botón del riel de un grupo son botones con aria-expanded y aria-controls. Deshabilitado, el enlace no tiene href, mantiene role link y gana aria-disabled."
       ],
       [
         "Nombre accesible",
@@ -8562,11 +8615,11 @@
       ],
       [
         "Teclado",
-        "El Tab llega a la línea y después, cuando lo hay, al botón de más acciones. Enter sigue el enlace; Enter y Espacio abren y cierran el grupo."
+        "Tab llega a la línea y después, cuando existe, al botón de más acciones. Enter sigue el enlace; Enter y Espacio abren y cierran un grupo, un subítem con options y el botón del riel de un grupo."
       ],
       [
         "Foco visible",
-        "Borde color/primary y halo focus/halo alrededor de toda la línea, como en nph-button. El borde pasa 3:1 contra sidebar/panel-background."
+        "Borde focus/border y halo focus/halo alrededor de toda la línea, como el nph-sidebar lo dibuja en toda pieza del menú. El borde pasa 3:1 contra sidebar/panel-background."
       ],
       [
         "Contraste",
@@ -8586,7 +8639,7 @@
     "references": [
       "Figma DS-IA-NEPHOS 5.0, tablero nph-sidebar-item (1366:2), documentación 2723:460, conjuntos 2251:51271, 2251:51312 y 2251:51328",
       "fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md y fichas/nph-sidebar-rail-button.md",
-      "docs/decisoes-tecnicas.md › P98, P86, P77 y P92",
+      "docs/decisoes-tecnicas.md › P98, P116, P86, P77 y P92",
       "WAI-ARIA Authoring Practices, menú de navegación por divulgación (disclosure)"
     ],
     "pages": [
@@ -12281,5 +12334,387 @@
     },
     "detailTitle": "Pedido 2481",
     "detailText": "Compra de dos portátiles para el equipo de soporte, a la espera de la aprobación del presupuesto."
+  },
+  "sidebarValidation": {
+    "label": "Menú principal",
+    "collapseLabel": "Contraer menú",
+    "expandLabel": "Expandir menú",
+    "closeLabel": "Cerrar menú",
+    "searchLabel": "Buscar",
+    "searchPlaceholder": "Buscar",
+    "cornerLabel": "Todas las aplicaciones",
+    "openMenu": "Abrir menú",
+    "emptyText": "Aún no hay páginas",
+    "errorText": "El menú no se cargó",
+    "groupMain": "Principal",
+    "groupAdmin": "Administración",
+    "home": "Inicio",
+    "inbox": "Bandeja de entrada",
+    "calendar": "Agenda",
+    "files": "Archivos",
+    "reports": "Informes",
+    "monthly": "Mensual",
+    "annual": "Anual",
+    "byTeam": "Por equipo",
+    "alpha": "Equipo Alfa",
+    "beta": "Equipo Beta",
+    "settings": "Configuración",
+    "profile": "Perfil",
+    "billing": "Facturación",
+    "plans": "Planes",
+    "invoices": "Facturas",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "flyoutCollapsed": "Menú contraído: el panel junto al botón del riel y el tercer nivel junto a la opción",
+    "flyoutExpanded": "Menú expandido: el tercer nivel junto al subítem",
+    "partsLabel": "hide-collapse-button × hide-corner-button",
+    "invalidLabel": "Entrada no válida",
+    "exampleMain": "Producto con muchas áreas, expandido, con el botón de la esquina",
+    "exampleLoading": "Lista llegando, expandido, en carga",
+    "examplePhone": "Celular: el menú sobre la pantalla, abierto por el botón del producto",
+    "exampleFlyout": "Menú contraído con el panel junto al botón del riel y el tercer nivel junto a la opción"
+  },
+  "sidebarDocs": {
+    "summary": "El menú de navegación principal de un producto, en una columna a la izquierda, para que la persona sepa dónde está y cambie de área con un clic. Tiene tres modos, expandido, contraído y móvil, y dos estados, listo y cargando. La lista llega hasta el segundo nivel; el tercer nivel y el segundo nivel del menú contraído se abren en un panel flyout junto a quien los abrió.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-sidebar, design.md para los tokens y docs/decisoes-tecnicas.md para la P116. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, página NPH — Sidebar (1367:2), marco de documentación 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 y 4605:9594",
+    "sourceApi": "ficha del nph-sidebar; docs/decisoes-tecnicas.md › P116",
+    "sourceUsage": "ficha del nph-sidebar; docs/decisoes-tecnicas.md › P70",
+    "sourceFlyout": "Figma, marco de documentación 4633:27036, Comportamiento; ficha del nph-sidebar; docs/decisoes-tecnicas.md › P116",
+    "sourceAccessibility": "Figma, marco de documentación 4633:27036; nph-sidebar.test.ts",
+    "matrixLabel": "mode × state",
+    "description": "Use el nph-sidebar para la navegación principal de un producto: una columna a la izquierda con sus áreas y sus páginas. No reemplaza al nph-tabs, que cambia el contenido de una página, al nph-dropdown-menu, que abre acciones, al nph-navigation-menu, la navegación superior, ni al nph-breadcrumb, el rastro de la página. El producto elige el modo, la página actual y lo que se abre; el menú solo lo muestra.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Para la navegación principal de un producto: una columna a la izquierda, con sus áreas y sus páginas.",
+      "En el modo expandido, en pantalla ancha, cuando los nombres de las áreas ayudan a elegir.",
+      "En el modo contraído, cuando el contenido necesita el ancho: el riel muestra los íconos con un globo, y un ítem con hijos abre un panel flyout junto a él.",
+      "En el modo móvil, en pantalla estrecha: el menú se abre sobre la pantalla, con el scrim detrás, y se cierra con el botón de cerrar.",
+      "Con loading, mientras la lista del producto aún está llegando.",
+      "Con el botón de la esquina, para la acción principal del producto, como Todas las aplicaciones."
+    ],
+    "whenNotToUse": [
+      "Para las pestañas dentro de una página: use nph-tabs.",
+      "Para las acciones de un botón: use nph-dropdown-menu.",
+      "Para la navegación superior: use nph-navigation-menu.",
+      "Para el rastro de la página: use nph-breadcrumb.",
+      "Para la cuenta de la persona: pertenece al encabezado del producto, no al menú.",
+      "Para una acción de la página, como guardar, filtrar o exportar, en el botón de la esquina: use nph-button en la barra de la página.",
+      "El modo contraído en un celular: use el modo móvil."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "mode",
+        "expanded (predeterminado), collapsed o mobile. El producto lo elige; el botón de contraer también alterna expanded y collapsed."
+      ],
+      [
+        "open, loading",
+        "open es el menú móvil abierto; el menú lo pone en false cuando la persona lo cierra. loading dibuja filas de nph-skeleton en lugar de los ítems."
+      ],
+      [
+        "items",
+        "Las entradas, en orden, solo por propiedad: rótulos de grupo, enlaces, grupos con sus hijos y las opciones de un hijo. El menú reemplaza la lista cuando se abre un grupo y nunca cambia sus objetos."
+      ],
+      [
+        "label",
+        "El nombre accesible del hito de navegación y del diálogo móvil, ya traducido, como Menú principal."
+      ],
+      [
+        "logo-src, logo-mark-src, logo-label, logo-href",
+        "El logo de la biblioteca de la marca, completo en los modos expandido y móvil y la marca en el contraído, el nombre del producto y la página a la que lleva. logo-src vacío no dibuja logo."
+      ],
+      [
+        "search-label, search-placeholder, search-value",
+        "La búsqueda, un nph-input, dibujada en los modos expandido y móvil solo con search-label. El texto pasa a search-value mientras la persona escribe."
+      ],
+      [
+        "collapse-label, expand-label, close-label",
+        "Los nombres accesibles del botón de contraer en cada estado y del botón de cerrar del menú móvil. Un botón sin su nombre no se dibuja."
+      ],
+      [
+        "corner-label",
+        "La acción principal del producto, como Todas las aplicaciones. El texto del botón de la esquina y su nombre accesible cuando está contraído. Vacío no dibuja el botón de la esquina."
+      ],
+      [
+        "hide-collapse-button, hide-corner-button",
+        "Los dos booleanos de Figma, encendidos por defecto. Apagan el botón de contraer y el botón de la esquina."
+      ],
+      [
+        "empty-text, error-text",
+        "Los mensajes cortos en lugar de la lista, ya traducidos. El error es una alerta y gana a los ítems."
+      ],
+      [
+        "nph-mode-change",
+        "Se dispara cuando la persona cambia el menú con el botón de contraer, con detail.mode. El producto guarda el modo. Definir mode desde el código no dispara nada."
+      ],
+      [
+        "nph-close",
+        "Se dispara antes de que el menú móvil se cierre, con detail.source: close-button, escape o scrim. Es cancelable. Definir open desde el código no dispara nada."
+      ],
+      [
+        "nph-group-toggle",
+        "Se dispara cuando la persona abre o cierra un grupo de la lista expandida, con detail.value y detail.expanded."
+      ],
+      [
+        "nph-search-change",
+        "Se dispara mientras la persona escribe en la búsqueda, con detail.value."
+      ],
+      [
+        "nph-corner-action",
+        "Se dispara cuando la persona presiona el botón de la esquina."
+      ],
+      [
+        "nph-item-select",
+        "La acción elegida en las más acciones de un ítem, disparada de nuevo con detail.value, detail.checked y detail.item."
+      ]
+    ],
+    "itemsHeader": [
+      "Entrada de items",
+      "Campos"
+    ],
+    "items": [
+      [
+        "entrada label",
+        "type label y text: da nombre al grupo que sigue."
+      ],
+      [
+        "link",
+        "label, icon y href; opcionalmente active, counter, disabled, tooltip, actions, actionsLabel y value."
+      ],
+      [
+        "group",
+        "type group, label, icon y children; opcionalmente expanded, disabled, tooltip, actions, actionsLabel y value."
+      ],
+      [
+        "child",
+        "label y href, u options; opcionalmente active, disabled, tooltip y value. Con options abre un panel flyout y no tiene href."
+      ],
+      [
+        "option",
+        "label y href; opcionalmente active, disabled, tooltip y value. El tercer y último nivel."
+      ]
+    ],
+    "invalidTitle": "La entrada no válida no dibuja nada.",
+    "invalidText": "Un modo fuera de los tres y una entrada que no puede dibujarse — un enlace sin href, un ícono fuera del núcleo, un grupo sin hijos, un hijo con options y un href o active — quedan fuera, y el menú emite console.error en desarrollo, una vez por causa.",
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e import",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-sidebar label=\"Main menu\" collapse-label=\"Collapse menu\" expand-label=\"Expand menu\"></nph-sidebar>",
+    "usageTag": "La etiqueta de la pieza. No tiene slot: las entradas llegan por la propiedad items y todo texto llega como atributo.",
+    "usageImport": "Registra el componente con sus estilos. El CSS de los tokens generado se importa aparte.",
+    "modesTitle": "Modos",
+    "modesCaption": "Expandido, contraído y móvil. El menú móvil se abre con el botón del producto.",
+    "modesHeader": [
+      "Modo",
+      "Qué muestra"
+    ],
+    "modes": [
+      [
+        "expanded",
+        "Ancho sidebar/panel-width: el logo completo, el botón de contraer, la búsqueda, los nombres, los rótulos de grupo y el botón de la esquina."
+      ],
+      [
+        "collapsed",
+        "Ancho layout/sidebar-collapsed: la marca del logo, el botón de contraer, un botón del riel por ítem con un globo y el botón de la esquina como ícono. Sin búsqueda. Un ítem con hijos abre un panel flyout."
+      ],
+      [
+        "mobile",
+        "El menú expandido sobre la pantalla, a sidebar/mobile-offset del borde, con el scrim sidebar/scrim detrás y el botón de cerrar en lugar del botón de contraer. El producto cambia a él por debajo del breakpoint md."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesCaption": "Cargando, expandido y contraído.",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "ready",
+        "La lista del producto."
+      ],
+      [
+        "loading",
+        "Filas de nph-skeleton en lugar de los ítems; el logo, la búsqueda y el botón de la esquina permanecen; la lista queda aria-busy."
+      ],
+      [
+        "flyout open",
+        "El panel se abre junto a quien lo abrió, con el nombre de este como título; quien lo abrió muestra aria-expanded."
+      ],
+      [
+        "focus",
+        "Borde border/width en focus/border y halo focus/ring-width en focus/halo por fuera del botón de contraer, del botón de cerrar, del enlace del logo y de la opción del flyout."
+      ],
+      [
+        "disabled",
+        "El ítem o la opción entera en state/disabled-opacity, sin hover y sin foco; el aspecto de activo permanece por debajo."
+      ]
+    ],
+    "flyoutTitle": "Panel flyout",
+    "flyoutText": "El panel flyout es el mismo para el segundo nivel del menú contraído y para el tercer nivel. En el menú contraído se abre junto al botón del riel de un ítem con hijos; una opción con options muestra la flecha chevron-right y abre el tercer nivel junto a ella. En el menú expandido lo abre un subítem con options.",
+    "flyoutCaption": "El panel junto al botón del riel y el tercer nivel junto a la opción.",
+    "flyoutHeader": [
+      "Comportamiento",
+      "Regla"
+    ],
+    "flyout": [
+      [
+        "Apertura",
+        "Un clic, Enter o Espacio en quien lo abre. El hover no lo abre; el hover solo muestra el globo del botón del riel."
+      ],
+      [
+        "Posición",
+        "Junto a quien lo abrió, a space/inline del lado, con la parte superior alineada a la de este; queda dentro de la pantalla, del otro lado o desplazado cuando no cabe."
+      ],
+      [
+        "Título",
+        "El nombre de quien lo abrió, en sidebar/flyout-title."
+      ],
+      [
+        "Niveles",
+        "Un panel por nivel. Abrir otro panel del mismo nivel cierra el que está abierto."
+      ],
+      [
+        "Foco",
+        "Abrir mantiene el foco en quien lo abrió, y el siguiente Tab entra en el panel, que viene justo después de él."
+      ],
+      [
+        "Cierre",
+        "Esc cierra el panel más interno y devuelve el foco a quien lo abrió. Un clic o el foco fuera lo cierra. Abrir un panel cierra el globo de quien lo abrió."
+      ],
+      [
+        "Ancho",
+        "Lo que piden sus opciones: como mínimo una línea del menú expandido y como máximo layout/input-width. Figma lo dibuja fijo, sin token."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Panel",
+        "sidebar/panel-background, borde de 1 px en sidebar/panel-border y esquinas de sidebar/panel-radius; contraído, sidebar/rail-radius. Flota, sin sombra."
+      ],
+      [
+        "2. Logo",
+        "La imagen de la biblioteca de la marca al inicio de la parte superior, como enlace con el nombre del producto. Completo en los modos expandido y móvil, la marca en el contraído."
+      ],
+      [
+        "3. Botón de contraer",
+        "Al final de la fila del logo; contraído, debajo de la marca. En el menú móvil, el botón de cerrar con xmark ocupa su lugar."
+      ],
+      [
+        "4. Búsqueda",
+        "nph-input en sidebar/search-background y sidebar/search-border. Solo en los modos expandido y móvil."
+      ],
+      [
+        "5. Separador",
+        "La única línea entre áreas, en sidebar/separator, entre la búsqueda y la navegación."
+      ],
+      [
+        "6. Navegación",
+        "Ítems, subítems y, contraído, botones del riel, con un contador opcional. La única parte que se desplaza: la parte superior y el pie quedan fijos."
+      ],
+      [
+        "7. Rótulo de grupo",
+        "text/heading-2xs en sidebar/group-label, sin mayúsculas, alineado al inicio de los ítems."
+      ],
+      [
+        "8. Botón de la esquina",
+        "La acción principal del producto en el pie: nph-button primary solid; contraído, un nph-button solo con ícono y plus."
+      ]
+    ],
+    "knownLimitTitle": "Límite conocido.",
+    "knownLimitText": "El botón de contraer muestra un skeleton en lugar del ícono sidebar, hasta que ese ícono esté en nph-icon.",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un hito de navegación con nombre. Un enlace es un enlace; un grupo, el botón de contraer y quien abre un panel flyout son botones con aria-expanded y aria-controls. El menú móvil es un diálogo modal con el mismo nombre; el panel flyout es un grupo nombrado por su título."
+      ],
+      [
+        "Nombre accesible",
+        "label nombra el hito. El botón de contraer lleva collapse-label o expand-label. Cada botón del riel lleva el nombre del ítem en aria-label y en su globo. El logo es un enlace nombrado por logo-label. El ítem actual lleva aria-current=\"page\"."
+      ],
+      [
+        "Teclado",
+        "Tab en el orden de lectura; el siguiente Tab después de quien abre entra en su panel. Enter y Espacio siguen un enlace y abren o cierran un grupo o un panel. Esc cierra el panel más interno y devuelve el foco a quien lo abrió; sin ninguno abierto, cierra el menú móvil."
+      ],
+      [
+        "Foco visible",
+        "focus/border y focus/halo en toda pieza enfocable del menú, incluidos el ítem, el subítem, el botón del riel, la opción del flyout, el botón de contraer y el botón de cerrar. El botón de la esquina mantiene el foco predeterminado del nph-button."
+      ],
+      [
+        "Contraste",
+        "Todo texto del menú pasa 4,5:1 sobre su fondo, en claro y oscuro, en las siete marcas. El borde de foco pasa 3:1 contra el panel y contra el panel flyout."
+      ],
+      [
+        "El color no es la única señal",
+        "El ítem activo usa el color de la marca, text/label-md y un ícono sólido; el botón del riel activo vuelve sólido el ícono; la opción abierta usa el mismo color con la flecha, y el peso distingue activo de abierto."
+      ],
+      [
+        "Área táctil",
+        "Ítem y botón del riel en sidebar/item-height y sidebar/rail-button-size; subítem, opción, búsqueda, botón de contraer y botón de la esquina en control/height-default."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "exampleMain": "Producto con muchas áreas, expandido, con el botón de la esquina.",
+    "exampleLoading": "Lista llegando: cargando en lugar de la lista.",
+    "examplePhone": "Celular: el menú sobre la pantalla, abierto por el botón del producto.",
+    "exampleFlyout": "Menú contraído con el panel junto al botón del riel y el tercer nivel junto a la opción.",
+    "exampleThird": "Menú expandido con el tercer nivel junto al subítem.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Sidebar (1367:2), marco de documentación 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 y 4605:9594",
+      "fichas/nph-sidebar.md, fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md y fichas/nph-sidebar-rail-button.md",
+      "docs/decisoes-tecnicas.md › P116 y P98",
+      "WAI-ARIA Authoring Practices, menú de navegación con disclosure y diálogo (modal)"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "label": "Menú principal",
+    "collapseLabel": "Contraer menú",
+    "expandLabel": "Expandir menú",
+    "closeLabel": "Cerrar menú",
+    "searchLabel": "Buscar",
+    "searchPlaceholder": "Buscar",
+    "cornerLabel": "Todas las aplicaciones",
+    "openMenu": "Abrir menú",
+    "emptyText": "Aún no hay páginas",
+    "errorText": "El menú no se cargó",
+    "groupMain": "Principal",
+    "groupAdmin": "Administración",
+    "home": "Inicio",
+    "inbox": "Bandeja de entrada",
+    "calendar": "Agenda",
+    "files": "Archivos",
+    "reports": "Informes",
+    "monthly": "Mensual",
+    "annual": "Anual",
+    "byTeam": "Por equipo",
+    "alpha": "Equipo Alfa",
+    "beta": "Equipo Beta",
+    "settings": "Configuración",
+    "profile": "Perfil",
+    "billing": "Facturación",
+    "plans": "Planes",
+    "invoices": "Facturas"
   }
 }

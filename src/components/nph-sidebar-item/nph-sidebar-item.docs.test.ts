@@ -156,7 +156,7 @@ describe('nph-sidebar-item Documentation', () => {
       const target = renderInLocale(locale);
       await ready(target);
       expect(target.querySelectorAll('section#subitem nph-sidebar-subitem[options]')).toHaveLength(1);
-      expect(target.querySelectorAll('section#rail-button nph-sidebar-rail-button')).toHaveLength(5);
+      expect(target.querySelectorAll('section#rail-button nph-sidebar-rail-button')).toHaveLength(7);
       const withActions = target.querySelector<NphSidebarItem>('section#tooltip-and-more-actions nph-sidebar-item[actions-label]');
       expect(withActions?.actions.length).toBeGreaterThan(0);
       expect(target.querySelector<NphSidebarItem>('section#tooltip-and-more-actions nph-sidebar-item')?.tooltip).not.toBe('');

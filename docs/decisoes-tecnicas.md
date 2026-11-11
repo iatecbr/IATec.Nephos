@@ -7078,8 +7078,8 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 ## P116 — `nph-sidebar`: API and semantics; the focus hook of `nph-button`; the disclosure of the subitem and of the rail button (amends P98)
 
 **Technical conflict.** The accepted documentation (frame `4633:27036`, sets `4605:9647`, `4605:9612`,
-`4605:9599`, `4605:9589` and `4605:9594`) gives the Figma properties `modo`, `estado`, `botão de
-recolher` and `botão do canto`, the behavior of the APG Disclosure Navigation Menu and Dialog (Modal)
+`4605:9599`, `4605:9589` and `4605:9594`) gives the Figma properties `modo`, `estado`, `botão de recolher` and
+`botão do canto`, the behavior of the APG Disclosure Navigation Menu and Dialog (Modal)
 patterns, the accessibility and the tokens, and leaves the code API to the code, with ten points open in
 the task. Eleven points need a decision of their own:
 

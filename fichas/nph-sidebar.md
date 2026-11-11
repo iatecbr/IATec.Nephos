@@ -30,7 +30,7 @@ api:
     default: expanded
     reflects: true
     constraint: >-
-      The Figma modo. expanded shows the full logo, the search and the names; collapsed shows the
+      The Figma `modo`. expanded shows the full logo, the search and the names; collapsed shows the
       logo mark, the collapse button, the rail buttons and the corner button as an icon; mobile is
       the expanded menu over the screen. The product chooses it and switches to mobile below the md
       breakpoint; the collapse button also switches expanded and collapsed. Reflects because the CSS
@@ -49,7 +49,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The Figma estado carregando. nph-skeleton rows in place of the items, with aria-busy on the
+      The Figma `estado` `carregando`. nph-skeleton rows in place of the items, with aria-busy on the
       list. The logo, the search and the corner button stay.
   items:
     type: array
@@ -166,14 +166,14 @@ api:
     default: "false"
     reflects: false
     constraint: >-
-      The Figma botão de recolher, on by default. Turns the collapse button off.
+      The Figma `botão de recolher`, on by default. Turns the collapse button off.
   hide-corner-button:
     type: boolean
     required: false
     default: "false"
     reflects: false
     constraint: >-
-      The Figma botão do canto, on by default. Turns the corner button off.
+      The Figma `botão do canto`, on by default. Turns the corner button off.
   empty-text:
     type: string
     required: false

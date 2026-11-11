@@ -421,7 +421,19 @@
     "components-nph-hover-card-validation--in-sentence": "In a sentence",
     "components-nph-hover-card-validation--direction": "Direction",
     "components-nph-hover-card-validation--examples": "Examples",
-    "components-nph-hover-card-validation--brands": "Brands"
+    "components-nph-hover-card-validation--brands": "Brands",
+    "components-nph-sidebar-docs": "Docs",
+    "components-nph-sidebar-docs--documentation": "Documentation",
+    "components-nph-sidebar-validation": "Validation",
+    "components-nph-sidebar-validation--modes": "Modes",
+    "components-nph-sidebar-validation--mobile": "Mobile",
+    "components-nph-sidebar-validation--loading": "Loading",
+    "components-nph-sidebar-validation--flyout": "Flyout",
+    "components-nph-sidebar-validation--parts": "Parts",
+    "components-nph-sidebar-validation--messages": "Messages",
+    "components-nph-sidebar-validation--invalid-input": "Invalid input",
+    "components-nph-sidebar-validation--examples": "Examples",
+    "components-nph-sidebar-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7730,8 +7742,8 @@
       "components-nph-multi-combobox-validation--examples": "The three required examples of the board, in nph-field: two options chosen at rest, in focus with typed text and the list open, and many options on several lines, each in light and dark mode.",
       "components-nph-multi-combobox-validation--brands": "The seven brands in light and dark: the chips take the primary surface of the frame's brand, and the focus border and halo follow it on Tab.",
       "components-nph-sidebar-item-validation--matrix": "type × state of the item: link, counter, group closed and open, at rest, active and disabled. Active does not exist in a group. Move the mouse for hover and press Tab for the focus.",
-      "components-nph-sidebar-item-validation--subitem": "The subitem with options no and yes, at rest, active and disabled: label only, and the arrow to the right with options (D-4).",
-      "components-nph-sidebar-item-validation--rail-button": "The rail button with the counter off and on, at rest, active and disabled: the counter on the top end corner (D-1), with an outline when active (D-2).",
+      "components-nph-sidebar-item-validation--subitem": "The subitem with options no and yes, at rest, active and disabled: label only, and with options the arrow to the right and a disclosure button, open or closed.",
+      "components-nph-sidebar-item-validation--rail-button": "The rail button with the counter off and on, at rest, active and disabled, and the group, the disclosure of an item with children, closed, open and disabled: the counter on the top end corner, with an outline when active.",
       "components-nph-sidebar-item-validation--tooltip-and-more-actions": "The balloon with the full name of a cut label, on hover and focus; more actions at the end of the line, on hover and focus, opening its menu; the balloon of the rail button, always on.",
       "components-nph-sidebar-item-validation--invalid-input": "Invalid input draws nothing: an active group, a counter with text, a subitem without href and a rail button without label, each with one error.",
       "components-nph-sidebar-item-validation--examples": "The three required examples of the board: main menu with current page and counter, group open with subitems, and collapsed menu with rail buttons, each in light and dark mode.",
@@ -7819,7 +7831,16 @@
       "components-nph-tabs-validation--panels": "The panel is the consumer content, slotted by the value of each tab: only the panel of the active tab shows, and the list stays on top of it.",
       "components-nph-tabs-validation--direction": "Right-to-left writing: the list reads from the right and the arrows follow the ends of the line.",
       "components-nph-tabs-validation--examples": "The three required examples, each in light and dark mode: requests by step with icon, counter and tag; the request detail inside a panel; and the arrows at both ends when the tabs do not fit.",
-      "components-nph-tabs-validation--brands": "The seven brands in light and dark mode: the label and the line of the active tab, the counter, the tag and the focus follow the brand of the frame."
+      "components-nph-tabs-validation--brands": "The seven brands in light and dark mode: the label and the line of the active tab, the counter, the tag and the focus follow the brand of the frame.",
+      "components-nph-sidebar-validation--modes": "The expanded and the collapsed menu, ready, with the current page, a counter, an open group and a disabled page. Move the mouse for hover and press Tab for the focus.",
+      "components-nph-sidebar-validation--mobile": "The phone: the button of the product opens the menu over the screen, with the scrim behind and the close button in place of the collapse button. The story opens the light one; Esc, the close button and the scrim close it.",
+      "components-nph-sidebar-validation--loading": "The state loading, expanded and collapsed: nph-skeleton rows in place of the items, with the logo, the search and the corner button in place.",
+      "components-nph-sidebar-validation--flyout": "The flyout panel: next to the rail button for the second level, next to the option for the third level, and next to the subitem in the expanded menu. It opens on a click, never on hover.",
+      "components-nph-sidebar-validation--parts": "The two Figma booleans, the collapse button and the corner button, on and off, in the expanded menu.",
+      "components-nph-sidebar-validation--messages": "The short message in place of the list: no items, and an error. The product provides and translates both.",
+      "components-nph-sidebar-validation--invalid-input": "Invalid input: a mode outside the three draws nothing, and an entry that cannot be drawn is left out, each with one error.",
+      "components-nph-sidebar-validation--examples": "The four required examples of the documentation: a product with many areas, the list arriving, the phone and the collapsed menu with its flyout, each in light and dark mode.",
+      "components-nph-sidebar-validation--brands": "The seven brands in light and dark: the current page, the counter, the open group and the active rail button follow the brand of the frame, and so does the focus halo on Tab."
     }
   },
   "multiComboboxDocs": {
@@ -8294,12 +8315,12 @@
     "summary": "The line of the lateral menu that leads the person to a page or opens a group of pages. It comes as the first-level item, the second-level subitem and the rail button, which plays the role of the item when the menu is collapsed.",
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
-    "derivedText": "In case of divergence, the canonical sources prevail: the nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button spec sheets, design.md for the tokens and docs/decisoes-tecnicas.md for P98. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button spec sheets, design.md for the tokens and docs/decisoes-tecnicas.md for P98 and P116. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
     "sourceLabel": "Source:",
     "sourceFrame": "Figma, board nph-sidebar-item (1366:2), documentation 2723:460, sets 2251:51271, 2251:51312 and 2251:51328",
-    "sourceApi": "nph-sidebar-item spec sheet; docs/decisoes-tecnicas.md › P98",
-    "sourceSubitem": "nph-sidebar-subitem spec sheet; docs/decisoes-tecnicas.md › P98",
-    "sourceRail": "nph-sidebar-rail-button spec sheet; task DSA-53, pending decisions D-1 and D-2; docs/decisoes-tecnicas.md › P98",
+    "sourceApi": "nph-sidebar-item spec sheet; docs/decisoes-tecnicas.md › P98 and P116",
+    "sourceSubitem": "nph-sidebar-subitem spec sheet; docs/decisoes-tecnicas.md › P98 and P116",
+    "sourceRail": "nph-sidebar-rail-button spec sheet; docs/decisoes-tecnicas.md › P98 and P116",
     "sourceAccessibility": "Figma, documentation 2723:460; nph-sidebar-item.test.ts, nph-sidebar-subitem.test.ts and nph-sidebar-rail-button.test.ts",
     "matrixLabel": "type × state",
     "description": "Use nph-sidebar-item inside nph-sidebar to move between the areas of the product. The item is the first-level line; the subitem is the second-level line, inside a group; the rail button shows only the icon when the menu is collapsed. It does not replace nph-panel-menu, which organizes the navigation inside the content, nor nph-dropdown-menu, which opens actions and choices.",
@@ -8365,7 +8386,11 @@
       ],
       [
         "actions, actions-label",
-        "The entries of the nph-dropdown-menu of more actions, and the accessible name of its button. With actions and no actions-label, the item does not render."
+        "The entries of the nph-dropdown-menu of more actions, and the accessible name of its button, the icon-only nph-button secondary, ghost and compact. With actions and no actions-label, the item does not render."
+      ],
+      [
+        "controls",
+        "The element a group opens, set by nph-sidebar. An id cannot cross the shadow root, so the group button takes the element itself as its aria-controls. Property only."
       ],
       [
         "nph-toggle",
@@ -8432,7 +8457,7 @@
       ],
       [
         "focus",
-        "Border border/width in color/primary and halo focus/ring-width in focus/halo around the whole line, keyboard only."
+        "Border border/width in focus/border and halo focus/ring-width in focus/halo around the whole line, keyboard only."
       ],
       [
         "disabled",
@@ -8440,7 +8465,7 @@
       ]
     ],
     "subitemTitle": "Subitem",
-    "subitemText": "nph-sidebar-subitem is the second-level line, inside an open group: the label only, at control/height-default, with space/inline top and bottom and sidebar/item-padding on the sides. With options, the arrow to the right says it leads to a list of options; the subitem stays a link (D-4).",
+    "subitemText": "nph-sidebar-subitem is the second-level line, inside an open group: the label only, at control/height-default, with space/inline top and bottom and sidebar/item-padding on the sides. With options, the arrow to the right says it opens a list of options in the flyout panel of nph-sidebar: the subitem is then a disclosure button with aria-expanded, not a link.",
     "subitemCaption": "Active, at rest, and with options.",
     "subitemApi": [
       [
@@ -8449,15 +8474,19 @@
       ],
       [
         "href",
-        "The page the subitem leads to. Required unless disabled."
+        "The page the subitem leads to. Required unless disabled or with options; with options it has no href."
       ],
       [
         "active",
-        "The current page: aria-current=\"page\", sidebar/item-foreground-active and text/label-md."
+        "The current page: aria-current=\"page\", sidebar/item-foreground-active and text/label-md. Never with options."
       ],
       [
         "options",
-        "The arrow chevron-right at icon/size-sm, visual only."
+        "The arrow chevron-right at icon/size-sm. It makes the line a disclosure button that opens the third level in a flyout panel."
+      ],
+      [
+        "expanded",
+        "The options are open: aria-expanded and the open look. Only with options."
       ],
       [
         "disabled",
@@ -8466,12 +8495,24 @@
       [
         "tooltip",
         "The text of the nph-tooltip with the full name, on hover and focus."
+      ],
+      [
+        "controls",
+        "The element the options open, set by nph-sidebar, taken as aria-controls. Property only."
+      ],
+      [
+        "nph-toggle",
+        "Fired when the person opens or closes the options, with detail.expanded. It bubbles and crosses shadow roots. Setting expanded from code fires nothing."
       ]
     ],
     "railTitle": "Rail button",
-    "railText": "nph-sidebar-rail-button plays the role of the item when nph-sidebar is collapsed: a square of sidebar/rail-button-size with the icon only. The label is its name and the text of the balloon, which is always on. The counter sits on the top end corner (D-1) and, when active, gains an outline in sidebar/panel-background (D-2).",
-    "railCaption": "At rest, active, with the counter, active with the counter, and disabled.",
+    "railText": "nph-sidebar-rail-button plays the role of the item when nph-sidebar is collapsed: a square of sidebar/rail-button-size with the icon only. The label is its name and the text of the balloon, which is always on. The counter sits on the top end corner and, when active, gains a 4 px outline in sidebar/panel-background. A rail button of type group is the disclosure of an item with children: it opens the flyout panel of nph-sidebar.",
+    "railCaption": "At rest, active, with the counter, active with the counter, disabled, and the group closed and open.",
     "railApi": [
+      [
+        "type",
+        "link (default) leads to a page; group is the disclosure of an item with children and opens the flyout panel of nph-sidebar. A group has no href, no counter and is never active."
+      ],
       [
         "label",
         "The name of the page, required: the aria-label of the link and the text of the balloon."
@@ -8482,7 +8523,7 @@
       ],
       [
         "href",
-        "The page it leads to. Required unless disabled."
+        "The page it leads to. Required in a link, unless disabled."
       ],
       [
         "active",
@@ -8490,20 +8531,32 @@
       ],
       [
         "counter",
-        "A whole number from zero up, read in the name of the link, after the label."
+        "A whole number from zero up, read in the name of the link, after the label. A pill on the top end corner, with a 4 px outline when active. Only in a link."
+      ],
+      [
+        "expanded",
+        "The flyout panel of the group is open: aria-expanded, the solid icon and the hover background. Only in a group."
       ],
       [
         "disabled",
         "state/disabled-opacity, out of the Tab order, no balloon."
+      ],
+      [
+        "controls",
+        "The element the group opens, set by nph-sidebar, taken as aria-controls. Property only."
+      ],
+      [
+        "nph-toggle",
+        "Fired when the person opens or closes the group, with detail.expanded. It bubbles and crosses shadow roots. Setting expanded from code fires nothing."
       ]
     ],
     "moreActionsTitle": "Tooltip and more actions",
-    "moreActionsText": "tooltip turns on the nph-tooltip with the full name, on hover and focus: turn it on when the label can be cut. More actions is the icon-only nph-button, ghost and compact, with ellipsis-vertical, at the end of the line, on hover and focus; it opens an nph-dropdown-menu with the actions. It serves mouse and keyboard only: on touch it does not appear, so the same actions are on the destination page.",
+    "moreActionsText": "tooltip turns on the nph-tooltip with the full name, on hover and focus: turn it on when the label can be cut. More actions is the icon-only nph-button, secondary, ghost and compact, with ellipsis-vertical, at the end of the line, on hover and focus; it opens an nph-dropdown-menu with the actions. It serves mouse and keyboard only: on touch it does not appear, so the same actions are on the destination page.",
     "moreActionsCaption": "A cut label with its balloon, and an item with more actions. Move the mouse over them, or press Tab.",
     "relationsTitle": "Relations and context",
     "relations": [
-      "The pieces live inside nph-sidebar, which decides the expanded or collapsed mode, the width and the switch of the item for the rail button. The item fills the width it receives.",
-      "A group opens its subitems right below it. A subitem with the right arrow says it leads to a list of options.",
+      "The pieces live inside nph-sidebar, which decides the expanded or collapsed mode, the width, the switch of the item for the rail button and the flyout panel. The item fills the width it receives.",
+      "A group opens its subitems right below it. A subitem with the right arrow opens a list of options in a flyout panel; the rail button of a group opens the flyout panel of its children.",
       "The balloon is nph-tooltip, more actions is nph-button with nph-dropdown-menu, and the counter uses the primary palette. Each piece keeps its own state and focus.",
       "Space: space/control-padding between icon and label and sidebar/item-padding around the item; on the subitem, space/inline between label and arrow and top and bottom, and sidebar/item-padding on the sides."
     ],
@@ -8531,7 +8584,7 @@
       ],
       [
         "5. More actions",
-        "The icon-only nph-button, ghost and compact, with ellipsis-vertical, at the end, on hover and focus."
+        "The icon-only nph-button, secondary, ghost and compact, with ellipsis-vertical, at the end, on hover and focus."
       ],
       [
         "6. Tooltip",
@@ -8543,7 +8596,7 @@
       ],
       [
         "8. Focus",
-        "Border color/primary and halo focus/halo around the line, in focus/border-radius-sidebar-item and focus/radius-sidebar-item; on the rail button, focus/border-radius-container and focus/radius-container."
+        "Border focus/border and halo focus/halo around the line, in focus/border-radius-sidebar-item and focus/radius-sidebar-item; on the rail button, focus/border-radius-container and focus/radius-container."
       ]
     ],
     "accessibilityTitle": "Accessibility",
@@ -8554,7 +8607,7 @@
     "accessibility": [
       [
         "Semantics",
-        "The item and the subitem are links, with aria-current=\"page\" on the current page; a group is a button with aria-expanded. Disabled, the link has no href, keeps role link and gains aria-disabled."
+        "The item and the subitem are links, with aria-current=\"page\" on the current page. A group, a subitem with options and the rail button of a group are buttons with aria-expanded and aria-controls. Disabled, the link has no href, keeps role link and gains aria-disabled."
       ],
       [
         "Accessible name",
@@ -8562,11 +8615,11 @@
       ],
       [
         "Keyboard",
-        "Tab reaches the line and then, when there is one, the more actions button. Enter follows the link; Enter and Space open and close a group."
+        "Tab reaches the line and then, when there is one, the more actions button. Enter follows the link; Enter and Space open and close a group, a subitem with options and the rail button of a group."
       ],
       [
         "Visible focus",
-        "Border color/primary and halo focus/halo around the whole line, as in nph-button. The border passes 3:1 against sidebar/panel-background."
+        "Border focus/border and halo focus/halo around the whole line, as nph-sidebar draws it on every piece of the menu. The border passes 3:1 against sidebar/panel-background."
       ],
       [
         "Contrast",
@@ -8586,7 +8639,7 @@
     "references": [
       "Figma DS-IA-NEPHOS 5.0, board nph-sidebar-item (1366:2), documentation 2723:460, sets 2251:51271, 2251:51312 and 2251:51328",
       "fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md and fichas/nph-sidebar-rail-button.md",
-      "docs/decisoes-tecnicas.md › P98, P86, P77 and P92",
+      "docs/decisoes-tecnicas.md › P98, P116, P86, P77 and P92",
       "WAI-ARIA Authoring Practices, disclosure navigation menu"
     ],
     "pages": [
@@ -12281,5 +12334,387 @@
     },
     "detailTitle": "Request 2481",
     "detailText": "Purchase of two laptops for the support team, waiting for the budget approval."
+  },
+  "sidebarValidation": {
+    "label": "Main menu",
+    "collapseLabel": "Collapse menu",
+    "expandLabel": "Expand menu",
+    "closeLabel": "Close menu",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Search",
+    "cornerLabel": "All applications",
+    "openMenu": "Open menu",
+    "emptyText": "No pages yet",
+    "errorText": "The menu did not load",
+    "groupMain": "Main",
+    "groupAdmin": "Administration",
+    "home": "Home",
+    "inbox": "Inbox",
+    "calendar": "Calendar",
+    "files": "Files",
+    "reports": "Reports",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "byTeam": "By team",
+    "alpha": "Alpha team",
+    "beta": "Beta team",
+    "settings": "Settings",
+    "profile": "Profile",
+    "billing": "Billing",
+    "plans": "Plans",
+    "invoices": "Invoices",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "flyoutCollapsed": "Collapsed menu: the panel next to the rail button and the third level next to the option",
+    "flyoutExpanded": "Expanded menu: the third level next to the subitem",
+    "partsLabel": "hide-collapse-button × hide-corner-button",
+    "invalidLabel": "Invalid input",
+    "exampleMain": "Product with many areas, expanded, with the corner button",
+    "exampleLoading": "List arriving, expanded, loading",
+    "examplePhone": "Phone: the menu over the screen, opened by the button of the product",
+    "exampleFlyout": "Collapsed menu with the panel next to the rail button and the third level next to the option"
+  },
+  "sidebarDocs": {
+    "summary": "The main navigation menu of a product, in a column on the left, so the person knows where they are and changes area with one click. It has three modes, expanded, collapsed and mobile, and two states, ready and loading. The list goes to the second level; the third level and the second level of the collapsed menu open in a flyout panel next to their opener.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-sidebar spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P116. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "sourceFrame": "Figma, page NPH — Sidebar (1367:2), documentation frame 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 and 4605:9594",
+    "sourceApi": "nph-sidebar spec sheet; docs/decisoes-tecnicas.md › P116",
+    "sourceUsage": "nph-sidebar spec sheet; docs/decisoes-tecnicas.md › P70",
+    "sourceFlyout": "Figma, documentation frame 4633:27036, Behavior; nph-sidebar spec sheet; docs/decisoes-tecnicas.md › P116",
+    "sourceAccessibility": "Figma, documentation frame 4633:27036; nph-sidebar.test.ts",
+    "matrixLabel": "mode × state",
+    "description": "Use nph-sidebar for the main navigation of a product: one column on the left with its areas and their pages. It does not replace nph-tabs, which switch the content of a page, nph-dropdown-menu, which opens actions, nph-navigation-menu, the top navigation, nor nph-breadcrumb, the page trail. The product chooses the mode, the current page and what opens; the menu only shows it.",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "whenToUse": [
+      "For the main navigation of a product: one column on the left, with its areas and their pages.",
+      "In the expanded mode, on a wide screen, when the names of the areas help the person to choose.",
+      "In the collapsed mode, when the content needs the width: the rail shows the icons with a balloon, and an item with children opens a flyout panel next to it.",
+      "In the mobile mode, on a narrow screen: the menu opens over the screen, with the scrim behind, and closes with the close button.",
+      "With loading, while the list of the product is still arriving.",
+      "With the corner button, for the main action of the product, such as All applications."
+    ],
+    "whenNotToUse": [
+      "For the tabs inside a page: use nph-tabs.",
+      "For the actions of a button: use nph-dropdown-menu.",
+      "For the top navigation: use nph-navigation-menu.",
+      "For the page trail: use nph-breadcrumb.",
+      "For the account of the person: it belongs to the product header, not to the menu.",
+      "For a page action, such as save, filter or export, in the corner button: use nph-button in the page bar.",
+      "The collapsed mode on a phone: use the mobile mode."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "mode",
+        "expanded (default), collapsed or mobile. The product chooses it; the collapse button also switches expanded and collapsed."
+      ],
+      [
+        "open, loading",
+        "open is the mobile menu opened; the menu sets it to false when the person closes it. loading draws nph-skeleton rows in place of the items."
+      ],
+      [
+        "items",
+        "The entries, in order, by property only: group labels, links, groups with their children and the options of a child. The menu replaces the list when a group opens and never changes your objects."
+      ],
+      [
+        "label",
+        "The accessible name of the navigation landmark and of the mobile dialog, already localized, such as Main menu."
+      ],
+      [
+        "logo-src, logo-mark-src, logo-label, logo-href",
+        "The logo of the brand library, full in the expanded and mobile modes and the mark in the collapsed one, the name of the product and the page it leads to. Empty logo-src draws no logo."
+      ],
+      [
+        "search-label, search-placeholder, search-value",
+        "The search, an nph-input, drawn in the expanded and mobile modes only with search-label. The text goes to search-value as the person types."
+      ],
+      [
+        "collapse-label, expand-label, close-label",
+        "The accessible names of the collapse button in each state and of the mobile close button. A button without its name is not drawn."
+      ],
+      [
+        "corner-label",
+        "The main action of the product, such as All applications. The text of the corner button, and its accessible name when collapsed. Empty draws no corner button."
+      ],
+      [
+        "hide-collapse-button, hide-corner-button",
+        "The two Figma booleans, on by default. They turn the collapse button and the corner button off."
+      ],
+      [
+        "empty-text, error-text",
+        "The short messages in place of the list, already localized. The error is an alert and wins over the items."
+      ],
+      [
+        "nph-mode-change",
+        "Fired when the person switches the menu with the collapse button, with detail.mode. The product keeps the mode. Setting mode from code fires nothing."
+      ],
+      [
+        "nph-close",
+        "Fired before the mobile menu closes, with detail.source: close-button, escape or scrim. It is cancelable. Setting open from code fires nothing."
+      ],
+      [
+        "nph-group-toggle",
+        "Fired when the person opens or closes a group of the expanded list, with detail.value and detail.expanded."
+      ],
+      [
+        "nph-search-change",
+        "Fired as the person types in the search, with detail.value."
+      ],
+      [
+        "nph-corner-action",
+        "Fired when the person presses the corner button."
+      ],
+      [
+        "nph-item-select",
+        "The action chosen in the more actions of an item, fired again with detail.value, detail.checked and detail.item."
+      ]
+    ],
+    "itemsHeader": [
+      "Entry of items",
+      "Fields"
+    ],
+    "items": [
+      [
+        "label entry",
+        "type label and text: it names the group that follows it."
+      ],
+      [
+        "link",
+        "label, icon and href; optionally active, counter, disabled, tooltip, actions, actionsLabel and value."
+      ],
+      [
+        "group",
+        "type group, label, icon and children; optionally expanded, disabled, tooltip, actions, actionsLabel and value."
+      ],
+      [
+        "child",
+        "label and href, or options; optionally active, disabled, tooltip and value. With options it opens a flyout panel and has no href."
+      ],
+      [
+        "option",
+        "label and href; optionally active, disabled, tooltip and value. The third and last level."
+      ]
+    ],
+    "invalidTitle": "Invalid input draws nothing.",
+    "invalidText": "A mode outside the three, and an entry that cannot be drawn — a link without href, an icon outside the core, a group without children, a child with options and an href or active — are left out, and the menu emits console.error in development, once per cause.",
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-sidebar label=\"Main menu\" collapse-label=\"Collapse menu\" expand-label=\"Expand menu\"></nph-sidebar>",
+    "usageTag": "The tag of the piece. It has no slot: the entries come by the items property and every text comes as an attribute.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "modesTitle": "Modes",
+    "modesCaption": "Expanded, collapsed and mobile. The mobile menu opens with the button of the product.",
+    "modesHeader": [
+      "Mode",
+      "What it shows"
+    ],
+    "modes": [
+      [
+        "expanded",
+        "Width sidebar/panel-width: the full logo, the collapse button, the search, the names, the group labels and the corner button."
+      ],
+      [
+        "collapsed",
+        "Width layout/sidebar-collapsed: the logo mark, the collapse button, one rail button per item with a balloon, and the corner button as an icon. No search. An item with children opens a flyout panel."
+      ],
+      [
+        "mobile",
+        "The expanded menu over the screen, sidebar/mobile-offset from the edge, with the scrim sidebar/scrim behind and the close button in place of the collapse button. The product switches to it below the md breakpoint."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesCaption": "Loading, expanded and collapsed.",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "ready",
+        "The list of the product."
+      ],
+      [
+        "loading",
+        "nph-skeleton rows in place of the items; the logo, the search and the corner button stay; the list is aria-busy."
+      ],
+      [
+        "flyout open",
+        "The panel opens next to its opener, with the name of the opener as the title; the opener shows aria-expanded."
+      ],
+      [
+        "focus",
+        "Border border/width in focus/border and halo focus/ring-width in focus/halo outside the collapse button, the close button, the logo link and the flyout option."
+      ],
+      [
+        "disabled",
+        "The whole option or item at state/disabled-opacity, no hover, no focus; the active look stays under it."
+      ]
+    ],
+    "flyoutTitle": "Flyout panel",
+    "flyoutText": "The flyout panel is the same for the second level of the collapsed menu and for the third level. In the collapsed menu it opens next to the rail button of an item with children; an option with options shows the arrow chevron-right and opens the third level next to it. In the expanded menu a subitem with options opens it.",
+    "flyoutCaption": "The panel next to the rail button, and the third level next to the option.",
+    "flyoutHeader": [
+      "Behavior",
+      "Rule"
+    ],
+    "flyout": [
+      [
+        "Opening",
+        "A click, Enter or Space on the opener. Hover does not open it; hover only shows the balloon of the rail button."
+      ],
+      [
+        "Position",
+        "Next to the opener, space/inline to the side, with its top aligned to the top of the opener; it stays inside the screen, on the other side or moved when it does not fit."
+      ],
+      [
+        "Title",
+        "The name of the opener, in sidebar/flyout-title."
+      ],
+      [
+        "Levels",
+        "One panel per level. Opening another panel of the same level closes the one open."
+      ],
+      [
+        "Focus",
+        "Opening keeps the focus on the opener, and the next Tab enters the panel, which follows its opener."
+      ],
+      [
+        "Closing",
+        "Esc closes the innermost panel and gives the focus back to its opener. A click or the focus outside closes it. Opening a panel closes the balloon of its opener."
+      ],
+      [
+        "Width",
+        "What its options need: at least a line of the expanded menu and at most layout/input-width. Figma draws it fixed, with no token."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Panel",
+        "sidebar/panel-background, a 1 px border in sidebar/panel-border and the corners of sidebar/panel-radius; collapsed, sidebar/rail-radius. It floats, with no shadow."
+      ],
+      [
+        "2. Logo",
+        "The image of the brand library at the top start, as a link with the name of the product. Full in the expanded and mobile modes, the mark in the collapsed one."
+      ],
+      [
+        "3. Collapse button",
+        "At the end of the logo row; collapsed, below the mark. In the mobile menu, the close button with xmark takes its place."
+      ],
+      [
+        "4. Search",
+        "nph-input on sidebar/search-background and sidebar/search-border. Only in the expanded and mobile modes."
+      ],
+      [
+        "5. Separator",
+        "The one line between areas, in sidebar/separator, between the search and the navigation."
+      ],
+      [
+        "6. Navigation",
+        "Items, subitems and, when collapsed, rail buttons, with an optional counter. The only part that scrolls: top and foot stay fixed."
+      ],
+      [
+        "7. Group label",
+        "text/heading-2xs in sidebar/group-label, without uppercase, aligned to the start of the items."
+      ],
+      [
+        "8. Corner button",
+        "The main action of the product at the foot: nph-button primary solid; collapsed, an icon-only nph-button with plus."
+      ]
+    ],
+    "knownLimitTitle": "Known limit.",
+    "knownLimitText": "The collapse button shows a skeleton in place of the sidebar icon, until that icon is in nph-icon.",
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A navigation landmark with a name. A link is a link; a group, the collapse button and the opener of a flyout panel are buttons with aria-expanded and aria-controls. The mobile menu is a modal dialog with the same name; the flyout panel is a group named by its title."
+      ],
+      [
+        "Accessible name",
+        "label names the landmark. The collapse button carries collapse-label or expand-label. Each rail button carries the name of the item in aria-label and in its balloon. The logo is a link named by logo-label. The current item carries aria-current=\"page\"."
+      ],
+      [
+        "Keyboard",
+        "Tab in reading order; the next Tab after an opener enters its panel. Enter and Space follow a link and open or close a group or a panel. Esc closes the innermost panel and gives the focus back to its opener; with none open, it closes the mobile menu."
+      ],
+      [
+        "Visible focus",
+        "focus/border and focus/halo on every focusable piece of the menu, including the item, the subitem, the rail button, the flyout option, the collapse button and the close button. The corner button keeps the default focus of nph-button."
+      ],
+      [
+        "Contrast",
+        "Every text of the menu passes 4.5:1 on its background, in light and dark, in the seven brands. The focus border passes 3:1 against the panel and the flyout panel."
+      ],
+      [
+        "Color is not the only signal",
+        "The active item uses the brand color, text/label-md and a solid icon; the active rail button turns its icon solid; the open option uses the same color with the arrow, and the weight tells active from open."
+      ],
+      [
+        "Target size",
+        "Item and rail button at sidebar/item-height and sidebar/rail-button-size; subitem, option, search, collapse button and corner button at control/height-default."
+      ]
+    ],
+    "examplesTitle": "Required examples",
+    "exampleMain": "Product with many areas, expanded, with the corner button.",
+    "exampleLoading": "List arriving: loading in place of the list.",
+    "examplePhone": "Phone: the menu over the screen, opened by the button of the product.",
+    "exampleFlyout": "Collapsed menu with the panel next to the rail button and the third level next to the option.",
+    "exampleThird": "Expanded menu with the third level next to the subitem.",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, page NPH — Sidebar (1367:2), documentation frame 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 and 4605:9594",
+      "fichas/nph-sidebar.md, fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md and fichas/nph-sidebar-rail-button.md",
+      "docs/decisoes-tecnicas.md › P116 and P98",
+      "WAI-ARIA Authoring Practices, disclosure navigation menu and dialog (modal)"
+    ],
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "label": "Main menu",
+    "collapseLabel": "Collapse menu",
+    "expandLabel": "Expand menu",
+    "closeLabel": "Close menu",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Search",
+    "cornerLabel": "All applications",
+    "openMenu": "Open menu",
+    "emptyText": "No pages yet",
+    "errorText": "The menu did not load",
+    "groupMain": "Main",
+    "groupAdmin": "Administration",
+    "home": "Home",
+    "inbox": "Inbox",
+    "calendar": "Calendar",
+    "files": "Files",
+    "reports": "Reports",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "byTeam": "By team",
+    "alpha": "Alpha team",
+    "beta": "Beta team",
+    "settings": "Settings",
+    "profile": "Profile",
+    "billing": "Billing",
+    "plans": "Plans",
+    "invoices": "Invoices"
   }
 }
