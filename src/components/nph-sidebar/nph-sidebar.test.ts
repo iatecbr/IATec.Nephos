@@ -688,6 +688,22 @@ describe('the flyout panel of the collapsed menu', () => {
     expect(flyouts(sidebar)).toHaveLength(0);
   });
 
+  it('the focus moving to another line of the menu, opener of another panel included, closes it; to its own panel does not', async () => {
+    const sidebar = await mount({ mode: 'collapsed' });
+    const opener = rail(sidebar, 3);
+    innerControl(opener).focus();
+    await userEvent.keyboard('{Enter}');
+    await entered(sidebar);
+    await userEvent.keyboard('{Tab}');
+    expect(flyouts(sidebar)).toHaveLength(1);
+    innerControl(opener).focus();
+    await settle(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(1);
+    innerControl(rail(sidebar, 5)).focus();
+    await settle(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(0);
+  });
+
   it('a click on a link of the panel follows it and closes the panel', async () => {
     const sidebar = await mount({ mode: 'collapsed' });
     await userEvent.click(innerControl(rail(sidebar, 3)));

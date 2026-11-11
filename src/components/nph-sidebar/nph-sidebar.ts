@@ -632,13 +632,23 @@ export class NphSidebar extends LitElement {
     }
   };
 
-  /** The focus leaving the menu for another part of the page closes the panels (APG, Disclosure Navigation). */
+  /**
+   * The focus leaving the panels and the openers that hold them open, for another line of the menu or another part of
+   * the page, closes the panels (APG, Disclosure Navigation). A window that loses the focus has no
+   * `relatedTarget`, and a press outside is closed by `onDocumentPointerdown`.
+   */
   private readonly onFocusout = (event: FocusEvent): void => {
     if (this.openSecond === null && this.openThird === null) {
       return;
     }
-    const next = event.relatedTarget as Node | null;
-    if (next !== null && !this.renderRoot.contains(next)) {
+    const next = event.relatedTarget as Element | null;
+    if (next === null) {
+      return;
+    }
+    const path = next.getAttribute('data-path');
+    const opens = path !== null && (path === this.openSecond || path === this.openThird);
+    const inside = this.renderRoot.contains(next) && (next.closest('.flyout') !== null || opens);
+    if (!inside) {
       this.closeFlyouts();
     }
   };

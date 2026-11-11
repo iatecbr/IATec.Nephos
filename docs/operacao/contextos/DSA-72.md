@@ -13,8 +13,9 @@ Implement `nph-sidebar` in the contract accepted in Figma, move the focus border
 ## Sources opened
 - `docs/operacao/tarefas/DSA-72.md` and `docs/operacao/evidencias/DSA-72/figma-docs-accepted-2026-11-10.md`
 - `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md`, `docs/operacao/component-handoff.md`
-- The sheets of `nph-sidebar-item`, `nph-sidebar-subitem`, `nph-sidebar-rail-button`, `nph-button`, `nph-input`, `nph-skeleton`, `nph-tooltip` and `nph-dropdown-menu`
-- `src/tokens/generated/tokens.css`: the `sidebar/*` tokens the evidence names, all present
+- The sheets of `nph-sidebar-item`, `nph-sidebar-subitem` and `nph-sidebar-rail-button` in full; the sheets of `nph-button`, `nph-input`, `nph-skeleton`, `nph-tooltip`, `nph-dropdown-menu` and `nph-icon` for their invalid combinations and focus rules
+- The code of `nph-button`, `nph-dropdown-menu`, `nph-dialog` and `nph-input` (layer, dialog, focus and token precedents), and decisions P02, P98 and P115
+- `design.md`, the sidebar, focus and scrim entries; `src/tokens/generated/tokens.css`: the `sidebar/*` tokens the evidence names, all present
 
 ## Changes
 In progress. See the pull request.

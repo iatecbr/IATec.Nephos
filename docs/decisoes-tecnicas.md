@@ -7160,7 +7160,7 @@ names follow P64.
    `layout/input-width`, the width of the floating menus: Figma draws 220, with no token, and a width token
    goes to the next Figma batch. The title is the name of its opener. There is one panel per level; opening
    another of the same level closes the first. Esc closes the innermost and gives the focus back to its
-   opener; a press outside, the focus leaving the menu, or a click on a link closes them. Opening a panel
+   opener; a press outside, the focus moving to a line that is neither the panel nor the opener that holds it open, or a click on a link closes them. Opening a panel
    closes the balloon of its opener. An option with `options` shows `chevron-right` and opens the third
    level; it keeps the active look, with the arrow, when it holds the current page (T11), and the open look
    with Regular weight otherwise. The opener carries `aria-expanded` and `aria-controls`.
@@ -7234,6 +7234,9 @@ names follow P64.
     optional in the pattern and are not offered. The expanded and collapsed widths move on
     `motion/expand-*`. The subitems of an open group are indented to the label of the group, and no
     `sidebar/group-line` is drawn: the evidence keeps the one line between the search and the navigation.
+    The measures the evidence does not give come from existing tokens: the gap between lines is
+    `space/inline-tight`, the group label takes `space/inline` above and below and `sidebar/item-padding` on
+    the sides, and the gap in the logo row is `space/inline` (D-4).
 
 13. **Tokens.** Only `--nph-sidebar-*`, the global focus and motion ones, and the neighbors the evidence
     names; no core or theme token. The scrolling list takes the room of the focus halo on every side and
@@ -7260,9 +7263,10 @@ attached or inset surface and the `nph-drawer`. A keyboard shortcut to collapse.
 - **D-3 — the current page in a collapsed group.** The rail button of a group is never `active`, so in the
   collapsed menu nothing shows that the current page is inside a group until its panel opens. She confirms
   it, or asks for an active look on the rail button of the group that holds the current page.
-- **D-4 — the width of the flyout panel.** Figma draws 220 and has no token. The code takes the width the
-  options need, between a line of the expanded menu and `layout/input-width`. She asks for the token in the
-  next batch, or accepts the range.
+- **D-4 — the measures Figma does not give.** The flyout panel is drawn at 220 with no token: the code takes
+  the width its options need, between a line of the expanded menu and `layout/input-width`. The gap between
+  lines, the padding of the group label and the gap of the logo row are not written either. She gives the
+  tokens in the next batch, or accepts these.
 
 **Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-4 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.

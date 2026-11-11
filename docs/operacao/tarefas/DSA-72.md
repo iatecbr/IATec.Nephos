@@ -59,7 +59,7 @@
     },
     {
       "id": "D-4",
-      "question": "Figma draws the flyout panel fixed at 220 and has no width token. The code takes the width the options need, between a line of the expanded menu and layout/input-width. Indiane asks for the token in the next Figma batch, or accepts the range. It does not block the pull request.",
+      "question": "Figma draws the flyout panel fixed at 220 and has no width token; the gap between lines, the padding of the group label and the gap of the logo row are not written either. The code takes the width the options need, between a line of the expanded menu and layout/input-width, and the other measures from existing tokens (P116). Indiane gives the tokens in the next Figma batch, or accepts these. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-11"
     }
