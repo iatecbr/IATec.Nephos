@@ -725,6 +725,10 @@
   --nph-file-upload-item-gap: var(--nph-core-space-300);
   --nph-file-upload-item-actions-gap: var(--nph-core-space-100);
   --nph-file-upload-item-thumbnail-radius: var(--nph-core-radius-300);
+  --nph-tree-indent: var(--nph-core-space-600);
+  --nph-tree-item-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-tree-indicator-width: var(--nph-core-focus-width-sm);
+  --nph-tree-focus-border-width: var(--nph-core-focus-width-sm);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
@@ -907,6 +911,15 @@
   --nph-file-upload-item-text-gap: var(--nph-space-stack-tight);
   --nph-file-upload-item-status-gap: var(--nph-space-inline-tight);
   --nph-file-upload-item-thumbnail-size: var(--nph-image-size-sm);
+  --nph-tree-item-height: var(--nph-control-height-default);
+  --nph-tree-item-padding-inline: var(--nph-space-inline);
+  --nph-tree-item-gap: var(--nph-space-inline-tight);
+  --nph-tree-item-radius: var(--nph-radius-control);
+  --nph-tree-padding: var(--nph-space-inline-tight);
+  --nph-tree-toggle-icon-size: var(--nph-icon-size-sm);
+  --nph-tree-toggle-padding: var(--nph-space-inline-tight);
+  --nph-tree-icon-size: var(--nph-icon-size-sm);
+  --nph-tree-focus-border-radius: var(--nph-radius-control);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1122,6 +1135,12 @@
   --nph-file-upload-item-foreground: var(--nph-color-foreground);
   --nph-file-upload-item-muted-foreground: var(--nph-color-muted-foreground);
   --nph-file-upload-item-error-foreground: var(--nph-status-error);
+  --nph-tree-item-foreground: var(--nph-color-foreground);
+  --nph-tree-item-background-hover: var(--nph-color-accent);
+  --nph-tree-item-foreground-hover: var(--nph-color-accent-foreground);
+  --nph-tree-toggle-foreground: var(--nph-color-muted-foreground);
+  --nph-tree-icon-foreground: var(--nph-color-muted-foreground);
+  --nph-tree-error-icon-foreground: var(--nph-status-error);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
@@ -1192,6 +1211,12 @@
   --nph-file-upload-item-background-uploading: var(--nph-color-primary-surface);
   --nph-file-upload-item-focus-border: var(--nph-focus-border);
   --nph-file-upload-item-focus-halo: var(--nph-focus-halo);
+  --nph-tree-item-foreground-selected: var(--nph-color-primary-text);
+  --nph-tree-item-background-selected: var(--nph-color-primary-surface);
+  --nph-tree-indicator-background: var(--nph-color-primary-border);
+  --nph-tree-toggle-foreground-selected: var(--nph-color-primary-text);
+  --nph-tree-icon-foreground-selected: var(--nph-color-primary-text);
+  --nph-tree-focus-border: var(--nph-focus-border);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
