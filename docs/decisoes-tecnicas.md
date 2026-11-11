@@ -7197,8 +7197,12 @@ names follow P64.
    steps whose text is at its maximum at 600 px, the contract says nothing, and the list scrolls sideways
    inside its own box and takes the Tab key itself, so the keyboard can scroll it (WCAG 2.1.1). The
    scroller carries the room of the focus border and the halo as padding and takes it back with a negative
-   margin, so the focus of a step is not clipped, and the balloons stay outside it. No token minimum is
-   reduced.
+   margin, so the focus of a step is not clipped, and the balloons stay outside it. With forced colors the browser
+   drops the shadow of the scroller's focus, so the scroller keeps an outline of its own in the system
+   color `Highlight`, with no token, as the user's palette decides. The word "Optional" has no rule in the
+   contract; it is treated as the label is, on one line and cut with an ellipsis when the text column is
+   squeezed, so it never passes the step area, and it stays whole in the name of the step for the screen
+   reader. No token minimum is reduced.
 
 10. **Only color moves.** The change of a status and the hover run on `stepper/state-duration` and change
     color and background. With reduced motion nothing moves (DSA-62 D-3).

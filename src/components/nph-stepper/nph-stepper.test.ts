@@ -960,6 +960,63 @@ describe('when the room runs short', () => {
     expect(scroller(stepper).scrollWidth).toBeLessThanOrEqual(scroller(stepper).clientWidth);
   });
 
+  it('with forced colors the scroller keeps an outline for the focus, since the shadow is dropped', async () => {
+    const session = cdp();
+    const stepper = await mount({ steps: heavy(), current: 4 }, '600px');
+    const area = scroller(stepper);
+    await vi.waitFor(() => expect(area.getAttribute('tabindex')).toBe('0'));
+    try {
+      await session.send('Emulation.setEmulatedMedia', { features: [{ name: 'forced-colors', value: 'active' }] });
+      expect(matchMedia('(forced-colors: active)').matches).toBe(true);
+      await userEvent.tab();
+      expect(root(stepper).activeElement).toBe(area);
+      expect(area.matches(':focus-visible')).toBe(true);
+      const style = getComputedStyle(area);
+      expect(style.outlineStyle).toBe('solid');
+      expect(Number.parseFloat(style.outlineWidth)).toBeCloseTo(px('--nph-stepper-focus-border-width'), 1);
+      expect(style.outlineColor).not.toBe('rgba(0, 0, 0, 0)');
+    } finally {
+      await session.send('Emulation.setEmulatedMedia', { features: [{ name: 'forced-colors', value: 'none' }] });
+    }
+    await vi.waitFor(() => expect(matchMedia('(forced-colors: active)').matches).toBe(false));
+  });
+
+  it('without forced colors the scroller has no outline and draws the border and the halo as a shadow', async () => {
+    const stepper = await mount({ steps: heavy(), current: 4 }, '600px');
+    const area = scroller(stepper);
+    await vi.waitFor(() => expect(area.getAttribute('tabindex')).toBe('0'));
+    await userEvent.tab();
+    expect(root(stepper).activeElement).toBe(area);
+    const style = getComputedStyle(area);
+    expect(style.outlineStyle).toBe('none');
+    expect(style.boxShadow).not.toBe('none');
+  });
+
+  for (const width of ['600px', '608px', '650px']) {
+    it(`"Optional" stays inside the step when the text column is squeezed, at ${width}`, async () => {
+      const steps = heavy().map((item) => ({ ...item, optional: true }));
+      const stepper = await mount({ steps, current: 4 }, width);
+      expectNoOverlap(stepper);
+      for (let index = 0; index < steps.length; index += 1) {
+        const optional = step(stepper, index).querySelector('.optional') as HTMLElement;
+        const text = (step(stepper, index).querySelector('.text') as HTMLElement).getBoundingClientRect();
+        const area = step(stepper, index).getBoundingClientRect();
+        const box = optional.getBoundingClientRect();
+        expect(box.right, `optional ${String(index + 1)} inside the text column`).toBeLessThanOrEqual(text.right + 0.5);
+        expect(box.right, `optional ${String(index + 1)} inside the step area`).toBeLessThanOrEqual(area.right + 0.5);
+        expect(box.left, `optional ${String(index + 1)} after the marker`).toBeGreaterThanOrEqual(text.left - 0.5);
+        expect(getComputedStyle(optional).whiteSpace).toBe('nowrap');
+        expect(getComputedStyle(optional).textOverflow).toBe('ellipsis');
+      }
+    });
+  }
+
+  it('"Optional" shows whole when the text column has room', async () => {
+    const stepper = await mount({ steps: [STEPS[0] as NphStep, { label: 'B', optional: true }, STEPS[2] as NphStep], current: 1 }, '60rem');
+    const optional = step(stepper, 1).querySelector('.optional') as HTMLElement;
+    expect(optional.scrollWidth).toBeLessThanOrEqual(optional.clientWidth);
+  });
+
   it('the text column gives up its room first, down to nothing, while the marker and the connector stay', async () => {
     const stepper = await mount({ steps: heavy(), current: 4 }, '608px');
     const other = step(stepper, 0).querySelector('.text') as HTMLElement;

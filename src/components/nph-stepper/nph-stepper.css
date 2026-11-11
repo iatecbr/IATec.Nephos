@@ -58,6 +58,16 @@
     0 0 0 calc(var(--nph-stepper-focus-border-width) + var(--nph-stepper-focus-ring-width)) var(--nph-stepper-focus-ring);
 }
 
+/*
+ * With forced colors the browser drops the shadow above, so the scroller keeps an outline of its own in the
+ * system color for the focus (`Highlight`, no token: the user's palette decides).
+ */
+@media (forced-colors: active) {
+  .scroller:focus-visible {
+    outline: var(--nph-stepper-focus-border-width) solid Highlight;
+  }
+}
+
 .narrow {
   display: none;
 }
@@ -251,6 +261,16 @@ button.step {
   line-height: var(--nph-text-body-sm-line-height);
   letter-spacing: var(--nph-text-body-sm-letter-spacing);
   color: var(--nph-stepper-description-foreground);
+}
+
+/*
+ * "Optional" is treated as the label is: one line, cut with an ellipsis when the text column is squeezed, so
+ * it never passes the step area. The word stays in the name of the step for the screen reader.
+ */
+.optional {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Up to two lines inside the column. */
