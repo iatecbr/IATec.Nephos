@@ -1482,7 +1482,7 @@ describe('the host and a menu opened on the tree', () => {
     menu.label = 'Actions';
     menu.items = [{ value: 'rename', text: 'Rename' }];
     const origins: (string | null)[] = [];
-    menu.addEventListener('nph-item-select', (event) => origins.push(tree.itemIdOf((event as CustomEvent<{ origin: Element | null }>).detail.origin)), { signal: listeners.signal });
+    menu.addEventListener('nph-item-select', (event) => origins.push(tree.itemIdOf((event as unknown as CustomEvent<{ origin: Element | null }>).detail.origin)), { signal: listeners.signal });
     document.body.append(menu);
     await menu.updateComplete;
     await enter(tree);
