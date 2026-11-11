@@ -1,0 +1,326 @@
+/**
+ * Internal style of `nph-stepper`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `stepper/*` ones, which alias a semantic token (or, by recorded decision, a
+ * core one), and the text roles `text/label-sm`, `text/label-md`, `text/label-md-strong` and
+ * `text/body-sm`. The status of a step is read from `data-status` on its list item.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `none`, `nowrap` (a
+ * label stays on one line), `underline` (hover on the step with an error), `calc(-1 * ...)` (focus
+ * border and halo outside the box, without changing its size), `2` (the line count of the
+ * description and of the current label: `-webkit-line-clamp` takes a number, not a token) and
+ * `37.5rem`, the width below which the stepper becomes `nph-progress`.
+ *
+ * THE NARROW WIDTH — a query does not accept a custom property, so the 600 px of the accepted
+ * contract is written here (P87 does the same for the breakpoint of `nph-dialog`), in `rem`, which is
+ * 600 px at the default font size. It is a container query on the host, not a media query: the
+ * stepper changes by the width of where it lives, not by the window (P117, D-2). The host takes inline
+ * size containment, so it must have a width of its own: it stretches in a block parent and in a flex
+ * column, and needs `flex: 1` or a width in a flex row.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid stepper. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+  container-type: inline-size;
+}
+
+.wide {
+  display: block;
+}
+
+.narrow {
+  display: none;
+}
+
+@container (width < 37.5rem) {
+  .wide {
+    display: none;
+  }
+
+  .narrow {
+    display: block;
+  }
+}
+
+.list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A step with the connector that follows it: the connector takes the room the steps leave. */
+.item {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: flex-start;
+  min-inline-size: 0;
+}
+
+.item:last-child {
+  flex: none;
+}
+
+/* ----- the step area ------------------------------------------------------- */
+
+.step {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: flex-start;
+  gap: var(--nph-stepper-item-gap);
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--nph-stepper-item-padding-y) var(--nph-stepper-item-padding-x);
+  border: 0;
+  border-radius: var(--nph-stepper-item-radius);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  outline: none;
+}
+
+a.step,
+button.step {
+  cursor: pointer;
+}
+
+/* The whole disabled step, under the disabled opacity (rule T11). */
+.step[aria-disabled='true'] {
+  opacity: var(--nph-stepper-item-disabled-opacity);
+}
+
+/* ----- the marker ---------------------------------------------------------- */
+
+.marker {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-stepper-marker-size);
+  block-size: var(--nph-stepper-marker-size);
+  border-radius: var(--nph-stepper-marker-radius);
+}
+
+.number {
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.marker-icon {
+  flex: none;
+  inline-size: var(--nph-stepper-marker-icon-size);
+  block-size: var(--nph-stepper-marker-icon-size);
+}
+
+[data-status='pending'] .marker {
+  border: var(--nph-stepper-marker-border-width) solid var(--nph-stepper-marker-border);
+  background-color: var(--nph-stepper-marker-background);
+  color: var(--nph-stepper-marker-foreground);
+}
+
+[data-status='current'] .marker {
+  border: var(--nph-stepper-marker-border-width-current) solid var(--nph-stepper-marker-border-current);
+  color: var(--nph-stepper-marker-foreground-current);
+}
+
+[data-status='completed'] .marker {
+  background-color: var(--nph-stepper-marker-background-complete);
+  color: var(--nph-stepper-marker-foreground-complete);
+}
+
+[data-status='error'] .marker {
+  background-color: var(--nph-stepper-marker-background-error);
+  color: var(--nph-stepper-marker-foreground-error);
+}
+
+/* ----- the text column ----------------------------------------------------- */
+
+.text {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-inline-size: 0;
+  max-inline-size: var(--nph-stepper-text-max-width);
+}
+
+/* The label row is as tall as the marker, so the label centers on it. */
+.heading {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--nph-stepper-marker-size);
+  min-inline-size: 0;
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* One line, cut with an ellipsis: the whole text opens in `nph-tooltip`. */
+.label {
+  display: block;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--nph-stepper-label-foreground);
+}
+
+/* The current step is never cut: its label wraps to up to two lines. */
+[data-status='current'] .heading {
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+}
+
+[data-status='current'] .label {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: var(--nph-stepper-label-foreground-current);
+}
+
+[data-status='completed'] .label {
+  color: var(--nph-stepper-label-foreground-complete);
+}
+
+[data-status='error'] .label {
+  color: var(--nph-stepper-label-foreground-error);
+}
+
+.description,
+.optional {
+  display: block;
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+  color: var(--nph-stepper-description-foreground);
+}
+
+/* Up to two lines inside the column. */
+.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+/* The reason of the error. A disabled step with an error looks pending: its reason is not red. */
+[data-status='error'] .description {
+  color: var(--nph-stepper-description-foreground-error);
+}
+
+/* The status, for the accessible name only. */
+.hidden {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ----- the connector ------------------------------------------------------- */
+
+/* A line that passes through the center of the marker, `stepper/connector-gap` away from each step. */
+.connector {
+  flex: 1 1 0;
+  min-inline-size: var(--nph-stepper-connector-min-width);
+  margin-inline: var(--nph-stepper-connector-gap);
+  margin-block-start: calc(var(--nph-stepper-item-padding-y) + (var(--nph-stepper-marker-size) - var(--nph-stepper-connector-thickness)) / 2);
+  border-block-start: var(--nph-stepper-connector-thickness) solid var(--nph-stepper-connector-background);
+}
+
+.connector[data-complete='true'] {
+  border-block-start-color: var(--nph-stepper-connector-background-complete);
+}
+
+/* ----- hover: it only paints ---------------------------------------------- */
+
+/* The pending and completed steps that can be activated take the hover background, never with focus. */
+[data-status='pending'] a.step:hover:not(:focus-visible),
+[data-status='pending'] button.step:hover:not(:focus-visible),
+[data-status='completed'] a.step:hover:not(:focus-visible),
+[data-status='completed'] button.step:hover:not(:focus-visible) {
+  background-color: var(--nph-stepper-item-background-hover);
+}
+
+[data-status='pending'] a.step:hover .label,
+[data-status='pending'] button.step:hover .label {
+  color: var(--nph-stepper-label-foreground-hover);
+}
+
+/* The step with an error takes no background: `status/error-text` on `color/accent` is below 4.5:1 in dark. */
+[data-status='error'] a.step:hover .label,
+[data-status='error'] button.step:hover .label {
+  text-decoration: underline;
+}
+
+/* ----- focus: a border and, outside it, a halo ----------------------------- */
+
+.step:focus-visible::before,
+.step:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.step:focus-visible::before {
+  inset: calc(-1 * var(--nph-stepper-focus-border-width));
+  border: var(--nph-stepper-focus-border-width) solid var(--nph-stepper-focus-border);
+  border-radius: var(--nph-stepper-focus-border-radius);
+}
+
+.step:focus-visible::after {
+  inset: calc(-1 * (var(--nph-stepper-focus-border-width) + var(--nph-stepper-focus-ring-width)));
+  border: var(--nph-stepper-focus-ring-width) solid var(--nph-stepper-focus-ring);
+  border-radius: var(--nph-stepper-focus-radius);
+}
+
+/* ----- the narrow width ---------------------------------------------------- */
+
+.narrow {
+  inline-size: 100%;
+}
+
+/* ----- motion --------------------------------------------------------------- */
+
+.step,
+.marker,
+.label,
+.connector {
+  transition-property: background-color, border-color, color;
+  transition-duration: var(--nph-stepper-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+/* Reduced motion: nothing moves, the color changes at once (DSA-62 D-3). */
+@media (prefers-reduced-motion: reduce) {
+  .step,
+  .marker,
+  .label,
+  .connector {
+    transition: none;
+  }
+}
