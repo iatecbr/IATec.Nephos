@@ -1,0 +1,226 @@
+/**
+ * Internal style of `nph-file-upload`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `file-upload/*` ones and the text roles `text/body-md` (the phrase) and
+ * `text/body-sm` (the rule). The state of the zone is read from `data-state` on the zone and the format
+ * from `data-format`. The row of a file is drawn by `nph-file-upload-item`, which has its own style.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `none`, `dashed` (the
+ * border of the zone, see below), `hidden`, `1px` (the visually hidden box of the live region and of the
+ * description: it is not a design measure) and `41.75rem`, the width from which the compact format
+ * applies.
+ *
+ * THE DASHED BORDER — the Figma border is a stroke style, in the token `file-upload/border-style` that
+ * points to `core/border-style/dashed`. The build does not accept that type yet (gate
+ * `stroke-style-token` of DSA-74, with Indiane), so neither token is in the repository and the zone
+ * writes `border-style: dashed`, as the task says until the gate passes. When the tokens exist, only the
+ * line below changes.
+ *
+ * THE COMPACT FORMAT — a query does not accept a custom property, so the 668 px of the accepted contract
+ * is written here, in `rem` (`41.75rem`, 668 px at the default font size). It is a container query on the
+ * host, not a media query: the zone changes by the width of where it lives, not by the window. The host
+ * takes inline size containment, so it must have a width of its own: it stretches in a block parent and
+ * in a flex column, and needs `flex: 1` or a width in a flex row. Below 668 px the zone uses the default
+ * format, stacked, and never breaks into lines.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid zone. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+  container-type: inline-size;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-file-upload-list-gap);
+}
+
+/* ----- the zone ------------------------------------------------------------- */
+
+.zone {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  row-gap: var(--nph-file-upload-gap);
+  padding: var(--nph-file-upload-padding);
+  border: var(--nph-file-upload-border-width) solid var(--nph-file-upload-border);
+  /* The dashed border: the stroke style token is pending (gate `stroke-style-token`, DSA-74). */
+  border-style: dashed;
+  border-radius: var(--nph-file-upload-radius);
+  background-color: var(--nph-file-upload-background);
+  color: var(--nph-file-upload-foreground);
+  text-align: center;
+}
+
+.zone-icon {
+  color: var(--nph-file-upload-icon-foreground);
+}
+
+.phrase {
+  min-inline-size: 0;
+  color: var(--nph-file-upload-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+.action {
+  display: inline-flex;
+}
+
+.rule {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--nph-file-upload-error-gap);
+  min-inline-size: 0;
+  color: var(--nph-file-upload-muted-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+.rule-icon {
+  flex: none;
+}
+
+.rule-text {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ----- the states of the zone ----------------------------------------------- */
+
+/* Dragging: the brand colors, and the button leaves with its place kept, so the height does not change. */
+.zone[data-state='dragging'] {
+  border-color: var(--nph-file-upload-border-dragging);
+  background-color: var(--nph-file-upload-background-dragging);
+}
+
+.zone[data-state='dragging'] .zone-icon {
+  color: var(--nph-file-upload-icon-foreground-dragging);
+}
+
+.zone[data-state='dragging'] .phrase {
+  color: var(--nph-file-upload-foreground-dragging);
+}
+
+.zone[data-state='dragging'] .action {
+  visibility: hidden;
+}
+
+/* Error: the reason takes the place of the rule, with its icon; the phrase stays neutral. */
+.zone[data-state='error'] {
+  border-color: var(--nph-file-upload-border-error);
+  background-color: var(--nph-file-upload-background-error);
+}
+
+.zone[data-state='error'] .zone-icon {
+  color: var(--nph-file-upload-icon-foreground-error);
+}
+
+.zone[data-state='error'] .rule {
+  color: var(--nph-file-upload-error-foreground);
+}
+
+/* Limit: the warning colors; the phrase and the rule are neutral and the button is disabled. */
+.zone[data-state='limit'] {
+  border-color: var(--nph-file-upload-border-limit);
+  background-color: var(--nph-file-upload-background-limit);
+}
+
+.zone[data-state='limit'] .zone-icon {
+  color: var(--nph-file-upload-icon-foreground-limit);
+}
+
+.zone[data-state='limit'] .phrase {
+  color: var(--nph-file-upload-muted-foreground);
+}
+
+/* Disabled wins: no state border and no state background, only the opacity (rule T11). */
+.zone[data-state='disabled'] {
+  opacity: var(--nph-file-upload-disabled-opacity);
+}
+
+/* ----- the list -------------------------------------------------------------- */
+
+/* The list has no scroll of its own: it grows downward and scrolls with the page. */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-file-upload-list-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  display: block;
+  min-inline-size: 0;
+}
+
+/* ----- the compact format: one row, from 668 px of width ---------------------- */
+
+@container (min-width: 41.75rem) {
+  .zone[data-format='compact'] {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'icon phrase action'
+      'icon rule action';
+    align-items: center;
+    justify-items: start;
+    column-gap: var(--nph-file-upload-gap-compact);
+    row-gap: var(--nph-file-upload-gap-text-compact);
+    padding: var(--nph-file-upload-padding-compact-block) var(--nph-file-upload-padding-compact-inline);
+    text-align: start;
+  }
+
+  .zone[data-format='compact'] .zone-icon {
+    grid-area: icon;
+  }
+
+  .zone[data-format='compact'] .phrase {
+    grid-area: phrase;
+  }
+
+  .zone[data-format='compact'] .action {
+    grid-area: action;
+  }
+
+  .zone[data-format='compact'] .rule {
+    grid-area: rule;
+    justify-content: flex-start;
+  }
+}
+
+/* ----- visually hidden: the live region, the description and the input ---------- */
+
+.live,
+.hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.input {
+  display: none;
+}
