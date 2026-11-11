@@ -813,6 +813,27 @@ describe('the flyout panel of the collapsed menu', () => {
     expect(box.top).toBeGreaterThanOrEqual(-0.5);
   });
 
+  it('a panel taller than the window scrolls, and its options keep control/height-default instead of shrinking', async () => {
+    await page.viewport(1280, 260);
+    try {
+      const many: NphSidebarEntry[] = [
+        { type: 'group', label: 'Many', icon: 'folder', children: Array.from({ length: 12 }, (_unused, index) => ({ label: `Child ${index}`, href: `#c${index}` })) },
+      ];
+      const sidebar = await mount({ mode: 'collapsed', items: many });
+      await userEvent.click(innerControl(rail(sidebar, 0)));
+      await entered(sidebar);
+      const [panel] = flyouts(sidebar) as [HTMLElement];
+      expect(panel.getBoundingClientRect().height).toBeLessThanOrEqual(window.innerHeight + 0.5);
+      expect(panel.scrollHeight).toBeGreaterThan(panel.clientHeight);
+      expect(getComputedStyle(panel).overflowY).toBe('auto');
+      for (const option of panel.querySelectorAll<HTMLElement>('.option')) {
+        expect(option.getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 0);
+      }
+    } finally {
+      await page.viewport(1280, 900);
+    }
+  });
+
   it('a panel that does not fit at the end goes to the other side of the opener', async () => {
     const host = document.createElement('div');
     host.style.cssText = 'position:absolute;inset-block:0;inset-inline-end:0;';
@@ -885,6 +906,22 @@ describe('the mobile menu', () => {
     expect(node.role).toBe('dialog');
     expect(one(sidebar, 'nav')?.getAttribute('aria-label')).toBe('Main menu');
     await vi.waitFor(() => expect(getComputedStyle(dialog).opacity).toBe('1'));
+  });
+
+  it('closed, the dialog stays display none: nothing in it takes the focus or a click', async () => {
+    const before = document.createElement('input');
+    document.body.append(before);
+    const sidebar = await mount({ mode: 'mobile', logoSrc: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>', logoHref: '#home', logoLabel: 'Nephos' });
+    const dialog = one(sidebar, 'dialog.panel') as HTMLDialogElement;
+    expect(getComputedStyle(dialog).display).toBe('none');
+    expect((one(sidebar, '.close') as HTMLElement).checkVisibility()).toBe(false);
+    before.focus();
+    for (let press = 0; press < 12; press += 1) {
+      await userEvent.keyboard('{Tab}');
+      expect(sidebar.contains(deepActive()) || deepActive()?.getRootNode() === root(sidebar) || document.activeElement === sidebar).toBe(false);
+    }
+    const hits = document.elementsFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+    expect(hits).not.toContain(sidebar);
   });
 
   it('the menu floats sidebar/mobile-offset from the start, top and bottom edges, at sidebar/panel-width', async () => {

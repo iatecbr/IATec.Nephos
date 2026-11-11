@@ -74,11 +74,14 @@ export interface Options {
   height?: string;
 }
 
-/** The entries of the menu: two groups, a current page, a counter, a disabled page and a third level. */
-export function entries(text: SidebarText, groupOpen = true): NphSidebarEntry[] {
+/**
+ * The entries of the menu: two groups, a current page, a counter, a disabled page and a third level.
+ * Only one page is current: `home` by default, or `option`, the page in the third level.
+ */
+export function entries(text: SidebarText, groupOpen = true, current: 'home' | 'option' = 'home'): NphSidebarEntry[] {
   return [
     { type: 'label', text: text.groupMain },
-    { label: text.home, icon: 'house', href: '#page-1', active: true, value: 'home' },
+    { label: text.home, icon: 'house', href: '#page-1', active: current === 'home', value: 'home' },
     { label: text.inbox, icon: 'inbox', href: '#page-2', counter: 12, value: 'inbox' },
     {
       type: 'group',
@@ -93,7 +96,7 @@ export function entries(text: SidebarText, groupOpen = true): NphSidebarEntry[] 
           label: text.byTeam,
           options: [
             { label: text.alpha, href: '#option-1' },
-            { label: text.beta, href: '#option-2', active: true },
+            { label: text.beta, href: '#option-2', active: current === 'option' },
           ],
         },
       ],
@@ -176,7 +179,7 @@ function showing(openers: readonly Opener[]) {
 /** The menu in a column of fixed height, with the text of the page. */
 export function sidebar(text: SidebarText, options: Options = {}, openers: readonly Opener[] = []): TemplateResult {
   const mode = options.mode ?? 'expanded';
-  const items = options.items ?? entries(text, options.groupOpen ?? true);
+  const items = options.items ?? entries(text, options.groupOpen ?? true, openers.length > 0 ? 'option' : 'home');
   return html`<div style="block-size: ${options.height ?? HEIGHT}; display: flex;">
     <nph-sidebar
       ${showing(openers)}

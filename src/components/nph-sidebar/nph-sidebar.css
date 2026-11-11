@@ -47,7 +47,6 @@
 
 .panel {
   box-sizing: border-box;
-  display: flex;
   flex-direction: column;
   block-size: 100%;
   inline-size: 100%;
@@ -344,6 +343,12 @@ nph-sidebar-item {
   inline-size: auto;
 }
 
+/* The panel is a flex column; a closed `<dialog>` keeps the `display: none` of the browser. */
+.panel:not(dialog),
+dialog.panel[open] {
+  display: flex;
+}
+
 /* ----- the mobile menu ----------------------------------------------------------- */
 
 /*
@@ -368,11 +373,6 @@ dialog.panel {
   transition-property: opacity, translate;
   transition-duration: var(--nph-motion-exit-duration);
   transition-timing-function: var(--nph-motion-exit-easing);
-}
-
-/* Only an open `<dialog>` is drawn: the browser hides it closed, and `display` here must not undo that. */
-dialog.panel[open] {
-  display: flex;
 }
 
 dialog.panel::backdrop {
@@ -486,6 +486,11 @@ dialog.panel[data-open] {
   min-inline-size: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.option,
+.flyout-title {
+  flex-shrink: 0;
 }
 
 .option-arrow {
