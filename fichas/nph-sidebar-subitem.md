@@ -29,8 +29,8 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The page the subitem leads to. Required unless disabled: without it, the subitem draws
-      nothing and emits console.error in development.
+      The page the subitem leads to. Required unless disabled or with options: without it, the
+      subitem draws nothing and emits console.error in development. With options it has none.
   active:
     type: boolean
     required: false
@@ -38,7 +38,8 @@ api:
     reflects: true
     constraint: >-
       The current page: aria-current="page", sidebar/item-foreground-active and
-      text/label-md. Only one line of the menu is active.
+      text/label-md. Only one line of the menu is active. A subitem with options is never
+      active: the current page is one of its options.
   options:
     type: boolean
     required: false
@@ -46,7 +47,25 @@ api:
     reflects: true
     constraint: >-
       The Figma options=yes: the arrow chevron-right at icon/size-sm, which says the
-      subitem leads to a list of options. Visual only: the subitem stays a link (D-4).
+      subitem opens a list of options in the flyout panel of nph-sidebar. With it the
+      subitem is a disclosure button, not a link (D-4, P116): aria-expanded, expanded and
+      nph-toggle. It has no href and is never active.
+  expanded:
+    type: boolean
+    required: false
+    default: "false"
+    reflects: true
+    constraint: >-
+      The options are open: aria-expanded and the open look, the hover background. Only with
+      options. The person toggles it with a click, Enter or Space.
+  controls:
+    type: object
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      The element the options open, set by nph-sidebar (property only). An id cannot cross
+      the shadow root, so the button takes it as ariaControlsElements.
   disabled:
     type: boolean
     required: false
@@ -63,24 +82,34 @@ api:
     constraint: >-
       The text of the nph-tooltip with the full name, on hover and focus, already
       localized. It does not follow label. Empty turns it off.
+  nph-toggle:
+    type: event
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      Fired when the person opens or closes the options of a subitem with options, with
+      detail.expanded, the new state. It bubbles, crosses shadow roots and is not cancelable.
+      Setting expanded from code fires nothing.
 variants:
   options:
     axis: appearance
-    choose_when: "yes when the subitem leads to a list of options; no when it leads straight to a page."
-    do_not_combine_with: []
+    choose_when: "yes when the subitem opens a list of options; no when it leads straight to a page."
+    do_not_combine_with:
+      - "options with href or active: the subitem opens a panel, it is not a page."
 states:
   rest:
     token: sidebar/item-foreground
     changes_for_user: "No background: the label in text/body-md and sidebar/item-foreground."
   hover:
     token: sidebar/item-background-hover
-    changes_for_user: "The whole line in sidebar/item-background-hover."
+    changes_for_user: "The whole line in sidebar/item-background-hover; the same while its options are open."
   active:
     token: sidebar/item-foreground-active
     changes_for_user: "The current page: no background, the label in sidebar/item-foreground-active and text/label-md."
   focus:
-    token: color/primary
-    changes_for_user: "Keyboard focus: border border/width in color/primary and halo focus/ring-width in focus/halo around the whole line."
+    token: focus/border
+    changes_for_user: "Keyboard focus: border border/width in focus/border and halo focus/ring-width in focus/halo around the whole line."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole line at state/disabled-opacity, with no hover; it cannot be reached by Tab."
@@ -88,6 +117,7 @@ business_rules:
   - "The subitem lives right below an open group of nph-sidebar-item."
   - "Only the current page is active."
   - "A click on the balloon is not a click on the line: it stops at the host."
+  - "With options the subitem opens a list in the flyout panel of nph-sidebar: it toggles expanded by itself on a click, Enter or Space and fires nph-toggle; opening it closes its balloon."
 domain_errors: []
 tokens:
   height: control/height-default
@@ -97,23 +127,25 @@ tokens:
   label: "text/body-md in sidebar/item-foreground; text/label-md in sidebar/item-foreground-active when active"
   arrow: "nph-icon icon/size-sm, chevron-right"
   hover: sidebar/item-background-hover
-  focus: "border border/width in color/primary, focus/border-radius-sidebar-item; halo focus/ring-width in focus/halo, focus/radius-sidebar-item"
+  focus: "border border/width in focus/border, focus/border-radius-sidebar-item; halo focus/ring-width in focus/halo, focus/radius-sidebar-item"
   disabled: state/disabled-opacity
 ai_hints:
   - "Use nph-sidebar-subitem only inside an open group; at the first level, use nph-sidebar-item."
-  - "Turn on options only when the subitem leads to a list of options."
+  - "Turn on options only when the subitem opens a list of options, and give it no href."
   - "Mark the subitem of the current page active, and its group open."
 accessibility:
-  semantics: "A link with aria-current=page on the current page. Disabled, the link has no href, keeps role link and gains aria-disabled."
+  semantics: "A link with aria-current=page on the current page. Disabled, the link has no href, keeps role link and gains aria-disabled. With options, a button with aria-expanded and aria-controls."
   accessible_name: "The label. The arrow is hidden from the screen reader; the balloon is the description of the line."
   keyboard:
     - "Tab: reaches the line."
     - "Enter: follows the link."
-  focus: "Border color/primary and halo focus/halo around the whole line, keyboard only."
+    - "Enter and Space: with options, open and close the list."
+  focus: "Border focus/border and halo focus/halo around the whole line, keyboard only."
   contrast: "The label passes 4.5:1 against sidebar/panel-background and sidebar/item-background-hover, in both modes. Disabled is exempt."
   color_alternative: "Active also switches the label to text/label-md."
 invalid_combinations:
-  - "A subitem without href, unless disabled — it leads nowhere."
+  - "A subitem without href, unless disabled or with options — it leads nowhere."
+  - "A subitem with options and an href, or with options and active — it opens a panel, it is not a page."
   - "A subitem outside a group — use nph-sidebar-item."
 relations:
   combines_with: [nph-sidebar-item, nph-icon, nph-tooltip]
@@ -127,8 +159,8 @@ anti_patterns:
   - "Marking two lines as active."
   - "Leaving a long label without tooltip."
 sources:
-  design_md: "design.md, color/primary, focus/halo, focus/ring-width, border/width, control/height-default, space/inline, icon/size-sm, text/body-md, text/label-md and state/disabled-opacity; the sidebar/* tokens and the focus radii are in src/tokens/source/semantic.tokens.json"
-  decision: "P98 — API and semantics of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button"
+  design_md: "design.md, focus/border, focus/halo, focus/ring-width, border/width, control/height-default, space/inline, icon/size-sm, text/body-md, text/label-md and state/disabled-opacity; the sidebar/* tokens and the focus radii are in src/tokens/source/semantic.tokens.json"
+  decision: "P98 — API and semantics of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button; P116 for the disclosure with options and the focus border"
   tests: "src/components/nph-sidebar-subitem/nph-sidebar-subitem.test.ts"
   usage_evidence: "the Subitem section and the required examples of the nph-sidebar-item Docs page"
   storybook: "src/components/nph-sidebar-item/nph-sidebar-item.stories.ts (the Subitem story) and nph-sidebar-item.docs.stories.ts"
@@ -159,7 +191,8 @@ its reading page is the one of `nph-sidebar-item`.
 ## Variants
 
 **By appearance:** `options`, no or yes. With yes, the arrow `chevron-right` at
-`icon/size-sm` sits at the end of the line.
+`icon/size-sm` sits at the end of the line and the subitem is a disclosure button that
+opens the options in the flyout panel of `nph-sidebar`.
 
 **By size:** `not_applicable`: the subitem fills the width it receives, at
 `control/height-default`.
@@ -169,18 +202,19 @@ its reading page is the one of `nph-sidebar-item`.
 | Figma `options` | Code | Choose when |
 |---|---|---|
 | `no` | no `options` | The subitem leads straight to a page |
-| `yes` | `options` | The subitem leads to a list of options |
+| `yes` | `options`, no `href` | The subitem opens a list of options |
 
-**Do not combine with:** an icon or a counter, which the subitem does not have.
+**Do not combine with:** an icon or a counter, which the subitem does not have; `options`
+with `href` or `active`.
 
 ## States
 
 | State | Token | What changes for the person |
 |---|---|---|
 | `rest` | `sidebar/item-foreground` | No background; the label in `text/body-md` |
-| `hover` | `sidebar/item-background-hover` | The whole line |
+| `hover` | `sidebar/item-background-hover` | The whole line; the same while its options are open |
 | `active` | `sidebar/item-foreground-active` | No background; the label in its color and `text/label-md` |
-| `focus` | `color/primary`, `focus/halo` | Border `border/width` and halo `focus/ring-width` around the whole line, keyboard only |
+| `focus` | `focus/border`, `focus/halo` | Border `border/width` and halo `focus/ring-width` around the whole line, keyboard only |
 | `disabled` | `state/disabled-opacity` | The whole line fades, with no hover, out of the Tab order |
 
 **Feedback and focus:** keyboard focus draws the border and the halo outside the line, in
@@ -192,6 +226,9 @@ ring.
 - The subitem lives right below an open group of `nph-sidebar-item`.
 - Only the current page is active.
 - A click on the balloon is not a click on the line: it stops at the host.
+- With `options` the subitem is a `button` with `aria-expanded`: a click, Enter or Space
+  toggles `expanded` and fires `nph-toggle` with `detail.expanded`; opening it closes its
+  balloon. Setting `expanded` from code fires nothing.
 
 **Domain error states:** `not_applicable`.
 
@@ -199,10 +236,10 @@ ring.
 
 | Criterion | Rule |
 |---|---|
-| Semantics | A link with `aria-current="page"` on the current page. Disabled, the link has no `href`, keeps `role="link"` and gains `aria-disabled` |
+| Semantics | A link with `aria-current="page"` on the current page. Disabled, the link has no `href`, keeps `role="link"` and gains `aria-disabled`. With `options`, a `button` with `aria-expanded` and `aria-controls` |
 | Accessible name | The label. The arrow is hidden; the balloon is the description of the line |
-| Keyboard | Tab reaches the line; Enter follows the link |
-| Focus | Border `color/primary` and halo `focus/halo` around the whole line, keyboard only |
+| Keyboard | Tab reaches the line; Enter follows the link; with `options`, Enter and Space open and close the list |
+| Focus | Border `focus/border` and halo `focus/halo` around the whole line, keyboard only |
 | Contrast | The label passes 4.5:1 against `sidebar/panel-background` and `sidebar/item-background-hover`, in both modes. Disabled is exempt |
 | Alternative to color | Active also switches the label to `text/label-md` |
 | Touch target | The whole line, `control/height-default` |
@@ -213,8 +250,8 @@ ring.
 **Combines with:** `nph-sidebar-item`, the open group above it; `nph-icon`, the arrow;
 `nph-tooltip`, the balloon.
 
-**What is the parent:** `nph-sidebar`, which shows the subitems of an open group. It is not
-built yet.
+**What is the parent:** `nph-sidebar`, which shows the subitems of an open group and draws
+the flyout panel of the options.
 
 **What is the child:** `nph-icon` and `nph-tooltip`.
 
@@ -230,7 +267,7 @@ built yet.
 | Label | `text/body-md` in `sidebar/item-foreground`; `text/label-md` in `sidebar/item-foreground-active` when active; one line with an ellipsis |
 | Arrow | `nph-icon` `icon/size-sm`, `chevron-right`, `space/inline` after the label |
 | Hover | `sidebar/item-background-hover` |
-| Focus | Border `border/width` in `color/primary`, `focus/border-radius-sidebar-item`; halo `focus/ring-width` in `focus/halo`, `focus/radius-sidebar-item` |
+| Focus | Border `border/width` in `focus/border`, `focus/border-radius-sidebar-item`; halo `focus/ring-width` in `focus/halo`, `focus/radius-sidebar-item` |
 | Disabled | `state/disabled-opacity` |
 
 **Usage restrictions:** the subitem has no background at rest and when active.
@@ -239,7 +276,7 @@ built yet.
 
 - Use `nph-sidebar-subitem` only inside an open group; at the first level, use
   `nph-sidebar-item`.
-- Turn on `options` only when the subitem leads to a list of options.
+- Turn on `options` only when the subitem opens a list of options, and give it no `href`.
 - Mark the subitem of the current page active, and its group open.
 
 ## Examples
@@ -247,7 +284,7 @@ built yet.
 **Recommended case:** the reports of a group, monthly, quarterly and annual, below the open
 group, the current one active.
 
-**Alternative case:** the last subitem with `options`, leading to a list of choices.
+**Alternative case:** the last subitem with `options`, opening a list of choices in the flyout panel.
 
 ## Anti-patterns
 
@@ -255,18 +292,20 @@ group, the current one active.
 - **Do not use the subitem as an action button** — use `nph-button`.
 - **Do not mark two lines as active.**
 - **Do not leave a long label without `tooltip`.**
-- **Invalid combinations:** a subitem without `href`, unless disabled.
+- **Invalid combinations:** a subitem without `href`, unless disabled or with `options`; a subitem
+  with `options` and an `href` or `active`.
 - **Do not create without a decision:** an icon, a counter, more actions, a slot, a color
   property or an indent of its own, which belongs to `nph-sidebar`.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `color/primary`, `focus/halo`, `focus/ring-width`,
+- **The repository `design.md`:** `focus/border`, `focus/halo`, `focus/ring-width`,
   `border/width`, `control/height-default`, `space/inline`, `icon/size-sm`, `text/body-md`,
   `text/label-md` and `state/disabled-opacity`. The `sidebar/*` tokens and the focus radii
   are in `src/tokens/source/semantic.tokens.json`.
-- **The decision that originated it:** P98.
-- **Pending decisions:** D-4 of the task DSA-53, what the list of options opens.
+- **The decision that originated it:** P98, amended by P116 for the disclosure with `options`
+  (the answer of D-4 of the task DSA-53) and the focus border in `focus/border`.
+- **Pending decisions:** none.
 - **Tests:** `src/components/nph-sidebar-subitem/nph-sidebar-subitem.test.ts`.
 - **Usage evidence:** the Subitem section and the required examples of the
   `nph-sidebar-item` Docs page.

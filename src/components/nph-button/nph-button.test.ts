@@ -561,6 +561,21 @@ describe('focus', () => {
     });
   }
 
+  it('the focus hook --nph-button-focus-border recolors the border only, in every severity (DSA-72)', async () => {
+    for (const severity of NPH_BUTTON_SEVERITIES) {
+      const before = document.createElement('input');
+      document.body.append(before);
+      const element = await mount({ severity, size: 'default', text: 'Save' });
+      element.style.setProperty('--nph-button-focus-border', 'var(--nph-focus-border)');
+      before.focus();
+      await userEvent.tab();
+      const border = getComputedStyle(control(element), '::before');
+      const halo = getComputedStyle(control(element), '::after');
+      expect(border.borderTopColor, severity).toBe(resolved('color', '--nph-focus-border'));
+      expect(halo.borderTopColor, severity).toBe(resolved('color', FOCUS[severity][1]));
+    }
+  });
+
   it('in a part of the screen with another brand and another scheme, the solid text and the halo are the local ones (P67)', async () => {
     const part = scope();
     const before = document.createElement('input');
@@ -1269,10 +1284,19 @@ describe('what the button does not have', () => {
 
 describe('token contract', () => {
   it('every consumed token exists in the generated CSS', () => {
+    /* The focus hook is the one public custom property that is not a token (DSA-72, P116). */
     const consumed = new Set(componentCss.match(/--nph-[a-z0-9-]+/g) ?? []);
+    consumed.delete('--nph-button-focus-border');
     for (const token of consumed) {
       expect(tokensCss, token).toContain(`${token}:`);
     }
+  });
+
+  it('the focus hook is read once, on the border, and is not a token (DSA-72)', () => {
+    expect(tokensCss).not.toContain('--nph-button-focus-border:');
+    const rules = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(rules.match(/--nph-button-focus-border/g)?.length).toBe(1);
+    expect(rules).toMatch(/solid var\(--nph-button-focus-border, var\(--_focus-border\)\)/);
   });
 
   it('there is no literal color or measurement value in the component CSS', () => {

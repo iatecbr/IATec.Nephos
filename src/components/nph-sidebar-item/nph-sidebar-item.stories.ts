@@ -3,9 +3,10 @@
  * `nph-sidebar-rail-button`.
  *
  * They prove the contract accepted in Figma (board `1366:2`, documentation `2723:460`, sets
- * `2251:51271`, `2251:51312` and `2251:51328`), the pending decisions D-1 to D-4 in their
- * default and P98: the `type` × `state` matrix of the item; the subitem with and without
- * options; the rail button with and without the counter; the balloon and more actions; the
+ * `2251:51271`, `2251:51312` and `2251:51328`), the answers to D-1 to D-4 of DSA-53 (P116)
+ * and P98: the `type` × `state` matrix of the item; the subitem with and without options,
+ * which is a disclosure button; the rail button with and without the counter and as the
+ * disclosure of a group; the balloon and more actions, the secondary ghost button; the
  * invalid input; and the three required examples of the board — main menu with current page
  * and counter, group open with subitems, and collapsed menu with rail buttons. The subitem
  * and the rail button have no page of their own: their Validation is here (P98, as the
@@ -146,7 +147,7 @@ export const Matrix: Story = {
   },
 };
 
-/** The subitem: options no and yes, at rest, active and disabled; a long label with an ellipsis. */
+/** The subitem: options no and yes, at rest, active (expanded with options) and disabled; with options it is a disclosure button. */
 export const Subitem: Story = {
   name: 'Subitem',
   render: (_args, context: GlobalsContext) => {
@@ -156,9 +157,10 @@ export const Subitem: Story = {
       html`<span style=${cellWidth}
         ><nph-sidebar-subitem
           label=${first ?? ''}
-          href="#sub"
+          href=${options ? nothing : '#sub'}
           ?options=${options}
-          ?active=${state.active ?? false}
+          ?expanded=${options && (state.active ?? false)}
+          ?active=${!options && (state.active ?? false)}
           ?disabled=${state.disabled ?? false}
         ></nph-sidebar-subitem
       ></span>`;
@@ -168,7 +170,7 @@ export const Subitem: Story = {
       inBothModes(context, 'subitem', (label) =>
         matrix(
           label,
-          ['state: rest', 'state: active', 'state: disabled'],
+          ['state: rest', 'state: active · expanded', 'state: disabled'],
           [false, true].map((options) => ({
             label: `options: ${options ? 'yes' : 'no'}`,
             cells: [cell(options), cell(options, { active: true }), cell(options, { disabled: true })],
@@ -179,7 +181,7 @@ export const Subitem: Story = {
   },
 };
 
-/** The rail button: counter off and on, at rest, active and disabled (D-1, D-2). */
+/** The rail button: counter off and on, at rest, active and disabled, and the group, the disclosure of an item with children, closed, open and disabled. */
 export const RailButton: Story = {
   name: 'Rail button',
   render: (_args, context: GlobalsContext) => {
@@ -194,17 +196,28 @@ export const RailButton: Story = {
         ?active=${state.active ?? false}
         ?disabled=${state.disabled ?? false}
       ></nph-sidebar-rail-button>`;
+    const group = (state: { expanded?: boolean; disabled?: boolean } = {}): TemplateResult =>
+      html`<nph-sidebar-rail-button
+        type="group"
+        label=${v.group.label}
+        icon=${v.group.icon}
+        ?expanded=${state.expanded ?? false}
+        ?disabled=${state.disabled ?? false}
+      ></nph-sidebar-rail-button>`;
     return validationPage(
       context,
       page('rail-button'),
       inBothModes(context, 'rail-button', (label) =>
         matrix(
           label,
-          ['state: rest', 'state: active', 'state: disabled'],
-          [null, 3].map((counter) => ({
-            label: `counter: ${counter === null ? 'off' : 'on'}`,
-            cells: [cell(counter), cell(counter, { active: true }), cell(counter, { disabled: true })],
-          })),
+          ['state: rest', 'state: active · expanded', 'state: disabled'],
+          [
+            ...[null, 3].map((counter) => ({
+              label: `type: link · counter: ${counter === null ? 'off' : 'on'}`,
+              cells: [cell(counter), cell(counter, { active: true }), cell(counter, { disabled: true })],
+            })),
+            { label: 'type: group', cells: [group(), group({ expanded: true }), group({ disabled: true })] },
+          ],
         ),
       ),
     );

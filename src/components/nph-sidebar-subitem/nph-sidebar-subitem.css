@@ -78,6 +78,18 @@
   flex: none;
 }
 
+/* With options the line is a native button: no native border or alignment; the type is the line's. */
+button.control {
+  margin: 0;
+  border: none;
+  text-align: start;
+}
+
+/* The options open in the flyout panel: the arrow keeps the line open look (hover background). */
+:host([options][expanded]:not([disabled])) .control {
+  background-color: var(--nph-sidebar-item-background-hover);
+}
+
 /* Focus: border and halo around the whole line, outside, keyboard only. */
 .control:focus-visible::before,
 .control:focus-visible::after {
@@ -89,7 +101,7 @@
 
 .control:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
-  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border: var(--nph-border-width) solid var(--nph-focus-border);
   border-radius: var(--nph-focus-border-radius-sidebar-item);
 }
 

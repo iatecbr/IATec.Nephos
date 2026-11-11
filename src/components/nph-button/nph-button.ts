@@ -41,6 +41,9 @@
  *   `aria-haspopup` changes nothing;
  * - no slot, no own event, no color property and no `::part`. The
  *   click is the native `click`, which crosses the shadow root;
+ * - one public focus hook, `--nph-button-focus-border` (DSA-72, P116): the color of the focus
+ *   border, which the severity sets when the hook is unset. `nph-sidebar` sets it to
+ *   `focus/border` on its close button; the default focus does not change;
  * - invalid input does not render and emits `console.error` only in
  *   development, one per cause and accumulating (P68, P21 rule). No text and
  *   no icon is a mount: nothing, no error (precedent of `nph-kbd`, P66).

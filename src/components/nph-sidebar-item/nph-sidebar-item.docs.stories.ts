@@ -19,7 +19,7 @@
  * `sidebarItemDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the
  * translation. Technical identifiers appear literally and are the same in any language.
  */
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
@@ -99,6 +99,14 @@ export const Documentation: Story = {
           ?disabled=${attributes.disabled ?? false}
         ></nph-sidebar-item
       ></span>`;
+    const railGroup = (state: { expanded?: boolean; disabled?: boolean } = {}): TemplateResult =>
+      html`<nph-sidebar-rail-button
+        type="group"
+        label=${d.group.label}
+        icon=${d.group.icon}
+        ?expanded=${state.expanded ?? false}
+        ?disabled=${state.disabled ?? false}
+      ></nph-sidebar-rail-button>`;
     const rail = (counter: number | null, state: { active?: boolean; disabled?: boolean } = {}): TemplateResult =>
       html`<nph-sidebar-rail-button
         label=${inbox?.label ?? ''}
@@ -195,7 +203,7 @@ export const Documentation: Story = {
             ${demo(
               panel(html`${d.subitems.map(
                 (label: string, position: number) =>
-                  html`<nph-sidebar-subitem label=${label} href="#sub" ?active=${position === 0} ?options=${position === d.subitems.length - 1}></nph-sidebar-subitem>`,
+                  html`<nph-sidebar-subitem label=${label} href=${position === d.subitems.length - 1 ? nothing : '#sub'} ?active=${position === 0} ?options=${position === d.subitems.length - 1}></nph-sidebar-subitem>`,
               )}`),
               d.subitemCaption,
             )}
@@ -209,7 +217,7 @@ export const Documentation: Story = {
           d.railTitle,
           html`
             ${text(d.railText)}
-            ${demo(html`<div style=${row}>${rail(null)} ${rail(null, { active: true })} ${rail(3)} ${rail(3, { active: true })} ${rail(null, { disabled: true })}</div>`, d.railCaption)}
+            ${demo(html`<div style=${row}>${rail(null)} ${rail(null, { active: true })} ${rail(3)} ${rail(3, { active: true })} ${rail(null, { disabled: true })} ${railGroup()} ${railGroup({ expanded: true })}</div>`, d.railCaption)}
             ${table(d.apiHeader, d.railApi.map(pair))}
             ${source(d.sourceLabel, d.sourceRail)}
           `,

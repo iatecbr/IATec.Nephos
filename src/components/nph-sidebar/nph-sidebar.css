@@ -1,0 +1,593 @@
+/**
+ * Internal style of `nph-sidebar`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the shadow root
+ * and are not API.
+ *
+ * No literal design value goes in here. Written box relations and resets (P116): `0` and `1`
+ * (resets and flex relations), `auto`, `none`, `100%` (the menu fills the height and width it
+ * receives; the search, the corner button and the options fill the width of their column),
+ * `transparent` (no background at rest), `nowrap` and `ellipsis` (one line), `calc(-1 * ...)`
+ * (the room of the focus halo around the scrolling list; the slide of the panels) and the
+ * `max-content` width of the flyout panel, which the label decides.
+ */
+
+/* The menu fills the height of the column the product gives it; invalid input takes no room. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  flex: none;
+  block-size: 100%;
+  inline-size: var(--nph-sidebar-panel-width);
+  /* Collapse and expand: the width moves on `motion/expand-*`. */
+  transition-property: inline-size;
+  transition-duration: var(--nph-motion-expand-duration);
+  transition-timing-function: var(--nph-motion-expand-easing);
+}
+
+:host([data-nph-rendered][mode='collapsed']) {
+  inline-size: var(--nph-layout-sidebar-collapsed);
+}
+
+/* The mobile menu is a dialog in the top layer: the host takes no room in the page. */
+:host([data-nph-rendered][mode='mobile']) {
+  display: contents;
+}
+
+/* The room the focus border and halo take around a line, so the scrolling list never clips them. */
+.panel {
+  --_ring: calc(var(--nph-border-width) + var(--nph-focus-ring-width));
+}
+
+/* ----- the panel --------------------------------------------------------------- */
+
+.panel {
+  box-sizing: border-box;
+  flex-direction: column;
+  block-size: 100%;
+  inline-size: 100%;
+  margin: 0;
+  padding-block: var(--nph-space-section);
+  padding-inline: var(--nph-sidebar-panel-spacing);
+  border: var(--nph-border-width) solid var(--nph-sidebar-panel-border);
+  border-radius: var(--nph-sidebar-panel-radius);
+  background-color: var(--nph-sidebar-panel-background);
+  color: var(--nph-sidebar-item-foreground);
+  overflow: visible;
+}
+
+:host([mode='collapsed']) .panel {
+  padding-inline: var(--nph-sidebar-rail-padding);
+  border-radius: var(--nph-sidebar-rail-radius);
+}
+
+.nav {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--nph-sidebar-panel-spacing);
+  min-block-size: 0;
+}
+
+/* Top and foot stay fixed; only the navigation scrolls. */
+.top,
+.foot {
+  flex: none;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nph-space-inline);
+}
+
+:host([mode='collapsed']) .top {
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* The collapse and close buttons go to the end of the row, with the logo or without it. */
+.toggle,
+.close {
+  margin-inline-start: auto;
+}
+
+:host([mode='collapsed']) .toggle {
+  margin-inline-start: 0;
+}
+
+.middle {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--nph-sidebar-section-gap);
+  min-block-size: 0;
+}
+
+.foot {
+  display: flex;
+  justify-content: stretch;
+}
+
+:host([mode='collapsed']) .foot {
+  justify-content: center;
+}
+
+/* ----- logo -------------------------------------------------------------------- */
+
+.logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+  max-block-size: var(--nph-sidebar-logo-max-height);
+  border-radius: var(--nph-radius-control);
+  outline: none;
+}
+
+.logo[data-mark='true'] {
+  max-block-size: var(--nph-sidebar-logo-mark-size);
+  max-inline-size: var(--nph-sidebar-logo-mark-size);
+}
+
+.logo-image {
+  display: block;
+  max-block-size: inherit;
+  max-inline-size: 100%;
+  object-fit: contain;
+}
+
+.logo:focus-visible::before,
+.logo:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.logo:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.logo:focus-visible::after {
+  inset: calc(-1 * var(--_ring));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* ----- collapse button (D-1: a skeleton keeps the place of the `sidebar` icon) --------- */
+
+/* The look of the `nph-button` primary ghost, at `control/height-default`, with the focus on `focus/border`. */
+.toggle {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-control-height-default);
+  block-size: var(--nph-control-height-default);
+  margin-block: 0;
+  margin-inline-end: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--nph-radius-control);
+  background-color: transparent;
+  color: var(--nph-color-primary-on-surface);
+  outline: none;
+}
+
+.toggle:hover {
+  background-color: var(--nph-color-primary-surface);
+}
+
+.toggle-place {
+  display: block;
+  inline-size: var(--nph-icon-size-md);
+  block-size: var(--nph-icon-size-md);
+}
+
+.toggle-place nph-skeleton {
+  block-size: 100%;
+}
+
+.toggle:focus-visible::before,
+.toggle:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.toggle:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.toggle:focus-visible::after {
+  inset: calc(-1 * var(--_ring));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* The close button of the mobile menu: the focus border is `focus/border` through the hook of `nph-button`. */
+.close {
+  --nph-button-focus-border: var(--nph-focus-border);
+  flex: none;
+}
+
+/* ----- search ------------------------------------------------------------------ */
+
+/*
+ * The search is the `nph-input` as it is. Its background and border are the `sidebar/search-*`
+ * tokens, set by redefining the two semantic tokens the field reads, on this instance only.
+ */
+.search {
+  --nph-color-input: var(--nph-sidebar-search-border);
+  --nph-color-background: var(--nph-sidebar-search-background);
+  inline-size: 100%;
+  flex: none;
+}
+
+/* The one line between areas: between the search and the navigation. */
+.separator {
+  --nph-color-border: var(--nph-sidebar-separator);
+  display: block;
+  flex: none;
+}
+
+/* ----- navigation -------------------------------------------------------------- */
+
+/*
+ * The only part that scrolls. The list takes the room of the focus halo on every side and gives
+ * it back with a negative margin, so the scroll clips the halo of no line.
+ */
+.list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--nph-space-inline-tight);
+  min-block-size: 0;
+  margin: calc(-1 * var(--_ring));
+  padding: var(--_ring);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/*
+ * In the collapsed menu the counter of the first rail button rises above it and its outline adds
+ * more: `space/inline-tight` for each. The list takes that room on top, instead of the room of the
+ * halo, and gives it back with the margin.
+ */
+:host([mode='collapsed']) .list {
+  --_top: max(var(--_ring), calc(2 * var(--nph-space-inline-tight)));
+  margin-block-start: calc(-1 * var(--_top));
+  padding-block-start: var(--_top);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-inline-tight);
+}
+
+:host([mode='collapsed']) .list,
+:host([mode='collapsed']) .section {
+  align-items: center;
+}
+
+.group-label {
+  margin: 0;
+  padding-block: var(--nph-space-inline);
+  padding-inline: var(--nph-sidebar-item-padding);
+  color: var(--nph-sidebar-group-label);
+  font-family: var(--nph-text-heading-2xs-font-family);
+  font-size: var(--nph-text-heading-2xs-font-size);
+  font-weight: var(--nph-text-heading-2xs-font-weight);
+  line-height: var(--nph-text-heading-2xs-line-height);
+  letter-spacing: var(--nph-text-heading-2xs-letter-spacing);
+}
+
+nph-sidebar-item {
+  display: block;
+}
+
+/* The subitems of an open group, their label aligned with the label of the group. */
+.subitems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-inline-tight);
+  margin-inline-start: calc(var(--nph-icon-size-md) + var(--nph-space-control-padding));
+}
+
+.subitems[hidden] {
+  display: none;
+}
+
+.message {
+  margin: 0;
+  padding-inline: var(--nph-sidebar-item-padding);
+  color: var(--nph-sidebar-item-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+/* Loading: skeleton rows in place of the items, at the height of a line or of a rail button. */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-inline-tight);
+}
+
+:host([mode='collapsed']) .skeleton {
+  align-items: center;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  block-size: var(--nph-sidebar-item-height);
+  padding-inline: var(--nph-sidebar-item-padding);
+}
+
+.skeleton-row nph-skeleton {
+  inline-size: 100%;
+}
+
+.skeleton-rail {
+  display: block;
+  inline-size: var(--nph-sidebar-rail-button-size);
+  block-size: var(--nph-sidebar-rail-button-size);
+}
+
+.skeleton-rail nph-skeleton {
+  block-size: 100%;
+}
+
+.corner {
+  inline-size: 100%;
+}
+
+:host([mode='collapsed']) .corner {
+  inline-size: auto;
+}
+
+/* The panel is a flex column; a closed `<dialog>` keeps the `display: none` of the browser. */
+.panel:not(dialog),
+dialog.panel[open] {
+  display: flex;
+}
+
+/* ----- the mobile menu ----------------------------------------------------------- */
+
+/*
+ * A modal `<dialog>`: the browser's style is undone (its border, padding and maximum sizes) and the
+ * menu floats `sidebar/mobile-offset` from the start, top and bottom edges. The veil is its
+ * `::backdrop`, `sidebar/scrim`. Leaving is the exit role; entering is the enter role.
+ */
+dialog.panel {
+  position: fixed;
+  inset: auto;
+  inset-block: var(--nph-sidebar-mobile-offset);
+  inset-inline-start: var(--nph-sidebar-mobile-offset);
+  block-size: auto;
+  inline-size: var(--nph-sidebar-panel-width);
+  max-block-size: none;
+  max-inline-size: calc(100% - 2 * var(--nph-sidebar-mobile-offset));
+  margin: 0;
+  overflow: visible;
+  outline: none;
+  opacity: 0;
+  translate: calc(-1 * var(--nph-space-inline-tight)) 0;
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+dialog.panel::backdrop {
+  background-color: var(--nph-sidebar-scrim);
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+dialog.panel[data-open],
+dialog.panel[data-open]::backdrop {
+  opacity: 1;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+dialog.panel[data-open] {
+  translate: none;
+}
+
+/* ----- the flyout panel ---------------------------------------------------------- */
+
+/*
+ * A `popover`, so it sits in the top layer: no `z-index`, no clipping by the scrolling list. The
+ * resets undo the browser's `[popover]` style. JavaScript sets `top` and `left`. The margin on the
+ * top is `space/inline`, the distance to the opener: the script reads it and takes it back, so
+ * the panel sits to the side of the opener with its top aligned. Its width is what its options
+ * need, at least as wide as a line of the expanded menu and at most `layout/input-width`, the
+ * width of the floating menus; both limits give way to the window, so a narrow window or a large
+ * font never pushes the panel off the screen. Figma draws 220 and has no token for it (open point
+ * of DSA-72).
+ */
+.flyout {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  margin: 0;
+  margin-block-start: var(--nph-space-inline);
+  padding-block: var(--nph-space-inline);
+  padding-inline: var(--nph-sidebar-item-padding);
+  inline-size: max-content;
+  min-inline-size: min(calc(var(--nph-sidebar-panel-width) - 2 * var(--nph-sidebar-panel-spacing)), 100%);
+  max-inline-size: min(var(--nph-layout-input-width), 100%);
+  border: var(--nph-border-width) solid var(--nph-sidebar-flyout-border);
+  border-radius: var(--nph-sidebar-flyout-radius);
+  background-color: var(--nph-sidebar-flyout-background);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-sidebar-flyout-foreground);
+  overflow: visible;
+  text-align: start;
+  /* Leaving: the exit role. */
+  opacity: 0;
+  translate: calc(-1 * var(--nph-space-inline-tight)) 0;
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+.flyout:popover-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-inline-tight);
+}
+
+/* Entering: the enter role, faded in and slid `space/inline-tight` into place. */
+.flyout[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+.flyout-title {
+  margin: 0;
+  color: var(--nph-sidebar-flyout-title);
+  font-family: var(--nph-text-heading-2xs-font-family);
+  font-size: var(--nph-text-heading-2xs-font-size);
+  font-weight: var(--nph-text-heading-2xs-font-weight);
+  line-height: var(--nph-text-heading-2xs-line-height);
+  letter-spacing: var(--nph-text-heading-2xs-letter-spacing);
+}
+
+/* An option: a link, or the button that opens the third level. */
+.option {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  inline-size: 100%;
+  block-size: var(--nph-control-height-default);
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--nph-sidebar-item-padding);
+  border: none;
+  border-radius: var(--nph-sidebar-item-radius);
+  background-color: transparent;
+  color: var(--nph-sidebar-flyout-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-align: start;
+  text-decoration: none;
+  white-space: nowrap;
+  outline: none;
+}
+
+.option-label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.option,
+.flyout-title {
+  flex-shrink: 0;
+}
+
+.option-arrow {
+  flex: none;
+}
+
+.option:not([aria-disabled='true'], :disabled):hover {
+  background-color: var(--nph-sidebar-flyout-option-hover);
+}
+
+/* Open: the brand color and the arrow; Regular weight tells it from the active one. */
+.option[data-open] {
+  color: var(--nph-sidebar-item-foreground-open);
+}
+
+/* Active: the brand color and Medium weight. It wins over open and keeps the arrow (rule T11). */
+.option[data-active],
+.option[data-active][data-open] {
+  color: var(--nph-sidebar-item-foreground-active);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* Disabled: the whole option at `state/disabled-opacity`, with no hover and no focus; the active look stays under it. */
+.option[aria-disabled='true'],
+.option:disabled {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.option:focus-visible::before,
+.option:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.option:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-sidebar-item);
+}
+
+.option:focus-visible::after {
+  inset: calc(-1 * var(--_ring));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-sidebar-item);
+}
+
+/* ----- reduced motion ------------------------------------------------------------ */
+
+/* Reduced motion: nothing moves (DSA-62 D-3). The fade stays, as in `nph-dropdown-menu`. */
+@media (prefers-reduced-motion: reduce) {
+  :host([data-nph-rendered]) {
+    transition: none;
+  }
+
+  dialog.panel,
+  dialog.panel[data-open],
+  .flyout,
+  .flyout[data-open] {
+    translate: none;
+  }
+
+  dialog.panel,
+  dialog.panel::backdrop,
+  dialog.panel[data-open],
+  dialog.panel[data-open]::backdrop,
+  .flyout,
+  .flyout[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}

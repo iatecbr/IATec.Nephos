@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 710,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-03",
@@ -50,6 +50,18 @@
       "question": "In dark, the logo shows its light version. The brand has not confirmed which version of the logo goes on a dark background. Indiane confirms it with the brand. It does not block the pull request; the dark logo does not ship until it is confirmed.",
       "decider": "indiane",
       "opened_at": "2026-11-10"
+    },
+    {
+      "id": "D-3",
+      "question": "In the collapsed menu, the rail button of a group is never active (a group is never the current page), so nothing shows that the current page is inside a group until its flyout panel opens. Indiane confirms it, or asks for an active look on the rail button of the group that holds the current page. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-4",
+      "question": "Figma draws the flyout panel fixed at 220 and has no width token; the gap between lines, the padding of the group label and the gap of the logo row are not written either. The code takes the width the options need, between a line of the expanded menu and layout/input-width, and the other measures from existing tokens (P116). Indiane gives the tokens in the next Figma batch, or accepts these. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
     }
   ],
   "evidence": [
@@ -68,9 +80,9 @@
     "excerpt": null,
     "converted_decision": "The nph-sidebar documentation frame (4633:27036, page 1367:2) was accepted as the API and behavior specification of nph-sidebar. COMPONENT_SET nph-sidebar (4605:9647), 6 variants; the flyout panel (4605:9612); the flyout option set (4605:9599), 11 variants; the logo set (4605:9589); the label set (4605:9594). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-10"
+  "git_review": { "branch": "feat/dsa-72-sidebar", "commit": "cc3ff2c", "pr": 165 },
+  "context": "docs/operacao/contextos/DSA-72.md",
+  "updated_at": "2026-11-11"
 }
 ```
 

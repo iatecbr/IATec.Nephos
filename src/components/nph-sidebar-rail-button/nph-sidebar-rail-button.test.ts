@@ -87,7 +87,7 @@ describe('registration and API', () => {
 
   it('the public API is exactly P98: no tooltip property, the balloon is always on', () => {
     const declared = [...(NphSidebarRailButton as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared.sort()).toEqual(['active', 'counter', 'disabled', 'href', 'icon', 'label']);
+    expect(declared.sort()).toEqual(['active', 'controls', 'counter', 'disabled', 'expanded', 'href', 'icon', 'label', 'type']);
   });
 
   it('reflects active and disabled, and reads counter from the attribute', async () => {
@@ -271,8 +271,9 @@ describe('colors and measures', () => {
     const pill = counter(rail) as HTMLElement;
     const box = control(rail).getBoundingClientRect();
     const corner = pill.getBoundingClientRect();
-    expect(corner.top).toBeCloseTo(box.top, 0);
-    expect(corner.right).toBeCloseTo(box.right, 0);
+    /* x 19 and y -4 on the 40 px button, in the Figma: above the top edge by space/inline-tight, border/width inside the end edge. */
+    expect(corner.top).toBeCloseTo(box.top - px('--nph-space-inline-tight'), 0);
+    expect(corner.right).toBeCloseTo(box.right - px('--nph-border-width'), 0);
     expect(corner.height).toBeCloseTo(px('--nph-icon-size-md'), 0);
     const style = getComputedStyle(pill);
     expect(style.backgroundColor).toBe(resolved('background-color', '--nph-sidebar-item-badge-background'));
@@ -283,19 +284,88 @@ describe('colors and measures', () => {
     const active = getComputedStyle(pill);
     expect(active.outlineStyle).toBe('solid');
     expect(active.outlineColor).toBe(resolved('color', '--nph-sidebar-panel-background'));
-    expect(Number.parseFloat(active.outlineWidth)).toBeCloseTo(px('--nph-border-width'), 1);
+    expect(Number.parseFloat(active.outlineWidth)).toBeCloseTo(px('--nph-space-inline-tight'), 1);
+    expect(Number.parseFloat(active.outlineWidth)).not.toBeCloseTo(px('--nph-border-width'), 1);
   });
 
-  it('keyboard focus draws the color/primary border and the focus/halo halo, in the container radii', async () => {
+  it('keyboard focus draws the focus/border border and the focus/halo halo, in the container radii (DSA-72)', async () => {
     const rail = await mount();
     await userEvent.keyboard('{Tab}');
     expect(rail.shadowRoot?.activeElement).toBe(control(rail));
     const border = getComputedStyle(control(rail), '::before');
     const halo = getComputedStyle(control(rail), '::after');
-    expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-focus-border'));
     expect(border.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-border-radius-container'));
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     expect(halo.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-radius-container'));
+  });
+});
+
+describe('the group: the disclosure of an item with children (P116)', () => {
+  it('is a native button with aria-expanded, the label as its name and no href', async () => {
+    const rail = await mount({ type: 'group', href: '' });
+    expect(control(rail).tagName).toBe('BUTTON');
+    expect(control(rail).getAttribute('aria-expanded')).toBe('false');
+    expect(control(rail).hasAttribute('href')).toBe(false);
+    expect(control(rail).getAttribute('aria-label')).toBe('Inbox');
+    expect(balloon(rail)?.text).toBe('Inbox');
+  });
+
+  it('a click, Enter or Space toggles expanded and fires nph-toggle out of the shadow root; open, the icon is solid', async () => {
+    const rail = await mount({ type: 'group', href: '' });
+    const seen: boolean[] = [];
+    rail.addEventListener('nph-toggle', (event) => {
+      expect(event.composed).toBe(true);
+      seen.push((event as CustomEvent<{ expanded: boolean }>).detail.expanded);
+    });
+    await userEvent.click(control(rail));
+    expect(rail.expanded).toBe(true);
+    expect(icon(rail).variant).toBe('solid');
+    expect(getComputedStyle(control(rail)).backgroundColor).toBe(resolved('background-color', '--nph-sidebar-rail-background-hover'));
+    control(rail).focus();
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    expect(seen).toEqual([true, false, true]);
+  });
+
+  it('opening it closes its balloon, and setting expanded from code fires nothing', async () => {
+    const rail = await mount({ type: 'group', href: '' });
+    const seen = vi.fn();
+    rail.addEventListener('nph-toggle', seen);
+    rail.expanded = true;
+    await rail.updateComplete;
+    expect(seen).not.toHaveBeenCalled();
+    rail.expanded = false;
+    await rail.updateComplete;
+    const tooltip = balloon(rail) as NphTooltip;
+    tooltip.open = true;
+    await tooltip.updateComplete;
+    await userEvent.click(control(rail));
+    expect(tooltip.open).toBe(false);
+  });
+
+  it('controls points the button to an element outside its shadow root', async () => {
+    const rail = await mount({ type: 'group', href: '' });
+    const target = document.createElement('div');
+    document.body.append(target);
+    rail.controls = target;
+    await rail.updateComplete;
+    expect((control(rail) as HTMLElement & { ariaControlsElements: readonly Element[] | null }).ariaControlsElements).toEqual([target]);
+  });
+
+  it('a group with an href, active or a counter, or a type outside the two, renders nothing', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    for (const [props, message] of [
+      [{ type: 'group', href: '#x' }, /a group has no href/],
+      [{ type: 'group', href: '', active: true }, /never active/],
+      [{ type: 'group', href: '', counter: 2 }, /a group has no counter/],
+      [{ type: 'menu' }, /type "menu" does not exist/],
+    ] as const) {
+      error.mockClear();
+      const rail = await mount(props as unknown as Partial<NphSidebarRailButton>);
+      expect(rail.shadowRoot?.childElementCount, JSON.stringify(props)).toBe(0);
+      expect(String(error.mock.calls[0]?.[0])).toMatch(message);
+    }
   });
 });
 
@@ -323,7 +393,7 @@ describe('token contract', () => {
 
   it('never consumes a core or theme token, nor sidebar/rail-radius, and has no literal value', () => {
     expect(componentCss).not.toMatch(/--nph-core-|--nph-theme-/);
-    expect(cssWithoutComments).not.toMatch(/--nph-sidebar-rail-radius/);
+    expect(cssWithoutComments).not.toMatch(/--nph-sidebar-rail-radius|--nph-color-primary\)/);
     expect(cssWithoutComments).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
     expect(cssWithoutComments).not.toMatch(/\b(rgb|rgba|hsl|hsla)\(/i);
     expect(cssWithoutComments).not.toMatch(/\d+(\.\d+)?(px|rem|em|ms|s|vh|vw)\b/);

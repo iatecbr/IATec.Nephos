@@ -5,8 +5,8 @@
  * custom properties consumed here.
  *
  * No literal design value goes in here. Written box relations (P98): `transparent` (no
- * background at rest), `0` in `inset` (the counter on the top end corner, D-1) and
- * `calc(-1 * ...)` (focus border and halo outside, without changing the size).
+ * background at rest), `0` in `padding` and `margin` (resets), `calc(-1 * ...)` (the counter
+ * above the top end corner, D-1; focus border and halo outside, without changing the size).
  */
 
 /* With no label and no icon, or with invalid input, it takes no space: no visual fallback. */
@@ -45,6 +45,16 @@
   background-color: var(--nph-sidebar-rail-background-hover);
 }
 
+/* A group with its flyout panel open: the hover background and the solid icon (P116). */
+:host([type='group'][expanded]:not([disabled])) .control {
+  background-color: var(--nph-sidebar-rail-background-hover);
+}
+
+/* The group is a native button: no native border. */
+button.control {
+  border: none;
+}
+
 /* Active: the background, the icon color and the solid icon. Wins over hover. */
 :host([active]) .control,
 :host([active]:not([disabled])) .control:hover {
@@ -56,11 +66,15 @@
   flex: none;
 }
 
-/* The counter: a pill with the number, on the top end corner (D-1). */
+/*
+ * The counter: a pill with the number, on the top end corner (D-1, answered in the Figma: x 19
+ * and y -4 on a 40 px button). It rises `space/inline-tight` above the box and sits
+ * `border/width` inside the end edge.
+ */
 .counter {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: 0;
+  inset-block-start: calc(-1 * var(--nph-space-inline-tight));
+  inset-inline-end: var(--nph-border-width);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -78,9 +92,13 @@
   letter-spacing: var(--nph-text-label-sm-letter-spacing);
 }
 
-/* Active: the counter gains an outline in the panel color, apart from the active background (D-2). */
+/*
+ * Active: the counter gains a 4 px outline in the panel color, apart from the active
+ * background (D-2). It is decorative, not focus: its width is `space/inline-tight`, not
+ * `border/width` and not `focus/ring-width`.
+ */
 :host([active]) .counter {
-  outline: var(--nph-border-width) solid var(--nph-sidebar-panel-background);
+  outline: var(--nph-space-inline-tight) solid var(--nph-sidebar-panel-background);
 }
 
 /* Focus: border and halo around the button, outside, keyboard only. */
@@ -94,7 +112,7 @@
 
 .control:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
-  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border: var(--nph-border-width) solid var(--nph-focus-border);
   border-radius: var(--nph-focus-border-radius-container);
 }
 

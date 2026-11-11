@@ -211,7 +211,7 @@ accessibility:
     - "Enter activates."
     - "Space activates."
     - "In the icon-only button, keyboard focus opens the tooltip at once and Esc closes it; Enter and Space leave it alone."
-  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item."
+  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item. One public hook, the custom property --nph-button-focus-border, sets the color of the border where a piece needs focus/border on its surface (nph-sidebar, DSA-72); unset, it changes nothing."
   contrast: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The primary and danger outline borders pass 3:1; the secondary outline border is 1.93:1 in the light scheme and 4.18:1 in the dark one, an accepted exception because the text, or the icon with its label and tooltip, identifies the button. The focus border of primary has the limit described in `focus`."
   color_alternative: "The text says what happens on click; color is never the only sign of intent, focus or state."
 invalid_combinations:
@@ -337,7 +337,11 @@ target on a touch screen; a size different from the field beside it.
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 border is the indicator; the halo is the second layer. Known limit: in dark mode,
 `color/primary` falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and
-`Igrejas`, an open item.
+`Igrejas`, an open item. The one public hook is the custom property `--nph-button-focus-border`
+(DSA-72, P116): a piece that hosts a button on a surface where the color of the type falls below
+3:1 sets it on that button to `focus/border`, as `nph-sidebar` does on its close button. Unset, the
+border is the one of the type, as always; the halo does not change. Set it on the button, never on
+a host that holds other buttons, because a custom property inherits.
 
 **Business rule the piece carries:** `not_applicable`. The button fires the action the
 screen defines.
@@ -385,7 +389,8 @@ screen defines.
 | Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` and `focus/halo-<matiz>` |
 
 **Usage restrictions:** the component does not choose height, color, radius or typography: everything
-comes from a token. In a part of the screen with another brand,
+comes from a token. The one exception is the focus hook `--nph-button-focus-border`, which is not a
+token and recolors the focus border only. In a part of the screen with another brand,
 `data-nph-brand` and `data-nph-color-scheme` go on the same element (P67). The limit L-b is
 in P68: the `use` of some tokens in `design.md` does not cite this usage yet.
 
