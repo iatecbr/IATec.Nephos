@@ -152,6 +152,13 @@
       "reflects": false,
       "constraint": "Fires when the person opens a branch that is not loaded (branch true, no children, no error) and when the person tries again on the error row, with detail { id, retry }. It bubbles and is composed. The page loads the children and replaces items: with them the branch gives the chevron back, and with error true the error row shows. After a Try again the row goes to loading until items is replaced."
     },
+    "focus": {
+      "type": "method",
+      "required": false,
+      "default": "not_applicable",
+      "reflects": false,
+      "constraint": "focus(options) on the host puts the focus on the item that held it last, else on the Tab stop, because the host is not focusable itself. A menu opened on the tree (nph-context-menu) calls it when it closes, so the focus goes back to the item the menu was opened on."
+    },
     "itemIdOf": {
       "type": "method",
       "required": false,
@@ -258,7 +265,7 @@
     "semantics": "The host is role tree, set through ElementInternals, so its aria-label and aria-labelledby name it. Inside, each node is a treeitem and each open branch a group joined to its item by aria-owns. aria-expanded on the branches; aria-selected on every item in single selection and aria-checked (true, false or mixed) on every item in multiple, never both; aria-multiselectable in multiple; aria-level, aria-setsize and aria-posinset on every item; aria-disabled on a disabled item, which still takes focus; aria-busy on a branch that loads and on the tree during its first load. The error row is a treeitem. The chevron, the icon, the checkbox and the spinner are hidden from assistive technology.",
     "accessible_name": "The tree: its aria-label or aria-labelledby, else label. An item: its label, the children not included. The error row: the phrase and the action together, such as Couldn't load. Try again. The cut label reaches the screen reader whole.",
     "keyboard": [
-      "Tab enters the tree on one Tab stop, the chosen item or the first, and the next Tab leaves it.",
+      "Tab enters the tree on one Tab stop, the chosen item or the first, and the next Tab leaves it. When the focus leaves the tree, the stop goes back to the chosen item or the first, whatever item had the focus.",
       "Down and Up move to the next and the previous visible item, without opening or closing, and pass through a disabled item.",
       "Right opens a closed branch and keeps the focus; on an open branch goes down to the first child; on a leaf does nothing. Left closes an open branch; on a child goes up to its parent; on a closed root item does nothing. In right-to-left writing the two swap.",
       "Home and End go to the first and the last visible item. The asterisk opens all the siblings of the item. A letter goes to the next visible item whose label starts with it.",

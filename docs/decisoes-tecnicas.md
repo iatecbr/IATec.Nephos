@@ -7351,8 +7351,9 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
    `aria-setsize` and `aria-posinset` on every item, the error row included. The error row is a
    `treeitem` inside the group of its branch, named by the phrase and the action together.
 
-9. **The keyboard.** One Tab stop, by roving `tabindex`: the chosen item if it is drawn, else the
-   item with focus, else the first. Down and Up pass through a disabled item, which takes focus with
+9. **The keyboard.** One Tab stop, by roving `tabindex`: while the focus is inside, the item with
+   focus holds it; when the focus leaves the tree, the stop goes back to the chosen item if it is
+   drawn, else to the first, so the next Tab enters there, as the contract says. Down and Up pass through a disabled item, which takes focus with
    `aria-disabled` and does nothing; Right and Left open, close and go down and up as the APG says,
    and in right-to-left writing they swap; Home, End, the asterisk and a letter (the next label
    that starts with it, around the end) are the APG's; Enter and Space follow the selection (single
@@ -7373,12 +7374,16 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
     `tabindex="0"` before the focus moves to it by the keyboard, and, over a cut label, in the
     capture phase of `pointerenter`, before the balloon hears the pointer. The stop goes back when
     the pointer goes to another item or leaves the tree, when the person presses Tab, and when
-    another item takes focus. It is a bounded exception to the single Tab stop and it is tested.
+    another item takes focus. The pointer leaving is read on the host, not on the list, because the
+    balloons are drawn beside the list: going from the item onto its balloon keeps both. It is a
+    bounded exception to the single Tab stop and it is tested.
 
 12. **Context menu.** The object of an `nph-context-menu` is the host of the tree. `itemIdOf(element)`
     returns the `id` of the node whose row holds the element, so the `origin` the menu reports (the
     first element of the composed path, or the focused item when the menu opens from the keyboard)
-    says which node it is for. The tree cancels no `contextmenu`.
+    says which node it is for. The tree cancels no `contextmenu`. The host is not focusable, and a
+    menu that closes calls `focus()` on its object, so `focus()` on the host puts the focus on the item
+    that held it last, else on the Tab stop.
 
 13. **The checkbox of the item.** `nph-checkbox` is drawn `inert` and `aria-hidden`, with the label of
     the item as its `label` (the dropdown menu does the same, P92), and is never `disabled` by the

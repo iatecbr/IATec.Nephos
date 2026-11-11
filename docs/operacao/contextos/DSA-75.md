@@ -2,7 +2,7 @@
 {
   "task": "DSA-75",
   "worktree": "/Users/elvys.marcos/Projects/IATec/Community/IATec.Nephos/.claude/worktrees/funny-darwin-e93804",
-  "start_sha": "7ea3244",
+  "start_sha": "7ea324419fa18a286125cd1237902300321ac9ed",
   "end_sha": null
 }
 ```
@@ -12,19 +12,21 @@ Build `nph-tree` in the contract accepted in Figma on 2026-11-11: a list of item
 
 ## Sources opened
 - `docs/operacao/tarefas/DSA-75.md` and `docs/operacao/evidencias/DSA-75/figma-docs-accepted-2026-11-11.md`
-- `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md`, `design.md` and `docs/operacao/component-handoff.md`
-- `src/components/nph-stepper/`, `nph-table/`, `nph-dropdown-menu/` and `nph-checkbox/` as patterns; the sheets of `nph-checkbox` and `nph-context-menu`
+- `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md`, `design.md` (the `tree/*` uses) and `docs/operacao/component-handoff.md`
+- `src/components/nph-stepper/`, `nph-table/`, `nph-dropdown-menu/`, `nph-checkbox/`, `nph-tooltip/`, `nph-context-menu/`, `nph-spinner/`, `nph-skeleton/` and `nph-empty/` as patterns; the sheets of `nph-checkbox` and `nph-context-menu`; P101 and P117
 - `src/tokens/generated/tokens.css`: the `tree/*` tokens
 
 ## Changes
-Component, CSS and tests of `nph-tree`; the stories (Validation), the Docs page, the dictionaries in three languages, the sheet `fichas/nph-tree.md` with its Metadata, and P118 in `docs/decisoes-tecnicas.md`.
+Component, CSS and tests of `nph-tree`; the stories (Validation), the Docs page, the dictionaries in three languages, the sheet `fichas/nph-tree.md` with its Metadata, P118 in `docs/decisoes-tecnicas.md`, and the word `multiselectable` in the spelling dictionary.
 
 ## Commands run
-- `git fetch origin && git checkout -B feat/dsa-75-tree origin/v/5.0.0`
-- `npm ci`
+- `git fetch origin && git checkout -B feat/dsa-75-tree origin/v/5.0.0` and `npm ci`
+- `npx vitest run --project unit src/components/nph-tree`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`
+- the twelve proofs in sequence: `build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`, `test:spelling`, `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `git diff --check`
 
 ## Result
-The task is in progress on the branch `feat/dsa-75-tree`. Nothing is written yet besides this record.
+The task is in review on the branch `feat/dsa-75-tree`. The component, its tests, stories, sheet and P118 are written; D-1 and D-2 wait for Indiane and do not block the pull request.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -33,4 +35,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npx vitest run --project unit src/components/nph-tree`
+`gh pr view --json reviews,reviewThreads`

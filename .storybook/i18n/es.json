@@ -12711,6 +12711,10 @@
         "El evento de una rama no cargada cuando la persona la abre, y de Reintentar en la fila de error, con detail { id, retry }. La página carga los hijos y reemplaza items. Sube por el árbol y es compuesto."
       ],
       [
+        "focus()",
+        "Pone el foco en el elemento que lo tuvo por última vez, o en la parada de Tab: el host en sí no recibe foco. Un menú abierto en el árbol (nph-context-menu) lo llama al cerrarse."
+      ],
+      [
         "itemIdOf(element)",
         "El id del nodo cuya fila contiene el elemento, o null. Un menú abierto en el árbol (nph-context-menu) informa el elemento bajo el puntero como origen; esto dice para qué nodo es el menú."
       ],

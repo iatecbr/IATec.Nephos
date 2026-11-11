@@ -21,6 +21,8 @@ import componentCss from './nph-tree.css?raw';
 import { NPH_TREE_SELECTIONS, NPH_TREE_SKELETON_ROWS, NphTree } from './nph-tree';
 import type { NphTreeCheckDetail, NphTreeLoadDetail, NphTreeNode, NphTreeSelectDetail, NphTreeToggleDetail } from './nph-tree';
 import { BRANDS } from '../../shared/docs/brands';
+import '../nph-context-menu/nph-context-menu';
+import type { NphContextMenu } from '../nph-context-menu/nph-context-menu';
 import type { NphTooltip } from '../nph-tooltip/nph-tooltip';
 
 beforeAll(async () => {
@@ -459,6 +461,34 @@ describe('the Tab stop', () => {
     expect(document.activeElement).toBe(after);
     await userEvent.tab({ shift: true });
     expect(focusedKey(tree)).toBe('readme');
+  });
+
+  it('after the focus left the tree, the Tab stop is the chosen item again, whatever item had the focus', async () => {
+    const tree = await mount({ selection: 'single', selected: 'docs', expanded: ['docs'] });
+    const after = document.createElement('button');
+    tree.parentElement?.after(after);
+    await enter(tree);
+    await userEvent.keyboard('{ArrowDown}{ArrowDown}');
+    expect(focusedKey(tree)).toBe('notes');
+    await userEvent.tab();
+    expect(document.activeElement).toBe(after);
+    await tree.updateComplete;
+    expect(item(tree, 'docs').tabIndex).toBe(0);
+    expect(item(tree, 'notes').tabIndex).toBe(-1);
+    await userEvent.tab({ shift: true });
+    expect(focusedKey(tree)).toBe('docs');
+  });
+
+  it('with no chosen item, the Tab stop goes back to the first item after the focus left', async () => {
+    const tree = await mount({ expanded: ['docs'] });
+    const after = document.createElement('button');
+    tree.parentElement?.after(after);
+    await enter(tree);
+    await userEvent.keyboard('{ArrowDown}');
+    await userEvent.tab();
+    await tree.updateComplete;
+    await userEvent.tab({ shift: true });
+    expect(focusedKey(tree)).toBe('docs');
   });
 
   it('the item with focus becomes the Tab stop', async () => {
@@ -1402,6 +1432,23 @@ describe('the cut label and its balloon', () => {
     expect(item(tree, 'long').tabIndex).toBe(0);
   });
 
+  it('the balloon stays open while the pointer goes from the item onto it, and the item keeps the stop', async () => {
+    const withTail = [...items, { id: 'tail', label: 'Tail' }];
+    const tree = await mount({ items: withTail }, '14rem');
+    await frame();
+    await settle(tree);
+    await userEvent.hover(labelOf(tree, 'long-two'));
+    const balloon = tooltips(tree)[1] as NphTooltip;
+    await vi.waitFor(() => expect(balloon.open).toBe(true), { timeout: 3000 });
+    await userEvent.hover(balloon.shadowRoot?.querySelector('.bubble') as HTMLElement);
+    await wait(300);
+    expect(balloon.open).toBe(true);
+    expect(item(tree, 'long-two').tabIndex).toBe(0);
+    await userEvent.hover(document.body);
+    await vi.waitFor(() => expect(balloon.open).toBe(false));
+    expect(item(tree, 'long-two').tabIndex).toBe(-1);
+  });
+
   it('there is still one Tab stop after the pointer has gone over cut items', async () => {
     const tree = await mount({ items }, '14rem');
     await frame();
@@ -1411,6 +1458,81 @@ describe('the cut label and its balloon', () => {
     await tree.updateComplete;
     const stops = [...root(tree).querySelectorAll<HTMLElement>('[role="treeitem"]')].filter((element) => element.tabIndex === 0);
     expect(stops.map((element) => element.dataset.key)).toEqual(['long']);
+  });
+});
+
+describe('the host and a menu opened on the tree', () => {
+  it('`focus()` on the host puts the focus on the item that held it last, else on the Tab stop', async () => {
+    const tree = await mount({ selection: 'single', selected: 'readme', expanded: ['docs'] });
+    tree.focus();
+    expect(focusedKey(tree)).toBe('readme');
+    await enter(tree);
+    await userEvent.keyboard('{ArrowUp}{ArrowUp}');
+    expect(focusedKey(tree)).toBe('notes');
+    (document.activeElement as HTMLElement).blur();
+    tree.focus();
+    expect(focusedKey(tree)).toBe('notes');
+  });
+
+  it('a menu opened on the item from the keyboard gives the focus back to that item when it closes with Esc', async () => {
+    const tree = await mount({ expanded: ['docs'] });
+    tree.id = 'files-tree';
+    const menu = document.createElement('nph-context-menu') as NphContextMenu;
+    menu.setAttribute('for', 'files-tree');
+    menu.label = 'Actions';
+    menu.items = [{ value: 'rename', text: 'Rename' }];
+    const origins: (string | null)[] = [];
+    menu.addEventListener('nph-item-select', (event) => origins.push(tree.itemIdOf((event as CustomEvent<{ origin: Element | null }>).detail.origin)), { signal: listeners.signal });
+    document.body.append(menu);
+    await menu.updateComplete;
+    await enter(tree);
+    await userEvent.keyboard('{ArrowDown}{ArrowDown}');
+    expect(focusedKey(tree)).toBe('notes');
+    item(tree, 'notes').dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, composed: true, cancelable: true }));
+    await vi.waitFor(() => expect(menu.open).toBe(true));
+    await userEvent.keyboard('{Escape}');
+    await vi.waitFor(() => expect(menu.open).toBe(false));
+    await tree.updateComplete;
+    expect(focusedKey(tree)).toBe('notes');
+    item(tree, 'notes').dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, composed: true, cancelable: true }));
+    await vi.waitFor(() => expect(menu.open).toBe(true));
+    await userEvent.keyboard('{Enter}');
+    await vi.waitFor(() => expect(origins).toEqual(['notes']));
+  });
+});
+
+describe('the row as the target', () => {
+  it('a click where the box is lands on the row and checks it, as a click on the box', async () => {
+    const tree = await mount({ selection: 'multiple' });
+    const box = item(tree, 'readme').querySelector('nph-checkbox') as HTMLElement;
+    const rect = box.getBoundingClientRect();
+    const hit = root(tree).elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) as HTMLElement;
+    expect(item(tree, 'readme').contains(hit)).toBe(true);
+    const checks = collect<NphTreeCheckDetail>(tree, 'nph-tree-check');
+    hit.click();
+    expect(checks).toEqual([{ id: 'readme', checked: true, value: ['readme'] }]);
+  });
+
+  it('in a container that scrolls, the arrows keep the focused row whole inside it', async () => {
+    const many = Array.from({ length: 40 }, (_, index) => ({ id: `i${String(index)}`, label: `Item ${String(index + 1)}` }));
+    const holder = document.createElement('div');
+    holder.style.cssText = 'block-size: 12rem; overflow-y: auto; inline-size: 20rem;';
+    const tree = document.createElement('nph-tree');
+    Object.assign(tree, { items: many, ...TEXTS });
+    holder.append(tree);
+    document.body.append(holder);
+    await settle(tree);
+    await enter(tree);
+    for (let step = 0; step < 25; step += 1) {
+      await userEvent.keyboard('{ArrowDown}');
+      const row = (root(tree).activeElement as HTMLElement).getBoundingClientRect();
+      const box = holder.getBoundingClientRect();
+      expect(row.top, `step ${String(step)}`).toBeGreaterThanOrEqual(box.top);
+      expect(row.bottom, `step ${String(step)}`).toBeLessThanOrEqual(box.bottom);
+    }
+    expect(holder.scrollTop).toBeGreaterThan(0);
+    await userEvent.keyboard('{Home}');
+    expect(holder.scrollTop).toBe(0);
   });
 });
 

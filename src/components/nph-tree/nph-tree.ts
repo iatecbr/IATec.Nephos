@@ -32,6 +32,8 @@
  *   `nph-tree-load` `{ id, retry }`;
  * - `itemIdOf(element)`: the `id` of the node whose row holds the element, so a menu opened on the
  *   tree (`nph-context-menu`) knows which node it is for;
+ * - `focus()`: the host is not focusable itself, so it puts the focus on the item that held it last, else
+ *   on the Tab stop; a menu that closes gives the focus back to its object this way;
  * - no slot, no `::part` and no color property.
  *
  * SEMANTICS (WAI-ARIA APG tree view) — the host is `role="tree"` through `ElementInternals`, so its
@@ -41,7 +43,7 @@
  * `aria-setsize` and `aria-posinset` on every item; `aria-disabled` on a disabled item, which takes
  * focus and does nothing; `aria-busy` on a branch that loads. The name of an item is its label: the
  * chevron, the icon, the box and the spinner are decorative. One Tab stop: the selected item, or the
- * first; the arrows, Home, End, `*` and a letter move inside.
+ * first, again each time the focus leaves the tree; the arrows, Home, End, `*` and a letter move inside.
  *
  * Invalid input draws nothing and emits `console.error` only in development, one per cause (P21,
  * P66): `items` that is not a list, a node with no `id` or `label`, a repeated `id`, `children` that is
@@ -241,6 +243,9 @@ export class NphTree extends LitElement {
   /* The branches whose "Try again" was pressed, until the consumer replaces `items`. */
   private retrying = new Set<string>();
 
+  /* The item that held the focus last, for `focus()`: a menu that closes gives the focus back to the host. */
+  private lastFocusKey: string | null = null;
+
   /* The focus before an update, to put it back when the item that held it leaves. */
   private focusKey: string | null = null;
   private focusAncestors: string[] = [];
@@ -268,6 +273,9 @@ export class NphTree extends LitElement {
     this.hostName = null;
     this.activeKey = null;
     this.cutKeys = new Set();
+    /* On the host, not on the list: the balloons are drawn beside the list, and going from a cut item
+       onto its balloon must not take the Tab stop away from the item (WCAG 1.4.13). */
+    this.addEventListener('pointerleave', this.onPointerleave);
   }
 
   override connectedCallback(): void {
@@ -301,6 +309,16 @@ export class NphTree extends LitElement {
     const key = item.dataset.key ?? '';
     const row = this.rowByKey.get(key);
     return row === undefined ? null : row.node.id;
+  }
+
+  /**
+   * The host is not focusable itself: `focus()` puts the focus on the item that held it last, else on the
+   * Tab stop. It is what a menu opened on the tree (`nph-context-menu`) calls when it closes.
+   */
+  override focus(options?: FocusOptions): void {
+    const last = this.lastFocusKey;
+    const key = last !== null && this.visible.some((row) => row.key === last) ? last : this.tabKey();
+    if (key !== null) this.focusRow(key, options);
   }
 
   /* ----- validation -------------------------------------------------------- */
@@ -736,7 +754,7 @@ export class NphTree extends LitElement {
    * Moves the focus to an item. The item takes the Tab stop first, by hand: the balloon of a cut label
    * opens only on an element in the Tab order (P77), and it hears the focus before the render does.
    */
-  private focusRow(key: string): void {
+  private focusRow(key: string, options?: FocusOptions): void {
     const target = this.element(key);
     if (target === null) return;
     for (const item of this.renderRoot.querySelectorAll<HTMLElement>('[role="treeitem"]')) {
@@ -744,7 +762,7 @@ export class NphTree extends LitElement {
     }
     target.tabIndex = 0;
     this.setActive(key);
-    target.focus();
+    target.focus(options);
   }
 
   /* ----- the keyboard -------------------------------------------------------- */
@@ -871,10 +889,21 @@ export class NphTree extends LitElement {
     if (!(item instanceof HTMLElement)) return;
     const key = item.dataset.key ?? '';
     this.setActive(key);
+    this.lastFocusKey = key;
     /* The focus is on the item: the other items that took the Tab stop for the balloon give it back. */
     for (const stop of [...this.hoverStops]) {
       if (stop !== item) this.dropHoverStop(stop);
     }
+  };
+
+  /**
+   * The focus leaves the tree: the Tab stop goes back to the chosen item, or the first, so the next Tab
+   * enters there, as the contract says. Moving the focus between items is not leaving.
+   */
+  private readonly onFocusout = (event: FocusEvent): void => {
+    const next = event.relatedTarget as Node | null;
+    if (next !== null && this.renderRoot.contains(next)) return;
+    this.activeKey = null;
   };
 
   /**
@@ -1052,7 +1081,7 @@ export class NphTree extends LitElement {
         role="none"
         @keydown=${this.onKeydown}
         @focusin=${this.onFocusin}
-        @pointerleave=${this.onPointerleave}
+        @focusout=${this.onFocusout}
       >
         ${this.renderLevel(this.items, tabKey)}
       </ul>

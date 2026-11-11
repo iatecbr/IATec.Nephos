@@ -12711,6 +12711,10 @@
         "O evento de um ramo não carregado quando a pessoa o abre, e de Tentar de novo na linha de erro, com detail { id, retry }. A página carrega os filhos e substitui items. Sobe pela árvore e é composto."
       ],
       [
+        "focus()",
+        "Põe o foco no item que o tinha por último, ou na parada de Tab: o host em si não recebe foco. Um menu aberto na árvore (nph-context-menu) o chama ao fechar."
+      ],
+      [
         "itemIdOf(element)",
         "O id do nó cuja linha contém o elemento, ou null. Um menu aberto na árvore (nph-context-menu) informa o elemento sob o ponteiro como origem; isto diz para qual nó o menu é."
       ],

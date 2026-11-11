@@ -12711,6 +12711,10 @@
         "The event for a branch that is not loaded when the person opens it, and for Try again on the error row, with detail { id, retry }. The page loads the children and replaces items. It bubbles and is composed."
       ],
       [
+        "focus()",
+        "Puts the focus on the item that held it last, else on the Tab stop: the host is not focusable itself. A menu opened on the tree (nph-context-menu) calls it when it closes."
+      ],
+      [
         "itemIdOf(element)",
         "The id of the node whose row holds the element, or null. A menu opened on the tree (nph-context-menu) reports the element under the pointer as its origin; this says which node the menu is for."
       ],
