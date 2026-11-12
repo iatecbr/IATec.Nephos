@@ -733,6 +733,7 @@
   --nph-panel-menu-nest-gap: var(--nph-core-space-300);
   --nph-scheduler-event-indicator-width: var(--nph-core-focus-width-sm);
   --nph-scheduler-event-min-height: var(--nph-core-target-size-minimum);
+  --nph-scheduler-event-dot-size: var(--nph-core-space-100);
   --nph-scheduler-time-column-width: var(--nph-core-space-900);
   --nph-scheduler-today-indicator-width: var(--nph-core-focus-width-sm);
   --nph-scheduler-now-indicator-width: var(--nph-core-focus-width-sm);

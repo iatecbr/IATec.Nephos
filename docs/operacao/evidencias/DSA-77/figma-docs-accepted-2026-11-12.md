@@ -27,7 +27,7 @@ Naming, by decision: the piece is `nph-scheduler` and its tokens are `scheduler/
 What changed in the tokens with this task:
 
 - New semantic group `event/<color>-*`: for each of the seven vertical colors (`sistemas`, `gerencial`, `educacao`, `comercial`, `financeiro`, `igrejas`, `rh`), the roles `surface`, `on-surface`, `indicator`, `surface-hover`, `on-surface-hover`, `focus-border` and `focus-halo`. They point to the `core` color scale of each vertical, equal in every brand, by mode (table below). The primary color needs no new token: it uses the existing `color/primary-*` and `focus/*` tokens.
-- New component group `scheduler/*`, in the semantic collection. Every token is an alias of an existing semantic token or of an `event/<color>-*` token, except six that point straight to core by decision: `scheduler/event-indicator-width`, `scheduler/today-indicator-width` and `scheduler/now-indicator-width` to `core/focus-width/sm` (no semantic token has the role of a line indicator; precedent `tabs/indicator-width`), `scheduler/time-column-width` to `core/space/900` (no semantic token of column width; precedent `data-table/selection-column-width`), `scheduler/now-indicator-size` to `core/space/200` (`space/inline` and `space/stack-snug` are also 8, but they are space between elements, not the size of a mark) and `scheduler/event-min-height` to `core/target-size/minimum` (the 24 px minimum target; precedent `breadcrumb/ellipsis-target-size`). No new value entered the core (rule T9).
+- New component group `scheduler/*`, in the semantic collection. Every token is an alias of an existing semantic token or of an `event/<color>-*` token, except seven that point straight to core by decision: `scheduler/event-dot-size` to `core/space/100` (`space/inline-tight` and `radius/inner` are also 4, but they are space inside a unit and corner, not the size of a mark; precedent `popover/offset`), `scheduler/event-indicator-width`, `scheduler/today-indicator-width` and `scheduler/now-indicator-width` to `core/focus-width/sm` (no semantic token has the role of a line indicator; precedent `tabs/indicator-width`), `scheduler/time-column-width` to `core/space/900` (no semantic token of column width; precedent `data-table/selection-column-width`), `scheduler/now-indicator-size` to `core/space/200` (`space/inline` and `space/stack-snug` are also 8, but they are space between elements, not the size of a mark) and `scheduler/event-min-height` to `core/target-size/minimum` (the 24 px minimum target; precedent `breadcrumb/ellipsis-target-size`). No new value entered the core (rule T9).
 - Extended `use` of semantic tokens in `design.md`, where the accepted Figma uses them, and an entry for each `event/<color>-*` token. The description of `color/border-subtle` now covers the container outline, the grid lines and the cancelled event outline. The core scale entries are one-line entries without a description field, so the width rule of `core/space/900` (fixed width of a column in a table or in the scheduler) is recorded here and in the token table.
 - Left without a component token: the pieces by instance use their own tokens (nph-button, nph-icon-button, nph-select, nph-checkbox, nph-avatar-stack, nph-popover, nph-skeleton, nph-icon, the date-picker grid in the mini month). The typography comes from text styles: `text/label-sm` for the event title, `text/caption` for the time. No shadow style: in dark mode the elevation is the background, `color/card` over `color/background`.
 
@@ -88,7 +88,8 @@ Each component token points to the semantic token that already has the function.
 | `scheduler/event-cancelled-background` | `color/card` | Cancelled event body. |
 | `scheduler/event-cancelled-border` | `color/border-subtle` | Cancelled event outline. |
 | `scheduler/event-cancelled-foreground` | `color/muted-foreground` | Cancelled event title and time, struck through, with the "Cancelled:" text. |
-| `scheduler/event-dot` | `color/primary-border` | Event dot of the month cell and of the compact mobile month. |
+| `scheduler/event-dot` | `color/primary-border` | Event dot of the compact mobile month (the desktop month uses event lines, not dots). |
+| `scheduler/event-dot-size` | `core/space/100` | Size of the event dot of the compact mobile month. |
 | `scheduler/event-dot-selected` | `color/primary-on-surface` | Event dot on the selected day. |
 | `scheduler/time-column-width` | `core/space/900` | Fixed width of the time column in the week and day views. |
 | `scheduler/time-foreground` | `color/muted-foreground` | Hour labels of the time column. |
@@ -97,7 +98,7 @@ Each component token points to the semantic token that already has the function.
 | `scheduler/today-indicator-width` | `core/focus-width/sm` | Thickness of the today mark. |
 | `scheduler/now-indicator` | `color/primary-border` | Now line in the column of today. |
 | `scheduler/now-indicator-width` | `core/focus-width/sm` | Thickness of the now line. |
-| `scheduler/now-indicator-size` | `core/space/200` | Dot at the start of the now line. |
+| `scheduler/now-indicator-size` | `core/space/200` | Size of the dot at the start of the now line. |
 | `scheduler/now-foreground` | `color/primary-text` | Current time in the time column, centered on the now line. |
 | `scheduler/background` | `color/card` | Container background. |
 | `scheduler/radius` | `radius/surface` | Corner of the container. |
@@ -169,7 +170,7 @@ Anatomy of the event line of the month view (a row inside the day cell, not an i
 
 Anatomy of the event line of the list view (a row of the day group, no background of its own):
 
-1. **Row** — horizontal, items centered vertically, padding `scheduler/list-item-padding`, gap `scheduler/list-gap` between the parts (the same token as between the days). Rows of a day stack under the day title (`scheduler/list-day-gap`; today's title in `scheduler/today-foreground`).
+1. **Row** — horizontal, items centered vertically, padding `scheduler/list-item-padding` on top and bottom only (no side padding), gap `scheduler/list-gap` between the parts (the same token as between the days). Rows of a day stack under the day title (`scheduler/list-day-gap`; today's title in `scheduler/today-foreground`).
 2. **Time** — start and end, `text/label-sm`, `scheduler/time-foreground`, fixed column at the start.
 3. **Bar** — `scheduler/event-indicator` (per color, `scheduler/event-<color>-indicator`) of `scheduler/event-indicator-width`, the height of the row content; the cancelled row keeps the space of the bar with no bar.
 4. **Title** — `text/body-md` in `scheduler/foreground`, takes the free space, one line with ellipsis.
@@ -180,11 +181,11 @@ Anatomy of the event line of the list view (a row of the day group, no backgroun
 Anatomy of the mobile toolbar (`tamanho-de-tela` `celular`, only the month view):
 
 1. **Toolbar** — padding `scheduler/toolbar-padding-y` on top and bottom and `scheduler/padding` at the sides, gap `scheduler/toolbar-gap`, items centered vertically: month label (`text/heading-sm`, `scheduler/foreground`) taking the free space, previous and next (`nph-icon-button` secondary ghost) and "New event" as an `nph-icon-button` primary with the `plus` icon. There is no "Today", no "Filter" and no sidebar button on mobile.
-2. **View select** — `nph-select` in full width below the toolbar, with margin `scheduler/padding`. On mobile it offers the same views; v1 draws only the month, so choosing another view keeps the compact month until the code owner and the design owner add a mobile design for it (open point).
+2. **View select** — `nph-select` in full width below the toolbar, with margin `scheduler/padding`. On mobile it offers the same views; v1 draws only the month, so choosing another view keeps the compact month until the code owner and the design owner add a mobile design for it (open point for the code and the design owner; also in the task).
 
 Anatomy of the compact mobile month and the day list (`tamanho-de-tela` `celular`):
 
-1. **Month grid** — margin `scheduler/padding` at the sides and `scheduler/day-padding` on top and bottom; weekday initials in `scheduler/day-label-foreground`; each day cell stacks the number (`scheduler/foreground`) and the event dot with gap `scheduler/month-cell-gap`, corner `scheduler/day-radius`.
+1. **Month grid** — margin `scheduler/padding` at the sides and `scheduler/day-padding` on top and bottom; weekday initials in `text/label-sm`, `scheduler/day-label-foreground`; each day cell stacks the number (`text/label-md`, `scheduler/foreground`) and the event dot (`scheduler/event-dot-size`) with gap `scheduler/month-cell-gap`, corner `scheduler/day-radius`.
 2. **Day list** — container with margin `scheduler/padding` and gap `scheduler/list-day-gap`; the day title in `text/label-md-strong`, in `scheduler/today-foreground` when it is today.
 3. **Row** — the start time (`text/label-sm`, `scheduler/time-foreground`) and an instance of the event set, with gap `scheduler/list-item-gap`; the event keeps its minimum height `scheduler/event-min-height`.
 
