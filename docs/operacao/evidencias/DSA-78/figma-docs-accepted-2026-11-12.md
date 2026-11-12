@@ -98,10 +98,10 @@ From top to bottom and, in the trigger, from the start to the end. Read by scrip
 
 ### Type line (flush and card appearance; indicator at the end and at the start; sizes default, compact and large)
 
-1. **Root** — vertical, height hugs the content. The width is fixed only in the Figma frame; in code the root takes the width of its container. Disabled: `opacity = c/disabled-opacity` on the whole collapsible. Card: padding `c/card-padding`, corner `c/card-radius`, outline `c/card-border` of `c/card-border-width`, background `c/card-background`. Flush: no background, no outline, no padding.
+1. **Root** — vertical, height hugs the content. The width is fixed only in the Figma frame; in code the root takes the width of its container. Disabled: `opacity = c/disabled-opacity` on the whole collapsible. Card: padding `c/card-padding`, corner `c/card-radius`, outline `c/card-border` of `c/card-border-width`, background `c/card-background`; the trigger and the content sit aligned to the start and to the top inside the card. Flush: no background, no outline, no padding.
 2. **Trigger** — horizontal, aligned to the start and centered vertically, takes the full width. Gap `c/trigger-gap`, side padding `c/trigger-padding-x`, vertical padding `c/trigger-padding-y` (default and large) or `c/trigger-padding-y-compact` (compact), corner `c/trigger-radius`, minimum height `c/trigger-height`, `c/trigger-height-compact` or `c/trigger-height-large`. Hover: background `c/trigger-background-hover`, on the trigger only. Open: the background does not change. With the indicator at the end the order is start icon (optional), title and description, indicator. With the indicator at the start the order is indicator, start icon (optional), title and description.
 3. **Start icon** — nph-icon, optional (boolean property, off by default; the icon can be swapped). Size `c/icon-size`, vector color `c/icon-foreground`.
-4. **Title and description** — vertical, takes the rest, gap `c/title-gap`.
+4. **Title and description** — vertical, takes the rest, aligned to the start and to the top of the block, gap `c/title-gap`; the text wraps.
    - **Title** — text style `text/label-md` (default and compact) or `text/label-lg` (large), color `c/title-foreground`.
    - **Description** — optional (boolean, off by default), takes the full width. Text style `text/body-sm` in every size, color `c/description-foreground`.
 5. **Indicator** — nph-icon. At the end: `chevron-down`, closed at 0 degrees and open at 180 degrees. At the start: `chevron-right`, closed at 0 degrees and open at -90 degrees, pointing down. Size `c/indicator-size`, color `c/indicator-foreground`.
@@ -114,7 +114,7 @@ From top to bottom and, in the trigger, from the start to the end. Read by scrip
 
 ### Type button (flush and card appearance; size default; indicator at the end)
 
-1. **Trigger** — an `nph-button` instance, secondary ghost, default size, hugs the width, with the end icon `chevron-down` (closed) or `chevron-up` (open). States of the button: default, hover-active, focus, disabled. Tokens of the nph-button, including focus and the disabled opacity.
+1. **Trigger** — an `nph-button` instance, secondary ghost, default size, hugs the width, at the top and aligned to the start (the content opens below it), with the end icon `chevron-down` (closed) or `chevron-up` (open). States of the button: default, hover-active, focus, disabled. Tokens of the nph-button, including focus and the disabled opacity.
 2. **Content** — equal to the content of the line type, without the icon and indicator indents.
 
 ### Type preview (flush and card appearance; size default)
@@ -165,6 +165,14 @@ Combines with the nph-button (trigger of the button and preview types) and the n
 - Use the preview type for a long text whose first part already helps: a log, a note, a description.
 - For a group of sections with a rule between them (one open at a time), use the accordion.
 
+## Required examples
+
+The documentation shows three use cases, only with instances of the set, in light and dark mode; they can guide the stories:
+
+1. Advanced settings in a form, open.
+2. Steps of a sign-up form, flush, with the indicator at the start.
+3. Import log in the preview type, closed.
+
 ## Do
 
 - Write the title with the name of what opens ("Advanced settings"), because people decide to open by the title.
@@ -176,7 +184,7 @@ Combines with the nph-button (trigger of the button and preview types) and the n
 
 ## Do not
 
-- Do not hide an error, a warning or a pending required field in closed content. Instead keep it in view, on the screen, next to the field or the summary; in a closed step, show the pending item in the trigger, by the description, in text.
+- Do not hide an error, a warning or a pending required field in closed content. Instead keep it in view, on the screen, next to the field or the summary; in a closed step, show the pending item in the trigger, by the description, in text (e.g. "2 fields missing").
 - Do not remove the indicator or leave only a clickable icon. Instead use the line type, with the chevron and the whole trigger clickable.
 - Do not use it for an action menu or a detail that floats over the page. Instead use the nph-popover or the nph-dropdown-menu.
 - Do not put an outline on every row of a form. Instead use the flush appearance and separate by space.
