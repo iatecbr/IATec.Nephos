@@ -738,6 +738,7 @@
   --nph-scheduler-today-indicator-width: var(--nph-core-focus-width-sm);
   --nph-scheduler-now-indicator-width: var(--nph-core-focus-width-sm);
   --nph-scheduler-now-indicator-size: var(--nph-core-space-200);
+  --nph-collapsible-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
@@ -980,6 +981,31 @@
   --nph-scheduler-focus-border-radius: var(--nph-focus-border-radius-control);
   --nph-scheduler-focus-halo-width: var(--nph-focus-ring-width);
   --nph-scheduler-focus-halo-radius: var(--nph-focus-radius-control-with-border);
+  --nph-collapsible-trigger-height: var(--nph-control-height-default);
+  --nph-collapsible-trigger-height-compact: var(--nph-control-height-compact);
+  --nph-collapsible-trigger-height-large: var(--nph-control-height-large);
+  --nph-collapsible-trigger-padding-x: var(--nph-space-control-padding);
+  --nph-collapsible-trigger-padding-y: var(--nph-space-inline);
+  --nph-collapsible-trigger-padding-y-compact: var(--nph-space-inline-tight);
+  --nph-collapsible-trigger-gap: var(--nph-space-inline-tight);
+  --nph-collapsible-title-gap: var(--nph-space-stack-snug);
+  --nph-collapsible-trigger-radius: var(--nph-radius-control);
+  --nph-collapsible-indicator-size: var(--nph-icon-size-sm);
+  --nph-collapsible-icon-size: var(--nph-icon-size-sm);
+  --nph-collapsible-content-padding-x: var(--nph-space-control-padding);
+  --nph-collapsible-content-padding-top: var(--nph-space-stack-snug);
+  --nph-collapsible-content-padding-bottom: var(--nph-space-control-padding);
+  --nph-collapsible-content-gap: var(--nph-space-stack);
+  --nph-collapsible-preview-gap: var(--nph-space-stack-tight);
+  --nph-collapsible-card-border-width: var(--nph-border-width);
+  --nph-collapsible-card-radius: var(--nph-radius-surface);
+  --nph-collapsible-card-padding: var(--nph-space-container-padding);
+  --nph-collapsible-expand-duration: var(--nph-motion-expand-duration);
+  --nph-collapsible-expand-easing: var(--nph-motion-expand-easing);
+  --nph-collapsible-focus-border-width: var(--nph-border-width);
+  --nph-collapsible-focus-border-radius: var(--nph-focus-border-radius-control);
+  --nph-collapsible-focus-halo-width: var(--nph-focus-ring-width);
+  --nph-collapsible-focus-halo-radius: var(--nph-focus-radius-control-with-border);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1260,6 +1286,13 @@
   --nph-scheduler-event-rh-foreground-hover: var(--nph-event-rh-on-surface-hover);
   --nph-scheduler-event-rh-focus-border: var(--nph-event-rh-focus-border);
   --nph-scheduler-event-rh-focus-halo: var(--nph-event-rh-focus-halo);
+  --nph-collapsible-trigger-background-hover: var(--nph-color-accent);
+  --nph-collapsible-title-foreground: var(--nph-color-foreground);
+  --nph-collapsible-description-foreground: var(--nph-color-muted-foreground);
+  --nph-collapsible-indicator-foreground: var(--nph-color-muted-foreground);
+  --nph-collapsible-icon-foreground: var(--nph-color-muted-foreground);
+  --nph-collapsible-card-background: var(--nph-color-card);
+  --nph-collapsible-card-border: var(--nph-color-border);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
@@ -1353,6 +1386,8 @@
   --nph-scheduler-day-selected-foreground: var(--nph-color-primary-on-surface);
   --nph-scheduler-focus-border: var(--nph-focus-border);
   --nph-scheduler-focus-halo: var(--nph-focus-halo);
+  --nph-collapsible-focus-border: var(--nph-focus-border);
+  --nph-collapsible-focus-halo: var(--nph-focus-halo);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
