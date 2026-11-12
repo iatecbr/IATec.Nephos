@@ -256,7 +256,7 @@ tokens_semantic:
     css: '--nph-color-foreground'
     claro: core/base/black
     escuro: core/neutral/100
-    use: "Default text on the base background. Also the phrase of the nph-file-upload drop zone and the file name of the nph-file-upload-item, including over status/error-surface, status/warning-surface and status/success-surface (file-upload/foreground, file-upload-item/foreground): the neutral text measures 13.31:1 or more over those surfaces, and the status is also told by icon and text. Also the label of the nph-tree item and the texts of its error row (tree/item-foreground)."
+    use: "Default text on the base background. Also the phrase of the nph-file-upload drop zone and the file name of the nph-file-upload-item, including over status/error-surface, status/warning-surface and status/success-surface (file-upload/foreground, file-upload-item/foreground): the neutral text measures 13.31:1 or more over those surfaces, and the status is also told by icon and text. Also the label of the nph-tree item and the texts of its error row (tree/item-foreground). Also the text of the nph-scheduler (scheduler/foreground)."
     nao_use: "On color/primary or on a state color."
   color/primary:
     css: '--nph-color-primary'
@@ -308,7 +308,7 @@ tokens_semantic:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground)."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground)."
     nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
   color/subtle-foreground:
     css: '--nph-color-subtle-foreground'
@@ -344,7 +344,7 @@ tokens_semantic:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
     escuro: core/alpha/white-10
-    use: "Soft border and divider of a floating layer: border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the shadow completes the separation from the background."
+    use: "Soft border and divider of a floating layer: border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the shadow completes the separation from the background. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border)."
     nao_use: "nph-dialog (color/dialog-separator); card (color/border); field (color/input)."
   color/input:
     css: '--nph-color-input'
@@ -406,7 +406,7 @@ tokens_semantic:
     css: '--nph-color-card'
     claro: core/base/white
     escuro: core/surface/800
-    use: "Card background."
+    use: "Card background. Also the background of the nph-scheduler container and of its cancelled event (scheduler/background, scheduler/event-cancelled-background)."
     nao_use: "Shadow to simulate elevation in dark mode."
   color/card-foreground:
     css: '--nph-color-card-foreground'
@@ -457,27 +457,27 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted. Also the background of the completed nph-stepper step marker (stepper/marker-background-complete), always with color/primary-on-surface. Also the background of the nph-file-upload drop zone while a file is dragged over it (file-upload/background-dragging) and of the nph-file-upload-item while it uploads (file-upload-item/background-uploading), with color/primary-on-surface for the icon and the phrase of the zone. Exception: on the uploading nph-file-upload-item the text over it (name, format, size and status) stays on color/foreground and color/muted-foreground, as accepted by Indiane. Also the background of the selected item of lists and of the nph-tree (tree/item-background-selected), with color/primary-text on the label, the chevron and the icon: 7.21:1 at least, against 4.64:1 of color/primary-on-surface in light."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted. Also the background of the completed nph-stepper step marker (stepper/marker-background-complete), always with color/primary-on-surface. Also the background of the nph-file-upload drop zone while a file is dragged over it (file-upload/background-dragging) and of the nph-file-upload-item while it uploads (file-upload-item/background-uploading), with color/primary-on-surface for the icon and the phrase of the zone. Exception: on the uploading nph-file-upload-item the text over it (name, format, size and status) stays on color/foreground and color/muted-foreground, as accepted by Indiane. Also the background of the selected item of lists and of the nph-tree (tree/item-background-selected), with color/primary-text on the label, the chevron and the icon: 7.21:1 at least, against 4.64:1 of color/primary-on-surface in light. Also the background of the nph-scheduler event and the selected day (scheduler/event-background, scheduler/day-selected-background)."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
     escuro: theme/brand-100
-    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete). Also the icon and the phrase of the nph-file-upload drop zone while a file is dragged over it (file-upload/icon-foreground-dragging, file-upload/foreground-dragging)."
+    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete). Also the icon and the phrase of the nph-file-upload drop zone while a file is dragged over it (file-upload/icon-foreground-dragging, file-upload/foreground-dragging). Also the title and time of the nph-scheduler event and its selected dot (scheduler/event-foreground, scheduler/event-dot-selected)."
   color/primary-surface-hover:
     css: '--nph-color-primary-surface-hover'
     claro: theme/brand-100
     escuro: theme/brand-800
-    use: "Surface of the main action in light emphasis, in the hover-active state. USE only in that state, with color/primary-on-surface on top. DO NOT USE as resting background — there color/primary-surface applies."
+    use: "Surface of the main action in light emphasis, in the hover-active state. USE only in that state, with color/primary-on-surface on top. DO NOT USE as resting background — there color/primary-surface applies. Also the hover and open background of the nph-scheduler event (scheduler/event-background-hover)."
   color/primary-on-surface-hover:
     css: '--nph-color-primary-on-surface-hover'
     claro: theme/brand-700
     escuro: theme/brand-100
-    use: "Text, icon and border on color/primary-surface-hover. USE only in the hover-active state of light emphasis. DO NOT USE at rest — there color/primary-on-surface applies."
+    use: "Text, icon and border on color/primary-surface-hover. USE only in the hover-active state of light emphasis. DO NOT USE at rest — there color/primary-on-surface applies. Also the title and time of the nph-scheduler event in hover and open (scheduler/event-foreground-hover)."
   color/primary-border:
     css: '--nph-color-primary-border'
     claro: theme/brand-600
     escuro: theme/brand-300
-    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands. Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line before the current step (stepper/connector-background-complete): a 1 px line reads as a border, so the no-fill rule does not apply to it. Also the border of the nph-file-upload drop zone while a file is dragged over it (file-upload/border-dragging), which marks the target. Also the 2 px bar that marks the selected item over color/primary-surface (tree/indicator-background, nph-tree), where color/primary does not reach 3:1 in dark."
+    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands. Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line before the current step (stepper/connector-background-complete): a 1 px line reads as a border, so the no-fill rule does not apply to it. Also the border of the nph-file-upload drop zone while a file is dragged over it (file-upload/border-dragging), which marks the target. Also the 2 px bar that marks the selected item over color/primary-surface (tree/indicator-background, nph-tree), where color/primary does not reach 3:1 in dark. Also the event bar, the event dot, the today mark and the now line of the nph-scheduler (scheduler/event-indicator, scheduler/event-dot, scheduler/today-indicator, scheduler/now-indicator)."
   color/link:
     css: '--nph-color-link'
     claro: theme/brand-600
@@ -493,7 +493,7 @@ tokens_semantic:
     css: '--nph-color-primary-text'
     claro: theme/brand-700
     escuro: theme/brand-text-dark
-    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item and the active option of the nph-sidebar flyout panel, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands. Also the number of the current nph-stepper step (stepper/marker-foreground-current). Also the label, the chevron and the folder and file icon of the selected nph-tree item (tree/item-foreground-selected, tree/toggle-foreground-selected, tree/icon-foreground-selected), over color/primary-surface: 7.21:1 at least."
+    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item and the active option of the nph-sidebar flyout panel, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands. Also the number of the current nph-stepper step (stepper/marker-foreground-current). Also the label, the chevron and the folder and file icon of the selected nph-tree item (tree/item-foreground-selected, tree/toggle-foreground-selected, tree/icon-foreground-selected), over color/primary-surface: 7.21:1 at least. Also the number of today and the current time of the nph-scheduler (scheduler/today-foreground, scheduler/now-foreground)."
     nao_use: "Fill: the brand fill is color/primary. Link text: color/link."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
@@ -571,12 +571,12 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1. Also the clickable nph-stepper step (stepper/focus-border), with no hover background under the focus. Also the focus border of the nph-tree item (tree/focus-border), drawn inside the row, with no hover background under the focus. Also the focus border of the nph-panel-menu subgroup (panel-menu/focus-border)."
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1. Also the clickable nph-stepper step (stepper/focus-border), with no hover background under the focus. Also the focus border of the nph-tree item (tree/focus-border), drawn inside the row, with no hover background under the focus. Also the focus border of the nph-panel-menu subgroup (panel-menu/focus-border). Also the focus border of the nph-scheduler day, event (primary color), month and list rows and cancelled event (scheduler/focus-border)."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
     escuro: theme/brand-halo-dark
-    use: "Focus HALO: the band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo and in dark mode to theme/brand-halo-dark, the tones chosen per brand so the focus border stays visible against the halo. It exists so the component does not point directly at the brand layer. Also the focus halo of the nph-panel-menu subgroup (panel-menu/focus-ring)."
+    use: "Focus HALO: the band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo and in dark mode to theme/brand-halo-dark, the tones chosen per brand so the focus border stays visible against the halo. It exists so the component does not point directly at the brand layer. Also the focus halo of the nph-panel-menu subgroup (panel-menu/focus-ring). Also the focus halo of the nph-scheduler day, event (primary color), month and list rows and cancelled event (scheduler/focus-halo)."
   focus/halo-info:
     css: '--nph-focus-halo-info'
     claro: core/info/200
@@ -910,6 +910,300 @@ tokens_semantic:
     claro: core/comercial/600
     escuro: core/comercial/500
     use: "Same rule as brand/sistemas-strong. The `Comercial` 500 (#3e8391) gives 4.32:1; the 600 gives 6.16:1. `Financeiro` does not need a variant: the 500 (#4d7549) already gives 5.25:1."
+  event/sistemas-surface:
+    css: '--nph-event-sistemas-surface'
+    claro: core/sistemas/50
+    escuro: core/sistemas/900
+    use: "Background of the nph-scheduler event in the `sistemas` vertical chosen for the calendar. Pair it with event/sistemas-on-surface (text) and event/sistemas-indicator (bar)."
+    nao_use: "Text or bar color of the event, status color, or use outside the nph-scheduler."
+  event/sistemas-on-surface:
+    css: '--nph-event-sistemas-on-surface'
+    claro: core/sistemas/700
+    escuro: core/sistemas/100
+    use: "Title and time of the nph-scheduler event in the `sistemas` vertical, on event/sistemas-surface. Required pair of event/sistemas-surface."
+    nao_use: "Any surface other than event/sistemas-surface or event/sistemas-surface-hover."
+  event/sistemas-indicator:
+    css: '--nph-event-sistemas-indicator'
+    claro: core/sistemas/700
+    escuro: core/sistemas/100
+    use: "Left bar of the nph-scheduler event in the `sistemas` vertical, on event/sistemas-surface. Required pair of event/sistemas-surface."
+    nao_use: "Text, or a status signal."
+  event/sistemas-surface-hover:
+    css: '--nph-event-sistemas-surface-hover'
+    claro: core/sistemas/100
+    escuro: core/sistemas/800
+    use: "Hover and open background of the nph-scheduler event in the `sistemas` vertical, one tone above event/sistemas-surface. Pair it with event/sistemas-on-surface-hover."
+    nao_use: "Resting background."
+  event/sistemas-on-surface-hover:
+    css: '--nph-event-sistemas-on-surface-hover'
+    claro: core/sistemas/800
+    escuro: core/sistemas/100
+    use: "Title and time of the nph-scheduler event in the `sistemas` vertical in hover and open, on event/sistemas-surface-hover. Required pair of event/sistemas-surface-hover."
+    nao_use: "Resting text."
+  event/sistemas-focus-border:
+    css: '--nph-event-sistemas-focus-border'
+    claro: core/sistemas/700
+    escuro: core/sistemas/100
+    use: "1 px focus border of the nph-scheduler event in the `sistemas` vertical (and of the cancelled event with focus); it is the part that meets 3:1. Pair it with event/sistemas-focus-halo."
+    nao_use: "Another piece, or the primary event (there it is focus/border)."
+  event/sistemas-focus-halo:
+    css: '--nph-event-sistemas-focus-halo'
+    claro: core/sistemas/200
+    escuro: core/sistemas/700
+    use: "Focus halo of the nph-scheduler event in the `sistemas` vertical, outside event/sistemas-focus-border. Decoration, with no 3:1. Required pair of event/sistemas-focus-border."
+    nao_use: "Another piece, or the primary event (there it is focus/halo)."
+  event/gerencial-surface:
+    css: '--nph-event-gerencial-surface'
+    claro: core/gerencial/50
+    escuro: core/gerencial/900
+    use: "Background of the nph-scheduler event in the `gerencial` vertical chosen for the calendar. Pair it with event/gerencial-on-surface (text) and event/gerencial-indicator (bar)."
+    nao_use: "Text or bar color of the event, status color, or use outside the nph-scheduler."
+  event/gerencial-on-surface:
+    css: '--nph-event-gerencial-on-surface'
+    claro: core/gerencial/700
+    escuro: core/gerencial/100
+    use: "Title and time of the nph-scheduler event in the `gerencial` vertical, on event/gerencial-surface. Required pair of event/gerencial-surface."
+    nao_use: "Any surface other than event/gerencial-surface or event/gerencial-surface-hover."
+  event/gerencial-indicator:
+    css: '--nph-event-gerencial-indicator'
+    claro: core/gerencial/700
+    escuro: core/gerencial/100
+    use: "Left bar of the nph-scheduler event in the `gerencial` vertical, on event/gerencial-surface. Required pair of event/gerencial-surface."
+    nao_use: "Text, or a status signal."
+  event/gerencial-surface-hover:
+    css: '--nph-event-gerencial-surface-hover'
+    claro: core/gerencial/100
+    escuro: core/gerencial/800
+    use: "Hover and open background of the nph-scheduler event in the `gerencial` vertical, one tone above event/gerencial-surface. Pair it with event/gerencial-on-surface-hover."
+    nao_use: "Resting background."
+  event/gerencial-on-surface-hover:
+    css: '--nph-event-gerencial-on-surface-hover'
+    claro: core/gerencial/800
+    escuro: core/gerencial/100
+    use: "Title and time of the nph-scheduler event in the `gerencial` vertical in hover and open, on event/gerencial-surface-hover. Required pair of event/gerencial-surface-hover."
+    nao_use: "Resting text."
+  event/gerencial-focus-border:
+    css: '--nph-event-gerencial-focus-border'
+    claro: core/gerencial/700
+    escuro: core/gerencial/100
+    use: "1 px focus border of the nph-scheduler event in the `gerencial` vertical (and of the cancelled event with focus); it is the part that meets 3:1. Pair it with event/gerencial-focus-halo."
+    nao_use: "Another piece, or the primary event (there it is focus/border)."
+  event/gerencial-focus-halo:
+    css: '--nph-event-gerencial-focus-halo'
+    claro: core/gerencial/200
+    escuro: core/gerencial/700
+    use: "Focus halo of the nph-scheduler event in the `gerencial` vertical, outside event/gerencial-focus-border. Decoration, with no 3:1. Required pair of event/gerencial-focus-border."
+    nao_use: "Another piece, or the primary event (there it is focus/halo)."
+  event/educacao-surface:
+    css: '--nph-event-educacao-surface'
+    claro: core/educacao/50
+    escuro: core/educacao/900
+    use: "Background of the nph-scheduler event in the `educacao` vertical chosen for the calendar. Pair it with event/educacao-on-surface (text) and event/educacao-indicator (bar)."
+    nao_use: "Text or bar color of the event, status color, or use outside the nph-scheduler."
+  event/educacao-on-surface:
+    css: '--nph-event-educacao-on-surface'
+    claro: core/educacao/700
+    escuro: core/educacao/100
+    use: "Title and time of the nph-scheduler event in the `educacao` vertical, on event/educacao-surface. Required pair of event/educacao-surface."
+    nao_use: "Any surface other than event/educacao-surface or event/educacao-surface-hover."
+  event/educacao-indicator:
+    css: '--nph-event-educacao-indicator'
+    claro: core/educacao/700
+    escuro: core/educacao/100
+    use: "Left bar of the nph-scheduler event in the `educacao` vertical, on event/educacao-surface. Required pair of event/educacao-surface."
+    nao_use: "Text, or a status signal."
+  event/educacao-surface-hover:
+    css: '--nph-event-educacao-surface-hover'
+    claro: core/educacao/100
+    escuro: core/educacao/800
+    use: "Hover and open background of the nph-scheduler event in the `educacao` vertical, one tone above event/educacao-surface. Pair it with event/educacao-on-surface-hover."
+    nao_use: "Resting background."
+  event/educacao-on-surface-hover:
+    css: '--nph-event-educacao-on-surface-hover'
+    claro: core/educacao/800
+    escuro: core/educacao/100
+    use: "Title and time of the nph-scheduler event in the `educacao` vertical in hover and open, on event/educacao-surface-hover. Required pair of event/educacao-surface-hover."
+    nao_use: "Resting text."
+  event/educacao-focus-border:
+    css: '--nph-event-educacao-focus-border'
+    claro: core/educacao/700
+    escuro: core/educacao/100
+    use: "1 px focus border of the nph-scheduler event in the `educacao` vertical (and of the cancelled event with focus); it is the part that meets 3:1. Pair it with event/educacao-focus-halo."
+    nao_use: "Another piece, or the primary event (there it is focus/border)."
+  event/educacao-focus-halo:
+    css: '--nph-event-educacao-focus-halo'
+    claro: core/educacao/200
+    escuro: core/educacao/700
+    use: "Focus halo of the nph-scheduler event in the `educacao` vertical, outside event/educacao-focus-border. Decoration, with no 3:1. Required pair of event/educacao-focus-border."
+    nao_use: "Another piece, or the primary event (there it is focus/halo)."
+  event/comercial-surface:
+    css: '--nph-event-comercial-surface'
+    claro: core/comercial/50
+    escuro: core/comercial/900
+    use: "Background of the nph-scheduler event in the `comercial` vertical chosen for the calendar. Pair it with event/comercial-on-surface (text) and event/comercial-indicator (bar)."
+    nao_use: "Text or bar color of the event, status color, or use outside the nph-scheduler."
+  event/comercial-on-surface:
+    css: '--nph-event-comercial-on-surface'
+    claro: core/comercial/700
+    escuro: core/comercial/100
+    use: "Title and time of the nph-scheduler event in the `comercial` vertical, on event/comercial-surface. Required pair of event/comercial-surface."
+    nao_use: "Any surface other than event/comercial-surface or event/comercial-surface-hover."
+  event/comercial-indicator:
+    css: '--nph-event-comercial-indicator'
+    claro: core/comercial/700
+    escuro: core/comercial/100
+    use: "Left bar of the nph-scheduler event in the `comercial` vertical, on event/comercial-surface. Required pair of event/comercial-surface."
+    nao_use: "Text, or a status signal."
+  event/comercial-surface-hover:
+    css: '--nph-event-comercial-surface-hover'
+    claro: core/comercial/100
+    escuro: core/comercial/800
+    use: "Hover and open background of the nph-scheduler event in the `comercial` vertical, one tone above event/comercial-surface. Pair it with event/comercial-on-surface-hover."
+    nao_use: "Resting background."
+  event/comercial-on-surface-hover:
+    css: '--nph-event-comercial-on-surface-hover'
+    claro: core/comercial/800
+    escuro: core/comercial/100
+    use: "Title and time of the nph-scheduler event in the `comercial` vertical in hover and open, on event/comercial-surface-hover. Required pair of event/comercial-surface-hover."
+    nao_use: "Resting text."
+  event/comercial-focus-border:
+    css: '--nph-event-comercial-focus-border'
+    claro: core/comercial/700
+    escuro: core/comercial/100
+    use: "1 px focus border of the nph-scheduler event in the `comercial` vertical (and of the cancelled event with focus); it is the part that meets 3:1. Pair it with event/comercial-focus-halo."
+    nao_use: "Another piece, or the primary event (there it is focus/border)."
+  event/comercial-focus-halo:
+    css: '--nph-event-comercial-focus-halo'
+    claro: core/comercial/200
+    escuro: core/comercial/700
+    use: "Focus halo of the nph-scheduler event in the `comercial` vertical, outside event/comercial-focus-border. Decoration, with no 3:1. Required pair of event/comercial-focus-border."
+    nao_use: "Another piece, or the primary event (there it is focus/halo)."
+  event/financeiro-surface:
+    css: '--nph-event-financeiro-surface'
+    claro: core/financeiro/50
+    escuro: core/financeiro/900
+    use: "Background of the nph-scheduler event in the `financeiro` vertical chosen for the calendar. Pair it with event/financeiro-on-surface (text) and event/financeiro-indicator (bar)."
+    nao_use: "Text or bar color of the event, status color, or use outside the nph-scheduler."
+  event/financeiro-on-surface:
+    css: '--nph-event-financeiro-on-surface'
+    claro: core/financeiro/700
+    escuro: core/financeiro/100
+    use: "Title and time of the nph-scheduler event in the `financeiro` vertical, on event/financeiro-surface. Required pair of event/financeiro-surface."
+    nao_use: "Any surface other than event/financeiro-surface or event/financeiro-surface-hover."
+  event/financeiro-indicator:
+    css: '--nph-event-financeiro-indicator'
+    claro: core/financeiro/700
+    escuro: core/financeiro/100
+    use: "Left bar of the nph-scheduler event in the `financeiro` vertical, on event/financeiro-surface. Required pair of event/financeiro-surface."
+    nao_use: "Text, or a status signal."
+  event/financeiro-surface-hover:
+    css: '--nph-event-financeiro-surface-hover'
+    claro: core/financeiro/100
+    escuro: core/financeiro/800
+    use: "Hover and open background of the nph-scheduler event in the `financeiro` vertical, one tone above event/financeiro-surface. Pair it with event/financeiro-on-surface-hover."
+    nao_use: "Resting background."
+  event/financeiro-on-surface-hover:
+    css: '--nph-event-financeiro-on-surface-hover'
+    claro: core/financeiro/800
+    escuro: core/financeiro/100
+    use: "Title and time of the nph-scheduler event in the `financeiro` vertical in hover and open, on event/financeiro-surface-hover. Required pair of event/financeiro-surface-hover."
+    nao_use: "Resting text."
+  event/financeiro-focus-border:
+    css: '--nph-event-financeiro-focus-border'
+    claro: core/financeiro/700
+    escuro: core/financeiro/100
+    use: "1 px focus border of the nph-scheduler event in the `financeiro` vertical (and of the cancelled event with focus); it is the part that meets 3:1. Pair it with event/financeiro-focus-halo."
+    nao_use: "Another piece, or the primary event (there it is focus/border)."
+  event/financeiro-focus-halo:
+    css: '--nph-event-financeiro-focus-halo'
+    claro: core/financeiro/200
+    escuro: core/financeiro/700
+    use: "Focus halo of the nph-scheduler event in the `financeiro` vertical, outside event/financeiro-focus-border. Decoration, with no 3:1. Required pair of event/financeiro-focus-border."
+    nao_use: "Another piece, or the primary event (there it is focus/halo)."
+  event/igrejas-surface:
+    css: '--nph-event-igrejas-surface'
+    claro: core/igrejas/50
+    escuro: core/igrejas/900
+    use: "Background of the nph-scheduler event in the `igrejas` vertical chosen for the calendar. Pair it with event/igrejas-on-surface (text) and event/igrejas-indicator (bar)."
+    nao_use: "Text or bar color of the event, status color, or use outside the nph-scheduler."
+  event/igrejas-on-surface:
+    css: '--nph-event-igrejas-on-surface'
+    claro: core/igrejas/700
+    escuro: core/igrejas/100
+    use: "Title and time of the nph-scheduler event in the `igrejas` vertical, on event/igrejas-surface. Required pair of event/igrejas-surface."
+    nao_use: "Any surface other than event/igrejas-surface or event/igrejas-surface-hover."
+  event/igrejas-indicator:
+    css: '--nph-event-igrejas-indicator'
+    claro: core/igrejas/700
+    escuro: core/igrejas/100
+    use: "Left bar of the nph-scheduler event in the `igrejas` vertical, on event/igrejas-surface. Required pair of event/igrejas-surface."
+    nao_use: "Text, or a status signal."
+  event/igrejas-surface-hover:
+    css: '--nph-event-igrejas-surface-hover'
+    claro: core/igrejas/100
+    escuro: core/igrejas/800
+    use: "Hover and open background of the nph-scheduler event in the `igrejas` vertical, one tone above event/igrejas-surface. Pair it with event/igrejas-on-surface-hover."
+    nao_use: "Resting background."
+  event/igrejas-on-surface-hover:
+    css: '--nph-event-igrejas-on-surface-hover'
+    claro: core/igrejas/800
+    escuro: core/igrejas/100
+    use: "Title and time of the nph-scheduler event in the `igrejas` vertical in hover and open, on event/igrejas-surface-hover. Required pair of event/igrejas-surface-hover."
+    nao_use: "Resting text."
+  event/igrejas-focus-border:
+    css: '--nph-event-igrejas-focus-border'
+    claro: core/igrejas/700
+    escuro: core/igrejas/100
+    use: "1 px focus border of the nph-scheduler event in the `igrejas` vertical (and of the cancelled event with focus); it is the part that meets 3:1. Pair it with event/igrejas-focus-halo."
+    nao_use: "Another piece, or the primary event (there it is focus/border)."
+  event/igrejas-focus-halo:
+    css: '--nph-event-igrejas-focus-halo'
+    claro: core/igrejas/200
+    escuro: core/igrejas/700
+    use: "Focus halo of the nph-scheduler event in the `igrejas` vertical, outside event/igrejas-focus-border. Decoration, with no 3:1. Required pair of event/igrejas-focus-border."
+    nao_use: "Another piece, or the primary event (there it is focus/halo)."
+  event/rh-surface:
+    css: '--nph-event-rh-surface'
+    claro: core/rh/50
+    escuro: core/rh/900
+    use: "Background of the nph-scheduler event in the `rh` vertical chosen for the calendar. Pair it with event/rh-on-surface (text) and event/rh-indicator (bar)."
+    nao_use: "Text or bar color of the event, status color, or use outside the nph-scheduler."
+  event/rh-on-surface:
+    css: '--nph-event-rh-on-surface'
+    claro: core/rh/700
+    escuro: core/rh/100
+    use: "Title and time of the nph-scheduler event in the `rh` vertical, on event/rh-surface. Required pair of event/rh-surface."
+    nao_use: "Any surface other than event/rh-surface or event/rh-surface-hover."
+  event/rh-indicator:
+    css: '--nph-event-rh-indicator'
+    claro: core/rh/700
+    escuro: core/rh/100
+    use: "Left bar of the nph-scheduler event in the `rh` vertical, on event/rh-surface. Required pair of event/rh-surface."
+    nao_use: "Text, or a status signal."
+  event/rh-surface-hover:
+    css: '--nph-event-rh-surface-hover'
+    claro: core/rh/100
+    escuro: core/rh/800
+    use: "Hover and open background of the nph-scheduler event in the `rh` vertical, one tone above event/rh-surface. Pair it with event/rh-on-surface-hover."
+    nao_use: "Resting background."
+  event/rh-on-surface-hover:
+    css: '--nph-event-rh-on-surface-hover'
+    claro: core/rh/800
+    escuro: core/rh/100
+    use: "Title and time of the nph-scheduler event in the `rh` vertical in hover and open, on event/rh-surface-hover. Required pair of event/rh-surface-hover."
+    nao_use: "Resting text."
+  event/rh-focus-border:
+    css: '--nph-event-rh-focus-border'
+    claro: core/rh/700
+    escuro: core/rh/100
+    use: "1 px focus border of the nph-scheduler event in the `rh` vertical (and of the cancelled event with focus); it is the part that meets 3:1. Pair it with event/rh-focus-halo."
+    nao_use: "Another piece, or the primary event (there it is focus/border)."
+  event/rh-focus-halo:
+    css: '--nph-event-rh-focus-halo'
+    claro: core/rh/200
+    escuro: core/rh/700
+    use: "Focus halo of the nph-scheduler event in the `rh` vertical, outside event/rh-focus-border. Decoration, with no 3:1. Required pair of event/rh-focus-border."
+    nao_use: "Another piece, or the primary event (there it is focus/halo)."
 
 # ---------------------------------------------------------------
 # BRAND LAYER. One mode per vertical. The semantic layer consumes it; a
@@ -1106,12 +1400,12 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline. Also the gap between the rows of the nph-panel-menu list, section, second and third level and loading rows (panel-menu/item-gap)."
+    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline. Also the gap between the rows of the nph-panel-menu list, section, second and third level and loading rows (panel-menu/item-gap). Also the top and bottom padding and the gap of the nph-scheduler event, the day label padding, the sides and gap of the month cell and the list item padding (scheduler/event-padding-y, scheduler/event-gap, scheduler/day-label-padding-y, scheduler/month-cell-padding-x, scheduler/month-cell-gap, scheduler/list-item-padding)."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
     valor: 8
-    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item."
+    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item. Also the side padding of the nph-scheduler event, the gap of its toolbar and day header, the day padding, the top and bottom of the month cell and the gaps of the list and the empty state (scheduler/event-padding-x, scheduler/toolbar-gap, scheduler/day-header-gap, scheduler/day-padding, scheduler/month-cell-padding-y, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/empty-gap)."
   space/stack-tight:
     css: '--nph-space-stack-tight'
     alias: core/space/100
@@ -1121,7 +1415,7 @@ tokens_space:
     css: '--nph-space-stack'
     alias: core/space/400
     valor: 16
-    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel. Also the gap between the main list and each section of the nph-panel-menu (panel-menu/section-gap)."
+    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel. Also the gap between the main list and each section of the nph-panel-menu (panel-menu/section-gap). Also the gap between the side panel blocks and between the days of the list of the nph-scheduler (scheduler/sidebar-gap, scheduler/list-gap)."
   space/section:
     css: '--nph-space-section'
     alias: core/space/700
@@ -1131,12 +1425,12 @@ tokens_space:
     css: '--nph-space-control-padding'
     alias: core/space/300
     valor: 12
-    use: "Inner horizontal padding of button, field and select - what is operated - the sides of the nph-badge and of the nph-tabs tab (tabs/item-padding-x). DO NOT USE on a card. Also the gap between the icon place and the text line of the nph-panel-menu loading row (panel-menu/skeleton-gap), as the approved nph-sidebar loading row."
+    use: "Inner horizontal padding of button, field and select - what is operated - the sides of the nph-badge and of the nph-tabs tab (tabs/item-padding-x). DO NOT USE on a card. Also the gap between the icon place and the text line of the nph-panel-menu loading row (panel-menu/skeleton-gap), as the approved nph-sidebar loading row. Also the top and bottom padding of the nph-scheduler toolbar (scheduler/toolbar-padding-y)."
   space/container-padding:
     css: '--nph-space-container-padding'
     alias: core/space/400
     valor: 16
-    use: "Inner padding of card, panel, popover and dialog - what contains. DO NOT USE on a control. Also the side padding of the nph-file-upload-item and of the compact nph-file-upload drop zone (file-upload-item/padding-inline, file-upload/padding-compact-inline): the item and the zone are containers of controls, not controls."
+    use: "Inner padding of card, panel, popover and dialog - what contains. DO NOT USE on a control. Also the side padding of the nph-file-upload-item and of the compact nph-file-upload drop zone (file-upload-item/padding-inline, file-upload/padding-compact-inline): the item and the zone are containers of controls, not controls. Also the padding of the nph-scheduler container and of its side panel (scheduler/padding)."
   space/stack-snug:
     css: '--nph-space-stack-snug'
     alias: core/space/200
@@ -1177,7 +1471,7 @@ tokens_control:
     css: '--nph-control-height-compact'
     alias: core/control-height/compact
     valor: 28
-    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8. Exception: the tab inside the segmented nph-tabs rail (tabs/item-height), as the accepted Figma draws it: the tab sits in a rail of control/height-default and stays above 24 x 24."
+    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8. Exception: the tab inside the segmented nph-tabs rail (tabs/item-height), as the accepted Figma draws it: the tab sits in a rail of control/height-default and stays above 24 x 24. Also the height of the \"+N more\" button of the nph-scheduler month (scheduler/more-height)."
   control/height-default:
     css: '--nph-control-height-default'
     alias: core/control-height/default
@@ -1325,7 +1619,7 @@ tokens_radius:
     css: '--nph-radius-control'
     alias: core/radius/300
     valor: 6
-    use: "SYSTEM DEFAULT. USE on button, field, select, textarea and anything that is operated. When in doubt, it is this one. Also the corner of the nph-tree item and of its focus border (tree/item-radius, tree/focus-border-radius)."
+    use: "SYSTEM DEFAULT. USE on button, field, select, textarea and anything that is operated. When in doubt, it is this one. Also the corner of the nph-tree item and of its focus border (tree/item-radius, tree/focus-border-radius). Also the corner of the nph-scheduler event and day (scheduler/event-radius, scheduler/day-radius)."
   radius/control-inner:
     css: '--nph-radius-control-inner'
     alias: core/radius/off-scale/5
@@ -1345,7 +1639,7 @@ tokens_radius:
     css: '--nph-radius-surface'
     alias: core/radius/600
     valor: 14
-    use: "USE on card, panel and sheet - the surface that carries content. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer: dialog and modal are radius/overlay, the tooltip uses radius/inner, and popover, hover card and menu have their own radius."
+    use: "USE on card, panel and sheet - the surface that carries content. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer: dialog and modal are radius/overlay, the tooltip uses radius/inner, and popover, hover card and menu have their own radius. Also the corner of the nph-scheduler container (scheduler/radius)."
   radius/full:
     css: '--nph-radius-full'
     alias: core/radius/full
@@ -1634,17 +1928,17 @@ tokens_alpha:
     css: '--nph-focus-ring-width'
     alias: core/focus-width/default
     valor: 4
-    use: "The thickness of EVERY focus ring: 4px, equal in both modes. NEVER pick it by hand: apply one of the focus-ring/* styles or the focus halo of rule 6. DO NOT reduce it to 1 or 2 on a small piece - the ring is what makes the product keyboard-navigable. WCAG 2.2 asks for at least 2px. Also the thickness of the focus halo of the nph-panel-menu subgroup (panel-menu/focus-ring-width)."
+    use: "The thickness of EVERY focus ring: 4px, equal in both modes. NEVER pick it by hand: apply one of the focus-ring/* styles or the focus halo of rule 6. DO NOT reduce it to 1 or 2 on a small piece - the ring is what makes the product keyboard-navigable. WCAG 2.2 asks for at least 2px. Also the thickness of the focus halo of the nph-panel-menu subgroup (panel-menu/focus-ring-width). Also the thickness of the focus halo of the nph-scheduler (scheduler/focus-halo-width)."
   border/width:
     css: '--nph-border-width'
     alias: core/border-width/default
     valor: 1
-    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width)."
+    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width). Also the thickness of the nph-scheduler container border, event border and focus border (scheduler/border-width, scheduler/event-border-width, scheduler/focus-border-width)."
   focus/border-radius-control:
     css: '--nph-focus-border-radius-control'
     alias: core/radius/off-scale/7
     valor: 7
-    use: "Radius of the 1 px focus border around a control with radius/control."
+    use: "Radius of the 1 px focus border around a control with radius/control. Also the corner of the focus border of the nph-scheduler (scheduler/focus-border-radius)."
   focus/radius-control:
     css: '--nph-focus-radius-control'
     alias: core/radius/450
@@ -1654,7 +1948,7 @@ tokens_alpha:
     css: '--nph-focus-radius-control-with-border'
     alias: core/radius/off-scale/11
     valor: 11
-    use: "Radius of the focus halo around the focus border of a control: focus/border-radius-control + focus/ring-width."
+    use: "Radius of the focus halo around the focus border of a control: focus/border-radius-control + focus/ring-width. Also the corner of the focus halo of the nph-scheduler (scheduler/focus-halo-radius)."
   focus/radius-inner:
     css: '--nph-focus-radius-inner'
     alias: core/radius/400
@@ -2050,7 +2344,7 @@ tokens_icon:
     css: '--nph-icon-size-sm'
     alias: core/icon-size/100
     valor: 16
-    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size). Also the arrow of the nph-panel-menu subgroup (panel-menu/subgroup-icon-size)."
+    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size). Also the arrow of the nph-panel-menu subgroup (panel-menu/subgroup-icon-size). Also the repeat icon of the nph-scheduler event and the icon of its empty state (scheduler/event-icon-size, scheduler/empty-icon-size)."
   icon/size-md:
     css: '--nph-icon-size-md'
     alias: core/icon-size/200
