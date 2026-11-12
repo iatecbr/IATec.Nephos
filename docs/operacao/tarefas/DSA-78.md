@@ -95,7 +95,7 @@ The code does not create a token or change a token value. It does not change Fig
 The vertical stepper waits for this component, as DSA-73 records; it is built in its own task after the collapsible is merged. Nothing in DSA-73 changes here. A semantic token for vertical padding and for panel padding, and a softer outline for every card in dark mode, are foundation tasks.
 
 ## Sources
-- Figma `DS-IA-NEPHOS 5.0`, documentation frame `6014:1688`, root `6005:482`, appendix `6019:2633` and the evidence of the `figma-docs-accepted` gate
+- Figma `DS-IA-NEPHOS 5.0`, documentation frame `6014:1688`, root `6005:482` and the evidence of the `figma-docs-accepted` gate
 - Component set: nph-collapsible `6006:2250`
 - WAI-ARIA APG, Disclosure pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 - Radix Accordion, built on Collapsible: https://raw.githubusercontent.com/radix-ui/primitives/main/packages/react/accordion/src/accordion.tsx

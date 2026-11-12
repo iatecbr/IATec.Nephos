@@ -46,7 +46,7 @@ It does not replace the nph-popover (a layer that floats over the page and close
 |---|---|---|
 | nph-collapsible (`nph-collapsible`) | `6006:2250` | `tipo` (`linha`, `botao`, `previa`) × `aparencia` (`flush`, `cartao`) × `indicador` (`fim`, `inicio`) × `size` (`default`, `compact`, `large`) × `aberto` (`nao`, `sim`) × `state` (`default`, `hover`, `foco`, `disabled`); layer properties: description on or off, start icon on or off, swap of the start icon, title text and description text. |
 
-The root is `6005:482`. The matrix of the variants is in the `3. MATRIZ` frame of the same page.
+The root is `6005:482`. The matrix of the variants is the `Matriz — nph-collapsible` section (`6014:1693`) of the documentation frame.
 
 ## Tokens
 
@@ -98,7 +98,7 @@ From top to bottom and, in the trigger, from the start to the end. Read by scrip
 
 ### Type line (flush and card appearance; indicator at the end and at the start; sizes default, compact and large)
 
-1. **Root** — vertical, fixed width, height hugs the content. Disabled: `opacity = c/disabled-opacity` on the whole collapsible. Card: padding `c/card-padding`, corner `c/card-radius`, outline `c/card-border` of `c/card-border-width`, background `c/card-background`. Flush: no background, no outline, no padding.
+1. **Root** — vertical, height hugs the content. The width is fixed only in the Figma frame; in code the root takes the width of its container. Disabled: `opacity = c/disabled-opacity` on the whole collapsible. Card: padding `c/card-padding`, corner `c/card-radius`, outline `c/card-border` of `c/card-border-width`, background `c/card-background`. Flush: no background, no outline, no padding.
 2. **Trigger** — horizontal, aligned to the start and centered vertically, takes the full width. Gap `c/trigger-gap`, side padding `c/trigger-padding-x`, vertical padding `c/trigger-padding-y` (default and large) or `c/trigger-padding-y-compact` (compact), corner `c/trigger-radius`, minimum height `c/trigger-height`, `c/trigger-height-compact` or `c/trigger-height-large`. Hover: background `c/trigger-background-hover`, on the trigger only. Open: the background does not change. With the indicator at the end the order is start icon (optional), title and description, indicator. With the indicator at the start the order is indicator, start icon (optional), title and description.
 3. **Start icon** — nph-icon, optional (boolean property, off by default; the icon can be swapped). Size `c/icon-size`, vector color `c/icon-foreground`.
 4. **Title and description** — vertical, takes the rest, gap `c/title-gap`.
