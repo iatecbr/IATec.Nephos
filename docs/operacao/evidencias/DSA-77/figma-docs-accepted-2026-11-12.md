@@ -108,7 +108,7 @@ Each component token points to the semantic token that already has the function.
 | `scheduler/toolbar-gap` | `space/inline` | Gap between the toolbar items. |
 | `scheduler/sidebar-gap` | `space/stack` | Gap between the mini month and "My calendars". |
 | `scheduler/foreground` | `color/foreground` | Default text of the scheduler. |
-| `scheduler/day-label-foreground` | `color/muted-foreground` | Weekday name in the day header and the month header. |
+| `scheduler/day-label-foreground` | `color/muted-foreground` | Weekday name in the day header and the month header, the "all day" label, and the number of the days outside the shown month (desktop month and compact mobile month). |
 | `scheduler/day-label-padding-y` | `space/inline-tight` | Top and bottom padding of the weekday label. |
 | `scheduler/day-header-gap` | `space/inline` | Gap between name, number and the avatar stack in the day header. |
 | `scheduler/day-padding` | `space/inline` | Padding of the day (day header and month cell number). |
@@ -185,7 +185,7 @@ Anatomy of the mobile toolbar (`tamanho-de-tela` `celular`, only the month view)
 
 Anatomy of the compact mobile month and the day list (`tamanho-de-tela` `celular`):
 
-1. **Month grid** — margin `scheduler/padding` at the sides and `scheduler/day-padding` on top and bottom; weekday initials in `text/label-sm`, `scheduler/day-label-foreground`; each day cell stacks the number (`text/label-md`, `scheduler/foreground`) and the event dot (`scheduler/event-dot-size`) with gap `scheduler/month-cell-gap`, corner `scheduler/day-radius`.
+1. **Month grid** — margin `scheduler/padding` at the sides and `scheduler/day-padding` on top and bottom; weekday initials in `text/label-sm`, `scheduler/day-label-foreground`; each day cell stacks the number (`text/label-md`, `scheduler/foreground`) and the event dot (`scheduler/event-dot-size`) with gap `scheduler/month-cell-gap`, corner `scheduler/day-radius`. A day with no event keeps the empty dot space, so the numbers stay aligned. Days outside the shown month have the number in `scheduler/day-label-foreground`.
 2. **Day list** — container with margin `scheduler/padding` and gap `scheduler/list-day-gap`; the day title in `text/label-md-strong`, in `scheduler/today-foreground` when it is today.
 3. **Row** — the start time (`text/label-sm`, `scheduler/time-foreground`) and an instance of the event set, with gap `scheduler/list-item-gap`; the event keeps its minimum height `scheduler/event-min-height`.
 
