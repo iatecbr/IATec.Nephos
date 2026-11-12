@@ -462,7 +462,7 @@ tokens_semantic:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
     escuro: theme/brand-100
-    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete). Also the icon and the phrase of the nph-file-upload drop zone while a file is dragged over it (file-upload/icon-foreground-dragging, file-upload/foreground-dragging). Also the title and time of the nph-scheduler event and its selected dot (scheduler/event-foreground, scheduler/event-dot-selected)."
+    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete). Also the icon and the phrase of the nph-file-upload drop zone while a file is dragged over it (file-upload/icon-foreground-dragging, file-upload/foreground-dragging). Also the title and time of the nph-scheduler event and its selected dot, and the number of the selected day of the compact mobile month (scheduler/event-foreground, scheduler/event-dot-selected, scheduler/day-selected-foreground)."
   color/primary-surface-hover:
     css: '--nph-color-primary-surface-hover'
     claro: theme/brand-100

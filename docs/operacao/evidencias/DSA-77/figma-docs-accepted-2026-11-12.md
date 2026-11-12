@@ -113,6 +113,7 @@ Each component token points to the semantic token that already has the function.
 | `scheduler/day-padding` | `space/inline` | Padding of the day (day header and month cell number). |
 | `scheduler/day-radius` | `radius/control` | Corner of the day, also of its focus. |
 | `scheduler/day-selected-background` | `color/primary-surface` | Selected day of the compact mobile month. |
+| `scheduler/day-selected-foreground` | `color/primary-on-surface` | Number of the selected day of the compact mobile month. |
 | `scheduler/month-cell-padding-x` | `space/inline-tight` | Side padding of the month cell. |
 | `scheduler/month-cell-padding-y` | `space/inline` | Top and bottom padding of the month cell. |
 | `scheduler/month-cell-gap` | `space/inline-tight` | Gap between the event rows of the month cell. |
@@ -130,7 +131,7 @@ Each component token points to the semantic token that already has the function.
 | `scheduler/focus-halo-width` | `focus/ring-width` | Thickness of the focus halo. |
 | `scheduler/focus-halo-radius` | `focus/radius-control-with-border` | Corner of the focus halo. |
 
-Width and size rules: `scheduler/time-column-width` points straight to `core/space/900` (fixed width of a column of hours; no semantic token has the function of a fixed column width, and the description of `core/space/900` now says so). `scheduler/now-indicator-size` points to `core/space/200` (dot of the now line). The container padding stays on `space/container-padding`, by decision.
+Width and size rules: `scheduler/time-column-width` points straight to `core/space/900` (fixed width of a column of hours; no semantic token has the function of a fixed column width, and the description of `core/space/900` in Figma says so; the core of the repository has no description field for it). `scheduler/now-indicator-size` points to `core/space/200` (dot of the now line). The container padding stays on `space/container-padding`, by decision.
 
 ## Anatomy
 
@@ -156,7 +157,30 @@ Anatomy of the event:
 
 The cancelled event has `scheduler/event-cancelled-background`, a neutral outline of `scheduler/event-border-width` in `scheduler/event-cancelled-border`, the title struck through with the text "Cancelled:" before it, in `scheduler/event-cancelled-foreground`, and no bar.
 
-The compact mobile month shows the month grid with an event dot per day (`scheduler/event-dot`, `scheduler/event-dot-selected` on the selected day) and the list of the chosen day below. The chosen day is filled as in the date-picker grid (`scheduler/day-selected-background`).
+The compact mobile month shows the month grid with an event dot per day (`scheduler/event-dot`, `scheduler/event-dot-selected` on the selected day) and the list of the chosen day below. The chosen day is filled as in the date-picker grid: background `scheduler/day-selected-background`, number in `scheduler/day-selected-foreground` (`text/label-md-strong`), corner `scheduler/day-radius`; the event dot on it is `scheduler/event-dot-selected`. In the other colors, the dots use `scheduler/event-<color>-indicator`.
+
+Anatomy of the event line of the month view (a row inside the day cell, not an instance of the event set, same tokens as the event):
+
+1. **Body** — one line of `text/label-sm` height, full width of the day cell minus `scheduler/month-cell-padding-x` at each side, `scheduler/event-background` (per color, `scheduler/event-<color>-background`), corner `scheduler/event-radius`. Bar at the start and content at the end, centered vertically.
+2. **Bar** — `scheduler/event-indicator` (per color, `scheduler/event-<color>-indicator`) of `scheduler/event-indicator-width`, full height of the line.
+3. **Title** — `text/label-sm` in `scheduler/event-foreground` (per color, `scheduler/event-<color>-foreground`), side margin `scheduler/event-padding-x`, one line with ellipsis; no time in the month line. Lines stack with `scheduler/month-cell-gap`; when they do not fit, the "+N more" button (`scheduler/more-height`) closes the cell.
+4. **Cancelled line** — no bar, `scheduler/event-cancelled-background`, outline `scheduler/event-border-width` in `scheduler/event-cancelled-border`, "Cancelled:" and the struck title in `scheduler/event-cancelled-foreground`.
+5. **Focus** — the same focus border and halo as the event (`scheduler/focus-*`; per color, `scheduler/event-<color>-focus-*`), outside the line.
+
+Anatomy of the event line of the list view (a row of the day group, no background of its own):
+
+1. **Row** — horizontal, items centered vertically, padding `scheduler/list-item-padding`, gap `scheduler/list-gap` between the parts. Rows of a day stack under the day title (`scheduler/list-day-gap`; today's title in `scheduler/today-foreground`).
+2. **Time** — start and end, `text/caption`, `scheduler/time-foreground`, fixed column at the start.
+3. **Bar** — `scheduler/event-indicator` (per color, `scheduler/event-<color>-indicator`) of `scheduler/event-indicator-width`, the height of the row content; the cancelled row keeps the space of the bar with no bar.
+4. **Title** — `text/body-md`-size label in `scheduler/foreground`, takes the free space, one line with ellipsis.
+5. **People** — `nph-avatar-stack` at the end, when the event has participants.
+6. **Cancelled row** — time and title in `scheduler/event-cancelled-foreground`, "Cancelled:" before the struck title, no bar.
+7. **Focus** — the same focus border and halo as the event, around the whole row.
+
+Anatomy of the mobile toolbar (`tamanho-de-tela` mobile, only the month view):
+
+1. **Toolbar** — padding `scheduler/toolbar-padding-y` and gap `scheduler/toolbar-gap`, items centered vertically: month label (`scheduler/foreground`) taking the free space, previous and next (`nph-icon-button` secondary ghost) and "New event" as an `nph-icon-button` primary with the `plus` icon. There is no "Today", no "Filter" and no sidebar button on mobile.
+2. **View select** — `nph-select` in full width below the toolbar, with margin `scheduler/padding`. On mobile it offers the same views; v1 draws only the month, so choosing another view keeps the compact month until the code owner and the design owner add a mobile design for it (open point).
 
 ## Properties
 

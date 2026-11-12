@@ -1349,6 +1349,7 @@
   --nph-scheduler-now-indicator: var(--nph-color-primary-border);
   --nph-scheduler-now-foreground: var(--nph-color-primary-text);
   --nph-scheduler-day-selected-background: var(--nph-color-primary-surface);
+  --nph-scheduler-day-selected-foreground: var(--nph-color-primary-on-surface);
   --nph-scheduler-focus-border: var(--nph-focus-border);
   --nph-scheduler-focus-halo: var(--nph-focus-halo);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
