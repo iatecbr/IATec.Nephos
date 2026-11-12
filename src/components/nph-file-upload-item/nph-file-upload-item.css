@@ -1,0 +1,252 @@
+/**
+ * Internal style of `nph-file-upload-item`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `file-upload-item/*` ones, `file-upload/disabled-opacity`, `focus/ring-width`, and
+ * the text roles `text/label-md` (the file name) and `text/body-sm` (format, size and status). The
+ * state of the item is read from `data-status` on its row, the kind from `data-kind`.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `none`, `nowrap` (the
+ * name stays on one line), `underline` (hover on a saved file), `calc(-1 * ...)` (the focus border and
+ * halo outside the row, without changing its size) and `1` (z-order of the actions above the stretched
+ * link, which takes a number, not a token).
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid item. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+.item {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-file-upload-item-gap);
+  padding: var(--nph-file-upload-item-padding-block) var(--nph-file-upload-item-padding-inline);
+  border: var(--nph-file-upload-item-border-width) solid var(--nph-file-upload-item-border);
+  border-radius: var(--nph-file-upload-item-radius);
+  background-color: var(--nph-file-upload-item-background);
+  color: var(--nph-file-upload-item-foreground);
+}
+
+/* ----- the state of the row -------------------------------------------------- */
+
+.item[data-status='uploading'] {
+  border-color: var(--nph-file-upload-item-border-uploading);
+  background-color: var(--nph-file-upload-item-background-uploading);
+}
+
+.item[data-status='sent'] {
+  border-color: var(--nph-file-upload-item-border-success);
+  background-color: var(--nph-file-upload-item-background-success);
+}
+
+.item[data-status='error'] {
+  border-color: var(--nph-file-upload-item-border-error);
+  background-color: var(--nph-file-upload-item-background-error);
+}
+
+.item[data-status='done'] {
+  border-color: var(--nph-file-upload-item-border-done);
+  background-color: var(--nph-file-upload-item-background-done);
+}
+
+/* Hover on a saved file: the whole row is the click area of the name link. */
+.item[data-status='done']:hover {
+  border-color: var(--nph-file-upload-item-border-done-hover);
+}
+
+/* The whole disabled item, under the disabled opacity, with the ready look (rule T11). */
+.item[data-disabled='true'] {
+  opacity: var(--nph-file-upload-disabled-opacity);
+}
+
+/* The disabled buttons dim themselves: inside the dimmed item they stay at full, so the effect is not doubled. */
+.item[data-disabled='true'] nph-button {
+  opacity: 1;
+}
+
+/* ----- the box --------------------------------------------------------------- */
+
+.box {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-file-upload-item-thumbnail-size);
+  block-size: var(--nph-file-upload-item-thumbnail-size);
+  border-radius: var(--nph-file-upload-item-thumbnail-radius);
+  background-color: var(--nph-file-upload-item-thumbnail-background);
+  color: var(--nph-file-upload-item-icon-foreground);
+}
+
+/* The thumbnail fills the box: the image brings its own frame, corner and border. */
+.box[data-image] {
+  background: none;
+}
+
+/* The thumbnail reads its frame from the global size token: the one of the item is handed to it here, and its corner stays `image/radius-sm`. */
+.box[data-image] nph-image {
+  --nph-image-size-sm: var(--nph-file-upload-item-thumbnail-size);
+}
+
+.type-icon {
+  flex: none;
+}
+
+[data-status='uploading'] .box {
+  background-color: var(--nph-file-upload-item-thumbnail-background-uploading);
+  color: var(--nph-file-upload-item-icon-foreground-uploading);
+}
+
+[data-status='sent'] .box {
+  background-color: var(--nph-file-upload-item-thumbnail-background-success);
+  color: var(--nph-file-upload-item-icon-foreground-success);
+}
+
+[data-status='error'] .box {
+  background-color: var(--nph-file-upload-item-thumbnail-background-error);
+  color: var(--nph-file-upload-item-icon-foreground-error);
+}
+
+/* A saved file has no background in the box: the choice of the piece, with no token. */
+[data-status='done'] .box {
+  background: none;
+}
+
+.box[data-image] {
+  background: none;
+}
+
+/* ----- the texts ------------------------------------------------------------- */
+
+.texts {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--nph-file-upload-item-text-gap);
+  min-inline-size: 0;
+}
+
+.name {
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--nph-file-upload-item-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta,
+.status {
+  color: var(--nph-file-upload-item-muted-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+.status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-file-upload-item-status-gap);
+}
+
+.status-text {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.status-icon,
+.status-spinner {
+  flex: none;
+}
+
+[data-status='sent'] .status-icon {
+  color: var(--nph-file-upload-item-icon-foreground-success);
+}
+
+[data-status='done'] .status-icon {
+  color: var(--nph-file-upload-item-icon-foreground);
+}
+
+[data-status='error'] .status-icon {
+  color: var(--nph-file-upload-item-icon-foreground-error);
+}
+
+[data-status='error'] .status-text {
+  color: var(--nph-file-upload-item-error-foreground);
+}
+
+/* ----- the name link: the click area stretches across the row ---------------- */
+
+.link {
+  cursor: pointer;
+  outline: none;
+}
+
+.link::after {
+  position: absolute;
+  inset: calc(-1 * var(--nph-file-upload-item-border-width));
+  border-radius: var(--nph-file-upload-item-radius);
+  content: '';
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ----- the actions: above the stretched link, as siblings -------------------- */
+
+.actions {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--nph-file-upload-item-actions-gap);
+}
+
+/* ----- focus: the ring draws the whole row ----------------------------------- */
+
+.item:has(.link:focus-visible)::before,
+.item:has(.link:focus-visible)::after {
+  position: absolute;
+  pointer-events: none;
+  content: '';
+}
+
+.item:has(.link:focus-visible)::before {
+  inset: calc(-1 * var(--nph-file-upload-item-border-width));
+  border: var(--nph-file-upload-item-border-width) solid var(--nph-file-upload-item-focus-border);
+  border-radius: var(--nph-file-upload-item-focus-border-radius);
+}
+
+.item:has(.link:focus-visible)::after {
+  inset: calc(-1 * (var(--nph-file-upload-item-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-file-upload-item-focus-halo);
+  border-radius: var(--nph-file-upload-item-focus-halo-radius);
+}
+
+/*
+ * With forced colors the browser drops the colors above, so the link keeps an outline of its own in the
+ * system color for the focus (`Highlight`, no token: the user's palette decides).
+ */
+@media (forced-colors: active) {
+  .item:has(.link:focus-visible) {
+    outline: var(--nph-file-upload-item-border-width) solid Highlight;
+  }
+}

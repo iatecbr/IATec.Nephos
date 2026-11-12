@@ -459,7 +459,20 @@
     "components-nph-tree-validation--width": "Width",
     "components-nph-tree-validation--container": "Container",
     "components-nph-tree-validation--examples": "Examples",
-    "components-nph-tree-validation--brands": "Brands"
+    "components-nph-tree-validation--brands": "Brands",
+    "components-nph-file-upload-docs": "Docs",
+    "components-nph-file-upload-docs--documentation": "Documentation",
+    "components-nph-file-upload-validation": "Validation",
+    "components-nph-file-upload-validation--states": "States",
+    "components-nph-file-upload-validation--dragging": "Dragging",
+    "components-nph-file-upload-validation--formats": "Formats",
+    "components-nph-file-upload-validation--items": "Items",
+    "components-nph-file-upload-validation--kinds": "Kinds",
+    "components-nph-file-upload-validation--limit": "Limit",
+    "components-nph-file-upload-validation--width": "Width",
+    "components-nph-file-upload-validation--field": "Field",
+    "components-nph-file-upload-validation--examples": "Examples",
+    "components-nph-file-upload-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7886,7 +7899,17 @@
       "components-nph-tree-validation--width": "The label is cut on one line with an ellipsis and its whole text in a balloon, and the levels indent by one step each, with no depth limit.",
       "components-nph-tree-validation--container": "The tree has no background, border or height of its own: the card gives the surface and the scroll, the item does not shrink, and the border of the item at the edge stays whole.",
       "components-nph-tree-validation--examples": "The three required examples, each in light and dark mode: the destination folder in single selection, the permissions by area in multiple selection with the parent mixed, and a branch that loads next to a branch that failed to load.",
-      "components-nph-tree-validation--brands": "The seven brands in light and dark mode: the surface, the bar, the chevron, the icon and the box of the selected item follow the brand of the frame."
+      "components-nph-tree-validation--brands": "The seven brands in light and dark mode: the surface, the bar, the chevron, the icon and the box of the selected item follow the brand of the frame.",
+      "components-nph-file-upload-validation--states": "The states a page sets: empty, with the rule that says what is accepted; error, with the reason in place of the rule; limit, with the phrase that says the limit and a disabled button; and disabled, which wins over the others and leaves no state border and no state background.",
+      "components-nph-file-upload-validation--dragging": "Dragging is a state of its own: the story drags files over the zone, and the brand colors, the phrase Drop to add the files and the solid icon show while the button leaves with its place kept, so the height does not change.",
+      "components-nph-file-upload-validation--formats": "The two formats: stacked and centered, and one row. The compact format only applies when the zone is at least 668 px wide, read from the zone and not from the window; below that the zone uses the default format and never breaks into lines. The large size follows the form.",
+      "components-nph-file-upload-validation--items": "The five statuses of an item in one list: ready, uploading with the spinner and the percentage, sent, error with the reason and Try again, and done with the name as a link. With the zone disabled, the items go back to the ready look.",
+      "components-nph-file-upload-validation--kinds": "The image kind, with the thumbnail in nph-image, in every status; the last image has no thumbnail yet and shows the file-image icon. The file kind shows file-lines.",
+      "components-nph-file-upload-validation--limit": "The limit reached, with the button disabled and the rule that says how to free space; a file above the maximum size, which comes in as an item in error with its reason; and a passed limit, said by the zone in error.",
+      "components-nph-file-upload-validation--width": "A name that does not fit is cut on one line with an ellipsis and its whole text reaches the screen reader; a long reason wraps and the item grows.",
+      "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason in the zone; and the compact zone in a form with another field.",
+      "components-nph-file-upload-validation--examples": "The three required examples, each in light and dark mode: the empty zone with its rule, the list in use with an upload in progress, an error and a done file, and the limit reached.",
+      "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand."
     }
   },
   "multiComboboxDocs": {
@@ -13409,5 +13432,332 @@
     "destinationTitle": "Choose the destination folder",
     "permissionsTitle": "Check the permissions by area",
     "loadTitle": "A branch that loads and a branch that failed"
+  },
+  "fileUploadDocs": {
+    "summary": "The drop zone that receives files in a form, by the button or by drag and drop, with the list of the files right below it, each one with the state of its upload.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-file-upload spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P119. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "A form where the person attaches several files to a record and reviews the list before saving.",
+      "The field accepts several files and the person needs to see, before choosing, the formats, the size and the number accepted: write them in the rule.",
+      "The files are the center of the section: the default format.",
+      "The zone shares the form with other fields: the compact format, in a container of 668 px or more.",
+      "Upload together with the form is the common path: the item in ready.",
+      "Each file is worth on its own, with no save button: the automatic upload, where the page sets the item to uploading as soon as the file arrives.",
+      "Show the files already saved as done items, with the name as a link that opens the file."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For one file only: use the single file field (nph-input-file), not this zone.",
+      "To show the files of a record outside the form, in table columns: that is a composition with nph-data-table.",
+      "To show the error only by the color of the zone: the rule becomes the reason, with the circle-xmark.",
+      "To use the compact size on the button or on the remove button: use default or large, as the rest of the form.",
+      "To ask for a web address, to confirm a removal or to show an extra state for a server error: they are outside the component.",
+      "To make the whole zone a button: the trigger is the Choose files button; the zone takes no focus."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "files",
+        "The list of files, property only, and the page owns it: the zone keeps no list, sends nothing and has no form association. Each entry is { id, name, size, format, kind, status, progress, reason, href, thumbnail, file }; id (unique) and name are required. status is ready (default), uploading (needs progress from 0 to 100), sent, error or done (needs href to open the file)."
+      ],
+      [
+        "format",
+        "default (stacked and centered) or compact (one row). The compact format only applies when the zone is at least 668 px wide. Reflected to the attribute."
+      ],
+      [
+        "accept, max-size and max-files",
+        "What the zone accepts: the types as the native file field writes them (.pdf, image/*), the largest file in bytes and the most files in the list. The zone is in the limit state when max-files is reached."
+      ],
+      [
+        "error",
+        "The reason of an error of the zone. Filled in, the zone goes to the error state and the reason takes the place of the rule. The zone never turns red without a reason."
+      ],
+      [
+        "disabled and size",
+        "disabled dims the whole zone and wins over error, limit and dragging. size is default (default) or large, the size of the form for the buttons; compact is invalid."
+      ],
+      [
+        "label, description, invalid and required",
+        "The field–control contract of nph-field, which writes them: the label names the group, the description describes it, invalid with a message puts the zone in error, and required only reflects."
+      ],
+      [
+        "prompt, button-text, dragging-text, rule, limit-text and limit-rule",
+        "The texts of the zone, already localized: the phrase, the button, the phrase while dragging, the rule that says what is accepted, and the phrase and the rule of the limit."
+      ],
+      [
+        "uploading-text, sent-text, done-text, retry-text, remove-label and cancel-label",
+        "The texts of the items, already localized. uploading-text has {progress}; remove-label and cancel-label have {name}, filled in with the file name."
+      ],
+      [
+        "added-text, sent-announcement, error-announcement and removed-announcement",
+        "The messages of the live region, already localized, with {count}, {name} and {reason}."
+      ],
+      [
+        "nph-file-upload-add",
+        "The event fired when the person chooses or drops files, with detail { files, rejected }: the files that pass, and the others with the reason type, size or count. It bubbles and is composed. Setting files from code fires nothing."
+      ],
+      [
+        "nph-file-upload-remove and nph-file-upload-retry",
+        "The events of an item: detail { id, cancel } and { id }. They bubble and are composed. The zone removes nothing: the page takes the entry out of files."
+      ],
+      [
+        "nph-file-upload-item",
+        "The second tag of the piece, the row of one file. The zone draws one for each entry; it also works alone as the row of a list of saved files."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-file-upload id=\"attachments\" label=\"Attachments\" accept=\".pdf,.png,.jpg\" max-size=\"5000000\" max-files=\"5\" prompt=\"Drag files here or\" button-text=\"Choose files\" dragging-text=\"Drop to add the files\" rule=\"PDF, PNG or JPG · up to 5 MB · up to 5 files\" limit-text=\"Limit of 5 files reached\" limit-rule=\"Remove a file to add another.\" uploading-text=\"Uploading · {progress}%\" sent-text=\"Sent\" done-text=\"Saved\" retry-text=\"Try again\" remove-label=\"Remove {name}\" cancel-label=\"Cancel upload of {name}\"></nph-file-upload>\n<script>\n  const zone = document.getElementById('attachments');\n  zone.files = [];\n  zone.addEventListener('nph-file-upload-add', (event) => {\n    zone.files = [...zone.files, ...event.detail.files.map((file) => ({ id: crypto.randomUUID(), name: file.name, size: file.size, file }))];\n  });\n  zone.addEventListener('nph-file-upload-remove', (event) => {\n    zone.files = zone.files.filter((entry) => entry.id !== event.detail.id);\n  });\n</script>",
+    "usageTag": "The tag of the piece. The files come as data in the files property, set from JavaScript; the page listens to the three events, changes files and the zone draws, moves the focus and announces.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-file-upload (5311:8328); docs/decisoes-tecnicas.md › P119",
+    "statesTitle": "States of the zone",
+    "statesCaption": "The empty zone, with an error, at the limit and disabled. Hover and focus come from the button; dragging shows when files pass over the zone.",
+    "statesUseHeader": [
+      "State",
+      "What it shows"
+    ],
+    "statesUse": [
+      {
+        "value": "empty",
+        "label": "A dashed border, the cloud icon in light, the phrase, the Choose files button and the rule that says the formats, the size and the limit."
+      },
+      {
+        "value": "hover and focus",
+        "label": "The pointer or the keyboard focus on the button changes the button and turns the icon solid. The border does not change, and away from the button the zone does not react."
+      },
+      {
+        "value": "dragging",
+        "label": "The brand colors, the phrase Drop to add the files and the solid icon. The button leaves with its place kept, so the height does not change."
+      },
+      {
+        "value": "error",
+        "label": "The error colors and the reason in place of the rule, with the circle-xmark. The button stays, so the person can try again."
+      },
+      {
+        "value": "limit",
+        "label": "The warning colors, the phrase that says the limit, the rule that says how to free space and a disabled button."
+      },
+      {
+        "value": "disabled",
+        "label": "The whole zone dimmed, with a real disabled on the button. Disabled wins over error, limit and dragging."
+      }
+    ],
+    "itemsTitle": "The items of the list",
+    "itemsCaption": "The five statuses of an item, and the image kind with its thumbnail.",
+    "itemsUseHeader": [
+      "Status",
+      "What it shows"
+    ],
+    "itemsUse": [
+      {
+        "value": "ready",
+        "label": "The file is chosen and goes together with the form: the name, then the format and the size."
+      },
+      {
+        "value": "uploading",
+        "label": "The spinner and Uploading · 64%, with no bar. The progress is in the text and in a progress bar, with no announcement per percent."
+      },
+      {
+        "value": "sent",
+        "label": "The circle-check and the word, on the success colors."
+      },
+      {
+        "value": "error",
+        "label": "The reason with the circle-xmark and Try again. The item grows when the reason wraps."
+      },
+      {
+        "value": "done",
+        "label": "The file is already saved: the name is a link that opens it, with the click area across the row. On hover the name is underlined and the border changes; on focus the ring draws the whole row."
+      },
+      {
+        "value": "image",
+        "label": "The kind with a thumbnail in nph-image, 32 by 32, cut from the chosen file at 64 by 64. Without a thumbnail yet, the file-image icon."
+      }
+    ],
+    "choiceTitle": "Choosing, validating and the list",
+    "choiceCaption": "The zone inside nph-field, with the label, the help text and a list in use.",
+    "choice": [
+      "The Choose files button opens the system file picker and the zone receives the dropped files. Dragging is never the only way: the button is the alternative. The whole zone is not a button and takes no focus.",
+      "The zone checks what the person chose, file by file and in this order: the type, the size and the room left by max-files. It fires nph-file-upload-add with the files that pass and the ones that do not, each with its reason.",
+      "The page decides what to show. It adds the accepted files to files, as ready or as uploading when the upload is automatic; it adds a file above the size as an item in error with its reason; and it says a type that is not accepted or a passed limit in the error of the zone.",
+      "The zone is controlled: it keeps no list, sends nothing and has no form association. The page sets the status and the progress of each file, takes an entry out of files when the person removes it, and sends the file again on Try again.",
+      "The live region says what was added, sent, failed and removed by comparing the list before and after. It says nothing on the first render, and a file that arrives done is not added.",
+      "After a removal the focus goes to the remove button of the next item, then of the previous one, then to the button. After Try again it goes to the remove button of the same item, because the retry button leaves."
+    ],
+    "widthTitle": "Formats and width",
+    "widthCaption": "The compact format in 48rem, the same format in a narrower container, and a long name that is cut.",
+    "width": [
+      "The default format stacks the icon, the phrase, the button and the rule, centered, and is 186 high. The compact format is one row, 66 high, for a form with other fields.",
+      "The compact format only applies when the zone is at least 668 px wide, read from the zone and not from the window. Below that the zone uses the default format and never breaks into lines.",
+      "The zone stretches to the width of where it lives and has none of its own: in a shrink-to-fit parent, give it a width.",
+      "The list has no scroll of its own. It grows downward, item below item, and scrolls with the page, up to the limit of files of the rule.",
+      "The name of a file is cut on one line with an ellipsis, and the whole name reaches the screen reader through the link and the remove button. The reason and the status wrap and the item grows."
+    ],
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Input",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab and Shift+Tab",
+        "Move the focus to the Choose files button, then through each item in visual order: the name link of a done file, Try again on an error and the remove button. The zone takes no focus."
+      ],
+      [
+        "Enter and Space",
+        "On the button, open the system file picker. On the remove button, remove the file or cancel the upload. On Try again, send the file again."
+      ],
+      [
+        "Enter on the name link",
+        "Opens the saved file. Space does nothing, as on a link."
+      ],
+      [
+        "After the picker",
+        "When it closes, with files or without, the focus goes back to the Choose files button."
+      ],
+      [
+        "After a removal",
+        "The focus goes to the remove button of the next item, then of the previous one, then to the button. It moves only if it was lost."
+      ],
+      [
+        "Pointer",
+        "Hover on the button paints it and turns the icon solid; hover does not move the focus. Dragging files over the zone is a state of its own."
+      ],
+      [
+        "Esc",
+        "Does not apply: the piece opens no floating layer."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "The zone takes the place of the control of nph-field, which brings the label, the asterisk and the help text. The reason of the error stays in the zone, in the place of the rule.",
+      "It works with nph-button (Choose files, Try again and the remove button), nph-icon, nph-spinner (the upload in progress) and nph-image (the thumbnail).",
+      "For one file only, use the single file field (nph-input-file). The files of a record outside the form, in table columns, are a composition with nph-data-table."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Zone",
+        "The drop area, with a dashed border, a corner and its own padding. It receives the dropped files."
+      ],
+      [
+        "Icon",
+        "The cloud-arrow-up of nph-icon, in light on empty and disabled and solid on hover, focus, dragging, error and limit."
+      ],
+      [
+        "Phrase and button",
+        "The phrase and the Choose files button, secondary solid, which opens the picker. While dragging the phrase changes and the button leaves with its place kept."
+      ],
+      [
+        "Rule",
+        "The formats, the maximum size and the limit in one line. On error it becomes the reason with the circle-xmark; on limit it says how to free space."
+      ],
+      [
+        "Item",
+        "A box with the file-lines icon, or the thumbnail; the name; the format and the size; and the status line."
+      ],
+      [
+        "Item actions",
+        "Try again, only on an error, and the remove button, in every status, at the end of the row."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A group named by the label, with the button, the rule and the list. The zone is not a button. The progress is a progress bar on the status line of the item. The name of a done file is a link whose click area stretches across the row, and the remove button is a sibling."
+      ],
+      [
+        "Accessible name",
+        "The button uses its visible text. The remove button carries the file name: Remove X, or Cancel upload of X while uploading."
+      ],
+      [
+        "Live region",
+        "One polite region announces the files added, sent, failed and removed, without moving the focus, and nothing per percent of the progress."
+      ],
+      [
+        "Description",
+        "The rule and the reason describe the group of the zone. nph-button forwards no aria-describedby into its own shadow root, so the description is not on the button itself."
+      ],
+      [
+        "Contrast and color",
+        "The text meets 4.5:1 in both themes. The dashed border does not identify the control, the button does. Every colored state has text and an icon."
+      ],
+      [
+        "Target size",
+        "The button and the remove button use the size of the form, default or large, never compact: at least 24 by 24."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: the empty zone with its rule; the list in use, with an upload in progress, an error and a done file; and the limit reached.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-file-upload spec sheet — purpose, states, behavior, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P119 (API and semantics), P01, P02 and P03.",
+      "design.md — the file-upload/* and file-upload-item/* tokens and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — documentation frame nph-file-upload (5311:8328).",
+      "WAI-ARIA APG, Button pattern; WCAG 2.2, 2.4.3 Focus Order, 2.5.7 Dragging Movements and 4.1.3 Status Messages.",
+      "Salt, React Aria, GOV.UK and Carbon — the file drop zone and the file upload."
+    ],
+    "sourceSpec": "nph-file-upload spec sheet; Figma, frame nph-file-upload (5311:8328)",
+    "sourceApi": "nph-file-upload spec sheet; docs/decisoes-tecnicas.md › P119",
+    "sourceAnatomy": "Figma, sets 5297:7473 and 5298:7669; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "fileUploadValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "fieldLabel": "Attachments",
+    "fieldHelp": "Attach the signed contract and the supporting documents.",
+    "prompt": "Drag files here or",
+    "buttonText": "Choose files",
+    "draggingText": "Drop to add the files",
+    "rule": "PDF, PNG or JPG · up to 5 MB · up to 5 files",
+    "limitText": "Limit of 5 files reached",
+    "limitRule": "Remove a file to add another.",
+    "uploadingText": "Uploading · {progress}%",
+    "sentText": "Sent",
+    "doneText": "Saved",
+    "retryText": "Try again",
+    "removeLabel": "Remove {name}",
+    "cancelLabel": "Cancel upload of {name}",
+    "addedText": "{count} files added",
+    "sentAnnouncement": "{name} sent",
+    "errorAnnouncement": "Error: {name} not sent. {reason}",
+    "removedAnnouncement": "{name} removed",
+    "typeError": "File type not accepted. Use PDF, PNG or JPG.",
+    "countError": "You can attach up to 5 files.",
+    "fileReport": "annual-report-2026.pdf",
+    "fileContract": "signed-contract.pdf",
+    "fileMinutes": "meeting-minutes.pdf",
+    "filePhoto": "team-photo.png",
+    "fileLogo": "company-logo.jpg",
+    "fileLong": "annual-report-of-the-financial-year-2026-with-all-the-signed-appendices-and-the-final-review.pdf",
+    "networkReason": "Network failure while uploading.",
+    "sizeReason": "The file is larger than 5 MB.",
+    "otherLabel": "Project name",
+    "otherValue": "Nephos"
   }
 }

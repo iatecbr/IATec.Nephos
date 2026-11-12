@@ -75,6 +75,7 @@ P62.4 subsection for the detail).
 | **P116** | API and semantics of `nph-sidebar`; the focus hook of `nph-button`; the disclosure of the subitem and of the rail button (amends P98) | 11/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing `items`, `mode`, `open`, the events, the flyout panel or the focus hook later requires redoing every consumer. The `sidebar` icon in `nph-icon` (D-1), the dark logo (D-2) and the current page in a collapsed group (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) the focusable span of a cut pending step (D-4) and the connector against a status set out of position (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P118** | API and semantics of `nph-tree` | 11/11/2026 | Low now. No piece consumes it yet; the Tree Select and the Tree Table will, and changing `items`, the state properties `selection`, `selected`, `checked` and `expanded`, the cascade, the events `nph-tree-toggle`, `nph-tree-select`, `nph-tree-check` and `nph-tree-load`, the load on demand, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The Tree Table against the tree of `nph-table` (D-1) and the focus border of the disabled item (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. The dashed border token (D-1), the description of the button (D-2), the items of a disabled zone (D-3), the error inside `nph-field` (D-4) and the lines of the item (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -7634,9 +7635,205 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P119 — `nph-file-upload`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5311:8328`, sets `5297:7473` and
+`5298:7669`) gives the Figma properties `formato`, `estado` and `tipo`, the behavior of a drop zone
+with a real button (the APG Button pattern, WCAG 2.4.3, 2.5.7 and 4.1.3), the accessibility, the
+width limits and the answers to the appendix, and leaves the code API to the code, with seven
+points open in the task. Eight points need a decision of their own:
+
+- the zone and the item are two Figma sets, the focus has to move between items after a removal and
+  one live region has to announce what changes in the list, and the evidence does not say who owns
+  the list: the zone, which would have to keep files and send them, or the page;
+- the evidence says "a file above the maximum size: the item goes to error, with the reason in
+  text" and "the error of the zone (limit, format)", without saying where the type, the size and the
+  number are checked, nor who chooses the reason of each one;
+- the Figma state of the zone includes `hover` and `foco`, which "come from the button", and
+  `arrastando`, which a story cannot reach by a property: the code has to say how they are
+  detected and which state wins when several apply;
+- the hidden texts and the messages of the live region ("2 files added", "Error: X not sent.
+  Reason.", "Uploading · 64%", "Remove X", "Cancel upload of X") are text in the language of the
+  consuming application, and the piece must write no word of its own;
+- the evidence says the error of the zone "is tied to the button by `aria-describedby`", and the
+  button is an `nph-button`, which forwards no `aria-describedby` into its own shadow root, while an
+  id does not cross a shadow root and the task forbids changing `nph-button`;
+- the evidence says the zone sits inside `nph-field` and that "the reason of the error stays in the
+  zone itself", while `nph-field` writes `invalid`, `description`, `label`, `required` and
+  `disabled` on its control and draws its own message line;
+- the evidence says the thumbnail of the image kind is "cut from the chosen file at 64 by 64 with
+  `object-fit: cover`" and leaves open who cuts it and what the image kind does before it is ready;
+- the dashed border is a stroke style, and the build does not accept that type yet.
+
+**Decision.** `nph-file-upload` is a Web Component with **open Shadow DOM** (P01), in two tags,
+each with its CSS in its own file imported `?inline`: `nph-file-upload`, the zone and the list, and
+`nph-file-upload-item`, the row of one file, in its own directory because the library build has one
+entry per directory (as `nph-sidebar-item`). It has no `::part`, no slot, no color property and no
+form association. Anatomy only through semantic tokens, the `file-upload/*` and
+`file-upload-item/*` ones, and the text roles and the global focus width. What it rejects renders
+nothing and emits `console.error` only in development, once per cause: the rule of P21. An empty
+list is a mount: the zone alone, no error. The names follow P64.
+
+1. **The page owns the list.** `files` is a property only (a list of objects does not serialize to
+   an attribute): `{ id, name, size?, format?, kind?, status?, progress?, reason?, href?,
+   thumbnail?, file? }`. The zone keeps no list, sends nothing over the network and has no form
+   association, as `selected` is the page's in `nph-tree`. `id` is unique and `name` required;
+   `status` is `ready` (default: the upload happens together with the form), `uploading`, `sent`,
+   `error` or `done`; the code does not tell "upload with the form" from "automatic upload": the
+   first is the page leaving the entry in `ready`, the second the page putting it in `uploading` at
+   once. `uploading` needs `progress` from 0 to 100, because the item says "Uploading · 64%".
+   `size` is in bytes and the item writes it with `Intl` in the language of the element, "2.4 MB";
+   `format` falls back to the extension of the name, in capitals. `kind` is `file` or `image`, an
+   image when `file` is an image. `href` opens a `done` file and takes `http:`, `https:`, `blob:` or
+   a relative address, parsed as the browser would; without it the name of a `done` item is text and
+   the item warns once.
+2. **The zone validates what the person chose and the page decides what to show.** `accept` (the
+   syntax of the native file field: `.pdf`, `image/*`, `image/png`), `max-size` (bytes) and
+   `max-files` are checked file by file, in this order: the type, the size, then the room left by
+   `max-files` less the files already in the list. The zone fires `nph-file-upload-add`, `bubbles`
+   and `composed`, `detail: { files, rejected }`, only when the PERSON chooses in the picker or drops
+   (never for code, and never for no file): `files` are the `File` objects that pass, `rejected` are
+   `{ file, reason }` with `reason` `type`, `size` or `count`. So format and size stay separate
+   messages, as the evidence asks: the page writes the sentence of each reason. The page adds the
+   accepted files to `files`, adds a file above the size as an entry in `error` with its reason (the
+   evidence: the item goes to error), and says a type that is not accepted or a passed limit in
+   `error`.
+3. **The state of the zone is derived, by precedence.** `disabled`, then dragging, then error, then
+   limit, then empty (rule T11: disabled wins and leaves no state border and no state background).
+   `error` is the reason, already localized: filled in, the zone goes to error and the reason takes
+   the place of the rule, with the `circle-xmark`. Limit is `max-files` reached: the zone changes by
+   itself, the phrase says the limit (`limit-text`), the rule says how to free space (`limit-rule`)
+   and the button is disabled. Dragging is the depth of `dragenter` and `dragleave` over the zone
+   while the dragged data has files; the button leaves with `visibility: hidden` and `inert`, so its
+   place is kept and the height does not change. Hover and focus are read from the button: the
+   pointer over it and its keyboard focus (`:focus-visible` of the native button) turn the zone icon
+   solid, and nothing else changes; away from the button the zone does not react.
+4. **The texts are properties of the consumer.** `prompt`, `button-text`, `dragging-text`, `rule`,
+   `limit-text`, `limit-rule`, `uploading-text` (`{progress}`), `sent-text`, `done-text`,
+   `retry-text`, `remove-label` and `cancel-label` (`{name}`) and the messages of the live region
+   `added-text` (`{count}`), `sent-announcement` (`{name}`), `error-announcement` (`{name}`,
+   `{reason}`) and `removed-announcement` (`{name}`). The zone passes the ones the items use down to
+   them. A text the piece needs and the consumer did not give draws without it and warns once in
+   development, since it may arrive after the first render (the rule of `nph-stepper`).
+5. **The description is on the group, not on the button.** `nph-button` forwards no `aria-describedby`
+   and an id does not cross its shadow root, and the task forbids changing it. The zone is a
+   `role="group"` named by `label`, described by `aria-describedby` on the rule or the reason and on
+   the `description`, in the same root. It is a limit of this implementation, recorded in the
+   sheet, and a pending decision (D-2).
+6. **`nph-field` contract.** The zone takes the contract of P83 as a control: `label` names the
+   group, `description` is the help text and is never drawn, `required` only reflects (the asterisk
+   is the label's and `aria-required` is not valid on a group), `disabled` adds up as for any
+   control, and `invalid` puts the zone in error only with a reason to say: the message of the field
+   in `description`, or its own `error`. So the zone is never red without a reason (WCAG 1.4.1),
+   and the evidence rule "the reason stays in the zone" holds when the page sets `error`, while
+   the field may also draw its own line (D-4). `focus()` on the host goes to the button, which is
+   what a click on the label of the field asks.
+7. **The item.** `nph-file-upload-item` is a public tag and works alone, as the row of a list of
+   files already saved. It takes `name`, `status`, `kind`, `format`, `bytes`, `progress`, `reason`,
+   `href`, `thumbnail`, `size`, `disabled`, `file-id` and the texts, and fires
+   `nph-file-upload-remove` (`detail: { id, cancel }`, `cancel` while uploading) and
+   `nph-file-upload-retry` (`detail: { id }`), both `bubbles` and `composed`, only when the person
+   acts. Three text lines under the box: the name, the format and size, and the status line, which
+   `ready` does not have; this reading of "name, format and size, status" is what gives the 86 of the
+   error item (borders, padding and 20 + 4 + 16 + 4 + 16) and the 66 of the others, and it is
+   confirmed by the evidence (D-5). The name is cut on one line with an ellipsis and carries a
+   `title`. The status line of an upload in progress is a `role="progressbar"`, named by the file name
+   and valued by the visible text; it is not on the host, because a progressbar has presentational
+   children and would hide the buttons. The name of a `done` file is a link whose click area is
+   stretched across the row by an `::after`, and the remove button is a sibling above it, so there is
+   no control inside a control; the hover is on the whole row and the focus ring is drawn by the
+   row for `:focus-visible` of the link. Both buttons are `nph-button`: "Try again" secondary ghost
+   with `rotate-right`, and the remove button icon only with `xmark`, named "Remove X" or "Cancel upload
+   of X" by the `label` of the button, which is also its tooltip. `size` is the size of the form,
+   `default` or `large`; `compact` is invalid input.
+8. **Disabled.** The zone disabled dims the whole zone and carries `aria-disabled`; the items it
+   draws are disabled too: they go back to the ready look, under `file-upload/disabled-opacity`, with
+   a real `disabled` on both buttons and the name as text. The evidence says the item has no disabled
+   state and that, with the whole form disabled, "the code follows the same rule (disabled wins)";
+   the visual detail is D-3.
+9. **The focus moves only when the page changes the list.** After the picker closes, with files or
+   without (`change` and `cancel`), the focus returns to the button. After the person activates the
+   remove button the zone notes the item and its position; when `files` no longer has it, the focus goes
+   to the remove button of the item now in that position (the next), else the last (the previous),
+   else the button. After "Try again" the zone notes the item and, when it is no longer in `error`,
+   moves the focus to its remove button. A pending move that the page never completes does nothing, and
+   the focus is never taken from where the person went: it moves only when it is on nothing or inside the
+   zone.
+10. **One live region.** `aria-live="polite"`, `aria-atomic`, visually hidden, in the zone. It compares
+    `files` before and after: the entries that were not there and are not `done` and not `error` are
+    "added" (as a count), an entry that becomes `sent` is "sent", an entry that becomes `error`, or
+    comes in `error`, says "Error: X not sent. Reason", and an entry that left is "removed". Nothing
+    is said on the first list the zone draws, a file that arrives `done` is not "added", and a change
+    of progress alone says nothing: the progress stays in the visible text and in the progressbar.
+11. **The compact format is a container query.** The host takes inline size containment and the CSS
+    applies the compact layout in `@container (min-width: 41.75rem)`: a query does not accept a custom
+    property, so the 668 px of the accepted contract is written in `rem` (668 / 16), as P87 does for
+    the breakpoint of `nph-dialog` and P117 for the 600 px. It reads the width of the zone, not of the
+    window. `format` reflects, the zone keeps the default format below the threshold and never breaks
+    into lines. The zone stretches to the width of where it lives; in a shrink-to-fit parent, give it
+    a width. The default format is 186 high and the compact 66, which the tests measure.
+12. **The thumbnail.** The zone makes it: for an `image` entry with a `file` that is an image and no
+    `thumbnail`, it reads the picture with `createImageBitmap`, cuts the central square, draws it
+    64 by 64 on a canvas and hands the item an object address (`blob:`), which it gives back when the
+    entry leaves, when its file changes and when the zone leaves the page. The original never goes
+    into the thumbnail. Until it is ready, or when the file cannot be read as a picture, the item
+    shows the `file-image` icon: the fallback of the evidence for an image kind without `nph-image`.
+    A `thumbnail` the page gives wins and nothing is made.
+13. **Tokens.** Only `--nph-file-upload-*`, `--nph-file-upload-item-*`, `--nph-focus-ring-width` and the
+    text roles `--nph-text-label-md-*`, `--nph-text-body-md-*` and `--nph-text-body-sm-*`. No token was
+    created or changed. The CSS has two literal measures: the `41.75rem` of the container query and the
+    `1px` of the visually hidden boxes of the live region and the description. **The dashed border**: the
+    Figma token `file-upload/border-style`, pointing to `core/border-style/dashed`, is not in the
+    repository, because the build refuses the `strokeStyle` type, and the task's gate
+    `stroke-style-token` stays `pending` with Indiane (Claude in Figma): an agent of the code owner never
+    creates or changes a token. As the task says, until then the zone writes `border-style: dashed`,
+    with a comment that points to the gate; when the tokens exist, one line changes.
+14. **Icons.** `file-lines` and `file-image`, light and solid, enter `nph-icon` with this change, as the
+    task says: the map, the demo and a test of `nph-icon`, and the list `icones_nucleo` of `design.md`,
+    which the test of `nph-icon` binds to the map (the precedent of DSA-54 and DSA-69; no token
+    changes). The edit of `design.md` is only the `conteudo_e_dados` line of `icones_nucleo`, under the
+    explicit authorization of Elvys for the `icones_nucleo` list, relayed by the orchestrator session
+    on 11/11/2026; it fulfills the instruction of the task, which puts the two icons in `nph-icon`, and
+    is in its own commit (`aee9d61`). The Figma list of `conferir-nph-icon-figma.cjs` is not touched: its node ids are not in
+    the evidence.
+
+**Source.** Documentation `5311:8328` and sets `5297:7473` and `5298:7669` of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 10/11/2026 with the Figma UX QA and the textual audit
+approved, and the points of its approval page. The names of the properties and events, the controlled
+list, the validation and its reasons, the derived states, the live region, the focus rules, the
+container query, the thumbnail and the way the description reaches the group are a technical proposal
+of this implementation.
+
+**Out of scope.** A token, new or changed, including the two `border-style` tokens and the
+`strokeStyle` type of `scripts/tokens-lib.mjs`. A change in `nph-button`, `nph-icon-button`,
+`nph-spinner` or `nph-image`. The single file field (`nph-input-file`) and the list of files in the
+columns of `nph-data-table`. The upload itself, a web address, a confirmation on removal and an extra
+state for a server error. A form association and the reading of a dropped folder.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the dashed border.** The gate `stroke-style-token` of DSA-74 waits for the `strokeStyle` type in
+  `scripts/tokens-lib.mjs` and for `core/border-style/dashed` and `file-upload/border-style`, which are
+  token work for Claude in Figma. The zone writes `border-style: dashed` until then. It blocks the
+  `done` state of the task, not the pull request.
+- **D-2 — the description of the button.** `nph-button` forwards no `aria-describedby`, so the rule and the
+  reason describe the group of the zone and not the button itself. She decides whether `nph-button` gains a
+  `description` property (a change outside this task).
+- **D-3 — the items of a disabled zone.** The design has no disabled item; the code dims the items, disables
+  their buttons and takes the link out. She confirms it, or draws the disabled item.
+- **D-4 — the error of the zone and the error of the field.** The zone says the reason itself and the field
+  may also draw its message line. She confirms where the reason is shown inside `nph-field`.
+- **D-5 — the lines of the item.** The format and size line is separate from the status line, and `done`
+  shows the `circle-check` and a word. She confirms the reading.
+
+**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-5 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117 or P118 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118 or P119 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

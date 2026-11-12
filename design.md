@@ -2080,7 +2080,7 @@ icones_nucleo:
     nota: 'The first five are one for each system state. Every state carries an icon besides the color. circle-notch is the spinner: a ring with a cut, made for continuous rotation with core/easing/linear.'
   conteudo_e_dados:
     familia: 'Classic Light'
-    icones: [calendar, calendar-days, circle-user, clipboard, clock, comment, envelope, file, files, folder, folder-open, font-awesome, globe, inbox, key, location-dot, suitcase, tag, trophy, user]
+    icones: [calendar, calendar-days, circle-user, clipboard, clock, comment, envelope, file, file-image, file-lines, files, folder, folder-open, font-awesome, globe, inbox, key, location-dot, suitcase, tag, trophy, user]
 
 icones_segunda_leva:
   pendente: false

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 730,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-file-upload",
   "dependencies": [
     "DSA-03",
@@ -44,7 +44,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The gate stroke-style-token stays pending: the strokeStyle type in scripts/tokens-lib.mjs and the tokens core.border-style.dashed and file-upload.border-style are token work, which belongs to Claude in Figma, and an agent of the code owner never creates or changes a token. The zone writes border-style: dashed, as this task says, with a comment that points to the gate. Indiane takes the tokens to the build. It does not block the pull request; it blocks the done state of this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-2",
+      "question": "nph-button forwards no aria-describedby into its own shadow root, and an id does not cross a shadow root, so the rule and the reason of the zone describe the group of the zone and not the Choose files button itself (P119). Indiane decides whether nph-button gains a description property, which is a change outside this task. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-3",
+      "question": "The design draws no disabled item. With the zone disabled, the code dims the items under file-upload/disabled-opacity, goes back to the ready look, disables the buttons and takes the link out of the name (P119). Indiane confirms it, or draws the disabled item. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-4",
+      "question": "Inside nph-field the field writes invalid and the message in description, and may draw its own message line, while the evidence keeps the reason of the error in the zone. The zone says the reason in place of the rule, from its own error or from the message of an invalid field, and never turns red without one (P119). Indiane confirms where the reason is shown inside nph-field. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    },
+    {
+      "id": "D-5",
+      "question": "The item has three text lines, the name, the format and size, and a status line that ready does not have, which gives the 66 and 86 high of the contract; done shows the circle-check and a word, and the hidden text of the evidence for a saved file becomes the name link. Indiane confirms the reading (P119). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-11"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-74/figma-docs-accepted-2026-11-10.md"
   ],
@@ -60,9 +91,9 @@
     "excerpt": null,
     "converted_decision": "The nph-file-upload documentation frame (5311:8328) was accepted as the API and behavior specification of nph-file-upload. COMPONENT_SET nph-file-upload (5297:7473) and COMPONENT_SET nph-file-upload-item (5298:7669). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-10"
+  "git_review": { "branch": "feat/dsa-74-file-upload", "commit": "2917762", "pr": 168 },
+  "context": "docs/operacao/contextos/DSA-74.md",
+  "updated_at": "2026-11-11"
 }
 ```
 
