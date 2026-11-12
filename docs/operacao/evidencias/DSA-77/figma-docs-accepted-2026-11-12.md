@@ -43,7 +43,7 @@ Shows the calendar of a person or a group so they see what is coming, find a tim
 
 | Set | Figma id | What it is |
 |---|---|---|
-| nph-scheduler (`nph-scheduler`) | `6142:1744` | `vista` (work week, week, day, month, list) × `tamanho-de-tela` (desktop, mobile) × `estado` (default, empty, loading, day focus, event focus); boolean `lateral` (side panel). |
+| nph-scheduler (`nph-scheduler`) | `6142:1744` | `vista` (work week, week, day, month, list) × `tamanho-de-tela` (`desktop`, `celular` = mobile) × `estado` (default, empty, loading, day focus, event focus); boolean `lateral` (side panel). |
 | nph-scheduler event set (`nph-scheduler · evento`) | `6141:9258` | `cor` (primary and the seven vertical colors) × `tipo` (1 h, short, long, recurring) × `estado` (default, hover, focus, open, cancelled, cancelled focus). |
 
 The mini month is an instance of the date-picker grid. The toolbar buttons, the view select, the checkboxes, the avatar stack, the skeleton rows and the popover come by instance of the approved pieces. The matrix of the variants is in the frame `6151:11164`.
@@ -117,10 +117,10 @@ Each component token points to the semantic token that already has the function.
 | `scheduler/month-cell-padding-x` | `space/inline-tight` | Side padding of the month cell. |
 | `scheduler/month-cell-padding-y` | `space/inline` | Top and bottom padding of the month cell. |
 | `scheduler/month-cell-gap` | `space/inline-tight` | Gap between the event rows of the month cell. |
-| `scheduler/more-height` | `control/height-compact` | Height of the "+N more" button. |
-| `scheduler/list-gap` | `space/stack` | Gap between the days of the list view. |
+| `scheduler/more-height` | `control/height-compact` | Height of the "+N more" button. The button is an `nph-button` compact instance, whose own height is `control/height-compact`, the same alias: the code sets the button size to compact and does not override its height. |
+| `scheduler/list-gap` | `space/stack` | Gap between the days of the list view and between the parts of a list row (time, bar, title, people). |
 | `scheduler/list-day-gap` | `space/inline` | Gap between the day heading and its rows. |
-| `scheduler/list-item-gap` | `space/inline` | Gap between time and title in a list row. |
+| `scheduler/list-item-gap` | `space/inline` | Gap between the time and the event in a row of the compact mobile day list (not the list view). |
 | `scheduler/list-item-padding` | `space/inline-tight` | Padding of a list row. |
 | `scheduler/empty-gap` | `space/inline` | Gap between icon and text of the empty state. |
 | `scheduler/empty-icon-size` | `icon/size-sm` | Icon of the empty state. |
@@ -169,25 +169,31 @@ Anatomy of the event line of the month view (a row inside the day cell, not an i
 
 Anatomy of the event line of the list view (a row of the day group, no background of its own):
 
-1. **Row** — horizontal, items centered vertically, padding `scheduler/list-item-padding`, gap `scheduler/list-gap` between the parts. Rows of a day stack under the day title (`scheduler/list-day-gap`; today's title in `scheduler/today-foreground`).
-2. **Time** — start and end, `text/caption`, `scheduler/time-foreground`, fixed column at the start.
+1. **Row** — horizontal, items centered vertically, padding `scheduler/list-item-padding`, gap `scheduler/list-gap` between the parts (the same token as between the days). Rows of a day stack under the day title (`scheduler/list-day-gap`; today's title in `scheduler/today-foreground`).
+2. **Time** — start and end, `text/label-sm`, `scheduler/time-foreground`, fixed column at the start.
 3. **Bar** — `scheduler/event-indicator` (per color, `scheduler/event-<color>-indicator`) of `scheduler/event-indicator-width`, the height of the row content; the cancelled row keeps the space of the bar with no bar.
-4. **Title** — `text/body-md`-size label in `scheduler/foreground`, takes the free space, one line with ellipsis.
+4. **Title** — `text/body-md` in `scheduler/foreground`, takes the free space, one line with ellipsis.
 5. **People** — `nph-avatar-stack` at the end, when the event has participants.
 6. **Cancelled row** — time and title in `scheduler/event-cancelled-foreground`, "Cancelled:" before the struck title, no bar.
 7. **Focus** — the same focus border and halo as the event, around the whole row.
 
-Anatomy of the mobile toolbar (`tamanho-de-tela` mobile, only the month view):
+Anatomy of the mobile toolbar (`tamanho-de-tela` `celular`, only the month view):
 
-1. **Toolbar** — padding `scheduler/toolbar-padding-y` and gap `scheduler/toolbar-gap`, items centered vertically: month label (`scheduler/foreground`) taking the free space, previous and next (`nph-icon-button` secondary ghost) and "New event" as an `nph-icon-button` primary with the `plus` icon. There is no "Today", no "Filter" and no sidebar button on mobile.
+1. **Toolbar** — padding `scheduler/toolbar-padding-y` on top and bottom and `scheduler/padding` at the sides, gap `scheduler/toolbar-gap`, items centered vertically: month label (`text/heading-sm`, `scheduler/foreground`) taking the free space, previous and next (`nph-icon-button` secondary ghost) and "New event" as an `nph-icon-button` primary with the `plus` icon. There is no "Today", no "Filter" and no sidebar button on mobile.
 2. **View select** — `nph-select` in full width below the toolbar, with margin `scheduler/padding`. On mobile it offers the same views; v1 draws only the month, so choosing another view keeps the compact month until the code owner and the design owner add a mobile design for it (open point).
+
+Anatomy of the compact mobile month and the day list (`tamanho-de-tela` `celular`):
+
+1. **Month grid** — margin `scheduler/padding` at the sides and `scheduler/day-padding` on top and bottom; weekday initials in `scheduler/day-label-foreground`; each day cell stacks the number (`scheduler/foreground`) and the event dot with gap `scheduler/month-cell-gap`, corner `scheduler/day-radius`.
+2. **Day list** — container with margin `scheduler/padding` and gap `scheduler/list-day-gap`; the day title in `text/label-md-strong`, in `scheduler/today-foreground` when it is today.
+3. **Row** — the start time (`text/label-sm`, `scheduler/time-foreground`) and an instance of the event set, with gap `scheduler/list-item-gap`; the event keeps its minimum height `scheduler/event-min-height`.
 
 ## Properties
 
 | Field | Rule |
 |---|---|
 | `vista` | work week (default), week, day, month and list. The view select in the toolbar changes the value. |
-| `tamanho-de-tela` | desktop (default) and mobile. Under 768 px of width the scheduler becomes the compact month with the list of the day. The break is to be confirmed by the code. |
+| `tamanho-de-tela` | `desktop` (default) and `celular` (mobile). Under 768 px of width the scheduler becomes the compact month with the list of the day. The break is to be confirmed by the code. |
 | `estado` | default, empty, loading, day focus and event focus. Empty and loading change only the events area; the toolbar stays active. Day focus and event focus show the keyboard focus on the day and on the event rows. |
 | `lateral` | yes (default) or no. Shows or hides the side panel in every desktop view; the sidebar button in the toolbar toggles the same panel. |
 | event `tipo` | 1 h (default), short, long and recurring. It shows the height and the icon of each case; in the code the height comes from the duration of the event. |
