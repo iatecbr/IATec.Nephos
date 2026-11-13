@@ -325,8 +325,8 @@ tokens_semantic:
   color/destructive-text:
     css: '--nph-color-destructive-text'
     claro: core/danger/600
-    escuro: core/danger/300
-    use: "Text and icon of a destructive action over a neutral surface (color/popover, color/background, color/card): the destructive item of a menu. 4.69:1 over color/popover in dark."
+    escuro: core/danger/200
+    use: "Text and icon of a destructive action over a neutral surface (color/popover, color/background, color/card, color/dialog): the destructive item of a menu and of the nph-command. In dark, 5.12:1 over color/dialog and 6.62:1 over color/popover."
     nao_use: "Over color/destructive-surface (color/destructive-on-surface); over solid color/destructive (color/destructive-foreground); validation error text (status/error-text)."
   color/destructive-foreground:
     css: '--nph-color-destructive-foreground'
@@ -570,8 +570,8 @@ tokens_semantic:
   focus/border:
     css: '--nph-focus-border'
     claro: theme/brand-focus
-    escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1. Also the clickable nph-stepper step (stepper/focus-border), with no hover background under the focus. Also the focus border of the nph-tree item (tree/focus-border), drawn inside the row, with no hover background under the focus. Also the focus border of the nph-panel-menu subgroup (panel-menu/focus-border). Also the focus border of the nph-scheduler day, event (primary color), month and list rows and cancelled event (scheduler/focus-border). Also the focus border of the nph-collapsible trigger (collapsible/focus-border)."
+    escuro: theme/brand-200
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it against the halo, from 5,02:1 to 6,74:1, and against color/dialog, from 4,27:1 to 7,59:1 (theme/brand-200 since DSA-81: brand-300 fell below 3:1 on the dialog in Gerencial, Recursos Humanos and Igrejas). Also the clickable nph-stepper step (stepper/focus-border), with no hover background under the focus. Also the focus border of the nph-tree item (tree/focus-border), drawn inside the row, with no hover background under the focus. Also the focus border of the nph-panel-menu subgroup (panel-menu/focus-border). Also the focus border of the nph-scheduler day, event (primary color), month and list rows and cancelled event (scheduler/focus-border). Also the focus border of the nph-collapsible trigger (collapsible/focus-border)."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
@@ -1275,7 +1275,7 @@ tokens_theme:
   theme/brand-halo-dark:
     css: '--nph-theme-brand-halo-dark'
     valor_por_modo: "core/<vertical>/700 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial` and `Recursos Humanos`; core/igrejas/600 in `Igrejas`; core/educacao/800 in `Educacao`"
-    use: "Focus halo tone in dark mode, consumed only by focus/halo. In each brand it is darker than the focus border (theme/brand-300) and the closest to it at which the border still measures at least 3:1 against the halo; `Educacao` uses 800. Do not use for fill, border or text."
+    use: "Focus halo tone in dark mode, consumed only by focus/halo. In each brand it is darker than the dark focus border (theme/brand-200), which measures from 5,02:1 to 6,74:1 against it; `Educacao` uses 800. Do not use for fill, border or text."
   theme/brand-text-dark:
     css: '--nph-theme-brand-text-dark'
     valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Educacao`, `Comercial` and `Financeiro`; core/<vertical>/200 in `Gerencial`, `Igrejas` and `Recursos Humanos`"

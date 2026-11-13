@@ -1689,7 +1689,7 @@
   --nph-color-card-foreground: var(--nph-core-neutral-100);
   --nph-color-card: var(--nph-core-surface-800);
   --nph-color-destructive: var(--nph-core-danger-400);
-  --nph-color-destructive-text: var(--nph-core-danger-300);
+  --nph-color-destructive-text: var(--nph-core-danger-200);
   --nph-color-destructive-foreground: var(--nph-core-neutral-950);
   --nph-color-dialog-foreground: var(--nph-core-neutral-100);
   --nph-color-dialog: var(--nph-core-surface-600);
@@ -1842,7 +1842,7 @@
   --nph-color-primary-hover: var(--nph-theme-brand-400-hover);
   --nph-color-primary-text: var(--nph-theme-brand-text-dark);
   --nph-focus-ring: var(--nph-theme-brand-400);
-  --nph-focus-border: var(--nph-theme-brand-300);
+  --nph-focus-border: var(--nph-theme-brand-200);
   --nph-focus-halo: var(--nph-theme-brand-halo-dark);
   --nph-sidebar-panel-border: var(--nph-theme-brand-700);
   --nph-sidebar-search-border: var(--nph-theme-brand-700);

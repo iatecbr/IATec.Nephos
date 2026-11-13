@@ -1,36 +1,38 @@
 ```json
 {
   "id": "DSA-81",
-  "goal": "Lighten two semantic colors in dark mode so they meet contrast on the dialog surface: color/destructive-text to 4.5:1 on color/dialog, and focus/border of the Gerencial, Recursos Humanos and Igrejas brands to 3:1 on color/dialog, keeping 3:1 on color/background, with new primitives in the core (rule T9), first in Figma and then in the tokens.",
+  "goal": "Lighten two semantic colors in dark mode so they meet contrast on the dialog surface: color/destructive-text to 4.5:1 on color/dialog, and focus/border to 3:1 on color/dialog in all 7 brands (Gerencial, Recursos Humanos and Igrejas were below it), keeping 3:1 on color/background and against the halo, reusing existing primitives with no new core value (rule T9), first in Figma and then in the tokens.",
   "phase": "F4",
   "approved_order": 800,
   "owner": "claude-code",
-  "state": "ready",
+  "state": "done",
   "piece": null,
   "dependencies": [],
   "gates": [
     {
       "id": "figma-preview-accepted",
-      "description": "The new dark values of color/destructive-text and focus/border (Gerencial, Recursos Humanos, Igrejas) were shown in Figma, light and dark, with the contrast of each pair, and accepted by the design owner.",
+      "description": "The new dark values of color/destructive-text and focus/border (all 7 brands) were shown in Figma, light and dark, with the contrast of each pair, and accepted by the design owner.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-81/figma-preview-accepted-2026-11-13.md",
+      "result": "passed",
+      "verified_at": "2026-11-13",
+      "verified_by": "indiane"
     },
     {
       "id": "tokens-on-branch",
-      "description": "The new primitives in core and the changed dark values of the two semantics are in Figma and on v/5.0.0, with the build and the token tests passing.",
+      "description": "The changed dark values of the two semantics, pointing to existing primitives (no new core value), are in Figma and on v/5.0.0, with the build and the token tests passing.",
       "command": "node scripts/build-tokens.mjs && node scripts/test-invariance.mjs",
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-81/figma-preview-accepted-2026-11-13.md",
+      "result": "passed",
+      "verified_at": "2026-11-13",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-81/figma-preview-accepted-2026-11-13.md"
+  ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-command, Pend. 12 and 13 answered: one foundation task lightens color/destructive-text and focus/border in dark, at the source, with no local override in the command"
   ],
@@ -44,7 +46,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-11-12"
+  "updated_at": "2026-11-13"
 }
 ```
 
@@ -67,8 +69,9 @@ The fix is at the source, for every consumer, not a local override in a componen
 2. Propose the new primitives in `core` (rule T9: a new value enters the core first; name from general to specific, without the value in the name) and the new dark alias of each semantic. Show them in Figma, light and dark, next to the nph-command root, the nph-dropdown-menu and the nph-input, with the contrast of each pair.
 3. After her acceptance: create the primitives and change the dark aliases in Figma; then the same on `v/5.0.0` (`core.tokens.json`, `theme.tokens.json` or `semantic.tokens.json`, `tokens.css`), with the `use` of both semantics in `design.md` citing `color/dialog`.
 
-## Why it is ready
-The decision to fix it at the source was taken on 2026-11-12. The values themselves are the design owner's call in Figma (step 2).
+## Result
+Steps 2 and 3 planned new core primitives; none was needed.
+Accepted on 2026-11-13 (preview `6312:15466`): `color/destructive-text` dark → `core/danger/200` (5.12:1 on `color/dialog`); `focus/border` dark → `theme/brand-200` in all 7 brands (4.27:1 to 7.59:1 on `color/dialog`). Both are existing primitives: no new core value. Figma, `semantic.tokens.json`, `tokens.css` and `design.md` changed together.
 
 ## What this task does not do
 It does not change the light values. It does not change any component, and it adds no component token. The code needs no change: the components read the semantics.
