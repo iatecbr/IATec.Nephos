@@ -220,6 +220,25 @@ describe('reading the events', () => {
     expect(across?.endMinute).toBe(120);
   });
 
+  it('an end at midnight, on any day after the start, is 24:00 of the day before: it covers no day it has already ended', () => {
+    const { events } = readEvents(
+      [
+        { id: 'two-days', title: 'Two days', start: '2026-11-11T22:00', end: '2026-11-13T00:00' },
+        { id: 'week', title: 'Week', start: '2026-11-09T08:00', end: '2026-11-16T00:00' },
+        { id: 'all', title: 'All', start: '2026-11-11', end: '2026-11-13', allDay: true },
+        { id: 'zero', title: 'Zero', start: '2026-11-11T00:00', end: '2026-11-11T00:00' },
+      ],
+      [],
+    );
+    const byId = Object.fromEntries(events.map((event) => [event.id, event]));
+    expect(byId['two-days']).toMatchObject({ endDay: day('2026-11-12'), endMinute: MINUTES_PER_DAY, multiDay: true });
+    expect(coversDay(byId['two-days'] as never, day('2026-11-12'))).toBe(true);
+    expect(coversDay(byId['two-days'] as never, day('2026-11-13'))).toBe(false);
+    expect(byId.week).toMatchObject({ endDay: day('2026-11-15'), endMinute: MINUTES_PER_DAY });
+    expect(byId.all?.endDay).toBe(day('2026-11-13'));
+    expect(byId.zero).toMatchObject({ startDay: day('2026-11-11'), endDay: day('2026-11-11'), endMinute: 0, multiDay: false });
+  });
+
   it('leaves out a hidden calendar without an error, and its id stays taken', () => {
     const { events, causes } = readEvents(
       [
@@ -269,6 +288,28 @@ describe('reading the events', () => {
     expect(causes.some((cause) => cause.includes('has no id'))).toBe(true);
     expect(causes.some((cause) => cause.includes('color "purple"'))).toBe(true);
     expect(causes.some((cause) => cause.includes('appears twice'))).toBe(true);
+  });
+
+  it('leaves out a calendar with no name, and the events that point to it, saying why', () => {
+    const { events, calendars, causes } = readEvents(
+      [{ id: 'x', title: 'X', start: '2026-11-11T08:00', calendar: 'blank' }],
+      [
+        { id: 'blank', name: '   ', color: 'rh' },
+        { id: 'missing', color: 'rh' } as never,
+        { id: 'ok', name: 'Fine', color: 'rh' },
+      ],
+    );
+    expect(calendars.map((calendar) => calendar.id)).toEqual(['ok']);
+    expect(events).toEqual([]);
+    expect(causes.filter((cause) => cause.includes('has no name'))).toHaveLength(2);
+    expect(causes.some((cause) => cause.includes('"x" points to calendar "blank", which does not exist'))).toBe(true);
+  });
+
+  it('a calendar with a color outside the list stays, with primary, and is reported', () => {
+    const { events, calendars, causes } = readEvents([{ id: 'x', title: 'X', start: '2026-11-11T08:00', calendar: 'odd' }], [{ id: 'odd', name: 'Odd', color: 'purple' as never }]);
+    expect(calendars).toHaveLength(1);
+    expect(events[0]?.color).toBe('primary');
+    expect(causes).toHaveLength(1);
   });
 
   it('keeps only the people who have a name', () => {

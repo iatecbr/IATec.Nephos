@@ -7886,11 +7886,15 @@ rule of P21. The names follow P64.
    included; a string with a zone (`Z`, `+03:00`) is refused, because the piece has no zone. The days are
    whole numbers of days and the minutes of a day, never a `Date` in the local zone, so the arithmetic is the
    same in any zone and in a day with a change of the clock. An event with no `end` ends when it starts.
-   An event that ends exactly at midnight fills its own day to 24:00; one that covers more than one
+   An event that ends exactly at midnight, on the next day or later, ends at 24:00 of the day before, which
+   stays its last day (an event from the 11th at 22:00 to the 13th at 00:00 covers the 11th and the 12th);
+   one that covers more than one
    calendar day, with or without time, is a **multi-day** event and goes to the all-day band, in one bar.
    An event that cannot be read (no id, repeated id, no title, an instant that does not read, an end
    before the start, a calendar that does not exist) is left out with its own error; a calendar with no
-   id, a repeated one or a color that does not exist is reported, and `primary` is used for the color.
+   id, a repeated one or no name is left out with its own error, and so are the events that point to it,
+   because the name is the text of its checkbox; a color that does not exist keeps the calendar, reports it,
+   and `primary` is used for the color.
 
 3. **Attributes.** `view`: `work-week` (default), `week`, `day`, `month` or `list`; reflects, because the
    CSS selects the layout by it. `date`: `YYYY-MM-DD`, the day the period is built around; absent, today.

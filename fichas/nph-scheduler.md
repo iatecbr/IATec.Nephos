@@ -49,7 +49,10 @@ api:
       financeiro, igrejas and rh, equal in every brand and never a status. visible is true by
       default; false hides the events of the calendar. The checkbox of My calendars turns it on and
       off: the piece replaces calendars with a new list and never changes the objects of the screen.
-      A calendar that cannot be drawn is left out and emits console.error in development.
+      A calendar with no id, a repeated id or no name is left out and emits console.error in
+      development, and the events that point to it are left out too (the calendar does not exist). A
+      color outside the list is not a reason to leave it out: the calendar stays, its events take
+      primary, and console.error says so in development.
   labels:
     type: object
     required: true
@@ -481,7 +484,8 @@ business_rules:
 domain_errors:
   - "A view, a week-start, a date or a now that does not exist: the piece draws nothing and emits console.error in development, one per cause while it lasts."
   - "An event with a repeated id, a start or end that does not exist, an end before the start, a time zone or a calendar that does not exist: the event is left out, with its own console.error in development."
-  - "A calendar with a repeated id, no name or a color outside the list: the calendar is left out, with its own console.error in development."
+  - "A calendar with no id, a repeated id or no name: the calendar is left out, and so are the events that point to it, each with its own console.error in development."
+  - "A calendar with a color outside the list: the calendar stays and its events take primary, with its own console.error in development."
   - "A label the piece needs and the screen did not give: it renders anyway and emits console.error in development, once, saying which keys are missing."
 tokens:
   container: "scheduler/background, scheduler/border, scheduler/border-width, scheduler/radius, scheduler/padding, scheduler/foreground"
@@ -529,7 +533,8 @@ invalid_combinations:
   - "A date or a now that does not exist — the piece draws nothing."
   - "An instant with a time zone — the event is left out."
   - "Two events with the same id, or an end before the start — the event is left out."
-  - "A calendar color outside primary and the vertical colors — the calendar is left out."
+  - "A calendar color outside primary and the vertical colors — the calendar stays and its events take primary, with an error in development."
+  - "A calendar with no name — the calendar is left out, because its checkbox has no text."
   - "educacao and primary together in the brand Educacao — they are the same color."
   - "A color used as a status — the color is the choice of the calendar."
 relations:
@@ -646,7 +651,7 @@ fires an event when the person acts and fires nothing when code sets a property.
 event is the color of its calendar and never a status.
 
 **Domain error states:** a view, a week start, a date or an instant that does not exist, which
-draw nothing; an event or a calendar that cannot be drawn, which is left out; a label that is
+draw nothing; an event, or a calendar with no id, a repeated id or no name, which is left out; a calendar color outside the list, which keeps the calendar with primary; a label that is
 missing, which renders and says which. All with `console.error` in development, one per cause.
 
 ## Accessibility
@@ -746,7 +751,8 @@ phone; the open event with the popover beside it.
   `labels`.
 - **Do not rely on arrow keys on the grid** — each day and each event is a Tab stop.
 - **Invalid combinations:** a view or a week start outside the lists; a date or an instant that does
-  not exist; a repeated event `id`; a calendar color outside the list.
+  not exist; a repeated event `id`; a calendar with no name; a calendar color outside the list (the
+  calendar stays, with primary).
 - **Do not create without a decision:** an event status, a past or tentative event, a time scale,
   arrow keys on the grid, or a token, new or changed.
 

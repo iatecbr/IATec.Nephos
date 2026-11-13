@@ -226,6 +226,10 @@ export function readEvents(events: readonly NphSchedulerEvent[], calendars: read
       add(`calendar id "${id}" appears twice; the first one was kept.`);
       continue;
     }
+    if (trimmed(calendar.name) === '') {
+      add(`calendar "${id}" has no name, which is the text of its checkbox and the name of its events' calendar, and was left out.`);
+      continue;
+    }
     if (!(NPH_SCHEDULER_COLORS as readonly string[]).includes(calendar.color)) {
       add(`calendar "${id}" has color "${String(calendar.color)}", which does not exist. Use ${NPH_SCHEDULER_COLORS.join(', ')}; primary was used.`);
     }
@@ -293,9 +297,9 @@ export function readEvents(events: readonly NphSchedulerEvent[], calendars: read
       startMinute = start.minute;
       endDay = end.day;
       endMinute = end.minute;
-      /* Ends exactly at midnight of the next day: it fills the start day, to 24:00. */
-      if (endDay === startDay + 1 && endMinute === 0) {
-        endDay = startDay;
+      /* Ends exactly at midnight, on the next day or later: it ends at 24:00 of the day before, which stays its last day. */
+      if (endDay > startDay && endMinute === 0) {
+        endDay -= 1;
         endMinute = MINUTES_PER_DAY;
       }
     }

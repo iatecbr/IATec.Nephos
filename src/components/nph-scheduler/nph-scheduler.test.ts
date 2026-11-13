@@ -160,7 +160,9 @@ const parts = (element: NphScheduler, selector: string): HTMLElement[] => [...ro
  * title, and the time when the event is tall enough to show it (a list row writes the time first).
  */
 const titled = (item: Element | null, title: string): boolean => {
-  const name = (item?.getAttribute('aria-label') ?? '').replace(/^Cancelled: /, '').replace(/^(\d{1,2}:\d{2} [AP]M( – \d{1,2}:\d{2} [AP]M)?|All day) /, '');
+  const name = (item?.getAttribute('aria-label') ?? '')
+    .replace(/^(\d{1,2}:\d{2} [AP]M( – \d{1,2}:\d{2} [AP]M)?|All day) /, '')
+    .replace(/^Cancelled: /, '');
   return name.startsWith(title) && /^[ ,]/.test(name.slice(title.length));
 };
 const eventByTitle = (element: NphScheduler, title: string, kind?: string): HTMLElement => {
@@ -226,7 +228,7 @@ describe('registration and defaults', () => {
   });
 
   it('the reactive API is exactly the contract: the data, the view and date, the side panel, loading, now and the open event', () => {
-    const names = [...(NphScheduler.elementProperties.keys() as Iterable<string>)].filter((key) => !['compact', 'gridMonth', 'metrics', 'clock', 'announcement', 'hasDetail'].includes(key)).sort();
+    const names = [...(NphScheduler.elementProperties.keys() as Iterable<string>)].filter((key) => !['compact', 'gridMonth', 'gridFocus', 'metrics', 'clock', 'announcement', 'hasDetail'].includes(key)).sort();
     expect(names).toEqual(['calendars', 'date', 'events', 'filterItems', 'hideSidePanel', 'labels', 'loading', 'now', 'openEvent', 'view', 'weekStart']);
   });
 
@@ -1458,6 +1460,95 @@ describe('what the review of the piece found', () => {
     const emitted = [...new Set([...tokensCss.matchAll(/^\s*(--nph-scheduler-[a-z0-9-]+):/gm)].map((match) => match[1] as string))];
     expect(emitted.length).toBeGreaterThan(100);
     expect(emitted.filter((name) => !css.includes(name))).toEqual([]);
+  });
+});
+
+describe('what the second review found', () => {
+  const tabStops = (element: NphScheduler, kind: string): string[] =>
+    parts(element, `.date-grid[data-kind="${kind}"] .grid-cell`)
+      .filter((cell) => cell.tabIndex === 0)
+      .map((cell) => cell.getAttribute('aria-label') ?? '');
+  const press = async (element: NphScheduler, kind: string, key: string): Promise<void> => {
+    const target = parts(element, `.date-grid[data-kind="${kind}"] .grid-cell`).find((cell) => cell.tabIndex === 0) as HTMLElement;
+    target.focus();
+    target.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, composed: true }));
+    await settle(element);
+  };
+
+  it('the one Tab stop of the mini month follows the day the arrows moved to, not the selected one', async () => {
+    const element = await mount();
+    expect(tabStops(element, 'mini')).toHaveLength(1);
+    await press(element, 'mini', 'ArrowRight');
+    expect(tabStops(element, 'mini')).toEqual([expect.stringContaining('Thursday, November 12')]);
+    expect(parts(element, '.date-grid[data-kind="mini"] .grid-cell[aria-selected="true"]')[0]?.tabIndex).toBe(-1);
+    expect(element.date).toBe('2026-11-11');
+    await press(element, 'mini', 'PageDown');
+    expect(tabStops(element, 'mini')).toEqual([expect.stringContaining('December 12')]);
+    /* A move of the month shown by the buttons, and a new date, put the stop back on the selected or first day. */
+    nativeOf(buttonByLabel(element, 'Next month')).click();
+    await settle(element);
+    expect(tabStops(element, 'mini')).toEqual([expect.stringContaining('January 1, 2027')]);
+    element.date = '2026-11-20';
+    await settle(element);
+    expect(tabStops(element, 'mini')).toEqual([expect.stringContaining('November 20')]);
+  });
+
+  it('the one Tab stop of the compact month does the same, and a click puts it on the chosen day', async () => {
+    const element = await mount({}, '24rem', '48rem');
+    await press(element, 'compact', 'ArrowDown');
+    expect(tabStops(element, 'compact')).toEqual([expect.stringContaining('November 18')]);
+    const target = parts(element, '.date-grid[data-kind="compact"] .grid-cell').find((cell) => cell.getAttribute('aria-label')?.startsWith('Tuesday, November 10')) as HTMLElement;
+    target.click();
+    await settle(element);
+    expect(tabStops(element, 'compact')).toEqual([expect.stringContaining('November 10')]);
+  });
+
+  it('loading draws no event of the last period in any view, the all-day bars and the people included, and leaves the headers and the toolbar', async () => {
+    for (const view of NPH_SCHEDULER_VIEWS) {
+      const element = await mount({ view, loading: true });
+      expect(parts(element, '.event:not([data-probe]), .row'), view).toHaveLength(0);
+      expect(parts(element, '.day-head nph-avatar-stack, .day-head nph-avatar, .row-item .people'), view).toHaveLength(0);
+      expect(parts(element, '.toolbar nph-button').length, view).toBeGreaterThan(3);
+      if (view !== 'month' && view !== 'list') expect(parts(element, '.day').length, view).toBeGreaterThan(0);
+      element.loading = false;
+      await settle(element);
+      expect(parts(element, '.event:not([data-probe]), .row').length, view).toBeGreaterThan(0);
+    }
+    const phone = await mount({ loading: true }, '24rem', '48rem');
+    expect(parts(phone, '.day-row, .grid-dot:not([data-empty])')).toHaveLength(0);
+    expect(parts(phone, '.day-list nph-skeleton').length).toBeGreaterThan(0);
+  });
+
+  it('the focus of a list row is drawn in the color of its calendar, the cancelled one included', async () => {
+    const element = await mount({ view: 'list' });
+    const rowOf = (title: string): HTMLElement => parts(element, '.row').find((item) => titled(item, title)) as HTMLElement;
+    for (const [title, name] of [['Teaching workshop', 'educacao'], ['Quarterly review', 'gerencial'], ['Interview', 'rh']] as const) {
+      const row = rowOf(title);
+      row.focus({ focusVisible: true } as FocusOptions);
+      const holder = row.closest('.row-item') as HTMLElement;
+      expect(holder.dataset.color, title).toBe(name);
+      expect(getComputedStyle(holder, '::before').borderTopColor, title).toBe(resolved('border-top-color', `--nph-scheduler-event-${name}-focus-border`));
+      expect(getComputedStyle(holder, '::after').borderTopColor, title).toBe(resolved('border-top-color', `--nph-scheduler-event-${name}-focus-halo`));
+    }
+    const primary = rowOf('Team stand-up');
+    primary.focus({ focusVisible: true } as FocusOptions);
+    expect(getComputedStyle(primary.closest('.row-item') as HTMLElement, '::before').borderTopColor).toBe(resolved('border-top-color', '--nph-scheduler-focus-border'));
+  });
+
+  it('an event that ends at midnight two days later is not drawn on the day it had already ended', async () => {
+    const element = await mount({ view: 'week', events: [{ id: 'long', title: 'Long night', start: '2026-11-10T22:00', end: '2026-11-12T00:00' }] });
+    const bar = eventByTitle(element, 'Long night', 'bar');
+    const heads = parts(element, '.day-head').map((head) => head.getBoundingClientRect());
+    expect(bar.getBoundingClientRect().left).toBeCloseTo((heads[2] as DOMRect).left, -1);
+    expect(bar.getBoundingClientRect().right).toBeCloseTo((heads[3] as DOMRect).right, -1);
+    expect(bar.getAttribute('aria-label')).toContain('Tuesday, November 10, 2026 – Wednesday, November 11, 2026');
+  });
+
+  it('a calendar with no name has no checkbox and its events are not drawn, with the reason said once', async () => {
+    const element = await mount({ calendars: [{ id: 'blank', name: ' ', color: 'rh' }, { id: 'team', name: 'Team', color: 'primary' }], events: [{ id: 'a', title: 'A', start: '2026-11-11T09:00', end: '2026-11-11T10:00', calendar: 'blank' }, { id: 'b', title: 'B', start: '2026-11-11T09:00', end: '2026-11-11T10:00', calendar: 'team' }] });
+    expect(parts(element, '.calendar-row')).toHaveLength(1);
+    expect(parts(element, '.event[data-kind="grid"]')).toHaveLength(1);
+    expect(errors.mock.calls.map((call) => String(call[0])).filter((text) => text.includes('has no name'))).toHaveLength(1);
   });
 });
 

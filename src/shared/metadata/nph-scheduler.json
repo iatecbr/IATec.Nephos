@@ -32,7 +32,7 @@
       "required": false,
       "default": "empty list",
       "reflects": false,
-      "constraint": "Property only. The calendars, as a list of { id, name, color, visible }. id (unique), name and color are required. color is primary or one of sistemas, gerencial, educacao, comercial, financeiro, igrejas and rh, equal in every brand and never a status. visible is true by default; false hides the events of the calendar. The checkbox of My calendars turns it on and off: the piece replaces calendars with a new list and never changes the objects of the screen. A calendar that cannot be drawn is left out and emits console.error in development."
+      "constraint": "Property only. The calendars, as a list of { id, name, color, visible }. id (unique), name and color are required. color is primary or one of sistemas, gerencial, educacao, comercial, financeiro, igrejas and rh, equal in every brand and never a status. visible is true by default; false hides the events of the calendar. The checkbox of My calendars turns it on and off: the piece replaces calendars with a new list and never changes the objects of the screen. A calendar with no id, a repeated id or no name is left out and emits console.error in development, and the events that point to it are left out too (the calendar does not exist). A color outside the list is not a reason to leave it out: the calendar stays, its events take primary, and console.error says so in development."
     },
     "labels": {
       "type": "object",
@@ -466,7 +466,8 @@
   "domain_errors": [
     "A view, a week-start, a date or a now that does not exist: the piece draws nothing and emits console.error in development, one per cause while it lasts.",
     "An event with a repeated id, a start or end that does not exist, an end before the start, a time zone or a calendar that does not exist: the event is left out, with its own console.error in development.",
-    "A calendar with a repeated id, no name or a color outside the list: the calendar is left out, with its own console.error in development.",
+    "A calendar with no id, a repeated id or no name: the calendar is left out, and so are the events that point to it, each with its own console.error in development.",
+    "A calendar with a color outside the list: the calendar stays and its events take primary, with its own console.error in development.",
     "A label the piece needs and the screen did not give: it renders anyway and emits console.error in development, once, saying which keys are missing."
   ],
   "tokens": {
@@ -519,7 +520,8 @@
     "A date or a now that does not exist — the piece draws nothing.",
     "An instant with a time zone — the event is left out.",
     "Two events with the same id, or an end before the start — the event is left out.",
-    "A calendar color outside primary and the vertical colors — the calendar is left out.",
+    "A calendar color outside primary and the vertical colors — the calendar stays and its events take primary, with an error in development.",
+    "A calendar with no name — the calendar is left out, because its checkbox has no text.",
     "educacao and primary together in the brand Educacao — they are the same color.",
     "A color used as a status — the color is the choice of the calendar."
   ],

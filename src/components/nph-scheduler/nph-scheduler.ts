@@ -296,6 +296,7 @@ export class NphScheduler extends LitElement {
     },
     compact: { state: true },
     gridMonth: { state: true },
+    gridFocus: { state: true },
     metrics: { state: true },
     clock: { state: true },
     announcement: { state: true },
@@ -315,6 +316,7 @@ export class NphScheduler extends LitElement {
   declare openEvent: string;
   declare compact: boolean;
   declare gridMonth: Day | null;
+  declare gridFocus: Day | null;
   declare metrics: MonthMetrics | null;
   declare clock: number;
   declare announcement: string;
@@ -360,6 +362,7 @@ export class NphScheduler extends LitElement {
     this.openEvent = '';
     this.compact = false;
     this.gridMonth = null;
+    this.gridFocus = null;
     this.metrics = null;
     this.clock = 0;
     this.announcement = '';
@@ -465,6 +468,7 @@ export class NphScheduler extends LitElement {
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
     if (changed.has('date') || changed.has('view')) {
       this.gridMonth = null;
+      this.gridFocus = null;
     }
   }
 
@@ -719,8 +723,11 @@ export class NphScheduler extends LitElement {
     return this.gridMonth ?? firstOfMonth(this.anchor);
   }
 
+  /** The one day of the date grid that takes Tab: the one the keys moved to, else the selected day, else the first. */
   private gridFocusDay(): Day {
     const month = this.shownMonth;
+    const moved = this.gridFocus;
+    if (moved !== null && firstOfMonth(moved) === month) return moved;
     const anchor = this.anchor;
     return firstOfMonth(anchor) === month ? anchor : month;
   }
@@ -759,11 +766,13 @@ export class NphScheduler extends LitElement {
     }
     event.preventDefault();
     if (firstOfMonth(target) !== this.shownMonth) this.gridMonth = firstOfMonth(target);
+    this.gridFocus = target;
     this.focusDayAfterRender = target;
     this.requestUpdate();
   }
 
   private moveGridMonth(direction: -1 | 1): void {
+    this.gridFocus = null;
     this.gridMonth = addMonths(this.shownMonth, direction);
   }
 
@@ -811,6 +820,7 @@ export class NphScheduler extends LitElement {
   private onGridPick(day: Day, kind: 'mini' | 'compact'): void {
     this.setDate(day, kind === 'mini' ? 'mini-month' : 'month');
     this.gridMonth = null;
+    this.gridFocus = null;
   }
 
   private renderMini(): TemplateResult {
@@ -1186,7 +1196,7 @@ export class NphScheduler extends LitElement {
   private renderListRow(occurrence: Occurrence): TemplateResult {
     const id = this.eventId(occurrence);
     const time = occurrence.allDay ? this.text('allDay') : this.timeRange(occurrence);
-    return html`<li class="row-item">
+    return html`<li class="row-item" data-color=${occurrence.color}>
       <button
         class="row"
         id=${id}
@@ -1276,7 +1286,8 @@ export class NphScheduler extends LitElement {
     this.anchors = new Set();
     const view = this.effectiveView;
     const days = periodDays(view, this.compact ? this.shownMonth : this.anchor, this.weekStart);
-    const events = this.read.events;
+    /* Loading draws the period again: the events of the last one are not shown, nor reachable, while the new ones come. */
+    const events = this.loading ? [] : this.read.events;
     const inPeriod = events.filter((item) => item.startDay <= (days[days.length - 1] as Day) && item.endDay >= (days[0] as Day));
     const empty = inPeriod.length === 0;
     let body: TemplateResult;
