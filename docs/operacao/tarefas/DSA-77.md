@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 760,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-scheduler",
   "dependencies": [
     "DSA-03",
@@ -57,8 +57,8 @@
     "excerpt": null,
     "converted_decision": "The nph-scheduler documentation frame (6151:11160, page 1363:2) was accepted as the API and behavior specification of the nph-scheduler and of its inner event. COMPONENT_SET nph-scheduler (6142:1744) and COMPONENT_SET nph-scheduler event (6141:9258). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-77-scheduler", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-77.md",
   "updated_at": "2026-11-12"
 }
 ```
