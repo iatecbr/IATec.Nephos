@@ -72,6 +72,7 @@ import '../nph-skeleton/nph-skeleton';
 import '../nph-tooltip/nph-tooltip';
 import {
   MINUTES_PER_DAY,
+  NPH_SCHEDULER_COLORS,
   NPH_SCHEDULER_VIEWS,
   NPH_SCHEDULER_WEEK_STARTS,
   TIME_SHOWN_MINUTES,
@@ -217,7 +218,7 @@ export interface NphSchedulerEventClickDetail {
   readonly source: NphSchedulerClickSource;
 }
 
-export type NphSchedulerCloseSource = 'escape' | 'outside' | 'focus-out' | 'toggle' | 'close-button';
+export type NphSchedulerCloseSource = 'escape' | 'outside' | 'focus-out' | 'toggle';
 
 export interface NphSchedulerEventCloseDetail {
   readonly id: string;
@@ -320,7 +321,7 @@ export class NphScheduler extends LitElement {
 
   private valid = true;
   private reported: string[] = [];
-  private read: ReturnType<typeof readEvents> = { events: [], causes: [] };
+  private read: ReturnType<typeof readEvents> = { events: [], calendars: [], causes: [] };
   private timer: ReturnType<typeof setInterval> | undefined;
   private resizeWatch: ResizeObserver | undefined;
   private monthWatch: ResizeObserver | undefined;
@@ -652,7 +653,7 @@ export class NphScheduler extends LitElement {
   }
 
   private onCalendarToggle(calendar: NphSchedulerCalendar, checked: boolean): void {
-    this.calendars = this.calendarList.map((item) => (item.id === calendar.id ? { ...item, visible: checked } : item));
+    this.calendars = this.calendarList.map((item) => (item?.id === calendar.id ? { ...item, visible: checked } : item));
     this.fire<NphSchedulerCalendarToggleDetail>('nph-calendar-toggle', { id: calendar.id, visible: checked });
   }
 
@@ -771,7 +772,7 @@ export class NphScheduler extends LitElement {
     const roving = this.gridFocusDay();
     const today = this.today;
     const selected = this.anchor;
-    const heads = (weeks[0] as Day[]).map((day) => html`<div class="grid-head" role="columnheader" aria-label=${this.weekdayText(day, 'long')}>${this.weekdayText(day, kind === 'mini' ? 'narrow' : 'narrow')}</div>`);
+    const heads = (weeks[0] as Day[]).map((day) => html`<div class="grid-head" role="columnheader" aria-label=${this.weekdayText(day, 'long')}>${this.weekdayText(day, 'narrow')}</div>`);
     const rows = weeks.map(
       (week) => html`<div class="grid-row" role="row">
         ${week.map((day) => {
@@ -1025,14 +1026,15 @@ export class NphScheduler extends LitElement {
       ${this.renderMini()}
       <div class="calendars" role="group" aria-labelledby="calendars-label">
         <span class="calendars-label" id="calendars-label">${this.text('myCalendars')}</span>
-        ${this.calendarList.map(
+        ${this.read.calendars.map(
           (calendar) => html`<div class="calendar-row">
             <nph-checkbox
               .text=${trimmed(calendar.name)}
               .checked=${calendar.visible !== false}
+              @input=${(event: Event) => event.stopPropagation()}
               @change=${(event: Event) => this.onCalendarToggle(calendar, (event.target as HTMLInputElement).checked)}
             ></nph-checkbox>
-            <span class="calendar-dot" data-color=${oneOf(['primary', 'sistemas', 'gerencial', 'educacao', 'comercial', 'financeiro', 'igrejas', 'rh'], calendar.color) ? calendar.color : 'primary'} aria-hidden="true"></span>
+            <span class="calendar-dot" data-color=${oneOf(NPH_SCHEDULER_COLORS, calendar.color) ? calendar.color : 'primary'} aria-hidden="true"></span>
           </div>`,
         )}
       </div>
@@ -1180,10 +1182,9 @@ export class NphScheduler extends LitElement {
 
   /* ----- the list view ------------------------------------------------------------- */
 
-  private renderListRow(occurrence: Occurrence, day: Day): TemplateResult {
+  private renderListRow(occurrence: Occurrence): TemplateResult {
     const id = this.eventId(occurrence);
     const time = occurrence.allDay ? this.text('allDay') : this.timeRange(occurrence);
-    void day;
     return html`<li class="row-item">
       <button
         class="row"
@@ -1214,7 +1215,7 @@ export class NphScheduler extends LitElement {
         : groups.map(
             (group) => html`<section class="list-day" aria-labelledby="list-day-${group.day}">
               <h3 class="list-heading" id="list-day-${group.day}" data-today=${group.day === today ? 'true' : nothing}>${this.dateNameText(group.day)}</h3>
-              <ul class="rows" role="list">${group.items.map((item) => this.renderListRow(item, group.day))}</ul>
+              <ul class="rows" role="list">${group.items.map((item) => this.renderListRow(item))}</ul>
             </section>`,
           )}
       ${empty && !this.loading ? this.renderEmpty() : nothing}
@@ -1294,7 +1295,7 @@ export class NphScheduler extends LitElement {
       <div class="body" data-view=${view} aria-busy=${this.loading ? 'true' : nothing}>${body}</div>
       ${detail}
       <div class="live" role="status" aria-live="polite">${this.announcement}</div>
-      ${this.loading ? html`<div class="live" role="status">${this.text('loading')}</div>` : nothing}
+      <div class="live" role="status" aria-live="polite">${this.loading ? this.text('loading') : ''}</div>
     </section>`;
   }
 
@@ -1319,9 +1320,26 @@ export class NphScheduler extends LitElement {
       target?.focus();
     }
     this.syncSize();
+    this.closeUndrawnDetail();
     this.syncPopupState();
     this.scrollToHour();
     this.measureMonth();
+  }
+
+  /**
+   * The open event is not drawn (the person moved to a period it is not in, or to a view that does not draw
+   * it): nothing is open, so it does not open again on its own when the person comes back. Nothing is fired:
+   * the person did not close it.
+   */
+  private closeUndrawnDetail(): void {
+    const id = trimmed(this.openEvent);
+    if (id === '') return;
+    const drawn = [...this.renderRoot.querySelectorAll<HTMLElement>('[data-event]')].some((item) => item.dataset.event === id);
+    if (!drawn && this.read.events.some((item) => item.id === id)) {
+      queueMicrotask(() => {
+        if (this.isConnected && trimmed(this.openEvent) === id) this.openEvent = '';
+      });
+    }
   }
 
   /**
@@ -1449,6 +1467,7 @@ declare global {
   }
   interface HTMLElementEventMap {
     'nph-view-change': CustomEvent<NphSchedulerViewChangeDetail>;
+    'nph-filter-click': CustomEvent<Record<string, never>>;
     'nph-date-change': CustomEvent<NphSchedulerDateChangeDetail>;
     'nph-event-click': CustomEvent<NphSchedulerEventClickDetail>;
     'nph-event-close': CustomEvent<NphSchedulerEventCloseDetail>;

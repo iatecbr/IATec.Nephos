@@ -500,7 +500,6 @@ tokens:
   focus: "scheduler/focus-border, scheduler/focus-border-width, scheduler/focus-border-radius, scheduler/focus-halo, scheduler/focus-halo-width, scheduler/focus-halo-radius"
   typography: "text/label-sm (the event title), text/caption (the event time), text/label-md and text/label-md-strong (the day numbers and the title of the chosen day), text/heading-sm (the month label on a phone), text/body-md (the list row and the container)"
   other_semantic: "the CSS also reads control/height-default, control/height-compact, icon/size-sm, icon/size-md, radius/control, radius/full, space/inline-tight, space/stack-snug, color/secondary-foreground and icon-button/secondary-ghost-background-hover directly, for the sidebar button, the mini month cell and the calendar dot, where no scheduler/* token has the role"
-  pending: "scheduler/empty-icon-size is in the contract; the code draws the empty icon through nph-icon in its small size, the same size, and does not read the token"
 ai_hints:
   - "Use nph-scheduler to show the events of a calendar over time; to choose a date in a form use the date picker, and for tasks with no time use a list or a table."
   - "Own the data: set events, calendars and labels, and change view and date when nph-view-change and nph-date-change fire. The piece writes them itself when the person acts, and fires nothing when code sets them."

@@ -7895,7 +7895,8 @@ rule of P21. The names follow P64.
 3. **Attributes.** `view`: `work-week` (default), `week`, `day`, `month` or `list`; reflects, because the
    CSS selects the layout by it. `date`: `YYYY-MM-DD`, the day the period is built around; absent, today.
    `week-start`: `sunday` (default) or `monday`; it is a property of the page, not of the language. The
-   work week is Monday to Friday whatever the week start. `hide-side-panel` is the inverse of the Figma
+   work week is the Monday to Friday of the week the week start gives (a week that starts on Sunday has its
+   Monday the day after, so a Sunday shows the work week that starts the next day). `hide-side-panel` is the inverse of the Figma
    `lateral` (the precedent of `hide-collapse-button` in P116); reflects. `loading` reflects. `now`: an
    instant that stands for the clock, so the now line and "today" are the same in a story and a test;
    absent, the clock of the machine, read again every minute (the update interval, 60 s). `open-event`:
@@ -7925,7 +7926,11 @@ rule of P21. The names follow P64.
    lives while the detail is open, so there is no exit animation: its `nph-close` ends the detail and fires
    `nph-event-close` with its source (`escape`, `outside` or `focus-out`); a click on the open event closes it
    (`toggle`). Esc returns the focus to the event; a press outside leaves it where the person clicked. An
-   event that leaves the data (removed, or its calendar hidden) closes the detail with nothing fired.
+   event that leaves the data (removed, or its calendar hidden), or that is not drawn after the person moves to
+   another period or view, closes the detail with nothing fired, so it does not open again on its own. The event
+   is the trigger of the popover and is not an `nph-button`, which the sheet of `nph-popover` lists as an
+   anti-pattern: the accepted documentation says so (it follows DSA-67 D-2 in part), and the open event
+   draws its own hover look with `aria-expanded` for that reason.
 
 6. **Tab order from the document, never `tabindex`.** The DOM order is the toolbar, the side panel, the
    body; the container is a grid with areas, so the visual order is still the side panel at the start.
@@ -7992,8 +7997,8 @@ rule of P21. The names follow P64.
 
 14. **The language is the nearest `lang`.** Crossing shadow roots, as `nph-pagination` reads it, in English
     without one; the dates, the weekday names, the hours and the period are `Intl` with `timeZone: 'UTC'`
-    over the civil day, so a zone never moves a date. A change of `lang` or `dir` on the page draws the
-    piece again. The accessible name starts with the text the person sees, in the order they see it (WCAG
+    over the civil day, so a zone never moves a date. A change of `lang` or `dir` on the root element of
+    the page draws the piece again; one on an inner element is read at the next render. The accessible name starts with the text the person sees, in the order they see it (WCAG
     2.5.3, which the gate of P72 checks), and goes on as a comma list: for an event, the cancelled text, the
     title and the time when it is written, then the date, the time when it is not written, the calendar and,
     when it applies, `cancelledName` and `repeats`; a list row writes the time first. The people of a day are

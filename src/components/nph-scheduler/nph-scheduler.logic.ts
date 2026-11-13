@@ -146,7 +146,8 @@ export function periodDays(view: NphSchedulerView, date: Day, weekStart: NphSche
     case 'day':
       return [date];
     case 'work-week': {
-      const monday = startOfWeek(date, 1);
+      /* Monday to Friday of the week the week start gives: a week that starts on Sunday has its Monday the day after. */
+      const monday = startOfWeek(date, first) + (first === 0 ? 1 : 0);
       return Array.from({ length: 5 }, (_, index) => monday + index);
     }
     case 'month':
@@ -199,6 +200,8 @@ export interface Occurrence {
 
 export interface ReadEvents {
   readonly events: Occurrence[];
+  /** The calendars that can be drawn: with an id, once each. The ones "My calendars" lists. */
+  readonly calendars: NphSchedulerCalendar[];
   /** One sentence per cause; an event that cannot be read is left out and says why. */
   readonly causes: string[];
 }
@@ -212,6 +215,7 @@ export function readEvents(events: readonly NphSchedulerEvent[], calendars: read
     if (!causes.includes(cause)) causes.push(cause);
   };
   const byId = new Map<string, NphSchedulerCalendar>();
+  const accepted: NphSchedulerCalendar[] = [];
   for (const calendar of calendars) {
     const id = trimmed(calendar?.id);
     if (id === '') {
@@ -226,6 +230,7 @@ export function readEvents(events: readonly NphSchedulerEvent[], calendars: read
       add(`calendar "${id}" has color "${String(calendar.color)}", which does not exist. Use ${NPH_SCHEDULER_COLORS.join(', ')}; primary was used.`);
     }
     byId.set(id, calendar);
+    accepted.push(calendar);
   }
   const seen = new Set<string>();
   const read: Omit<Occurrence, 'index'>[] = [];
@@ -314,7 +319,7 @@ export function readEvents(events: readonly NphSchedulerEvent[], calendars: read
     });
   }
   read.sort((a, b) => a.startDay - b.startDay || a.startMinute - b.startMinute || a.endDay - b.endDay || a.endMinute - b.endMinute);
-  return { events: read.map((event, index) => ({ ...event, index })), causes };
+  return { events: read.map((event, index) => ({ ...event, index })), calendars: accepted, causes };
 }
 
 /** The event covers `day` (all-day and multi-day events cover every day from start to end). */

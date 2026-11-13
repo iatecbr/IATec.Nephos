@@ -1382,6 +1382,85 @@ describe('the now line', () => {
   });
 });
 
+describe('what the review of the piece found', () => {
+  it('draws only the calendars it can read in "My calendars": a null, one with no id and a repeated one have no checkbox', async () => {
+    const element = await mount({ calendars: [null as never, { id: '', name: 'No id', color: 'primary' }, { id: 'a', name: 'A', color: 'rh' }, { id: 'a', name: 'Twin', color: 'rh' }] });
+    expect(element.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(parts(element, '.calendar-row')).toHaveLength(1);
+    expect((parts(element, '.calendar-row nph-checkbox')[0] as HTMLElement & { text: string }).text).toBe('A');
+    const checkbox = parts(element, '.calendar-row nph-checkbox')[0] as HTMLElement & { checked: boolean };
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    await settle(element);
+    expect(element.calendars[2]).toMatchObject({ id: 'a', visible: false });
+  });
+
+  it('the input of a calendar checkbox does not leave the scheduler, as the one of the select does not', async () => {
+    const element = await mount();
+    const inputs: Event[] = [];
+    document.addEventListener('input', (event) => inputs.push(event), { signal: listeners.signal });
+    const checkbox = parts(element, '.calendar-row nph-checkbox')[0] as HTMLElement;
+    checkbox.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    expect(inputs).toHaveLength(0);
+  });
+
+  it('the work week of a Sunday is the one that starts the day after, and "Today" on a Sunday shows today', async () => {
+    const element = await mount({ date: '2026-11-08', now: '2026-11-08T09:00' });
+    expect(dayNames(element)[0]).toBe('Monday, November 9, 2026');
+    expect(parts(element, '.day-head[data-today]')).toHaveLength(0);
+    const week = await mount({ date: '2026-11-08', now: '2026-11-08T09:00', view: 'week' });
+    expect(parts(week, '.day-head[data-today]')).toHaveLength(1);
+  });
+
+  it('an open detail does not come back on its own when the person returns to its period', async () => {
+    const element = await mount({ view: 'week' });
+    const body = document.createElement('div');
+    body.slot = 'detail';
+    body.textContent = 'Details';
+    element.append(body);
+    await settle(element);
+    eventByTitle(element, 'Teaching workshop', 'grid').click();
+    await settle(element);
+    expect(part(element, 'nph-popover')).not.toBeNull();
+    nativeOf(buttonByLabel(element, 'Next period')).click();
+    await settle(element);
+    await frame();
+    await settle(element);
+    expect(element.openEvent).toBe('');
+    expect(part(element, 'nph-popover')).toBeNull();
+    nativeOf(buttonByLabel(element, 'Previous period')).click();
+    await settle(element);
+    expect(part(element, 'nph-popover')).toBeNull();
+    expect(element.openEvent).toBe('');
+  });
+
+  it('keeps a status region for the loading state in the page before it starts, so the text that arrives is announced', async () => {
+    const element = await mount();
+    const regions = parts(element, '.live[role="status"]');
+    expect(regions).toHaveLength(2);
+    const status = regions[1] as HTMLElement;
+    expect(textOf(status)).toBe('');
+    expect(status.getAttribute('aria-live')).toBe('polite');
+    element.loading = true;
+    await settle(element);
+    expect(parts(element, '.live[role="status"]')[1]).toBe(status);
+    expect(textOf(status)).toBe('Loading events');
+    element.loading = false;
+    await settle(element);
+    expect(textOf(status)).toBe('');
+  });
+
+  it('the icon of the empty state takes its size from `scheduler/empty-icon-size`, and every scheduler token is read by the CSS', async () => {
+    const element = await mount({ events: [] });
+    const icon = part(element, '.empty nph-icon') as HTMLElement;
+    expect(getComputedStyle(icon).width).toBe(resolved('width', '--nph-scheduler-empty-icon-size'));
+    const css = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
+    const emitted = [...new Set([...tokensCss.matchAll(/^\s*(--nph-scheduler-[a-z0-9-]+):/gm)].map((match) => match[1] as string))];
+    expect(emitted.length).toBeGreaterThan(100);
+    expect(emitted.filter((name) => !css.includes(name))).toEqual([]);
+  });
+});
+
 describe('the scroll of the grid', () => {
   it('leaves the grid where the person put it when the data changes, and starts a new period at its first event', async () => {
     const element = await mount({ view: 'week' }, '72rem', '28rem');

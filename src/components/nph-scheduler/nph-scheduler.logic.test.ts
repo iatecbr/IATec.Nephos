@@ -111,16 +111,19 @@ describe('the civil calendar', () => {
 describe('the days of a view', () => {
   const date = day('2026-11-11');
 
-  it('work week is Monday to Friday, whatever the week start', () => {
+  it('work week is Monday to Friday of the week of the date', () => {
     for (const start of ['sunday', 'monday'] as const) {
       const days = periodDays('work-week', date, start).map(isoDate);
       expect(days).toEqual(['2026-11-09', '2026-11-10', '2026-11-11', '2026-11-12', '2026-11-13']);
     }
   });
 
-  it('a Sunday belongs to the work week that ends the day before: Monday to Friday of its own week', () => {
-    expect(periodDays('work-week', day('2026-11-08'), 'sunday').map(isoDate)[0]).toBe('2026-11-02');
+  it('the work week is the Monday to Friday of the week the week start gives: Sunday starts its own week', () => {
+    expect(periodDays('work-week', day('2026-11-08'), 'sunday').map(isoDate)[0]).toBe('2026-11-09');
+    expect(periodDays('work-week', day('2026-11-14'), 'sunday').map(isoDate)[0]).toBe('2026-11-09');
     expect(periodDays('work-week', day('2026-11-08'), 'monday').map(isoDate)[0]).toBe('2026-11-02');
+    expect(periodDays('work-week', day('2026-11-15'), 'monday').map(isoDate)[0]).toBe('2026-11-09');
+    expect(periodDays('week', day('2026-11-08'), 'sunday').map(isoDate)).toContain('2026-11-08');
   });
 
   it('week and list are seven days from the week start', () => {

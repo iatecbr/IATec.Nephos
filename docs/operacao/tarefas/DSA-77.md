@@ -41,7 +41,50 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The mini month and the compact month of the phone are the scheduler's own date grid, because the date-picker grid has no task and building it is outside this task. Indiane decides when the date-picker grid replaces it and whether the compact month keeps the arrow keys. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-2",
+      "question": "The sidebar button needs the sidebar icon, which is not in nph-icon, and the recurring event uses rotate-right until repeat is. The code keeps the place of the sidebar icon with an nph-skeleton, as nph-sidebar does (P116). Indiane frees the foundation task that adds sidebar and repeat to nph-icon. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-3",
+      "question": "No token states the height of an hour (twice scheduler/event-min-height), the cell of the mini month (control/height-compact), the time of a list row (three times scheduler/time-column-width), the time of a phone row (one and a half times it) and the minimum of a month row (four times scheduler/event-min-height). Indiane confirms them or gives tokens. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-4",
+      "question": "\"My calendars\" shows the color of each calendar as a swatch (icon/size-sm, the surface and the bar color of the event) beside the checkbox; the evidence names the checkbox only. Indiane confirms the swatch. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-5",
+      "question": "A day hands its date to the screen (nph-day-click) and does nothing else; the evidence gives it no action. Indiane confirms it, or says that the day of the month opens the day view. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-6",
+      "question": "The scheduler hosts the nph-popover of the detail and the screen gives the content through the detail and detail-footer slots; the task says the detail belongs to the product. Indiane confirms that the mechanism belongs to the scheduler and the content to the product. The alternative is the click event only, with no popover. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-7",
+      "question": "The all-day band comes before the grid in the document, so Tab reaches an all-day event of a later day before a timed event of an earlier one. Indiane confirms it. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-77/figma-docs-accepted-2026-11-12.md"
   ],
@@ -57,9 +100,13 @@
     "excerpt": null,
     "converted_decision": "The nph-scheduler documentation frame (6151:11160, page 1363:2) was accepted as the API and behavior specification of the nph-scheduler and of its inner event. COMPONENT_SET nph-scheduler (6142:1744) and COMPONENT_SET nph-scheduler event (6141:9258). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-77-scheduler", "commit": null, "pr": null },
+  "git_review": {
+    "branch": "feat/dsa-77-scheduler",
+    "commit": null,
+    "pr": null
+  },
   "context": "docs/operacao/contextos/DSA-77.md",
-  "updated_at": "2026-11-12"
+  "updated_at": "2026-11-13"
 }
 ```
 

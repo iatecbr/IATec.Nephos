@@ -13,8 +13,8 @@ Implement `nph-scheduler`, a calendar of events in the work week, week, day, mon
 ## Sources opened
 - `docs/operacao/tarefas/DSA-77.md` and `docs/operacao/evidencias/DSA-77/figma-docs-accepted-2026-11-12.md`
 - `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md`, `docs/operacao/component-handoff.md`, `docs/stories.md`
-- The code and sheets of `nph-button`, `nph-icon`, `nph-popover`, `nph-select`, `nph-checkbox`, `nph-skeleton`, `nph-empty`, `nph-avatar-stack` and `nph-dropdown-menu`; `nph-file-upload` and `nph-sidebar` as patterns, and decision P116
-- `design.md`; `src/tokens/generated/tokens.css`: the `scheduler/*` and `event/<color>-*` tokens, all present
+- The code header and the sheet (`api`, `invalid_combinations`, `anti_patterns`) of `nph-button`, `nph-popover`, `nph-select`, `nph-checkbox`, `nph-avatar-stack`, `nph-skeleton`, `nph-empty`, `nph-dropdown-menu` and `nph-icon`; `nph-file-upload` and `nph-sidebar` as patterns, and decisions P116 and P119
+- `design.md`: the `icones_nucleo` list; the contract of the tokens comes from the evidence, and `src/tokens/generated/tokens.css` has the `scheduler/*` and `event/<color>-*` tokens, all present
 
 ## Changes
 - `nph-scheduler` (component, CSS, tests, Validation stories, Docs page, dictionaries in three languages, sheet) and P120.

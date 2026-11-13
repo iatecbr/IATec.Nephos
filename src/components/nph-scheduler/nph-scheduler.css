@@ -678,6 +678,8 @@ button {
 }
 
 .empty nph-icon {
+  inline-size: var(--nph-scheduler-empty-icon-size);
+  block-size: var(--nph-scheduler-empty-icon-size);
   color: var(--nph-scheduler-day-label-foreground);
 }
 
