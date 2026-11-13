@@ -161,6 +161,8 @@ export class NphCollapsible extends LitElement {
   private settleTimer: ReturnType<typeof setTimeout> | undefined;
   /** The trigger had the focus when the type changed, so the new trigger takes it. */
   private refocus = false;
+  /** The page search opened the piece: the browser scrolls to the text it found, so the content opens at once. */
+  private instant = false;
 
   constructor() {
     super();
@@ -301,7 +303,7 @@ export class NphCollapsible extends LitElement {
       this.stopSettling();
       this.phase = steady;
     } else if (changed.has('open')) {
-      if (!this.growing || this.growDuration() === 0) {
+      if (!this.growing || this.instant || this.growDuration() === 0) {
         this.stopSettling();
         this.phase = steady;
       } else {
@@ -315,6 +317,7 @@ export class NphCollapsible extends LitElement {
   protected override updated(changed: PropertyValues<this>): void {
     this.applyHidden();
     void this.wireButton();
+    if (this.instant) this.openWithoutMovement();
 
     if (this.phase === 'opening' || this.phase === 'closing') {
       this.settleSoon();
@@ -335,6 +338,20 @@ export class NphCollapsible extends LitElement {
     if (trigger === null) return;
     await (trigger as Partial<NphButton>).updateComplete;
     trigger.focus();
+  }
+
+  /**
+   * Opened by the page search, as the native details element does: no growth, because the browser scrolls to the
+   * text it found while the content is still cut. The transition is held back for the length of one style
+   * recalculation, so the rows of the grid jump to the end.
+   */
+  private openWithoutMovement(): void {
+    this.instant = false;
+    const panel = this.renderRoot.querySelector<HTMLElement>('.panel');
+    if (panel === null) return;
+    panel.style.transition = 'none';
+    void panel.offsetHeight;
+    panel.style.transition = '';
   }
 
   /** A safety net for the end of the growth: a transition never ends in a box that is not rendered. */
@@ -404,13 +421,15 @@ export class NphCollapsible extends LitElement {
   /** The search of the page found text inside the closed content: the browser shows it and the piece follows. */
   private onFound = (): void => {
     if (this.open) return;
+    this.instant = true;
     this.open = true;
     this.announce();
   };
 
   private announce(): void {
     this.dispatchEvent(
-      new CustomEvent<NphCollapsibleToggleDetail>(NPH_COLLAPSIBLE_TOGGLE_EVENT, {
+      /* The literal name, so the manifest of the package lists the event. */
+      new CustomEvent<NphCollapsibleToggleDetail>('nph-toggle', {
         detail: { open: this.open },
         bubbles: true,
         composed: true,

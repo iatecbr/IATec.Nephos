@@ -51,6 +51,12 @@
       "question": "The preview type draws its Show more button even when the text has fewer than three lines, since the documentation does not say otherwise. Does the button go away when nothing is cut? Recommended: keep it, so the piece does not measure the text and the page owns the choice of the type. It does not block this task.",
       "decider": "indiane",
       "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-4",
+      "question": "The accepted documentation asks for the content to grow in motion/expand-*, and design.md (movimento_regras) says to animate only opacity and transform, and not width, height or layout position. The collapsible follows the documentation and animates the rows of one grid. Does Indiane confirm the reading, or does the rule get an exception for the expansion of a disclosure? Recommended: an exception, because a disclosure that pushes down what comes below cannot grow with transform alone. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
     }
   ],
   "evidence": [

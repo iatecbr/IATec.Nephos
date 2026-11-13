@@ -200,3 +200,30 @@ export function interactive(texts: ExampleTexts): TemplateResult {
     <output style="color: var(--nph-color-muted-foreground);" aria-live="polite"></output>
   </div>`;
 }
+
+/**
+ * Accessibility exception (P72, `docs/stories.md` §2.3), as in `nph-dropdown-menu` and `nph-context-menu`: the
+ * gate leaves out the axe rule `label-content-name-mismatch` in the stories that show a description. Reason: the
+ * name of the trigger is its title (`aria-labelledby`) and the description is its accessible description
+ * (`aria-describedby`, P121); axe compares the name with the whole visible text of the button and cannot tell the
+ * two apart. Understanding WCAG 2.5.3 counts such text as supplementary, not part of the label. Alternative
+ * discarded: putting the description in the name, which would make every trigger read its support line as its
+ * name, against the accepted contract. The same decision Elvys took for those two pieces; the extension to this
+ * piece (DSA-78) is for him to confirm in the pull request.
+ */
+export const DESCRIPTION_EXCEPTION = {
+  a11y: { options: { rules: { 'label-content-name-mismatch': { enabled: false } } } },
+};
+
+/**
+ * Accessibility exception (P72, `docs/stories.md` §2.3), for the stories that show a disabled piece that is open:
+ * the gate leaves out `label-content-name-mismatch` (above) and the axe rule `color-contrast`. Reason: the accepted
+ * contract keeps the content in view, faded under `state/disabled-opacity`, and axe measures the faded text of the
+ * content like any text, where WCAG 1.4.3 exempts the text of an inactive component. Alternative discarded: leaving
+ * the content out of the disabled demonstrations, which would hide the combined state (rule T11) the contract
+ * asks to show. It leaves when the gate can tell an inactive component. Proposed here; for Elvys to confirm in the
+ * pull request.
+ */
+export const DISABLED_CONTENT_EXCEPTION = {
+  a11y: { options: { rules: { 'label-content-name-mismatch': { enabled: false }, 'color-contrast': { enabled: false } } } },
+};

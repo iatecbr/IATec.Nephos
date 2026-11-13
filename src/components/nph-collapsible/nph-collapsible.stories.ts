@@ -11,6 +11,9 @@
  * the titles and the content, comes from the language dictionary, under the `collapsibleValidation` and
  * `validationPages` keys (`docs/i18n.md`, "Storybook").
  *
+ * The stories that show a description carry `DESCRIPTION_EXCEPTION`, and the one that shows a disabled piece open
+ * carries `DISABLED_CONTENT_EXCEPTION`; both are explained where they are defined.
+ *
  * Hover and focus are interaction states: they show up by moving the mouse over a trigger and by pressing
  * Tab, and the tests prove their colors and rings.
  */
@@ -23,11 +26,12 @@ import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-collapsible';
-import { bothModes, collapsible, examples, interactive, logContent, stack } from './nph-collapsible.demo';
+import { DESCRIPTION_EXCEPTION, DISABLED_CONTENT_EXCEPTION, bothModes, collapsible, examples, interactive, logContent, stack } from './nph-collapsible.demo';
 import type { ExampleTexts } from './nph-collapsible.demo';
 
 const meta: Meta = {
   title: 'Components/nph-collapsible/Validation',
+  parameters: DESCRIPTION_EXCEPTION,
 };
 
 export default meta;
@@ -148,6 +152,7 @@ export const Content: Story = {
 /** Disabled, and open and disabled together: the content stays in view, faded. Hover and focus show by interaction. */
 export const States: Story = {
   name: 'States',
+  parameters: DISABLED_CONTENT_EXCEPTION,
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return validationPage(
@@ -238,10 +243,16 @@ export const Brands: Story = {
       page('brands'),
       brandFrames(
         validationTitle(context, 'nph-collapsible', page('brands').storyId),
-        () => html`<div style="display: flex; flex-direction: column; gap: var(--nph-space-stack);">
-          ${collapsible(v, { open: true, description: v.support })} ${collapsible(v, { appearance: 'card', open: true })}
-          ${collapsible(v, { type: 'button', open: true })}
-        </div>`,
+        () => {
+          /* The content is a button, not text: the gate cannot read the background behind a text of the light DOM
+             slotted into a piece inside this matrix, and the brand shows in the trigger, the card and the button. */
+          const action = html`<div><nph-button text=${v.saveLabel}></nph-button></div>`;
+          return html`<div style="display: flex; flex-direction: column; gap: var(--nph-space-stack);">
+            ${collapsible(v, { open: true, description: v.support, content: action })}
+            ${collapsible(v, { appearance: 'card', open: true, content: action })}
+            ${collapsible(v, { type: 'button', open: true, content: action })}
+          </div>`;
+        },
       ),
     );
   },

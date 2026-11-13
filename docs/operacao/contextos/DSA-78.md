@@ -17,14 +17,17 @@ Build `nph-collapsible` in the contract accepted in Figma on 2026-11-12: a trigg
 - `src/tokens/generated/tokens.css`: the `collapsible/*` tokens
 
 ## Changes
-Component, CSS and tests of `nph-collapsible`.
+Component, CSS and tests of `nph-collapsible`; the stories (Validation), the Docs page, the dictionaries in three languages, the sheet `fichas/nph-collapsible.md` with its Metadata, P121 in `docs/decisoes-tecnicas.md`, and the word `beforematch` in the spelling dictionary.
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-78-collapsible origin/v/5.0.0` and `npm ci`
-- `npx vitest run --project unit src/components/nph-collapsible`
+- `npx vitest run --project unit src/components/nph-collapsible` and `--project storybook`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`
+- `npm run build:lib` and a read of `dist/custom-elements.json` for the event
+- the twelve proofs in sequence: `build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`, `test:spelling`, `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `git diff --check`
 
 ## Result
-In progress on the branch `feat/dsa-78-collapsible`: the component, its CSS and its tests are written and pass; stories, Docs page, dictionaries, sheet and P121 are next.
+The task is in review on the branch `feat/dsa-78-collapsible`. The component, its tests, stories, sheet and P121 are written; D-1 to D-4 wait for Indiane and do not block the pull request. `test:naming` and `test:spelling` fail on the base (text of DSA-80 and DSA-81), not on this branch.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -33,4 +36,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npx vitest run --project unit src/components/nph-collapsible`
+`gh pr view --json reviews,reviewThreads`

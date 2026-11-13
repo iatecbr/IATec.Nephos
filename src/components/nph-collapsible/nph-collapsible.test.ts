@@ -516,6 +516,22 @@ describe('closed content: out of the Tab order and found by the search of the pa
     expect(seen).toEqual([{ open: true }]);
   });
 
+  it('the page search opens the content at once, with no growth, so the browser scrolls to a text that is in view', async () => {
+    const piece = await mount();
+    content(piece).removeAttribute('hidden');
+    content(piece).dispatchEvent(new Event('beforematch', { bubbles: true }));
+    await piece.updateComplete;
+    expect(state(piece)).toBe('open');
+    expect(panel(piece).getAnimations()).toHaveLength(0);
+    expect(panel(piece).style.transition).toBe('');
+    const open = piece.getBoundingClientRect().height;
+    expect(open).toBeGreaterThan(trigger(piece).getBoundingClientRect().height);
+    /* The next change by the person grows again: the held transition is back. */
+    piece.open = false;
+    await piece.updateComplete;
+    expect(state(piece)).toBe('closing');
+  });
+
   it('after the page search opened it, closing hides the content again (the browser had taken the attribute off)', async () => {
     const piece = await mount();
     content(piece).removeAttribute('hidden');

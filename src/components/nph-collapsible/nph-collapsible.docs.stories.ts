@@ -19,7 +19,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-collapsible';
-import { bothModes, collapsible, examples, logContent, stack } from './nph-collapsible.demo';
+import { DISABLED_CONTENT_EXCEPTION, bothModes, collapsible, examples, logContent, stack } from './nph-collapsible.demo';
 import type { ExampleTexts } from './nph-collapsible.demo';
 import { body, demo, header, index, list as bullets, matrix, note, section, source, table, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
@@ -29,6 +29,7 @@ const meta: Meta = {
   title: 'Components/nph-collapsible/Docs',
   parameters: {
     layout: 'fullscreen',
+    ...DISABLED_CONTENT_EXCEPTION,
   },
 };
 
