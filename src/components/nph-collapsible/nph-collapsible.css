@@ -1,0 +1,310 @@
+/**
+ * Internal style of `nph-collapsible`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `collapsible/*` ones, which alias a semantic token, and the text roles
+ * `text/label-md`, `text/label-lg`, `text/body-sm` and `text/body-md`. The type, the appearance, the
+ * size and the indicator are read from the attributes the host reflects; where the content is, from
+ * `data-state` on the panel.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `1`, `none`, `100%`,
+ * `0fr` and `1fr` (the two rows of the growth), `-1` and `calc(-1 * ...)` (the focus border and halo
+ * outside the box, without changing its size), `scaleX(-1)` (the mirror of the chevron in right-to-left
+ * writing), `180deg` and `90deg` (the turn of the chevron, which the accepted documentation gives as an
+ * angle), and `3`, the line count of the preview: `-webkit-line-clamp` takes a number, not a token.
+ */
+
+/* Invalid input, or a piece with no title, takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid piece. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+/* Disabled fades the whole piece, the card outline included (the accepted contract). */
+:host([disabled]) {
+  opacity: var(--nph-collapsible-disabled-opacity);
+}
+
+/* The disabled button already dims itself: inside the dimmed piece it stays at full, so the effect is not doubled. */
+:host([disabled]) nph-button {
+  opacity: 1;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* ----- the appearance: flush has no padding and no outline, the card carries both ------ */
+
+:host([appearance='card']) .root,
+:host([appearance='card']) .preview {
+  padding: var(--nph-collapsible-card-padding);
+  border: var(--nph-collapsible-card-border-width) solid var(--nph-collapsible-card-border);
+  border-radius: var(--nph-collapsible-card-radius);
+  background-color: var(--nph-collapsible-card-background);
+}
+
+/* ----- the trigger of the line type ----------------------------------------------------- */
+
+.trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-collapsible-trigger-gap);
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: var(--nph-collapsible-trigger-height);
+  margin: 0;
+  padding-block: var(--nph-collapsible-trigger-padding-y);
+  padding-inline: var(--nph-collapsible-trigger-padding-x);
+  border: 0;
+  border-radius: var(--nph-collapsible-trigger-radius);
+  background: transparent;
+  color: var(--nph-collapsible-title-foreground);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  /* The native button outline is replaced by the focus border and halo below. */
+  outline: none;
+}
+
+:host([size='compact']) .trigger {
+  min-block-size: var(--nph-collapsible-trigger-height-compact);
+  padding-block: var(--nph-collapsible-trigger-padding-y-compact);
+}
+
+:host([size='large']) .trigger {
+  min-block-size: var(--nph-collapsible-trigger-height-large);
+}
+
+.trigger:disabled {
+  cursor: default;
+}
+
+/* Hover paints the trigger only: the whole row in flush, a pill inside the card padding in the card. */
+.trigger:not(:disabled):hover {
+  background-color: var(--nph-collapsible-trigger-background-hover);
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nph-collapsible-title-gap);
+  min-inline-size: 0;
+}
+
+.title {
+  color: var(--nph-collapsible-title-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+:host([size='large']) .title {
+  font-family: var(--nph-text-label-lg-font-family);
+  font-size: var(--nph-text-label-lg-font-size);
+  font-weight: var(--nph-text-label-lg-font-weight);
+  line-height: var(--nph-text-label-lg-line-height);
+  letter-spacing: var(--nph-text-label-lg-letter-spacing);
+}
+
+.description {
+  inline-size: 100%;
+  color: var(--nph-collapsible-description-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/* The icon and the indicator read their box from the component tokens, handed to the size they use. */
+.indicator {
+  --nph-icon-size-sm: var(--nph-collapsible-indicator-size);
+  flex: none;
+  color: var(--nph-collapsible-indicator-foreground);
+}
+
+.icon {
+  --nph-icon-size-sm: var(--nph-collapsible-icon-size);
+  flex: none;
+  color: var(--nph-collapsible-icon-foreground);
+}
+
+/* ----- the movement: the chevron turns in the expand duration ----------------------------- */
+
+.indicator {
+  transform: none;
+  transition-property: transform;
+  transition-duration: var(--nph-collapsible-expand-duration);
+  transition-timing-function: var(--nph-collapsible-expand-easing);
+}
+
+/* At the end the chevron points down and turns a half; at the start it points right and turns a quarter, down. */
+.trigger[aria-expanded='true'] .indicator[name='chevron-down'] {
+  transform: rotate(180deg);
+}
+
+.trigger[aria-expanded='true'] .indicator[name='chevron-right'] {
+  transform: rotate(90deg);
+}
+
+/* Right-to-left writing: the closed chevron at the start points to the start, which is the left. */
+:host(:dir(rtl)) .indicator[name='chevron-right'] {
+  transform: scaleX(-1);
+}
+
+:host(:dir(rtl)) .trigger[aria-expanded='true'] .indicator[name='chevron-right'] {
+  transform: rotate(90deg);
+}
+
+/* ----- focus: a border on the trigger and, outside it, a halo ------------------------------ */
+
+.trigger:focus-visible::before,
+.trigger:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.trigger:focus-visible::before {
+  inset: calc(-1 * var(--nph-collapsible-focus-border-width));
+  border: var(--nph-collapsible-focus-border-width) solid var(--nph-collapsible-focus-border);
+  border-radius: var(--nph-collapsible-focus-border-radius);
+}
+
+.trigger:focus-visible::after {
+  inset: calc(-1 * (var(--nph-collapsible-focus-border-width) + var(--nph-collapsible-focus-halo-width)));
+  border: var(--nph-collapsible-focus-halo-width) solid var(--nph-collapsible-focus-halo);
+  border-radius: var(--nph-collapsible-focus-halo-radius);
+}
+
+/*
+ * With forced colors the browser drops the system's own outline replaced above, so the trigger keeps one
+ * in the system color for the focus (`Highlight`, no token: the user's palette decides).
+ */
+@media (forced-colors: active) {
+  .trigger:focus-visible {
+    outline: var(--nph-collapsible-focus-border-width) solid Highlight;
+  }
+}
+
+/* ----- the trigger of the button and preview types: an nph-button -------------------------- */
+
+.button-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* ----- the content: it grows down and pushes what comes below ----------------------------- */
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition-property: grid-template-rows;
+  transition-duration: var(--nph-collapsible-expand-duration);
+  transition-timing-function: var(--nph-collapsible-expand-easing);
+}
+
+.panel[data-state='opening'],
+.panel[data-state='open'] {
+  grid-template-rows: 1fr;
+}
+
+/*
+ * The clip has no padding: a box with padding does not shrink below it, so the padding lives on the
+ * content inside. It clips while the content moves and when it is closed; steady and open it lets the
+ * focus halo of what is inside show.
+ */
+.clip {
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.panel[data-state='open'] .clip {
+  overflow: visible;
+}
+
+.content {
+  display: flex;
+  gap: var(--nph-collapsible-trigger-gap);
+  padding-block-start: var(--nph-collapsible-content-padding-top);
+  padding-block-end: var(--nph-collapsible-content-padding-bottom);
+  padding-inline: var(--nph-collapsible-content-padding-x);
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+/* The content lines up with the title: the indicator and the start icon each take their width and the gap. */
+.indent {
+  flex: none;
+}
+
+.indent-indicator {
+  inline-size: var(--nph-collapsible-indicator-size);
+}
+
+.indent-icon {
+  inline-size: var(--nph-collapsible-icon-size);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--nph-collapsible-content-gap);
+  min-inline-size: 0;
+}
+
+/* ----- the preview type: the text cut at three lines, and the button below --------------- */
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-collapsible-preview-gap);
+  box-sizing: border-box;
+}
+
+.preview-content {
+  padding-inline: var(--nph-collapsible-content-padding-x);
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.preview-content[data-clamped] {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Reduced motion: the content opens and the chevron swaps with no movement. */
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .indicator {
+    transition: none;
+  }
+}

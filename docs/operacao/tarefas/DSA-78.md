@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 770,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-collapsible",
   "dependencies": [
     "DSA-03",
@@ -49,8 +49,8 @@
     "excerpt": null,
     "converted_decision": "The nph-collapsible documentation frame (6014:1688, page 4128:35275) was accepted as the API and behavior specification of the nph-collapsible, with the visual acceptance of the root (6005:482). COMPONENT_SET nph-collapsible (6006:2250). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-78-collapsible", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-78.md",
   "updated_at": "2026-11-12"
 }
 ```
