@@ -133,6 +133,22 @@ overrides:
       - '/(?<=^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:\s+)[\p{L}\w/.-]+\s*$/gmu'
       - '/(?<=^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:\s*\[\s*(?:(?:[^\]''"\n,]*|''[^''\n]*''|"[^"\n]*")\s*,\s*)*)(?:[\p{L}\w/.-]+|''[\p{L}\w/.-]+''|"[\p{L}\w/.-]+")(?=\s*[,\]])/gmu'
 
+  # The task DSA-80 cites a library (cmdk) and a design system (Nord) by name, and quotes the Portuguese
+  # texts of the nph-command examples as they are in the accepted board (P64: Figma is in Portuguese).
+  - filename: 'docs/operacao/tarefas/DSA-80.md'
+    words:
+      - cmdk
+      - Nord
+      - Buscando
+      - Paleta
+      - comandos
+      - comando
+      - Recentes
+  # The task DSA-81 names a brand (vertical), a proper name.
+  - filename: 'docs/operacao/tarefas/DSA-81.md'
+    words:
+      - Igrejas
+
 dictionaryDefinitions:
   # People, places, products and standards.
   - name: nephos-names
