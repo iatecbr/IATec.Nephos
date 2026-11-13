@@ -72,9 +72,9 @@ import '../nph-skeleton/nph-skeleton';
 import '../nph-tooltip/nph-tooltip';
 import {
   MINUTES_PER_DAY,
-  NPH_SCHEDULER_COLORS,
-  NPH_SCHEDULER_VIEWS,
-  NPH_SCHEDULER_WEEK_STARTS,
+  NPH_SCHEDULER_COLORS as LOGIC_COLORS,
+  NPH_SCHEDULER_VIEWS as LOGIC_VIEWS,
+  NPH_SCHEDULER_WEEK_STARTS as LOGIC_WEEK_STARTS,
   TIME_SHOWN_MINUTES,
   addMonths,
   coversDay,
@@ -95,28 +95,29 @@ import {
 } from './nph-scheduler.logic';
 import type {
   Day,
-  NphSchedulerCalendar,
-  NphSchedulerEvent,
-  NphSchedulerPerson,
-  NphSchedulerView,
-  NphSchedulerWeekStart,
+  NphSchedulerCalendar as LogicCalendar,
+  NphSchedulerColor as LogicColor,
+  NphSchedulerEvent as LogicEvent,
+  NphSchedulerPerson as LogicPerson,
+  NphSchedulerView as LogicView,
+  NphSchedulerWeekStart as LogicWeekStart,
   Occurrence,
 } from './nph-scheduler.logic';
 import schedulerCss from './nph-scheduler.css?inline';
 
-export {
-  NPH_SCHEDULER_COLORS,
-  NPH_SCHEDULER_VIEWS,
-  NPH_SCHEDULER_WEEK_STARTS,
-} from './nph-scheduler.logic';
-export type {
-  NphSchedulerCalendar,
-  NphSchedulerColor,
-  NphSchedulerEvent,
-  NphSchedulerPerson,
-  NphSchedulerView,
-  NphSchedulerWeekStart,
-} from './nph-scheduler.logic';
+/*
+ * The public names of the logic file, declared here and not re-exported from it: the manifest of the
+ * package describes this module, and the logic file is bundled into it (it is not a file of the package).
+ */
+export const NPH_SCHEDULER_COLORS = LOGIC_COLORS;
+export const NPH_SCHEDULER_VIEWS = LOGIC_VIEWS;
+export const NPH_SCHEDULER_WEEK_STARTS = LOGIC_WEEK_STARTS;
+export type NphSchedulerCalendar = LogicCalendar;
+export type NphSchedulerColor = LogicColor;
+export type NphSchedulerEvent = LogicEvent;
+export type NphSchedulerPerson = LogicPerson;
+export type NphSchedulerView = LogicView;
+export type NphSchedulerWeekStart = LogicWeekStart;
 
 const TAG = 'nph-scheduler';
 

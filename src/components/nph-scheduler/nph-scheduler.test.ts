@@ -1650,6 +1650,7 @@ describe('the language and the direction', () => {
     holder.append(element);
     pt.append(holder);
     await settle(element);
+    // cspell:disable-next-line -- the expected date is written in the language the test sets
     expect(dayNames(element)[0]).toBe('segunda-feira, 9 de novembro de 2026');
     expect(textOf(part(element, '.period'))).toMatch(/9 a 13 de nov\.? de 2026|9.*13.*nov.*2026/);
     expect(eventByTitle(element, 'Team stand-up', 'grid').getAttribute('aria-label')).toContain('9:00 – 10:00');
@@ -1663,6 +1664,7 @@ describe('the language and the direction', () => {
     shadow.append(inner);
     document.body.append(hosted);
     await settle(inner);
+    // cspell:disable-next-line -- the expected date is written in the language the test sets
     expect(dayNames(inner)[0]).toBe('lunes, 9 de noviembre de 2026');
     const plain = await mount();
     expect(dayNames(plain)[0]).toBe('Monday, November 9, 2026');
@@ -1674,6 +1676,7 @@ describe('the language and the direction', () => {
     document.documentElement.lang = 'pt-BR';
     await new Promise((resolve) => setTimeout(resolve, 50));
     await settle(element);
+    // cspell:disable-next-line -- the expected date is written in the language the test sets
     expect(dayNames(element)[0]).toBe('segunda-feira, 9 de novembro de 2026');
   });
 

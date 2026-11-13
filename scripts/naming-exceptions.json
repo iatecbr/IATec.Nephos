@@ -195,14 +195,5 @@
       "financeiro",
       "sistemas"
     ]
-  },
-  {
-    "file": "src/components/nph-scheduler/nph-scheduler.ts",
-    "class": "token-schema",
-    "names": [
-      "educacao",
-      "financeiro",
-      "sistemas"
-    ]
   }
 ]
