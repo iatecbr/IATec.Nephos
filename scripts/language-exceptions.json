@@ -548,5 +548,49 @@
       "foco"
     ],
     "reason": "The state atual-foco of nph-navigation-menu, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-80/figma-docs-accepted-2026-11-12.md",
+    "class": "prose-text",
+    "names": [
+      "Novo",
+      "documento",
+      "para",
+      "início",
+      "Buscar",
+      "Nenhum",
+      "que",
+      "ou",
+      "termo",
+      "navegar",
+      "abrir",
+      "fechar",
+      "Ações",
+      "Navegar",
+      "Abrir",
+      "configurações",
+      "Excluir",
+      "rascunho",
+      "de"
+    ],
+    "reason": "Portuguese texts of the nph-command examples (command names, group labels, placeholder, empty-state texts, hint words and the name of the dialog), quoted as they appear in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-80.md",
+    "class": "prose-text",
+    "names": [
+      "de",
+      "Buscar"
+    ],
+    "reason": "Portuguese texts of the nph-command examples (the name of the dialog and the placeholder of the search field), quoted as they appear in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-81/figma-preview-accepted-2026-11-13.md",
+    "class": "prose-text",
+    "names": [
+      "Educação",
+      "Sistemas"
+    ],
+    "reason": "Names of two brands (verticals), proper names, quoted in the contrast measurements per brand."
   }
 ]
