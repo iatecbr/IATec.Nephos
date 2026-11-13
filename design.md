@@ -428,7 +428,7 @@ tokens_semantic:
     css: '--nph-color-dialog'
     claro: core/base/white
     escuro: core/surface/600
-    use: "Background of dialog, modal and side panel - the layer that BLOCKS the page. In dark it rises to surface/600, one step above the popover: it is the highest level of the ramp, and in dark the ramp IS the elevation. USE always with overlay/scrim."
+    use: "Background of dialog, modal and side panel - the layer that BLOCKS the page. In dark it rises to surface/600, one step above the popover: it is the highest level of the ramp, and in dark the ramp IS the elevation. USE always with overlay/scrim. Also the panel of the nph-command, which opens in a dialog (command/background)."
     nao_use: "Popover or dropdown menu - those are color/popover. Tooltip is color/tooltip."
   color/dialog-foreground:
     css: '--nph-color-dialog-foreground'
@@ -439,8 +439,8 @@ tokens_semantic:
     css: '--nph-color-dialog-separator'
     claro: core/neutral/100
     escuro: core/surface/500
-    use: "Line of the nph-dialog header and footer. Softer than color/border, to separate long content, such as a list or a table, without weight. Decorative: the content does not depend on it."
-    nao_use: "Outside the nph-dialog. A divider of a page, card or table is color/border."
+    use: "Line of the nph-dialog header and footer. Softer than color/border, to separate long content, such as a list or a table, without weight. Decorative: the content does not depend on it. Also the lines between the field, the list and the footer of the nph-command, which opens in a dialog (command/divider)."
+    nao_use: "Outside the nph-dialog and the nph-command. A divider of a page, card or table is color/border."
   color/secondary-on-dialog:
     css: '--nph-color-secondary-on-dialog'
     claro: color/secondary
@@ -1363,7 +1363,7 @@ tokens_texto_destaque:
     css: '--nph-text-highlight-weight'
     alias: core/weight/semibold
     valor: 600
-    use: "Weight of the highlighted stretch inside a text, such as the searched term in the nph-combobox list. USE only on the stretch that repeats what the person typed; the rest of the text keeps the weight of its role. DO NOT USE for a whole title or label: use the text role."
+    use: "Weight of the highlighted stretch inside a text, such as the searched term in the nph-combobox list and in the nph-command list (command/highlight-weight). USE only on the stretch that repeats what the person typed; the rest of the text keeps the weight of its role. DO NOT USE for a whole title or label: use the text role."
 
 # ---------------------------------------------------------------
 # SPACING - primitives in core (invisible) and 7 intent tokens
@@ -1400,12 +1400,12 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline. Also the gap between the rows of the nph-panel-menu list, section, second and third level and loading rows (panel-menu/item-gap). Also the top and bottom padding and the gap of the nph-scheduler event, the day label padding, the sides and gap of the month cell and the list item padding (scheduler/event-padding-y, scheduler/event-gap, scheduler/day-label-padding-y, scheduler/month-cell-padding-x, scheduler/month-cell-gap, scheduler/list-item-padding). Also the top and bottom padding of the nph-collapsible trigger in the compact size and the gap between its icon, title and indicator (collapsible/trigger-padding-y-compact, collapsible/trigger-gap)."
+    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline. Also the gap between the rows of the nph-panel-menu list, section, second and third level and loading rows (panel-menu/item-gap). Also the top and bottom padding and the gap of the nph-scheduler event, the day label padding, the sides and gap of the month cell and the list item padding (scheduler/event-padding-y, scheduler/event-gap, scheduler/day-label-padding-y, scheduler/month-cell-padding-x, scheduler/month-cell-gap, scheduler/list-item-padding). Also the breathing room around the nph-command list, as the nph-select list (DSA-29 D9), the breathing room of its search row around the field, the gap between the spinner and the text of its loading state and between the key and the word of each footer hint (command/list-padding, command/search-padding, command/status-gap, command/hint-gap). Also the top and bottom padding of the nph-collapsible trigger in the compact size and the gap between its icon, title and indicator (collapsible/trigger-padding-y-compact, collapsible/trigger-gap)."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
     valor: 8
-    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item. Also the side padding of the nph-scheduler event, the gap of its toolbar and day header, the day padding, the top and bottom of the month cell and the gaps of the list and the empty state (scheduler/event-padding-x, scheduler/toolbar-gap, scheduler/day-header-gap, scheduler/day-padding, scheduler/month-cell-padding-y, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/empty-gap). Also the top and bottom padding of the nph-collapsible trigger in the default and large sizes (collapsible/trigger-padding-y), by decision, as in nph-navigation-menu."
+    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item. Also the side padding of the nph-scheduler event, the gap of its toolbar and day header, the day padding, the top and bottom of the month cell and the gaps of the list and the empty state (scheduler/event-padding-x, scheduler/toolbar-gap, scheduler/day-header-gap, scheduler/day-padding, scheduler/month-cell-padding-y, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/empty-gap). Also the padding of the nph-command hint footer (DSA-46 D-2) and the gap between its hints (command/footer-padding, command/footer-gap). Also the top and bottom padding of the nph-collapsible trigger in the default and large sizes (collapsible/trigger-padding-y), by decision, as in nph-navigation-menu."
   space/stack-tight:
     css: '--nph-space-stack-tight'
     alias: core/space/100
@@ -1634,7 +1634,7 @@ tokens_radius:
     css: '--nph-radius-overlay'
     alias: core/radius/450
     valor: 10
-    use: "USE on a large floating layer: dialog, modal, side panel, and the floating notice (toast) of nph-notification. It is the BASE of the reference kit scale (--radius = 10). DO NOT USE on tooltip (radius/inner) nor on popover, hover card or menu, which have their own radius."
+    use: "USE on a large floating layer: dialog, modal, side panel, and the floating notice (toast) of nph-notification and the nph-command panel (command/radius). It is the BASE of the reference kit scale (--radius = 10). DO NOT USE on tooltip (radius/inner) nor on popover, hover card or menu, which have their own radius."
   radius/surface:
     css: '--nph-radius-surface'
     alias: core/radius/600
@@ -2064,7 +2064,7 @@ tokens_layout:
     css: '--nph-layout-max-list-height'
     alias: core/layout-height/list
     valor: 296
-    use: "Maximum height of the option list of nph-select and nph-combobox: it shows up to 8 options; above it, the list scrolls. DO NOT USE outside an option list."
+    use: "Maximum height of the option list of nph-select, nph-combobox and nph-command (command/list-max-height): it shows up to 8 options; above it, the list scrolls. DO NOT USE outside an option list."
   layout/textarea-min-height:
     css: '--nph-layout-textarea-min-height'
     alias: core/layout-height/textarea-min
@@ -2089,7 +2089,7 @@ tokens_layout:
     css: '--nph-layout-dialog-md'
     alias: core/layout-width/reading
     valor: 560
-    use: "Width ceiling of the default nph-dialog. The dialog hugs its content up to here. USE for a short form and most dialogs."
+    use: "Width ceiling of the default nph-dialog. The dialog hugs its content up to here. USE for a short form and most dialogs. Also the width ceiling of the nph-command (command/max-width), never a fixed width."
   layout/dialog-lg:
     css: '--nph-layout-dialog-lg'
     alias: core/layout-width/dialog-lg

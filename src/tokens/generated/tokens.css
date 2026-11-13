@@ -1007,6 +1007,17 @@
   --nph-collapsible-focus-border-radius: var(--nph-focus-border-radius-control);
   --nph-collapsible-focus-halo-width: var(--nph-focus-ring-width);
   --nph-collapsible-focus-halo-radius: var(--nph-focus-radius-control-with-border);
+  --nph-command-radius: var(--nph-radius-overlay);
+  --nph-command-max-width: var(--nph-layout-dialog-md);
+  --nph-command-search-padding: var(--nph-space-inline-tight);
+  --nph-command-list-max-height: var(--nph-layout-max-list-height);
+  --nph-command-list-padding: var(--nph-space-inline-tight);
+  --nph-command-highlight-weight: var(--nph-text-highlight-weight);
+  --nph-command-state-padding: var(--nph-space-container-padding);
+  --nph-command-status-gap: var(--nph-space-inline-tight);
+  --nph-command-footer-padding: var(--nph-space-inline);
+  --nph-command-footer-gap: var(--nph-space-inline);
+  --nph-command-hint-gap: var(--nph-space-inline-tight);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1294,6 +1305,10 @@
   --nph-collapsible-icon-foreground: var(--nph-color-muted-foreground);
   --nph-collapsible-card-background: var(--nph-color-card);
   --nph-collapsible-card-border: var(--nph-color-border);
+  --nph-command-background: var(--nph-color-dialog);
+  --nph-command-divider: var(--nph-color-dialog-separator);
+  --nph-command-status-foreground: var(--nph-color-muted-foreground);
+  --nph-command-footer-foreground: var(--nph-color-muted-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
