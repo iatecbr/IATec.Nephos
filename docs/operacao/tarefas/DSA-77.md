@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 760,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-scheduler",
   "dependencies": [
     "DSA-03",
@@ -102,8 +102,8 @@
   },
   "git_review": {
     "branch": "feat/dsa-77-scheduler",
-    "commit": null,
-    "pr": null
+    "commit": "29e9841",
+    "pr": 171
   },
   "context": "docs/operacao/contextos/DSA-77.md",
   "updated_at": "2026-11-13"
