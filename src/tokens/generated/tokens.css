@@ -809,6 +809,7 @@
   --nph-data-table-pagination-gap: var(--nph-space-inline);
   --nph-data-table-empty-gap: var(--nph-space-stack);
   --nph-input-height-compact: var(--nph-control-height-compact);
+  --nph-combobox-free-text-padding-end: var(--nph-space-control-padding);
   --nph-navigation-menu-trigger-padding-x: var(--nph-space-control-padding);
   --nph-navigation-menu-trigger-padding-y: var(--nph-space-inline);
   --nph-navigation-menu-trigger-gap: var(--nph-space-inline-tight);
