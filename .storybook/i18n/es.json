@@ -1017,6 +1017,10 @@
       [
         "shape",
         "Esquinas del botón solo con icono: square (el predeterminado) en radius/control o circular en radius/full. El tamaño y el objetivo táctil no cambian. Con texto, solo square. Reflejado en el atributo."
+      ],
+      [
+        "controls",
+        "El elemento que este botón abre o cierra, para el aria-controls del disparador de un disclosure, como el nph-collapsible. Solo como propiedad: el botón nativo lo recibe como ariaControlsElements."
       ]
     ],
     "usageTitle": "Uso",

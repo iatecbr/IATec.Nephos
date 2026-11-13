@@ -1017,6 +1017,10 @@
       [
         "shape",
         "Cantos do botão só com ícone: square (o padrão) em radius/control ou circular em radius/full. O tamanho e o alvo de toque não mudam. Com texto, só square. Refletido no atributo."
+      ],
+      [
+        "controls",
+        "O elemento que este botão abre ou fecha, para o aria-controls do gatilho de um disclosure, como o nph-collapsible. Só como propriedade: o botão nativo o recebe como ariaControlsElements."
       ]
     ],
     "usageTitle": "Uso",

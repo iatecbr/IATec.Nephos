@@ -1017,6 +1017,10 @@
       [
         "shape",
         "Corners of the icon-only button: square (the default) on radius/control or circular on radius/full. The size and the touch target do not change. With text, only square. Reflected to the attribute."
+      ],
+      [
+        "controls",
+        "The element this button opens or closes, for the aria-controls of a disclosure trigger such as nph-collapsible. Property only: the native button takes it as ariaControlsElements."
       ]
     ],
     "usageTitle": "Usage",
