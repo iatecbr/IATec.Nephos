@@ -161,13 +161,18 @@
   transform: rotate(90deg);
 }
 
-/* Right-to-left writing: the closed chevron at the start points to the start, which is the left. */
+/*
+ * Right-to-left writing: the closed chevron at the start points to the start, which is the left. Closed and open
+ * keep the same two functions in the same order, so the browser turns between them function by function: the
+ * mirror and the quarter turn as one list. A mirror against a bare turn is interpolated as two matrices and the
+ * arrow goes flat on the way (`rotate(-90deg)` after the mirror points down).
+ */
 :host(:dir(rtl)) .indicator[name='chevron-right'] {
-  transform: scaleX(-1);
+  transform: rotate(0deg) scaleX(-1);
 }
 
 :host(:dir(rtl)) .trigger[aria-expanded='true'] .indicator[name='chevron-right'] {
-  transform: rotate(90deg);
+  transform: rotate(-90deg) scaleX(-1);
 }
 
 /* ----- focus: a border on the trigger and, outside it, a halo ------------------------------ */

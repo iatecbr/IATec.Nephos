@@ -1290,6 +1290,18 @@ describe('right-to-left writing', () => {
     expect(Math.round(Math.atan2(open.b, open.a) * (180 / Math.PI))).toBe(90);
   });
 
+  it('the chevron at the start never goes flat while it turns: the mirror and the turn are one list', async () => {
+    document.documentElement.setAttribute('dir', 'rtl');
+    const piece = await mount({ indicator: 'start' });
+    piece.open = true;
+    await piece.updateComplete;
+    for (const delay of [30, 60, 60]) {
+      await wait(delay);
+      const matrix = new DOMMatrix(getComputedStyle(root(piece).querySelector('.indicator') as Element).transform);
+      expect(Math.abs(matrix.a * matrix.d - matrix.b * matrix.c)).toBeGreaterThan(0.9);
+    }
+  });
+
   it('the content still lines up with the title and the button hugs the start', async () => {
     document.documentElement.setAttribute('dir', 'rtl');
     const piece = await mount({ open: true, indicator: 'start', icon: 'gear' });
