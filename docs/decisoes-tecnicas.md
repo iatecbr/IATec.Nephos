@@ -76,7 +76,7 @@ P62.4 subsection for the detail).
 | **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) the focusable span of a cut pending step (D-4) and the connector against a status set out of position (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P118** | API and semantics of `nph-tree` | 11/11/2026 | Low now. No piece consumes it yet; the Tree Select and the Tree Table will, and changing `items`, the state properties `selection`, `selected`, `checked` and `expanded`, the cascade, the events `nph-tree-toggle`, `nph-tree-select`, `nph-tree-check` and `nph-tree-load`, the load on demand, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The Tree Table against the tree of `nph-table` (D-1) and the focus border of the disabled item (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. The dashed border token (D-1), the description of the button (D-2), the items of a disabled zone (D-3), the error inside `nph-field` (D-4) and the lines of the item (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P121** | API and semantics of `nph-collapsible` | 13/11/2026 | Low now. No piece consumes it yet; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The `aria-expanded` of the `nph-button` (D-1), the preview that does not grow (D-2) the preview of fewer than three lines (D-3) and the growth against the motion rule (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The `aria-expanded` of the `nph-button` (D-1), the preview that does not grow (D-2) the preview of fewer than three lines (D-3) and the growth against the motion rule (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -6639,7 +6639,7 @@ A new token, and a change in `color/primary` of any brand.
   what does not fit; the card does not scroll. Indiane decides whether the card needs another fallback for
   such a window, such as a maximum height with scrolling, which the contract rules out today.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-3 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7272,7 +7272,7 @@ attached or inset surface and the `nph-drawer`. A keyboard shortcut to collapse.
   lines, the padding of the group label and the gap of the logo row are not written either. She gives the
   tokens in the next batch, or accepts these.
 
-**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-4 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-3 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7832,7 +7832,7 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
-## P121 — `nph-collapsible`: API and semantics
+## P121 — `nph-collapsible`: API and semantics; the disclosure trigger of `nph-button` (amends P68)
 
 **Technical conflict.** The accepted documentation (frame `6014:1688`, set `6006:2250`, root
 `6005:482`) gives the Figma properties `tipo`, `aparencia`, `indicador`, `size`, `aberto` and `state`,
@@ -7905,16 +7905,21 @@ cause: the rule of P21. The names follow P64.
    The indicator and the start icon are `aria-hidden`. The content has no role: many pieces on a page
    would otherwise be many landmarks.
 
-6. **The `nph-button` trigger is told the state from outside (limit, D-1).** The `button` and
-   `preview` types draw an `nph-button` (secondary, ghost, default size, `chevron-down` closed and
-   `chevron-up` open, light, as the accepted contract says). The `nph-button` is not changed by this
-   task, and it carries no `aria-haspopup`: the open trigger of a disclosure stays ghost (DSA-67 D-2).
-   The piece writes `aria-expanded` on the native button inside the `nph-button` and gives it
-   `ariaControlsElements` with the content, as the sidebar pieces do for `aria-controls` (P116), after
-   the `nph-button` has rendered, and again after each update, because the native button is made
-   again when the `nph-button` goes invalid and comes back. It depends on the `nph-button` keeping one
-   native button in its open shadow root. D-1 asks whether `nph-button` gains a forward of
-   `aria-expanded` and `aria-controls`.
+6. **`nph-button` hands the state of a disclosure to its native button (amends P68, after P111 and
+   P116).** The `button` and `preview` types draw an `nph-button` (secondary, ghost, default size,
+   `chevron-down` closed and `chevron-up` open, light, as the accepted contract says), and the evidence
+   asks it to carry `aria-expanded` and `aria-controls`. `nph-button` handed `aria-expanded` to its native
+   button only with `aria-haspopup` `dialog` or `menu` (P111), which also draws the open look that DSA-67
+   D-2 forbids here, and an id reference does not cross a shadow root. The amendment is strictly additive:
+   a host that carries `aria-expanded` `true` or `false` **and no `aria-haspopup` at all** hands it to its
+   native button and draws nothing new (no `hover-active`, no solid icon, no marker, no color); any
+   `aria-haspopup` keeps its rules, and any other value (`listbox`) still hands nothing over; a host with
+   no `aria-expanded` is as it was. `nph-button` gains one property, `controls` (an element, property
+   only, the name the sidebar pieces use in P116), which it gives to its native button as
+   `ariaControlsElements`, written after each render because the native button is made again when the
+   button goes invalid and comes back. The collapsible sets `aria-expanded` on the `nph-button` and
+   `controls` to its content. Tests of both pieces prove that the default look and the P111 look do not
+   change. The sheet of `nph-button` records the rule.
 
 7. **Closed content leaves the Tab order and is found by the page search.** The content box is
    `hidden="until-found"` while closed, which also takes it out of the accessibility tree and out of
@@ -7936,15 +7941,15 @@ cause: the rule of P21. The names follow P64.
    reduced motion the CSS sets no transition and the piece goes to the end state at once. The accepted
    documentation asks for the growth, while `design.md` (`movimento_regras`) says to animate only opacity
    and transform, and not width, height or layout position. The two sources diverge: the piece follows the
-   accepted documentation and animates the rows of one grid, and the divergence waits for Indiane (D-4).
+   accepted documentation and animates the rows of one grid, and the divergence waits for Indiane (D-3).
    When the page search opens the content, it opens at once, as the native `details` element does, because
    the browser scrolls to the text it found while the content is still cut.
 
 9. **The preview does not grow.** The text is cut by `-webkit-line-clamp` at three lines, the count
    written in the CSS because a line count is not a token, as the `nph-stepper` does with its two. Open,
-   the cut is lifted and the button swaps its text and its chevron; nothing moves (D-2). The button is
+   the cut is lifted and the button swaps its text and its chevron; nothing moves (D-1). The button is
    drawn even when the text has fewer than three lines, since the contract does not say otherwise
-   (D-3). The preview type is for text: a link or a button inside the cut part stays in the Tab order,
+   (D-2). The preview type is for text: a link or a button inside the cut part stays in the Tab order,
    which the sheet records.
 
 10. **The focus.** No `delegatesFocus`: a click on the content would be sent to the trigger. `focus()`
@@ -7967,19 +7972,16 @@ stepper waits for its own task (DSA-73).
 
 **Pending, for Indiane (the task records them; none blocks the pull request).**
 
-- **D-1 — `aria-expanded` on the `nph-button`.** The piece writes the state into the native button of
-  the `nph-button` from outside. She decides whether `nph-button` gains a forward of `aria-expanded` and
-  `aria-controls` without the open look, a change outside this task.
-- **D-2 — the preview does not grow.** The cut is lifted with no movement. She confirms the reading, or
+- **D-1 — the preview does not grow.** The cut is lifted with no movement. She confirms the reading, or
   draws the movement.
-- **D-3 — a preview of fewer than three lines.** The button is drawn anyway. She confirms it, or says
+- **D-2 — a preview of fewer than three lines.** The button is drawn anyway. She confirms it, or says
   that the button goes away when nothing is cut.
-- **D-4 — the growth and the motion rule.** The accepted documentation asks for the content to grow in
+- **D-3 — the growth and the motion rule.** The accepted documentation asks for the content to grow in
   `motion/expand-*`, and `design.md` says to animate only opacity and transform, and not height. The piece
   follows the documentation. She confirms the reading, or the rule gets an exception for the expansion of a
   disclosure.
 
-**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-1 to D-4 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-1 to D-3 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---

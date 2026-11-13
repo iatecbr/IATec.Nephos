@@ -90,9 +90,6 @@ export interface NphCollapsibleToggleDetail {
 /** Where the content is: steady, or growing or shrinking. Internal, not API. */
 type Phase = 'closed' | 'opening' | 'open' | 'closing';
 
-/** The native button and the reflection the browser gives it for the elements an `aria-controls` points to. */
-type ControlsTarget = HTMLElement & { ariaControlsElements: readonly Element[] | null };
-
 /** Development message; outside a bundler with `import.meta.env`, it stays silent. */
 function devMessage(kind: 'error' | 'warn', message: string): void {
   if (import.meta.env?.DEV) {
@@ -316,7 +313,7 @@ export class NphCollapsible extends LitElement {
 
   protected override updated(changed: PropertyValues<this>): void {
     this.applyHidden();
-    void this.wireButton();
+    this.wireControls();
     if (this.instant) this.openWithoutMovement();
 
     if (this.phase === 'opening' || this.phase === 'closing') {
@@ -354,6 +351,13 @@ export class NphCollapsible extends LitElement {
     panel.style.transition = '';
   }
 
+  /** The `nph-button` trigger points to the content by its `controls`, an element: an `id` cannot cross a shadow root. */
+  private wireControls(): void {
+    if (!this.buttonTrigger) return;
+    const button = this.renderRoot.querySelector<NphButton>('nph-button');
+    if (button !== null) button.controls = this.content;
+  }
+
   /** A safety net for the end of the growth: a transition never ends in a box that is not rendered. */
   private settleSoon(): void {
     if (this.settleTimer !== undefined) return;
@@ -389,24 +393,6 @@ export class NphCollapsible extends LitElement {
       content.removeAttribute('hidden');
     }
     content.toggleAttribute('inert', this.phase === 'closing');
-  }
-
-  /**
-   * The native button of an `nph-button` carries the state of the disclosure: it is the element with a role,
-   * and an `id` reference cannot reach the content across the shadow root, so the reflection of the elements
-   * is used (the rule of P116). It is written again after each update because the native button is made
-   * again when the `nph-button` goes invalid and comes back.
-   */
-  private async wireButton(): Promise<void> {
-    if (!this.buttonTrigger) return;
-    const button = this.renderRoot.querySelector<NphButton>('nph-button');
-    if (button === null) return;
-    await button.updateComplete;
-    const native = button.shadowRoot?.querySelector<ControlsTarget>('button') ?? null;
-    const content = this.content;
-    if (native === null || content === null) return;
-    native.setAttribute('aria-expanded', String(this.open));
-    native.ariaControlsElements = [content];
   }
 
   /* ----- events ------------------------------------------------------------ */
@@ -482,6 +468,7 @@ export class NphCollapsible extends LitElement {
         size="default"
         text=${opened ? text(this.openLabel) : text(this.label)}
         icon-end=${this.open ? 'chevron-up' : 'chevron-down'}
+        aria-expanded=${String(this.open)}
         ?disabled=${this.disabled}
         @click=${this.activate}
       ></nph-button>

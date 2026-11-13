@@ -36,24 +36,18 @@
   "pending_decisions": [
     {
       "id": "D-1",
-      "question": "The nph-button hands aria-expanded to its native button only with aria-haspopup, which draws the open look that DSA-67 D-2 forbids here, and an id does not cross its shadow root. P121 writes aria-expanded and ariaControlsElements from outside, into the native button of the nph-button. Does nph-button gain a forward of aria-expanded and aria-controls without the open look? Recommended: yes, as P111 did for aria-haspopup, in its own task. It does not block this task: the collapsible works today.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
-      "id": "D-2",
       "question": "The preview type lifts the cut at three lines with no movement, because a cut of lines is not a size that can grow. Does Indiane confirm the reading, or draw the movement? Recommended: confirm. It does not block this task.",
       "decider": "indiane",
       "opened_at": "2026-11-13"
     },
     {
-      "id": "D-3",
+      "id": "D-2",
       "question": "The preview type draws its Show more button even when the text has fewer than three lines, since the documentation does not say otherwise. Does the button go away when nothing is cut? Recommended: keep it, so the piece does not measure the text and the page owns the choice of the type. It does not block this task.",
       "decider": "indiane",
       "opened_at": "2026-11-13"
     },
     {
-      "id": "D-4",
+      "id": "D-3",
       "question": "The accepted documentation asks for the content to grow in motion/expand-*, and the motion rules of design.md say to animate only opacity and transform, and not width, height or layout position. The collapsible follows the documentation and animates the rows of one grid. Does Indiane confirm the reading, or does the rule get an exception for the expansion of a disclosure? Recommended: an exception, because a disclosure that pushes down what comes below cannot grow with transform alone. It does not block this task.",
       "decider": "indiane",
       "opened_at": "2026-11-13"

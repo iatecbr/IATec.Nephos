@@ -27,7 +27,7 @@ Component, CSS and tests of `nph-collapsible`; the stories (Validation), the Doc
 - the twelve proofs in sequence: `build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`, `test:spelling`, `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `git diff --check`
 
 ## Result
-The task is in review on the branch `feat/dsa-78-collapsible`. The component, its tests, stories, sheet and P121 are written; D-1 to D-4 wait for Indiane and do not block the pull request. `test:naming` and `test:spelling` fail on the base (text of DSA-80 and DSA-81), not on this branch.
+The task is in review on the branch `feat/dsa-78-collapsible`. The component, its tests, stories, sheet and P121 are written; D-1 to D-3 wait for Indiane and do not block the pull request. `test:naming` and `test:spelling` fail on the base (text of DSA-80 and DSA-81), not on this branch.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
