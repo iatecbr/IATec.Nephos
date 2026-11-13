@@ -76,7 +76,7 @@ P62.4 subsection for the detail).
 | **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) the focusable span of a cut pending step (D-4) and the connector against a status set out of position (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P118** | API and semantics of `nph-tree` | 11/11/2026 | Low now. No piece consumes it yet; the Tree Select and the Tree Table will, and changing `items`, the state properties `selection`, `selected`, `checked` and `expanded`, the cascade, the events `nph-tree-toggle`, `nph-tree-select`, `nph-tree-check` and `nph-tree-load`, the load on demand, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The Tree Table against the tree of `nph-table` (D-1) and the focus border of the disabled item (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. The dashed border token (D-1), the description of the button (D-2), the items of a disabled zone (D-3), the error inside `nph-field` (D-4) and the lines of the item (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The `aria-expanded` of the `nph-button` (D-1), the preview that does not grow (D-2) the preview of fewer than three lines (D-3) and the growth against the motion rule (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The preview that does not grow (D-1), the preview of fewer than three lines (D-2) and the growth against the motion rule (D-3) wait for Indiane. The `aria-expanded` and the `controls` that `nph-button` now hands to its native button are covered by the tests of both pieces | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -6639,7 +6639,7 @@ A new token, and a change in `color/primary` of any brand.
   what does not fit; the card does not scroll. Indiane decides whether the card needs another fallback for
   such a window, such as a maximum height with scrolling, which the contract rules out today.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-3 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7272,7 +7272,7 @@ attached or inset surface and the `nph-drawer`. A keyboard shortcut to collapse.
   lines, the padding of the group label and the gap of the logo row are not written either. She gives the
   tokens in the next batch, or accepts these.
 
-**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-3 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-4 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
