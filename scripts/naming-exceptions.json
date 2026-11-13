@@ -126,5 +126,83 @@
     "names": [
       "fichas/${}.md"
     ]
+  },
+  {
+    "file": "src/components/nph-scheduler/nph-scheduler.css",
+    "class": "token-schema",
+    "names": [
+      "--nph-scheduler-event-educacao-background",
+      "--nph-scheduler-event-educacao-background-hover",
+      "--nph-scheduler-event-educacao-focus-border",
+      "--nph-scheduler-event-educacao-focus-halo",
+      "--nph-scheduler-event-educacao-foreground",
+      "--nph-scheduler-event-educacao-foreground-hover",
+      "--nph-scheduler-event-educacao-indicator",
+      "--nph-scheduler-event-financeiro-background",
+      "--nph-scheduler-event-financeiro-background-hover",
+      "--nph-scheduler-event-financeiro-focus-border",
+      "--nph-scheduler-event-financeiro-focus-halo",
+      "--nph-scheduler-event-financeiro-foreground",
+      "--nph-scheduler-event-financeiro-foreground-hover",
+      "--nph-scheduler-event-financeiro-indicator",
+      "--nph-scheduler-event-sistemas-background",
+      "--nph-scheduler-event-sistemas-background-hover",
+      "--nph-scheduler-event-sistemas-focus-border",
+      "--nph-scheduler-event-sistemas-focus-halo",
+      "--nph-scheduler-event-sistemas-foreground",
+      "--nph-scheduler-event-sistemas-foreground-hover",
+      "--nph-scheduler-event-sistemas-indicator",
+      "educacao",
+      "financeiro",
+      "sistemas"
+    ]
+  },
+  {
+    "file": "src/components/nph-scheduler/nph-scheduler.demo.ts",
+    "class": "token-schema",
+    "names": [
+      "educacao",
+      "financeiro",
+      "sistemas"
+    ]
+  },
+  {
+    "file": "src/components/nph-scheduler/nph-scheduler.logic.test.ts",
+    "class": "token-schema",
+    "names": [
+      "educacao"
+    ]
+  },
+  {
+    "file": "src/components/nph-scheduler/nph-scheduler.logic.ts",
+    "class": "token-schema",
+    "names": [
+      "educacao",
+      "financeiro",
+      "sistemas"
+    ]
+  },
+  {
+    "file": "src/components/nph-scheduler/nph-scheduler.test.ts",
+    "class": "token-schema",
+    "names": [
+      "--nph-scheduler-event-educacao-background-hover",
+      "--nph-scheduler-event-educacao-focus-border",
+      "--nph-scheduler-event-educacao-focus-halo",
+      "--nph-scheduler-event-educacao-foreground-hover",
+      "--nph-scheduler-event-educacao-indicator",
+      "educacao",
+      "financeiro",
+      "sistemas"
+    ]
+  },
+  {
+    "file": "src/components/nph-scheduler/nph-scheduler.ts",
+    "class": "token-schema",
+    "names": [
+      "educacao",
+      "financeiro",
+      "sistemas"
+    ]
   }
 ]

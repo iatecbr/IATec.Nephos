@@ -548,5 +548,13 @@
       "foco"
     ],
     "reason": "The state atual-foco of nph-navigation-menu, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "fichas/nph-scheduler.md",
+    "class": "contract-term",
+    "names": [
+      "sistemas"
+    ],
+    "reason": "Value of the color property of a calendar of nph-scheduler (the Sistemas vertical), quoted as it is in the accepted documentation frame (P64: Figma is in Portuguese); the code API takes the same value."
   }
 ]

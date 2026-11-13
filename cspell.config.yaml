@@ -337,6 +337,7 @@ dictionaryDefinitions:
       - carregando
       - compacto
       - completo
+      - comercial
       - componente
       - concluido
       - contagem
@@ -361,12 +362,14 @@ dictionaryDefinitions:
       - exemplo
       - explica
       - falhou
+      - financeiro
       - fixo
       - foco
       - fonte
       - foto
       - gerencial
       - grupos
+      - igrejas
       - indeterminado
       - interação
       - legenda

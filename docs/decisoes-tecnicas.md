@@ -76,6 +76,7 @@ P62.4 subsection for the detail).
 | **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) the focusable span of a cut pending step (D-4) and the connector against a status set out of position (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P118** | API and semantics of `nph-tree` | 11/11/2026 | Low now. No piece consumes it yet; the Tree Select and the Tree Table will, and changing `items`, the state properties `selection`, `selected`, `checked` and `expanded`, the cascade, the events `nph-tree-toggle`, `nph-tree-select`, `nph-tree-check` and `nph-tree-load`, the load on demand, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The Tree Table against the tree of `nph-table` (D-1) and the focus border of the disabled item (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. The dashed border token (D-1), the description of the button (D-2), the items of a disabled zone (D-3), the error inside `nph-field` (D-4) and the lines of the item (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P120** | API and semantics of `nph-scheduler` | 13/11/2026 | Low now. No piece consumes it yet; a product screen will, so changing `events`, `calendars` and `labels`, the instant format, the events `nph-event-click` and `nph-date-change`, the slots `detail` and `detail-footer`, the order of Tab or the invalid-input rule later requires redoing every consumer. The date grid (D-1), the `sidebar` icon (D-2), the derived measures (D-3), the color of a calendar (D-4), the click on a day (D-5), the detail (D-6) and the order of the all-day band (D-7) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -7829,11 +7830,226 @@ state for a server error. A form association and the reading of a dropped folder
 **Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-5 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
+## P120 — `nph-scheduler`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `6151:11160`, sets `6142:1744` and `6141:9258`)
+gives the Figma properties `vista`, `tamanho-de-tela`, `estado` and `lateral` and, for the event, `cor`,
+`tipo` and `estado`; the behavior of a calendar in which each day and each event is a Tab stop (a
+deliberate deviation from the APG Grid pattern); the accessibility, the limits and the tokens; and leaves
+the code API to the code, with seven points open in the task. Ten points need a decision of their own:
+
+- the scheduler is one Figma set with an inner event, the toolbar buttons, the view select, the
+  checkboxes, the avatar stack, the skeleton rows and the popover come "by instance", and the popover
+  looks its trigger up in the same root through `for`, so the code has to say how many tags there are
+  and who owns the events;
+- the data (the events, the calendars, the people and the texts) comes from the screen, and the
+  evidence says neither the shape of an event, nor how a calendar gives it its color, nor which
+  instant format avoids a time zone, nor what an event that crosses midnight is;
+- the evidence says "the scheduler hands the click on the event to the screen" and also "Enter or Space on
+  the event opens the detail in the nph-popover and moves the focus into it", while opening, creating
+  and editing the detail belongs to the product;
+- the Tab order the evidence asks for (toolbar, side panel, days, events in start order) is not the
+  visual order of the side panel, the all-day band and the grid, and a positive `tabindex` is not an
+  option;
+- the evidence fixes the minimum height of an event at 24 px and gives no height for an hour, no width
+  for the time of a list row, no size for the cell of the mini month and no measure for the color of a
+  calendar;
+- the month cell "shows the rows that fit and `+N more`", and what fits is only known after layout;
+- the mini month and the compact month are "the date-picker grid, by instance", and the date-picker
+  grid does not exist yet and is not part of this task;
+- the sidebar button needs the `sidebar` icon, which is not in `nph-icon` (the case of P116, item 9);
+- the evidence leaves the break between desktop and mobile, the interval of the now line, the scroll on
+  a short desktop and the way the texts are passed and translated to the code;
+- the evidence says nothing about input the contract does not accept.
+
+**Decision.** `nph-scheduler` is a Web Component with **open Shadow DOM** (P01), in one tag, with its CSS
+in its own file imported `?inline`. It has no color property and no `::part`; the only slots are `detail`
+and `detail-footer`. Anatomy only through semantic tokens: the `scheduler/*` and `event/<color>-*` ones
+(the event is bound to its `scheduler/*` token, never to the semantic it points to) and the global focus
+ones. What it rejects renders nothing and emits `console.error` only in development, once per cause: the
+rule of P21. The names follow P64.
+
+1. **One tag; the event is an inner part.** The toolbar, the side panel, the day header, the all-day
+   band, the time column, the day grid, the now line, the event, the month cell and line, the list row
+   and the compact month are drawn in the shadow root of the scheduler. The package takes one definition
+   per folder (P91), and `aria-expanded`, `aria-haspopup` and the `for` of the `nph-popover` need the
+   event and the popover in the same root. The buttons, the view select, the checkboxes, the avatars, the
+   skeleton rows and the popover are the approved pieces, by instance, with no override of background or
+   outline.
+
+2. **The data is by property.** `events` is a list of `{ id, title, start, end?, allDay?, calendar?,
+   cancelled?, recurring?, people? }`; `calendars` is a list of `{ id, name, color, visible? }` with the
+   `color` of the Figma `cor` (`primary` or one of the seven verticals); `labels` is the object of every
+   text the piece writes, already localized, with the 25 keys the type lists. An event takes the color
+   and the name of its calendar; an event with no calendar is `primary` with no calendar name. An instant
+   is a wall-clock string, `YYYY-MM-DDTHH:mm`; an all-day event is `YYYY-MM-DD`, its `end` the last day,
+   included; a string with a zone (`Z`, `+03:00`) is refused, because the piece has no zone. The days are
+   whole numbers of days and the minutes of a day, never a `Date` in the local zone, so the arithmetic is the
+   same in any zone and in a day with a change of the clock. An event with no `end` ends when it starts.
+   An event that ends exactly at midnight fills its own day to 24:00; one that covers more than one
+   calendar day, with or without time, is a **multi-day** event and goes to the all-day band, in one bar.
+   An event that cannot be read (no id, repeated id, no title, an instant that does not read, an end
+   before the start, a calendar that does not exist) is left out with its own error; a calendar with no
+   id, a repeated one or a color that does not exist is reported, and `primary` is used for the color.
+
+3. **Attributes.** `view`: `work-week` (default), `week`, `day`, `month` or `list`; reflects, because the
+   CSS selects the layout by it. `date`: `YYYY-MM-DD`, the day the period is built around; absent, today.
+   `week-start`: `sunday` (default) or `monday`; it is a property of the page, not of the language. The
+   work week is Monday to Friday whatever the week start. `hide-side-panel` is the inverse of the Figma
+   `lateral` (the precedent of `hide-collapse-button` in P116); reflects. `loading` reflects. `now`: an
+   instant that stands for the clock, so the now line and "today" are the same in a story and a test;
+   absent, the clock of the machine, read again every minute (the update interval, 60 s). `open-event`:
+   the `id` of the event whose detail is open; it reflects and the attribute leaves when nothing is open.
+   The empty state is not a property: it is a period with no visible event, in every view. The piece
+   writes `view`, `date` and `hide-side-panel` when the person changes them; setting them from code
+   fires nothing.
+
+4. **Events.** All bubble and are composed, and fire only when the person acts, as in P115 and P118:
+   `nph-view-change` (`{ view }`), `nph-date-change` (`{ date, source }`, the source being `today`,
+   `previous`, `next`, `mini-month`, `month` or `more`), `nph-event-click` (`{ id, source }`, cancelable;
+   the source is `pointer` or `keyboard`), `nph-event-close` (`{ id, source }`), `nph-day-click`
+   (`{ date }`), `nph-new-event` (`{ date }`), `nph-filter-click`, `nph-filter-select` (`{ value, checked }`),
+   `nph-calendar-toggle` (`{ id, visible }`) and `nph-side-panel-change` (`{ open }`). The checkbox of a
+   calendar replaces `calendars` with a new list and never changes the objects of the consumer, as
+   `nph-dropdown-menu` does with `items` (P92). "Filter" opens an `nph-dropdown-menu` when `filter-items`
+   has items, and only fires `nph-filter-click` when it has none; the menu is drawn in the shadow root,
+   so its `for` finds the button.
+
+5. **The detail belongs to the product; the popover is the mechanism.** The scheduler does not draw the
+   detail and does not create or edit an event. A click, Enter or Space on an event fires
+   `nph-event-click`; if the screen does not cancel it, the event becomes the `open-event`. When the
+   screen puts content in the `detail` slot (and `detail-footer`), the scheduler opens one `nph-popover`
+   beside the event, with the title of the event as `heading`, and writes `aria-haspopup="dialog"` and
+   `aria-expanded` on the events, after every render, because the popover removes both from its trigger when
+   it leaves. Without content in the slots nothing opens and the events carry no popup state. The popover
+   lives while the detail is open, so there is no exit animation: its `nph-close` ends the detail and fires
+   `nph-event-close` with its source (`escape`, `outside` or `focus-out`); a click on the open event closes it
+   (`toggle`). Esc returns the focus to the event; a press outside leaves it where the person clicked. An
+   event that leaves the data (removed, or its calendar hidden) closes the detail with nothing fired.
+
+6. **Tab order from the document, never `tabindex`.** The DOM order is the toolbar, the side panel, the
+   body; the container is a grid with areas, so the visual order is still the side panel at the start.
+   Inside the body: the day headers, then the all-day band, then the events of the grid by day and start
+   (at the same start, the longer first, which is the leftmost); in the month, a layer of day buttons
+   first and the layer of the event lines and "+N more" after it, over the same cells. Each day and each
+   event is a stop. No arrow keys on the grid. The all-day band comes before the grid in the document, so
+   an all-day event of a later day is reached before a timed event of an earlier day: a known limit of the
+   order, not a contradiction of it. The mini month and the compact month are one stop with the arrows,
+   Page Up, Page Down (Shift for the year), Home and End of the date grid, mirrored in a right-to-left page.
+   The list view has the day as a heading, not a stop. Enter or Space on "+N more" goes to the day view of
+   that date and the focus lands on its day header. A click on a day fires `nph-day-click` and does
+   nothing else: the evidence gives the day no action.
+
+7. **The hour is twice the minimum height of an event.** There is no token for the height of an hour.
+   The CSS makes it `calc(scheduler/event-min-height * 2)`, so a half hour fits the 24 px minimum;
+   `MIN_VISUAL_MINUTES` (30) in the logic file is that duration, and a test holds the two together. An
+   event is placed by minute, from the top of its day, and takes the longer of its duration and the
+   minimum; events that touch share the column side by side (the first column is the longer of two that
+   start together); the time shows under the title from 60 minutes. A day has 24 hours; the toolbar and
+   the day header stay in place and only the grid scrolls, which needs the screen to give the scheduler a
+   height. The grid starts at the first event of the period (one hour before it), at the now line when there
+   is none, and at 07:00 otherwise; it starts again only when the period changes, or when the events arrive
+   late and the person has not scrolled.
+
+8. **The month measures its cells.** The cell shows the lines that fit and "+N more" (an `nph-button`
+   compact, in a group named by the count and the date). What fits is measured after the render
+   (`ResizeObserver`) from a probe line and the room of the first cell, and draws again when the room
+   changes; before the first measure, every line is drawn. The rows have at least four minimum heights.
+   A line is one text line, `text/label-sm`, at `scheduler/event-min-height`: the evidence draws it one text
+   line high and also sets 24 px as the minimum of an event (WCAG 2.5.8), and the accessibility gate of P72
+   fails a 16 px target, so the minimum wins. A multi-day event has one line on each day it covers.
+
+9. **The list.** The week of `date`, only the days that have events, each under a heading; a multi-day event
+   appears under each day it covers. The time column is three times `scheduler/time-column-width`.
+
+10. **The phone is a width, not a user-agent.** Below 768 px of the width of the element (the `md`
+    breakpoint of P116, read by a `ResizeObserver` on the host, not by a media query on the window) the
+    scheduler is the compact month with the list of the chosen day, whatever the `view`, and the
+    toolbar of the phone (the month label, previous, next and an icon-only primary "New event"); the view
+    select is below it and offers the same views. Choosing another view keeps the compact month and the
+    value is kept for the desktop width (the Figma draws only the month on mobile). The day list is one
+    row per event, with the start time before the event.
+
+11. **The mini month and the compact month are the scheduler's own date grid (provisional).** The
+    date-picker grid does not exist and building it is not part of this task, so the scheduler draws a month
+    grid of its own: a `role="grid"` with one stop, the selected day filled, today marked, and the days of the
+    other months dimmed and selectable; the compact one adds the event dot. It has no popup, no range, no
+    minimum or maximum and no form association: it is not an `nph-date-picker`. The month label and two
+    buttons move the month shown without moving the date. When the date-picker grid exists, this grid is the
+    one that goes. The cell of the mini month is `control/height-compact`.
+
+12. **The `sidebar` icon keeps its place (the case of P116, item 9).** The icon is not in `nph-icon` and the
+    task does not add it. The sidebar button is a native button with the look of the `nph-button` secondary
+    ghost and an `nph-skeleton` of `icon/size-md` in the place of the icon, with `aria-label`,
+    `aria-expanded`, `aria-controls` and an `nph-tooltip` with the name. When the icon enters `nph-icon`
+    the button becomes an `nph-button` with `icon-start="sidebar"`: no API changes. The recurring event uses
+    `rotate-right` until `repeat` enters `nph-icon`; the empty state uses `calendar`. No icon was added.
+
+13. **Empty and loading change only the events area.** Empty: the `calendar` icon, the title and the hint
+    (`emptyTitle`, `emptyHint`), centered on the grid, until `nph-empty` has a set in Figma; the week keeps its
+    seven days. Loading: `nph-skeleton` lines in the columns, the cells and the list, `aria-busy` on the body
+    and a status with `loading`; the toolbar stays active.
+
+14. **The language is the nearest `lang`.** Crossing shadow roots, as `nph-pagination` reads it, in English
+    without one; the dates, the weekday names, the hours and the period are `Intl` with `timeZone: 'UTC'`
+    over the civil day, so a zone never moves a date. A change of `lang` or `dir` on the page draws the
+    piece again. The accessible name starts with the text the person sees, in the order they see it (WCAG
+    2.5.3, which the gate of P72 checks), and goes on as a comma list: for an event, the cancelled text, the
+    title and the time when it is written, then the date, the time when it is not written, the calendar and,
+    when it applies, `cancelledName` and `repeats`; a list row writes the time first. The people of a day are
+    a sentence in the language of the page. The day starts with what it writes (`Mon 9`), goes on with the
+    full date and, today, `todayName`. A period change the person makes is announced politely with the
+    period label.
+
+15. **The now line.** A line of `scheduler/now-indicator-width` in the column of today, with the dot of
+    `scheduler/now-indicator-size` on its start edge and the current time over the time column; it is
+    decoration (`aria-hidden`), and today is in the name of the day.
+
+16. **Invalid input.** A `view`, a `week-start`, a `date` or a `now` that does not exist draws nothing and
+    says why, once per cause while it lasts. A list that is not a list, a null `labels` and a null event are
+    no data. A missing label renders and says which ones are missing, once; a control that would have no accessible name
+    without it (an icon-only button, the sidebar button, the view select) is not drawn.
+
+**Source.** Documentation `6151:11160` and sets `6142:1744` and `6141:9258` of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 12/11/2026 with the Figma UX QA and the textual audit approved,
+and the twelve points of its approval page. The names of the properties, events and slots, the shape of the
+data, the instant format, the multi-day rule, the popover mechanism, the order of the document, the hour
+height, the measure of the month cell, the break measured on the element, the provisional date grid and the
+way the texts reach the code are a technical proposal of this implementation.
+
+**Out of scope.** A token, new or changed. A change in `nph-button`, `nph-icon-button`, `nph-select`,
+`nph-checkbox`, `nph-avatar-stack`, `nph-popover`, `nph-skeleton`, `nph-icon`, `nph-dropdown-menu` or
+`nph-empty`. The `nph-date-picker` and its grid. The detail of the event, and the creation and editing of
+events, which belong to the product. Past and tentative events, a time scale, a recurrence rule, a time zone
+and the drag of an event. The focus of the primary `nph-button` in dark mode, corrected in the `nph-button`.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the date grid.** The mini month and the compact month are the scheduler's own grid until the
+  date-picker grid exists. She decides when it is replaced and whether the compact month keeps the arrows.
+- **D-2 — the `sidebar` icon.** The sidebar button keeps the place of the icon with a skeleton (P116, D-1).
+  She frees the foundation task that adds `sidebar` to `nph-icon`, and `repeat` for the recurring event.
+- **D-3 — derived measures.** No token states the hour (twice the minimum event height), the cell of the
+  mini month (`control/height-compact`), the time of a list row (three times the time column), the time of a
+  phone row (one and a half times it), the minimum of a month row (four minimum event heights) and the swatch
+  of a calendar (`icon/size-sm`). She confirms them or gives tokens.
+- **D-4 — the color of a calendar.** "My calendars" shows the color of each calendar as a swatch beside the
+  checkbox; the evidence names the checkbox only. She confirms the swatch.
+- **D-5 — the click on a day.** A day hands its date to the screen (`nph-day-click`) and does nothing else; the
+  evidence gives it no action. She confirms it, or says that the month day opens the day view.
+- **D-6 — the detail.** The scheduler hosts the `nph-popover` of the detail and the screen gives its content
+  through a slot. She confirms that the mechanism belongs to the scheduler and the content to the product.
+- **D-7 — the order of the all-day band.** The band comes before the grid in the document, so Tab reaches an
+  all-day event of a later day before a timed event of an earlier one. She confirms it.
+
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-1 to D-7 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
 ---
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118 or P119 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119 or P120 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

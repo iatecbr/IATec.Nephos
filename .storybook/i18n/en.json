@@ -472,7 +472,21 @@
     "components-nph-file-upload-validation--width": "Width",
     "components-nph-file-upload-validation--field": "Field",
     "components-nph-file-upload-validation--examples": "Examples",
-    "components-nph-file-upload-validation--brands": "Brands"
+    "components-nph-file-upload-validation--brands": "Brands",
+    "components-nph-scheduler-docs": "Docs",
+    "components-nph-scheduler-docs--documentation": "Documentation",
+    "components-nph-scheduler-validation": "Validation",
+    "components-nph-scheduler-validation--work-week": "Work week",
+    "components-nph-scheduler-validation--views": "Views",
+    "components-nph-scheduler-validation--side-panel": "Side panel",
+    "components-nph-scheduler-validation--events": "Events",
+    "components-nph-scheduler-validation--states": "States",
+    "components-nph-scheduler-validation--more": "More",
+    "components-nph-scheduler-validation--phone": "Phone",
+    "components-nph-scheduler-validation--detail": "Detail",
+    "components-nph-scheduler-validation--focus": "Focus",
+    "components-nph-scheduler-validation--examples": "Examples",
+    "components-nph-scheduler-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7909,7 +7923,18 @@
       "components-nph-file-upload-validation--width": "A name that does not fit is cut on one line with an ellipsis and its whole text reaches the screen reader; a long reason wraps and the item grows.",
       "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason in the zone; and the compact zone in a form with another field.",
       "components-nph-file-upload-validation--examples": "The three required examples, each in light and dark mode: the empty zone with its rule, the list in use with an upload in progress, an error and a done file, and the limit reached.",
-      "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand."
+      "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand.",
+      "components-nph-scheduler-validation--work-week": "The work week, the default view, with the side panel, the now line, the all-day band and overlapping events.",
+      "components-nph-scheduler-validation--views": "The week, the day, the month and the list views, and the week that starts on Monday.",
+      "components-nph-scheduler-validation--side-panel": "The side panel in every desktop view, shown and hidden by the same button.",
+      "components-nph-scheduler-validation--events": "The event: the colors of the calendars, the types and the cancelled event, in the day and week grids.",
+      "components-nph-scheduler-validation--states": "Empty and loading change only the events area: the toolbar stays active and the week keeps its days.",
+      "components-nph-scheduler-validation--more": "A day with more events than the cell holds: +N more closes the cell and goes to the day view.",
+      "components-nph-scheduler-validation--phone": "Under 768 px the scheduler is the compact month with the list of the chosen day.",
+      "components-nph-scheduler-validation--detail": "The open event: the popover beside it, with the content the screen put in the slot, and aria-expanded on the event.",
+      "components-nph-scheduler-validation--focus": "The focus of the day and of the event: the same border and halo, in the color of the event. The story moves the focus.",
+      "components-nph-scheduler-validation--examples": "The required examples (the work week, the phone month, the empty week, the list and the month with +N more) in light and in dark mode.",
+      "components-nph-scheduler-validation--brands": "The seven brands in light and dark: the primary color, the today mark and the focus follow the brand; the other colors do not."
     }
   },
   "multiComboboxDocs": {
@@ -13759,5 +13784,538 @@
     "sizeReason": "The file is larger than 5 MB.",
     "otherLabel": "Project name",
     "otherValue": "Nephos"
+  },
+  "schedulerDocs": {
+    "summary": "The calendar of events: the work week, week, day, month and list views, on desktop and on a phone, with an optional side panel, a toolbar and the event that opens its detail beside it.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-scheduler spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P120. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "The person needs to see what is coming in a week, a day or a month and to find a free time: the work week with the side panel, the view the piece opens in.",
+      "The person plans by the month: the month view, with the events in a row per day and +N more when they do not fit.",
+      "The person reads the events in sequence, or uses a screen reader: the list view.",
+      "The screen is a phone: below 768 px of the width of the element the piece is the compact month with the list of the chosen day.",
+      "Several calendars share one grid and the person turns each one on and off in My calendars: give each calendar its color.",
+      "The screen opens the detail of an event beside it: put the content in the detail slot and open it with open-event."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To choose a date in a form: use the date picker, not the scheduler.",
+      "For tasks with no time of day: use a list or a table.",
+      "To mark an event by status, such as error, warning or success: the color of an event is the choice of the calendar, never a status.",
+      "To show a cancelled event only by color: the piece writes Cancelled: and strikes the title, and keeps it in the grid.",
+      "To open the detail, create or edit an event inside the piece: that belongs to the screen, which gets the click on the event.",
+      "For past or tentative events, a time scale or the arrow keys on the grid: they are outside this version."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Name",
+      "Rule"
+    ],
+    "api": [
+      [
+        "events",
+        "The events, property only, and the screen owns it. Each one is { id, title, start, end, allDay, calendar, cancelled, recurring, people }; id (unique) and title are required. start and end are wall-clock text, YYYY-MM-DDTHH:mm, or YYYY-MM-DD for an all-day event, whose end is the last day, included. A text with a time zone is refused. An event that cannot be drawn is left out and reported in development."
+      ],
+      [
+        "calendars",
+        "The calendars, property only. Each one is { id, name, color, visible }; the color of its events is primary, sistemas, gerencial, educacao, comercial, financeiro, igrejas or rh, and never a status. visible false hides the events. The checkbox of My calendars replaces the list with a new one and never changes the objects of the screen."
+      ],
+      [
+        "labels",
+        "Every text the piece writes, already localized, as one object with the keys listed below. A missing label renders anyway and the piece says in development which keys are missing. {count} and {date} are the markers of a text."
+      ],
+      [
+        "filter-items",
+        "The items of the Filter menu, as the items of nph-dropdown-menu. The property is filterItems. Without them the Filter button only fires nph-filter-click."
+      ],
+      [
+        "view",
+        "work-week (default), week, day, month or list. The view select changes it and fires nph-view-change; setting it from code fires nothing. Reflected to the attribute. On a phone the compact month stays."
+      ],
+      [
+        "date",
+        "The day the period is built around, YYYY-MM-DD; absent, today. The toolbar, the mini month and the days of the grid change it and fire nph-date-change; setting it from code fires nothing."
+      ],
+      [
+        "week-start",
+        "sunday (default) or monday. The property is weekStart. The first day of the week does not come from the language."
+      ],
+      [
+        "hide-side-panel",
+        "Hides the side panel, with the mini month and My calendars, in every desktop view. The sidebar button in the toolbar toggles it and fires nph-side-panel-change. Reflected to the attribute."
+      ],
+      [
+        "loading",
+        "Skeleton rows in the place of the events; the toolbar stays active and the week keeps its days. Reflected to the attribute."
+      ],
+      [
+        "now",
+        "An instant, YYYY-MM-DDTHH:mm, that stands for the clock, so the now line and today are the same in a story and a test. Absent, the clock of the machine, read again every minute."
+      ],
+      [
+        "open-event",
+        "The id of the event whose detail is open. The property is openEvent. With content in the detail slot, the piece opens the popover beside the event and writes aria-expanded true on it; the attribute goes away when the detail closes. Reflected to the attribute while an event is open."
+      ],
+      [
+        "labels.today",
+        "The text of the Today button, which goes to the current day."
+      ],
+      [
+        "labels.previous",
+        "The accessible name of the previous period button."
+      ],
+      [
+        "labels.next",
+        "The accessible name of the next period button."
+      ],
+      [
+        "labels.newEvent",
+        "The text of the New event button on desktop and its accessible name on a phone, where the button is icon only."
+      ],
+      [
+        "labels.filter",
+        "The text of the Filter button and the accessible name of its menu."
+      ],
+      [
+        "labels.sidePanel",
+        "The accessible name of the sidebar button, its tooltip and the name of the side panel."
+      ],
+      [
+        "labels.view",
+        "The accessible name of the view select."
+      ],
+      [
+        "labels.viewWorkWeek",
+        "The text of the work week option of the view select."
+      ],
+      [
+        "labels.viewWeek",
+        "The text of the week option of the view select."
+      ],
+      [
+        "labels.viewDay",
+        "The text of the day option of the view select."
+      ],
+      [
+        "labels.viewMonth",
+        "The text of the month option of the view select."
+      ],
+      [
+        "labels.viewList",
+        "The text of the list option of the view select."
+      ],
+      [
+        "labels.allDay",
+        "The label of the all-day band and the time of an all-day event in the lists and in the accessible name."
+      ],
+      [
+        "labels.cancelled",
+        "The text written before the struck title of a cancelled event, such as Cancelled:."
+      ],
+      [
+        "labels.cancelledName",
+        "The word that says cancelled in the accessible name of the event."
+      ],
+      [
+        "labels.repeats",
+        "The word that says the event repeats in the accessible name of the event."
+      ],
+      [
+        "labels.more",
+        "The text of the more button of a month cell, with the marker {count}, such as +{count} more."
+      ],
+      [
+        "labels.moreName",
+        "The accessible name of the group of the more button, with the markers {count} and {date}, such as {count} more events on {date}."
+      ],
+      [
+        "labels.myCalendars",
+        "The heading of the list of calendars in the side panel."
+      ],
+      [
+        "labels.miniPrevious",
+        "The accessible name of the previous month button of the mini month."
+      ],
+      [
+        "labels.miniNext",
+        "The accessible name of the next month button of the mini month."
+      ],
+      [
+        "labels.emptyTitle",
+        "The title of the empty state, such as No events this week."
+      ],
+      [
+        "labels.emptyHint",
+        "The hint of the empty state, below the title."
+      ],
+      [
+        "labels.loading",
+        "The status text announced while the events load."
+      ],
+      [
+        "labels.todayName",
+        "The word that says today in the accessible name of the current day."
+      ],
+      [
+        "nph-view-change",
+        "Fires when the person changes the view, with detail { view }. It bubbles and is composed. Setting view from code fires nothing."
+      ],
+      [
+        "nph-date-change",
+        "Fires when the person moves the date, with detail { date, source }; source is today, previous, next, mini-month, month or more. It bubbles and is composed."
+      ],
+      [
+        "nph-event-click",
+        "Fires when the person activates an event, with detail { id, source }; source is pointer or keyboard. It bubbles, is composed and is cancelable: preventDefault keeps the detail from opening."
+      ],
+      [
+        "nph-event-close",
+        "Fires when the detail closes by the person, with detail { id, source }; source is escape, outside, focus-out, toggle or close-button. It bubbles and is composed. Esc gives the focus back to the event."
+      ],
+      [
+        "nph-day-click",
+        "Fires when the person activates a day, with detail { date }. It bubbles and is composed. The piece does nothing else with the click."
+      ],
+      [
+        "nph-new-event",
+        "Fires when the person activates New event, with detail { date }. It bubbles and is composed. The piece creates no event."
+      ],
+      [
+        "nph-filter-click",
+        "Fires when the person activates Filter and filter-items is empty. It bubbles and is composed."
+      ],
+      [
+        "nph-filter-select",
+        "Fires when the person chooses an item of the Filter menu, with detail { value, checked }; checked is a boolean or null. It bubbles and is composed."
+      ],
+      [
+        "nph-calendar-toggle",
+        "Fires when the person turns a calendar of My calendars on or off, with detail { id, visible }. It bubbles and is composed."
+      ],
+      [
+        "nph-side-panel-change",
+        "Fires when the person toggles the side panel, with detail { open }. It bubbles and is composed. Setting hide-side-panel from code fires nothing."
+      ],
+      [
+        "detail",
+        "The body of the detail of the open event, drawn by the screen. The piece opens the popover beside the event only when this slot or detail-footer has content."
+      ],
+      [
+        "detail-footer",
+        "The actions of the detail, as nph-button elements, in the footer of the popover."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-scheduler id=\"agenda\" view=\"work-week\" week-start=\"monday\">\n  <div slot=\"detail\">The product shows the details of the event here.</div>\n  <nph-button slot=\"detail-footer\" severity=\"secondary\" emphasis=\"solid\" size=\"compact\" text=\"Edit event\"></nph-button>\n</nph-scheduler>\n<script>\n  const scheduler = document.getElementById('agenda');\n  scheduler.labels = {\n    today: 'Today', previous: 'Previous period', next: 'Next period',\n    newEvent: 'New event', filter: 'Filter', sidePanel: 'Side panel',\n    view: 'View', viewWorkWeek: 'Work week', viewWeek: 'Week',\n    viewDay: 'Day', viewMonth: 'Month', viewList: 'List',\n    allDay: 'All day', cancelled: 'Cancelled:', cancelledName: 'cancelled',\n    repeats: 'repeats', more: '+{count} more', moreName: '{count} more events on {date}',\n    myCalendars: 'My calendars', miniPrevious: 'Previous month', miniNext: 'Next month',\n    emptyTitle: 'No events this week', emptyHint: 'Events appear here when they are created.', loading: 'Loading events',\n    todayName: 'today',\n  };\n  scheduler.calendars = [{ id: 'team', name: 'Team', color: 'primary' }];\n  scheduler.events = [{ id: 'standup', title: 'Team stand-up', start: '2026-11-09T09:00', end: '2026-11-09T10:00', calendar: 'team' }];\n  scheduler.addEventListener('nph-event-click', (event) => {\n    scheduler.openEvent = event.detail.id;\n  });\n</script>",
+    "usageTag": "The tag of the piece. The data comes as properties, set from JavaScript: the events, the calendars, the labels with every text, and the filter items. The screen listens to the events, changes view and date, and puts the detail of the open event in the detail slot; the piece draws the grid, moves the focus and announces the period.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-scheduler (6151:11160); docs/decisoes-tecnicas.md › P120",
+    "viewsTitle": "Views and the phone",
+    "viewsCaption": "The week, the day, the month and the list. The work week is in the matrix at the top.",
+    "viewsUseHeader": [
+      "View",
+      "What it shows"
+    ],
+    "viewsUse": [
+      {
+        "value": "work-week",
+        "label": "The default: Monday to Friday, with the time column, the all-day band and the now line in the column of today."
+      },
+      {
+        "value": "week",
+        "label": "The seven days of the week that starts on week-start, in the same grid as the work week."
+      },
+      {
+        "value": "day",
+        "label": "One day in hours. It is also where +N more of the month goes."
+      },
+      {
+        "value": "month",
+        "label": "The weeks of the month, with a row per event in each day and +N more when the rows do not fit."
+      },
+      {
+        "value": "list",
+        "label": "The week as a list: only the days that have events, a heading per day and a row per event. The best view for a screen reader."
+      },
+      {
+        "value": "phone",
+        "label": "Below 768 px of the width of the element: the compact month with a dot per day and the list of the chosen day. The view select offers the same views and the compact month stays."
+      }
+    ],
+    "eventTitle": "The event",
+    "eventCaption": "The week with every color, the types, the all-day band, the recurring and the cancelled events. The open event has its own Validation story.",
+    "eventUseHeader": [
+      "Part",
+      "What it shows"
+    ],
+    "eventUse": [
+      {
+        "value": "Color",
+        "label": "The color of the calendar of the event: primary or one of sistemas, gerencial, educacao, comercial, financeiro, igrejas and rh, equal in every brand. It is the choice of the person and never a status."
+      },
+      {
+        "value": "Type",
+        "label": "The height comes from the duration, never below the minimum target, and the time shows when the event has height for two lines. The all-day and multi-day events are bars in the band. The recurring event adds the repeat icon after the title."
+      },
+      {
+        "value": "Cancelled",
+        "label": "Neutral, with an outline and no bar, the text Cancelled: before the struck title. It stays in the grid."
+      },
+      {
+        "value": "Simultaneous",
+        "label": "Events at the same time sit side by side in the day column. The title is cut on one line with an ellipsis and goes whole to the accessible name."
+      },
+      {
+        "value": "Open",
+        "label": "With content in the detail slot, the event opens the popover beside it, with its title as heading, and carries aria-expanded true. The open event has the background of hover."
+      },
+      {
+        "value": "Hover",
+        "label": "The pointer paints the event one tone above. It does not move the focus or open the detail."
+      }
+    ],
+    "statesTitle": "States",
+    "statesCaption": "The empty week and the loading week, both with the toolbar active. Focus and hover show when the person uses the keyboard or the pointer.",
+    "statesUseHeader": [
+      "State",
+      "What it shows"
+    ],
+    "statesUse": [
+      {
+        "value": "default",
+        "label": "The container with the toolbar, the optional side panel and the period, with today marked in the day header and by the now line."
+      },
+      {
+        "value": "empty",
+        "label": "A period with no visible event: the calendar icon, the title and the hint over the grid. The toolbar stays active and the week keeps its days."
+      },
+      {
+        "value": "loading",
+        "label": "Skeleton rows in the place of the events. The events area is busy and the loading text is announced; the toolbar stays active."
+      },
+      {
+        "value": "day focus",
+        "label": "The keyboard focus on a day, the day header in the week and day views and the cell in the month, draws the focus border and the halo."
+      },
+      {
+        "value": "event focus",
+        "label": "The same border and halo on an event, on a month line, on a list row and on a cancelled event, in the color of the event."
+      }
+    ],
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Input",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab and Shift+Tab",
+        "Go through the toolbar, then the side panel (the mini month and My calendars), then the days from left to right, then the events in start order, left to right at the same start. Each day and each event is a Tab stop."
+      ],
+      [
+        "Enter and Space on an event",
+        "Hand the click to the screen. With a detail in the slot, open it in the popover beside the event and move the focus into it."
+      ],
+      [
+        "Esc",
+        "With the detail open, closes it and returns the focus to the event. With the view select or the Filter menu open, closes the list and returns the focus to the button. With nothing open, does nothing."
+      ],
+      [
+        "Click outside",
+        "Closes the detail. The focus stays where the person clicked."
+      ],
+      [
+        "Enter and Space on +N more",
+        "Go to the day view of that date and focus the day."
+      ],
+      [
+        "Arrow keys on the grid",
+        "Have no use: a deliberate deviation from the grid pattern, with every day and every event as a Tab stop."
+      ],
+      [
+        "Mini month and compact month",
+        "The arrows move by day and by week, Page Up and Page Down by month, or by year with Shift, and Home and End to the start and the end of the week. Enter and Space choose the day."
+      ],
+      [
+        "Pointer",
+        "Hover only paints the event and moves no focus. A press on a day fires nph-day-click and the screen decides what it does."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "The piece draws the toolbar, the side panel, the grid and the event itself, in one shadow root. The event is the trigger of nph-popover, which opens the detail that the screen puts in the detail slot, at its side.",
+      "It works with nph-button (Today, previous, next, Filter, New event and +N more), nph-select (the view), nph-checkbox (one per calendar), nph-avatar and nph-avatar-stack (the people of the meetings), nph-dropdown-menu (the Filter menu), nph-tooltip, nph-skeleton (loading) and nph-icon.",
+      "To choose a date in a form, use the date picker, not the scheduler. For tasks with no time of day, use a list or a table.",
+      "The creation, the editing and the detail of an event belong to the screen: the piece only says what the person did, in its events.",
+      "The mini month and the compact month are the date grid of the scheduler itself, the sidebar button draws an nph-skeleton where its icon goes, the empty state has its own icon and text, and the repeat icon is rotate-right; each one is replaced by the owner piece or icon when it exists."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Container",
+        "The surface, with an outline and a corner. The side panel at the start and the main area at the end."
+      ],
+      [
+        "Side panel",
+        "Optional, in every desktop view. The mini month on top and My calendars below, one checkbox per calendar with its color dot."
+      ],
+      [
+        "Toolbar",
+        "At the start: the sidebar button, Today, previous, next and the period label. At the end: the view select, Filter and New event, the only primary button. On a phone: the month label, previous, next and New event as an icon button."
+      ],
+      [
+        "Day header",
+        "The name and the number of each day and, at the end, the people of the meetings of the day. Today has the number in color and a mark at the base."
+      ],
+      [
+        "All-day band",
+        "The label in the time column and the all-day and multi-day events as bars, aligned to the top."
+      ],
+      [
+        "Time column and grid",
+        "The full hours in the time column and a line only on the full hour in the grid. Events sit by time, side by side when simultaneous. The grid scrolls on its own and the toolbar and the day header stay in place."
+      ],
+      [
+        "Now line",
+        "A line with a dot at its start in the column of today, with the current time in the time column. It follows the clock every minute, or the now property."
+      ],
+      [
+        "Event",
+        "The body, the bar at the start, the title on one line and the time below it, and the repeat icon in the recurring event. In the month it is a row of the minimum event height with no time; in the list it is a row with the time, the bar, the title and the people."
+      ],
+      [
+        "Month and compact month",
+        "The month has a cell per day with the rows that fit and the +N more button. The compact month has a dot per day, the chosen day filled, and the list of that day below."
+      ],
+      [
+        "Empty state",
+        "The calendar icon, the title and the hint, centered over the grid."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A section named by the period label. The event is a button; with a detail in the slot it has aria-haspopup dialog and aria-expanded. Each day is a button with its full name. The mini month and the compact month are a grid, and the list view has a heading per day."
+      ],
+      [
+        "Accessible name",
+        "The event name starts with its visible text, the Cancelled: prefix and the title, and carries the whole title, the date, the time, the calendar and, when it applies, cancelled and repeats, even when the title is cut; the list row writes the time first. The day name starts with the short weekday and the number, then the full date, with the word for today. The avatars carry the names of the people."
+      ],
+      [
+        "Keyboard",
+        "Each day and each event is a Tab stop, in the order of the document. Enter or Space opens the detail and Esc closes it, returning the focus to the event. No arrow keys on the grid; the arrows work in the mini month and the compact month."
+      ],
+      [
+        "Focus",
+        "The same border and halo on the day, the event, the month and list rows and the cancelled event, in the color of the event. The toolbar buttons follow nph-button."
+      ],
+      [
+        "Contrast and color",
+        "The title and the time meet 4.5:1 in both themes; the bar, the now line and the focus border meet 3:1. The cancelled event reads by Cancelled: and the struck title. Today reads by the number, the mark, the now line and its name. The color of an event never carries meaning."
+      ],
+      [
+        "Target size",
+        "The event has a minimum height of 24 px: the short event takes a little more than its duration."
+      ],
+      [
+        "Live region",
+        "One polite status announces the new period when the person changes the date or the view. While loading, the loading text is a status and the events area is busy."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The required examples: the work week with the side panel; the month on a phone with the list of the day; the empty week with the toolbar active; the list view; and the month with +N more.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-scheduler spec sheet — purpose, states, behavior, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P120 (API and semantics), P01, P02 and P03.",
+      "design.md — the scheduler/* and event/<color>-* tokens and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — documentation frame nph-scheduler (6151:11160).",
+      "WAI-ARIA APG, Grid pattern and Date Picker Dialog example; WCAG 2.2, 1.4.1 Use of Color, 1.4.11 Non-text Contrast, 2.4.3 Focus Order and 2.5.8 Target Size (Minimum).",
+      "FullCalendar, Accessibility — each event as a Tab stop."
+    ],
+    "sourceSpec": "nph-scheduler spec sheet; Figma, frame nph-scheduler (6151:11160)",
+    "sourceApi": "nph-scheduler spec sheet; docs/decisoes-tecnicas.md › P120",
+    "sourceAnatomy": "Figma, sets 6142:1744 and 6141:9258; design.md"
+  },
+  "schedulerValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "today": "Today",
+    "previous": "Previous period",
+    "next": "Next period",
+    "newEvent": "New event",
+    "filter": "Filter",
+    "sidePanel": "Side panel",
+    "view": "View",
+    "viewWorkWeek": "Work week",
+    "viewWeek": "Week",
+    "viewDay": "Day",
+    "viewMonth": "Month",
+    "viewList": "List",
+    "allDay": "All day",
+    "cancelled": "Cancelled:",
+    "cancelledName": "cancelled",
+    "repeats": "repeats",
+    "more": "+{count} more",
+    "moreName": "{count} more events on {date}",
+    "myCalendars": "My calendars",
+    "miniPrevious": "Previous month",
+    "miniNext": "Next month",
+    "emptyTitle": "No events this week",
+    "emptyHint": "Events appear here when they are created.",
+    "loading": "Loading events",
+    "todayName": "today",
+    "calendarTeam": "Team",
+    "calendarClasses": "Classes",
+    "calendarCommunity": "Community",
+    "calendarFinance": "Finance",
+    "calendarPeople": "People",
+    "calendarSystems": "Systems",
+    "calendarManagement": "Management",
+    "calendarSales": "Sales",
+    "eventStandup": "Team stand-up",
+    "eventCoffee": "Coffee chat",
+    "eventWorkshop": "Teaching workshop",
+    "eventBudget": "Budget review",
+    "eventPlanning": "Service planning",
+    "eventArchitecture": "Architecture sync",
+    "eventSales": "Sales sync",
+    "eventCancelled": "Quarterly review",
+    "eventOffsite": "Team offsite",
+    "eventInterview": "Interview",
+    "eventRetreat": "Community retreat",
+    "eventDemo": "Product demo",
+    "eventLong": "Review of the annual plan for the whole department and its partners",
+    "eventBusy": "Planning session",
+    "personAna": "Ana Souza",
+    "personBruno": "Bruno Lima",
+    "personCarla": "Carla Mendes",
+    "personDiego": "Diego Alves",
+    "personElisa": "Elisa Rocha",
+    "filterCalendars": "Show events from",
+    "filterMine": "My events",
+    "filterTeam": "Team events",
+    "detailTitle": "Event details",
+    "detailText": "The product shows the details of the event here.",
+    "detailClose": "Close the details",
+    "detailAction": "Edit event"
   }
 }
