@@ -66,7 +66,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **Parts**: the field is the nph-combobox field without the divider and the arrow zone; its end padding is `combobox/free-text-padding-end`, with and without the clear button. Start icon, text and clear X keep the nph-combobox tokens. The list is the nph-combobox list, built once (DSA-31 D2).
 - **Properties**: `size` default and large; `state` default, hover, focus, error, error with focus, disabled, focus on clear and open; start magnifying glass (default) or another light `nph-icon` (default globe); content placeholder, value or typing; clear on by default.
 - **Combobox with list**: `role="combobox"` with `aria-autocomplete="list"`, `aria-expanded`, `aria-controls` and `aria-activedescendant`; the list is `role="listbox"` and each suggestion `role="option"`. The magnifying glass and the start icon are `aria-hidden`; the X is a button with a name.
-- **Keyboard**: while typing, no suggestion is active. Down activates the first one and, with the list closed, also opens it; Up, with the list closed, opens it and activates the last one; Alt+Down opens without activating; Enter picks the active suggestion and, with no active suggestion, keeps the text and closes the list; Esc closes the list and, with it closed, clears the text (DSA-46 D-4).
+- **Keyboard**: while typing, no suggestion is active. Down activates the first one and, with the list closed, also opens it; Up, with the list closed, opens it and activates the last one; Alt+Down opens without activating; Enter picks the active suggestion and, with no active suggestion, keeps the text and closes the list (with the list already closed, Enter passes on, as in the APG); at the ends of the list, Up and Down behave as in the nph-combobox; Esc closes the list and, with it closed, clears the text (DSA-46 D-4).
 - **Value**: Tab, leaving the field and an outside click close the list and keep the typed text as the value; it is never replaced by a suggestion without Enter or a click.
 - **No suggestion**: the list closes, without the nph-empty, and an `aria-live` region says "no suggestions". No "no option found" message and no "+ Create …" row in this variant.
 - **What stays as in the nph-combobox**: highlight of the typed part (`text/highlight-weight`, rest in `color/muted-foreground`), active suggestion in `color/accent`, pointer makes a suggestion active (DSA-45 D-6), list `space/inline-tight` below and above near the window edge (DSA-29 D-2), movement in `motion/enter-*` and `motion/exit-*` (DSA-45 D-2), loading with `aria-busy`.
@@ -75,8 +75,8 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Open points for the code
 - Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.
-- How the variant is chosen on the element (an attribute of the nph-combobox), and how the value is reported when it is not in the list.
-- Minimum characters before suggesting and the number of suggestions in view (about 10).
+- How the variant is chosen on the element (an attribute of the nph-combobox), how the value is reported when it is not in the list, and how the field takes part in a form (name, value, required, validation).
+- Minimum characters before suggesting, the number of suggestions in view (about 10), and whether the "contains" filter ignores case and accents and waits for IME composition.
 
 ## Why it is ready
 The token `combobox/free-text-padding-end` came with this task and is on `v/5.0.0`, an alias of `space/control-padding`. No new value entered the core. The nph-combobox (DSA-46) and the nph-icon (DSA-03) are done.

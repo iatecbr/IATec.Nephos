@@ -13,7 +13,7 @@
     "date": "2026-11-12",
     "author": "indiane",
     "excerpt": null,
-    "converted_decision": "The design owner accepted the visual of the free text root of the nph-combobox (6040:2120) and its documentation frame (6047:3760, page 4128:28570), with COMPONENT_SET nph-combobox free text (6040:3286), and answered the two open points of the appendix: while typing, no suggestion is active, Down activates the first one and Enter with no active suggestion keeps the text and closes the list; with no suggestion, the list closes, without the nph-empty, and the screen reader hears \"no suggestions\". The only new token, combobox/free-text-padding-end, aliases space/control-padding. The specification, converted to text, is in this evidence."
+    "converted_decision": "The design owner accepted the visual of the free text root of the nph-combobox (6040:2120) and its documentation frame (6047:3760, page 4128:28570), with COMPONENT_SET nph-combobox free text (6040:3286), and answered the two open points of the appendix: while typing, no suggestion is active, Down activates the first one and Enter with no active suggestion keeps the text and closes the list; with no suggestion, the list closes, without the nph-empty, and the screen reader hears \"no suggestions\". The new token, combobox/free-text-padding-end, aliases space/control-padding. The specification, converted to text, is in this evidence."
   }
 }
 ```
@@ -24,7 +24,7 @@ The documentation of the free text variant of the nph-combobox (frame `6047:3760
 
 What changed in the tokens with this task:
 
-- New component group `combobox/*`, in the semantic collection, with one token: `combobox/free-text-padding-end`, an alias of `space/control-padding` (12 px), the same in light and dark (rule T9, rule 2: the end of the field without the arrow zone is the inner horizontal padding of a field). No token points straight to core and no new value entered the core.
+- New component group `combobox/*`, in the semantic collection: `combobox/free-text-padding-end`, an alias of `space/control-padding` (12 px), the same in light and dark (rule T9, rule 2: the end of the field without the arrow zone is the inner horizontal padding of a field). No token points straight to core and no new value entered the core.
 - Extended `use` of `space/control-padding` in `design.md`.
 - Left without a component token: the field is an instance of the nph-combobox and the list is an instance of the nph-combobox list (`nph-combobox / lista`), each with its own tokens; the icons are `nph-icon` instances; the typography comes from the text style `text/body-md` of the nph-combobox.
 
@@ -180,8 +180,8 @@ Base: the WAI-ARIA APG combobox with list pattern (`aria-autocomplete="list"`). 
 |---|---|
 | Initial state | List closed; the field shows the placeholder or the value. |
 | Typing | Opens the list with the suggestions that contain the text, with the typed part highlighted. No suggestion is active. |
-| Down and Up | Down activates the first suggestion and, with the list closed, also opens it; Up, with the list closed, opens it and activates the last one; Alt+Down opens without activating any. With the list open, Up and Down move the active suggestion. The field text does not change while navigating. |
-| Enter | With an active suggestion: puts the suggestion in the field and closes the list. With no active suggestion: keeps the text and closes the list. |
+| Down and Up | Down activates the first suggestion and, with the list closed, also opens it; Up, with the list closed, opens it and activates the last one; Alt+Down opens without activating any. With the list open, Up and Down move the active suggestion; at the ends of the list they behave as in the nph-combobox (`fichas/nph-combobox.md`). The field text does not change while navigating. |
+| Enter | With an active suggestion: puts the suggestion in the field and closes the list. With no active suggestion: keeps the text and closes the list. List already closed: passes on (for example, the form submit), as in the APG. |
 | Esc | List open: closes the list. List closed: clears the text (DSA-46 D-4). No text: passes on. |
 | Tab and leaving the field | Closes the list; the typed text stays as the value and is not replaced by a suggestion. |
 | Focus on open and on close | The focus stays on the field the whole time; `aria-activedescendant` points to the active suggestion. On close, the focus stays on the field. |
