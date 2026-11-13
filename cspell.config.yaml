@@ -192,6 +192,7 @@ dictionaryDefinitions:
       - autodocs
       - autofocus
       - autolinks
+      - beforematch
       - browsable
       - checkedness
       - commandfor

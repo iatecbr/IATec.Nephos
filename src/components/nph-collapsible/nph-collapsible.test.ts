@@ -95,7 +95,7 @@ const state = (piece: NphCollapsible): string => panel(piece).getAttribute('data
 /** The events the piece fires, collected until the end of the test. */
 function collect(piece: NphCollapsible): NphCollapsibleToggleDetail[] {
   const seen: NphCollapsibleToggleDetail[] = [];
-  piece.addEventListener(NPH_COLLAPSIBLE_TOGGLE_EVENT, (event) => seen.push((event as CustomEvent<NphCollapsibleToggleDetail>).detail), {
+  piece.addEventListener(NPH_COLLAPSIBLE_TOGGLE_EVENT, (event) => seen.push((event as unknown as CustomEvent<NphCollapsibleToggleDetail>).detail), {
     signal: listeners.signal,
   });
   return seen;
@@ -657,6 +657,27 @@ describe('the growth of the content and the turn of the chevron', () => {
     expect(below.getBoundingClientRect().top).toBeGreaterThan(top);
     const contentBottom = content(piece).getBoundingClientRect().bottom;
     expect(below.getBoundingClientRect().top).toBeGreaterThanOrEqual(contentBottom);
+  });
+
+  it('the height goes through the sizes between closed and open, in both directions', async () => {
+    const piece = await mount();
+    const closed = piece.getBoundingClientRect().height;
+    piece.open = true;
+    await piece.updateComplete;
+    await wait(80);
+    const during = piece.getBoundingClientRect().height;
+    await vi.waitFor(() => expect(state(piece)).toBe('open'), { timeout: 2000 });
+    const open = piece.getBoundingClientRect().height;
+    expect(during).toBeGreaterThan(closed);
+    expect(during).toBeLessThan(open);
+    piece.open = false;
+    await piece.updateComplete;
+    await wait(80);
+    const shrinking = piece.getBoundingClientRect().height;
+    expect(shrinking).toBeGreaterThan(closed);
+    expect(shrinking).toBeLessThan(open);
+    await vi.waitFor(() => expect(state(piece)).toBe('closed'), { timeout: 2000 });
+    expect(piece.getBoundingClientRect().height).toBe(closed);
   });
 
   it('with reduced motion it opens and closes at once, with no transition', async () => {

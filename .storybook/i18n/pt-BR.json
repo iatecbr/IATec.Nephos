@@ -472,7 +472,21 @@
     "components-nph-file-upload-validation--width": "Largura",
     "components-nph-file-upload-validation--field": "Campo",
     "components-nph-file-upload-validation--examples": "Exemplos",
-    "components-nph-file-upload-validation--brands": "Marcas"
+    "components-nph-file-upload-validation--brands": "Marcas",
+    "components-nph-collapsible-docs": "Docs",
+    "components-nph-collapsible-docs--documentation": "Documentação",
+    "components-nph-collapsible-validation": "Validação",
+    "components-nph-collapsible-validation--types": "Tipos",
+    "components-nph-collapsible-validation--appearances": "Aparências",
+    "components-nph-collapsible-validation--sizes": "Tamanhos",
+    "components-nph-collapsible-validation--indicator": "Indicador",
+    "components-nph-collapsible-validation--content": "Conteúdo",
+    "components-nph-collapsible-validation--states": "Estados",
+    "components-nph-collapsible-validation--stack": "Pilha",
+    "components-nph-collapsible-validation--direction": "Direção",
+    "components-nph-collapsible-validation--interactive": "Interativo",
+    "components-nph-collapsible-validation--examples": "Exemplos",
+    "components-nph-collapsible-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7909,7 +7923,18 @@
       "components-nph-file-upload-validation--width": "Um nome que não cabe é cortado em uma linha com reticências e o nome inteiro chega ao leitor de tela; um motivo longo quebra em linhas e o item cresce.",
       "components-nph-file-upload-validation--field": "A zona como o controle do nph-field, com o rótulo, o asterisco e o texto de apoio do campo e o motivo na zona; e a zona compacta em um formulário com outro campo.",
       "components-nph-file-upload-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: a zona vazia com a sua regra, a lista em uso com um envio em andamento, um erro e um arquivo concluído, e o limite atingido.",
-      "components-nph-file-upload-validation--brands": "As sete marcas em modo claro e escuro: as cores de arrastando, a caixa do item e o anel de foco seguem a marca."
+      "components-nph-file-upload-validation--brands": "As sete marcas em modo claro e escuro: as cores de arrastando, a caixa do item e o anel de foco seguem a marca.",
+      "components-nph-collapsible-validation--types": "Os três tipos, fechados e abertos: a linha, cujo gatilho é a linha inteira com o título e a seta; o botão, um nph-button com a seta no fim; e a prévia, um texto cortado em três linhas com o botão logo abaixo.",
+      "components-nph-collapsible-validation--appearances": "A aparência flush, sem fundo, contorno nem preenchimento, e o cartão, com o fundo, o contorno, o canto e o preenchimento, nos tipos linha, botão e prévia.",
+      "components-nph-collapsible-validation--sizes": "Os tamanhos compact, default e large do tipo linha: mudam a altura mínima do gatilho, e o large muda o estilo de texto do título.",
+      "components-nph-collapsible-validation--indicator": "O indicador no fim e no início, com e sem o ícone inicial: o conteúdo aberto recua até o título, depois do indicador e do ícone.",
+      "components-nph-collapsible-validation--content": "O que o gatilho liga, a linha de apoio e o ícone inicial; um título longo que quebra numa linha estreita; e uma peça de qualquer tipo dentro do conteúdo.",
+      "components-nph-collapsible-validation--states": "O estado desabilitado nos três tipos, e aberto e desabilitado juntos: o conteúdo continua à vista, esmaecido. Hover e foco aparecem pela interação.",
+      "components-nph-collapsible-validation--stack": "Várias peças uma sob a outra, na mesma coluna e na mesma largura, separadas por espaço e sem divisor, nas aparências flush e cartão.",
+      "components-nph-collapsible-validation--direction": "Escrita da direita para a esquerda: o indicador, o ícone e o recuo seguem o início, e a seta do início aponta para ele quando fechada.",
+      "components-nph-collapsible-validation--interactive": "O evento: nph-toggle é disparado quando a pessoa abre ou fecha o conteúdo e diz em que estado o conteúdo está agora.",
+      "components-nph-collapsible-validation--examples": "Os três exemplos obrigatórios, nos modos claro e escuro: as configurações avançadas de um formulário, abertas; as etapas de um cadastro, com o indicador no início; e o log de uma importação no tipo prévia, fechado.",
+      "components-nph-collapsible-validation--brands": "As sete marcas nos modos claro e escuro: o hover, o foco e o cartão seguem a marca."
     }
   },
   "multiComboboxDocs": {
@@ -13759,5 +13784,295 @@
     "sizeReason": "O arquivo é maior que 5 MB.",
     "otherLabel": "Nome do projeto",
     "otherValue": "Nephos"
+  },
+  "collapsibleDocs": {
+    "summary": "Um gatilho que abre e fecha um bloco de conteúdo no mesmo lugar da página. Aberto, o conteúdo empurra para baixo o que vem depois e não cobre nada. Começa fechado.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-collapsible, o design.md para os tokens e docs/decisoes-tecnicas.md para a P121. O arquivo DS-IA-NEPHOS 5.0 no Figma é a fonte visual. Nenhuma regra nasce aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "O detalhe some sem mudar o ritmo da página, como as configurações avançadas de um formulário: a linha flush.",
+      "Um bloco precisa se destacar da página, como uma seção de resumo: a aparência cartão.",
+      "Etapas ou níveis, como o passo a passo vertical: o indicador no início.",
+      "O detalhe fica abaixo de um parágrafo ou de uma ação: o tipo botão.",
+      "Um texto longo cuja primeira parte já ajuda, como um log, uma nota ou uma descrição: o tipo prévia.",
+      "O título sozinho não diz o que há dentro: ligue a descrição."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para um grupo de seções com uma regra entre elas, uma aberta por vez: use o accordion.",
+      "Para uma camada que flutua sobre a página e fecha com um clique fora, ou para um menu de ações: use o nph-popover ou o nph-dropdown-menu.",
+      "Para alternar entre painéis do mesmo nível: use o nph-tabs.",
+      "Para esconder um erro, um aviso ou um campo obrigatório pendente em conteúdo fechado: mantenha à vista e, numa etapa fechada, mostre o item pendente na descrição.",
+      "Para um contorno em cada linha de um formulário: use a aparência flush e separe por espaço.",
+      "Para um gatilho que é só um ícone clicável, sem título e sem seta: use o tipo linha."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "line (padrão), button ou preview. O gatilho da linha é a linha inteira, com o título e a seta. O botão é um nph-button, secondary ghost, com a seta no fim. A prévia mostra o texto cortado em três linhas e o nph-button abaixo dele abre o resto."
+      ],
+      [
+        "appearance",
+        "flush (padrão) ou card. O flush não tem fundo, contorno nem preenchimento; o cartão tem o fundo, o contorno, o canto e o preenchimento."
+      ],
+      [
+        "indicator",
+        "end (padrão) ou start. A seta depois do título gira 180 graus; a que vem antes gira 90 graus, para apontar para baixo. Só no tipo linha."
+      ],
+      [
+        "size",
+        "compact, default (padrão) ou large. Muda a altura mínima do gatilho, e o tamanho large muda o título. Só no tipo linha."
+      ],
+      [
+        "open",
+        "O estado atual, como no elemento nativo details. Começa fechado. A pessoa o muda e o nph-toggle avisa; defini-lo por código não dispara nada. Reflete."
+      ],
+      [
+        "disabled",
+        "A peça não abre nem fecha, sai da ordem de Tab e esmaece por inteiro. Reflete."
+      ],
+      [
+        "label",
+        "O título do gatilho, já localizado, e o seu nome acessível. No tipo botão é o texto do nph-button; na prévia, o texto enquanto fechada."
+      ],
+      [
+        "open-label",
+        "O texto do gatilho enquanto aberto, já localizado, como Mostrar menos. Para os tipos botão e prévia; sem ele o texto não muda."
+      ],
+      [
+        "description",
+        "A linha de apoio sob o título, já localizada. É a descrição acessível. Só no tipo linha."
+      ],
+      [
+        "icon",
+        "O ícone inicial: um nome do núcleo do nph-icon, no peso light. Vazio não desenha. Só no tipo linha."
+      ],
+      [
+        "slot",
+        "O slot padrão é o conteúdo, livre: qualquer peça entra nele."
+      ],
+      [
+        "nph-toggle",
+        "Disparado quando a pessoa abre ou fecha o conteúdo, com detail { open }. Borbulha e é composto. Definir open por código não dispara nada."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-collapsible label=\"Advanced settings\" description=\"Rarely changed\" icon=\"gear\">\n  <p>Billing address and tax number.</p>\n</nph-collapsible>",
+    "usageTag": "A tag da peça. O título é o label, o conteúdo é o slot padrão, e a página escuta nph-toggle quando precisa saber o que a pessoa fez.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, frame nph-collapsible (6014:1688); docs/decisoes-tecnicas.md › P121",
+    "typesTitle": "Tipos",
+    "typesCaption": "A linha, o botão e a prévia, com o conteúdo aberto na linha e no botão, e a prévia fechada.",
+    "typesUseHeader": [
+      "Tipo",
+      "O que mostra"
+    ],
+    "typesUse": [
+      {
+        "value": "line",
+        "label": "O gatilho é a linha inteira, com o título, uma descrição e um ícone inicial opcionais, e a seta. É o padrão, para formulário e configurações."
+      },
+      {
+        "value": "button",
+        "label": "O gatilho é um nph-button, secondary ghost, com a seta no fim. Para um detalhe que fica abaixo de um parágrafo ou de uma ação, como Mostrar detalhes."
+      },
+      {
+        "value": "preview",
+        "label": "O texto é cortado em três linhas e o nph-button abaixo dele troca Mostrar mais por Mostrar menos. Para um texto longo cujo começo já informa."
+      }
+    ],
+    "variantsTitle": "Aparências, tamanhos e indicador",
+    "variantsCaption": "O cartão com o seu contorno, os tamanhos compact e large, e o indicador no início com o ícone inicial.",
+    "variants": [
+      "O flush é o padrão e não tem contorno: várias peças se separam por espaço. Use o cartão quando o bloco precisa se destacar da página; o contorno dele é de área, e o foco fica no gatilho.",
+      "O tamanho é a altura mínima do gatilho: compact 28, default 36 e large 44. O compact é para tela densa e nunca para toque. O tamanho large usa o título no estilo de texto maior.",
+      "O indicador no fim é para o resto; no início é para etapas e níveis, como o passo a passo vertical. O conteúdo aberto recua até o título, depois do indicador e do ícone inicial.",
+      "Ligue a descrição quando o título não basta para decidir. Numa etapa fechada, é onde vai o item pendente, em texto, como Faltam 2 campos.",
+      "Nos tipos botão e prévia o gatilho é o nph-button no tamanho default: o indicador, o tamanho, a descrição e o ícone não se aplicam."
+    ],
+    "behaviorTitle": "Comportamento",
+    "behaviorCaption": "Várias peças separadas por espaço, sem divisor, e uma peça desabilitada que está aberta: o conteúdo continua à vista, esmaecido.",
+    "behavior": [
+      "A peça começa fechada e guarda o próprio estado. A pessoa muda o open e o nph-toggle avisa; a página também pode definir o open, e isso não dispara nada.",
+      "O conteúdo cresce no lugar e empurra para baixo o que vem depois. Ele cresce e a seta gira na duração de expansão; com movimento reduzido nada se move. A prévia não cresce: ela tira o corte.",
+      "O conteúdo fechado está fora da ordem de Tab e fora da árvore de acessibilidade, e é achado pela busca da página: o navegador abre a peça quando o texto dentro dela é encontrado.",
+      "Desabilitada, a peça não abre nem fecha e sai da ordem de Tab. Aberta e desabilitada, mantém o conteúdo à vista, esmaecido. O conteúdo fechado e desabilitado não é achado pela busca da página.",
+      "O conteúdo começa 8 px abaixo do gatilho, para o halo de foco não encostar nele. Não fecha com clique fora nem com Escape: é parte da página, não uma camada sobre ela.",
+      "Erro, aviso e campo obrigatório pendente não ficam escondidos em conteúdo fechado: mantenha-os à vista, ou mostre o item pendente na descrição."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "O que faz"
+    ],
+    "keyboard": [
+      [
+        "Tab e Shift+Tab",
+        "Chegam ao gatilho. O conteúdo fechado sai da ordem de Tab; o conteúdo aberto recebe o Tab a partir do gatilho. Uma peça desabilitada sai da ordem de Tab."
+      ],
+      [
+        "Enter e Espaço",
+        "Abrem e fecham. O foco fica no gatilho, ao abrir e ao fechar."
+      ],
+      [
+        "Setas, Home e End",
+        "Não fazem nada: o padrão de disclosure não os usa. Um grupo com uma regra entre seções é o accordion."
+      ],
+      [
+        "Escape",
+        "Não faz nada: o conteúdo não é uma camada sobre a página."
+      ],
+      [
+        "Clique fora",
+        "Não fecha: o conteúdo é parte da página."
+      ]
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Vive num formulário, numa lista de configurações, num cartão ou num passo a passo. Ocupa a largura de onde vive, e várias na mesma coluna e na mesma largura se separam por espaço, sem divisor.",
+      "Trabalha com o nph-icon (o indicador e o ícone inicial) e o nph-button (o gatilho dos tipos botão e prévia). Qualquer peça entra no conteúdo: texto, campos, ações, nph-skeleton enquanto carrega.",
+      "O item do accordion vira uma instância do collapsible depois, quando os dois estiverem aceitos; o stepper vertical é construído sobre ele em tarefa própria. Nenhum dos dois muda aqui."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Raiz",
+        "Vertical, da altura do conteúdo. O flush não tem fundo, contorno nem preenchimento; o cartão tem o preenchimento, o canto, o contorno e o fundo do cartão."
+      ],
+      [
+        "Gatilho",
+        "Um botão que ocupa a largura toda, com o espaço, o preenchimento lateral, o preenchimento vertical, o canto e a altura mínima do seu tamanho. O hover o pinta; o aberto não."
+      ],
+      [
+        "Ícone inicial",
+        "Um nph-icon, opcional, no peso light, na cor apagada. O padrão no Figma é gear e se troca por outro ícone do núcleo."
+      ],
+      [
+        "Título e descrição",
+        "O título no estilo de texto de rótulo, a descrição no estilo de corpo pequeno, na cor apagada; o texto quebra."
+      ],
+      [
+        "Indicador",
+        "Um nph-icon. No fim é chevron-down e gira 180 graus; no início é chevron-right e gira 90 graus, para apontar para baixo. Fica no peso light."
+      ],
+      [
+        "Conteúdo",
+        "Só quando aberto. Começa abaixo do gatilho com o preenchimento superior, e com o indicador no início ou o ícone inicial ligado recua pelo tamanho de cada parte mais o espaço. O corpo é um slot livre."
+      ],
+      [
+        "Foco",
+        "Uma borda e, fora dela, um halo, no gatilho e não no cartão inteiro."
+      ],
+      [
+        "Gatilhos botão e prévia",
+        "Um nph-button, secondary ghost, no tamanho default, com chevron-down fechado e chevron-up aberto. Na prévia fica abaixo do texto cortado, no início."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "O padrão de disclosure do APG: um botão com aria-expanded e aria-controls apontando para o conteúdo, que não tem papel. O indicador e o ícone inicial ficam ocultos para a tecnologia assistiva."
+      ],
+      [
+        "Nome acessível",
+        "O título. A descrição é a descrição acessível, não parte do nome. Nos tipos botão e prévia o nome é o texto do nph-button."
+      ],
+      [
+        "Teclado",
+        "O Tab chega ao gatilho; Enter e Espaço abrem e fecham, e o foco fica no gatilho."
+      ],
+      [
+        "Foco",
+        "Uma borda que atinge 3:1 e um halo, no gatilho, para quem usa teclado. Fechar pela página com o foco dentro do conteúdo o leva ao gatilho."
+      ],
+      [
+        "Contraste",
+        "O título, a descrição e o texto do conteúdo atingem 4,5:1 nos dois temas; o indicador e o ícone inicial atingem 3:1."
+      ],
+      [
+        "Alternativa à cor",
+        "Aberto e fechado se distinguem pela direção da seta e pelo conteúdo à vista, nunca pela cor."
+      ],
+      [
+        "Movimento",
+        "O conteúdo cresce e a seta gira na duração de expansão; com movimento reduzido nada se move."
+      ],
+      [
+        "Alvo de toque",
+        "O gatilho ocupa a linha inteira, com 28, 36 ou 44 de altura, todas acima de 24. Em tela de toque, prefira default ou large."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: as configurações avançadas de um formulário, abertas; as etapas de um cadastro, com o indicador no início; e o log de importação no tipo prévia, fechado.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-collapsible — propósito, tipos, comportamento, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P121 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens collapsible/* e os tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — frame de documentação nph-collapsible (6014:1688), set 6006:2250.",
+      "WAI-ARIA Authoring Practices, padrão Disclosure.",
+      "MDN — o atributo hidden, valor until-found."
+    ],
+    "sourceSpec": "Ficha do nph-collapsible; Figma, frame nph-collapsible (6014:1688)",
+    "sourceApi": "Ficha do nph-collapsible; docs/decisoes-tecnicas.md › P121",
+    "sourceAnatomy": "Figma, set 6006:2250; design.md",
+    "matrixLabel": "Matriz do componente"
+  },
+  "collapsibleValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "title": "Configurações avançadas",
+    "support": "Raramente alteradas",
+    "body": "Endereço de cobrança, CNPJ e a ordem das faturas.",
+    "bodyTwo": "Quem é avisado quando uma fatura é paga, atrasa ou é contestada.",
+    "longTitle": "Configurações avançadas das faturas de todos os projetos do espaço de trabalho",
+    "longSupport": "Vale para todos os projetos, agora e depois",
+    "detailsLabel": "Mostrar detalhes",
+    "detailsBody": "O pedido foi embalado na segunda-feira e saiu do armazém na terça de manhã, com uma parada no centro regional.",
+    "showMore": "Mostrar mais",
+    "showLess": "Mostrar menos",
+    "logHeading": "Log da importação",
+    "logText": "A importação começou às 09:12 e leu 4.812 linhas do arquivo. As primeiras 300 linhas foram salvas sem aviso. O bloco seguinte tinha 41 linhas com data fora do intervalo; essas linhas foram ignoradas e listadas abaixo. O último bloco foi salvo às 09:14, e nenhuma linha foi alterada depois disso.",
+    "advancedTitle": "Configurações avançadas",
+    "advancedSupport": "Raramente alteradas",
+    "advancedBody": "Guardar as faturas dos projetos encerrados por noventa dias antes de saírem da lista.",
+    "saveLabel": "Salvar configurações",
+    "stepAccount": "Conta",
+    "stepAccountSupport": "Completa",
+    "stepAccountBody": "Nome, e-mail e a senha da conta.",
+    "stepAddress": "Endereço",
+    "stepAddressSupport": "Faltam 2 campos",
+    "stepAddressBody": "Para onde devemos enviar as suas faturas?",
+    "stepPayment": "Pagamento",
+    "stepPaymentSupport": "Não iniciado",
+    "stepPaymentBody": "Cartão ou fatura, e o nome que consta nele.",
+    "stackOne": "Notificações",
+    "stackTwo": "Privacidade",
+    "stackThree": "Cobrança",
+    "eventOpen": "nph-toggle: o conteúdo está aberto.",
+    "eventClosed": "nph-toggle: o conteúdo está fechado."
   }
 }

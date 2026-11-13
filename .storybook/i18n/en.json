@@ -472,7 +472,21 @@
     "components-nph-file-upload-validation--width": "Width",
     "components-nph-file-upload-validation--field": "Field",
     "components-nph-file-upload-validation--examples": "Examples",
-    "components-nph-file-upload-validation--brands": "Brands"
+    "components-nph-file-upload-validation--brands": "Brands",
+    "components-nph-collapsible-docs": "Docs",
+    "components-nph-collapsible-docs--documentation": "Documentation",
+    "components-nph-collapsible-validation": "Validation",
+    "components-nph-collapsible-validation--types": "Types",
+    "components-nph-collapsible-validation--appearances": "Appearances",
+    "components-nph-collapsible-validation--sizes": "Sizes",
+    "components-nph-collapsible-validation--indicator": "Indicator",
+    "components-nph-collapsible-validation--content": "Content",
+    "components-nph-collapsible-validation--states": "States",
+    "components-nph-collapsible-validation--stack": "Stack",
+    "components-nph-collapsible-validation--direction": "Direction",
+    "components-nph-collapsible-validation--interactive": "Interactive",
+    "components-nph-collapsible-validation--examples": "Examples",
+    "components-nph-collapsible-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7909,7 +7923,18 @@
       "components-nph-file-upload-validation--width": "A name that does not fit is cut on one line with an ellipsis and its whole text reaches the screen reader; a long reason wraps and the item grows.",
       "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason in the zone; and the compact zone in a form with another field.",
       "components-nph-file-upload-validation--examples": "The three required examples, each in light and dark mode: the empty zone with its rule, the list in use with an upload in progress, an error and a done file, and the limit reached.",
-      "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand."
+      "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand.",
+      "components-nph-collapsible-validation--types": "The three types, closed and open: the line, whose trigger is the whole row with the title and the chevron; the button, an nph-button with the chevron at the end; and the preview, a text cut at three lines with the button below it.",
+      "components-nph-collapsible-validation--appearances": "The flush appearance, with no background, outline or padding, and the card, with the background, the outline, the corner and the padding, in the line, button and preview types.",
+      "components-nph-collapsible-validation--sizes": "The compact, default and large sizes of the line type: they change the minimum height of the trigger, and the large one changes the text style of the title.",
+      "components-nph-collapsible-validation--indicator": "The indicator at the end and at the start, with and without the start icon: the open content indents to the title, past the indicator and the icon.",
+      "components-nph-collapsible-validation--content": "What the trigger turns on, the support line and the start icon; a long title that wraps inside a narrow row; and a piece of any kind inside the content.",
+      "components-nph-collapsible-validation--states": "The disabled state in the three types, and open and disabled together: the content stays in view, faded. Hover and focus show by interaction.",
+      "components-nph-collapsible-validation--stack": "Several pieces one under the other, in the same column and the same width, separated by space with no divider, in the flush and card appearances.",
+      "components-nph-collapsible-validation--direction": "Right-to-left writing: the indicator, the icon and the indent follow the start, and the chevron at the start points to it when closed.",
+      "components-nph-collapsible-validation--interactive": "The event: nph-toggle is fired when the person opens or closes the content and says the state the content is in now.",
+      "components-nph-collapsible-validation--examples": "The three required examples, in light and dark mode: the advanced settings of a form, open; the steps of a sign-up form, with the indicator at the start; and the log of an import in the preview type, closed.",
+      "components-nph-collapsible-validation--brands": "The seven brands in light and dark mode: the hover, the focus and the card follow the brand."
     }
   },
   "multiComboboxDocs": {
@@ -13759,5 +13784,295 @@
     "sizeReason": "The file is larger than 5 MB.",
     "otherLabel": "Project name",
     "otherValue": "Nephos"
+  },
+  "collapsibleDocs": {
+    "summary": "A trigger that opens and closes a block of content in the same place on the page. Open, the content pushes down what comes below and covers nothing. It starts closed.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-collapsible spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P121. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "The detail goes away without changing the rhythm of the page, such as advanced settings in a form: the flush line.",
+      "A block needs to stand out from the page, such as a summary section: the card appearance.",
+      "Steps or levels, such as the vertical step-by-step: the indicator at the start.",
+      "The detail sits below a paragraph or an action: the button type.",
+      "A long text whose first part already helps, such as a log, a note or a description: the preview type.",
+      "The title alone does not say what is inside: turn on the description."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For a group of sections with a rule between them, one open at a time: use the accordion.",
+      "For a layer that floats over the page and closes on an outside click, or for an action menu: use nph-popover or nph-dropdown-menu.",
+      "For a switch between panels of the same level: use nph-tabs.",
+      "To hide an error, a warning or a pending required field in closed content: keep it in view, and in a closed step show the pending item in the description.",
+      "For an outline on every row of a form: use the flush appearance and separate by space.",
+      "For a trigger that is only a clickable icon, with no title and no chevron: use the line type."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "type",
+        "line (default), button or preview. The line trigger is the whole row, with the title and the chevron. The button is an nph-button, secondary ghost, with the chevron at the end. The preview shows the text cut at three lines and the nph-button below it opens the rest."
+      ],
+      [
+        "appearance",
+        "flush (default) or card. Flush has no background, outline or padding; the card has the background, the outline, the corner and the padding."
+      ],
+      [
+        "indicator",
+        "end (default) or start. The chevron after the title turns 180 degrees; the one before it turns 90 degrees, to point down. Line type only."
+      ],
+      [
+        "size",
+        "compact, default (default) or large. It changes the minimum height of the trigger, and the large size changes the title. Line type only."
+      ],
+      [
+        "open",
+        "The current state, as in the native details element. It starts closed. The person changes it and nph-toggle says so; setting it from code fires nothing. Reflects."
+      ],
+      [
+        "disabled",
+        "The piece does not open or close, leaves the Tab order and is faded as a whole. Reflects."
+      ],
+      [
+        "label",
+        "The title of the trigger, already localized, and its accessible name. In the button type it is the text of the nph-button; in the preview, the text while closed."
+      ],
+      [
+        "open-label",
+        "The text of the trigger while open, already localized, such as Show less. For the button and preview types; without it the text does not change."
+      ],
+      [
+        "description",
+        "The support line under the title, already localized. It is the accessible description. Line type only."
+      ],
+      [
+        "icon",
+        "The start icon: a core name of nph-icon, in the light weight. Empty draws none. Line type only."
+      ],
+      [
+        "slot",
+        "The default slot is the content, free: any piece goes inside it."
+      ],
+      [
+        "nph-toggle",
+        "Fired when the person opens or closes the content, with detail { open }. It bubbles and is composed. Setting open from code fires nothing."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-collapsible label=\"Advanced settings\" description=\"Rarely changed\" icon=\"gear\">\n  <p>Billing address and tax number.</p>\n</nph-collapsible>",
+    "usageTag": "The tag of the piece. The title is the label, the content is the default slot, and the page listens to nph-toggle when it needs to know what the person did.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-collapsible (6014:1688); docs/decisoes-tecnicas.md › P121",
+    "typesTitle": "Types",
+    "typesCaption": "The line, the button and the preview, with the content open in the line and in the button, and the preview closed.",
+    "typesUseHeader": [
+      "Type",
+      "What it shows"
+    ],
+    "typesUse": [
+      {
+        "value": "line",
+        "label": "The trigger is the whole row, with the title, an optional description and start icon, and the chevron. It is the default, for a form and for settings."
+      },
+      {
+        "value": "button",
+        "label": "The trigger is an nph-button, secondary ghost, with the chevron at the end. For a detail that sits below a paragraph or an action, such as Show details."
+      },
+      {
+        "value": "preview",
+        "label": "The text is cut at three lines and the nph-button below it swaps Show more for Show less. For a long text whose beginning already informs."
+      }
+    ],
+    "variantsTitle": "Appearances, sizes and indicator",
+    "variantsCaption": "The card with its outline, the compact and large sizes, and the indicator at the start with the start icon.",
+    "variants": [
+      "Flush is the default and has no outline: several pieces are separated by space. Use the card when the block must stand out from the page; its outline is an area outline, and the focus stays on the trigger.",
+      "The size is the minimum height of the trigger: compact 28, default 36 and large 44. Compact is for a dense screen and never for touch. The large size takes the title in the larger text style.",
+      "The indicator at the end is for the rest; at the start it is for steps and levels, such as the vertical step-by-step. The open content indents to the title, past the indicator and the start icon.",
+      "Turn the description on when the title is not enough to decide. In a closed step it is where a pending item goes, in text, such as 2 fields missing.",
+      "In the button and preview types the trigger is the nph-button in the default size: the indicator, the size, the description and the icon do not apply there."
+    ],
+    "behaviorTitle": "Behavior",
+    "behaviorCaption": "Several pieces separated by space, with no divider, and a disabled piece that is open: the content stays in view, faded.",
+    "behavior": [
+      "The piece starts closed and keeps its state. The person changes open and nph-toggle says so; the page may set open too, and that fires nothing.",
+      "The content grows in place and pushes down what comes below. It grows and the chevron turns in the expand duration; with reduced motion nothing moves. The preview does not grow: it lifts the cut.",
+      "Closed content is out of the Tab order and out of the accessibility tree, and is found by the search of the page: the browser opens the piece when the text inside it is found.",
+      "Disabled, the piece does not open or close and leaves the Tab order. Open and disabled keeps the content in view, faded. A disabled closed content is not found by the search of the page.",
+      "The content starts 8 px below the trigger, so the focus halo does not touch it. It closes on no outside click and on no Escape: it is part of the page, not a layer over it.",
+      "Error, warning and a pending required field are not hidden in closed content: keep them in view, or show the pending item in the description."
+    ],
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Input",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab and Shift+Tab",
+        "Reach the trigger. Closed content leaves the Tab order; open content takes Tab from the trigger into it. A disabled piece leaves the Tab order."
+      ],
+      [
+        "Enter and Space",
+        "Open and close. The focus stays on the trigger, on open and on close."
+      ],
+      [
+        "Arrows, Home and End",
+        "Do nothing: the disclosure pattern does not use them. A group with a rule between sections is the accordion."
+      ],
+      [
+        "Escape",
+        "Does nothing: the content is not a layer over the page."
+      ],
+      [
+        "Click outside",
+        "Does not close: the content is part of the page."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It lives in a form, a settings list, a card or a step-by-step. It takes the width of where it lives, and several in the same column and the same width are separated by space, with no divider.",
+      "It works with nph-icon (the indicator and the start icon) and nph-button (the trigger of the button and preview types). Any piece goes inside the content: text, fields, actions, nph-skeleton while it loads.",
+      "The accordion item becomes an instance of the collapsible later, after both are accepted; the vertical stepper is built on it in its own task. Neither changes here."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Root",
+        "Vertical, as tall as its content. Flush has no background, outline or padding; the card has the padding, the corner, the outline and the background of the card."
+      ],
+      [
+        "Trigger",
+        "A button that takes the whole width, with the gap, the side padding, the vertical padding, the corner and the minimum height of its size. Hover paints it; open does not."
+      ],
+      [
+        "Start icon",
+        "An nph-icon, optional, in the light weight, in the muted color. The default in the Figma is gear and it is swapped for another core icon."
+      ],
+      [
+        "Title and description",
+        "The title in the label text style, the description in the small body style, in the muted color; the text wraps."
+      ],
+      [
+        "Indicator",
+        "An nph-icon. At the end it is chevron-down and turns 180 degrees; at the start it is chevron-right and turns 90 degrees, to point down. It stays in the light weight."
+      ],
+      [
+        "Content",
+        "Only when open. It starts below the trigger with the top padding, and with the indicator at the start or the start icon on it indents by the size of each part plus the gap. The body is a free slot."
+      ],
+      [
+        "Focus",
+        "A border and, outside it, a halo, on the trigger and not on the whole card."
+      ],
+      [
+        "Button and preview triggers",
+        "An nph-button, secondary ghost, in the default size, with the chevron-down closed and the chevron-up open. In the preview it sits below the cut text, at the start."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The disclosure pattern of the APG: a button with aria-expanded and aria-controls pointing to the content, which has no role. The indicator and the start icon are hidden from assistive technology."
+      ],
+      [
+        "Accessible name",
+        "The title. The description is the accessible description, not part of the name. In the button and preview types the name is the text of the nph-button."
+      ],
+      [
+        "Keyboard",
+        "Tab reaches the trigger; Enter and Space open and close, and the focus stays on the trigger."
+      ],
+      [
+        "Focus",
+        "A border that meets 3:1 and a halo, on the trigger, for keyboard users. Closing from the page with the focus inside the content moves it to the trigger."
+      ],
+      [
+        "Contrast",
+        "The title, the description and the content text meet 4.5:1 in both themes; the indicator and the start icon meet 3:1."
+      ],
+      [
+        "Alternative to color",
+        "Open and closed are told apart by the direction of the chevron and by the content in view, never by color."
+      ],
+      [
+        "Movement",
+        "The content grows and the chevron turns in the expand duration; with reduced motion nothing moves."
+      ],
+      [
+        "Touch target",
+        "The trigger takes the whole row, 28, 36 or 44 high, all above 24. On a touch screen, prefer default or large."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: the advanced settings of a form, open; the steps of a sign-up form, with the indicator at the start; and the import log in the preview type, closed.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-collapsible spec sheet — purpose, types, behavior, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P121 (API and semantics), P01, P02 and P03.",
+      "design.md — the collapsible/* tokens and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — documentation frame nph-collapsible (6014:1688), set 6006:2250.",
+      "WAI-ARIA Authoring Practices, Disclosure pattern.",
+      "MDN — the hidden attribute, until-found value."
+    ],
+    "sourceSpec": "nph-collapsible spec sheet; Figma, frame nph-collapsible (6014:1688)",
+    "sourceApi": "nph-collapsible spec sheet; docs/decisoes-tecnicas.md › P121",
+    "sourceAnatomy": "Figma, set 6006:2250; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "collapsibleValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "title": "Advanced settings",
+    "support": "Rarely changed",
+    "body": "Billing address, tax number and the order of the invoices.",
+    "bodyTwo": "Who is told when an invoice is paid, late or disputed.",
+    "longTitle": "Advanced settings for the invoices of every project in the workspace",
+    "longSupport": "Applies to every project, now and later",
+    "detailsLabel": "Show details",
+    "detailsBody": "The order was packed on Monday and left the warehouse on Tuesday morning, with a stop in the regional center.",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "logHeading": "Import log",
+    "logText": "The import started at 09:12 and read 4,812 rows from the file. The first 300 rows were saved with no warning. The next block had 41 rows with a date outside the range; those rows were skipped and listed below. The last block was saved at 09:14, and no row was changed after that.",
+    "advancedTitle": "Advanced settings",
+    "advancedSupport": "Rarely changed",
+    "advancedBody": "Keep the invoices of closed projects for ninety days before they leave the list.",
+    "saveLabel": "Save settings",
+    "stepAccount": "Account",
+    "stepAccountSupport": "Complete",
+    "stepAccountBody": "Name, email and the password of the account.",
+    "stepAddress": "Address",
+    "stepAddressSupport": "2 fields missing",
+    "stepAddressBody": "Where should we send your invoices?",
+    "stepPayment": "Payment",
+    "stepPaymentSupport": "Not started",
+    "stepPaymentBody": "Card or invoice, and the name on it.",
+    "stackOne": "Notifications",
+    "stackTwo": "Privacy",
+    "stackThree": "Billing",
+    "eventOpen": "nph-toggle: the content is open.",
+    "eventClosed": "nph-toggle: the content is closed."
   }
 }
