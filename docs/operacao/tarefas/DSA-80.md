@@ -57,6 +57,12 @@
       "question": "DSA-46 D-3 puts the rest of a searched label in color/muted-foreground. On a destructive command that would turn the part that was not searched gray and take the signal from the label, so the code keeps the destructive color on the rest and only the searched stretch is heavier. Does Indiane confirm, or is the rest muted there too? Recommended: confirm. It does not block this task.",
       "decider": "indiane",
       "opened_at": "2026-11-14"
+    },
+    {
+      "id": "D-4",
+      "question": "The focus of the search field is a border of border/width plus a halo of focus/ring-width, 5 in all, and command/search-padding is 4. The outer pixel of the halo at the top, left and right edges of the panel is clipped by the dialog window. Does Indiane confirm the padding, or does the token grow by one? Recommended: confirm; the pixel is not seen against the veil. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
     }
   ],
   "evidence": [

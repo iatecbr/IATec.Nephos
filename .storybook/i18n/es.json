@@ -5226,7 +5226,7 @@
       ],
       [
         "hide-close",
-        "Desactiva el botón cerrar. Desactívelo solo cuando el pie ya ofrece la salida; Esc sigue cerrando el diálogo."
+        "Desactiva el botón de cerrar. Desactívalo solo cuando el pie ya ofrece la salida, o cuando la pieza que monta el diálogo la ofrece; Esc sigue cerrando el diálogo."
       ],
       [
         "close-label",
@@ -5239,6 +5239,18 @@
       [
         "footer-separator",
         "La línea entre el contenido y el pie, para contenido largo. Se dibuja solo cuando el pie tiene botones."
+      ],
+      [
+        "hide-heading",
+        "Para la pieza que monta el diálogo como superficie propia. El título y la descripción solo los lee el lector de pantalla; siguen siendo el nombre y la descripción del diálogo. Desactivado por defecto."
+      ],
+      [
+        "no-padding",
+        "Para la pieza que monta el diálogo como superficie propia. La ventana queda sin padding y el contenido va de borde a borde. Desactivado por defecto."
+      ],
+      [
+        "close-on-backdrop",
+        "El clic en el velo pide el cierre, con detail.source backdrop. Desactivado por defecto: el clic en el velo no cierra el diálogo."
       ],
       [
         "open",
@@ -5254,7 +5266,11 @@
       ],
       [
         "nph-close",
-        "Se dispara antes de que el diálogo se cierre cuando la persona lo pide, con Esc o con el botón cerrar (detail.source). Burbujea, atraviesa el shadow root y se puede cancelar para mantener el diálogo abierto."
+        "Se dispara antes de que el diálogo se cierre cuando la persona lo pide, con Esc, el botón de cerrar o, con close-on-backdrop, el clic en el velo (detail.source). Sube por el árbol, cruza el shadow root y se puede cancelar para mantener el diálogo abierto."
+      ],
+      [
+        "requestClose",
+        "requestClose(source) pide al diálogo que se cierre como lo hace Esc, para la pieza que lo monta: los orígenes son escape, close-button, backdrop, open-key y command-run. Dispara nph-close y se cierra, salvo que se cancele."
       ]
     ],
     "usageTitle": "Uso",

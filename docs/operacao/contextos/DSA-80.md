@@ -13,7 +13,7 @@ Build `nph-command` in the contract accepted in Figma on 2026-11-12: a command p
 ## Sources opened
 - `docs/operacao/tarefas/DSA-80.md` and `docs/operacao/evidencias/DSA-80/figma-docs-accepted-2026-11-12.md`
 - `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md`, `design.md` (the `command/*` tokens) and `docs/operacao/component-handoff.md`
-- `docs/stories.md`, P87 and P122; the sheets of `nph-dialog`, `nph-dropdown-menu`, `nph-combobox`, `nph-input`, `nph-kbd`, `nph-separator`, `nph-empty`, `nph-spinner` and `nph-icon`
+- `docs/stories.md`, P87 and P122; the sheet of `nph-dialog` and, for the pieces the palette reuses, the headers and styles of `nph-dropdown-menu`, `nph-combobox`, `nph-input`, `nph-kbd`, `nph-empty` and `nph-spinner`
 - `src/components/nph-dialog/`, `nph-dropdown-menu/` and `nph-combobox/` (the list module) as patterns
 - `src/tokens/generated/tokens.css`: the `command/*` tokens, all present
 

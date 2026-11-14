@@ -5226,7 +5226,7 @@
       ],
       [
         "hide-close",
-        "Turns off the close button. Turn it off only when the footer already offers the way out; Esc still closes the dialog."
+        "Turns off the close button. Turn it off only when the footer already offers the way out, or when the piece that mounts the dialog does; Esc still closes the dialog."
       ],
       [
         "close-label",
@@ -5239,6 +5239,18 @@
       [
         "footer-separator",
         "The line between the content and the footer, for long content. Drawn only when the footer has buttons."
+      ],
+      [
+        "hide-heading",
+        "For a piece that mounts the dialog as its own surface. The title and the description are read by the screen reader only; they stay the name and the description of the dialog. Off by default."
+      ],
+      [
+        "no-padding",
+        "For a piece that mounts the dialog as its own surface. The window has no padding and the content goes edge to edge. Off by default."
+      ],
+      [
+        "close-on-backdrop",
+        "A click on the veil asks to close, with detail.source backdrop. Off by default: a click on the veil does not close the dialog."
       ],
       [
         "open",
@@ -5254,7 +5266,11 @@
       ],
       [
         "nph-close",
-        "Fired before the dialog closes when the person asks, with Esc or the close button (detail.source). It bubbles, crosses the shadow root and can be canceled to keep the dialog open."
+        "Fired before the dialog closes when the person asks, with Esc, the close button or, with close-on-backdrop, a click on the veil (detail.source). It bubbles, crosses the shadow root and can be canceled to keep the dialog open."
+      ],
+      [
+        "requestClose",
+        "requestClose(source) asks the dialog to close as Esc does, for a piece that mounts it: the sources are escape, close-button, backdrop, open-key and command-run. It fires nph-close and closes unless it is canceled."
       ]
     ],
     "usageTitle": "Usage",

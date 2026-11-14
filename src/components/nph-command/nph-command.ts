@@ -251,6 +251,7 @@ export class NphCommand extends LitElement {
   private composing = false;
   private reported = new Set<string>();
   private dialogWatch: MutationObserver | undefined;
+  private watched: NphDialog | null = null;
   /** The active command moved by the keyboard, so the list scrolls to it. */
   private reveal: 'keyboard' | 'start' | null = null;
 
@@ -279,6 +280,10 @@ export class NphCommand extends LitElement {
     if (this.globalShortcut) {
       document.addEventListener('keydown', this.onDocumentKeydown);
     }
+    if (this.hasUpdated) {
+      /* Put back in the page: the watch of the dialog was dropped, so it is made again. */
+      this.requestUpdate();
+    }
   }
 
   override disconnectedCallback(): void {
@@ -286,6 +291,7 @@ export class NphCommand extends LitElement {
     document.removeEventListener('keydown', this.onDocumentKeydown);
     this.dialogWatch?.disconnect();
     this.dialogWatch = undefined;
+    this.watched = null;
   }
 
   /* ----- the global shortcut ------------------------------------------------- */
@@ -453,25 +459,37 @@ export class NphCommand extends LitElement {
   }
 
   protected override updated(): void {
-    const dialog = this.dialog;
-    if (dialog !== null && this.dialogWatch === undefined) {
-      /*
-       * The dialog sets `open` itself on every way out: Esc, the veil, `requestClose`, the browser
-       * closing the window. The attribute is where all of them show, so the state follows it.
-       */
-      this.dialogWatch = new MutationObserver(() => {
-        const current = this.dialog;
-        if (current !== null && current.open !== this.open) {
-          this.open = current.open;
-        }
-      });
-      this.dialogWatch.observe(dialog, { attributes: true, attributeFilter: ['open'] });
-    }
+    this.watchDialog();
     if (this.reveal !== null) {
       const mode = this.reveal;
       this.reveal = null;
       this.scrollToActive(mode);
     }
+  }
+
+  /**
+   * The dialog sets `open` itself on every way out: Esc, the veil, `requestClose`, the browser
+   * closing the window. The attribute is where all of them show, so the state follows it. The watch
+   * is bound to the dialog that is drawn now: a dialog drawn again (a `label` emptied and restored)
+   * or an element put back in the page gets a new one.
+   */
+  private watchDialog(): void {
+    const dialog = this.dialog;
+    if (dialog === this.watched) {
+      return;
+    }
+    this.dialogWatch?.disconnect();
+    this.watched = dialog;
+    if (dialog === null) {
+      return;
+    }
+    this.dialogWatch = new MutationObserver(() => {
+      const current = this.dialog;
+      if (current !== null && current.open !== this.open) {
+        this.open = current.open;
+      }
+    });
+    this.dialogWatch.observe(dialog, { attributes: true, attributeFilter: ['open'] });
   }
 
   /** Brings the active command into view; the first of a group brings its label too. */
@@ -588,6 +606,10 @@ export class NphCommand extends LitElement {
     this.composing = false;
   };
 
+  private get field(): HTMLInputElement | null {
+    return this.renderRoot?.querySelector<HTMLInputElement>('.field') ?? null;
+  }
+
   private rowOf(element: EventTarget | null): Row | null {
     const item = element instanceof Element ? element.closest<HTMLElement>('.item') : null;
     return this.rows.find((row) => row.id === item?.id) ?? null;
@@ -605,9 +627,13 @@ export class NphCommand extends LitElement {
     }
   };
 
-  /** The focus stays on the field: a press on a command does not take it. */
-  private readonly onPointerdown = (event: PointerEvent): void => {
-    if (this.rowOf(event.target) !== null) {
+  /**
+   * The focus stays on the field: a press anywhere on the palette but the field itself does not take
+   * it, so a click on a command, a group label, the footer or the empty state never leaves the
+   * window with the focus and the keys dead. The field keeps its own press, for the caret and the selection.
+   */
+  private readonly onMousedown = (event: MouseEvent): void => {
+    if (event.composedPath()[0] !== this.field) {
       event.preventDefault();
     }
   };
@@ -752,7 +778,7 @@ export class NphCommand extends LitElement {
       close-on-backdrop
       .open=${this.open}
     >
-      <div class="surface">
+      <div class="surface" @mousedown=${this.onMousedown}>
         <div class="search">
           <div class="control">
             <nph-icon class="start" name=${SEARCH_ICON} size="sm" aria-hidden="true"></nph-icon>
@@ -780,7 +806,7 @@ export class NphCommand extends LitElement {
           </div>
         </div>
         <nph-separator class="line"></nph-separator>
-        <div class="list" @pointermove=${this.onPointermove} @pointerdown=${this.onPointerdown} @click=${this.onClick}>
+        <div class="list" @pointermove=${this.onPointermove} @click=${this.onClick}>
           <div
             class="listbox"
             id="${this.uid}-listbox"

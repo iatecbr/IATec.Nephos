@@ -5226,7 +5226,7 @@
       ],
       [
         "hide-close",
-        "Desliga o botão fechar. Desligue só quando o rodapé já oferece a saída; o Esc continua fechando o diálogo."
+        "Desliga o botão de fechar. Desligue só quando o rodapé já oferece a saída, ou quando a peça que monta o diálogo oferece; o Esc continua fechando o diálogo."
       ],
       [
         "close-label",
@@ -5239,6 +5239,18 @@
       [
         "footer-separator",
         "A linha entre o conteúdo e o rodapé, para conteúdo longo. Desenhada só quando o rodapé tem botões."
+      ],
+      [
+        "hide-heading",
+        "Para a peça que monta o diálogo como superfície própria. O título e a descrição só são lidos pelo leitor de tela; continuam sendo o nome e a descrição do diálogo. Desligado por padrão."
+      ],
+      [
+        "no-padding",
+        "Para a peça que monta o diálogo como superfície própria. A janela fica sem padding e o conteúdo vai de ponta a ponta. Desligado por padrão."
+      ],
+      [
+        "close-on-backdrop",
+        "O clique no véu pede o fechamento, com detail.source backdrop. Desligado por padrão: o clique no véu não fecha o diálogo."
       ],
       [
         "open",
@@ -5254,7 +5266,11 @@
       ],
       [
         "nph-close",
-        "Disparado antes de o diálogo fechar quando a pessoa pede, com Esc ou com o botão fechar (detail.source). Borbulha, atravessa o shadow root e pode ser cancelado para manter o diálogo aberto."
+        "Disparado antes de o diálogo fechar quando a pessoa pede, com o Esc, o botão de fechar ou, com close-on-backdrop, o clique no véu (detail.source). Sobe na árvore, atravessa o shadow root e pode ser cancelado para manter o diálogo aberto."
+      ],
+      [
+        "requestClose",
+        "requestClose(source) pede ao diálogo que feche como o Esc faz, para a peça que o monta: as origens são escape, close-button, backdrop, open-key e command-run. Dispara nph-close e fecha, a menos que seja cancelado."
       ]
     ],
     "usageTitle": "Uso",

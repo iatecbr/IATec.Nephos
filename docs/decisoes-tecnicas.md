@@ -78,7 +78,7 @@ P62.4 subsection for the detail).
 | **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. The dashed border token (D-1), the description of the button (D-2), the items of a disabled zone (D-3), the error inside `nph-field` (D-4) and the lines of the item (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P120** | API and semantics of `nph-scheduler` | 13/11/2026 | Low now. No piece consumes it yet; a product screen will, so changing `events`, `calendars` and `labels`, the instant format, the events `nph-event-click` and `nph-date-change`, the slots `detail` and `detail-footer`, the order of Tab or the invalid-input rule later requires redoing every consumer. The date grid (D-1), the `sidebar` icon (D-2), the derived measures (D-3), the color of a calendar (D-4), the click on a day (D-5), the detail (D-6) and the order of the all-day band (D-7) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The preview that does not grow (D-1), the preview of fewer than three lines (D-2) and the growth against the motion rule (D-3) wait for Indiane. The `aria-expanded` and the `controls` that `nph-button` now hands to its native button are covered by the tests of both pieces | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P123** | API and semantics of `nph-command`; three options and the close origins of `nph-dialog` (amends P87) | 14/11/2026 | Low now. No screen consumes the palette yet; the search of the side menu will, so changing `items`, the texts, the events `nph-run` and `nph-search`, the origins of `nph-close`, the keys, the shortcut rule or the invalid-input rule later requires redoing every consumer. The options of the dialog only add and are off by default. The position near the top (D-1), the width held at the ceiling (D-2) and the rest of a searched destructive label (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P123** | API and semantics of `nph-command`; three options and the close origins of `nph-dialog` (amends P87) | 14/11/2026 | Low now. No screen consumes the palette yet; the search of the side menu will, so changing `items`, the texts, the events `nph-run` and `nph-search`, the origins of `nph-close`, the keys, the shortcut rule or the invalid-input rule later requires redoing every consumer. The options of the dialog only add and are off by default. The position near the top (D-1), the width held at the ceiling (D-2), the rest of a searched destructive label (D-3) and the clipped outer pixel of the field halo (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -8482,6 +8482,11 @@ three options, each off by default, and one method. The names follow P64.
   from the label, so the rest keeps the destructive color and only the searched stretch is heavier. Recommended: keep
   it; she confirms, or says the rest is muted there too.
 
+- **DSA-80 D-4 — the outer pixel of the field halo is clipped.** The focus of the field is a border of
+  `border/width` and a halo of `focus/ring-width`, 5 in all, and `command/search-padding` is 4, so the dialog window
+  clips the outermost pixel of the halo at the top, left and right edges of the panel. Recommended: keep the token, since
+  the pixel is not seen against the veil; she confirms, or says the padding grows by one.
+
 **Known limits.**
 
 - **The panel is centered** (D-1). **The width does not follow the content** (D-2).
@@ -8501,7 +8506,7 @@ implementation.
 border, fixed in the semantic colors by DSA-81 and not overridden here. The placement near the top. A non-modal
 palette.
 
-**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-80 D-1, D-2 and D-3 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-80 D-1, D-2, D-3 and D-4 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---

@@ -701,7 +701,7 @@ describe('the pointer', () => {
   it('a press on a command keeps the focus on the field', async () => {
     const command = await mount();
     const item = itemOf(command, 'Delete draft');
-    const down = new PointerEvent('pointerdown', { bubbles: true, composed: true, cancelable: true, pointerType: 'mouse' });
+    const down = new MouseEvent('mousedown', { bubbles: true, composed: true, cancelable: true });
     item.dispatchEvent(down);
     expect(down.defaultPrevented).toBe(true);
     expect(focused()).toBe(fieldOf(command));
@@ -1292,5 +1292,80 @@ describe('token contract', () => {
   it('the dark scheme moves the panel and the lines only through the semantic tokens', () => {
     expect(tokensCss).toMatch(/--nph-command-background:\s*var\(--nph-color-dialog\)/);
     expect(tokensCss).toMatch(/--nph-command-divider:\s*var\(--nph-color-dialog-separator\)/);
+  });
+});
+
+describe('the focus under a real click', () => {
+  it('a click on a group label, a disabled command, the footer or the surface keeps the focus on the field and the keys working', async () => {
+    const command = await mount();
+    const targets = [
+      all(command, '.group-label')[0] as HTMLElement,
+      itemOf(command, 'Export report'),
+      part(command, '.footer'),
+      part(command, '.search'),
+    ];
+    for (const target of targets) {
+      /* Forced: Playwright treats an aria-disabled command as not enabled, and the press is what is under test. */
+      await userEvent.click(target, { force: true });
+      expect(focused(), target.className).toBe(fieldOf(command));
+      const before = activeText(command);
+      await press(command, '{ArrowDown}');
+      expect(activeText(command)).not.toBe(before);
+      await press(command, '{Home}');
+    }
+    expect(command.open).toBe(true);
+  });
+
+  it('a click on a command runs it; a click on the empty state keeps the focus on the field', async () => {
+    const command = await mount();
+    await type(command, 'xyz');
+    await userEvent.click(part(command, '.empty'));
+    expect(focused()).toBe(fieldOf(command));
+    await press(command, '{Backspace}{Backspace}{Backspace}');
+    const runs = listen<NphCommandRunDetail>(command, 'nph-run');
+    await userEvent.click(itemOf(command, 'Open settings'));
+    await closed(command);
+    expect(runs.map((event) => event.detail.value)).toEqual(['settings']);
+  });
+});
+
+describe('the open state after the element moves or the dialog is redrawn', () => {
+  it('removed and put back while closed, Esc and a reopen still follow the dialog', async () => {
+    const command = await mount();
+    command.remove();
+    document.body.append(command);
+    await settle(command);
+    await vi.waitFor(() => expect(windowOf(command).open).toBe(true));
+    await press(command, '{Escape}');
+    await closed(command);
+    command.open = true;
+    await settle(command);
+    await vi.waitFor(() => expect(windowOf(command).open).toBe(true));
+    expect(command.open).toBe(true);
+  });
+
+  it('removed while open and put back, the state follows a close by Esc', async () => {
+    const command = await mount();
+    command.remove();
+    document.body.append(command);
+    await settle(command);
+    await vi.waitFor(() => expect(windowOf(command).matches(':modal')).toBe(true));
+    await press(command, '{Escape}');
+    await closed(command);
+    expect(command.open).toBe(false);
+  });
+
+  it('a label emptied and restored draws a new dialog that still reports its close', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const command = await mount();
+    command.label = '';
+    await settle(command);
+    expect(command.shadowRoot?.querySelector('nph-dialog')).toBeNull();
+    command.label = 'Command palette';
+    await settle(command);
+    await vi.waitFor(() => expect(windowOf(command).open).toBe(true));
+    await press(command, '{Escape}');
+    await closed(command);
+    expect(command.open).toBe(false);
   });
 });
