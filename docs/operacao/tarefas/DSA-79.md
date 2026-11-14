@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 780,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-combobox",
   "dependencies": [
     "DSA-03",
@@ -24,11 +24,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor bb1e0a27aee86e47f828cafd8396d385b6cf2a90 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-79/review-and-merge-2026-11-14.md",
+      "result": "passed",
+      "verified_at": "2026-11-14",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -47,7 +47,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-79/figma-docs-accepted-2026-11-12.md"
+    "docs/operacao/evidencias/DSA-79/figma-docs-accepted-2026-11-12.md",
+    "docs/operacao/evidencias/DSA-79/review-and-merge-2026-11-14.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -61,8 +62,8 @@
     "excerpt": null,
     "converted_decision": "The documentation frame of the nph-combobox free text variant (6047:3760, page 4128:28570) was accepted as the API and behavior specification of that variant, with the visual acceptance of the root (6040:2120). COMPONENT_SET nph-combobox free text (6040:3286). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-79-combobox-free-text", "commit": null, "pr": 172 },
-  "context": "docs/operacao/contextos/DSA-79.md",
+  "git_review": { "branch": "feat/dsa-79-combobox-free-text", "commit": "bb1e0a27aee86e47f828cafd8396d385b6cf2a90", "pr": 172 },
+  "context": null,
   "updated_at": "2026-11-14"
 }
 ```
