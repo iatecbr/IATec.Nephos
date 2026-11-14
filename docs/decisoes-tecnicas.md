@@ -78,6 +78,7 @@ P62.4 subsection for the detail).
 | **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. The dashed border token (D-1), the description of the button (D-2), the items of a disabled zone (D-3), the error inside `nph-field` (D-4) and the lines of the item (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P120** | API and semantics of `nph-scheduler` | 13/11/2026 | Low now. No piece consumes it yet; a product screen will, so changing `events`, `calendars` and `labels`, the instant format, the events `nph-event-click` and `nph-date-change`, the slots `detail` and `detail-footer`, the order of Tab or the invalid-input rule later requires redoing every consumer. The date grid (D-1), the `sidebar` icon (D-2), the derived measures (D-3), the color of a calendar (D-4), the click on a day (D-5), the detail (D-6) and the order of the all-day band (D-7) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The preview that does not grow (D-1), the preview of fewer than three lines (D-2) and the growth against the motion rule (D-3) wait for Indiane. The `aria-expanded` and the `controls` that `nph-button` now hands to its native button are covered by the tests of both pieces | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P123** | API and semantics of `nph-command`; three options and the close origins of `nph-dialog` (amends P87) | 14/11/2026 | Low now. No screen consumes the palette yet; the search of the side menu will, so changing `items`, the texts, the events `nph-run` and `nph-search`, the origins of `nph-close`, the keys, the shortcut rule or the invalid-input rule later requires redoing every consumer. The options of the dialog only add and are off by default. The position near the top (D-1), the width held at the ceiling (D-2) and the rest of a searched destructive label (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -3389,6 +3390,12 @@ modal dialog covers the window it opens in, which a page with several examples i
    | default slot | The content area. Empty, it is not drawn (the Figma "show content" off) |
    | slot `footer` | The `nph-button` actions, in the order the consumer writes them. Empty, the footer is not drawn |
    | `nph-close` | Bubbles, `composed`, **cancelable**, `detail: { source: 'escape' \| 'close-button' }`. Fired before the dialog closes when the person asks. `preventDefault()` keeps it open. Setting `open` never fires it (as P76) |
+
+   **Amended by P123 (DSA-80):** the table above gains `hide-heading`, `no-padding` and `close-on-backdrop`, each
+   boolean, reflected and off by default, and `nph-close` gains the origins `backdrop`, `open-key` and
+   `command-run`, the last two asked for by a piece that mounts the dialog through the new method
+   `requestClose(source)`. Open is still the only way to open and close it from code, and a click on the veil
+   still does not close it unless `close-on-backdrop` is on.
 
    Invalid input does not render and emits `console.error` in development, one per cause while it
    lasts (P21): an empty `heading`, a `size` or an `actions` outside the lists. An empty
@@ -8339,9 +8346,169 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P123 — `nph-command`: API and semantics; three options and the close origins of `nph-dialog` (amends P87)
+
+**Technical conflict.** The accepted documentation of the palette (frame `6076:4910`, root `6067:3610`, set
+`6068:3936`) fixes the anatomy, the tokens, the states and the keys, asks the code for the options the
+`nph-dialog` needs, and leaves "event, aria, slot, property and console warning" to the code. Eight points need
+a decision of their own:
+
+- the palette is a dialog, and `nph-dialog` today has a visible title, a padding, a close button and a veil that
+  does not close it; the documentation asks for a title for the screen reader only, no padding, no close button, a
+  veil click that closes and three new origins in `nph-close` (the open key, a command run, the veil). The close
+  button is `hide-close` already. P87 says there is "no `show()` or `close()` method", and the `open-key` and
+  `command-run` origins can only be known by the piece that mounts the dialog;
+- the field must be a combobox whose `aria-activedescendant` points to a command, and that reference does not
+  cross a shadow root, so the `nph-input` element cannot hold it;
+- the item of `nph-dropdown-menu` is an inner part of that menu, not a tag, and the menu cannot change;
+- the tokens `command/background`, `command/radius` and `command/max-width` have the values of the default
+  `md` dialog, and the dialog has no color, radius or width property;
+- the accepted text says the panel hugs its content up to the ceiling, and Figma draws every variant at the
+  ceiling, so the width would jump while the list filters;
+- the accepted text recommends the panel near the top of the window, and there is no token for that offset;
+- the documentation leaves open who listens to Ctrl+K and Command+K, how a command run is reported, the
+  matching rule, whether Down wraps, `aria-selected`, whether the footer keys are read, who writes the Mac
+  glyph and how the texts come in;
+- the keyboard shortcut and the loading of results from a server are both part of the contract, and neither
+  is written in the documentation as an API.
+
+**Decision.** `nph-command` is **one tag** with the open Shadow DOM of P01. It draws a `nph-dialog` in its own
+shadow root and the palette inside it, so the field, the list and the items share one root. `nph-dialog` gains
+three options, each off by default, and one method. The names follow P64.
+
+1. **The three options of `nph-dialog`.** `hide-heading` (`hideHeading`): the title and the description are
+   read by the screen reader only, clipped as the description of `nph-combobox`, and stay the name and the
+   description of the window; with no close button the header takes no room. `no-padding` (`noPadding`): the
+   window has no padding and the content area gives back the room it keeps for the focus of its controls; the
+   window still rounds and clips. `close-on-backdrop` (`closeOnBackdrop`): a click on the veil asks to close, as
+   Esc does. All three are boolean, reflect because the internal CSS selects by them, and are `false` by default,
+   so the dialog of P87 does not change; the tests of P87 are untouched but for the list of properties. The
+   click is the veil only when its target is the window and its point is outside the box of the window, and the
+   press that began it was on the veil too, so a drag that starts inside and ends over the veil, to select text,
+   does not close it. The close button is the existing `hide-close`. The placement near the top is not an
+   option: it has no token.
+2. **The origins of `nph-close` and `requestClose`.** `detail.source` is `escape`, `close-button`, `backdrop`,
+   `open-key` or `command-run`, exported as `NPH_DIALOG_CLOSE_SOURCES`. The dialog itself reports the first
+   three. For the other two, it gets one public method, `requestClose(source)`: it fires `nph-close` with the
+   source, cancelable, and closes unless the event is canceled, as Esc and the close button do, and returns
+   whether it closed. A closed dialog does nothing; a source outside the list does nothing and emits
+   `console.error` in development. **This amends P87, item 1**: there is still no way to open or close from
+   code but `open`, and `requestClose` is a request of the person's, not a `close()`. The private method of the
+   same name became `fireClose`. Alternatives discarded: the palette firing its own `nph-close`, which is the
+   dialog's event and would then have two authors; and `open-key` and `command-run` as options of the dialog,
+   which cannot know them.
+3. **The field is a native `<input role="combobox">` drawn in the look of the `nph-input` `large` in focus**
+   (height, radius, border, halo, background and the magnifying glass), as `nph-combobox` draws its own, so
+   `aria-activedescendant`, `aria-controls` and `aria-labelledby` stay in one root. It carries
+   `aria-autocomplete="list"`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` and the name `label`.
+   The `nph-input` element is not used. The focus never leaves it.
+4. **The items are drawn by the palette, in the look of the `nph-dropdown-menu` item.** The menu is not
+   touched. The entries are those of `items` of the menu (P92): a command `{ value, text, description, icon,
+   severity, shortcut, count, tag, disabled }` and a group label `{ type: 'label', text }`. A separator
+   (groups are told apart by space), a selection, a switch, a submenu, a loading item and an avatar are out of
+   v1 and make the entry invalid: it is left out, with one `console.error` per cause. The differences from the
+   menu item are the ones the evidence names: the active command is an attribute and not `:hover`; the icon
+   rests in `color/muted-foreground` and is solid when active, in `dropdown/item-hover-icon-foreground`; the
+   active label and shortcut are in `color/accent-foreground`; there is no focus ring; the shortcut is text,
+   `aria-hidden`, and the palette writes no glyph, so the consumer writes `⌘N` for a Mac and `Ctrl+N` elsewhere.
+5. **The search is the one of `nph-combobox`**: a command matches when its text contains the typed text, with
+   no difference of case or accent (`matches`, `matchRange` and `highlighted` of the list module of P95, not
+   copied). Fuzzy matching is not in v1. A group with no command left goes away with its label. `filter="none"`
+   leaves the filtering to the consumer, who answers `nph-search` and sets `loading`; the typed stretch is not
+   highlighted then. `loading` shows the spinner and `loading-label`, makes the listbox `aria-busy` and draws no
+   command, so none is active and Enter runs nothing; when it ends, the first command is active.
+6. **The first command is active** when the palette opens, each time the list changes and while typing (DSA-46
+   D-5). Up and Down stop at the ends, with no wrap (the documented default; the code's call, taken as
+   documented), and skip a disabled command; Home and End go to the first and last that is not disabled; Enter
+   runs the active one and does nothing with none; the pointer over a command makes it active and a touch does
+   not (DSA-45 D-6); a group label is never active; Tab and Shift+Tab are held on the field, the only stop. Keys
+   pressed during an IME composition do nothing. The active command scrolls into view, with its label when it is
+   the first of its group, and the first command brings the top of the list.
+7. **The state follows the dialog.** `open` reflects. The palette is bound to the dialog and watches its `open`
+   attribute, where every way out shows: Esc, the veil, `requestClose`, the browser closing the window. Each time
+   it opens, `query` is emptied. `nph-close` is the dialog's event and crosses the shadow root; the palette fires
+   none of its own. `nph-run` (bubbles, composed, `detail: { value }`) is fired when a command runs, by Enter or by
+   a click, and the palette then asks the dialog to close with `command-run`; a disabled command never fires it.
+   `nph-search` (bubbles, composed, `detail: { query }`) is fired when the person types and never when code sets
+   `query`. The name `nph-run` was chosen over `nph-item-select` because the palette runs a command and has no
+   selected state.
+8. **The shortcut.** The component does not listen to the document by default: the shortcut belongs to the
+   application, which also owns the trigger the documentation names. `global-shortcut` (`globalShortcut`, boolean,
+   off) turns on a `keydown` listener on the document for Ctrl+K and Command+K with no Alt or Shift, ignoring a held
+   key and a composition, that opens or closes the palette and calls `preventDefault`, so the browser keeps its
+   own use of the key out. With the palette open, the key closes it from the field with `open-key` whether
+   `global-shortcut` is on or not. Either modifier counts on every platform, with no platform sniffing.
+9. **The panel and the width.** The dialog is `md`. The inside of the dialog is a surface that paints the same
+   panel with `command/background` and `command/radius` and has the width `command/max-width`, so the three
+   tokens are consumed and their values match the default dialog. The width stays at the ceiling, down to the window
+   less the distance the dialog keeps from each edge, so the panel does not jump while the list filters (D-2). The
+   height stops where the window stops and the list is the part that shrinks and scrolls, between its ceiling
+   `command/list-max-height` and nothing, so the field and the footer stay in a short window. The two lines are
+   `nph-separator` with `color/border` redefined as `command/divider` on them only, as the dialog does on its own.
+   The panel is centered; the position near the top has no token (D-1).
+10. **The texts come in already localized**, as in `nph-dialog`: `label` (the name of the dialog and of the
+    field, required), `placeholder`, `loading-label`, `empty-heading` (required), `empty-description`,
+    `results-label` and the three hint words `hint-navigate`, `hint-open` and `hint-close`. `results-label` is a
+    sentence the palette fills in with the number of results through `{count}`, the one substitution the piece
+    does, because the plural belongs to the consumer's language; it is announced in a polite region after the
+    person types, and the empty state is announced with `empty-heading`. A missing required text, a hint without
+    its word and a `loading` without `loading-label` each emit one `console.error` in development and draw what
+    can be drawn; an empty `label` and a `filter` outside the two draw nothing. The keys of the footer, `↑↓`, `↵` and
+    `esc`, are legends of keys and not words, and are `aria-hidden` because the words already say the action
+    (decided here, as the documentation leaves it open). `hide-footer` turns the second line and the footer off.
+11. **The roles.** The window is the dialog's `role="dialog"` with `aria-modal`. The list is `role="listbox"`, each
+    group `role="group"` named by its label (a group with no label has no name), each command `role="option"` named
+    by its text and described by its description, its counter and its tag, with `aria-selected="true"` on the active
+    command (decided here: selection follows the keyboard, as in the APG listbox with `aria-activedescendant`, and
+    `cmdk` does the same). The listbox is hidden, and `aria-expanded` is `false`, while there is no command and no
+    loading.
+12. **Stories.** Each example is the real palette, open, in a hidden story (`Components/nph-command/Fixtures`),
+    embedded in an `<iframe>` per mode, for the reason of P87 item 11. The destructive command is shown in light
+    only until the contrast of `color/destructive-text` in dark is fixed at the source.
+
+**Pending, for Indiane (the task records them; none blocks the pull request).**
+
+- **DSA-80 D-1 — the panel is centered, not near the top.** The documentation recommends about 16% of the window
+  height, so the panel does not jump while the list filters, and says there is no token for that offset. A literal
+  would break the rule of tokens. Recommended: keep it centered until a token for the offset exists, and bring it as a
+  token in the next token round; she confirms, or sends the token.
+- **DSA-80 D-2 — the width stays at the ceiling.** The accepted text says the panel hugs its content up to 560, and
+  Figma draws every variant at 560. The code keeps 560 while the list filters, so the panel does not change width
+  with each key. Recommended: keep it; she confirms, or says it hugs the content.
+- **DSA-80 D-3 — the rest of a searched destructive label.** DSA-46 D-3 puts the rest of a searched label in
+  `color/muted-foreground`. On a destructive command that would turn the unsearched part gray and take the signal
+  from the label, so the rest keeps the destructive color and only the searched stretch is heavier. Recommended: keep
+  it; she confirms, or says the rest is muted there too.
+
+**Known limits.**
+
+- **The destructive command in dark** measures 3.62:1 on `color/dialog`, and the field focus border in dark measures
+  below 3:1 in three brands; both are fixed at the source by DSA-81, with no local override here. The Storybook shows the
+  destructive command in light only until then.
+- **The panel is centered** (D-1). **The width does not follow the content** (D-2).
+- **No scrollbar style of its own**: the list scrolls with the browser's own bar.
+- **The count in `results-label` includes a disabled command**, since it is a command of the result.
+- **No submenu, nested pages, multiple selection or sizes** in v1, as the documentation says. Forced colors and
+  right-to-left are not treated yet, as in P95.
+
+**Source.** Documentation frame `6076:4910` (page `1626:18`), root `6067:3610` and set `6068:3936` of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 12/11/2026, with the Figma UX QA and the textual audit approved; the evidence
+of the `figma-docs-accepted` gate of DSA-80. The one tag, the options and the method of the dialog, the native field,
+the entries, the events, the shortcut rule, the width, the texts and the roles are a technical proposal of this
+implementation.
+
+**Out of scope.** A new token (the fifteen `command/*` came with the task). A change to `nph-dropdown-menu`,
+`nph-input`, `nph-empty` or `nph-combobox`. The contrast of the destructive command in dark and of the field focus
+border (DSA-81). The placement near the top. A non-modal palette.
+
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-80 D-1, D-2 and D-3 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121 or P122 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122 or P123 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
