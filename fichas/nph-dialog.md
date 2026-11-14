@@ -64,7 +64,8 @@ api:
     reflects: true
     constraint: >-
       Turns off the close button, which the Figma set has on by default. Turn it off
-      only when the footer already offers the way out. Esc still closes the dialog. The
+      only when the footer already offers the way out, or when the piece that mounts the
+      dialog does, as nph-command does. Esc still closes the dialog. The
       property is hideClose.
   close-label:
     type: string
@@ -92,6 +93,35 @@ api:
       The footer line of the Figma set: an nph-separator between the content and the footer, drawn
       only when the footer has buttons. Turn it on with long content. The property is
       footerSeparator.
+  hide-heading:
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
+      For a piece that mounts the dialog as its own surface, such as nph-command. The title, and the
+      description when there is one, are read by the screen reader only: they leave the drawing and
+      stay the name and the description of the dialog. With no close button, the header takes no room.
+      Off by default, so the dialog keeps its visible title. The property is hideHeading.
+  no-padding:
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
+      For a piece that mounts the dialog as its own surface. The window has no padding and the content
+      goes edge to edge; the window still rounds its corners over the content. The piece draws its own
+      inner spaces. Off by default. The property is noPadding.
+  close-on-backdrop:
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
+      A click on the veil asks to close, as Esc does: nph-close with detail.source backdrop, which
+      preventDefault keeps open. The press must start on the veil too, so a drag that begins inside the
+      window and ends over the veil does not close it. Off by default: a click on the veil does not
+      close the dialog. The property is closeOnBackdrop.
   open:
     type: boolean
     required: false
@@ -124,11 +154,25 @@ api:
     default: "none"
     reflects: false
     constraint: >-
-      Fired before the dialog closes when the person asks: Esc (detail.source escape) or the
-      close button (detail.source close-button). It bubbles, crosses the shadow root and is
+      Fired before the dialog closes when the person asks: Esc (detail.source escape), the
+      close button (detail.source close-button) or, with close-on-backdrop, a click on the veil
+      (detail.source backdrop). A piece that mounts the dialog asks for the other origins with
+      requestClose: open-key and command-run. It bubbles, crosses the shadow root and is
       cancelable: preventDefault keeps the dialog open. The browser may refuse to hold a
       repeated Esc with no new activation by the person; then the event is not cancelable
       and the dialog closes.
+  requestClose:
+    type: method
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      requestClose(source) asks the dialog to close for the person, as Esc and the close button do: it
+      fires nph-close with the source and closes unless the event is canceled, and returns whether it
+      closed. It is for a piece that mounts the dialog as its own surface and knows why the person is
+      leaving, such as nph-command. The sources are escape, close-button, backdrop, open-key and
+      command-run; any other does nothing and emits console.error in development. A closed dialog does
+      nothing. It is not a way to open or close from code: open stays the only one.
 variants:
   size:
     axis: size
@@ -148,7 +192,7 @@ states:
 business_rules:
   - "The dialog is modal: the rest of the page is inert while it is open, and the page does not scroll."
   - "On open, the focus goes to the first element with autofocus in the content or the footer; otherwise to the first focusable element of the content, then of the footer, then to the close button, then to the window itself. On close, it goes back to the element that had it."
-  - "Esc and the close button ask to close: the dialog fires nph-close and closes unless the event is canceled. A click on the veil does not close it."
+  - "Esc and the close button ask to close: the dialog fires nph-close and closes unless the event is canceled. A click on the veil does not close it, unless close-on-backdrop is on."
   - "Above layout/dialog-max-height only the content scrolls; the header and the footer stay."
   - "While the content scrolls and holds nothing focusable, it is a region named by the title in the Tab order, so the keyboard reaches the scroll; it is not a candidate of the focus rule on open."
   - "The width hugs the content between layout/dialog-min-width and the ceiling of the size; without the content area, the header text sets the width up to the ceiling."
@@ -216,8 +260,8 @@ anti_patterns:
   - "Turning off the close button when the footer offers no way out."
 sources:
   design_md: "design.md, color/dialog, color/dialog-foreground, color/dialog-separator, button/secondary-solid-background, icon-button/secondary-solid-background, overlay/scrim, elevation/modal, radius/overlay, space/overlay-padding, space/stack, space/stack-snug, space/inline-loose, layout/dialog-*, the motion roles and the md breakpoint of tokens_breakpoint"
-  decision: "P87 — nph-dialog: API and semantics, 22-10-2026; D1 to D6 of DSA-44 pending with Indiane; DSA-64 D-1 — the solid secondary keeps its own background inside the dialog"
-  tests: "src/components/nph-dialog/nph-dialog.test.ts and nph-dialog.docs.test.ts"
+  decision: "P87 — nph-dialog: API and semantics, 22-10-2026; D1 to D6 of DSA-44 pending with Indiane; DSA-64 D-1 — the solid secondary keeps its own background inside the dialog; P123 — the three options and the close origins brought by nph-command"
+  tests: "src/components/nph-dialog/nph-dialog.test.ts, nph-dialog.options.test.ts and nph-dialog.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the dialog yet"
   storybook: "src/components/nph-dialog/nph-dialog.stories.ts and nph-dialog.docs.stories.ts, with the examples in nph-dialog.fixtures.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, nph-dialog board 1368:27, frame 2277:2, set 2268:52262 and parts 2268:52091 and 2311:5339"
@@ -286,7 +330,15 @@ duration is the one of `motion/hover-duration`.
 - The width hugs the content. Without the content area, the header text sets the width, up to the
   ceiling. In a window smaller than the dialog, it keeps `layout/margin-compact` from each edge.
 - Esc and the close button ask to close: the dialog fires `nph-close` and closes unless the event
-  is canceled. A click on the veil does not close it.
+  is canceled. A click on the veil does not close it, unless `close-on-backdrop` is on.
+
+**For a piece that mounts the dialog as its own surface** (`nph-command`, P123): three options, each off
+by default, and one method. `hide-heading` makes the title and the description readable by the screen
+reader only; `no-padding` takes the window padding away and lets the content go edge to edge;
+`close-on-backdrop` makes a click on the veil ask to close, with `source: 'backdrop'`.
+`requestClose(source)` asks the dialog to close as Esc does and reports why: the sources are `escape`,
+`close-button`, `backdrop`, `open-key` and `command-run`. A dialog that turns none of them on is the
+dialog of before.
 
 **Domain error states:** none.
 
@@ -302,8 +354,9 @@ duration is the one of `motion/hover-duration`.
 
 - `open` is the only way to open and close it. The footer buttons belong to the consumer: Save
   and Cancel set `open` to `false` when the task ends.
-- `nph-close` says that the person asked to close it, with Esc or with the close button. Cancel it
-  with `preventDefault()` to keep the dialog open, for example while a form has unsaved changes.
+- `nph-close` says that the person asked to close it, with Esc, with the close button or, with
+  `close-on-backdrop`, with a click on the veil (`detail.source` is `escape`, `close-button` or `backdrop`).
+  Cancel it with `preventDefault()` to keep the dialog open, for example while a form has unsaved changes.
 - **Known limits.** The browser may refuse to hold a repeated Esc with no new activation by the
   person: the event then comes not cancelable and the dialog closes. The width hugs the content,
   so content whose width is a percentage (a field at `100%`) shrinks to its own size: give the
@@ -403,7 +456,10 @@ sets the width; a wide content in `lg`, a list, with both lines on, where only t
   breakpoint.
 - **The decision that originated it:** P87, of 22-10-2026. D1 to D6 of DSA-44 are pending with
   Indiane; the highlight icon waits for D3.
-- **Tests:** `src/components/nph-dialog/nph-dialog.test.ts` and `nph-dialog.docs.test.ts`.
+- **The options of the palette:** P123 amends P87 with `hide-heading`, `no-padding`, `close-on-backdrop`
+  and `requestClose`.
+- **Tests:** `src/components/nph-dialog/nph-dialog.test.ts`, `nph-dialog.options.test.ts` and
+  `nph-dialog.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the dialog yet.
 - **Storybook:** `src/components/nph-dialog/nph-dialog.stories.ts` and
   `nph-dialog.docs.stories.ts`, with the examples in `nph-dialog.fixtures.stories.ts`.

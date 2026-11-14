@@ -162,7 +162,7 @@ describe('nph-dialog Documentation', () => {
       expect(text).toContain('close-label');
     });
 
-    it(`${locale}: the API table names every property, both slots and the event`, () => {
+    it(`${locale}: the API table names every property, both slots, the event and the method`, () => {
       const target = renderInLocale(locale);
       const terms = [...(target.querySelector('section#api')?.querySelectorAll('tbody tr') ?? [])].map(
         (tr) => tr.firstElementChild?.textContent?.trim(),
@@ -176,10 +176,14 @@ describe('nph-dialog Documentation', () => {
         'close-label',
         'header-separator',
         'footer-separator',
+        'hide-heading',
+        'no-padding',
+        'close-on-backdrop',
         'open',
         'slot',
         'slot footer',
         'nph-close',
+        'requestClose',
       ]);
     });
   }

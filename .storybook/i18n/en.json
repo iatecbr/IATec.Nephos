@@ -503,7 +503,22 @@
     "components-nph-scheduler-validation--detail": "Detail",
     "components-nph-scheduler-validation--focus": "Focus",
     "components-nph-scheduler-validation--examples": "Examples",
-    "components-nph-scheduler-validation--brands": "Brands"
+    "components-nph-scheduler-validation--brands": "Brands",
+    "components-nph-command-docs": "Docs",
+    "components-nph-command-docs--documentation": "Documentation",
+    "components-nph-command-validation": "Validation",
+    "components-nph-command-validation--open-by-key": "Open by key",
+    "components-nph-command-validation--search": "Search",
+    "components-nph-command-validation--nothing-found": "Nothing found",
+    "components-nph-command-validation--groups": "Groups",
+    "components-nph-command-validation--loading": "Loading",
+    "components-nph-command-validation--footer-off": "Footer off",
+    "components-nph-command-validation--disabled-command": "Disabled command",
+    "components-nph-command-validation--destructive-command": "Destructive command",
+    "components-nph-command-validation--focus-and-escape": "Focus and Esc",
+    "components-nph-command-validation--brands": "Brands",
+    "components-nph-command-fixtures": "Fixtures",
+    "components-nph-command-fixtures--example": "Example"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -5211,7 +5226,7 @@
       ],
       [
         "hide-close",
-        "Turns off the close button. Turn it off only when the footer already offers the way out; Esc still closes the dialog."
+        "Turns off the close button. Turn it off only when the footer already offers the way out, or when the piece that mounts the dialog does; Esc still closes the dialog."
       ],
       [
         "close-label",
@@ -5224,6 +5239,18 @@
       [
         "footer-separator",
         "The line between the content and the footer, for long content. Drawn only when the footer has buttons."
+      ],
+      [
+        "hide-heading",
+        "For a piece that mounts the dialog as its own surface. The title and the description are read by the screen reader only; they stay the name and the description of the dialog. Off by default."
+      ],
+      [
+        "no-padding",
+        "For a piece that mounts the dialog as its own surface. The window has no padding and the content goes edge to edge. Off by default."
+      ],
+      [
+        "close-on-backdrop",
+        "A click on the veil asks to close, with detail.source backdrop. Off by default: a click on the veil does not close the dialog."
       ],
       [
         "open",
@@ -5239,7 +5266,11 @@
       ],
       [
         "nph-close",
-        "Fired before the dialog closes when the person asks, with Esc or the close button (detail.source). It bubbles, crosses the shadow root and can be canceled to keep the dialog open."
+        "Fired before the dialog closes when the person asks, with Esc, the close button or, with close-on-backdrop, a click on the veil (detail.source). It bubbles, crosses the shadow root and can be canceled to keep the dialog open."
+      ],
+      [
+        "requestClose",
+        "requestClose(source) asks the dialog to close as Esc does, for a piece that mounts it: the sources are escape, close-button, backdrop, open-key and command-run. It fires nph-close and closes unless it is canceled."
       ]
     ],
     "usageTitle": "Usage",
@@ -8117,7 +8148,17 @@
       "components-nph-scheduler-validation--detail": "The open event: the popover beside it, with the content the screen put in the slot, and aria-expanded on the event.",
       "components-nph-scheduler-validation--focus": "The focus of the day and of the event: the same border and halo, in the color of the event. The story moves the focus.",
       "components-nph-scheduler-validation--examples": "The required examples (the work week, the phone month, the empty week, the list and the month with +N more) in light and in dark mode.",
-      "components-nph-scheduler-validation--brands": "The seven brands in light and dark: the primary color, the today mark and the focus follow the brand; the other colors do not."
+      "components-nph-scheduler-validation--brands": "The seven brands in light and dark: the primary color, the today mark and the focus follow the brand; the other colors do not.",
+      "components-nph-command-validation--open-by-key": "Ctrl+K opens the palette with the commands by group and the first one already active; Enter runs it.",
+      "components-nph-command-validation--search": "Typing filters the list: only the commands that match stay, the typed stretch gains weight and the first command is active.",
+      "components-nph-command-validation--nothing-found": "With nothing that matches, the empty state says so and suggests another term; the footer stays and no command is active.",
+      "components-nph-command-validation--groups": "A label opens each group with no divider between them; above the ceiling of the list, it scrolls and the active command scrolls into view.",
+      "components-nph-command-validation--loading": "While the search answers, the list shows the spinner and the loading text, is busy and draws no command.",
+      "components-nph-command-validation--footer-off": "With hide-footer, the second line and the hints are hidden and the rest does not change.",
+      "components-nph-command-validation--disabled-command": "A disabled command is dimmed, skipped by the keys and the pointer, and does not run.",
+      "components-nph-command-validation--destructive-command": "The destructive command keeps its own colors at rest and active, in light and dark mode.",
+      "components-nph-command-validation--focus-and-escape": "Opening moves the focus to the field; Esc closes the palette and the focus goes back to the button that opened it.",
+      "components-nph-command-validation--brands": "The seven brands in light and dark: opened by the button of its frame, the palette follows the brand of that frame."
     }
   },
   "multiComboboxDocs": {
@@ -14790,5 +14831,342 @@
     "detailText": "The product shows the details of the event here.",
     "detailClose": "Close the details",
     "detailAction": "Edit event"
+  },
+  "commandValidation": {
+    "label": "Command palette",
+    "placeholder": "Search a command…",
+    "loadingLabel": "Searching…",
+    "emptyHeading": "No command found",
+    "emptyDescription": "Check what you typed or search another term.",
+    "resultsLabel": "{count} results",
+    "hintNavigate": "navigate",
+    "hintOpen": "open",
+    "hintClose": "close",
+    "groupRecent": "Recent",
+    "groupActions": "Actions",
+    "groupGoTo": "Go to",
+    "openInvoice": "Open invoice 1042",
+    "editProfile": "Edit profile",
+    "newDocument": "New document",
+    "newDocumentShortcut": "⌘N",
+    "openSettings": "Open settings",
+    "openSettingsDescription": "Account and workspace",
+    "inviteMember": "Invite a member",
+    "exportReport": "Export report",
+    "deleteDraft": "Delete draft",
+    "goHome": "Go to the start",
+    "goTeam": "Go to the team",
+    "goReports": "Go to reports",
+    "goBilling": "Go to billing",
+    "goHelp": "Go to help",
+    "searchQuery": "sett",
+    "noMatchQuery": "xyz",
+    "openPalette": "Open the command palette",
+    "frameTitle": "Example of nph-command",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "openByKeyCaption": "Open by key: Ctrl+K opens the palette with the commands by group and the first one already active; Enter runs it. The key reaches the page because the palette has global-shortcut on.",
+    "searchCaption": "Search: the person types and the list shows only what matches, the typed stretch in a heavier weight and the first command active.",
+    "nothingFoundCaption": "Nothing found: the empty state says so and suggests another term; the footer of hints stays.",
+    "groupsCaption": "Groups: a label opens each group, with no divider between them; above the ceiling of the list, it scrolls.",
+    "loadingCaption": "Loading: the spinner and the loading text; the list is busy and no command is drawn.",
+    "footerOffCaption": "Footer off: the second line and the hints are hidden; nothing else changes.",
+    "disabledCaption": "A disabled command is dimmed, skipped by the keys and the pointer, and does not run.",
+    "destructiveCaption": "The destructive command keeps its own colors at rest and active, and says the action in its label.",
+    "focusCaption": "Press the button to open the palette: the focus goes to the field and the first command is active. Esc closes it, and the focus goes back to the button."
+  },
+  "commandDocs": {
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "examplesTitle": "Required examples",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "sourceUsage": "nph-command spec sheet; docs/decisoes-tecnicas.md › P70",
+    "summary": "Command palette: a dialog with a search field, the commands by group and a footer of keyboard hints. The person opens it, types, sees only what matches and runs a command with Enter.",
+    "matrixLabel": "nph-command by content and by footer",
+    "frameTitle": "Example of nph-command",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-command spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P123. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "description": "Use nph-command as the global shortcut of the product: actions and pages that the person knows by name, opened by keyboard. To pick the value of a form field, use nph-combobox; for the actions of a button or of a row of the screen, use nph-dropdown-menu.",
+    "whenToUse": [
+      "A global shortcut of the product: actions and pages that the person knows by name, opened by keyboard.",
+      "Use groups, such as Recent, Actions and Go to, when the list mixes kinds of command.",
+      "Show the shortcut on the command when the action has its own key.",
+      "Keep the footer of hints on, because it teaches the keys of the palette."
+    ],
+    "whenNotToUse": [
+      "To pick the value of a form field: use nph-combobox.",
+      "For the actions of a button or of a row of the screen: use nph-dropdown-menu.",
+      "For the search of page content: it is a search field of its own.",
+      "To put a divider between groups: use space and the group label."
+    ],
+    "api": [
+      [
+        "items",
+        "The entries, in order: a command with value and text, and optionally description, icon, severity, shortcut, count, tag and disabled; and a group label, an object with type label and text. A separator, a selection, a switch, a submenu and an avatar do not exist here. Set as a property."
+      ],
+      [
+        "open",
+        "Boolean, reflected. The state of the dialog; it turns false by itself when the palette closes. Each time it opens, the field is empty and the first command is active."
+      ],
+      [
+        "query",
+        "The typed text, as a property. Setting it from code writes it in the field and filters the list, and fires no event."
+      ],
+      [
+        "filter",
+        "contains (default) or none. contains keeps the commands whose text contains what was typed, with no difference of case or accent. none leaves the filtering to the application."
+      ],
+      [
+        "loading",
+        "The search is answering: the spinner and loading-label show, the list is busy and no command is drawn or run."
+      ],
+      [
+        "label",
+        "The name of the dialog and of the field, already localized. Required: without it, nothing is drawn."
+      ],
+      [
+        "placeholder",
+        "The invitation in the empty field, already localized."
+      ],
+      [
+        "loading-label",
+        "The text of the loading row, already localized. Required with loading."
+      ],
+      [
+        "empty-heading",
+        "The title of the empty state, already localized. Required."
+      ],
+      [
+        "empty-description",
+        "The hint of the empty state, with what to do. Empty: the title only."
+      ],
+      [
+        "results-label",
+        "What the screen reader hears with the number of results, already localized; {count} becomes the number. Required."
+      ],
+      [
+        "hint-navigate",
+        "The word of the first hint of the footer, already localized. A hint without its word is not drawn."
+      ],
+      [
+        "hint-open",
+        "The word of the second hint of the footer, already localized."
+      ],
+      [
+        "hint-close",
+        "The word of the third hint of the footer, already localized."
+      ],
+      [
+        "hide-footer",
+        "Turns off the second line and the hints of the footer, which are on by default."
+      ],
+      [
+        "global-shortcut",
+        "Listens to Ctrl+K and Command+K in the document and opens or closes the palette. Off by default: the shortcut belongs to the application."
+      ],
+      [
+        "nph-run",
+        "Fired when the person runs a command, with detail.value. The palette then closes."
+      ],
+      [
+        "nph-search",
+        "Fired when the person types, with detail.query."
+      ],
+      [
+        "nph-close",
+        "The event of the dialog the palette mounts, with detail.source: escape, backdrop, open-key or command-run."
+      ]
+    ],
+    "usageMarkup": "<nph-command\n  label=\"Command palette\"\n  placeholder=\"Search a command…\"\n  empty-heading=\"No command found\"\n  empty-description=\"Check what you typed or search another term.\"\n  results-label=\"{count} results\"\n  hint-navigate=\"navigate\"\n  hint-open=\"open\"\n  hint-close=\"close\"\n></nph-command>",
+    "usageTag": "The palette with every text already localized. It draws its own dialog and has no slot: the commands are set as the items property, and it opens when open is set.",
+    "statesTitle": "Content and states",
+    "statesHeader": [
+      "State",
+      "What changes for the person"
+    ],
+    "states": [
+      [
+        "Results",
+        "The commands, the first one active. The default content."
+      ],
+      [
+        "Groups",
+        "A label opens each group, with no divider; above the ceiling the list scrolls."
+      ],
+      [
+        "Search",
+        "Only what matches, the typed stretch in a heavier weight, the first command active."
+      ],
+      [
+        "Empty",
+        "The nph-empty with a title and a hint, no active command; the footer stays."
+      ],
+      [
+        "Loading",
+        "The spinner and the loading text; the list is busy and nothing runs."
+      ],
+      [
+        "Active command",
+        "Filled in color/primary-surface, the icon solid, the label and the shortcut in color/accent-foreground."
+      ],
+      [
+        "Disabled command",
+        "Dimmed, skipped by the keys and the pointer, never runs."
+      ],
+      [
+        "Destructive command",
+        "Its own colors at rest and active; the label says the action."
+      ],
+      [
+        "Footer off",
+        "The second line and the hints are hidden."
+      ]
+    ],
+    "disabledCaption": "A disabled command is skipped by the keys and the pointer.",
+    "destructiveCaption": "The destructive command, at rest and active.",
+    "footerTitle": "The footer of hints",
+    "footerText": "The footer teaches the keys of the palette: the arrows navigate, Enter opens the active command and Esc closes. It is on by default; hide-footer turns it off together with its line. The words come from the application, already localized; the keys are legends.",
+    "footerCaption": "The same palette with the footer off.",
+    "keysTitle": "Keys and closing",
+    "keysHeader": [
+      "Key",
+      "What it does"
+    ],
+    "keys": [
+      [
+        "Ctrl+K or Command+K",
+        "Opens the palette, with global-shortcut on, and closes it (source open-key)."
+      ],
+      [
+        "Up and Down",
+        "Move the active command, skip a disabled one and stop at the ends."
+      ],
+      [
+        "Home and End",
+        "Go to the first and the last command."
+      ],
+      [
+        "Enter",
+        "Runs the active command and closes the palette (source command-run). With none active, it does nothing."
+      ],
+      [
+        "Esc",
+        "Closes the palette and gives the focus back (source escape)."
+      ],
+      [
+        "Click on the veil",
+        "Closes the palette (source backdrop)."
+      ],
+      [
+        "Tab",
+        "Stays on the field: it is the only stop of the dialog."
+      ]
+    ],
+    "anatomy": [
+      [
+        "1. Panel",
+        "command/background, command/radius and elevation/modal, with no border. The width goes up to command/max-width and stays there while the list filters."
+      ],
+      [
+        "2. Search row",
+        "command/search-padding around the field, drawn in the look of the nph-input large with the magnifying glass; the focus never leaves it."
+      ],
+      [
+        "3. Lines",
+        "nph-separator in command/divider, between the field and the list and between the list and the footer."
+      ],
+      [
+        "4. List",
+        "command/list-padding around and a ceiling of command/list-max-height; above it, it scrolls."
+      ],
+      [
+        "5. Command",
+        "The look of the nph-dropdown-menu item: start icon, label, description, shortcut, counter and tag. The active one is filled in color/primary-surface, with the solid icon."
+      ],
+      [
+        "6. Group label",
+        "text/label-sm in color/muted-foreground, with no divider between groups."
+      ],
+      [
+        "7. Loading row and empty state",
+        "The nph-spinner and the text, with command/state-padding; or the nph-empty, with its own padding."
+      ],
+      [
+        "8. Footer of hints",
+        "command/footer-padding around and command/footer-gap between hints; each hint is an nph-kbd and a word at command/hint-gap."
+      ]
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A modal dialog named by label. The field is a combobox, the list a listbox, each group a group named by its label and each command an option, selected while active."
+      ],
+      [
+        "Accessible name",
+        "label names the dialog and the field. The text of a command names it; the description and the counter describe it. The shortcut is hidden from the screen reader."
+      ],
+      [
+        "Keyboard",
+        "Up, Down, Home, End, Enter and Esc as in the table of keys. Tab stays on the field."
+      ],
+      [
+        "Visible focus",
+        "The border and halo of the field, which keeps the focus. The active command is marked by its fill, with no ring, and aria-activedescendant points to it."
+      ],
+      [
+        "Contrast",
+        "The label, the shortcut, the group label, the hints and the destructive command pass 4.5:1 on color/dialog in both modes."
+      ],
+      [
+        "Announcements",
+        "The number of results and the empty state are announced in a polite region after the person types. While loading, the list is busy."
+      ],
+      [
+        "Touch target",
+        "A command is 36 high and the field is 44; both pass the minimum of 24 by 24."
+      ],
+      [
+        "Color is not the only signal",
+        "The active command changes its fill and its icon goes from light to solid; the typed stretch gains weight."
+      ]
+    ],
+    "exampleOpenByKey": "Open by key: the commands by group, the first one active; Enter runs New document.",
+    "exampleSearch": "Search: the person types and only what matches stays, with the typed stretch highlighted.",
+    "exampleNothingFound": "Nothing found: the empty state suggests another term and the footer stays.",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, nph-command documentation frame 6076:4910, root 6067:3610 and set 6068:3936.",
+      "The nph-command spec sheet, in fichas/nph-command.md.",
+      "P123, in docs/decisoes-tecnicas.md.",
+      "design.md: the command tokens, color/dialog, color/dialog-separator and text/highlight-weight.",
+      "WAI-ARIA Authoring Practices: Combobox, Listbox and Dialog (Modal) Patterns."
+    ],
+    "sourceFigma": "nph-command documentation frame 6076:4910 (DS-IA-NEPHOS 5.0) and the nph-command spec sheet.",
+    "sourceApi": "P123 and the nph-command spec sheet.",
+    "sourceAccessibility": "Accessibility of the frame 6076:4910 and P123."
   }
 }

@@ -207,6 +207,44 @@
   }
 }
 
+/* ----- options for a piece that mounts the dialog as its own surface (P123) ---- */
+
+/*
+ * `hide-heading`: the title and the description stay in the tree, as the name and the
+ * description of the window, and leave the drawing. Clipped, not `display: none`, as the
+ * description of `nph-combobox`; the window is a positioned box, so the clipped titles sit in
+ * it and take no room. With no
+ * close button, the header is empty and the content does not keep the distance it would have
+ * from a title, so the first thing the person sees is the content.
+ */
+:host([hide-heading]) .titles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+:host([hide-heading]:not([no-padding])) .header:not(:has(.close)) ~ .content {
+  margin-block-start: calc(-1 * var(--_focus-room));
+}
+
+/*
+ * `no-padding`: the window has no padding and the content area gives back the room it keeps
+ * for the focus of its controls: the piece that mounts the dialog draws its own inner spaces,
+ * with its own tokens, and the window rounds its corners over the content.
+ */
+:host([no-padding]) .panel {
+  padding: 0;
+}
+
+:host([no-padding]) .content,
+:host([no-padding]) .header ~ .content {
+  margin: 0;
+  padding: 0;
+}
+
 /*
  * Reduced motion: the semantic alias `motion/hover-duration` (100 ms), as in
  * `nph-tooltip` and `nph-togglebutton`. The curve stays: the window still appears and

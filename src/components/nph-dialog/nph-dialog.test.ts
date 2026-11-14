@@ -263,7 +263,7 @@ describe('registration and API', () => {
     expect(customElements.get('nph-dialog')).toBe(NphDialog);
   });
 
-  it('the public API is exactly the one in P87', () => {
+  it('the public API is exactly the one in P87 and the three options of P123', () => {
     const declared = [...(NphDialog as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
     expect(declared).toEqual([
       'heading',
@@ -274,6 +274,9 @@ describe('registration and API', () => {
       'closeLabel',
       'headerSeparator',
       'footerSeparator',
+      'hideHeading',
+      'noPadding',
+      'closeOnBackdrop',
       'open',
     ]);
     expect([...NPH_DIALOG_SIZES]).toEqual(['sm', 'md', 'lg']);
@@ -288,6 +291,9 @@ describe('registration and API', () => {
     expect(dialog.hideClose).toBe(false);
     expect(dialog.headerSeparator).toBe(false);
     expect(dialog.footerSeparator).toBe(false);
+    expect(dialog.hideHeading).toBe(false);
+    expect(dialog.noPadding).toBe(false);
+    expect(dialog.closeOnBackdrop).toBe(false);
     expect(dialog.open).toBe(false);
     expect(dialog.getAttribute('size')).toBe('md');
     expect(dialog.getAttribute('actions')).toBe('inline');
