@@ -1,0 +1,387 @@
+/**
+ * Internal style of `nph-command`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. The `--_*` variables are internal to the shadow root and are not API.
+ * The component exposes no `::part`.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `1`, `100%`,
+ * `auto`, `none` and `hidden` (box and flex relations), `center` (the loading row and the
+ * empty state sit in the middle of the list), `ellipsis` and `nowrap` (the label and the
+ * description on one line), `transparent` (the inner field shows the container),
+ * `calc(-1 * ...)` (the focus border and halo outside the field, without changing its size), the
+ * resets of the native field (`margin`, `padding`, `border`, `appearance`), `min(...)` of the
+ * maximum height against the window, and the clipping of the status region for the screen reader.
+ *
+ * The panel itself, its veil, its entrance and its exit belong to `nph-dialog`, which this piece
+ * mounts with no padding (P123). The surface below paints the same panel with the command tokens
+ * (`command/background`, `command/radius`, `command/max-width`), whose values match the default
+ * dialog, so the width does not follow the content while the list filters.
+ *
+ * One token is redefined, with no new value: `color/border`, only on the two lines of the palette,
+ * takes `command/divider` (`color/dialog-separator`), as the dialog does on its own lines.
+ */
+
+/* The host has no box: the dialog lives in the top layer. With invalid input, nothing is drawn. */
+:host {
+  display: contents;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/*
+ * The surface: the width stays at the ceiling `command/max-width`, down to the window less the
+ * distance the dialog keeps from each edge. The height stops where the window stops, so in a short
+ * window the list shrinks and scrolls while the field and the footer stay.
+ */
+.surface {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  inline-size: var(--nph-command-max-width);
+  max-inline-size: 100%;
+  max-block-size: min(var(--nph-layout-dialog-max-height), 100vh - 2 * var(--nph-layout-margin-compact));
+  overflow: hidden;
+  border-radius: var(--nph-command-radius);
+  background-color: var(--nph-command-background);
+  color: var(--nph-color-popover-foreground);
+  text-align: start;
+}
+
+/* The two lines: `nph-separator` in `command/divider`, full width. */
+.line {
+  --nph-color-border: var(--nph-command-divider);
+}
+
+/* ----- the search row ------------------------------------------------------------- */
+
+.search {
+  flex: none;
+  padding: var(--nph-command-search-padding);
+}
+
+/*
+ * The field: the `nph-input` `large` in focus, drawn here because `aria-activedescendant` does not
+ * cross a shadow root. Border, radius, height, padding and the gap to the icon are the field's.
+ */
+.control {
+  --_border: var(--nph-focus-border);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  block-size: var(--nph-control-height-large);
+  padding-block: 0;
+  padding-inline: var(--nph-space-control-padding);
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-muted-foreground);
+  cursor: text;
+}
+
+/* The focus never leaves the field, so its look is the resting one; out of focus it is a plain field. */
+.control:not(:has(.field:focus)) {
+  --_border: var(--nph-color-input);
+}
+
+.control:not(:has(.field:focus)):hover {
+  --_border: var(--nph-color-input-hover);
+}
+
+.control:has(.field:focus)::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control);
+  pointer-events: none;
+}
+
+.start {
+  flex: none;
+}
+
+.field {
+  flex: 1;
+  align-self: stretch;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  outline: none;
+  appearance: none;
+}
+
+.field::placeholder {
+  color: var(--nph-color-muted-foreground);
+  opacity: 1;
+}
+
+/* ----- the list --------------------------------------------------------------------- */
+
+/* The only part that scrolls: the maximum height `command/list-max-height`, then the scroll. */
+.list {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  max-block-size: var(--nph-command-list-max-height);
+  padding: var(--nph-command-list-padding);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.list:has(.status) {
+  padding: 0;
+}
+
+.listbox,
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Group label: `text/label-sm` in `color/muted-foreground`, as in `nph-dropdown-menu`. No divider between groups. */
+.group-label {
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-inline);
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/*
+ * The item: the look of the `nph-dropdown-menu` item (padding and gap `space/inline`,
+ * `radius/inner`, no fill at rest), with three differences the evidence asks for: the active item
+ * is the one the keyboard or the pointer is on (an attribute, not `:hover`), the icon rests in
+ * `color/muted-foreground`, and the active label and shortcut take `color/accent-foreground`. No
+ * focus ring: the focus stays on the field.
+ */
+.item {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  padding: var(--nph-space-inline);
+  border-radius: var(--nph-dropdown-item-radius);
+  color: var(--nph-color-popover-foreground);
+  cursor: default;
+}
+
+.icon {
+  flex: none;
+  color: var(--nph-color-muted-foreground);
+}
+
+.texts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+/* One line each, cut with an ellipsis (DSA-29 D3). */
+.text,
+.description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.text {
+  color: var(--nph-color-popover-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.description,
+.shortcut {
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+/* The end: shortcut, counter and tag. */
+.end {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--nph-space-inline);
+}
+
+.end:empty {
+  display: none;
+}
+
+/* The tag sits in a slot of `icon/size-md`, so the row keeps its height. */
+.slot {
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--nph-icon-size-md);
+}
+
+/* Counter: a pill in `color/primary-hover`, height `icon/size-md`, `space/inline` on the sides. */
+.count {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--nph-icon-size-md);
+  padding-inline: var(--nph-space-inline);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-primary-hover);
+  color: var(--nph-color-primary-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* The `busca` list: the typed stretch in `command/highlight-weight`, the rest in `color/muted-foreground` (DSA-46 D-3). */
+.match {
+  font-weight: var(--nph-command-highlight-weight);
+}
+
+.rest {
+  color: var(--nph-color-muted-foreground);
+}
+
+/* Destructive: text, icon, shortcut and the rest of the label in the destructive color, at rest and active. */
+.item[data-severity='destructive'],
+.item[data-severity='destructive'] .text,
+.item[data-severity='destructive'] .icon,
+.item[data-severity='destructive'] .shortcut,
+.item[data-severity='destructive'] .rest {
+  color: var(--nph-dropdown-item-destructive-foreground);
+}
+
+/* The active command: `color/primary-surface`, the solid icon, the label and the shortcut in `color/accent-foreground`. */
+.item[data-active] {
+  background-color: var(--nph-color-primary-surface);
+}
+
+.item[data-active] .text,
+.item[data-active] .shortcut {
+  color: var(--nph-color-accent-foreground);
+}
+
+.item[data-active] .icon {
+  color: var(--nph-dropdown-item-hover-icon-foreground);
+}
+
+.item[data-severity='destructive'][data-active] {
+  background-color: var(--nph-dropdown-item-destructive-hover-background);
+}
+
+.item[data-severity='destructive'][data-active],
+.item[data-severity='destructive'][data-active] .text,
+.item[data-severity='destructive'][data-active] .icon,
+.item[data-severity='destructive'][data-active] .shortcut,
+.item[data-severity='destructive'][data-active] .rest {
+  color: var(--nph-dropdown-item-destructive-hover-foreground);
+}
+
+/* The rest of a searched label stays muted, also on the active command (DSA-46 D-3). */
+.item[data-active]:not([data-severity='destructive']) .rest {
+  color: var(--nph-color-muted-foreground);
+}
+
+/* Disabled: `state/disabled-opacity` on the whole item; it is never active. */
+.item[data-disabled] {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/* ----- loading and empty ------------------------------------------------------------ */
+
+/* The loading row: padding `command/state-padding`, gap `command/status-gap`, centered on both axes. */
+.loading {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nph-command-status-gap);
+  padding: var(--nph-command-state-padding);
+}
+
+.loading nph-spinner {
+  color: var(--nph-color-primary);
+}
+
+.loading-text {
+  color: var(--nph-command-status-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+/* The empty state: the `nph-empty` keeps its own padding. */
+.empty {
+  display: flex;
+  justify-content: center;
+}
+
+/* ----- the footer of hints ---------------------------------------------------------- */
+
+.footer {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-command-footer-gap);
+  padding: var(--nph-command-footer-padding);
+}
+
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-command-hint-gap);
+}
+
+.hint-word {
+  color: var(--nph-command-footer-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+/*
+ * The status region: never visible, but in the accessibility tree. Clipped, not `display: none`,
+ * which the browser does not read, as the description of `nph-combobox`.
+ */
+.announce {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
