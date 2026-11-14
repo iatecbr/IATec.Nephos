@@ -476,7 +476,7 @@ export class NphCommand extends LitElement {
 
   /** Brings the active command into view; the first of a group brings its label too. */
   private scrollToActive(mode: 'keyboard' | 'start'): void {
-    const list = this.renderRoot.querySelector<HTMLElement>('.list');
+    const list = this.renderRoot.querySelector<HTMLElement>('.listbox');
     if (list === null) {
       return;
     }
@@ -658,17 +658,12 @@ export class NphCommand extends LitElement {
     const active = row === this.activeRow;
     const disabled = entry.disabled === true;
     const query = this.filter === 'contains' ? this.query : '';
-    const describedBy = [description === '' ? '' : `${row.id}-description`, count === '' ? '' : `${row.id}-count`, tag === '' ? '' : `${row.id}-tag`]
-      .filter((id) => id !== '')
-      .join(' ');
     return html`<div
       class="item"
       id=${row.id}
       role="option"
       aria-selected=${active ? 'true' : 'false'}
       aria-disabled=${disabled ? 'true' : nothing}
-      aria-labelledby="${row.id}-text"
-      aria-describedby=${describedBy === '' ? nothing : describedBy}
       data-severity=${entry.severity ?? 'default'}
       ?data-active=${active}
       ?data-disabled=${disabled}
@@ -677,16 +672,16 @@ export class NphCommand extends LitElement {
         ? nothing
         : html`<nph-icon class="icon" name=${icon} variant=${active ? 'solid' : 'light'} size="md" aria-hidden="true"></nph-icon>`}
       <span class="texts"
-        ><span class="text" id="${row.id}-text">${highlighted(text, query)}</span>${description === ''
+        ><span class="text">${highlighted(text, query)}</span>${description === ''
           ? nothing
-          : html`<span class="description" id="${row.id}-description">${description}</span>`}</span
+          : html`<span class="description">${description}</span>`}</span
       >
       <span class="end"
         >${shortcut === '' ? nothing : html`<span class="shortcut" aria-hidden="true">${shortcut}</span>`}${count === ''
           ? nothing
-          : html`<span class="count" id="${row.id}-count">${count}</span>`}${tag === ''
+          : html`<span class="count">${count}</span>`}${tag === ''
           ? nothing
-          : html`<span class="slot" id="${row.id}-tag"><nph-badge class="tag" text=${tag}></nph-badge></span>`}</span
+          : html`<span class="slot"><nph-badge class="tag" text=${tag}></nph-badge></span>`}</span
       >
     </div>`;
   }

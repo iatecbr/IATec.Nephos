@@ -442,7 +442,7 @@ describe('the search', () => {
     await type(command, 'cafe');
     expect(texts(command)).toEqual(['Café menu']);
     await userEvent.clear(fieldOf(command));
-    await type(command, 'café');
+    await type(command, 'caf\u00e9');
     expect(texts(command)).toEqual(['Café menu']);
   });
 
@@ -637,7 +637,7 @@ describe('the keyboard', () => {
       ...Array.from({ length: 12 }, (_, index) => ({ value: `b${index}`, text: `Beta ${index}` })),
     ];
     const command = await mount({ items: many });
-    const list = part(command, '.list');
+    const list = part(command, '.listbox');
     expect(list.scrollHeight).toBeGreaterThan(list.clientHeight);
     await press(command, '{End}');
     const last = part(command, '.item[data-active]').getBoundingClientRect();
@@ -959,11 +959,13 @@ describe('the surface', () => {
     const many: NphCommandEntry[] = Array.from({ length: 20 }, (_, index) => ({ value: `v${index}`, text: `Command ${index}` }));
     const command = await mount({ items: many });
     const list = part(command, '.list');
+    const listbox = part(command, '.listbox');
     const style = getComputedStyle(list);
     expect(style.paddingTop).toBe(resolved('padding-top', '--nph-command-list-padding'));
     expect(list.getBoundingClientRect().height).toBeCloseTo(px(resolved('block-size', '--nph-command-list-max-height')), 0);
-    expect(list.scrollHeight).toBeGreaterThan(list.clientHeight);
-    expect(style.overflowY).toBe('auto');
+    /* The scroll is on the listbox itself, as in nph-combobox, so the keyboard reaches it through the field (axe: scrollable-region-focusable). */
+    expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
+    expect(getComputedStyle(listbox).overflowY).toBe('auto');
   });
 
   it('in a short window the list shrinks and scrolls while the field and the footer stay', async () => {
@@ -972,9 +974,10 @@ describe('the surface', () => {
     const command = await mount({ items: many });
     const panel = windowOf(command).getBoundingClientRect();
     const list = part(command, '.list');
+    const listbox = part(command, '.listbox');
     expect(panel.height).toBeLessThanOrEqual(360);
     expect(list.getBoundingClientRect().height).toBeLessThan(px(resolved('block-size', '--nph-command-list-max-height')));
-    expect(list.scrollHeight).toBeGreaterThan(list.clientHeight);
+    expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
     const control = part(command, '.control').getBoundingClientRect();
     const footer = part(command, '.footer').getBoundingClientRect();
     expect(control.top).toBeGreaterThanOrEqual(panel.top);
@@ -1040,14 +1043,16 @@ describe('roles and names', () => {
     expect(ax.name).toBe('New document');
   });
 
-  it('the name of a command is its label; the description and the counter describe it', async () => {
+  it('the name of a command is its content, so what is seen is in the name: the label, the description and the counter', async () => {
     const command = await mount();
     const withDescription = all(command, '.item').find((item) => item.querySelector('.description')) as HTMLElement;
     const ax = await axNode(withDescription);
-    expect(ax.name).toBe('Open settings');
-    expect(ax.description).toBe('Account and workspace');
+    expect(ax.name).toBe('Open settings Account and workspace');
+    expect(ax.description).toBe('');
     const counted = all(command, '.item').find((item) => item.querySelector('.count')) as HTMLElement;
-    expect((await axNode(counted)).description).toContain('3');
+    expect((await axNode(counted)).name).toContain('3');
+    /* The shortcut is hidden from the screen reader. */
+    expect((await axNode(itemOf(command, 'New document'))).name).toBe('New document');
   });
 
   it('while loading, the listbox is busy and the field does not point to a command', async () => {

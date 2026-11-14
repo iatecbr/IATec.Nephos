@@ -269,7 +269,7 @@
   ],
   "accessibility": {
     "semantics": "A modal dialog named by label. The field is a combobox, the list a listbox, each group a group named by its label and each command an option, selected while active. The shortcut is hidden from the screen reader.",
-    "accessible_name": "label names the dialog and the field. The text of a command names it; the description and the counter describe it.",
+    "accessible_name": "label names the dialog and the field. A command is named by its content, which is what the person sees (the text, the description, the counter and the tag); the shortcut is hidden from the screen reader.",
     "keyboard": [
       "Ctrl+K or Command+K opens it, with global-shortcut, and closes it.",
       "Up and Down move the active command, Home and End go to the ends, Enter runs, Esc closes and gives the focus back, Tab stays on the field."

@@ -141,8 +141,8 @@
   min-block-size: 0;
   max-block-size: var(--nph-command-list-max-height);
   padding: var(--nph-command-list-padding);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
 }
 
 .list:has(.status) {
@@ -153,6 +153,12 @@
 .group {
   display: flex;
   flex-direction: column;
+}
+
+.listbox {
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* Group label: `text/label-sm` in `color/muted-foreground`, as in `nph-dropdown-menu`. No divider between groups. */

@@ -245,7 +245,7 @@ ai_hints:
   - "To pick the value of a field, choose nph-combobox; for the actions of a button, nph-dropdown-menu."
 accessibility:
   semantics: "A modal dialog named by label. The field is a combobox, the list a listbox, each group a group named by its label and each command an option, selected while active. The shortcut is hidden from the screen reader."
-  accessible_name: "label names the dialog and the field. The text of a command names it; the description and the counter describe it."
+  accessible_name: "label names the dialog and the field. A command is named by its content, which is what the person sees (the text, the description, the counter and the tag); the shortcut is hidden from the screen reader."
   keyboard:
     - "Ctrl+K or Command+K opens it, with global-shortcut, and closes it."
     - "Up and Down move the active command, Home and End go to the ends, Enter runs, Esc closes and gives the focus back, Tab stays on the field."
@@ -376,7 +376,7 @@ palette.open = true;
 | Criterion | Rule |
 |---|---|
 | Semantics | A modal `dialog` named by `label`. The field is a `combobox`, the list a `listbox`, each group a `group` named by its label, each command an `option`. The shortcut is `aria-hidden` |
-| Accessible name | `label` names the dialog and the field. The text names a command; the description and the counter describe it |
+| Accessible name | `label` names the dialog and the field. A command is named by its content (the text, the description, the counter and the tag), so the visible words are in the name; the shortcut is hidden |
 | Keyboard | Up, Down, Home, End, Enter and Esc as in the business rules; Tab stays on the field; Ctrl+K or Command+K closes it |
 | Visible focus | The border and halo of the field, which keeps the focus. The active command is marked by its fill, with no ring |
 | Contrast | The label, the shortcut, the group label, the hints and the destructive command pass 4.5:1 on `color/dialog` in both modes; the focus border of the field passes 3:1 in every brand |

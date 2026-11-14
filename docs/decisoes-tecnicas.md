@@ -8458,9 +8458,11 @@ three options, each off by default, and one method. The names follow P64.
     (decided here, as the documentation leaves it open). `hide-footer` turns the second line and the footer off.
 11. **The roles.** The window is the dialog's `role="dialog"` with `aria-modal`. The list is `role="listbox"`, each
     group `role="group"` named by its label (a group with no label has no name), each command `role="option"` named
-    by its text and described by its description, its counter and its tag, with `aria-selected="true"` on the active
+    by its content (the text, the description, the counter and the tag, so every visible word is in the name, as the
+    rule `label-content-name-mismatch` asks; the shortcut is `aria-hidden`), with `aria-selected="true"` on the active
     command (decided here: selection follows the keyboard, as in the APG listbox with `aria-activedescendant`, and
-    `cmdk` does the same). The listbox is hidden, and `aria-expanded` is `false`, while there is no command and no
+    `cmdk` does the same). The scroll is on the listbox itself, as in `nph-combobox`, so the scrolling region holds
+    the options the keyboard reaches through the field. The listbox is hidden, and `aria-expanded` is `false`, while there is no command and no
     loading.
 12. **Stories.** Each example is the real palette, open, in a hidden story (`Components/nph-command/Fixtures`),
     embedded in an `<iframe>` per mode, for the reason of P87 item 11. The destructive command is shown in light
