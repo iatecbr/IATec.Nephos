@@ -18,14 +18,20 @@
  *   its accessible name, already localized, and is required while the button is shown;
  * - `header-separator` and `footer-separator`: the lines that separate long content from
  *   the header and the footer;
+ * - three options for a piece that mounts the dialog as its own surface, such as `nph-command`
+ *   (P123), each off by default, so the dialog of P87 does not change:
+ *   `hide-heading` makes the title, and the description, readable by a screen reader only: they
+ *   stay the name and the description of the dialog; `no-padding` takes the window padding away,
+ *   so the content goes edge to edge; `close-on-backdrop` makes a click on the veil ask to close;
  * - `open`: the state, the only way to open and close it. The dialog sets it to `false`
  *   itself when the person closes it;
  * - the default slot is the content area (the Figma `mostrar conteúdo` is whether the
  *   slot has content); the `footer` slot takes the action buttons (the Figma `rodapé`);
  * - own event `nph-close` (bubbles, composed, cancelable) with `detail: { source }`,
- *   fired before it closes when the person asks: Esc (`escape`) or the close button
- *   (`close-button`). `preventDefault()` keeps it open. Setting `open` from code never
- *   fires it;
+ *   fired before it closes when the person asks: Esc (`escape`), the close button
+ *   (`close-button`) or, with `close-on-backdrop`, a click on the veil (`backdrop`). A piece
+ *   that mounts the dialog asks for the other origins with `requestClose(source)` (`open-key`,
+ *   `command-run`). `preventDefault()` keeps it open. Setting `open` from code never fires it;
  * - no highlight icon yet (D3), no `::part` and no color property.
  *
  * LAYER — the window is a native `<dialog>` opened with `showModal()`: it lives in the
@@ -66,8 +72,13 @@ export type NphDialogSize = (typeof NPH_DIALOG_SIZES)[number];
 export const NPH_DIALOG_ACTIONS = ['inline', 'stacked'] as const;
 export type NphDialogActions = (typeof NPH_DIALOG_ACTIONS)[number];
 
-/** What the person used to ask for the close. */
-export type NphDialogCloseSource = 'escape' | 'close-button';
+/**
+ * What the person used to ask for the close. The dialog itself reports `escape`,
+ * `close-button` and `backdrop`; `open-key` and `command-run` are the origins a piece that
+ * mounts the dialog gives to `requestClose` (P123).
+ */
+export const NPH_DIALOG_CLOSE_SOURCES = ['escape', 'close-button', 'backdrop', 'open-key', 'command-run'] as const;
+export type NphDialogCloseSource = (typeof NPH_DIALOG_CLOSE_SOURCES)[number];
 
 export interface NphDialogCloseDetail {
   readonly source: NphDialogCloseSource;
@@ -285,6 +296,10 @@ export class NphDialog extends LitElement {
     closeLabel: { type: String, attribute: 'close-label' },
     headerSeparator: { type: Boolean, attribute: 'header-separator', reflect: true },
     footerSeparator: { type: Boolean, attribute: 'footer-separator', reflect: true },
+    /* The three options of P123 reflect: the internal CSS selects the header, the padding and the content by them. */
+    hideHeading: { type: Boolean, attribute: 'hide-heading', reflect: true },
+    noPadding: { type: Boolean, attribute: 'no-padding', reflect: true },
+    closeOnBackdrop: { type: Boolean, attribute: 'close-on-backdrop', reflect: true },
     open: { type: Boolean, reflect: true },
   };
 
@@ -309,6 +324,15 @@ export class NphDialog extends LitElement {
   declare headerSeparator: boolean;
 
   declare footerSeparator: boolean;
+
+  /** The title and the description are for the screen reader only; they still name and describe the dialog. */
+  declare hideHeading: boolean;
+
+  /** No window padding: the content goes edge to edge. */
+  declare noPadding: boolean;
+
+  /** A click on the veil asks to close, with `source: 'backdrop'`. */
+  declare closeOnBackdrop: boolean;
 
   /** The dialog is open. */
   declare open: boolean;
@@ -344,6 +368,9 @@ export class NphDialog extends LitElement {
     this.closeLabel = '';
     this.headerSeparator = false;
     this.footerSeparator = false;
+    this.hideHeading = false;
+    this.noPadding = false;
+    this.closeOnBackdrop = false;
     this.open = false;
   }
 
@@ -615,7 +642,7 @@ export class NphDialog extends LitElement {
   }
 
   /** Tells the consumer; returns whether the close may go on. */
-  private requestClose(source: NphDialogCloseSource, cancelable: boolean): boolean {
+  private fireClose(source: NphDialogCloseSource, cancelable: boolean): boolean {
     return this.dispatchEvent(
       new CustomEvent<NphDialogCloseDetail>(NPH_DIALOG_CLOSE_EVENT, {
         bubbles: true,
@@ -635,12 +662,12 @@ export class NphDialog extends LitElement {
   private readonly onCancel = (event: Event): void => {
     event.preventDefault();
     if (!event.cancelable) {
-      this.requestClose('escape', false);
+      this.fireClose('escape', false);
       this.open = false;
       this.leaveNow();
       return;
     }
-    if (this.requestClose('escape', true)) {
+    if (this.fireClose('escape', true)) {
       this.open = false;
     }
   };
@@ -657,8 +684,59 @@ export class NphDialog extends LitElement {
     }
   };
 
+  /**
+   * Asks the dialog to close for the person, as Esc and the close button do: fires `nph-close`
+   * with `source` and closes unless the event is canceled. It is for a piece that mounts the
+   * dialog as its own surface and knows why the person is leaving, such as `nph-command` (the open
+   * key, a command run, P123). Returns whether the dialog closed. A closed dialog and a `source`
+   * outside `NPH_DIALOG_CLOSE_SOURCES` do nothing; the second also says so in development.
+   */
+  requestClose(source: NphDialogCloseSource): boolean {
+    if (!oneOf(NPH_DIALOG_CLOSE_SOURCES, source)) {
+      devError(`requestClose source "${String(source)}" does not exist. Use ${NPH_DIALOG_CLOSE_SOURCES.join(', ')}; nothing happened.`);
+      return false;
+    }
+    if (!this.open) {
+      return false;
+    }
+    if (this.fireClose(source, true)) {
+      this.open = false;
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * The veil is the backdrop of the `<dialog>`: the browser aims the click at the window itself,
+   * so a click on the backdrop and one on the padding have the same target. Only a point outside
+   * the box of the window is the veil. The press must start there too, so a drag that begins
+   * inside, to select text, and ends over the veil does not close the dialog.
+   */
+  private pressedOnVeil = false;
+
+  private onVeil(event: MouseEvent): boolean {
+    const panel = this.panel;
+    if (panel === null || event.target !== panel) {
+      return false;
+    }
+    const box = panel.getBoundingClientRect();
+    return event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom;
+  }
+
+  private readonly onPanelPointerdown = (event: PointerEvent): void => {
+    this.pressedOnVeil = this.closeOnBackdrop && this.onVeil(event);
+  };
+
+  private readonly onPanelClick = (event: MouseEvent): void => {
+    const pressed = this.pressedOnVeil;
+    this.pressedOnVeil = false;
+    if (this.closeOnBackdrop && pressed && this.onVeil(event)) {
+      this.requestClose('backdrop');
+    }
+  };
+
   private readonly onCloseClick = (): void => {
-    if (this.requestClose('close-button', true)) {
+    if (this.fireClose('close-button', true)) {
       this.open = false;
     }
   };
@@ -675,6 +753,8 @@ export class NphDialog extends LitElement {
       aria-describedby=${description !== '' ? 'description' : nothing}
       @cancel=${this.onCancel}
       @close=${this.onNativeClose}
+      @pointerdown=${this.onPanelPointerdown}
+      @click=${this.onPanelClick}
     >
       <header class="header">
         <div class="titles">

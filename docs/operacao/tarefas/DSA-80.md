@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 790,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-command",
   "dependencies": [
     "DSA-03",
@@ -39,7 +39,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted documentation recommends the panel near the top of the window (about 16% of its height) so it does not jump while the list filters, and says there is no token for that offset. The code keeps the panel centered, as the nph-dialog does, because a literal would break the token rule. Does Indiane confirm the centered panel until a token for the offset exists, or send the token? Recommended: confirm, and bring the offset as a token in the next token round. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    },
+    {
+      "id": "D-2",
+      "question": "The accepted text says the panel hugs its content up to 560, and Figma draws every variant at 560. The code keeps the width at the 560 ceiling (command/max-width) while the list filters, so the panel does not change width with each key. Does Indiane confirm, or does the panel hug its content? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    },
+    {
+      "id": "D-3",
+      "question": "DSA-46 D-3 puts the rest of a searched label in color/muted-foreground. On a destructive command that would turn the part that was not searched gray and take the signal from the label, so the code keeps the destructive color on the rest and only the searched stretch is heavier. Does Indiane confirm, or is the rest muted there too? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    },
+    {
+      "id": "D-4",
+      "question": "The focus of the search field is a border of border/width plus a halo of focus/ring-width, 5 in all, and command/search-padding is 4. The outer pixel of the halo at the top, left and right edges of the panel is clipped by the dialog window. Does Indiane confirm the padding, or does the token grow by one? Recommended: confirm; the pixel is not seen against the veil. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-80/figma-docs-accepted-2026-11-12.md"
   ],
@@ -56,9 +81,9 @@
     "excerpt": null,
     "converted_decision": "The nph-command documentation frame (6076:4910, page 1626:18) was accepted as the API and behavior specification of nph-command, with the visual acceptance of the root (6067:3610). COMPONENT_SET nph-command (6068:3936), 5 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-12"
+  "git_review": { "branch": "feat/dsa-80-command", "commit": null, "pr": 173 },
+  "context": "docs/operacao/contextos/DSA-80.md",
+  "updated_at": "2026-11-14"
 }
 ```
 
