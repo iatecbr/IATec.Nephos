@@ -8464,7 +8464,7 @@ three options, each off by default, and one method. The names follow P64.
     loading.
 12. **Stories.** Each example is the real palette, open, in a hidden story (`Components/nph-command/Fixtures`),
     embedded in an `<iframe>` per mode, for the reason of P87 item 11. The destructive command is shown in light
-    only until the contrast of `color/destructive-text` in dark is fixed at the source.
+    and in dark, with no override: the contrast is carried by `color/destructive-text` itself.
 
 **Pending, for Indiane (the task records them; none blocks the pull request).**
 
@@ -8482,9 +8482,6 @@ three options, each off by default, and one method. The names follow P64.
 
 **Known limits.**
 
-- **The destructive command in dark** measures 3.62:1 on `color/dialog`, and the field focus border in dark measures
-  below 3:1 in three brands; both are fixed at the source by DSA-81, with no local override here. The Storybook shows the
-  destructive command in light only until then.
 - **The panel is centered** (D-1). **The width does not follow the content** (D-2).
 - **No scrollbar style of its own**: the list scrolls with the browser's own bar.
 - **The count in `results-label` includes a disabled command**, since it is a command of the result.
@@ -8499,7 +8496,8 @@ implementation.
 
 **Out of scope.** A new token (the fifteen `command/*` came with the task). A change to `nph-dropdown-menu`,
 `nph-input`, `nph-empty` or `nph-combobox`. The contrast of the destructive command in dark and of the field focus
-border (DSA-81). The placement near the top. A non-modal palette.
+border, fixed in the semantic colors by DSA-81 and not overridden here. The placement near the top. A non-modal
+palette.
 
 **Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-80 D-1, D-2 and D-3 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.

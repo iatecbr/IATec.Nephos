@@ -250,7 +250,7 @@ accessibility:
     - "Ctrl+K or Command+K opens it, with global-shortcut, and closes it."
     - "Up and Down move the active command, Home and End go to the ends, Enter runs, Esc closes and gives the focus back, Tab stays on the field."
   focus: "The visible focus is the border and halo of the field, which keeps the focus all the time. The active command is marked by its fill, with no ring."
-  contrast: "The label, the shortcut, the group label and the hints pass 4.5:1 on color/dialog in both modes. The destructive command in dark does not reach 4.5:1 on color/dialog, and the field focus border in dark does not reach 3:1 in three brands: both are fixed at the source, in the tokens, outside this piece."
+  contrast: "The label, the shortcut, the group label, the hints and the destructive command pass 4.5:1 on color/dialog in both modes, and the focus border of the field passes 3:1 in every brand; the semantic colors carry it, and the piece writes no override."
   color_alternative: "The active command changes its fill and its icon goes from light to solid. The searched stretch gains weight. The destructive command says the action in its label."
   announcements: "The number of results and the empty state are announced in a polite region after the person types; while loading, the listbox is busy."
 invalid_combinations:
@@ -368,10 +368,8 @@ palette.open = true;
 - Who listens to Ctrl+K and Command+K is the application by default. `global-shortcut` turns the listener
   on, and keeps the key from the browser.
 - **Known limits.** The panel is centered in the window: the position near the top that the documentation
-  recommends has no token for its offset. The destructive command in dark and the focus border of the
-  field in three brands do not pass the contrast requirement on `color/dialog`; both are fixed in the
-  tokens, outside this piece. The palette has no submenu, nested pages, multiple selection or sizes. It
-  has no scrollbar style of its own.
+  recommends has no token for its offset. The palette has no submenu, nested pages, multiple selection or
+  sizes. It has no scrollbar style of its own.
 
 ## Accessibility
 
@@ -381,7 +379,7 @@ palette.open = true;
 | Accessible name | `label` names the dialog and the field. The text names a command; the description and the counter describe it |
 | Keyboard | Up, Down, Home, End, Enter and Esc as in the business rules; Tab stays on the field; Ctrl+K or Command+K closes it |
 | Visible focus | The border and halo of the field, which keeps the focus. The active command is marked by its fill, with no ring |
-| Contrast | The label, the shortcut, the group label and the hints pass 4.5:1 on `color/dialog` in both modes. Two cases in dark are outside this piece (see the known limits) |
+| Contrast | The label, the shortcut, the group label, the hints and the destructive command pass 4.5:1 on `color/dialog` in both modes; the focus border of the field passes 3:1 in every brand |
 | Announcements | The number of results and the empty state, in a polite region, after the person types. While loading, the listbox is `aria-busy` |
 | Touch target | A command is 36 high at the width of the list and the field is 44; both pass the minimum of 24 by 24 |
 | Color is not the only signal | The active command changes its fill and its icon goes from light to solid; the searched stretch gains weight |
@@ -425,8 +423,8 @@ the `nph-input` element.
 
 **Usage restrictions:** the palette redefines, in its own scope, only `color/border`, on its two lines, as
 `command/divider`, as the dialog does on its own lines. No token gets a new value and no token is created
-here. It does not fix the contrast of the destructive command in dark nor the field focus border: that is
-done at the source, in the tokens.
+here. The contrast of the destructive command and of the field focus border in dark is in the semantic
+colors themselves, so the palette writes no local override.
 
 **AI hints:**
 

@@ -275,7 +275,7 @@
       "Up and Down move the active command, Home and End go to the ends, Enter runs, Esc closes and gives the focus back, Tab stays on the field."
     ],
     "focus": "The visible focus is the border and halo of the field, which keeps the focus all the time. The active command is marked by its fill, with no ring.",
-    "contrast": "The label, the shortcut, the group label and the hints pass 4.5:1 on color/dialog in both modes. The destructive command in dark does not reach 4.5:1 on color/dialog, and the field focus border in dark does not reach 3:1 in three brands: both are fixed at the source, in the tokens, outside this piece.",
+    "contrast": "The label, the shortcut, the group label, the hints and the destructive command pass 4.5:1 on color/dialog in both modes, and the focus border of the field passes 3:1 in every brand; the semantic colors carry it, and the piece writes no override.",
     "color_alternative": "The active command changes its fill and its icon goes from light to solid. The searched stretch gains weight. The destructive command says the action in its label.",
     "announcements": "The number of results and the empty state are announced in a polite region after the person types; while loading, the listbox is busy."
   },
