@@ -11,12 +11,14 @@ use_when:
   - "With the status dot when each option has a state, written in the option text."
   - "With creatable only when the list accepts new items; with the shortcuts footer on screens used a lot by keyboard."
   - "default in most forms; large when the form uses tall fields."
+  - "With free-text when the value may not be in the list, such as a job title, a place or a city: the typed text is the value and the list only suggests."
 do_not_use_when:
   - "For a short list that fits on the screen without search: use nph-select."
   - "To pick several options: use nph-multi-combobox."
   - "To offer create in a closed list: leave creatable off, and the list shows the nph-empty."
   - "To change the color of the arrow area: for an error, use invalid through nph-field."
   - "To use the status dot without a written state."
+  - "With free-text when the value must come from the list, such as a status, a state or a registered unit: free text accepts typos; use the combobox without free-text."
 api:
   options:
     type: array
@@ -51,7 +53,8 @@ api:
       option is the first option with that value; the value is kept until such an
       option arrives. With filter=none, a search whose results leave the chosen option
       out keeps the choice. The clear button leaves no choice, also with an option of
-      empty value. Setting it from code fires no event.
+      empty value. Setting it from code fires no event. With free-text it is the typed
+      text: the value of an option is not used, and a suggestion writes its text.
   query:
     type: string
     required: false
@@ -60,7 +63,8 @@ api:
     constraint: >-
       Property only. The typed text; empty while the field shows the chosen option.
       Setting it from code writes it in the field and filters the list, and fires no
-      event. It is not the value: leaving the field without choosing clears it.
+      event. It is not the value: leaving the field without choosing clears it. With
+      free-text it is the value itself, the text of the field at rest as well.
   placeholder:
     type: string
     required: false
@@ -80,7 +84,8 @@ api:
       decorative. icon: the icon of the chosen option when its own start is icon,
       otherwise the icon property. avatar: the photo of the chosen option when its own
       start is avatar, otherwise the empty avatar. Any other value draws nothing and
-      emits console.error in development.
+      emits console.error in development. With free-text, avatar draws nothing and emits
+      console.error: the value is text, not a chosen person.
   icon:
     type: string
     required: false
@@ -152,6 +157,27 @@ api:
     constraint: >-
       The words of the create row before the typed text, already localized, such as
       "Create".
+  free-text:
+    type: boolean
+    required: false
+    default: "false"
+    reflects: true
+    constraint: >-
+      The free text variant (the Figma `nph-combobox · texto livre`): a field with no
+      divider and no arrow whose typed text is the value and whose list only suggests. It
+      reflects because the internal CSS reads it. The end padding is
+      combobox/free-text-padding-end. No suggestion is active while typing, and the list has
+      no create row and no nph-empty. creatable, empty-heading and empty-description are
+      ignored with one console.warn in development. The arrow variant does not change.
+  no-suggestions-label:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      What the screen reader hears when the typed text has no suggestion, already localized,
+      such as "No suggestions". Required with free-text; without it, the region stays silent
+      and console.error is emitted in development.
   empty-heading:
     type: string
     required: false
@@ -242,7 +268,8 @@ api:
       Fired by the host when the person changes the value: a choice of a different
       option, the clear button or the create row. It bubbles and crosses shadow roots.
       Typing does not fire it: the native input of the inner field stays in the shadow
-      root.
+      root. With free-text it fires on every change of the text, as nph-input, and the
+      value is already up to date.
   change:
     type: event
     required: false
@@ -250,7 +277,9 @@ api:
     reflects: false
     constraint: >-
       Fired by the host right after input. It bubbles. Setting value, query or open from
-      code fires neither event.
+      code fires neither event. With free-text it fires when the text settles: a pick, the
+      clear button, Escape, Enter and leaving the field, only if it differs from the last
+      change.
   nph-search:
     type: event
     required: false
@@ -259,7 +288,8 @@ api:
     constraint: >-
       detail.query: the typed text changed by the person, also when leaving the field
       clears it. It bubbles and crosses shadow roots. The consumer that filters searches
-      with it.
+      with it. With free-text it says the text, also after a pick or the clear button, and
+      not during an IME composition.
   nph-create:
     type: event
     required: false
@@ -279,6 +309,12 @@ variants:
     choose_when: "search in general; icon when a symbol helps recognize the option; avatar when the options are people."
     do_not_combine_with:
       - "Options with and without a start in the same list."
+  free_text:
+    axis: behavior
+    choose_when: "free-text when the value may be new and the list only helps to fill it in faster; the combobox without it when the value must come from the list."
+    do_not_combine_with:
+      - "free-text with start avatar."
+      - "free-text with creatable or the empty list: the typed text is already the value."
 states:
   default:
     token: color/input
@@ -315,6 +351,10 @@ business_rules:
   - "Disabled options are skipped by the keyboard and cannot be chosen."
   - "The create row shows only with creatable, with typed text that no option already says."
   - "disabled wins over invalid."
+  - "With free-text, the typed text is the value: a suggestion writes its text, the value of an option is not used, and leaving the field keeps the text."
+  - "With free-text, no suggestion is active while typing: ArrowDown activates the first (DSA-79 D-5 does not apply), and Enter with none active keeps the text and closes the list."
+  - "With free-text, a click on the field takes the focus and does not open the list (DSA-79 D-1); with text in the field, the arrows show only the suggestions that contain it (DSA-79 D-2)."
+  - "With free-text and no suggestion, the list closes with no nph-empty and a status region says no-suggestions-label."
 domain_errors:
   - "invalid: the choice needs correction, such as a required field with no choice; nph-field writes the sentence and passes it as description."
 tokens:
@@ -323,7 +363,7 @@ tokens:
   radius: radius/control
   border: "border/width, in color/input, color/input-hover, focus/border or status/error"
   background: "color/background; color/muted when disabled"
-  padding: "space/control-padding on the left; 0 on the right"
+  padding: "space/control-padding on the left; 0 on the right; with free-text, combobox/free-text-padding-end on the right, with and without the clear button"
   gap: space/inline
   text: "text/body-md in color/foreground; the placeholder in color/muted-foreground"
   start: "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm"
@@ -347,14 +387,16 @@ ai_hints:
   - "Turn creatable on only when the list accepts new items, and add the option on nph-create."
   - "Read the value from the host on input or change; read the typed text from nph-search or query."
   - "Never use the placeholder as the only name."
+  - "For a value that may not be in the list, set free-text and no-suggestions-label; the typed text is the value, read it from value on input or change."
 accessibility:
-  semantics: "An editable combobox with list autocomplete (APG): the inner text field has role combobox, aria-autocomplete list, aria-expanded and aria-controls; the list has role listbox, the groups role group named by their label, and each nph-option role option with aria-selected. The host is form-associated and labelable."
+  semantics: "An editable combobox with list autocomplete (APG): the inner text field has role combobox, aria-autocomplete list, aria-expanded and aria-controls; the list has role listbox, the groups role group named by their label, and each nph-option role option with aria-selected. The host is form-associated and labelable. With free-text, a status region outside the list says no-suggestions-label when the typed text has no suggestion, so it speaks while the list is closed, and the loading list carries aria-busy."
   accessible_name: "From the label associated with the host, which the field and the list reference. Without one, from label. The placeholder is not a name. The clear button is named by clear-label. With no name at all, the combobox renders and warns in development."
   keyboard:
     - "Characters write in the field, open the list, filter it and make the first match active."
     - "Closed: ArrowDown and ArrowUp open on the chosen option, or on the first or the last; Alt+ArrowDown opens without moving; Enter submits the form; Escape clears the typed text."
     - "Open: ArrowDown and ArrowUp move without wrapping; PageDown and PageUp move ten options; Enter and Alt+ArrowUp choose the active option and close; Escape closes without choosing; Tab closes without choosing and the focus moves on."
     - "Home and End move the cursor in the text."
+    - "With free-text: typing opens the list with none active; ArrowDown activates the first and, closed, opens; ArrowUp closed opens on the last; Alt+ArrowDown opens without activating; Enter picks the active suggestion or, with none, keeps the text and closes; Escape closes and, with the list closed, clears the text; Tab, leaving the field and an outside click close the list and keep the text."
   focus: "The focus stays on the text; the active option is pointed to by aria-activedescendant, in the same shadow root. The field shows the focus border and the halo while it has the focus and while the list is open; the clear button has its own ring."
   contrast: "The text of the field and of the option meets 4.5:1 and the border 3:1, in light and dark mode; the arrow keeps 3:1 on color/accent; the rest of the text outside the highlight, in color/muted-foreground, passes 4.5:1. The disabled state is exempt."
   color_alternative: "The error is said by the sentence of nph-field; the dot goes with the written state; the highlight changes the weight of the text; the arrow turns up when the list opens."
@@ -365,6 +407,9 @@ invalid_combinations:
   - "A filter outside contains and none — the combobox draws nothing."
   - "clearable without clear-label — no clear button."
   - "creatable without create-label — no create row."
+  - "free-text with start avatar — the combobox draws nothing."
+  - "free-text without no-suggestions-label — the field draws, and the screen reader hears nothing when no suggestion matches."
+  - "free-text with creatable, empty-heading or empty-description — ignored."
   - "invalid without the sentence in nph-field — red with no text."
 relations:
   combines_with: [nph-field, nph-option, nph-empty, nph-spinner, nph-kbd, nph-separator, nph-icon, nph-avatar]
@@ -381,11 +426,11 @@ anti_patterns:
   - "Writing the options as nph-option children of the combobox."
 sources:
   design_md: "design.md, color/input, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, text/highlight-weight, elevation/dropdown and motion/*"
-  decision: "P95 — API and semantics of nph-combobox and its list; the form pattern is P80, the field contract is P83, the option and the layer are P91"
-  tests: "src/components/nph-combobox/nph-combobox.test.ts"
+  decision: "P95 — API and semantics of nph-combobox and its list; the form pattern is P80, the field contract is P83, the option and the layer are P91; P122 — the free text variant"
+  tests: "src/components/nph-combobox/nph-combobox.test.ts and nph-combobox.free-text.test.ts"
   usage_evidence: "the Examples section of the nph-combobox Docs page"
   storybook: "src/components/nph-combobox/nph-combobox.stories.ts and nph-combobox.docs.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, nph-combobox board 1359:142, documentation 1766:2400, set 1359:115, list 1359:141 and option 1357:136"
+  figma: "DS-IA-NEPHOS 5.0, nph-combobox board 1359:142, documentation 1766:2400, set 1359:115, list 1359:141 and option 1357:136; free text documentation 6047:3760, root 6040:2120 and set 6040:3286"
 ---
 
 # nph-combobox
@@ -402,6 +447,8 @@ options to pick one, and takes part in the form that contains it. The options ar
 
 - When the list is long and the person knows the name of what they look for: typing filters
   it.
+- With `free-text` when the value may not be in the list, such as a job title, a place or a
+  city: the typed text is the value and the list only suggests.
 - Inside an `nph-field`, which gives the label, the help text and the error message.
 - With the status dot when each option has a state, written in the option text.
 - With `creatable` only when the list accepts new items; with the shortcuts footer on
@@ -417,6 +464,8 @@ options to pick one, and takes part in the form that contains it. The options ar
 - **To change the color of the arrow area** — for an error, use `invalid` through
   `nph-field`.
 - **To use the status dot without a written state.**
+- **With `free-text` when the value must come from the list**, such as a status, a state or a
+  registered unit — free text accepts typos; use the combobox without `free-text`.
 
 ## Variants
 
@@ -427,6 +476,9 @@ shows `globe` (or `icon`) and `avatar` the empty avatar.
 **By size:** `default` (`control/height-default`) and `large` (`control/height-large`). The
 height of the field and the width of the arrow area change.
 
+**By behavior:** `free-text`, the variant with no arrow whose typed text is the value (the Figma
+`nph-combobox · texto livre`). It has its own section below.
+
 **By density:** `not_applicable`.
 
 | Variant | Choose when |
@@ -436,9 +488,11 @@ height of the field and the width of the arrow area change.
 | `start="search"` | General use |
 | `start="icon"` | A symbol helps recognize the option |
 | `start="avatar"` | The options are people |
+| `free-text` | The value may be new and the list only helps to fill it in faster |
 
 **Do not combine with:** `default` and `large` fields in the same form; options with and
-without a start in the same list.
+without a start in the same list; `free-text` with `start="avatar"`, `creatable` or the empty
+list.
 
 ## States
 
@@ -487,18 +541,42 @@ the opacity changes, in `motion/hover-duration`. The options sit inside
 - Disabled options are skipped by the keyboard and cannot be chosen.
 - The create row shows only with `creatable`, with typed text that no option already says.
 - `disabled` wins over `invalid`.
+- With `free-text`, the typed text is the value and no suggestion is active while typing; see the
+  Free text section.
 
 **Domain error states:** `invalid`, when the choice needs correction, such as a required field
 with no choice. `nph-field` writes the sentence and passes it to the combobox as `description`.
+
+## Free text
+
+`free-text` turns the combobox into a field that accepts any text and suggests values from the
+list (the Figma `nph-combobox · texto livre`, set `6040:3286`). It has no divider and no arrow
+area; the end of the field takes `combobox/free-text-padding-end` (an alias of
+`space/control-padding`), with and without the clear button. The start, the text and the clear
+button keep the tokens of the combobox; the list is the same list, built once. The arrow variant
+does not change.
+
+| Topic | Rule |
+|---|---|
+| Value | The typed text is the value. `value` is the text; the attribute is the initial text and the value of `form.reset()`; the value of an option is not used and a suggestion writes its text. A suggestion that says exactly the text shows as chosen |
+| Events | `input` on every change of the text, as `nph-input`, with the value up to date; `change` when the text settles (a pick, the clear button, Escape, Enter, leaving the field), only if it differs from the last `change`; `nph-search` says the text; setting `value` or `query` from code fires nothing |
+| Form | `name`, `required` (empty text is `valueMissing`) and the text as the form value, empty included |
+| Typing | Opens the list with the matching suggestions, the typed stretch highlighted and none active (DSA-79 D-5 does not apply here) |
+| Keyboard | ArrowDown activates the first and, closed, opens; ArrowUp closed opens on the last; Alt+ArrowDown opens without activating; Enter picks the active suggestion or keeps the text and closes the list; with the list closed Enter passes on; Escape closes and, closed, clears the text; Tab, leaving the field and an outside click close the list and keep the text |
+| Click | A click on the field takes the focus and does not open the list (DSA-79 D-1); with text in the field, the arrows show only the suggestions that contain it (DSA-79 D-2) |
+| No suggestion | The list closes with no `nph-empty`, and a status region outside the list says `no-suggestions-label`; no create row |
+| Loading | The list shows the `nph-spinner` with `aria-busy`; answers that arrive for a person still typing reopen the list |
+| IME | During a composition the value follows the field, but the list does not filter, open or fire `nph-search` until the composition ends |
+| Limits | No start avatar, no read only, no image; no minimum of characters and no cap on the number of suggestions beyond `layout/max-list-height` |
 
 ## Accessibility
 
 | Criterion | Rule |
 |---|---|
-| Semantics | An editable combobox with list autocomplete (APG): the inner text field has role `combobox`, `aria-autocomplete="list"`, `aria-expanded` and `aria-controls`; the list has role `listbox`, each group role `group` named by its label, each `nph-option` role `option` and `aria-selected`. The host is form-associated and labelable |
+| Semantics | An editable combobox with list autocomplete (APG): the inner text field has role `combobox`, `aria-autocomplete="list"`, `aria-expanded` and `aria-controls`; the list has role `listbox`, each group role `group` named by its label, each `nph-option` role `option` and `aria-selected`. The host is form-associated and labelable. With `free-text`, a status region outside the list speaks `no-suggestions-label`, and the loading list carries `aria-busy` |
 | Accessible name | From the label associated with the host, which the field and the list reference. Without one, from `label`; `nph-field` writes it. The placeholder is not a name. The clear button is named by `clear-label` |
 | Description | `description`, read when the field takes focus: the help or the error sentence of `nph-field` |
-| Keyboard | Characters write, open, filter and activate the first match. Closed: ArrowDown and ArrowUp open on the chosen option, or the first or the last; Alt+ArrowDown opens without moving; Enter submits the form; Escape clears the typed text. Open: the arrows move without wrapping; PageDown and PageUp move ten; Enter and Alt+ArrowUp choose and close; Escape closes; Tab closes without choosing and the focus moves on. Home and End move the cursor |
+| Keyboard | Characters write, open, filter and activate the first match. Closed: ArrowDown and ArrowUp open on the chosen option, or the first or the last; Alt+ArrowDown opens without moving; Enter submits the form; Escape clears the typed text. Open: the arrows move without wrapping; PageDown and PageUp move ten; Enter and Alt+ArrowUp choose and close; Escape closes; Tab closes without choosing and the focus moves on. Home and End move the cursor. With `free-text`: see the Free text section |
 | Focus | The focus stays on the text; the active option is pointed to by `aria-activedescendant`, in the same shadow root |
 | Live region | The waiting and the empty lists sit in a `status` region: the person hears that the search found nothing |
 | Contrast | The text meets 4.5:1 and the border 3:1, in light and dark mode; the arrow keeps 3:1 on `color/accent`; the rest of the text outside the highlight, in `color/muted-foreground`, passes 4.5:1. The disabled state is exempt |
@@ -530,7 +608,7 @@ entries, the search, the groups, the highlight and the style — instead of buil
 
 | Part | Token |
 |---|---|
-| Field | Height `control/height-default` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`; left padding `space/control-padding`, right 0; gap `space/inline`; background `color/background` |
+| Field | Height `control/height-default` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`; left padding `space/control-padding`, right 0 (with `free-text`, `combobox/free-text-padding-end`); gap `space/inline`; background `color/background` |
 | Text | `text/body-md`, `color/foreground`; the placeholder in `color/muted-foreground` |
 | Start | `nph-icon` `icon/size-sm` in `color/muted-foreground`, or `nph-avatar` `sm` |
 | Clear | `nph-icon` `xmark` `icon/size-sm`, `space/inline-tight` around it |
@@ -563,6 +641,8 @@ repeats what the person typed. The width may stretch to the parent.
 - Read the value from the host on `input` or `change`; read the typed text from `nph-search`
   or `query`.
 - Never use the placeholder as the only name.
+- For a value that may not be in the list, set `free-text` and `no-suggestions-label`; the typed
+  text is the value, read it from `value` on `input` or `change`.
 
 ## Examples
 
@@ -572,6 +652,12 @@ text, the chosen country in the field, with the clear button.
 **Alternative case:** "Search with the typed stretch highlighted" — the `busca` list open, the
 typed stretch in `text/highlight-weight`. "Search waiting for the answer" — `filter="none"`
 and `loading`, the `nph-spinner` in the list while the consumer searches.
+
+**Free text cases:** "Event location" — the person types "Uni" and sees places already used,
+with the typed part highlighted and none active until ArrowDown; a new place is also valid.
+"Event location with history" — opened with Alt+ArrowDown, Recent comes before All with no
+active suggestion. "New job title" — a title that is in no suggestion stays as the value on
+leaving the field.
 
 ## Anti-patterns
 
@@ -587,7 +673,17 @@ and `loading`, the `nph-spinner` in the list while the consumer searches.
   `options`.
 - **Invalid combinations:** a `size` outside the two; a `start` outside the three; an `icon`
   outside the core; a `filter` outside the two; `clearable` without `clear-label`;
-  `creatable` without `create-label`; `invalid` without the sentence in `nph-field`.
+  `creatable` without `create-label`; `invalid` without the sentence in `nph-field`;
+  `free-text` with `start="avatar"` (draws nothing); `free-text` without
+  `no-suggestions-label` (draws, silent when nothing suggests); `free-text` with `creatable` or
+  the empty texts (ignored).
+- **Do not use `free-text` when the value must come from the list** — use the combobox without
+  it.
+- **Do not show "No option found" with `free-text`** — the typed text is already valid; the list
+  closes and keeps the text.
+- **Do not make the first suggestion active by itself with `free-text`** — Enter would replace the
+  text with the suggestion.
+- **Do not put the arrow on a free text field** — the clear button is at the end of the field.
 - **Do not create without a decision:** multiple choice, a width property, a color property,
   an event for opening and closing, or a read-only state.
 
@@ -600,10 +696,12 @@ and `loading`, the `nph-spinner` in the list while the consumer searches.
   `elevation/dropdown` and `motion/*`.
 - **The decision that originated it:** P95, the API and semantics of `nph-combobox` and its
   list; the form pattern is P80, the field contract is P83, and the option and the layer are
-  P91.
-- **Tests:** `src/components/nph-combobox/nph-combobox.test.ts`.
+  P91. P122 adds the free text variant.
+- **Tests:** `src/components/nph-combobox/nph-combobox.test.ts` and
+  `nph-combobox.free-text.test.ts`.
 - **Usage evidence:** the Examples section of the `nph-combobox` Docs page.
 - **Storybook:** `src/components/nph-combobox/nph-combobox.stories.ts` (Validation) and
   `nph-combobox.docs.stories.ts` (Docs).
 - **Figma:** `nph-combobox` board (`1359:142`), documentation `1766:2400`, set `1359:115`,
-  list `1359:141` and option `1357:136` in `DS-IA-NEPHOS 5.0`.
+  list `1359:141` and option `1357:136` in `DS-IA-NEPHOS 5.0`. Free text: documentation
+  `6047:3760`, root `6040:2120` and set `6040:3286`.

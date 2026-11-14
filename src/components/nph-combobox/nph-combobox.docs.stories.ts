@@ -8,8 +8,10 @@
  * follows the order of the `nph-badge` page: it opens with the labelled matrix, and the two
  * lists of "When to use" are the ones of the sheet. The set has one variant axis, `size`, so
  * there is no Variants section: Sizes and States come first, then the sections of the piece
- * itself — Start and List. The three required examples of the board close it, each in light
- * and dark mode, inside `nph-field`.
+ * itself — Start, List and Free text. The three required examples of the board close it, each in
+ * light and dark mode, inside `nph-field`. Free text (P122) is a variant of the same piece, not
+ * another one: its section carries its own matrix, its rules and the three required examples of
+ * its accepted documentation (`6047:3760`).
  *
  * Deferred, not fulfilled here, as on every Docs page:
  * - `text/body-lg` in `text` and `list` (DSA-33).
@@ -26,7 +28,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import { PHOTO_A, PHOTO_B, PHOTO_C } from '../nph-avatar/nph-avatar.demo';
 import './nph-combobox';
 import type { NphComboboxEntry } from './nph-combobox';
-import { bothModes, chosen, entriesOf, search, waiting } from './nph-combobox.demo';
+import { bothModes, chosen, entriesOf, freeText, historyEntries, search, waiting } from './nph-combobox.demo';
 import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-combobox.json';
@@ -59,6 +61,7 @@ const SECTIONS = {
   states: 'states',
   start: 'start',
   list: 'list',
+  freeText: 'free-text',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
   examples: 'required-examples',
@@ -126,6 +129,35 @@ export const Documentation: Story = {
         ?disabled=${attributes.disabled ?? false}
         .options=${countries}
       ></nph-combobox>`;
+    const history = historyEntries(d.recentGroup, d.recentPlaces, d.allGroup, d.allPlaces);
+    const freePiece = (attributes: { size?: string; value?: boolean; clearable?: boolean; invalid?: boolean; disabled?: boolean; text?: string }): TemplateResult =>
+      html`<nph-combobox
+        free-text
+        size=${attributes.size ?? 'default'}
+        label=${d.placeLabel}
+        placeholder=${d.placePlaceholder}
+        no-suggestions-label=${d.noSuggestionsLabel}
+        value=${attributes.text ?? (attributes.value ? d.places[1] : '')}
+        ?clearable=${attributes.clearable ?? false}
+        clear-label=${d.placeClearLabel}
+        ?invalid=${attributes.invalid ?? false}
+        ?disabled=${attributes.disabled ?? false}
+        .options=${entriesOf(d.places, 'p')}
+      ></nph-combobox>`;
+    const freeOpen = (options: string[] | NphComboboxEntry[], value = ''): TemplateResult => {
+      const entries = typeof options[0] === 'string' ? entriesOf(options as string[], 'p') : (options as NphComboboxEntry[]);
+      return html`<div style=${room}>
+        <nph-combobox
+          free-text
+          label=${d.placeLabel}
+          placeholder=${d.placePlaceholder}
+          no-suggestions-label=${d.noSuggestionsLabel}
+          value=${value}
+          .options=${entries}
+          open
+        ></nph-combobox>
+      </div>`;
+    };
     const openList = (label: string, options: NphComboboxEntry[], query = ''): TemplateResult =>
       html`<div style=${room}>
         <nph-combobox
@@ -161,6 +193,7 @@ export const Documentation: Story = {
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.start, title: d.startTitle },
           { id: SECTIONS.list, title: d.listTitle },
+          { id: SECTIONS.freeText, title: d.freeTextTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
@@ -246,6 +279,47 @@ export const Documentation: Story = {
             ${demo(openList(d.countryLabel, countries, d.emptyQuery), d.emptyCaption)}
             ${table(d.keyboardHeader, d.keyboard.map(pair))}
             ${source(d.sourceLabel, d.sourceDecisions)}
+          `,
+        )}
+
+        ${section(
+          SECTIONS.freeText,
+          d.freeTextTitle,
+          html`
+            ${text(d.freeTextText)}
+            ${matrix(
+              d.freeTextMatrixLabel,
+              ['size: default', 'size: large'],
+              [
+                { label: 'placeholder', cells: [freePiece({}), freePiece({ size: 'large' })] },
+                { label: 'value · clearable', cells: [freePiece({ value: true, clearable: true }), freePiece({ size: 'large', value: true, clearable: true })] },
+                { label: 'invalid', cells: [freePiece({ invalid: true }), freePiece({ size: 'large', invalid: true })] },
+                { label: 'disabled', cells: [freePiece({ value: true, disabled: true }), freePiece({ size: 'large', value: true, disabled: true })] },
+              ],
+            )}
+            ${table(d.freeTextHeader, d.freeText.map(pair))}
+            ${demo(freeOpen(d.places, d.placeQuery), d.freeTextTypingCaption)}
+            ${demo(freeOpen(history), d.freeTextGroupsCaption)}
+            ${demo(freePiece({ text: d.noMatchQuery }), d.freeTextNoneCaption)}
+            ${demo(
+              bothModes(captions, () =>
+                freeText({ label: d.placeLabel, help: d.placeHelp, placeholder: d.placePlaceholder, clearLabel: d.placeClearLabel, noSuggestionsLabel: d.noSuggestionsLabel, options: entriesOf(d.places, 'p'), value: d.placeQuery, open: true }),
+              true),
+              d.exampleLocation,
+            )}
+            ${demo(
+              bothModes(captions, () =>
+                freeText({ label: d.placeLabel, placeholder: d.placePlaceholder, clearLabel: d.placeClearLabel, noSuggestionsLabel: d.noSuggestionsLabel, options: history, open: true }),
+              true),
+              d.exampleHistory,
+            )}
+            ${demo(
+              bothModes(captions, () =>
+                freeText({ label: d.jobLabel, help: d.jobHelp, placeholder: d.placePlaceholder, clearLabel: d.placeClearLabel, noSuggestionsLabel: d.noSuggestionsLabel, options: entriesOf(d.jobs, 'j'), value: d.jobValue }),
+              ),
+              d.exampleJob,
+            )}
+            ${source(d.sourceLabel, d.sourceFreeText)}
           `,
         )}
 

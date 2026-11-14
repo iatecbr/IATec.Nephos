@@ -207,6 +207,9 @@
     "components-nph-combobox-validation--invalid-input": "Entrada inválida",
     "components-nph-combobox-validation--examples": "Ejemplos",
     "components-nph-combobox-validation--brands": "Marcas",
+    "components-nph-combobox-validation--free-text": "Texto libre",
+    "components-nph-combobox-validation--free-text-list": "Lista del texto libre",
+    "components-nph-combobox-validation--free-text-examples": "Ejemplos del texto libre",
     "components-nph-input-otp-docs": "Docs",
     "components-nph-input-otp-docs--documentation": "Documentación",
     "components-nph-input-otp-validation": "Validación",
@@ -6608,7 +6611,7 @@
     "sourceDecisions": "Tarea DSA-46, decisiones pendientes D-1 a D-5; docs/decisoes-tecnicas.md › P95",
     "sourceAccessibility": "Figma, tablero nph-combobox (1359:142); nph-combobox.test.ts",
     "matrixLabel": "size × estado",
-    "description": "Use nph-combobox cuando la lista es larga y buscar por el nombre es más rápido que desplazarse. La opción elegida se muestra como texto en el campo, con un botón para borrarla. No reemplaza al nph-select, para listas cortas sin búsqueda, ni al nph-multi-combobox, para varias opciones. Acepta texto fuera de la lista solo cuando la lista ofrece la fila crear.",
+    "description": "Use nph-combobox cuando la lista es larga y buscar por el nombre es más rápido que desplazarse. La opción elegida se muestra como texto en el campo, con un botón para borrarla. No reemplaza al nph-select, para listas cortas sin búsqueda, ni al nph-multi-combobox, para varias opciones. Acepta texto fuera de la lista solo cuando la lista ofrece la fila crear. Con free-text, cualquier texto es el valor y la lista solo sugiere.",
     "whenToUseTitle": "Cuándo usar",
     "whenNotToUseTitle": "Cuándo no usar",
     "whenToUse": [
@@ -6616,14 +6619,16 @@
       "Dentro de un nph-field, que da la etiqueta, el texto de ayuda y el mensaje de error.",
       "Con el punto de estado cuando cada opción tiene un estado, escrito en el texto de la opción.",
       "Con creatable solo cuando la lista acepta elementos nuevos; con el pie de atajos en pantallas muy usadas con el teclado.",
-      "default en la mayoría de los formularios; large cuando el formulario usa campos altos."
+      "default en la mayoría de los formularios; large cuando el formulario usa campos altos.",
+      "Con free-text cuando el valor puede no estar en la lista, como un cargo, un lugar o una ciudad: el texto escrito es el valor y la lista solo sugiere."
     ],
     "whenNotToUse": [
       "Para una lista corta que cabe en la pantalla sin búsqueda: use nph-select.",
       "Para elegir varias opciones: use nph-multi-combobox.",
       "Para ofrecer crear en una lista cerrada: deje creatable apagado, y la lista muestra el nph-empty.",
       "Para cambiar el color del área de la flecha: para un error, use invalid por medio del nph-field.",
-      "Para usar el punto de estado sin un estado escrito."
+      "Para usar el punto de estado sin un estado escrito.",
+      "Con free-text cuando el valor debe venir de la lista, como un estado, una provincia o una unidad registrada: el texto libre acepta errores de escritura; usa el combobox sin free-text."
     ],
     "relationsText": "Las opciones son datos, en options; el combobox dibuja cada una como un nph-option, la opción compartida con el nph-select. El nph-field compone la etiqueta, el combobox, la ayuda y el mensaje de error, y escribe label, description, invalid y required en él. La lista vacía muestra un nph-empty; la lista en espera, un nph-spinner; los grupos usan la etiqueta de grupo y el separador del nph-dropdown-menu; el pie de atajos usa teclas nph-kbd.",
     "apiTitle": "API",
@@ -6642,11 +6647,11 @@
       ],
       [
         "value",
-        "El valor actual: el valor de la opción elegida. El atributo value es el valor inicial y el valor de form.reset(). El valor se guarda hasta que llega una opción con él. Definido por código, no dispara nada."
+        "El valor actual: el valor de la opción elegida. El atributo value es el valor inicial y el valor de form.reset(). El valor se guarda hasta que llega una opción con él. Definido por código, no dispara nada. Con free-text es el texto escrito: el value de una opción no se usa."
       ],
       [
         "query",
-        "El texto escrito. Definido por código, lo escribe en el campo y filtra la lista, sin disparar nada."
+        "El texto escrito. Definido por código, lo escribe en el campo y filtra la lista, sin disparar nada. Con free-text es el propio valor."
       ],
       [
         "placeholder",
@@ -6715,6 +6720,14 @@
       [
         "slot shortcuts",
         "El pie de atajos: teclas nph-kbd y sus palabras."
+      ],
+      [
+        "free-text",
+        "La variante de texto libre: sin flecha, el texto escrito es el valor y la lista solo sugiere. Se refleja. Ignora creatable, empty-heading y empty-description con un aviso en consola en desarrollo; el inicio avatar no dibuja nada."
+      ],
+      [
+        "no-suggestions-label",
+        "Lo que oye el lector de pantalla cuando el texto escrito no tiene sugerencia, ya localizado, como Sin sugerencias. Obligatorio con free-text."
       ]
     ],
     "usageTitle": "Uso",
@@ -6757,7 +6770,7 @@
       ]
     ],
     "invalidTitle": "Una entrada inválida no dibuja nada.",
-    "invalidText": "Un size fuera de default y large, un start fuera de search, icon y avatar, un icon fuera del núcleo o un filter fuera de contains y none: el combobox no se renderiza y emite console.error en desarrollo. clearable sin clear-label, creatable sin create-label y loading sin loading-label emiten un error cada uno.",
+    "invalidText": "Un size fuera de default y large, un start fuera de search, icon y avatar, un icon fuera del núcleo o un filter fuera de contains y none: el combobox no se renderiza y emite console.error en desarrollo. clearable sin clear-label, creatable sin create-label y loading sin loading-label emiten un error cada uno. free-text con inicio avatar no dibuja nada; free-text sin no-suggestions-label emite un error y queda en silencio cuando nada sugiere el texto.",
     "sizesTitle": "Tamaños",
     "sizesText": "default en la mayoría de los formularios; large cuando el formulario usa campos altos. Cambian la altura del campo y el ancho del área de la flecha: control/height-default o control/height-large.",
     "sizesCaption": "default y large, con una opción elegida.",
@@ -6950,6 +6963,10 @@
       [
         "Partes ocultas",
         "La lupa, el divisor, la flecha y el punto quedan ocultos para el lector de pantalla."
+      ],
+      [
+        "Texto libre",
+        "Una región de estado fuera de la lista dice no-suggestions-label, así que habla con la lista cerrada; la lista cargando lleva aria-busy; ninguna sugerencia queda activa al escribir."
       ]
     ],
     "examplesTitle": "Ejemplos obligatorios",
@@ -6960,8 +6977,9 @@
     "references": [
       "Figma DS-IA-NEPHOS 5.0, tablero nph-combobox (1359:142), documentación 1766:2400",
       "fichas/nph-combobox.md",
-      "docs/decisoes-tecnicas.md › P95, P91, P80 y P83",
-      "WAI-ARIA Authoring Practices, combobox editable con autocompletado de lista"
+      "docs/decisoes-tecnicas.md › P95, P122, P91, P80 y P83",
+      "WAI-ARIA Authoring Practices, combobox editable con autocompletado de lista",
+      "Figma DS-IA-NEPHOS 5.0, documentación del texto libre (6047:3760)"
     ],
     "lightCaption": "Modo claro",
     "darkCaption": "Modo oscuro",
@@ -7052,7 +7070,100 @@
           "Estados Unidos"
         ]
       }
-    ]
+    ],
+    "freeTextTitle": "Texto libre",
+    "freeTextText": "free-text convierte el combobox en un campo que acepta cualquier texto y sugiere valores de la lista. No tiene divisor ni zona de la flecha: el final del campo usa combobox/free-text-padding-end, con y sin el botón de limpiar. El texto escrito es el valor; la lista solo ayuda a completar más rápido. El combobox con flecha no cambia.",
+    "freeTextHeader": [
+      "Tema",
+      "Regla"
+    ],
+    "freeText": [
+      [
+        "Valor",
+        "El texto escrito es el valor. El atributo value es el texto inicial y el valor de form.reset(); el value de una opción no se usa, y una sugerencia escribe su texto. Una sugerencia que dice exactamente el texto aparece como elegida."
+      ],
+      [
+        "Eventos",
+        "input en cada cambio del texto, con el valor ya actualizado; change cuando el texto se asienta (una elección, el botón de limpiar, Escape, Enter, salir del campo), solo si difiere del último change; nph-search dice el texto. Definir value o query por código no dispara nada."
+      ],
+      [
+        "Formulario",
+        "name, required (texto vacío es valueMissing) y el texto como valor del formulario, también vacío."
+      ],
+      [
+        "Escritura",
+        "Abre la lista con las sugerencias que coinciden, el tramo escrito resaltado y ninguna activa."
+      ],
+      [
+        "Teclado",
+        "Flecha abajo activa la primera y, cerrada, abre. Flecha arriba cerrada abre en la última. Alt+flecha abajo abre sin activar. Enter elige la sugerencia activa, o mantiene el texto y cierra la lista; con la lista cerrada, Enter pasa de largo. Escape cierra y, cerrada, limpia el texto. Tab, salir del campo y un clic fuera cierran la lista y mantienen el texto."
+      ],
+      [
+        "Clic",
+        "Un clic en el campo solo lleva el foco y no abre la lista. Con texto en el campo, las flechas muestran solo las sugerencias que lo contienen."
+      ],
+      [
+        "Sin sugerencia",
+        "La lista se cierra sin nph-empty, y una región de estado fuera de la lista dice no-suggestions-label. No hay fila de crear."
+      ],
+      [
+        "Cargando",
+        "La lista muestra el nph-spinner con aria-busy; las respuestas que llegan para quien aún escribe reabren la lista."
+      ],
+      [
+        "IME",
+        "Durante una composición el valor sigue al campo, pero la lista no filtra, no abre y no dispara nph-search hasta que la composición termina."
+      ],
+      [
+        "Límites",
+        "Sin avatar al inicio, sin solo lectura, sin imagen, sin mínimo de caracteres y sin tope de sugerencias más allá de layout/max-list-height."
+      ]
+    ],
+    "freeTextMatrixLabel": "texto libre · tamaño × estado",
+    "freeTextTypingCaption": "Escribiendo: las sugerencias que coinciden, la parte escrita resaltada y ninguna activa.",
+    "freeTextGroupsCaption": "Abierta con Alt+flecha abajo: Recientes va antes de Todos, sin ninguna activa.",
+    "freeTextNoneCaption": "Sin sugerencia: la lista cerrada, sin nph-empty; el lector de pantalla oye Sin sugerencias.",
+    "sourceFreeText": "Figma, documentación del texto libre (6047:3760), raíz 6040:2120, conjunto 6040:3286; docs/decisoes-tecnicas.md › P122",
+    "placeLabel": "Lugar del evento",
+    "placePlaceholder": "Escribe o elige una sugerencia",
+    "placeHelp": "Un lugar nuevo también vale.",
+    "placeClearLabel": "Limpiar el lugar",
+    "noSuggestionsLabel": "Sin sugerencias",
+    "places": [
+      "Salón Unión",
+      "Sede de las Naciones Unidas",
+      "Biblioteca Universitaria",
+      "Pabellón de Uruguay",
+      "Pabellón de Brasil",
+      "Espacio Canadá"
+    ],
+    "placeQuery": "Uni",
+    "noMatchQuery": "Salón Narnia",
+    "recentGroup": "Recientes",
+    "allGroup": "Todos",
+    "recentPlaces": [
+      "Salón Unión",
+      "Espacio Canadá"
+    ],
+    "allPlaces": [
+      "Biblioteca Universitaria",
+      "Espacio Canadá",
+      "Pabellón de Brasil",
+      "Pabellón de Uruguay",
+      "Salón Unión",
+      "Sede de las Naciones Unidas"
+    ],
+    "jobLabel": "Cargo",
+    "jobHelp": "Un cargo que no está en la lista queda como lo escribiste.",
+    "jobs": [
+      "Diseñador de UX",
+      "Investigador de UX",
+      "Gerente de producto"
+    ],
+    "jobValue": "Coordinación de UX",
+    "exampleLocation": "Lugar del evento: la persona escribe \"Uni\" y ve lugares ya usados, con la parte escrita resaltada; ninguno queda activo hasta la flecha abajo. Un lugar nuevo también vale.",
+    "exampleHistory": "Lugar del evento con historial: abierta con Alt+flecha abajo, Recientes va antes de Todos, sin sugerencia activa.",
+    "exampleJob": "Nuevo cargo: \"Coordinación de UX\" no está en la lista y queda como valor al salir del campo."
   },
   "comboboxValidation": {
     "lightCaption": "Modo claro",
@@ -7164,7 +7275,47 @@
     "fieldsetDisabled": "Fieldset deshabilitado",
     "exampleChosen": "Opción elegida, en reposo",
     "exampleSearch": "Búsqueda con el tramo escrito resaltado",
-    "exampleLoading": "Búsqueda esperando la respuesta"
+    "exampleLoading": "Búsqueda esperando la respuesta",
+    "placeLabel": "Lugar del evento",
+    "placePlaceholder": "Escribe o elige una sugerencia",
+    "placeHelp": "Un lugar nuevo también vale.",
+    "placeClearLabel": "Limpiar el lugar",
+    "noSuggestionsLabel": "Sin sugerencias",
+    "places": [
+      "Salón Unión",
+      "Sede de las Naciones Unidas",
+      "Biblioteca Universitaria",
+      "Pabellón de Uruguay",
+      "Pabellón de Brasil",
+      "Espacio Canadá"
+    ],
+    "placeQuery": "Uni",
+    "noMatchQuery": "Salón Narnia",
+    "recentGroup": "Recientes",
+    "allGroup": "Todos",
+    "recentPlaces": [
+      "Salón Unión",
+      "Espacio Canadá"
+    ],
+    "allPlaces": [
+      "Biblioteca Universitaria",
+      "Espacio Canadá",
+      "Pabellón de Brasil",
+      "Pabellón de Uruguay",
+      "Salón Unión",
+      "Sede de las Naciones Unidas"
+    ],
+    "jobLabel": "Cargo",
+    "jobHelp": "Un cargo que no está en la lista queda como lo escribiste.",
+    "jobs": [
+      "Diseñador de UX",
+      "Investigador de UX",
+      "Gerente de producto"
+    ],
+    "jobValue": "Coordinación de UX",
+    "exampleLocation": "Lugar del evento: la persona escribe \"Uni\" y ve lugares ya usados, con la parte escrita resaltada; ninguno queda activo hasta la flecha abajo. Un lugar nuevo también vale.",
+    "exampleHistory": "Lugar del evento con historial: abierta con Alt+flecha abajo, Recientes va antes de Todos, sin sugerencia activa.",
+    "exampleJob": "Nuevo cargo: \"Coordinación de UX\" no está en la lista y queda como valor al salir del campo."
   },
   "tableDocs": {
     "summary": "La tabla para leer y comparar datos en filas y columnas, con leyenda, encabezado, celdas y pie. Una fila puede abrir un detalle o subniveles. No ordena, no selecciona, no filtra ni pagina: eso es el nph-data-table.",
@@ -7794,6 +7945,9 @@
       "components-nph-combobox-validation--invalid-input": "Una entrada inválida no dibuja nada: un size, un start y un filter que no existen, y un icon fuera del núcleo.",
       "components-nph-combobox-validation--examples": "Los tres ejemplos obligatorios del tablero, en el nph-field: opción elegida en reposo, búsqueda con el tramo escrito resaltado y búsqueda esperando la respuesta, cada uno en modo claro y oscuro.",
       "components-nph-combobox-validation--brands": "Las siete marcas en claro y oscuro: el borde y el halo de foco del campo siguen la marca del marco con Tab.",
+      "components-nph-combobox-validation--free-text": "La variante de texto libre, tamaño × estado: placeholder, valor, valor con el botón de limpiar, error, deshabilitado y los dos, sin divisor y sin zona de la flecha y con el final del campo en combobox/free-text-padding-end; y el inicio, la lupa y un icono. Mueve el mouse para el hover, pulsa Tab para el foco y otra vez para el botón de limpiar.",
+      "components-nph-combobox-validation--free-text-list": "La lista de la variante de texto libre, abierta: el tramo escrito resaltado sin ninguna sugerencia activa, los grupos Recientes y Todos abiertos con Alt+flecha abajo, la lista cargando y un texto sin sugerencia, donde la lista se cierra sin nph-empty y el lector de pantalla oye la frase.",
+      "components-nph-combobox-validation--free-text-examples": "Los tres ejemplos obligatorios de la documentación del texto libre, dentro de nph-field: lugar del evento, lugar del evento con historial y un nuevo cargo, cada uno en modo claro y oscuro.",
       "components-nph-table-validation--sizes": "Los dos tamaños: default con la fila de 40 px y los lados de la celda en 12 px; large con la fila de 44 px y los lados en 16 px.",
       "components-nph-table-validation--frame": "Sin marco y con él: el borde, la esquina y la última fila, que deja el divisor al marco.",
       "components-nph-table-validation--sticky-header": "El encabezado fijo: el cuerpo se desplaza hasta su altura máxima y el encabezado queda, con la línea debajo.",

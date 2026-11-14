@@ -153,6 +153,38 @@ describe('nph-combobox Documentation', () => {
       ]);
     });
 
+    it(`${locale}: the free text section has its matrix, its rules and its three required examples, each in light and dark mode`, async () => {
+      const target = renderInLocale(locale);
+      await ready(target);
+      const section = target.querySelector('section#free-text') as HTMLElement;
+      expect(section).not.toBeNull();
+      const matrix = section.querySelector('[data-nph-matrix]') as HTMLElement;
+      const boxes = [...matrix.querySelectorAll('nph-combobox')] as NphCombobox[];
+      expect(boxes.map((combobox) => [combobox.freeText, combobox.size, combobox.value !== '', combobox.invalid, combobox.disabled])).toEqual([
+        [true, 'default', false, false, false],
+        [true, 'large', false, false, false],
+        [true, 'default', true, false, false],
+        [true, 'large', true, false, false],
+        [true, 'default', false, true, false],
+        [true, 'large', false, true, false],
+        [true, 'default', true, false, true],
+        [true, 'large', true, false, true],
+      ]);
+      const rules = translations(locale).comboboxDocs.freeText.map(([topic]: [string, string]) => topic);
+      expect(rules).toHaveLength(10);
+      for (const topic of rules) {
+        expect(section.textContent ?? '', topic).toContain(topic);
+      }
+      const examples = [...section.querySelectorAll('[data-nph-demo]')].filter((entry) => entry.querySelector('[data-nph-color-scheme]') !== null);
+      expect(examples).toHaveLength(3);
+      for (const entry of examples) {
+        expect([...entry.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme'))).toEqual(['light', 'dark']);
+        expect(entry.querySelectorAll('nph-field > nph-combobox')).toHaveLength(2);
+      }
+      const arrows = [...section.querySelectorAll('nph-combobox')].filter((combobox) => combobox.shadowRoot?.querySelector('.arrow') !== null);
+      expect(arrows).toHaveLength(0);
+    });
+
     it(`${locale}: the list section names the seven states and the shortcuts, and shows the search, status, groups and empty lists`, async () => {
       const target = renderInLocale(locale);
       await ready(target);
@@ -244,8 +276,19 @@ describe('nph-combobox Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-combobox-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the seven pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'FormAssociation', 'InvalidInput', 'ListStates', 'Matrix', 'Start']);
+  it('the stories are the seven pages of the contract and the three pages of the free text variant', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual([
+      'Brands',
+      'Examples',
+      'FormAssociation',
+      'FreeText',
+      'FreeTextExamples',
+      'FreeTextList',
+      'InvalidInput',
+      'ListStates',
+      'Matrix',
+      'Start',
+    ]);
   });
 
   for (const [name, story] of stories) {
@@ -304,6 +347,28 @@ describe('nph-combobox Validation: text only from the dictionary', () => {
       }
       target.remove();
     }
+  });
+
+  it('the free text pages draw the variant: no arrow, the three required examples, the groups and the closed list with no suggestion', async () => {
+    const free = (name: 'FreeText' | 'FreeTextList' | 'FreeTextExamples'): Renderable => validation[name] as unknown as Renderable;
+    const matrixPage = draw(free('FreeText'), 'en');
+    const matrixBoxes = await ready(matrixPage);
+    expect(matrixBoxes.length).toBeGreaterThan(0);
+    expect(matrixBoxes.every((combobox) => combobox.freeText && combobox.shadowRoot?.querySelector('.arrow') === null)).toBe(true);
+    const listPage = draw(free('FreeTextList'), 'en');
+    const listBoxes = await ready(listPage);
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const has = (selector: string): boolean => listBoxes.some((combobox) => combobox.shadowRoot?.querySelector(selector) !== null);
+    for (const selector of ['.match', '.group-label', 'nph-spinner']) {
+      expect(has(selector), selector).toBe(true);
+    }
+    expect(has('nph-empty')).toBe(false);
+    expect(listBoxes.some((combobox) => combobox.open === false && combobox.value !== '' && combobox.freeText)).toBe(true);
+    const examplesPage = draw(free('FreeTextExamples'), 'en');
+    const exampleBoxes = await ready(examplesPage);
+    expect(exampleBoxes).toHaveLength(6);
+    expect(exampleBoxes.every((combobox) => combobox.freeText && combobox.clearable)).toBe(true);
+    expect(exampleBoxes.map((combobox) => combobox.open)).toEqual([true, true, true, true, false, false]);
   });
 
   it('ListStates draws the seven states of the list and the shortcuts footer', async () => {

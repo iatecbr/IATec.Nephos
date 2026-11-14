@@ -32,7 +32,20 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted documentation says typing opens the suggestion list and says nothing of a click on the field. The free text variant takes the focus on a click and does not open the list, as the APG autocomplete example and GOV.UK do. Does Indiane confirm the reading, or does a click open the list as in the nph-combobox with the arrow? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    },
+    {
+      "id": "D-2",
+      "question": "With text in the field, Down, Up and Alt+Down open the list with only the suggestions that contain that text, because the field filters by the text it holds. Does Indiane confirm the reading, or do the arrows show every suggestion? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-79/figma-docs-accepted-2026-11-12.md"
   ],

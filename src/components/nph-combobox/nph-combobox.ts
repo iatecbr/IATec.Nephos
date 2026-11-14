@@ -48,8 +48,7 @@
  *   selection. The focus stays on the inner field; the active option is pointed to by
  *   `aria-activedescendant`. Typing opens and filters the list and makes the first match
  *   active; the arrows move; Enter chooses; Escape closes; Tab closes without choosing;
- * - `free-text` and `no-suggestions-label`: the free text variant (P122, the Figma `nph-combobox ·
- *   texto livre`): a field without the arrow whose typed text IS the value and whose list only
+ * - `free-text` and `no-suggestions-label`: the free text variant (P122, the Figma set `6040:3286`): a field without the arrow whose typed text IS the value and whose list only
  *   suggests. `value` and `query` are the text, the `value` of an option is not used and picking a
  *   suggestion writes its text. Typing fires the native `input` (it crosses the shadow root, P83);
  *   `change` fires when the text settles (a pick, the clear button, Escape, Enter and leaving the

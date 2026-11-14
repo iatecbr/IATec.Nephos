@@ -18,6 +18,10 @@
  * dictionary, under the key `comboboxValidation` (`docs/i18n.md`, "Storybook"); the row and
  * column names of the matrices are the technical attributes, the same in any language.
  *
+ * The free text variant (P122) has three pages of its own: `FreeText` (the `size` × `state` matrix and
+ * the start), `FreeTextList` (the open list, the groups, loading and no suggestion) and
+ * `FreeTextExamples` (the three required examples of its accepted documentation, `6047:3760`).
+ *
  * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand` and
  * `data-nph-color-scheme` on the same element (DSA-36).
  */
@@ -35,7 +39,7 @@ import '../nph-button/nph-button';
 import '../nph-kbd/nph-kbd';
 import './nph-combobox';
 import type { NphCombobox, NphComboboxEntry } from './nph-combobox';
-import { chosen, entriesOf, inScheme, search, waiting } from './nph-combobox.demo';
+import { chosen, entriesOf, freeText, historyEntries, inScheme, search, waiting } from './nph-combobox.demo';
 import type { Scheme } from './nph-combobox.demo';
 
 const meta: Meta = {
@@ -400,6 +404,148 @@ export const Brands: Story = {
           .options=${countries(context)}
         ></nph-combobox>`,
       ),
+    );
+  },
+};
+
+/** The places of the dictionary, as the suggestions of a free text field. */
+function places(context: GlobalsContext | undefined): NphComboboxEntry[] {
+  return entriesOf(t(context).places, 'p');
+}
+
+/** The free text variant, `size` × `state`: placeholder, value, value with the clear button, error, disabled and both; and the start. */
+export const FreeText: Story = {
+  name: 'Free text',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    type State = { value?: boolean; clearable?: boolean; invalid?: boolean; disabled?: boolean };
+    const cell = (size: string, state: State): TemplateResult =>
+      html`<nph-combobox
+        free-text
+        size=${size}
+        label=${v.placeLabel}
+        placeholder=${v.placePlaceholder}
+        no-suggestions-label=${v.noSuggestionsLabel}
+        value=${state.value ? v.places[1] : ''}
+        ?clearable=${state.clearable ?? false}
+        clear-label=${v.placeClearLabel}
+        ?invalid=${state.invalid ?? false}
+        ?disabled=${state.disabled ?? false}
+        .options=${places(context)}
+      ></nph-combobox>`;
+    const rows: Array<[string, State]> = [
+      ['placeholder', {}],
+      ['value', { value: true }],
+      ['value · clearable', { value: true, clearable: true }],
+      ['invalid', { invalid: true }],
+      ['disabled', { value: true, disabled: true }],
+      ['disabled · invalid', { value: true, disabled: true, invalid: true }],
+    ];
+    const piece = (start: string, value: string): TemplateResult =>
+      html`<nph-combobox
+        free-text
+        start=${start}
+        label=${v.placeLabel}
+        placeholder=${v.placePlaceholder}
+        no-suggestions-label=${v.noSuggestionsLabel}
+        value=${value}
+        .options=${places(context)}
+      ></nph-combobox>`;
+    return validationPage(
+      context,
+      page('free-text'),
+      html`<div style=${stack}>
+        ${inBothModes(context, 'free-text', (label) =>
+          matrix(
+            label,
+            SIZE_COLUMNS,
+            rows.map(([name, state]) => ({ label: name, cells: [cell('default', state), cell('large', state)] })),
+          ),
+        )}
+        ${inBothModes(context, 'free-text', (label) =>
+          matrix(label, ['placeholder', 'value'], [
+            { label: 'start: search', cells: [piece('search', ''), piece('search', v.places[1] ?? '')] },
+            { label: 'start: icon', cells: [piece('icon', ''), piece('icon', v.places[1] ?? '')] },
+          ]),
+        )}
+      </div>`,
+    );
+  },
+};
+
+/** The list of the free text variant, open: typing with none active, the groups, loading, and no suggestion with the list closed. */
+export const FreeTextList: Story = {
+  name: 'Free text list',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const field = (attributes: { options: NphComboboxEntry[]; value?: string; open?: boolean; extra?: TemplateResult }): TemplateResult =>
+      html`<nph-combobox
+        free-text
+        label=${v.placeLabel}
+        placeholder=${v.placePlaceholder}
+        no-suggestions-label=${v.noSuggestionsLabel}
+        loading-label=${v.loadingLabel}
+        value=${attributes.value ?? ''}
+        .options=${attributes.options}
+        ?open=${attributes.open ?? false}
+        >${attributes.extra ?? ''}</nph-combobox
+      >`;
+    const states: Array<[string, boolean, () => TemplateResult]> = [
+      ['typing', true, () => field({ options: places(context), value: v.placeQuery, open: true })],
+      [
+        'groups',
+        true,
+        () => field({ options: historyEntries(v.recentGroup, v.recentPlaces, v.allGroup, v.allPlaces), open: true }),
+      ],
+      [
+        'loading',
+        true,
+        () =>
+          html`<nph-combobox free-text label=${v.placeLabel} no-suggestions-label=${v.noSuggestionsLabel} filter="none" loading loading-label=${v.loadingLabel} value=${v.placeQuery} .options=${[]} open></nph-combobox>`,
+      ],
+      ['no suggestion', false, () => field({ options: places(context), value: v.noMatchQuery })],
+    ];
+    return validationPage(
+      context,
+      page('free-text-list'),
+      html`<div style=${stack}>
+        ${states.map(([name, room, draw]) => inBothModes(context, 'free-text-list', () => draw(), `free text list: ${name}`, room))}
+      </div>`,
+    );
+  },
+};
+
+/** The three required examples of the free text documentation, each in light and dark mode. */
+export const FreeTextExamples: Story = {
+  name: 'Free text examples',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const base = { label: v.placeLabel, placeholder: v.placePlaceholder, clearLabel: v.placeClearLabel, noSuggestionsLabel: v.noSuggestionsLabel };
+    return validationPage(
+      context,
+      page('free-text-examples'),
+      html`<div style=${stack}>
+        ${inBothModes(
+          context,
+          'free-text-examples',
+          () => freeText({ ...base, help: v.placeHelp, options: places(context), value: v.placeQuery, open: true }),
+          v.exampleLocation,
+          true,
+        )}
+        ${inBothModes(
+          context,
+          'free-text-examples',
+          () => freeText({ ...base, options: historyEntries(v.recentGroup, v.recentPlaces, v.allGroup, v.allPlaces), open: true }),
+          v.exampleHistory,
+          true,
+        )}
+        ${inBothModes(
+          context,
+          'free-text-examples',
+          () => freeText({ ...base, label: v.jobLabel, help: v.jobHelp, options: entriesOf(v.jobs, 'j'), value: v.jobValue }),
+          v.exampleJob,
+        )}
+      </div>`,
     );
   },
 };
