@@ -48,10 +48,21 @@
  *   selection. The focus stays on the inner field; the active option is pointed to by
  *   `aria-activedescendant`. Typing opens and filters the list and makes the first match
  *   active; the arrows move; Enter chooses; Escape closes; Tab closes without choosing;
+ * - `free-text` and `no-suggestions-label`: the free text variant (P122, the Figma `nph-combobox ·
+ *   texto livre`): a field without the arrow whose typed text IS the value and whose list only
+ *   suggests. `value` and `query` are the text, the `value` of an option is not used and picking a
+ *   suggestion writes its text. Typing fires the native `input` (it crosses the shadow root, P83);
+ *   `change` fires when the text settles (a pick, the clear button, Escape, Enter and leaving the
+ *   field), only when it differs from the last `change`. No suggestion is active while typing:
+ *   ArrowDown activates the first, ArrowUp with the list closed the last, Alt+ArrowDown opens
+ *   without activating, and Enter with none active keeps the text. With nothing to suggest the list
+ *   closes, with no `nph-empty` and no create row, and a status region says `no-suggestions-label`.
+ *   The arrow variant keeps D-1 (the create row), D-5 (the first match active) and the empty list;
  * - no `::part`, no color property, no width property: the width is `layout/input-width`;
  * - invalid input does not render and emits `console.error` only in development, one per
  *   cause and accumulating (P21 rule): a `size` outside the two, a `start` outside the
- *   three, an `icon` outside the core and a `filter` outside the two. `clearable` without
+ *   three, an `icon` outside the core, a `filter` outside the two and `start="avatar"` with
+ *   `free-text`. `clearable` without
  *   `clear-label` draws no clear button, `creatable` without `create-label` draws no create
  *   row, and `loading` without `loading-label` draws an unnamed spinner, each with one
  *   error. A combobox with no accessible name renders and warns once.
@@ -184,9 +195,12 @@ function available(row: Row): boolean {
   return row === CREATE || row.disabled !== true;
 }
 
-/** The browser's message for a required choice with nothing chosen, in the person's language. */
-function valueMissingMessage(): string {
-  const probe = document.createElement('select');
+/**
+ * The browser's message for a required field with nothing in it, in the person's language: the
+ * one of a disconnected native select for a choice, the one of a text field for free text.
+ */
+function valueMissingMessage(freeText = false): string {
+  const probe = document.createElement(freeText ? 'input' : 'select');
   probe.required = true;
   return probe.validationMessage;
 }
@@ -233,6 +247,9 @@ export class NphCombobox extends LitElement {
     loadingLabel: { type: String, attribute: 'loading-label' },
     creatable: { type: Boolean },
     createLabel: { type: String, attribute: 'create-label' },
+    /* `free-text` reflects: the internal CSS drops the arrow zone by it (P122). */
+    freeText: { type: Boolean, attribute: 'free-text', reflect: true },
+    noSuggestionsLabel: { type: String, attribute: 'no-suggestions-label' },
     emptyHeading: { type: String, attribute: 'empty-heading' },
     emptyDescription: { type: String, attribute: 'empty-description' },
     /* `open` reflects: the internal CSS and the consumer's selectors read it. */
@@ -268,6 +285,10 @@ export class NphCombobox extends LitElement {
   declare creatable: boolean;
   /** The words of the create row before the typed text, such as `Create`. Required with `creatable`. */
   declare createLabel: string;
+  /** The free text variant: no arrow, the typed text is the value and the list only suggests (P122). */
+  declare freeText: boolean;
+  /** What the screen reader hears when the typed text has no suggestion, already localized. Required with `free-text`. */
+  declare noSuggestionsLabel: string;
   /** The title of the `nph-empty` when nothing matches. */
   declare emptyHeading: string;
   /** The description of the `nph-empty` when nothing matches. */
@@ -313,6 +334,14 @@ export class NphCombobox extends LitElement {
   private noChoice = false;
   /** The last option seen with the current value: a search answered by the consumer may leave it out. */
   private chosen: NphComboboxOption | null = null;
+  /** Free text: the text at the last `change`, or set by code. `change` fires when the text moves off it. */
+  private changeBase = '';
+  /** Free text: the text `nph-search` last said, so a change of the text says it once. */
+  private searchedText = '';
+  /** Free text: the person typed and has not dismissed the list; the status region speaks only then. */
+  private searched = false;
+  /** Free text: an IME composition is open; the list waits for its end. */
+  private composing = false;
 
   constructor() {
     super();
@@ -329,6 +358,8 @@ export class NphCombobox extends LitElement {
     this.loadingLabel = '';
     this.creatable = false;
     this.createLabel = '';
+    this.freeText = false;
+    this.noSuggestionsLabel = '';
     this.emptyHeading = '';
     this.emptyDescription = '';
     this.open = false;
@@ -370,6 +401,7 @@ export class NphCombobox extends LitElement {
     this.dirty = true;
     this.typed = null;
     this.noChoice = false;
+    this.settleText();
     this.syncFormState();
     /* The typed text may go away with the value unchanged: the field shows the chosen text again. */
     this.requestUpdate();
@@ -378,15 +410,21 @@ export class NphCombobox extends LitElement {
 
   /**
    * The typed text; empty while the field shows the chosen option. Setting it from code
-   * writes the text in the field and filters the list, as if typed, and fires nothing.
+   * writes the text in the field and filters the list, as if typed, and fires nothing. With
+   * `free-text` it is the value: the text of the field, at rest as well.
    */
   get query(): string {
-    return this.typed ?? '';
+    return this.freeText ? this.current : (this.typed ?? '');
   }
 
   set query(next: string) {
     const text = next === null || next === undefined ? '' : String(next);
     const old = this.query;
+    if (this.freeText) {
+      this.value = text;
+      this.requestUpdate('query', old);
+      return;
+    }
     this.typed = text === '' ? null : text;
     if (this.query !== old) {
       this.activeRow = null;
@@ -411,10 +449,24 @@ export class NphCombobox extends LitElement {
     this.current = this.getAttribute('value') ?? '';
     this.typed = null;
     this.noChoice = false;
+    this.settleText();
     this.syncFormState();
     /* The typed text may go away with the value unchanged: the field shows the chosen text again. */
     this.requestUpdate();
     this.requestUpdate('value', old);
+  }
+
+  /**
+   * Free text: the text was set by code or by a reset. It is the new base of `change` and of
+   * `nph-search`, nothing is announced, and no suggestion stays active over a text that moved.
+   */
+  private settleText(): void {
+    this.changeBase = this.current;
+    this.searchedText = this.current;
+    this.searched = false;
+    if (this.freeText) {
+      this.activeRow = null;
+    }
   }
 
   /* --- The native surface of a form control --------------------------------- */
@@ -513,6 +565,11 @@ export class NphCombobox extends LitElement {
 
   /** The chosen option: the first one with the current value. */
   private get selectedOption(): NphComboboxOption | null {
+    if (this.freeText) {
+      /* The text is the value: a suggestion that says exactly the text shows as chosen. */
+      const text = this.current.trim();
+      return text === '' ? null : (this.allOptions.find((option) => trimmed(option.text) === text) ?? null);
+    }
     if (this.noChoice) {
       return null;
     }
@@ -537,7 +594,8 @@ export class NphCombobox extends LitElement {
   /** The create row shows with typed text that no option already says, in a list that accepts it. */
   private get showsCreate(): boolean {
     const text = this.query.trim();
-    if (!this.creatable || trimmed(this.createLabel) === '' || text === '' || this.loading) {
+    /* The typed text is already the value of a free text field: it has no create row (P122). */
+    if (this.freeText || !this.creatable || trimmed(this.createLabel) === '' || text === '' || this.loading) {
       return false;
     }
     const folded = text.toLocaleLowerCase();
@@ -562,13 +620,26 @@ export class NphCombobox extends LitElement {
 
   /** The list has something to show: rows, the spinner or the empty state. */
   private get hasContent(): boolean {
-    return this.loading || this.rows.length > 0 || trimmed(this.emptyHeading) !== '';
+    return this.loading || this.rows.length > 0 || (!this.freeText && trimmed(this.emptyHeading) !== '');
+  }
+
+  /** Free text: the person typed and nothing suggests it, so the screen reader hears `no-suggestions-label`. */
+  private get hasNoSuggestions(): boolean {
+    return this.freeText && this.searched && !this.loading && this.current.trim() !== '' && this.rows.length === 0;
   }
 
   /* --- Validation of the input ---------------------------------------------- */
 
   protected override willUpdate(changed: PropertyValues): void {
-    const decisive = ['size', 'start', 'icon', 'filter'].some((name) => changed.has(name));
+    const decisive = ['size', 'start', 'icon', 'filter', 'freeText'].some((name) => changed.has(name));
+    if (changed.has('freeText') && this.hasUpdated) {
+      /* Another variant is another field: nothing typed, active or open carries over, and the form value is read again. */
+      this.typed = null;
+      this.activeRow = null;
+      this.open = false;
+      this.settleText();
+      this.syncFormState();
+    }
     if (decisive) {
       const size = (this.size ?? '').trim();
       const start = (this.start ?? '').trim();
@@ -592,6 +663,10 @@ export class NphCombobox extends LitElement {
         devError(`filter "${filter}" does not exist. Use ${NPH_COMBOBOX_FILTERS.join(' or ')}.`);
         valid = false;
       }
+      if (this.freeText && start === 'avatar') {
+        devError('start "avatar" does not exist with free-text: the value is text, not a chosen person. Use search or icon.');
+        valid = false;
+      }
 
       this.valid = valid;
       this.toggleAttribute(RENDERED_ATTRIBUTE, valid);
@@ -608,6 +683,17 @@ export class NphCombobox extends LitElement {
     if (this.valid && changed.has('loading') && this.loading && trimmed(this.loadingLabel) === '') {
       devError('loading needs loading-label as the accessible name of the spinner.');
     }
+    if (this.valid && this.freeText) {
+      if ((changed.has('freeText') || changed.has('noSuggestionsLabel')) && trimmed(this.noSuggestionsLabel) === '') {
+        devError('free-text needs no-suggestions-label, the sentence the screen reader hears when nothing suggests the text; it stays silent.');
+      }
+      if ((changed.has('freeText') || changed.has('creatable')) && this.creatable) {
+        devWarn('creatable is ignored with free-text: the typed text is already the value, so there is no create row.');
+      }
+      if ((changed.has('freeText') || changed.has('emptyHeading') || changed.has('emptyDescription')) && (trimmed(this.emptyHeading) !== '' || trimmed(this.emptyDescription) !== '')) {
+        devWarn('empty-heading and empty-description are ignored with free-text: with no suggestion the list closes, with no nph-empty.');
+      }
+    }
 
     /* A disabled or invalid combobox, or one with nothing to show, does not open. */
     if (this.open && (!this.valid || this.inactive || !this.hasContent)) {
@@ -617,9 +703,16 @@ export class NphCombobox extends LitElement {
     if (this.activeRow !== null && !reachable.includes(this.activeRow)) {
       this.activeRow = null;
     }
-    /* New results, or a new query, while the list is open: the first match is active again (D-5). */
-    if (this.open && this.query !== '' && this.activeRow === null && (changed.has('options') || changed.has('loading') || changed.has('query'))) {
+    /*
+     * New results, or a new query, while the list is open: the first match is active again (D-5).
+     * Free text keeps no suggestion active until the person moves to one (P122).
+     */
+    if (!this.freeText && this.open && this.query !== '' && this.activeRow === null && (changed.has('options') || changed.has('loading') || changed.has('query'))) {
       this.activeRow = reachable[0] ?? null;
+    }
+    /* Free text: answers that arrive for a person still typing reopen a list that had nothing to show. */
+    if (this.freeText && this.valid && this.searched && !this.open && !this.inactive && this.hasContent && (changed.has('options') || changed.has('loading'))) {
+      this.open = true;
     }
     if (!this.open) {
       this.activeRow = null;
@@ -689,7 +782,104 @@ export class NphCombobox extends LitElement {
 
   private closeList(): void {
     this.open = false;
+    /* The person dismissed the list: late answers do not reopen it, and the status region goes quiet. */
+    if (this.searched) {
+      this.searched = false;
+      this.requestUpdate();
+    }
   }
+
+  /** Free text: `nph-search` says the text when it moved off the one it last said. */
+  private emitSearch(): void {
+    if (this.current !== this.searchedText) {
+      this.searchedText = this.current;
+      this.dispatchEvent(
+        new CustomEvent<NphComboboxSearchDetail>('nph-search', { detail: { query: this.current }, bubbles: true, composed: true }),
+      );
+    }
+  }
+
+  /** Free text: `change` when the text moved off the one of the last `change`, as a native text field. */
+  private flushChange(): void {
+    if (this.current !== this.changeBase) {
+      this.changeBase = this.current;
+      this.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+
+  /**
+   * Free text: the person sets the text in one step (a pick, the clear button, Escape). `input`
+   * says the text moved, `change` says it settled, and `nph-search` says the text for a consumer
+   * that suggests from a server. The form data is up to date when each runs.
+   */
+  private commitText(next: string): void {
+    const old = this.current;
+    this.current = next;
+    this.dirty = true;
+    this.activeRow = null;
+    this.syncFormState();
+    this.requestUpdate();
+    this.requestUpdate('value', old);
+    if (next !== old) {
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    }
+    this.flushChange();
+    this.emitSearch();
+  }
+
+  /**
+   * Free text: the text changed under the person's hands. The native `input` crosses the shadow
+   * root (P83), so the value is up to date before it reaches the host. During an IME composition
+   * the value follows the field but the list waits for the end of the composition (P122).
+   */
+  private onFreeInput(): void {
+    const field = this.field;
+    if (field === null || this.inactive) {
+      return;
+    }
+    this.current = field.value;
+    this.dirty = true;
+    this.syncFormState();
+    if (this.composing) {
+      this.requestUpdate();
+      return;
+    }
+    this.afterTyping();
+  }
+
+  /** Free text: the text is final for now; the list opens, filters and keeps no suggestion active. */
+  private afterTyping(): void {
+    this.searched = true;
+    this.emitSearch();
+    /* A consumer that suggests from a server may answer `nph-search` at once, with new options. */
+    if (this.refreshEntries()) {
+      this.syncFormState();
+    }
+    this.activeRow = null;
+    if (this.current === '' && !this.open) {
+      this.requestUpdate();
+      return;
+    }
+    this.openList(null);
+    this.requestUpdate();
+  }
+
+  private readonly onCompositionStart = (): void => {
+    this.composing = true;
+  };
+
+  private readonly onCompositionEnd = (): void => {
+    this.composing = false;
+    const field = this.field;
+    if (!this.freeText || field === null || this.inactive) {
+      return;
+    }
+    if (field.value !== this.current) {
+      this.current = field.value;
+      this.syncFormState();
+    }
+    this.afterTyping();
+  };
 
   /** The typed text changes by the person: `nph-search` says it. */
   private setTyped(next: string | null): void {
@@ -725,6 +915,19 @@ export class NphCombobox extends LitElement {
     if (!available(row) || this.inactive) {
       return;
     }
+    if (this.freeText) {
+      /* The text of the suggestion becomes the text of the field; its value is not used (P122). */
+      if (row !== CREATE) {
+        this.closeList();
+        const field = this.field;
+        if (field !== null) {
+          field.value = trimmed(row.text);
+          field.focus();
+        }
+        this.commitText(trimmed(row.text));
+      }
+      return;
+    }
     if (row === CREATE) {
       this.create();
       return;
@@ -752,6 +955,17 @@ export class NphCombobox extends LitElement {
   /** The clear button: no choice and no typed text, the focus back on the field. */
   private clear(): void {
     if (this.inactive) {
+      return;
+    }
+    if (this.freeText) {
+      /* Clears the text, closes the list and returns the focus to the field (P122). */
+      this.closeList();
+      const field = this.field;
+      if (field !== null) {
+        field.value = '';
+        field.focus();
+      }
+      this.commitText('');
       return;
     }
     this.setTyped(null);
@@ -782,6 +996,11 @@ export class NphCombobox extends LitElement {
    * the value. The list opens, is filtered, and the first match is active (D-5).
    */
   private onInput(event: Event): void {
+    if (this.freeText) {
+      /* The native `input` is the host's `input` here, since typing changes the value: it is not stopped. */
+      this.onFreeInput();
+      return;
+    }
     event.stopPropagation();
     const field = this.field;
     if (field === null || this.inactive) {
@@ -806,8 +1025,71 @@ export class NphCombobox extends LitElement {
     event.stopPropagation();
   }
 
+  /**
+   * The keyboard of the free text variant (P122): the APG combobox with list autocomplete and no
+   * automatic selection. Nothing is active while typing; the arrows reach the first and the last
+   * suggestion; Enter with none active keeps the text; Escape with the list closed clears it.
+   */
+  private onFreeKeydown(event: KeyboardEvent): void {
+    const { key, altKey } = event;
+    let handled = true;
+
+    if (!this.open) {
+      if (key === 'ArrowDown' && altKey) {
+        this.openList(null);
+      } else if (key === 'ArrowDown') {
+        this.openList(this.availableRows[0] ?? null);
+      } else if (key === 'ArrowUp') {
+        this.openList(this.availableRows.at(-1) ?? null);
+      } else if (key === 'Enter') {
+        /* The text settles before the form submits, as a native text field. */
+        this.flushChange();
+        this.submitLater(event);
+        handled = false;
+      } else if (key === 'Escape' && this.current !== '') {
+        this.commitText('');
+        event.stopPropagation();
+      } else {
+        handled = false;
+      }
+    } else if (key === 'Enter' || (key === 'ArrowUp' && altKey)) {
+      if (this.activeRow !== null) {
+        this.choose(this.activeRow);
+      } else {
+        this.closeList();
+        this.flushChange();
+      }
+    } else if (key === 'Escape') {
+      this.closeList();
+      /* The Escape closes the list only, not a dialog around the combobox. */
+      event.stopPropagation();
+    } else if (key === 'Tab') {
+      /* Tab closes and keeps the text; leaving the field settles it. */
+      this.closeList();
+      handled = false;
+    } else if (key === 'ArrowDown') {
+      this.setActive(this.step(1));
+    } else if (key === 'ArrowUp') {
+      this.setActive(this.step(-1));
+    } else if (key === 'PageDown') {
+      this.setActive(this.step(PAGE_STEP));
+    } else if (key === 'PageUp') {
+      this.setActive(this.step(-PAGE_STEP));
+    } else {
+      handled = false;
+    }
+
+    if (handled) {
+      event.preventDefault();
+    }
+  }
+
   private onKeydown(event: KeyboardEvent): void {
     if (event.isComposing || this.inactive) {
+      return;
+    }
+    if (this.freeText) {
+      this.onFreeKeydown(event);
       return;
     }
     const { key, altKey } = event;
@@ -897,6 +1179,10 @@ export class NphCombobox extends LitElement {
     }
     const onArrow = path.some((target) => target instanceof Element && target.classList.contains('arrow'));
     this.field?.focus();
+    /* Free text opens by typing or by the arrows, not by a click on the field (DSA-79 D-1). */
+    if (this.freeText) {
+      return;
+    }
     if (this.open && onArrow) {
       this.closeList();
     } else if (!this.open) {
@@ -969,6 +1255,11 @@ export class NphCombobox extends LitElement {
       return;
     }
     this.closeList();
+    if (this.freeText) {
+      /* The typed text stays as the value; it is never replaced by a suggestion (P122). */
+      this.flushChange();
+      return;
+    }
     if (this.typed !== null) {
       this.setTyped(null);
       this.requestUpdate();
@@ -1179,6 +1470,17 @@ export class NphCombobox extends LitElement {
       this.internals.setValidity({});
       return;
     }
+    if (this.freeText) {
+      /* The text is the value, empty included, as `nph-input`; the saved state is the text. */
+      this.internals.setFormValue(this.current, this.current);
+      if (this.required && this.current === '') {
+        this.internals.setValidity({ valueMissing: true }, valueMissingMessage(true), this.field ?? undefined);
+      } else {
+        this.internals.setValidity({});
+      }
+      this.syncName();
+      return;
+    }
     const state = new FormData();
     state.set('value', this.current);
     if (this.noChoice) {
@@ -1284,7 +1586,8 @@ export class NphCombobox extends LitElement {
       if (this.showsCreate) {
         create = renderCreate(trimmed(this.createLabel), query.trim(), { id: id(CREATE), active: this.open && this.activeRow === CREATE });
       }
-      if (rows.length === 0 && trimmed(this.emptyHeading) !== '') {
+      /* A free text field has no `nph-empty`: with nothing to suggest, the list closes (P122). */
+      if (!this.freeText && rows.length === 0 && trimmed(this.emptyHeading) !== '') {
         const description = trimmed(this.emptyDescription);
         status = html`<nph-empty heading=${trimmed(this.emptyHeading)} description=${description === '' ? nothing : description}></nph-empty>`;
       }
@@ -1302,11 +1605,15 @@ export class NphCombobox extends LitElement {
     const selected = this.selectedOption;
     const description = (this.description ?? '').trim();
     const placeholder = this.placeholder ?? '';
-    const text = this.typed ?? (selected === null ? '' : trimmed(selected.text));
-    const showClear = this.clearable && trimmed(this.clearLabel) !== '' && !inactive && (selected !== null || this.query !== '' || this.current !== '');
+    const freeText = this.freeText;
+    /* Free text: the field shows the value, which is the text. */
+    const text = freeText ? this.current : (this.typed ?? (selected === null ? '' : trimmed(selected.text)));
+    const showClear =
+      this.clearable && trimmed(this.clearLabel) !== '' && !inactive && (freeText ? this.current !== '' : selected !== null || this.query !== '' || this.current !== '');
+    const noSuggestions = this.hasNoSuggestions ? trimmed(this.noSuggestionsLabel) : '';
 
     return html`<div class="control" @click=${this.onControlClick} @mousedown=${this.onControlMousedown}>
-        ${this.startArt(selected)}
+        ${this.startArt(freeText ? null : selected)}
         <input
           class="field"
           type="text"
@@ -1325,20 +1632,26 @@ export class NphCombobox extends LitElement {
           @input=${this.onInput}
           @change=${this.onFieldChange}
           @keydown=${this.onKeydown}
+          @compositionstart=${this.onCompositionStart}
+          @compositionend=${this.onCompositionEnd}
         />
         ${showClear
           ? html`<button class="clear" type="button" aria-label=${trimmed(this.clearLabel)} @click=${this.clear}>
               <nph-icon name="xmark" size="sm" aria-hidden="true"></nph-icon>
             </button>`
           : nothing}
-        <span class="arrow" aria-hidden="true">
-          <nph-icon name=${this.open ? 'chevron-up' : 'chevron-down'} size="sm"></nph-icon>
-        </span>
+        ${freeText
+          ? nothing
+          : html`<span class="arrow" aria-hidden="true">
+              <nph-icon name=${this.open ? 'chevron-up' : 'chevron-down'} size="sm"></nph-icon>
+            </span>`}
         ${description === '' ? nothing : html`<span class="description" id="description">${description}</span>`}
+        ${freeText ? html`<span class="announce" role="status">${noSuggestions}</span>` : nothing}
       </div>
       <div
         class="list"
         popover="manual"
+        aria-busy=${freeText && this.loading ? 'true' : nothing}
         @mousedown=${this.onListMousedown}
         @click=${this.onListClick}
         @pointermove=${this.onListPointer}

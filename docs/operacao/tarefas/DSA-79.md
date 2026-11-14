@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 780,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-combobox",
   "dependencies": [
     "DSA-03",
@@ -48,9 +48,9 @@
     "excerpt": null,
     "converted_decision": "The documentation frame of the nph-combobox free text variant (6047:3760, page 4128:28570) was accepted as the API and behavior specification of that variant, with the visual acceptance of the root (6040:2120). COMPONENT_SET nph-combobox free text (6040:3286). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-12"
+  "git_review": { "branch": "feat/dsa-79-combobox-free-text", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-79.md",
+  "updated_at": "2026-11-14"
 }
 ```
 
