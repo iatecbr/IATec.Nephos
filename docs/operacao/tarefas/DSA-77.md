@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 760,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-scheduler",
   "dependencies": [
     "DSA-03",
@@ -33,11 +33,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 996b5d6a6113db94171ee002b0679e549e30ac3e origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-77/review-and-merge-2026-11-13.md",
+      "result": "passed",
+      "verified_at": "2026-11-13",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -86,7 +86,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-77/figma-docs-accepted-2026-11-12.md"
+    "docs/operacao/evidencias/DSA-77/figma-docs-accepted-2026-11-12.md",
+    "docs/operacao/evidencias/DSA-77/review-and-merge-2026-11-13.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -102,10 +103,10 @@
   },
   "git_review": {
     "branch": "feat/dsa-77-scheduler",
-    "commit": "29e9841",
+    "commit": "996b5d6a6113db94171ee002b0679e549e30ac3e",
     "pr": 171
   },
-  "context": "docs/operacao/contextos/DSA-77.md",
+  "context": null,
   "updated_at": "2026-11-13"
 }
 ```
