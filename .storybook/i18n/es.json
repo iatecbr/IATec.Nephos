@@ -503,7 +503,22 @@
     "components-nph-scheduler-validation--detail": "Detalle",
     "components-nph-scheduler-validation--focus": "Foco",
     "components-nph-scheduler-validation--examples": "Ejemplos",
-    "components-nph-scheduler-validation--brands": "Marcas"
+    "components-nph-scheduler-validation--brands": "Marcas",
+    "components-nph-command-docs": "Docs",
+    "components-nph-command-docs--documentation": "Documentación",
+    "components-nph-command-validation": "Validación",
+    "components-nph-command-validation--open-by-key": "Abrir con la tecla",
+    "components-nph-command-validation--search": "Búsqueda",
+    "components-nph-command-validation--nothing-found": "Nada encontrado",
+    "components-nph-command-validation--groups": "Grupos",
+    "components-nph-command-validation--loading": "Cargando",
+    "components-nph-command-validation--footer-off": "Pie desactivado",
+    "components-nph-command-validation--disabled-command": "Comando deshabilitado",
+    "components-nph-command-validation--destructive-command": "Comando destructivo",
+    "components-nph-command-validation--focus-and-escape": "Foco y Esc",
+    "components-nph-command-validation--brands": "Marcas",
+    "components-nph-command-fixtures": "Ejemplos aislados",
+    "components-nph-command-fixtures--example": "Ejemplo"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -8117,7 +8132,17 @@
       "components-nph-scheduler-validation--detail": "El evento abierto: el popover a su lado, con el contenido que la pantalla puso en el slot, y aria-expanded en el evento.",
       "components-nph-scheduler-validation--focus": "El foco del día y del evento: el mismo borde y el mismo halo, en el color del evento. La historia mueve el foco.",
       "components-nph-scheduler-validation--examples": "Los ejemplos obligatorios (la semana laboral, el mes en el celular, la semana vacía, la lista y el mes con +N más) en los modos claro y oscuro.",
-      "components-nph-scheduler-validation--brands": "Las siete marcas en claro y oscuro: el color primario, la marca de hoy y el foco siguen la marca; los otros colores no."
+      "components-nph-scheduler-validation--brands": "Las siete marcas en claro y oscuro: el color primario, la marca de hoy y el foco siguen la marca; los otros colores no.",
+      "components-nph-command-validation--open-by-key": "Ctrl+K abre la paleta con los comandos por grupo y el primero ya activo; Enter lo ejecuta.",
+      "components-nph-command-validation--search": "Escribir filtra la lista: solo quedan los comandos que coinciden, el tramo escrito gana peso y el primer comando queda activo.",
+      "components-nph-command-validation--nothing-found": "Sin nada que coincida, el estado vacío lo dice y sugiere otro término; el pie se mantiene y ningún comando queda activo.",
+      "components-nph-command-validation--groups": "Una etiqueta abre cada grupo sin divisor entre ellos; por encima del tope de la lista, esta se desplaza y el comando activo entra en vista.",
+      "components-nph-command-validation--loading": "Mientras la búsqueda responde, la lista muestra el spinner y el texto de carga, queda ocupada y no dibuja comandos.",
+      "components-nph-command-validation--footer-off": "Con hide-footer, la segunda línea y las sugerencias desaparecen y el resto no cambia.",
+      "components-nph-command-validation--disabled-command": "Un comando deshabilitado se atenúa, las teclas y el puntero lo saltan y no se ejecuta.",
+      "components-nph-command-validation--destructive-command": "El comando destructivo mantiene sus propios colores en reposo y activo, en modo claro y oscuro.",
+      "components-nph-command-validation--focus-and-escape": "Abrir mueve el foco al campo; Esc cierra la paleta y el foco vuelve al botón que la abrió.",
+      "components-nph-command-validation--brands": "Las siete marcas en claro y oscuro: abierta con el botón de su marco, la paleta sigue la marca de ese marco."
     }
   },
   "multiComboboxDocs": {
@@ -14790,5 +14815,342 @@
     "detailText": "El producto muestra aquí los detalles del evento.",
     "detailClose": "Cerrar los detalles",
     "detailAction": "Editar evento"
+  },
+  "commandValidation": {
+    "label": "Paleta de comandos",
+    "placeholder": "Buscar comando…",
+    "loadingLabel": "Buscando…",
+    "emptyHeading": "No se encontró ningún comando",
+    "emptyDescription": "Revisa lo que escribiste o busca otro término.",
+    "resultsLabel": "{count} resultados",
+    "hintNavigate": "navegar",
+    "hintOpen": "abrir",
+    "hintClose": "cerrar",
+    "groupRecent": "Recientes",
+    "groupActions": "Acciones",
+    "groupGoTo": "Ir a",
+    "openInvoice": "Abrir factura 1042",
+    "editProfile": "Editar perfil",
+    "newDocument": "Nuevo documento",
+    "newDocumentShortcut": "⌘N",
+    "openSettings": "Abrir configuración",
+    "openSettingsDescription": "Cuenta y espacio de trabajo",
+    "inviteMember": "Invitar a un miembro",
+    "exportReport": "Exportar informe",
+    "deleteDraft": "Eliminar borrador",
+    "goHome": "Ir al inicio",
+    "goTeam": "Ir al equipo",
+    "goReports": "Ir a los informes",
+    "goBilling": "Ir a la facturación",
+    "goHelp": "Ir a la ayuda",
+    "searchQuery": "conf",
+    "noMatchQuery": "xyz",
+    "openPalette": "Abrir la paleta de comandos",
+    "frameTitle": "Ejemplo de nph-command",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "openByKeyCaption": "Abrir con la tecla: Ctrl+K abre la paleta con los comandos por grupo y el primero ya activo; Enter lo ejecuta. La tecla llega a la página porque la paleta tiene global-shortcut activado.",
+    "searchCaption": "Búsqueda: la persona escribe y la lista muestra solo lo que coincide, el tramo escrito con más peso y el primer comando activo.",
+    "nothingFoundCaption": "Nada encontrado: el estado vacío lo dice y sugiere otro término; el pie de sugerencias se mantiene.",
+    "groupsCaption": "Grupos: una etiqueta abre cada grupo, sin divisor entre ellos; por encima del tope de la lista, esta se desplaza.",
+    "loadingCaption": "Cargando: el spinner y el texto de carga; la lista queda ocupada y no se dibuja ningún comando.",
+    "footerOffCaption": "Pie desactivado: la segunda línea y las sugerencias desaparecen; nada más cambia.",
+    "disabledCaption": "Un comando deshabilitado se atenúa, las teclas y el puntero lo saltan y no se ejecuta.",
+    "destructiveCaption": "El comando destructivo mantiene sus propios colores en reposo y activo, y dice la acción en su etiqueta.",
+    "focusCaption": "Pulsa el botón para abrir la paleta: el foco va al campo y el primer comando queda activo. Esc la cierra y el foco vuelve al botón."
+  },
+  "commandDocs": {
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "sourceUsage": "ficha de nph-command; docs/decisoes-tecnicas.md › P70",
+    "summary": "Paleta de comandos: un diálogo con campo de búsqueda, los comandos por grupo y un pie de sugerencias de teclado. La persona la abre, escribe, ve solo lo que coincide y ejecuta un comando con Enter.",
+    "matrixLabel": "nph-command por contenido y por pie",
+    "frameTitle": "Ejemplo de nph-command",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha de nph-command, design.md para los tokens y docs/decisoes-tecnicas.md para la P123. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
+    "description": "Usa nph-command como atajo global del producto: acciones y páginas que la persona conoce por el nombre, abiertas con el teclado. Para elegir el valor de un campo de formulario, usa nph-combobox; para las acciones de un botón o de una fila de la pantalla, nph-dropdown-menu.",
+    "whenToUse": [
+      "Un atajo global del producto: acciones y páginas que la persona conoce por el nombre, abiertas con el teclado.",
+      "Usa grupos, como Recientes, Acciones e Ir a, cuando la lista mezcla tipos de comando.",
+      "Muestra el atajo en el comando cuando la acción tiene tecla propia.",
+      "Mantén el pie de sugerencias activado, porque enseña las teclas de la paleta."
+    ],
+    "whenNotToUse": [
+      "Para elegir el valor de un campo de formulario: usa nph-combobox.",
+      "Para las acciones de un botón o de una fila de la pantalla: usa nph-dropdown-menu.",
+      "Para la búsqueda en el contenido de la página: es un campo de búsqueda aparte.",
+      "Para poner un divisor entre grupos: usa espacio y la etiqueta del grupo."
+    ],
+    "api": [
+      [
+        "items",
+        "Las entradas, en orden: un comando con value y text, y opcionalmente description, icon, severity, shortcut, count, tag y disabled; y una etiqueta de grupo, un objeto con type label y text. Separador, selección, switch, submenú y avatar no existen aquí. Se define como propiedad."
+      ],
+      [
+        "open",
+        "Booleano, reflejado. El estado del diálogo; pasa a falso solo cuando la paleta se cierra. En cada apertura, el campo queda vacío y el primer comando queda activo."
+      ],
+      [
+        "query",
+        "El texto escrito, como propiedad. Definirlo por código lo escribe en el campo y filtra la lista, y no dispara ningún evento."
+      ],
+      [
+        "filter",
+        "contains (por defecto) o none. contains mantiene los comandos cuyo texto contiene lo escrito, sin diferencia de mayúsculas ni de acentos. none deja el filtro a la aplicación."
+      ],
+      [
+        "loading",
+        "La búsqueda está respondiendo: aparecen el spinner y loading-label, la lista queda ocupada y no se dibuja ni se ejecuta ningún comando."
+      ],
+      [
+        "label",
+        "El nombre del diálogo y del campo, ya localizado. Obligatorio: sin él, no se dibuja nada."
+      ],
+      [
+        "placeholder",
+        "La invitación en el campo vacío, ya localizada."
+      ],
+      [
+        "loading-label",
+        "El texto de la fila de carga, ya localizado. Obligatorio con loading."
+      ],
+      [
+        "empty-heading",
+        "El título del estado vacío, ya localizado. Obligatorio."
+      ],
+      [
+        "empty-description",
+        "La pista del estado vacío, con lo que hacer. Vacío: solo el título."
+      ],
+      [
+        "results-label",
+        "Lo que oye el lector de pantalla con el número de resultados, ya localizado; {count} se vuelve el número. Obligatorio."
+      ],
+      [
+        "hint-navigate",
+        "La palabra de la primera sugerencia del pie, ya localizada. Una sugerencia sin su palabra no se dibuja."
+      ],
+      [
+        "hint-open",
+        "La palabra de la segunda sugerencia del pie, ya localizada."
+      ],
+      [
+        "hint-close",
+        "La palabra de la tercera sugerencia del pie, ya localizada."
+      ],
+      [
+        "hide-footer",
+        "Desactiva la segunda línea y las sugerencias del pie, que vienen activadas por defecto."
+      ],
+      [
+        "global-shortcut",
+        "Escucha Ctrl+K y Command+K en el documento y abre o cierra la paleta. Desactivado por defecto: el atajo es de la aplicación."
+      ],
+      [
+        "nph-run",
+        "Se dispara cuando la persona ejecuta un comando, con detail.value. La paleta se cierra después."
+      ],
+      [
+        "nph-search",
+        "Se dispara cuando la persona escribe, con detail.query."
+      ],
+      [
+        "nph-close",
+        "El evento del diálogo que monta la paleta, con detail.source: escape, backdrop, open-key o command-run."
+      ]
+    ],
+    "usageMarkup": "<nph-command\n  label=\"Paleta de comandos\"\n  placeholder=\"Buscar comando…\"\n  empty-heading=\"No se encontró ningún comando\"\n  empty-description=\"Revisa lo que escribiste o busca otro término.\"\n  results-label=\"{count} resultados\"\n  hint-navigate=\"navegar\"\n  hint-open=\"abrir\"\n  hint-close=\"cerrar\"\n></nph-command>",
+    "usageTag": "La paleta con todos los textos ya localizados. Dibuja su propio diálogo y no tiene slot: los comandos entran por la propiedad items, y se abre cuando se define open.",
+    "statesTitle": "Contenido y estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia para la persona"
+    ],
+    "states": [
+      [
+        "Resultados",
+        "Los comandos, el primero activo. El contenido por defecto."
+      ],
+      [
+        "Grupos",
+        "Una etiqueta abre cada grupo, sin divisor; por encima del tope, la lista se desplaza."
+      ],
+      [
+        "Búsqueda",
+        "Solo lo que coincide, el tramo escrito con más peso, el primer comando activo."
+      ],
+      [
+        "Vacío",
+        "El nph-empty con título y pista, ningún comando activo; el pie se mantiene."
+      ],
+      [
+        "Cargando",
+        "El spinner y el texto de carga; la lista queda ocupada y nada se ejecuta."
+      ],
+      [
+        "Comando activo",
+        "Relleno en color/primary-surface, el icono sólido, la etiqueta y el atajo en color/accent-foreground."
+      ],
+      [
+        "Comando deshabilitado",
+        "Atenuado, saltado por las teclas y por el puntero, nunca se ejecuta."
+      ],
+      [
+        "Comando destructivo",
+        "Colores propios en reposo y activo; la etiqueta dice la acción."
+      ],
+      [
+        "Pie desactivado",
+        "La segunda línea y las sugerencias desaparecen."
+      ]
+    ],
+    "disabledCaption": "Un comando deshabilitado es saltado por las teclas y por el puntero.",
+    "destructiveCaption": "El comando destructivo, en reposo y activo.",
+    "footerTitle": "El pie de sugerencias",
+    "footerText": "El pie enseña las teclas de la paleta: las flechas navegan, Enter abre el comando activo y Esc cierra. Viene activado por defecto; hide-footer lo desactiva junto con su línea. Las palabras vienen de la aplicación, ya localizadas; las teclas son leyendas.",
+    "footerCaption": "La misma paleta con el pie desactivado.",
+    "keysTitle": "Teclas y cierre",
+    "keysHeader": [
+      "Tecla",
+      "Qué hace"
+    ],
+    "keys": [
+      [
+        "Ctrl+K o Command+K",
+        "Abre la paleta, con global-shortcut activado, y la cierra (origen open-key)."
+      ],
+      [
+        "Flecha arriba y abajo",
+        "Mueven el comando activo, saltan uno deshabilitado y se detienen en los extremos."
+      ],
+      [
+        "Home y End",
+        "Van al primero y al último comando."
+      ],
+      [
+        "Enter",
+        "Ejecuta el comando activo y cierra la paleta (origen command-run). Sin comando activo, no hace nada."
+      ],
+      [
+        "Esc",
+        "Cierra la paleta y devuelve el foco (origen escape)."
+      ],
+      [
+        "Clic en el velo",
+        "Cierra la paleta (origen backdrop)."
+      ],
+      [
+        "Tab",
+        "Se queda en el campo: es la única parada del diálogo."
+      ]
+    ],
+    "anatomy": [
+      [
+        "1. Panel",
+        "command/background, command/radius y elevation/modal, sin borde. El ancho llega hasta command/max-width y se queda ahí mientras la lista filtra."
+      ],
+      [
+        "2. Fila de búsqueda",
+        "command/search-padding alrededor del campo, dibujado con el aspecto del nph-input large con la lupa; el foco nunca sale de él."
+      ],
+      [
+        "3. Líneas",
+        "nph-separator en command/divider, entre el campo y la lista y entre la lista y el pie."
+      ],
+      [
+        "4. Lista",
+        "command/list-padding alrededor y un tope de command/list-max-height; por encima, se desplaza."
+      ],
+      [
+        "5. Comando",
+        "El aspecto del ítem del nph-dropdown-menu: icono inicial, etiqueta, descripción, atajo, contador y tag. El activo se rellena en color/primary-surface, con el icono sólido."
+      ],
+      [
+        "6. Etiqueta de grupo",
+        "text/label-sm en color/muted-foreground, sin divisor entre grupos."
+      ],
+      [
+        "7. Fila de carga y estado vacío",
+        "El nph-spinner y el texto, con command/state-padding; o el nph-empty, con su propio padding."
+      ],
+      [
+        "8. Pie de sugerencias",
+        "command/footer-padding alrededor y command/footer-gap entre sugerencias; cada sugerencia es un nph-kbd y una palabra a command/hint-gap."
+      ]
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un diálogo modal nombrado por label. El campo es un combobox, la lista un listbox, cada grupo un group nombrado por su etiqueta y cada comando una option, seleccionada mientras está activa."
+      ],
+      [
+        "Nombre accesible",
+        "label nombra el diálogo y el campo. El texto de un comando lo nombra; la descripción y el contador lo describen. El atajo queda oculto para el lector de pantalla."
+      ],
+      [
+        "Teclado",
+        "Flecha arriba, flecha abajo, Home, End, Enter y Esc como en la tabla de teclas. Tab se queda en el campo."
+      ],
+      [
+        "Foco visible",
+        "El borde y el halo del campo, que mantiene el foco. El comando activo se marca con el relleno, sin anillo, y aria-activedescendant apunta a él."
+      ],
+      [
+        "Contraste",
+        "La etiqueta, el atajo, la etiqueta de grupo, las sugerencias y el comando destructivo superan 4,5:1 sobre color/dialog en los dos modos."
+      ],
+      [
+        "Anuncios",
+        "El número de resultados y el estado vacío se anuncian en una región cortés después de que la persona escribe. Mientras carga, la lista queda ocupada."
+      ],
+      [
+        "Área de toque",
+        "Un comando mide 36 de alto y el campo 44; ambos superan el mínimo de 24 por 24."
+      ],
+      [
+        "El color no es la única señal",
+        "El comando activo cambia el relleno y el icono pasa de ligero a sólido; el tramo escrito gana peso."
+      ]
+    ],
+    "exampleOpenByKey": "Abrir con la tecla: los comandos por grupo, el primero activo; Enter ejecuta Nuevo documento.",
+    "exampleSearch": "Búsqueda: la persona escribe y solo queda lo que coincide, con el tramo escrito resaltado.",
+    "exampleNothingFound": "Nada encontrado: el estado vacío sugiere otro término y el pie se mantiene.",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, marco de documentación de nph-command 6076:4910, raíz 6067:3610 y conjunto 6068:3936.",
+      "La ficha de nph-command, en fichas/nph-command.md.",
+      "P123, en docs/decisoes-tecnicas.md.",
+      "design.md: los tokens command, color/dialog, color/dialog-separator y text/highlight-weight.",
+      "WAI-ARIA Authoring Practices: patrones Combobox, Listbox y Dialog (Modal)."
+    ],
+    "sourceFigma": "Marco de documentación de nph-command 6076:4910 (DS-IA-NEPHOS 5.0) y la ficha de nph-command.",
+    "sourceApi": "P123 y la ficha de nph-command.",
+    "sourceAccessibility": "Accesibilidad del marco 6076:4910 y P123."
   }
 }
