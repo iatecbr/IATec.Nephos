@@ -207,6 +207,9 @@
     "components-nph-combobox-validation--invalid-input": "Invalid input",
     "components-nph-combobox-validation--examples": "Examples",
     "components-nph-combobox-validation--brands": "Brands",
+    "components-nph-combobox-validation--free-text": "Free text",
+    "components-nph-combobox-validation--free-text-list": "Free text list",
+    "components-nph-combobox-validation--free-text-examples": "Free text examples",
     "components-nph-input-otp-docs": "Docs",
     "components-nph-input-otp-docs--documentation": "Documentation",
     "components-nph-input-otp-validation": "Validation",
@@ -6608,7 +6611,7 @@
     "sourceDecisions": "Task DSA-46, pending decisions D-1 to D-5; docs/decisoes-tecnicas.md › P95",
     "sourceAccessibility": "Figma, board nph-combobox (1359:142); nph-combobox.test.ts",
     "matrixLabel": "size × state",
-    "description": "Use nph-combobox when the list is long and searching by name is faster than scrolling. The chosen option shows as text in the field, with a button to clear it. It does not replace nph-select, for short lists without search, nor nph-multi-combobox, for several options. It accepts text outside the list only when the list offers the create row.",
+    "description": "Use nph-combobox when the list is long and searching by name is faster than scrolling. The chosen option shows as text in the field, with a button to clear it. It does not replace nph-select, for short lists without search, nor nph-multi-combobox, for several options. It accepts text outside the list only when the list offers the create row. With free-text, any text is the value and the list only suggests.",
     "whenToUseTitle": "When to use",
     "whenNotToUseTitle": "When not to use",
     "whenToUse": [
@@ -6616,14 +6619,16 @@
       "Inside an nph-field, which gives the label, the help text and the error message.",
       "With the status dot when each option has a state, written in the option text.",
       "With creatable only when the list accepts new items; with the shortcuts footer on screens used a lot by keyboard.",
-      "default in most forms; large when the form uses tall fields."
+      "default in most forms; large when the form uses tall fields.",
+      "With free-text when the value may not be in the list, such as a job title, a place or a city: the typed text is the value and the list only suggests."
     ],
     "whenNotToUse": [
       "For a short list that fits on the screen without search: use nph-select.",
       "To pick several options: use nph-multi-combobox.",
       "To offer create in a closed list: leave creatable off, and the list shows the nph-empty.",
       "To change the color of the arrow area: for an error, use invalid through nph-field.",
-      "To use the status dot without a written state."
+      "To use the status dot without a written state.",
+      "With free-text when the value must come from the list, such as a status, a state or a registered unit: free text accepts typos; use the combobox without free-text."
     ],
     "relationsText": "The options are data, in options; the combobox draws each one as an nph-option, the option shared with nph-select. nph-field composes the label, the combobox, the help and the error message, and writes label, description, invalid and required on it. The empty list shows an nph-empty; the waiting list an nph-spinner; the groups take the group label and the separator of nph-dropdown-menu; the shortcuts footer takes nph-kbd keys.",
     "apiTitle": "API",
@@ -6642,11 +6647,11 @@
       ],
       [
         "value",
-        "The current value: the value of the chosen option. The value attribute is the initial value and the value of form.reset(). The value is kept until an option of that value arrives. Setting it from code fires nothing."
+        "The current value: the value of the chosen option. The value attribute is the initial value and the value of form.reset(). The value is kept until an option of that value arrives. Setting it from code fires nothing. With free-text it is the typed text: the value of an option is not used."
       ],
       [
         "query",
-        "The typed text. Setting it from code writes it in the field and filters the list, and fires nothing."
+        "The typed text. Setting it from code writes it in the field and filters the list, and fires nothing. With free-text it is the value itself."
       ],
       [
         "placeholder",
@@ -6715,6 +6720,14 @@
       [
         "slot shortcuts",
         "The shortcuts footer: nph-kbd keys and their words."
+      ],
+      [
+        "free-text",
+        "The free text variant: no arrow, the typed text is the value and the list only suggests. Reflected. Ignores creatable, empty-heading and empty-description with a console warning in development; start avatar draws nothing."
+      ],
+      [
+        "no-suggestions-label",
+        "What the screen reader hears when the typed text has no suggestion, already localized, such as No suggestions. Required with free-text."
       ]
     ],
     "usageTitle": "Usage",
@@ -6757,7 +6770,7 @@
       ]
     ],
     "invalidTitle": "Invalid input draws nothing.",
-    "invalidText": "A size outside default and large, a start outside search, icon and avatar, an icon outside the core, or a filter outside contains and none: the combobox does not render and emits console.error in development. clearable without clear-label, creatable without create-label and loading without loading-label each emit one error.",
+    "invalidText": "A size outside default and large, a start outside search, icon and avatar, an icon outside the core, or a filter outside contains and none: the combobox does not render and emits console.error in development. clearable without clear-label, creatable without create-label and loading without loading-label each emit one error. free-text with a start avatar draws nothing; free-text without no-suggestions-label emits one error and stays silent when nothing suggests the text.",
     "sizesTitle": "Sizes",
     "sizesText": "default in most forms; large when the form uses tall fields. The height of the field and the width of the arrow area change: control/height-default or control/height-large.",
     "sizesCaption": "default and large, with a chosen option.",
@@ -6950,6 +6963,10 @@
       [
         "Hidden parts",
         "The magnifying glass, the divider, the arrow and the dot are hidden from the screen reader."
+      ],
+      [
+        "Free text",
+        "A status region outside the list says no-suggestions-label, so it speaks while the list is closed; the loading list carries aria-busy; no suggestion is active while typing."
       ]
     ],
     "examplesTitle": "Required examples",
@@ -6960,8 +6977,9 @@
     "references": [
       "Figma DS-IA-NEPHOS 5.0, board nph-combobox (1359:142), documentation 1766:2400",
       "fichas/nph-combobox.md",
-      "docs/decisoes-tecnicas.md › P95, P91, P80 and P83",
-      "WAI-ARIA Authoring Practices, editable combobox with list autocomplete"
+      "docs/decisoes-tecnicas.md › P95, P122, P91, P80 and P83",
+      "WAI-ARIA Authoring Practices, editable combobox with list autocomplete",
+      "Figma DS-IA-NEPHOS 5.0, free text documentation (6047:3760)"
     ],
     "lightCaption": "Light mode",
     "darkCaption": "Dark mode",
@@ -7052,7 +7070,100 @@
           "United States"
         ]
       }
-    ]
+    ],
+    "freeTextTitle": "Free text",
+    "freeTextText": "free-text turns the combobox into a field that accepts any text and suggests values from the list. It has no divider and no arrow area: the end of the field takes combobox/free-text-padding-end, with and without the clear button. The typed text is the value; the list only helps to fill it in faster. The combobox with the arrow does not change.",
+    "freeTextHeader": [
+      "Topic",
+      "Rule"
+    ],
+    "freeText": [
+      [
+        "Value",
+        "The typed text is the value. The value attribute is the initial text and the value of form.reset(); the value of an option is not used, and a suggestion writes its text. A suggestion that says exactly the text shows as chosen."
+      ],
+      [
+        "Events",
+        "input on every change of the text, with the value up to date; change when the text settles (a pick, the clear button, Escape, Enter, leaving the field), only if it differs from the last change; nph-search says the text. Setting value or query from code fires nothing."
+      ],
+      [
+        "Form",
+        "name, required (empty text is valueMissing) and the text as the form value, empty included."
+      ],
+      [
+        "Typing",
+        "Opens the list with the matching suggestions, the typed stretch highlighted and none active."
+      ],
+      [
+        "Keyboard",
+        "ArrowDown activates the first and, closed, opens. ArrowUp closed opens on the last. Alt+ArrowDown opens without activating. Enter picks the active suggestion, or keeps the text and closes the list; with the list closed, Enter passes on. Escape closes and, closed, clears the text. Tab, leaving the field and an outside click close the list and keep the text."
+      ],
+      [
+        "Click",
+        "A click on the field takes the focus and does not open the list. With text in the field, the arrows show only the suggestions that contain it."
+      ],
+      [
+        "No suggestion",
+        "The list closes with no nph-empty, and a status region outside the list says no-suggestions-label. There is no create row."
+      ],
+      [
+        "Loading",
+        "The list shows the nph-spinner with aria-busy; answers that arrive for a person still typing reopen the list."
+      ],
+      [
+        "IME",
+        "During a composition the value follows the field, but the list does not filter, open or fire nph-search until the composition ends."
+      ],
+      [
+        "Limits",
+        "No start avatar, no read only, no image, no minimum of characters and no cap on the number of suggestions beyond layout/max-list-height."
+      ]
+    ],
+    "freeTextMatrixLabel": "free text · size × state",
+    "freeTextTypingCaption": "Typing: the matching suggestions, the typed part highlighted and none active.",
+    "freeTextGroupsCaption": "Opened with Alt+ArrowDown: Recent comes before All, with none active.",
+    "freeTextNoneCaption": "No suggestion: the list closed, with no nph-empty; the screen reader hears No suggestions.",
+    "sourceFreeText": "Figma, free text documentation (6047:3760), root 6040:2120, set 6040:3286; docs/decisoes-tecnicas.md › P122",
+    "placeLabel": "Event location",
+    "placePlaceholder": "Type or pick a suggestion",
+    "placeHelp": "A new place is also valid.",
+    "placeClearLabel": "Clear the location",
+    "noSuggestionsLabel": "No suggestions",
+    "places": [
+      "Union Hall",
+      "United Nations HQ",
+      "University Library",
+      "Uruguay Pavilion",
+      "Brazil Pavilion",
+      "Canada Place"
+    ],
+    "placeQuery": "Uni",
+    "noMatchQuery": "Narnia Hall",
+    "recentGroup": "Recent",
+    "allGroup": "All",
+    "recentPlaces": [
+      "Union Hall",
+      "Canada Place"
+    ],
+    "allPlaces": [
+      "Brazil Pavilion",
+      "Canada Place",
+      "Union Hall",
+      "United Nations HQ",
+      "University Library",
+      "Uruguay Pavilion"
+    ],
+    "jobLabel": "Job title",
+    "jobHelp": "A title that is not in the list stays as you wrote it.",
+    "jobs": [
+      "UX Designer",
+      "UX Researcher",
+      "Product Manager"
+    ],
+    "jobValue": "UX Coordination",
+    "exampleLocation": "Event location: the person types \"Uni\" and sees places already used, with the typed part highlighted; none is active until the Down arrow. A new place is also valid.",
+    "exampleHistory": "Event location with history: opened with Alt+Down, Recent comes before All, with no active suggestion.",
+    "exampleJob": "New job title: \"UX Coordination\" is not in the list and stays as the value on leaving the field."
   },
   "comboboxValidation": {
     "lightCaption": "Light mode",
@@ -7164,7 +7275,47 @@
     "fieldsetDisabled": "Disabled fieldset",
     "exampleChosen": "Chosen option, at rest",
     "exampleSearch": "Search with the typed stretch highlighted",
-    "exampleLoading": "Search waiting for the answer"
+    "exampleLoading": "Search waiting for the answer",
+    "placeLabel": "Event location",
+    "placePlaceholder": "Type or pick a suggestion",
+    "placeHelp": "A new place is also valid.",
+    "placeClearLabel": "Clear the location",
+    "noSuggestionsLabel": "No suggestions",
+    "places": [
+      "Union Hall",
+      "United Nations HQ",
+      "University Library",
+      "Uruguay Pavilion",
+      "Brazil Pavilion",
+      "Canada Place"
+    ],
+    "placeQuery": "Uni",
+    "noMatchQuery": "Narnia Hall",
+    "recentGroup": "Recent",
+    "allGroup": "All",
+    "recentPlaces": [
+      "Union Hall",
+      "Canada Place"
+    ],
+    "allPlaces": [
+      "Brazil Pavilion",
+      "Canada Place",
+      "Union Hall",
+      "United Nations HQ",
+      "University Library",
+      "Uruguay Pavilion"
+    ],
+    "jobLabel": "Job title",
+    "jobHelp": "A title that is not in the list stays as you wrote it.",
+    "jobs": [
+      "UX Designer",
+      "UX Researcher",
+      "Product Manager"
+    ],
+    "jobValue": "UX Coordination",
+    "exampleLocation": "Event location: the person types \"Uni\" and sees places already used, with the typed part highlighted; none is active until the Down arrow. A new place is also valid.",
+    "exampleHistory": "Event location with history: opened with Alt+Down, Recent comes before All, with no active suggestion.",
+    "exampleJob": "New job title: \"UX Coordination\" is not in the list and stays as the value on leaving the field."
   },
   "tableDocs": {
     "summary": "The table to read and compare data in rows and columns, with caption, header, cells and footer. A row can open a detail or sub-levels. It does not sort, select, filter or paginate: that is the nph-data-table.",
@@ -7794,6 +7945,9 @@
       "components-nph-combobox-validation--invalid-input": "Invalid input draws nothing: a size, a start and a filter that do not exist, and an icon outside the core.",
       "components-nph-combobox-validation--examples": "The three required examples of the board, in nph-field: chosen option at rest, search with the typed stretch highlighted and search waiting for the answer, each in light and dark mode.",
       "components-nph-combobox-validation--brands": "The seven brands in light and dark: the focus border and halo of the field follow the brand of the frame on Tab.",
+      "components-nph-combobox-validation--free-text": "The free text variant, size × state: placeholder, value, value with the clear button, error, disabled and both, with no divider and no arrow area and the end of the field in combobox/free-text-padding-end; and the start, the magnifying glass and an icon. Move the mouse for hover, press Tab for focus and again for the clear button.",
+      "components-nph-combobox-validation--free-text-list": "The list of the free text variant, open: the typed stretch highlighted with no suggestion active, the groups Recent and All opened with Alt+ArrowDown, the loading list, and a text with no suggestion, where the list closes with no nph-empty and the screen reader hears the sentence.",
+      "components-nph-combobox-validation--free-text-examples": "The three required examples of the free text documentation, in nph-field: event location, event location with history and a new job title, each in light and dark mode.",
       "components-nph-table-validation--sizes": "The two sizes: default with the 40 px row and the cell sides at 12 px; large with the 44 px row and the sides at 16 px.",
       "components-nph-table-validation--frame": "Without the frame and with it: the border, the corner and the last row that leaves its divider to the frame.",
       "components-nph-table-validation--sticky-header": "The fixed header: the body scrolls up to its maximum height and the header stays, with the line under it.",

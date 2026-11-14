@@ -12,8 +12,12 @@
  * list). Each sits in an `nph-field`, which gives the label and the help text. The
  * functions take the visible text as arguments: this file holds none, because every
  * visible text comes from the language dictionary of the page that calls it.
+ *
+ * The free text variant (P122) has three required examples in its own accepted documentation
+ * (`6047:3760`): "Event location", "Event location with history" and "New job title". They use
+ * `freeText`, `historyEntries` and `bothModes` below.
  */
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import '../nph-field/nph-field';
@@ -120,4 +124,45 @@ export function waiting(text: LoadingText): TemplateResult {
       open
     ></nph-combobox>
   </nph-field>`;
+}
+
+export interface FreeTextText {
+  label: string;
+  help?: string;
+  placeholder: string;
+  clearLabel: string;
+  noSuggestionsLabel: string;
+  options: readonly NphComboboxEntry[];
+  /** The text of the field. A free text field shows it at rest and filters the list by it. */
+  value?: string;
+  /** The list is open, as in the `aberto` state. */
+  open?: boolean;
+}
+
+/** A free text combobox in an `nph-field`: the typed text is the value and the list only suggests. */
+export function freeText(text: FreeTextText): TemplateResult {
+  return html`<nph-field label=${text.label} help=${text.help ?? nothing}>
+    <nph-combobox
+      free-text
+      placeholder=${text.placeholder}
+      name="location"
+      value=${text.value ?? ''}
+      clearable
+      clear-label=${text.clearLabel}
+      no-suggestions-label=${text.noSuggestionsLabel}
+      .options=${text.options}
+      ?open=${text.open ?? false}
+    ></nph-combobox>
+  </nph-field>`;
+}
+
+/** The suggestions of a field that keeps what the person already used: Recent before All. */
+export function historyEntries(recentGroup: string, recent: readonly string[], allGroup: string, all: readonly string[]): NphComboboxEntry[] {
+  return [
+    { type: 'label', text: recentGroup },
+    ...recent.map((text, index) => ({ value: `r${index + 1}`, text })),
+    { type: 'separator' },
+    { type: 'label', text: allGroup },
+    ...all.map((text, index) => ({ value: `a${index + 1}`, text })),
+  ];
 }

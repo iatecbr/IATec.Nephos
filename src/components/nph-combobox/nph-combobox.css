@@ -68,6 +68,14 @@
   block-size: var(--nph-control-height-large);
 }
 
+/*
+ * Free text (P122): no divider and no arrow area, so the end of the field takes the padding the
+ * start has, with and without the clear button. The target of the button ends there.
+ */
+:host([free-text]) .control {
+  padding-inline-end: var(--nph-combobox-free-text-padding-end);
+}
+
 .start {
   flex: none;
 }
@@ -151,9 +159,11 @@
 /*
  * The description: never visible, but in the accessibility tree. It is clipped, not
  * `display: none`, which the browser does not read; `inset: 0` keeps it inside the
- * field, so a long text adds no scroll.
+ * field, so a long text adds no scroll. The status region of the free text variant, which
+ * says there is no suggestion, is clipped the same way.
  */
-.description {
+.description,
+.announce {
   position: absolute;
   inset: 0;
   overflow: hidden;

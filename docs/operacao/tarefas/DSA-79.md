@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 780,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-combobox",
   "dependencies": [
     "DSA-03",
@@ -32,7 +32,20 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted documentation says typing opens the suggestion list and says nothing of a click on the field. The free text variant takes the focus on a click and does not open the list, as the APG autocomplete example and GOV.UK do. Does Indiane confirm the reading, or does a click open the list as in the nph-combobox with the arrow? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    },
+    {
+      "id": "D-2",
+      "question": "With text in the field, Down, Up and Alt+Down open the list with only the suggestions that contain that text, because the field filters by the text it holds. Does Indiane confirm the reading, or do the arrows show every suggestion? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-14"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-79/figma-docs-accepted-2026-11-12.md"
   ],
@@ -48,9 +61,9 @@
     "excerpt": null,
     "converted_decision": "The documentation frame of the nph-combobox free text variant (6047:3760, page 4128:28570) was accepted as the API and behavior specification of that variant, with the visual acceptance of the root (6040:2120). COMPONENT_SET nph-combobox free text (6040:3286). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-12"
+  "git_review": { "branch": "feat/dsa-79-combobox-free-text", "commit": null, "pr": 172 },
+  "context": "docs/operacao/contextos/DSA-79.md",
+  "updated_at": "2026-11-14"
 }
 ```
 

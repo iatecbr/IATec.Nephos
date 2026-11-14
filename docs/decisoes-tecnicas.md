@@ -8211,9 +8211,137 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P122 — `nph-combobox`: the free text variant (extends P95)
+
+**Technical conflict.** The accepted documentation of the variant (frame `6047:3760`, root `6040:2120`,
+set `6040:3286`) gives the field with no divider and no arrow, the token `combobox/free-text-padding-end`,
+the keyboard, the value rule ("the typed text is the value"), the no-suggestion rule and the accessibility,
+and leaves "event, aria, slot, property and console warning" to the code, with three points open in the
+task. Six points need a decision of their own:
+
+- the variant is the **same piece**: the field and the list of P95 are an instance inside the free text
+  frame, and the task says the combobox with the arrow does not change, but P95 makes the first match
+  active while typing (D-5), draws the create row (D-1) and the `nph-empty`, makes the typed text a
+  search that is dropped on leaving the field, and stops the native `input` in the shadow root, so each
+  of those has to be a rule of the variant and not of the piece;
+- the typed text is the value, and an option has a `value` and a `text`: the evidence does not say which
+  one a pick reports;
+- the evidence says "the screen reader hears no suggestions" and "the list closes", but a list that is
+  closed has no accessibility tree, and the piece writes no word of its own;
+- the evidence asks for `aria-busy` on the loading list, which the code of the arrow variant does not have;
+- the evidence leaves the minimum of characters, the number of suggestions in view and the IME to the code;
+- the evidence does not say whether a click on the field opens the list, and whether the arrows, with
+  text in the field, show every suggestion or only the ones that match.
+
+**Decision.** The variant is a **boolean attribute of `nph-combobox`**, `free-text`, in the one tag, with
+the open Shadow DOM of P01 and the list of P95 built once (DSA-31 D2); nothing of the arrow variant
+changes, and its tests are untouched. The names follow P64.
+
+1. **How the variant is chosen.** `free-text` (`freeText`), boolean, reflected, because the internal CSS
+   selects by it, as `size` does. A second attribute, `no-suggestions-label` (`noSuggestionsLabel`), is the
+   sentence the screen reader hears when the typed text has no suggestion, already localized by the
+   consuming application. `free-text` without it emits one `console.error` in development and the
+   region stays silent, the rule of `loading` without `loading-label`. A property named `variant` was
+   not taken: it would invite more values than the one the accepted documentation draws, and `creatable`
+   is the precedent of a boolean that changes the mode of the field.
+
+2. **The value is the text.** `value` is the text of the field: the attribute is the initial text and the
+   value of `form.reset()`, the property is the current text, and a dirty flag stops the attribute from
+   applying, as in P80. `query` is the same text: reading it gives the text at rest as well, and writing it
+   is writing `value`. Setting either from code fires nothing. A pick writes the **text** of the
+   suggestion; the `value` of an option is not used, although the list module still requires it, since the
+   list is the same. An option whose text is exactly the text of the field shows as chosen, with the check
+   (the case DSA-29 D-3 covers when it is also disabled). The form value is the text, empty included, as
+   `nph-input`, and `required` with an empty text is `valueMissing` with the message of a text field.
+
+3. **The events follow the field contract (P83 item 1).** The native `input` of the inner field crosses
+   the shadow root, because typing changes the value, and the value is already up to date when it reaches
+   the host. `change` is the native one: it fires when the text **settles** (a pick, the clear button,
+   Escape that clears, Enter, leaving the field), only if the text differs from the one of the last
+   `change` or of the last write from code. Enter with the list closed fires the pending `change` before
+   the form is submitted. `nph-search` says the text whenever it moved off the one it last said, also
+   after a pick or the clear button, so a consumer that suggests from a server stays in step.
+
+4. **The keyboard is the APG without automatic selection.** Typing opens the list with the matches and
+   **no suggestion active** (DSA-46 D-5 does not apply here); the arrows, Page Up and Page Down move without
+   wrapping; ArrowDown activates the first and, with the list closed, opens; ArrowUp with the list closed
+   opens on the last; Alt+ArrowDown opens without activating; Enter and Alt+ArrowUp pick the active
+   suggestion and, with none active, keep the text and close; with the list closed, Enter passes on to the
+   form; Escape closes and stops there, and with the list closed it clears the text (DSA-46 D-4); Tab,
+   leaving the field and an outside click close the list and keep the text, never replaced by a
+   suggestion. A click on the field takes the focus and does not open the list (DSA-79 D-1), as in the
+   APG autocomplete example. With text in the field, the arrows show only the suggestions that contain it
+   (DSA-79 D-2), since the field filters by the text it holds.
+
+5. **No suggestion.** The list closes, the `nph-empty` is never drawn and there is no create row;
+   `creatable`, `empty-heading` and `empty-description` are ignored with one `console.warn` in
+   development each. The sentence goes in a `role="status"` region **outside the list**, clipped like the
+   description, because the list in the top layer is not in the accessibility tree while it is closed.
+   The region speaks only after the person typed and goes quiet when the text has a suggestion again, when
+   the list is dismissed, when the field is left and when the text is empty or set by code. Answers that
+   arrive for a person who is still typing, as a server answers, reopen a list that had nothing to show.
+
+6. **Loading.** The list shows the `nph-spinner` as in P95 and carries `aria-busy="true"` while `loading`
+   is on, in this variant only. The accepted documentation says the arrow variant has it too, and its code
+   does not: it is a gap of the arrow variant, recorded here and left as it is, because the task forbids
+   changing that variant.
+
+7. **The open points of the task.** No minimum of characters: the first character already suggests, and no
+   property was added for it. No count of suggestions: the list shows what the consumer gives, inside
+   `layout/max-list-height`, and then scrolls. The "contains" filter is the one of P95, with no
+   difference of case or accent. An IME composition updates the value but does not filter, open or fire
+   `nph-search` until `compositionend`, where the final text is processed.
+
+8. **What the variant is not.** The start is the magnifying glass or the icon of `icon`; `start="avatar"`
+   with `free-text` does not exist (the accepted limits: no start avatar) and draws nothing, with one
+   `console.error`. No read only and no image. The divider and the arrow area are not drawn; the end of the
+   field takes `combobox/free-text-padding-end`, an alias of `space/control-padding`, with and without the
+   clear button, so the clear target ends where the start icon begins. The clear button clears the text,
+   closes the list and returns the focus to the field. Turning `free-text` on or off on a live element
+   closes the list, drops what was active and reads the form value again.
+
+**Pending, for Indiane (the task records them; none blocks the pull request).**
+
+- **DSA-79 D-1 — a click on the field does not open the list.** The documentation says typing opens the
+  list and says nothing of a click. Recommended: keep it, as the APG and GOV.UK do; she confirms, or says
+  that a click opens the list as in the arrow variant.
+- **DSA-79 D-2 — the arrows, with text in the field, show only the suggestions that contain it.**
+  Recommended: keep the filter, since the field holds text and a list of everything would disagree with
+  what it shows when typing; she confirms, or says the arrows show every suggestion.
+
+**Known limits.**
+
+- **The arrow variant has no `aria-busy`** on its loading list, although the accepted documentation of this
+  variant says it has (point 6).
+- **A selected suggestion** is the one whose text equals the field text exactly, with no difference of
+  case; "brazil" does not mark "Brazil".
+- **A server that does not set `loading`.** With `filter="none"`, the consumer is expected to set `loading`
+  inside `nph-search`. If it answers later without doing so, the list has nothing to show while it waits,
+  so it closes and the status region says there is no suggestion until the answer arrives, and then the
+  list reopens. The sheet says it in an AI hint.
+- **The clear button is not on by default.** The accepted documentation has `limpar` on by default; in code
+  `clearable` is off and needs `clear-label`, as in the arrow variant (P95), because the accessible name
+  is text the consumer owns.
+- **Forced colors and right-to-left** are not treated yet, as in P95.
+
+**Source.** Documentation frame `6047:3760` (page `4128:28570`), root `6040:2120` and set `6040:3286` of
+the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 12/11/2026, with the Figma UX QA and the
+textual audit approved; the evidence of the `figma-docs-accepted` gate of DSA-79. The attribute, the value
+model, the events, the no-suggestion region, the IME rule and the invalid input rules are a technical
+proposal of this implementation.
+
+**Out of scope.** A new token (`combobox/free-text-padding-end` already came with the task). A change to
+the arrow variant, to the list module or to `nph-multi-combobox`. A separate `nph-autocomplete`: free text
+is this variant. The Usage section of the page and the accessibility gate beyond what P72 already runs.
+
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-79 D-1 and D-2 wait for Indiane. API
+and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120 or P121 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121 or P122 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
