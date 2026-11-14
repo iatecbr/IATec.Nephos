@@ -1,0 +1,265 @@
+{
+  "piece": "nph-collapsible",
+  "level": "component",
+  "status": "active",
+  "solves": "Opens and closes a block of content in the same place on the page: the detail few people need, such as advanced settings, a long note, the log of an import or the steps of a vertical step-by-step. Open, the content pushes down what comes below and covers nothing.",
+  "use_when": [
+    "The detail goes away without changing the rhythm of the page, such as advanced settings in a form: the flush line.",
+    "A block needs to stand out from the page, such as a summary section: the card appearance.",
+    "Steps or levels, such as the vertical step-by-step: the indicator at the start.",
+    "The detail sits below a paragraph or an action: the button type.",
+    "A long text whose first part already helps, such as a log, a note or a description: the preview type.",
+    "The title alone does not say what is inside: turn on the description."
+  ],
+  "do_not_use_when": [
+    "For a group of sections with a rule between them, one open at a time: use the accordion.",
+    "For a layer that floats over the page and closes on an outside click, or for an action menu: use nph-popover or nph-dropdown-menu.",
+    "For a switch between panels of the same level: use nph-tabs.",
+    "To hide an error, a warning or a pending required field in closed content: keep it in view, and in a closed step show the pending item in the description.",
+    "For an outline on every row of a form: use the flush appearance and separate by space.",
+    "For a trigger that is only a clickable icon, with no title and no chevron: use the line type."
+  ],
+  "api": {
+    "type": {
+      "type": "enum",
+      "values": [
+        "line",
+        "button",
+        "preview"
+      ],
+      "required": false,
+      "default": "line",
+      "reflects": true,
+      "constraint": "The Figma property `tipo`. line is the trigger as the whole row, with the title and the chevron. button is an nph-button, secondary ghost, in the default size, with the chevron at the end, to open details from an action. preview shows the content cut at three lines while closed and the nph-button below it opens the rest. A value outside the list draws nothing and emits console.error in development."
+    },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "flush",
+        "card"
+      ],
+      "required": false,
+      "default": "flush",
+      "reflects": true,
+      "constraint": "The Figma property `aparencia`. flush has no background, no outline and no padding. card has the background, the outline, the corner and the padding of the card. A value outside the list draws nothing and emits console.error in development."
+    },
+    "indicator": {
+      "type": "enum",
+      "values": [
+        "end",
+        "start"
+      ],
+      "required": false,
+      "default": "end",
+      "reflects": true,
+      "constraint": "The Figma property `indicador`. end puts chevron-down after the title, and it turns 180 degrees on open. start puts chevron-right before the title, and it turns 90 degrees on open, to point down. Valid for the line type only: in button and preview the chevron is the one of the nph-button, so a value other than end is ignored and warned once in development. A value outside the list draws nothing and emits console.error in development."
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "compact",
+        "default",
+        "large"
+      ],
+      "required": false,
+      "default": "default",
+      "reflects": true,
+      "constraint": "The Figma property `size`. It changes the minimum height of the trigger, and in the large size the title takes text/label-lg. Valid for the line type only: button and preview use the nph-button in the default size, so a value other than default is ignored and warned once in development. A value outside the list draws nothing and emits console.error in development."
+    },
+    "open": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma property `aberto`, and the current state, as in the native details element. The piece starts closed. The person changes it and nph-toggle says so; setting it from code changes the content and fires nothing. Reflects so the consumer can style and check it. A piece that is open from the first render does not animate."
+    },
+    "disabled": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The piece does not open or close, leaves the Tab order and is faded as a whole. Open and disabled keeps the content in view, faded. A disabled closed content is plain hidden, so the search of the page does not open what the person cannot."
+    },
+    "label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The title of the trigger, already localized, and its accessible name. In the button type it is the text of the nph-button; in preview, the text while closed, such as Show more. A piece with no label is a mount: it draws nothing and says nothing, because the text may arrive after the first render."
+    },
+    "open-label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The text of the trigger while open, already localized, such as Show less. For the button and preview types; without it the text does not change. In the line type the title never changes when the content opens, so it is ignored and warned once in development."
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The support line under the title, already localized. It is the accessible description of the trigger and not part of its name. For the line type only: in button and preview it is ignored and warned once in development."
+    },
+    "icon": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The start icon, a core name of nph-icon in the light weight, such as gear. Empty draws none. For the line type only: in button and preview it is ignored and warned once in development. A name outside the core draws nothing and emits console.error in development."
+    },
+    "slot": {
+      "type": "slot",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The default slot is the content, free: any piece goes inside it, such as text, fields, actions or an nph-skeleton while it loads. It starts at collapsible/content-padding-top below the trigger and has no component token for its text."
+    },
+    "nph-toggle": {
+      "type": "event",
+      "required": false,
+      "default": "not_applicable",
+      "reflects": false,
+      "constraint": "Fired when the person opens or closes the content, by click, Enter, Space or the search of the page, with detail { open }, the state the content is in now. It bubbles and is composed. Setting open from code fires nothing."
+    }
+  },
+  "variants": {
+    "type": {
+      "axis": "appearance",
+      "choose_when": "line for a form or a settings list, where the trigger is the title of what opens; button when the detail sits below a paragraph or an action; preview for a long text whose beginning already informs.",
+      "do_not_combine_with": [
+        "indicator, size, description or icon with button or preview"
+      ]
+    },
+    "appearance": {
+      "axis": "appearance",
+      "choose_when": "flush by default, separated by space; card when the block must stand out from the page.",
+      "do_not_combine_with": [
+        "an outline on every row of a form"
+      ]
+    },
+    "indicator": {
+      "axis": "appearance",
+      "choose_when": "end for the rest; start for steps and levels, such as the vertical step-by-step.",
+      "do_not_combine_with": [
+        "button or preview"
+      ]
+    },
+    "size": {
+      "axis": "size",
+      "choose_when": "compact on a dense screen, never for touch; default when in doubt; large for a touch target.",
+      "do_not_combine_with": [
+        "button or preview"
+      ]
+    }
+  },
+  "states": {
+    "rest": {
+      "token": "collapsible/title-foreground, collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground",
+      "changes_for_user": "Open and closed are told apart by the direction of the chevron and by the content in view, not by color. Open does not change the background."
+    },
+    "hover": {
+      "token": "collapsible/trigger-background-hover",
+      "changes_for_user": "The background of the trigger: the whole row in flush, a pill inside the card padding in the card. Hover does not move the focus and does not open."
+    },
+    "focus": {
+      "token": "collapsible/focus-border, collapsible/focus-border-width, collapsible/focus-border-radius, collapsible/focus-halo, collapsible/focus-halo-width, collapsible/focus-halo-radius",
+      "changes_for_user": "For keyboard users, a border and a halo on the trigger, never on the whole card. In the button and preview types the focus is the one of the nph-button."
+    },
+    "disabled": {
+      "token": "collapsible/disabled-opacity",
+      "changes_for_user": "The whole piece is faded and cannot be opened or closed. Open and disabled keeps the content in view, faded."
+    }
+  },
+  "business_rules": [
+    "The piece starts closed. It exists to keep what few people use.",
+    "Open, the content pushes down what comes below and covers nothing. It does not flip, shrink or cut near the edge of the window.",
+    "The whole trigger is clickable. The content starts collapsible/content-padding-top below it, so the focus halo does not touch the content.",
+    "With the indicator at the start, or the start icon on, the open content indents to the title by the size of each part plus the gap.",
+    "The preview type cuts the text at three lines while closed and shows it whole when open; it does not grow, and the button swaps its text and its chevron.",
+    "The piece keeps its state: the person changes open, the event says so, and the page may set it. It closes on no outside click and on no Escape.",
+    "A pending item in a closed step goes in the description, in text, such as 2 fields missing. Error, warning and a pending required field are not hidden in closed content.",
+    "Several one under the other are separated by space/stack, in the same column and the same width, with no divider.",
+    "Every text comes from the consumer, already localized: the piece writes no word of its own."
+  ],
+  "domain_errors": [
+    "A type, appearance, indicator or size outside its list, or an icon that is not a core name of nph-icon: the piece draws nothing and emits console.error in development, one per cause.",
+    "An indicator, size, description or icon in the button or preview type, or an open-label in the line type: the piece ignores it and emits console.warn in development, one per cause."
+  ],
+  "tokens": {
+    "trigger": "collapsible/trigger-height, collapsible/trigger-height-compact, collapsible/trigger-height-large, collapsible/trigger-padding-x, collapsible/trigger-padding-y, collapsible/trigger-padding-y-compact, collapsible/trigger-gap, collapsible/trigger-radius, collapsible/trigger-background-hover",
+    "text": "collapsible/title-foreground, collapsible/title-gap, collapsible/description-foreground",
+    "icons": "collapsible/indicator-foreground, collapsible/indicator-size, collapsible/icon-foreground, collapsible/icon-size",
+    "content": "collapsible/content-padding-x, collapsible/content-padding-top, collapsible/content-padding-bottom, collapsible/content-gap, collapsible/preview-gap",
+    "card": "collapsible/card-background, collapsible/card-border, collapsible/card-border-width, collapsible/card-radius, collapsible/card-padding",
+    "focus": "collapsible/focus-border, collapsible/focus-border-width, collapsible/focus-border-radius, collapsible/focus-halo, collapsible/focus-halo-width, collapsible/focus-halo-radius",
+    "state": "collapsible/disabled-opacity",
+    "motion": "collapsible/expand-duration, collapsible/expand-easing",
+    "typography": "text/label-md, text/label-lg, text/body-sm, text/body-md"
+  },
+  "ai_hints": [
+    "Use nph-collapsible to keep the detail few people need; for a group of sections with a rule between them, one open at a time, use the accordion.",
+    "Write the label with the name of what opens, such as Advanced settings, because people decide to open by the title.",
+    "Leave it closed to begin with; set open only when the detail is what the screen is for.",
+    "Turn the description on when the title is not enough to decide, and put a pending item of a closed step there, in text.",
+    "Use the flush appearance and stack several at space/stack, with no divider; use the card only when the block must stand out.",
+    "Use the indicator at the start for steps and levels; leave it at the end for the rest.",
+    "For a trigger that is a button, use the button type with the label; for a long text, use preview with label and open-label. Do not set indicator, size, description or icon there.",
+    "Listen to nph-toggle to know what the person did; setting open from code fires nothing.",
+    "Never put an error, a warning or a pending required field in closed content."
+  ],
+  "accessibility": {
+    "semantics": "The disclosure pattern of the WAI-ARIA APG. The trigger is a button with aria-expanded and aria-controls pointing to the content. The content has no role of its own. The indicator and the start icon are hidden from assistive technology.",
+    "accessible_name": "The title. The description, when there is one, is the accessible description and not part of the name. In the button and preview types the name is the text of the nph-button.",
+    "keyboard": [
+      "Tab reaches the trigger. Closed, the content leaves the Tab order; open, Tab goes from the trigger into the content.",
+      "Enter and Space open and close. The focus stays on the trigger, on open and on close.",
+      "The arrow keys, Home, End and Escape do nothing, and a click outside does not close: the content is part of the page, not a layer over it.",
+      "A disabled piece leaves the Tab order."
+    ],
+    "focus": "Keyboard only, on the trigger: a border of collapsible/focus-border-width in collapsible/focus-border and a halo outside it. In the card the focus is on the trigger, not on the whole card. The halo is support; the border meets the contrast.",
+    "contrast": "The title, the description and the content text meet 4.5:1 over the background and the card, in both themes. The indicator and the start icon meet 3:1. The focus border meets 3:1. The outline of the card is an area outline: WCAG 1.4.11 does not ask 3:1 of it.",
+    "color_alternative": "Open and closed are told apart by the direction of the chevron and by the content in view, never by color. The hover background marks neither state."
+  },
+  "invalid_combinations": [
+    "An indicator, size, description or icon with the button or preview type — ignored with a warning.",
+    "An open-label with the line type — ignored with a warning.",
+    "A type, appearance, indicator or size outside its list — the piece draws nothing.",
+    "An icon that is not a core name of nph-icon — the piece draws nothing.",
+    "An error, a warning or a pending required field inside closed content.",
+    "A group of sections with an opening rule between them — that is the accordion."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-button",
+      "nph-icon"
+    ],
+    "parents": [
+      "a form, a settings list, a card or a step-by-step"
+    ],
+    "children": [
+      "nph-button",
+      "nph-icon",
+      "any piece in the content slot"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Hiding an error, a warning or a pending required field in closed content.",
+    "Removing the indicator or leaving only a clickable icon.",
+    "Using it for an action menu or a detail that floats over the page.",
+    "Putting an outline on every row of a form.",
+    "Putting a divider between stacked pieces: space already separates them.",
+    "Putting interactive content in the preview type: the cut hides lines that a link or a button could sit in, and they stay in the Tab order.",
+    "Starting open when the detail is not what the screen is for."
+  ],
+  "sources": {
+    "design_md": "design.md, the collapsible/* tokens, the colors they point to and the global focus/* tokens",
+    "decision": "P121 — nph-collapsible: API and semantics",
+    "tests": "src/components/nph-collapsible/nph-collapsible.test.ts",
+    "usage_evidence": "no screen consumes it yet",
+    "storybook": "src/components/nph-collapsible/nph-collapsible.stories.ts and nph-collapsible.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-collapsible documentation 6014:1688, set 6006:2250, root 6005:482"
+  }
+}

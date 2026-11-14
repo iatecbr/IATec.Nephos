@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 770,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-collapsible",
   "dependencies": [
     "DSA-03",
@@ -33,7 +33,26 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The preview type lifts the cut at three lines with no movement, because a cut of lines is not a size that can grow. Does Indiane confirm the reading, or draw the movement? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-2",
+      "question": "The preview type draws its Show more button even when the text has fewer than three lines, since the documentation does not say otherwise. Does the button go away when nothing is cut? Recommended: keep it, so the piece does not measure the text and the page owns the choice of the type. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    },
+    {
+      "id": "D-3",
+      "question": "The accepted documentation asks for the content to grow in motion/expand-*, and the motion rules of design.md say to animate only opacity and transform, and not width, height or layout position. The collapsible follows the documentation and animates the rows of one grid. Does Indiane confirm the reading, or does the rule get an exception for the expansion of a disclosure? Recommended: an exception, because a disclosure that pushes down what comes below cannot grow with transform alone. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-13"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-78/figma-docs-accepted-2026-11-12.md"
   ],
@@ -49,8 +68,8 @@
     "excerpt": null,
     "converted_decision": "The nph-collapsible documentation frame (6014:1688, page 4128:35275) was accepted as the API and behavior specification of the nph-collapsible, with the visual acceptance of the root (6005:482). COMPONENT_SET nph-collapsible (6006:2250). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-78-collapsible", "commit": null, "pr": 170 },
+  "context": "docs/operacao/contextos/DSA-78.md",
   "updated_at": "2026-11-12"
 }
 ```

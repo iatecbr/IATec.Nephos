@@ -78,7 +78,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **States of content**: results, groups, search (typed stretch in `command/highlight-weight`), empty (`nph-empty`, its own padding), loading (`nph-spinner` + "Buscando…" in `text/body-sm` and `command/status-foreground`, row padding `command/state-padding`, gap `command/status-gap`). Footer on by default.
 - **Dialog**: mount on the `nph-dialog`, named "Paleta de comandos". It needs these options there (evidence, Pend. 2): a title for screen readers only; no padding; no close button (Esc, Enter, the open key and a veil click close); a veil click closes (today it does not); new close origins in `nph-close` `detail.source` (open key, command run, veil).
 - **Roles and keys**: field `role="combobox"`, list `role="listbox"`, group `role="group"` named by its label, item `role="option"`, shortcut `aria-hidden`; Up, Down, Home, End, Enter, Esc closes the dialog and returns focus, Tab trapped. The 1st result is active while typing (DSA-46 D-5). A disabled item is skipped by keys and pointer.
-- **Item icon at rest**: grey, as the approved item (`color/muted-foreground`); solid on the active item.
+- **Item icon at rest**: gray, as the approved item (`color/muted-foreground`); solid on the active item.
 
 ## Open points for the code
 - Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.
