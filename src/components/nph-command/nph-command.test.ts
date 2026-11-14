@@ -442,7 +442,7 @@ describe('the search', () => {
     await type(command, 'cafe');
     expect(texts(command)).toEqual(['Café menu']);
     await userEvent.clear(fieldOf(command));
-    await type(command, 'caf\u00e9');
+    await type(command, 'CAFE');
     expect(texts(command)).toEqual(['Café menu']);
   });
 
