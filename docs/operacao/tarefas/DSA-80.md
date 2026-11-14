@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 790,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-command",
   "dependencies": [
     "DSA-03",
@@ -31,11 +31,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0, with the nph-dialog option.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor b46b79047538ea1bd2932dbf619a5e49b8ec4d65 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-80/review-and-merge-2026-11-14.md",
+      "result": "passed",
+      "verified_at": "2026-11-14",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -66,7 +66,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-80/figma-docs-accepted-2026-11-12.md"
+    "docs/operacao/evidencias/DSA-80/figma-docs-accepted-2026-11-12.md",
+    "docs/operacao/evidencias/DSA-80/review-and-merge-2026-11-14.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -81,8 +82,8 @@
     "excerpt": null,
     "converted_decision": "The nph-command documentation frame (6076:4910, page 1626:18) was accepted as the API and behavior specification of nph-command, with the visual acceptance of the root (6067:3610). COMPONENT_SET nph-command (6068:3936), 5 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-80-command", "commit": null, "pr": 173 },
-  "context": "docs/operacao/contextos/DSA-80.md",
+  "git_review": { "branch": "feat/dsa-80-command", "commit": "b46b79047538ea1bd2932dbf619a5e49b8ec4d65", "pr": 173 },
+  "context": null,
   "updated_at": "2026-11-14"
 }
 ```
