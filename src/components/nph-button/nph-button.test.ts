@@ -239,9 +239,9 @@ describe('registration and API', () => {
     expect(customElements.get('nph-button')).toBe(NphButton);
   });
 
-  it('the public API is exactly the one in P68 and P86', () => {
+  it('the public API is exactly the one in P68 and P86, plus `controls` of P121', () => {
     const declared = [...(NphButton as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading', 'shape']);
+    expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading', 'shape', 'controls']);
   });
 
   it('the defaults are primary, solid and default (size default by decision of 05-10-2026)', async () => {
@@ -1266,12 +1266,135 @@ describe('the trigger of an open popover or menu (P111, amends P68; DSA-67 D-2)'
     expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
   });
 
-  it('without aria-haspopup, aria-expanded alone changes nothing', async () => {
+  it('without aria-haspopup, aria-expanded alone draws no open look (it is handed to the native button since P121)', async () => {
+    const closed = await mount(TRIGGER);
+    const rest = getComputedStyle(control(closed)).backgroundColor;
     const element = await mount(TRIGGER);
     element.setAttribute('aria-expanded', 'true');
     await element.updateComplete;
     expect(element.hasAttribute('data-nph-open')).toBe(false);
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
+  });
+});
+
+describe('the trigger of a disclosure (P121, amends P68 after P111 and P116; DSA-78)', () => {
+  const TRIGGER = { severity: 'secondary', emphasis: 'ghost', text: 'Show details', iconEnd: 'chevron-down' } as const;
+
+  it('hands a true or a false aria-expanded of the host to the native button, with no haspopup', async () => {
+    const element = await mount(TRIGGER);
     expect(control(element).hasAttribute('aria-expanded')).toBe(false);
+    element.setAttribute('aria-expanded', 'true');
+    await element.updateComplete;
+    expect(control(element).getAttribute('aria-expanded')).toBe('true');
+    element.setAttribute('aria-expanded', 'false');
+    await element.updateComplete;
+    expect(control(element).getAttribute('aria-expanded')).toBe('false');
+    element.removeAttribute('aria-expanded');
+    await element.updateComplete;
+    expect(control(element).hasAttribute('aria-expanded')).toBe(false);
+  });
+
+  it('draws nothing new: no hover-active, no solid icon, no marker, the same background', async () => {
+    const closed = await mount(TRIGGER);
+    const element = await mount(TRIGGER);
+    element.setAttribute('aria-expanded', 'true');
+    await element.updateComplete;
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(getComputedStyle(control(closed)).backgroundColor);
+    expect(getComputedStyle(control(element)).color).toBe(getComputedStyle(control(closed)).color);
+    expect(await visibleVariants(control(element))).toEqual(await visibleVariants(control(closed)));
+    expect(element.hasAttribute('data-nph-open')).toBe(false);
+    expect(control(element).hasAttribute('aria-haspopup')).toBe(false);
+    expect(getComputedStyle(element).opacity).toBe(getComputedStyle(closed).opacity);
+  });
+
+  it('a value that is not true or false is not handed over', async () => {
+    const element = await mount(TRIGGER);
+    for (const value of ['mixed', '', 'yes']) {
+      element.setAttribute('aria-expanded', value);
+      await element.updateComplete;
+      expect(control(element).hasAttribute('aria-expanded'), value).toBe(false);
+    }
+  });
+
+  it('a host without aria-expanded stays as it was: no attribute on the native button', async () => {
+    for (const props of [TRIGGER, { text: 'Save' }, { severity: 'secondary', iconStart: 'plus', label: 'Add' }] as const) {
+      const element = await mount(props as Props);
+      expect(control(element).hasAttribute('aria-expanded')).toBe(false);
+      expect(control(element).hasAttribute('aria-haspopup')).toBe(false);
+      expect(control(element).hasAttribute('aria-controls')).toBe(false);
+    }
+  });
+
+  it('with aria-haspopup dialog or menu the look and the handed attributes are the ones of P111', async () => {
+    const closed = await mount(TRIGGER);
+    const rest = getComputedStyle(control(closed)).backgroundColor;
+    for (const haspopup of ['dialog', 'menu']) {
+      const element = await mount(TRIGGER);
+      element.setAttribute('aria-haspopup', haspopup);
+      element.setAttribute('aria-expanded', 'true');
+      await element.updateComplete;
+      expect(element.hasAttribute('data-nph-open'), haspopup).toBe(true);
+      expect(getComputedStyle(control(element)).backgroundColor, haspopup).not.toBe(rest);
+      expect(control(element).getAttribute('aria-haspopup'), haspopup).toBe(haspopup);
+      expect(control(element).getAttribute('aria-expanded'), haspopup).toBe('true');
+    }
+  });
+
+  it('with any other aria-haspopup the native button gets nothing, as before', async () => {
+    const element = await mount(TRIGGER);
+    element.setAttribute('aria-haspopup', 'listbox');
+    element.setAttribute('aria-expanded', 'true');
+    await element.updateComplete;
+    expect(control(element).hasAttribute('aria-expanded')).toBe(false);
+    expect(control(element).hasAttribute('aria-haspopup')).toBe(false);
+  });
+
+  it('the icon-only button hands it over too, with the look of the icon-only button', async () => {
+    const closed = await mount({ severity: 'secondary', iconStart: 'plus', label: 'Add' });
+    const element = await mount({ severity: 'secondary', iconStart: 'plus', label: 'Add' });
+    element.setAttribute('aria-expanded', 'false');
+    await element.updateComplete;
+    expect(control(element).getAttribute('aria-expanded')).toBe('false');
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(getComputedStyle(control(closed)).backgroundColor);
+  });
+
+  it('`controls` is given to the native button as the elements its aria-controls points to', async () => {
+    const target = document.createElement('div');
+    document.body.append(target);
+    const element = await mount(TRIGGER);
+    element.controls = target;
+    await element.updateComplete;
+    expect((control(element) as unknown as { ariaControlsElements: Element[] }).ariaControlsElements).toEqual([target]);
+    element.controls = null;
+    await element.updateComplete;
+    expect((control(element) as unknown as { ariaControlsElements: Element[] | null }).ariaControlsElements ?? []).toEqual([]);
+  });
+
+  it('`controls` is property only: there is no attribute for it', async () => {
+    const element = await mount(TRIGGER);
+    element.setAttribute('controls', 'anything');
+    await element.updateComplete;
+    expect(element.controls).toBeNull();
+  });
+
+  it('`controls` is written again when the native button is made again after invalid input', async () => {
+    const target = document.createElement('div');
+    document.body.append(target);
+    const element = await mount({ ...TRIGGER });
+    element.controls = target;
+    await element.updateComplete;
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    element.iconEnd = 'not-an-icon';
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector('button')).toBeNull();
+    element.iconEnd = 'chevron-up';
+    await element.updateComplete;
+    expect((control(element) as unknown as { ariaControlsElements: Element[] }).ariaControlsElements).toEqual([target]);
+  });
+
+  it('a button with no `controls` writes no aria-controls', async () => {
+    const element = await mount(TRIGGER);
+    expect(control(element).hasAttribute('aria-controls')).toBe(false);
   });
 });
 

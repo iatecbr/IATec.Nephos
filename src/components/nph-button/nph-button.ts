@@ -41,6 +41,11 @@
  *   `aria-haspopup` changes nothing;
  * - no slot, no own event, no color property and no `::part`. The
  *   click is the native `click`, which crosses the shadow root;
+ * - the trigger of a disclosure (P121, amends P68 after P111 and P116; DSA-78): a button whose host carries
+ *   `aria-expanded` and no `aria-haspopup` hands `aria-expanded` to the native button and draws nothing new: no
+ *   `hover-active`, no color, no state. And `controls`, an element, is given to the native button as
+ *   `ariaControlsElements`, because an `id` reference does not cross a shadow root. Property only. A host without
+ *   `aria-expanded`, and any `aria-haspopup`, behave as before;
  * - one public focus hook, `--nph-button-focus-border` (DSA-72, P116): the color of the focus
  *   border, which the severity sets when the hook is unset. `nph-sidebar` sets it to
  *   `focus/border` on its close button; the default focus does not change;
@@ -56,6 +61,9 @@ import '../nph-spinner/nph-spinner';
 import '../nph-tooltip/nph-tooltip';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import type { NphIconSize } from '../nph-icon/nph-icon.icons';
+
+/** The native button and the reflection the browser gives it for the elements an `aria-controls` points to. */
+type ControlsTarget = HTMLButtonElement & { ariaControlsElements: readonly Element[] | null };
 import buttonCss from './nph-button.css?inline';
 
 const TAG = 'nph-button';
@@ -138,6 +146,7 @@ export class NphButton extends LitElement {
     disabled: { type: Boolean, reflect: true },
     loading: { type: Boolean, reflect: true },
     shape: { type: String, reflect: true },
+    controls: { attribute: false },
   };
 
   /*
@@ -168,6 +177,8 @@ export class NphButton extends LitElement {
   declare loading: boolean;
   /** Corners of the icon-only button: `square` or `circular`. */
   declare shape: NphButtonShape;
+  /** The element this button opens or closes, for the `aria-controls` of a disclosure trigger. Property only. */
+  declare controls: HTMLElement | null;
 
   private valid = false;
   private iconOnly = false;
@@ -184,6 +195,7 @@ export class NphButton extends LitElement {
     this.disabled = false;
     this.loading = false;
     this.shape = 'square';
+    this.controls = null;
     /* `click()` called on the host itself also stops in disabled and loading. */
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
   }
@@ -277,6 +289,26 @@ export class NphButton extends LitElement {
     return this.getAttribute('aria-expanded') === 'true';
   }
 
+  /**
+   * The `aria-expanded` the native button carries. A popover or menu trigger carries it as the host says (P111).
+   * A host with no `aria-haspopup` at all, the trigger of a disclosure, hands over a `true` or a `false` and
+   * nothing else (P121). Any other `aria-haspopup` hands over nothing, as before.
+   */
+  private get expandedForNative(): string | null {
+    if (this.popupKind !== null) return String(this.expanded);
+    if (this.hasAttribute('aria-haspopup')) return null;
+    const value = this.getAttribute('aria-expanded');
+    return value === 'true' || value === 'false' ? value : null;
+  }
+
+  protected override updated(_changed: PropertyValues): void {
+    /* An `id` reference cannot cross the shadow root; the reflection of the elements can (P116). */
+    const native = this.renderRoot.querySelector<ControlsTarget>('button');
+    if (native !== null) {
+      native.ariaControlsElements = this.controls === null || this.controls === undefined ? null : [this.controls];
+    }
+  }
+
   /*
    * Each icon renders as a light and solid pair, with text and in the icon only; the CSS
    * shows one by the hover-active state, the same condition as the background (P88).
@@ -326,7 +358,7 @@ export class NphButton extends LitElement {
       aria-disabled=${this.loading && !this.disabled ? 'true' : nothing}
       aria-busy=${this.loading ? 'true' : nothing}
       aria-haspopup=${this.popupKind ?? nothing}
-      aria-expanded=${this.popupKind !== null ? String(this.expanded) : nothing}
+      aria-expanded=${this.expandedForNative ?? nothing}
       @click=${(event: Event) => this.blockInactive(event)}
     >
       ${content}
