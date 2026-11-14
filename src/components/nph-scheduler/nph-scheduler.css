@@ -1,0 +1,1156 @@
+/**
+ * Internal style of `nph-scheduler`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here. The `--_*` variables are internal to the shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations and resets (P120): `0` and `1` (resets,
+ * flex and grid relations, and the half of a mark), `auto`, `none`, `100%` (the columns fill the width
+ * they receive), `transparent` (no background at rest), `nowrap`, `ellipsis` and `max-content` (one line
+ * and the width the mini month decides), `calc(-1 * ...)` (the room of the focus border and halo outside
+ * a part), `2` (the hour is twice the minimum height of an event: a half hour fits the minimum, and
+ * `MIN_VISUAL_MINUTES` in the logic file holds the two together), `24` (the hours of a day), `4` (the
+ * month rows have at least four minimum heights), `7` (the days of a week), `1` (the `z-index` that keeps
+ * the day header over the grid it scrolls over) and `1px` (the visually hidden box of the live region).
+ * The width of the time of a list row is three times `scheduler/time-column-width`, the one of a phone row
+ * is one and a half times it, and the cell of the mini month is `control/height-compact`: no token states
+ * them (D-3 of the task).
+ */
+
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  /* The screen gives the height; with none, the grid takes the whole day. */
+  block-size: 100%;
+  color: var(--nph-scheduler-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  line-height: var(--nph-text-body-md-line-height);
+  font-weight: var(--nph-text-body-md-font-weight);
+  --_ring: calc(var(--nph-scheduler-focus-border-width) + var(--nph-scheduler-focus-halo-width));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+  outline: none;
+}
+
+/* ----- the container ------------------------------------------------------------------ */
+
+.scheduler {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
+  background-color: var(--nph-scheduler-background);
+  border: var(--nph-scheduler-border-width) solid var(--nph-scheduler-border);
+  border-radius: var(--nph-scheduler-radius);
+}
+
+.scheduler[data-sidebar] {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.scheduler[data-compact] {
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+/* The toolbar comes first in the document and the side panel second, so the Tab order is the one asked for. */
+.toolbar {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.scheduler[data-sidebar] .toolbar {
+  grid-column: 2;
+}
+
+.side {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.body {
+  grid-column: 1;
+  grid-row: 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  min-inline-size: 0;
+}
+
+.scheduler[data-sidebar] .body {
+  grid-column: 2;
+}
+
+.scheduler[data-compact] .body {
+  grid-row: 3;
+}
+
+.mobile-select {
+  grid-column: 1;
+  grid-row: 2;
+  padding-inline: var(--nph-scheduler-padding);
+}
+
+.mobile-select nph-select {
+  inline-size: 100%;
+}
+
+/* ----- the toolbar -------------------------------------------------------------------- */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nph-scheduler-toolbar-gap);
+  padding-block: var(--nph-scheduler-toolbar-padding-y);
+  padding-inline: var(--nph-scheduler-padding);
+  min-inline-size: 0;
+}
+
+.toolbar-start,
+.toolbar-end {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-scheduler-toolbar-gap);
+  min-inline-size: 0;
+}
+
+.toolbar-start {
+  flex: 1;
+}
+
+.toolbar-end {
+  flex: none;
+}
+
+.period {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--nph-scheduler-foreground);
+  font-family: var(--nph-text-heading-sm-font-family);
+  font-size: var(--nph-text-heading-sm-font-size);
+  line-height: var(--nph-text-heading-sm-line-height);
+  font-weight: var(--nph-text-heading-sm-font-weight);
+  letter-spacing: var(--nph-text-heading-sm-letter-spacing);
+}
+
+.toolbar nph-button {
+  flex: none;
+}
+
+.view-select {
+  flex: none;
+}
+
+/* The sidebar button keeps the place of the `sidebar` icon with a skeleton (D-2), with the look of the secondary ghost. */
+.side-toggle {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-control-height-default);
+  block-size: var(--nph-control-height-default);
+  border-radius: var(--nph-radius-control);
+  background-color: transparent;
+  color: var(--nph-color-secondary-foreground);
+}
+
+.side-toggle:hover {
+  background-color: var(--nph-icon-button-secondary-ghost-background-hover);
+}
+
+.side-toggle-place {
+  display: block;
+  inline-size: var(--nph-icon-size-md);
+  block-size: var(--nph-icon-size-md);
+}
+
+.side-toggle-place nph-skeleton {
+  block-size: 100%;
+}
+
+/* ----- the focus: the same border and halo on every part that takes it ----------------- */
+
+.side-toggle:focus-visible::before,
+.side-toggle:focus-visible::after,
+.event:focus-visible::before,
+.event:focus-visible::after,
+.day:focus-visible::before,
+.day:focus-visible::after,
+.cell:focus-visible::before,
+.cell:focus-visible::after,
+.grid-cell:focus-visible::before,
+.grid-cell:focus-visible::after,
+.row-item:has(.row:focus-visible)::before,
+.row-item:has(.row:focus-visible)::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.side-toggle:focus-visible::before,
+.event:focus-visible::before,
+.day:focus-visible::before,
+.cell:focus-visible::before,
+.grid-cell:focus-visible::before,
+.row-item:has(.row:focus-visible)::before {
+  inset: calc(-1 * var(--nph-scheduler-focus-border-width));
+  border: var(--nph-scheduler-focus-border-width) solid var(--_focus-border, var(--nph-scheduler-focus-border));
+  border-radius: var(--nph-scheduler-focus-border-radius);
+}
+
+.side-toggle:focus-visible::after,
+.event:focus-visible::after,
+.day:focus-visible::after,
+.cell:focus-visible::after,
+.grid-cell:focus-visible::after,
+.row-item:has(.row:focus-visible)::after {
+  inset: calc(-1 * var(--_ring));
+  border: var(--nph-scheduler-focus-halo-width) solid var(--_focus-halo, var(--nph-scheduler-focus-halo));
+  border-radius: var(--nph-scheduler-focus-halo-radius);
+}
+
+/* ----- the colors: the roles of one color, by data-color ------------------------------- */
+
+.event,
+.row,
+.calendar-dot,
+.grid-dot {
+  --_bg: var(--nph-scheduler-event-background);
+  --_fg: var(--nph-scheduler-event-foreground);
+  --_bg-hover: var(--nph-scheduler-event-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-indicator);
+  --_dot: var(--nph-scheduler-event-dot);
+  --_focus-border: var(--nph-scheduler-focus-border);
+  --_focus-halo: var(--nph-scheduler-focus-halo);
+}
+
+.row-item {
+  --_focus-border: var(--nph-scheduler-focus-border);
+  --_focus-halo: var(--nph-scheduler-focus-halo);
+}
+
+[data-color='sistemas'] {
+  --_bg: var(--nph-scheduler-event-sistemas-background);
+  --_fg: var(--nph-scheduler-event-sistemas-foreground);
+  --_bg-hover: var(--nph-scheduler-event-sistemas-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-sistemas-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-sistemas-indicator);
+  --_dot: var(--nph-scheduler-event-sistemas-indicator);
+  --_focus-border: var(--nph-scheduler-event-sistemas-focus-border);
+  --_focus-halo: var(--nph-scheduler-event-sistemas-focus-halo);
+}
+
+[data-color='gerencial'] {
+  --_bg: var(--nph-scheduler-event-gerencial-background);
+  --_fg: var(--nph-scheduler-event-gerencial-foreground);
+  --_bg-hover: var(--nph-scheduler-event-gerencial-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-gerencial-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-gerencial-indicator);
+  --_dot: var(--nph-scheduler-event-gerencial-indicator);
+  --_focus-border: var(--nph-scheduler-event-gerencial-focus-border);
+  --_focus-halo: var(--nph-scheduler-event-gerencial-focus-halo);
+}
+
+[data-color='educacao'] {
+  --_bg: var(--nph-scheduler-event-educacao-background);
+  --_fg: var(--nph-scheduler-event-educacao-foreground);
+  --_bg-hover: var(--nph-scheduler-event-educacao-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-educacao-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-educacao-indicator);
+  --_dot: var(--nph-scheduler-event-educacao-indicator);
+  --_focus-border: var(--nph-scheduler-event-educacao-focus-border);
+  --_focus-halo: var(--nph-scheduler-event-educacao-focus-halo);
+}
+
+[data-color='comercial'] {
+  --_bg: var(--nph-scheduler-event-comercial-background);
+  --_fg: var(--nph-scheduler-event-comercial-foreground);
+  --_bg-hover: var(--nph-scheduler-event-comercial-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-comercial-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-comercial-indicator);
+  --_dot: var(--nph-scheduler-event-comercial-indicator);
+  --_focus-border: var(--nph-scheduler-event-comercial-focus-border);
+  --_focus-halo: var(--nph-scheduler-event-comercial-focus-halo);
+}
+
+[data-color='financeiro'] {
+  --_bg: var(--nph-scheduler-event-financeiro-background);
+  --_fg: var(--nph-scheduler-event-financeiro-foreground);
+  --_bg-hover: var(--nph-scheduler-event-financeiro-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-financeiro-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-financeiro-indicator);
+  --_dot: var(--nph-scheduler-event-financeiro-indicator);
+  --_focus-border: var(--nph-scheduler-event-financeiro-focus-border);
+  --_focus-halo: var(--nph-scheduler-event-financeiro-focus-halo);
+}
+
+[data-color='igrejas'] {
+  --_bg: var(--nph-scheduler-event-igrejas-background);
+  --_fg: var(--nph-scheduler-event-igrejas-foreground);
+  --_bg-hover: var(--nph-scheduler-event-igrejas-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-igrejas-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-igrejas-indicator);
+  --_dot: var(--nph-scheduler-event-igrejas-indicator);
+  --_focus-border: var(--nph-scheduler-event-igrejas-focus-border);
+  --_focus-halo: var(--nph-scheduler-event-igrejas-focus-halo);
+}
+
+[data-color='rh'] {
+  --_bg: var(--nph-scheduler-event-rh-background);
+  --_fg: var(--nph-scheduler-event-rh-foreground);
+  --_bg-hover: var(--nph-scheduler-event-rh-background-hover);
+  --_fg-hover: var(--nph-scheduler-event-rh-foreground-hover);
+  --_indicator: var(--nph-scheduler-event-rh-indicator);
+  --_dot: var(--nph-scheduler-event-rh-indicator);
+  --_focus-border: var(--nph-scheduler-event-rh-focus-border);
+  --_focus-halo: var(--nph-scheduler-event-rh-focus-halo);
+}
+
+/* ----- the event ---------------------------------------------------------------------- */
+
+.event {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  inline-size: 100%;
+  min-block-size: var(--nph-scheduler-event-min-height);
+  border-radius: var(--nph-scheduler-event-radius);
+  background-color: var(--_bg);
+  color: var(--_fg);
+}
+
+.event:hover,
+.event[aria-expanded='true'] {
+  background-color: var(--_bg-hover);
+  color: var(--_fg-hover);
+}
+
+.event .bar,
+.row .bar {
+  flex: none;
+  inline-size: var(--nph-scheduler-event-indicator-width);
+  background-color: var(--_indicator);
+}
+
+.event .bar {
+  border-start-start-radius: var(--nph-scheduler-event-radius);
+  border-end-start-radius: var(--nph-scheduler-event-radius);
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+  overflow: hidden;
+  padding-block: var(--nph-scheduler-event-padding-y);
+  padding-inline: var(--nph-scheduler-event-padding-x);
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-scheduler-event-gap);
+  min-inline-size: 0;
+}
+
+.title {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  line-height: var(--nph-text-label-sm-line-height);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.repeat {
+  flex: none;
+  inline-size: var(--nph-scheduler-event-icon-size);
+  block-size: var(--nph-scheduler-event-icon-size);
+}
+
+.time {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  line-height: var(--nph-text-caption-line-height);
+  font-weight: var(--nph-text-caption-font-weight);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+/* The cancelled event is neutral, struck through, with its text before the title and no bar. */
+[data-cancelled] {
+  --_bg: var(--nph-scheduler-event-cancelled-background);
+  --_fg: var(--nph-scheduler-event-cancelled-foreground);
+  --_bg-hover: var(--nph-scheduler-event-cancelled-background);
+  --_fg-hover: var(--nph-scheduler-event-cancelled-foreground);
+}
+
+.event[data-cancelled] {
+  box-shadow: inset 0 0 0 var(--nph-scheduler-event-border-width) var(--nph-scheduler-event-cancelled-border);
+}
+
+[data-cancelled] .name {
+  text-decoration: line-through;
+}
+
+.event[data-cancelled] .bar {
+  display: none;
+}
+
+/* The shape in the day grid: placed by time, side by side where they overlap. */
+.event[data-kind='grid'] {
+  position: absolute;
+  inline-size: calc(100% / var(--_columns) - var(--nph-scheduler-event-border-width));
+  inset-inline-start: calc(100% * var(--_column) / var(--_columns));
+  inset-block-start: calc(var(--_hour) * var(--_start));
+  block-size: max(calc(var(--_hour) * var(--_span) - var(--nph-scheduler-event-border-width)), var(--nph-scheduler-event-min-height));
+}
+
+/* The shape in the all-day band: one bar over the days it covers. */
+.event[data-kind='bar'] {
+  inline-size: auto;
+  align-self: start;
+  min-inline-size: 0;
+}
+
+/* The shape in the month: one line of `text/label-sm`, no time, at the minimum height of an event. */
+.event[data-kind='line'] {
+  flex: none;
+  block-size: var(--nph-scheduler-event-min-height);
+}
+
+.event[data-kind='line'] .content {
+  justify-content: center;
+  padding-block: 0;
+}
+
+.event[data-kind='line'][data-cancelled] .content {
+  padding-inline: var(--nph-scheduler-event-padding-x);
+}
+
+.event[data-probe] {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  visibility: hidden;
+  inline-size: 100%;
+  pointer-events: none;
+}
+
+.event[data-kind='flow'] {
+  flex: 1;
+  inline-size: auto;
+  min-inline-size: 0;
+}
+
+/* ----- the week and day views ---------------------------------------------------------- */
+
+.scroll {
+  --_hour: calc(var(--nph-scheduler-event-min-height) * 2);
+  position: relative;
+  flex: 1;
+  min-block-size: 0;
+  overflow: auto;
+  /* The day header stays over the grid, so what takes the focus scrolls to under it, not behind it. */
+  scroll-padding-block-start: var(--_sticky, 0);
+}
+
+.sticky {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background-color: var(--nph-scheduler-background);
+}
+
+.head,
+.band,
+.grid {
+  display: grid;
+  grid-template-columns: var(--nph-scheduler-time-column-width) minmax(0, 1fr);
+}
+
+.head {
+  grid-template-columns: var(--nph-scheduler-time-column-width) repeat(var(--_days), minmax(0, 1fr));
+}
+
+.day-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-inline-size: 0;
+}
+
+.day {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-scheduler-day-header-gap);
+  min-inline-size: 0;
+  padding: var(--nph-scheduler-day-padding);
+  border-radius: var(--nph-scheduler-day-radius);
+  color: var(--nph-scheduler-day-label-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  line-height: var(--nph-text-label-md-line-height);
+  font-weight: var(--nph-text-label-md-font-weight);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.day-name,
+.day-number {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.day-number {
+  color: var(--nph-scheduler-foreground);
+}
+
+.day-head[data-today] .day-name,
+.day-head[data-today] .day-number {
+  color: var(--nph-scheduler-today-foreground);
+}
+
+.day-head[data-today]::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: var(--nph-scheduler-today-indicator-width);
+  background-color: var(--nph-scheduler-today-indicator);
+  pointer-events: none;
+}
+
+.day-head .people {
+  flex: none;
+  margin-inline-end: var(--nph-scheduler-day-padding);
+  pointer-events: none;
+}
+
+.band-label {
+  padding: var(--nph-scheduler-day-padding);
+  color: var(--nph-scheduler-day-label-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  line-height: var(--nph-text-caption-line-height);
+  font-weight: var(--nph-text-caption-font-weight);
+}
+
+.band-bars {
+  display: grid;
+  grid-template-columns: repeat(var(--_days), minmax(0, 1fr));
+  grid-auto-rows: var(--nph-scheduler-event-min-height);
+  row-gap: var(--nph-scheduler-event-border-width);
+  column-gap: var(--nph-scheduler-event-border-width);
+  padding-block-end: var(--nph-scheduler-event-border-width);
+  min-block-size: calc(var(--nph-scheduler-event-min-height) * var(--_lanes));
+}
+
+.band-bars .event {
+  block-size: var(--nph-scheduler-event-min-height);
+}
+
+.hours {
+  position: relative;
+}
+
+.hour {
+  block-size: var(--_hour);
+  padding-inline-end: var(--nph-scheduler-day-padding);
+  text-align: end;
+  color: var(--nph-scheduler-time-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  line-height: var(--nph-text-caption-line-height);
+  font-weight: var(--nph-text-caption-font-weight);
+  white-space: nowrap;
+}
+
+.columns {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--_days), minmax(0, 1fr));
+  block-size: calc(var(--_hour) * 24);
+  /* The line is only on the full hour: the space separates the events. */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--nph-scheduler-grid-line) 0,
+    var(--nph-scheduler-grid-line) var(--nph-scheduler-border-width),
+    transparent var(--nph-scheduler-border-width),
+    transparent var(--_hour)
+  );
+}
+
+.column {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.now {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(var(--_hour) * var(--_at));
+  block-size: var(--nph-scheduler-now-indicator-width);
+  background-color: var(--nph-scheduler-now-indicator);
+  pointer-events: none;
+}
+
+.now-dot {
+  position: absolute;
+  inset-inline-start: calc(-0.5 * var(--nph-scheduler-now-indicator-size));
+  inset-block-start: 50%;
+  inline-size: var(--nph-scheduler-now-indicator-size);
+  block-size: var(--nph-scheduler-now-indicator-size);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-scheduler-now-indicator);
+  transform: translateY(-50%);
+}
+
+.now-time {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(var(--_hour) * var(--_at));
+  padding-inline-end: var(--nph-scheduler-day-padding);
+  text-align: end;
+  background-color: var(--nph-scheduler-background);
+  color: var(--nph-scheduler-now-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  line-height: var(--nph-text-caption-line-height);
+  font-weight: var(--nph-text-caption-font-weight);
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+
+/* ----- the states --------------------------------------------------------------------- */
+
+.empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nph-scheduler-empty-gap);
+  padding: var(--nph-scheduler-padding);
+  text-align: center;
+  pointer-events: none;
+}
+
+.empty nph-icon {
+  inline-size: var(--nph-scheduler-empty-icon-size);
+  block-size: var(--nph-scheduler-empty-icon-size);
+  color: var(--nph-scheduler-day-label-foreground);
+}
+
+.empty-title {
+  color: var(--nph-scheduler-foreground);
+  font-family: var(--nph-text-label-md-strong-font-family);
+  font-size: var(--nph-text-label-md-strong-font-size);
+  line-height: var(--nph-text-label-md-strong-line-height);
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+}
+
+.empty-hint {
+  color: var(--nph-scheduler-day-label-foreground);
+}
+
+.skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-scheduler-month-cell-gap);
+  padding: var(--nph-scheduler-event-padding-x);
+  pointer-events: none;
+}
+
+.column .skeletons {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+}
+
+/* ----- the month view ----------------------------------------------------------------- */
+
+.month {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-block-size: 0;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  padding-block: var(--nph-scheduler-day-label-padding-y);
+  padding-inline: var(--nph-scheduler-month-cell-padding-x);
+  color: var(--nph-scheduler-day-label-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  line-height: var(--nph-text-label-sm-line-height);
+  font-weight: var(--nph-text-label-sm-font-weight);
+}
+
+.weekday {
+  padding-inline: var(--nph-scheduler-day-padding);
+}
+
+.month-body {
+  position: relative;
+  flex: 1;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.cells,
+.cell-events {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: repeat(var(--_weeks), minmax(calc(var(--nph-scheduler-event-min-height) * 4), 1fr));
+  min-block-size: 100%;
+}
+
+.cell-events {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-inline-size: 0;
+  padding-block: var(--nph-scheduler-month-cell-padding-y);
+  padding-inline: var(--nph-scheduler-month-cell-padding-x);
+  border-block-start: var(--nph-scheduler-border-width) solid var(--nph-scheduler-grid-line);
+  border-inline-start: var(--nph-scheduler-border-width) solid var(--nph-scheduler-grid-line);
+  border-radius: var(--nph-scheduler-day-radius);
+}
+
+.cell:nth-child(7n + 1) {
+  border-inline-start: 0;
+}
+
+.cell:nth-child(-n + 7) {
+  border-block-start: 0;
+}
+
+.cell-number,
+.cell-spacer {
+  padding-inline: var(--nph-scheduler-day-padding);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  line-height: var(--nph-text-label-md-line-height);
+  font-weight: var(--nph-text-label-md-font-weight);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.cell-number {
+  color: var(--nph-scheduler-foreground);
+}
+
+.cell[data-outside] .cell-number {
+  color: var(--nph-scheduler-day-label-foreground);
+}
+
+.cell[data-today] .cell-number {
+  color: var(--nph-scheduler-today-foreground);
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+}
+
+.cell-spacer {
+  visibility: hidden;
+}
+
+.cell-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--nph-scheduler-month-cell-gap);
+  min-inline-size: 0;
+  min-block-size: 0;
+  padding-block: var(--nph-scheduler-month-cell-padding-y);
+  padding-inline: var(--nph-scheduler-month-cell-padding-x);
+}
+
+.cell-list > * {
+  pointer-events: auto;
+}
+
+.cell-list > .cell-spacer {
+  pointer-events: none;
+}
+
+.more {
+  display: flex;
+  flex: none;
+  align-items: center;
+  min-block-size: var(--nph-scheduler-more-height);
+}
+
+.probes {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.more-probe {
+  display: block;
+  block-size: var(--nph-scheduler-more-height);
+}
+
+/* ----- the list view ------------------------------------------------------------------ */
+
+.list {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--nph-scheduler-list-gap);
+  min-block-size: 0;
+  overflow: auto;
+  padding: var(--nph-scheduler-padding);
+}
+
+.list-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-scheduler-list-day-gap);
+}
+
+.list-heading,
+.day-list-heading {
+  margin: 0;
+  color: var(--nph-scheduler-foreground);
+  font-family: var(--nph-text-label-md-strong-font-family);
+  font-size: var(--nph-text-label-md-strong-font-size);
+  line-height: var(--nph-text-label-md-strong-line-height);
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+  letter-spacing: var(--nph-text-label-md-strong-letter-spacing);
+}
+
+.list-heading[data-today],
+.day-list-heading[data-today] {
+  color: var(--nph-scheduler-today-foreground);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-scheduler-list-gap);
+  border-radius: var(--nph-scheduler-focus-border-radius);
+}
+
+.row {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-scheduler-list-gap);
+  min-inline-size: 0;
+  padding-block: var(--nph-scheduler-list-item-padding);
+  padding-inline: 0;
+  color: var(--nph-scheduler-foreground);
+}
+
+.row-time {
+  flex: none;
+  inline-size: calc(var(--nph-scheduler-time-column-width) * 3);
+  white-space: nowrap;
+  color: var(--nph-scheduler-time-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  line-height: var(--nph-text-label-sm-line-height);
+  font-weight: var(--nph-text-label-sm-font-weight);
+}
+
+.row .bar {
+  align-self: stretch;
+  min-block-size: var(--nph-text-body-md-line-height);
+}
+
+.row[data-cancelled] .bar {
+  visibility: hidden;
+}
+
+.row[data-cancelled] .row-time,
+.row[data-cancelled] .row-title {
+  color: var(--nph-scheduler-event-cancelled-foreground);
+}
+
+.row-title {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-scheduler-event-gap);
+  min-inline-size: 0;
+}
+
+.row-title .title {
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  line-height: var(--nph-text-body-md-line-height);
+  font-weight: var(--nph-text-body-md-font-weight);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.row-item .people {
+  flex: none;
+}
+
+/* ----- the date grid: the mini month and the compact month ------------------------------ */
+
+.date-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-head {
+  padding-block: var(--nph-scheduler-day-label-padding-y);
+  text-align: center;
+  color: var(--nph-scheduler-day-label-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  line-height: var(--nph-text-label-sm-line-height);
+  font-weight: var(--nph-text-label-sm-font-weight);
+}
+
+.grid-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nph-scheduler-month-cell-gap);
+  min-inline-size: 0;
+  border-radius: var(--nph-scheduler-day-radius);
+  color: var(--nph-scheduler-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  line-height: var(--nph-text-label-md-line-height);
+  font-weight: var(--nph-text-label-md-font-weight);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.grid-cell[data-outside] {
+  color: var(--nph-scheduler-day-label-foreground);
+}
+
+.grid-cell[data-today] {
+  color: var(--nph-scheduler-today-foreground);
+}
+
+.grid-cell[aria-selected='true'] {
+  background-color: var(--nph-scheduler-day-selected-background);
+  color: var(--nph-scheduler-day-selected-foreground);
+  font-family: var(--nph-text-label-md-strong-font-family);
+  font-size: var(--nph-text-label-md-strong-font-size);
+  line-height: var(--nph-text-label-md-strong-line-height);
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+}
+
+.date-grid[data-kind='mini'] .grid-cell {
+  inline-size: var(--nph-control-height-compact);
+  block-size: var(--nph-control-height-compact);
+}
+
+.date-grid[data-kind='mini'] .grid-head {
+  inline-size: var(--nph-control-height-compact);
+}
+
+.date-grid[data-kind='compact'] {
+  margin-inline: var(--nph-scheduler-padding);
+  padding-block: var(--nph-scheduler-day-padding);
+}
+
+.date-grid[data-kind='compact'] .grid-cell {
+  padding-block: var(--nph-scheduler-day-padding);
+}
+
+.grid-dot {
+  display: block;
+  inline-size: var(--nph-scheduler-event-dot-size);
+  block-size: var(--nph-scheduler-event-dot-size);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--_dot);
+}
+
+.grid-dot[data-empty] {
+  background-color: transparent;
+}
+
+.grid-cell[aria-selected='true'] .grid-dot:not([data-empty]) {
+  background-color: var(--nph-scheduler-event-dot-selected);
+}
+
+/* ----- the side panel ----------------------------------------------------------------- */
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-scheduler-sidebar-gap);
+  inline-size: max-content;
+  padding: var(--nph-scheduler-padding);
+}
+
+.mini-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nph-scheduler-toolbar-gap);
+}
+
+.mini-label {
+  color: var(--nph-scheduler-foreground);
+  font-family: var(--nph-text-label-md-strong-font-family);
+  font-size: var(--nph-text-label-md-strong-font-size);
+  line-height: var(--nph-text-label-md-strong-line-height);
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+}
+
+.mini-nav {
+  display: flex;
+  gap: var(--nph-space-inline-tight);
+}
+
+.calendars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-stack-snug);
+}
+
+.calendars-label {
+  color: var(--nph-scheduler-foreground);
+  font-family: var(--nph-text-label-md-strong-font-family);
+  font-size: var(--nph-text-label-md-strong-font-size);
+  line-height: var(--nph-text-label-md-strong-line-height);
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+}
+
+.calendar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nph-scheduler-toolbar-gap);
+}
+
+/* The color of the calendar: the event surface and its bar color, as a small swatch (D-4 of the task). */
+.calendar-dot {
+  flex: none;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  border: var(--nph-scheduler-event-border-width) solid var(--_indicator);
+  border-radius: var(--nph-scheduler-event-radius);
+  background-color: var(--_bg);
+}
+
+/* ----- the compact month and the list of the day --------------------------------------- */
+
+.compact {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--nph-scheduler-list-gap);
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.day-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-scheduler-list-day-gap);
+  margin-inline: var(--nph-scheduler-padding);
+  padding-block-end: var(--nph-scheduler-padding);
+}
+
+.day-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-scheduler-list-item-gap);
+}
+
+.day-row-time {
+  flex: none;
+  inline-size: calc(var(--nph-scheduler-time-column-width) * 3 / 2);
+  white-space: nowrap;
+  padding-block-start: var(--nph-scheduler-event-padding-y);
+  color: var(--nph-scheduler-time-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  line-height: var(--nph-text-label-sm-line-height);
+  font-weight: var(--nph-text-label-sm-font-weight);
+}
+
+.day-list .empty {
+  position: static;
+  padding: 0;
+}
+
+/* ----- the live region ----------------------------------------------------------------- */
+
+.live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}

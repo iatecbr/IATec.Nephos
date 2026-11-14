@@ -486,7 +486,21 @@
     "components-nph-collapsible-validation--direction": "Dirección",
     "components-nph-collapsible-validation--interactive": "Interactivo",
     "components-nph-collapsible-validation--examples": "Ejemplos",
-    "components-nph-collapsible-validation--brands": "Marcas"
+    "components-nph-collapsible-validation--brands": "Marcas",
+    "components-nph-scheduler-docs": "Docs",
+    "components-nph-scheduler-docs--documentation": "Documentación",
+    "components-nph-scheduler-validation": "Validación",
+    "components-nph-scheduler-validation--work-week": "Semana laboral",
+    "components-nph-scheduler-validation--views": "Vistas",
+    "components-nph-scheduler-validation--side-panel": "Panel lateral",
+    "components-nph-scheduler-validation--events": "Eventos",
+    "components-nph-scheduler-validation--states": "Estados",
+    "components-nph-scheduler-validation--more": "Más",
+    "components-nph-scheduler-validation--phone": "Celular",
+    "components-nph-scheduler-validation--detail": "Detalle",
+    "components-nph-scheduler-validation--focus": "Foco",
+    "components-nph-scheduler-validation--examples": "Ejemplos",
+    "components-nph-scheduler-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7938,7 +7952,18 @@
       "components-nph-collapsible-validation--direction": "Escritura de derecha a izquierda: el indicador, el icono y la sangría siguen el inicio, y la flecha del inicio apunta hacia él cuando está cerrada.",
       "components-nph-collapsible-validation--interactive": "El evento: nph-toggle se dispara cuando la persona abre o cierra el contenido y dice en qué estado está el contenido ahora.",
       "components-nph-collapsible-validation--examples": "Los tres ejemplos obligatorios, en modo claro y oscuro: los ajustes avanzados de un formulario, abiertos; los pasos de un registro, con el indicador al inicio; y el registro de una importación en el tipo vista previa, cerrado.",
-      "components-nph-collapsible-validation--brands": "Las siete marcas en modo claro y oscuro: el hover, el foco y la tarjeta siguen la marca."
+      "components-nph-collapsible-validation--brands": "Las siete marcas en modo claro y oscuro: el hover, el foco y la tarjeta siguen la marca.",
+      "components-nph-scheduler-validation--work-week": "La semana laboral, la vista por defecto, con el panel lateral, la línea de ahora, la franja de todo el día y eventos superpuestos.",
+      "components-nph-scheduler-validation--views": "Las vistas de semana, día, mes y lista, y la semana que empieza el lunes.",
+      "components-nph-scheduler-validation--side-panel": "El panel lateral en toda vista del escritorio, mostrado y oculto por el mismo botón.",
+      "components-nph-scheduler-validation--events": "El evento: los colores de los calendarios, los tipos y el evento cancelado, en las grillas de día y de semana.",
+      "components-nph-scheduler-validation--states": "Vacío y cargando cambian solo el área de eventos: la barra de herramientas sigue activa y la semana mantiene sus días.",
+      "components-nph-scheduler-validation--more": "Un día con más eventos de los que caben en la celda: +N más cierra la celda y va a la vista de día.",
+      "components-nph-scheduler-validation--phone": "Por debajo de 768 px el scheduler es el mes compacto con la lista del día elegido.",
+      "components-nph-scheduler-validation--detail": "El evento abierto: el popover a su lado, con el contenido que la pantalla puso en el slot, y aria-expanded en el evento.",
+      "components-nph-scheduler-validation--focus": "El foco del día y del evento: el mismo borde y el mismo halo, en el color del evento. La historia mueve el foco.",
+      "components-nph-scheduler-validation--examples": "Los ejemplos obligatorios (la semana laboral, el mes en el celular, la semana vacía, la lista y el mes con +N más) en los modos claro y oscuro.",
+      "components-nph-scheduler-validation--brands": "Las siete marcas en claro y oscuro: el color primario, la marca de hoy y el foco siguen la marca; los otros colores no."
     }
   },
   "multiComboboxDocs": {
@@ -14078,5 +14103,538 @@
     "stackThree": "Facturación",
     "eventOpen": "nph-toggle: el contenido está abierto.",
     "eventClosed": "nph-toggle: el contenido está cerrado."
+  },
+  "schedulerDocs": {
+    "summary": "El calendario de eventos: las vistas de semana laboral, semana, día, mes y lista, en el escritorio y en el celular, con un panel lateral opcional, una barra de herramientas y el evento que abre su detalle al lado.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de especificación del nph-scheduler, el design.md para los tokens y el docs/decisoes-tecnicas.md para la P120. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "La persona necesita ver lo que viene en una semana, un día o un mes y encontrar un horario libre: la semana laboral con el panel lateral, la vista en que abre la pieza.",
+      "La persona planifica por mes: la vista de mes, con los eventos en una fila por día y +N más cuando no caben.",
+      "La persona lee los eventos en secuencia, o usa un lector de pantalla: la vista de lista.",
+      "La pantalla es un celular: por debajo de 768 px de ancho del elemento, la pieza es el mes compacto con la lista del día elegido.",
+      "Varios calendarios comparten una grilla y la persona activa y desactiva cada uno en Mis calendarios: dé a cada calendario su color.",
+      "La pantalla abre el detalle de un evento a su lado: ponga el contenido en el slot detail y ábralo con open-event."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para elegir una fecha en un formulario: use el selector de fecha, no el scheduler.",
+      "Para tareas sin hora del día: use una lista o una tabla.",
+      "Para marcar un evento por estado, como error, aviso o éxito: el color de un evento es la elección del calendario, nunca un estado.",
+      "Para mostrar un evento cancelado solo por el color: la pieza escribe Cancelado: y tacha el título, y lo mantiene en la grilla.",
+      "Para abrir el detalle, crear o editar un evento dentro de la pieza: eso es de la pantalla, que recibe el clic en el evento.",
+      "Para eventos pasados o provisionales, escala de tiempo o las flechas en la grilla: están fuera de esta versión."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Nombre",
+      "Regla"
+    ],
+    "api": [
+      [
+        "events",
+        "Los eventos, solo por propiedad, y la pantalla es la dueña de la lista. Cada uno es { id, title, start, end, allDay, calendar, cancelled, recurring, people }; id (único) y title son obligatorios. start y end son texto de reloj de pared, YYYY-MM-DDTHH:mm, o YYYY-MM-DD para un evento de todo el día, cuyo end es el último día, incluido. Un texto con zona horaria se rechaza. Un evento que no se puede dibujar queda fuera y se avisa en desarrollo."
+      ],
+      [
+        "calendars",
+        "Los calendarios, solo por propiedad. Cada uno es { id, name, color, visible }; el color de sus eventos es primary, sistemas, gerencial, educacao, comercial, financeiro, igrejas o rh, y nunca un estado. visible false oculta los eventos. La casilla de Mis calendarios reemplaza la lista por una nueva y nunca cambia los objetos de la pantalla."
+      ],
+      [
+        "labels",
+        "Todos los textos que escribe la pieza, ya localizados, como un objeto con las claves listadas abajo. Una etiqueta que falta se dibuja igual y la pieza dice en desarrollo qué claves faltan. {count} y {date} son los marcadores de un texto."
+      ],
+      [
+        "filter-items",
+        "Los elementos del menú Filtrar, como los elementos del nph-dropdown-menu. La propiedad es filterItems. Sin ellos, el botón Filtrar solo dispara nph-filter-click."
+      ],
+      [
+        "view",
+        "work-week (por defecto), week, day, month o list. El selector de vista la cambia y dispara nph-view-change; definirla desde el código no dispara nada. Reflejada en el atributo. En el celular, el mes compacto permanece."
+      ],
+      [
+        "date",
+        "El día alrededor del cual se arma el período, YYYY-MM-DD; ausente, hoy. La barra de herramientas, el mes pequeño y los días de la grilla la cambian y disparan nph-date-change; definirla desde el código no dispara nada."
+      ],
+      [
+        "week-start",
+        "sunday (por defecto) o monday. La propiedad es weekStart. El primer día de la semana no viene del idioma."
+      ],
+      [
+        "hide-side-panel",
+        "Oculta el panel lateral, con el mes pequeño y Mis calendarios, en toda vista del escritorio. El botón de barra lateral en la barra de herramientas lo alterna y dispara nph-side-panel-change. Reflejado en el atributo."
+      ],
+      [
+        "loading",
+        "Filas de esqueleto en el lugar de los eventos; la barra de herramientas sigue activa y la semana mantiene sus días. Reflejado en el atributo."
+      ],
+      [
+        "now",
+        "Un instante, YYYY-MM-DDTHH:mm, que hace las veces del reloj, para que la línea de ahora y el día de hoy sean los mismos en una historia y en una prueba. Ausente, el reloj de la máquina, leído de nuevo cada minuto."
+      ],
+      [
+        "open-event",
+        "El id del evento cuyo detalle está abierto. La propiedad es openEvent. Con contenido en el slot detail, la pieza abre el popover al lado del evento y escribe aria-expanded true en él; el atributo desaparece cuando el detalle se cierra. Reflejada en el atributo mientras un evento está abierto."
+      ],
+      [
+        "labels.today",
+        "El texto del botón Hoy, que va al día actual."
+      ],
+      [
+        "labels.previous",
+        "El nombre accesible del botón de período anterior."
+      ],
+      [
+        "labels.next",
+        "El nombre accesible del botón de período siguiente."
+      ],
+      [
+        "labels.newEvent",
+        "El texto del botón Nuevo evento en el escritorio y su nombre accesible en el celular, donde el botón tiene solo el icono."
+      ],
+      [
+        "labels.filter",
+        "El texto del botón Filtrar y el nombre accesible de su menú."
+      ],
+      [
+        "labels.sidePanel",
+        "El nombre accesible del botón de barra lateral, su sugerencia y el nombre del panel lateral."
+      ],
+      [
+        "labels.view",
+        "El nombre accesible del selector de vista."
+      ],
+      [
+        "labels.viewWorkWeek",
+        "El texto de la opción de semana laboral del selector de vista."
+      ],
+      [
+        "labels.viewWeek",
+        "El texto de la opción de semana del selector de vista."
+      ],
+      [
+        "labels.viewDay",
+        "El texto de la opción de día del selector de vista."
+      ],
+      [
+        "labels.viewMonth",
+        "El texto de la opción de mes del selector de vista."
+      ],
+      [
+        "labels.viewList",
+        "El texto de la opción de lista del selector de vista."
+      ],
+      [
+        "labels.allDay",
+        "La etiqueta de la franja de todo el día y la hora de un evento de todo el día en las listas y en el nombre accesible."
+      ],
+      [
+        "labels.cancelled",
+        "El texto escrito antes del título tachado de un evento cancelado, como Cancelado:."
+      ],
+      [
+        "labels.cancelledName",
+        "La palabra que dice cancelado en el nombre accesible del evento."
+      ],
+      [
+        "labels.repeats",
+        "La palabra que dice que el evento se repite en el nombre accesible del evento."
+      ],
+      [
+        "labels.more",
+        "El texto del botón de más de una celda del mes, con el marcador {count}, como +{count} más."
+      ],
+      [
+        "labels.moreName",
+        "El nombre accesible del grupo del botón de más, con los marcadores {count} y {date}, como {count} eventos más el {date}."
+      ],
+      [
+        "labels.myCalendars",
+        "El título de la lista de calendarios en el panel lateral."
+      ],
+      [
+        "labels.miniPrevious",
+        "El nombre accesible del botón de mes anterior del mes pequeño."
+      ],
+      [
+        "labels.miniNext",
+        "El nombre accesible del botón de mes siguiente del mes pequeño."
+      ],
+      [
+        "labels.emptyTitle",
+        "El título del estado vacío, como Ningún evento esta semana."
+      ],
+      [
+        "labels.emptyHint",
+        "La sugerencia del estado vacío, debajo del título."
+      ],
+      [
+        "labels.loading",
+        "El texto de estado anunciado mientras se cargan los eventos."
+      ],
+      [
+        "labels.todayName",
+        "La palabra que dice hoy en el nombre accesible del día actual."
+      ],
+      [
+        "nph-view-change",
+        "Se dispara cuando la persona cambia la vista, con detail { view }. Se propaga y es compuesto. Definir view desde el código no dispara nada."
+      ],
+      [
+        "nph-date-change",
+        "Se dispara cuando la persona mueve la fecha, con detail { date, source }; source es today, previous, next, mini-month, month o more. Se propaga y es compuesto."
+      ],
+      [
+        "nph-event-click",
+        "Se dispara cuando la persona activa un evento, con detail { id, source }; source es pointer o keyboard. Se propaga, es compuesto y es cancelable: preventDefault impide que el detalle se abra."
+      ],
+      [
+        "nph-event-close",
+        "Se dispara cuando la persona cierra el detalle, con detail { id, source }; source es escape, outside, focus-out, toggle o close-button. Se propaga y es compuesto. El Esc devuelve el foco al evento."
+      ],
+      [
+        "nph-day-click",
+        "Se dispara cuando la persona activa un día, con detail { date }. Se propaga y es compuesto. La pieza no hace nada más con el clic."
+      ],
+      [
+        "nph-new-event",
+        "Se dispara cuando la persona activa Nuevo evento, con detail { date }. Se propaga y es compuesto. La pieza no crea ningún evento."
+      ],
+      [
+        "nph-filter-click",
+        "Se dispara cuando la persona activa Filtrar y filter-items está vacío. Se propaga y es compuesto."
+      ],
+      [
+        "nph-filter-select",
+        "Se dispara cuando la persona elige un elemento del menú Filtrar, con detail { value, checked }; checked es un booleano o null. Se propaga y es compuesto."
+      ],
+      [
+        "nph-calendar-toggle",
+        "Se dispara cuando la persona activa o desactiva un calendario de Mis calendarios, con detail { id, visible }. Se propaga y es compuesto."
+      ],
+      [
+        "nph-side-panel-change",
+        "Se dispara cuando la persona alterna el panel lateral, con detail { open }. Se propaga y es compuesto. Definir hide-side-panel desde el código no dispara nada."
+      ],
+      [
+        "detail",
+        "El cuerpo del detalle del evento abierto, dibujado por la pantalla. La pieza solo abre el popover al lado del evento cuando este slot o el detail-footer tiene contenido."
+      ],
+      [
+        "detail-footer",
+        "Las acciones del detalle, como elementos nph-button, en el pie del popover."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-scheduler id=\"agenda\" view=\"work-week\" week-start=\"monday\">\n  <div slot=\"detail\">El producto muestra aquí los detalles del evento.</div>\n  <nph-button slot=\"detail-footer\" severity=\"secondary\" emphasis=\"solid\" size=\"compact\" text=\"Editar evento\"></nph-button>\n</nph-scheduler>\n<script>\n  const scheduler = document.getElementById('agenda');\n  scheduler.labels = {\n    today: 'Hoy', previous: 'Período anterior', next: 'Período siguiente',\n    newEvent: 'Nuevo evento', filter: 'Filtrar', sidePanel: 'Panel lateral',\n    view: 'Vista', viewWorkWeek: 'Semana laboral', viewWeek: 'Semana',\n    viewDay: 'Día', viewMonth: 'Mes', viewList: 'Lista',\n    allDay: 'Todo el día', cancelled: 'Cancelado:', cancelledName: 'cancelado',\n    repeats: 'se repite', more: '+{count} más', moreName: '{count} eventos más el {date}',\n    myCalendars: 'Mis calendarios', miniPrevious: 'Mes anterior', miniNext: 'Mes siguiente',\n    emptyTitle: 'Ningún evento esta semana', emptyHint: 'Los eventos aparecen aquí cuando se crean.', loading: 'Cargando eventos',\n    todayName: 'hoy',\n  };\n  scheduler.calendars = [{ id: 'team', name: 'Equipo', color: 'primary' }];\n  scheduler.events = [{ id: 'standup', title: 'Reunión diaria del equipo', start: '2026-11-09T09:00', end: '2026-11-09T10:00', calendar: 'team' }];\n  scheduler.addEventListener('nph-event-click', (event) => {\n    scheduler.openEvent = event.detail.id;\n  });\n</script>",
+    "usageTag": "La etiqueta de la pieza. Los datos llegan como propiedades, definidas desde JavaScript: los eventos, los calendarios, el `labels`, con todos los textos y los elementos del filtro. La pantalla escucha los eventos, cambia la vista y la fecha y pone el detalle del evento abierto en el slot detail; la pieza dibuja la grilla, mueve el foco y anuncia el período.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, frame nph-scheduler (6151:11160); docs/decisoes-tecnicas.md › P120",
+    "viewsTitle": "Vistas y el celular",
+    "viewsCaption": "La semana, el día, el mes y la lista. La semana laboral está en la matriz de arriba.",
+    "viewsUseHeader": [
+      "Vista",
+      "Qué muestra"
+    ],
+    "viewsUse": [
+      {
+        "value": "work-week",
+        "label": "La vista por defecto: de lunes a viernes, con la columna de horas, la franja de todo el día y la línea de ahora en la columna de hoy."
+      },
+      {
+        "value": "week",
+        "label": "Los siete días de la semana que empieza en week-start, en la misma grilla de la semana laboral."
+      },
+      {
+        "value": "day",
+        "label": "Un día en horas. Es también adonde va el +N más del mes."
+      },
+      {
+        "value": "month",
+        "label": "Las semanas del mes, con una fila por evento en cada día y +N más cuando las filas no caben."
+      },
+      {
+        "value": "list",
+        "label": "La semana como lista: solo los días que tienen eventos, un título por día y una fila por evento. La mejor vista para un lector de pantalla."
+      },
+      {
+        "value": "celular",
+        "label": "Por debajo de 768 px de ancho del elemento: el mes compacto con un punto por día y la lista del día elegido. El selector de vista ofrece las mismas vistas y el mes compacto permanece."
+      }
+    ],
+    "eventTitle": "El evento",
+    "eventCaption": "La semana con todos los colores, los tipos, la franja de todo el día, el evento recurrente y el cancelado. El evento abierto tiene una historia propia en la Validación.",
+    "eventUseHeader": [
+      "Parte",
+      "Qué muestra"
+    ],
+    "eventUse": [
+      {
+        "value": "Color",
+        "label": "El color del calendario del evento: primary o uno entre sistemas, gerencial, educacao, comercial, financeiro, igrejas y rh, igual en todas las marcas. Es la elección de la persona y nunca un estado."
+      },
+      {
+        "value": "Tipo",
+        "label": "La altura viene de la duración, nunca por debajo del objetivo mínimo, y la hora aparece cuando el evento tiene altura para dos líneas. Los eventos de todo el día y de varios días son barras en la franja. El evento recurrente añade el icono de repetición después del título."
+      },
+      {
+        "value": "Cancelado",
+        "label": "Neutro, con contorno y sin barra, el texto Cancelado: antes del título tachado. Permanece en la grilla."
+      },
+      {
+        "value": "Simultáneos",
+        "label": "Los eventos a la misma hora quedan lado a lado en la columna del día. El título se corta en una línea con puntos suspensivos y va entero al nombre accesible."
+      },
+      {
+        "value": "Abierto",
+        "label": "Con contenido en el slot detail, el evento abre el popover a su lado, con su título como encabezado, y lleva aria-expanded true. El evento abierto tiene el fondo del hover."
+      },
+      {
+        "value": "Hover",
+        "label": "El puntero pinta el evento un tono más arriba. No mueve el foco ni abre el detalle."
+      }
+    ],
+    "statesTitle": "Estados",
+    "statesCaption": "La semana vacía y la semana cargando, ambas con la barra de herramientas activa. El foco y el hover aparecen cuando la persona usa el teclado o el puntero.",
+    "statesUseHeader": [
+      "Estado",
+      "Qué muestra"
+    ],
+    "statesUse": [
+      {
+        "value": "default",
+        "label": "El contenedor con la barra de herramientas, el panel lateral opcional y el período, con el día de hoy marcado en el encabezado del día y por la línea de ahora."
+      },
+      {
+        "value": "empty",
+        "label": "Un período sin evento visible: el icono de calendario, el título y la sugerencia sobre la grilla. La barra de herramientas sigue activa y la semana mantiene sus días."
+      },
+      {
+        "value": "loading",
+        "label": "Filas de esqueleto en el lugar de los eventos. El área de eventos queda ocupada y el texto de carga se anuncia; la barra de herramientas sigue activa."
+      },
+      {
+        "value": "foco en el día",
+        "label": "El foco del teclado en un día, el encabezado del día en las vistas de semana y día y la celda en el mes, dibuja el borde y el halo de foco."
+      },
+      {
+        "value": "foco en el evento",
+        "label": "El mismo borde y el mismo halo en un evento, en una línea del mes, en una fila de la lista y en un evento cancelado, en el color del evento."
+      }
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab y Shift+Tab",
+        "Recorren la barra de herramientas, luego el panel lateral (el mes pequeño y Mis calendarios), luego los días de izquierda a derecha, luego los eventos en orden de inicio, de izquierda a derecha en el mismo inicio. Cada día y cada evento es una parada de Tab."
+      ],
+      [
+        "Enter y Espacio en un evento",
+        "Entregan el clic a la pantalla. Con un detalle en el slot, lo abren en el popover al lado del evento y mueven el foco dentro de él."
+      ],
+      [
+        "Esc",
+        "Con el detalle abierto, lo cierra y devuelve el foco al evento. Con el selector de vista o el menú Filtrar abierto, cierra la lista y devuelve el foco al botón. Sin nada abierto, no hace nada."
+      ],
+      [
+        "Clic fuera",
+        "Cierra el detalle. El foco queda donde la persona hizo clic."
+      ],
+      [
+        "Enter y Espacio en +N más",
+        "Van a la vista de día de esa fecha y enfocan el día."
+      ],
+      [
+        "Flechas en la grilla",
+        "No tienen uso: una desviación deliberada del patrón de grilla, con cada día y cada evento como una parada de Tab."
+      ],
+      [
+        "Mes pequeño y mes compacto",
+        "Las flechas mueven por día y por semana, Page Up y Page Down por mes, o por año con Shift, y Home y End al inicio y al final de la semana. Enter y Espacio eligen el día."
+      ],
+      [
+        "Puntero",
+        "El hover solo pinta el evento y no mueve el foco. Un toque en un día dispara nph-day-click y la pantalla decide qué hace."
+      ]
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "La pieza dibuja la barra de herramientas, el panel lateral, la grilla y el propio evento, en un único shadow root. El evento es el disparador del nph-popover, que abre a su lado el detalle que la pantalla pone en el slot detail.",
+      "Funciona con nph-button (Hoy, anterior, siguiente, Filtrar, Nuevo evento y +N más), nph-select (la vista), nph-checkbox (uno por calendario), nph-avatar y nph-avatar-stack (las personas de las reuniones), nph-dropdown-menu (el menú Filtrar), nph-tooltip, nph-skeleton (cargando) y nph-icon.",
+      "Para elegir una fecha en un formulario, use el selector de fecha, no el scheduler. Para tareas sin hora del día, use una lista o una tabla.",
+      "La creación, la edición y el detalle de un evento son de la pantalla: la pieza solo dice lo que hizo la persona, en sus eventos.",
+      "El mes pequeño y el mes compacto son la grilla de fechas del propio scheduler, el botón de barra lateral dibuja un nph-skeleton donde va su icono, el estado vacío tiene icono y texto propios, y el icono de repetición es rotate-right; cada uno se cambia por la pieza o el icono dueño cuando exista."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Contenedor",
+        "La superficie, con contorno y esquina. El panel lateral al inicio y el área principal al final."
+      ],
+      [
+        "Panel lateral",
+        "Opcional, en toda vista del escritorio. El mes pequeño arriba y Mis calendarios abajo, una casilla por calendario con su punto de color."
+      ],
+      [
+        "Barra de herramientas",
+        "Al inicio: el botón de barra lateral, Hoy, anterior, siguiente y la etiqueta del período. Al final: el selector de vista, Filtrar y Nuevo evento, el único botón primario. En el celular: la etiqueta del mes, anterior, siguiente y Nuevo evento como botón de icono."
+      ],
+      [
+        "Encabezado del día",
+        "El nombre y el número de cada día y, al final, las personas de las reuniones del día. Hoy tiene el número en color y una marca en la base."
+      ],
+      [
+        "Franja de todo el día",
+        "La etiqueta en la columna de horas y los eventos de todo el día y de varios días como barras, alineadas arriba."
+      ],
+      [
+        "Columna de horas y grilla",
+        "Las horas completas en la columna de horas y una línea solo en la hora completa en la grilla. Los eventos quedan por hora, lado a lado cuando son simultáneos. La grilla se desplaza sola y la barra de herramientas y el encabezado del día quedan en su lugar."
+      ],
+      [
+        "Línea de ahora",
+        "Una línea con un punto al inicio en la columna de hoy, con la hora actual en la columna de horas. Sigue el reloj cada minuto, o la propiedad now."
+      ],
+      [
+        "Evento",
+        "El cuerpo, la barra al inicio, el título en una línea y la hora debajo, y el icono de repetición en el evento recurrente. En el mes es una fila con la altura mínima del evento, sin hora; en la lista es una fila con la hora, la barra, el título y las personas."
+      ],
+      [
+        "Mes y mes compacto",
+        "El mes tiene una celda por día con las filas que caben y el botón +N más. El mes compacto tiene un punto por día, el día elegido relleno y la lista de ese día debajo."
+      ],
+      [
+        "Estado vacío",
+        "El icono de calendario, el título y la sugerencia, centrados sobre la grilla."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Una sección nombrada por la etiqueta del período. El evento es un botón; con un detalle en el slot, tiene aria-haspopup dialog y aria-expanded. Cada día es un botón con su nombre completo. El mes pequeño y el mes compacto son una grilla, y la vista de lista tiene un título por día."
+      ],
+      [
+        "Nombre accesible",
+        "El nombre del evento empieza por el texto visible, el prefijo Cancelado: y el título, y lleva el título entero, la fecha, la hora, el calendario y, cuando se aplica, cancelado y se repite, aun cuando el título se corta; la fila de la lista escribe la hora primero. El nombre del día empieza por el día de la semana corto y el número, luego la fecha completa, con la palabra de hoy. Los avatares llevan los nombres de las personas."
+      ],
+      [
+        "Teclado",
+        "Cada día y cada evento es una parada de Tab, en el orden del documento. Enter o Espacio abre el detalle y Esc lo cierra, devolviendo el foco al evento. Sin flechas en la grilla; las flechas funcionan en el mes pequeño y en el mes compacto."
+      ],
+      [
+        "Foco",
+        "El mismo borde y el mismo halo en el día, el evento, las filas del mes y de la lista y el evento cancelado, en el color del evento. Los botones de la barra de herramientas siguen el nph-button."
+      ],
+      [
+        "Contraste y color",
+        "El título y la hora cumplen 4,5:1 en los dos temas; la barra, la línea de ahora y el borde de foco cumplen 3:1. El evento cancelado se lee por Cancelado: y por el título tachado. Hoy se lee por el número, la marca, la línea de ahora y su nombre. El color de un evento nunca lleva significado."
+      ],
+      [
+        "Tamaño del objetivo",
+        "El evento tiene una altura mínima de 24 px: el evento corto ocupa un poco más que su duración."
+      ],
+      [
+        "Región viva",
+        "Un estado cortés anuncia el nuevo período cuando la persona cambia la fecha o la vista. Mientras carga, el texto de carga es un estado y el área de eventos queda ocupada."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los ejemplos obligatorios: la semana laboral con el panel lateral; el mes en el celular con la lista del día; la semana vacía con la barra de herramientas activa; la vista de lista; y el mes con +N más.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-scheduler — propósito, estados, comportamiento, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P120 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens scheduler/* y event/<color>-* y los tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — frame de documentación del nph-scheduler (6151:11160).",
+      "WAI-ARIA APG, patrón Grid y ejemplo Date Picker Dialog; WCAG 2.2, 1.4.1 Uso del color, 1.4.11 Contraste de no texto, 2.4.3 Orden del foco y 2.5.8 Tamaño del objetivo (mínimo).",
+      "FullCalendar, Accesibilidad — cada evento como una parada de Tab."
+    ],
+    "sourceSpec": "Ficha del nph-scheduler; Figma, frame nph-scheduler (6151:11160)",
+    "sourceApi": "Ficha del nph-scheduler; docs/decisoes-tecnicas.md › P120",
+    "sourceAnatomy": "Figma, sets 6142:1744 y 6141:9258; design.md"
+  },
+  "schedulerValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "today": "Hoy",
+    "previous": "Período anterior",
+    "next": "Período siguiente",
+    "newEvent": "Nuevo evento",
+    "filter": "Filtrar",
+    "sidePanel": "Panel lateral",
+    "view": "Vista",
+    "viewWorkWeek": "Semana laboral",
+    "viewWeek": "Semana",
+    "viewDay": "Día",
+    "viewMonth": "Mes",
+    "viewList": "Lista",
+    "allDay": "Todo el día",
+    "cancelled": "Cancelado:",
+    "cancelledName": "cancelado",
+    "repeats": "se repite",
+    "more": "+{count} más",
+    "moreName": "{count} eventos más el {date}",
+    "myCalendars": "Mis calendarios",
+    "miniPrevious": "Mes anterior",
+    "miniNext": "Mes siguiente",
+    "emptyTitle": "Ningún evento esta semana",
+    "emptyHint": "Los eventos aparecen aquí cuando se crean.",
+    "loading": "Cargando eventos",
+    "todayName": "hoy",
+    "calendarTeam": "Equipo",
+    "calendarClasses": "Clases",
+    "calendarCommunity": "Comunidad",
+    "calendarFinance": "Finanzas",
+    "calendarPeople": "Personas",
+    "calendarSystems": "Sistemas",
+    "calendarManagement": "Gestión",
+    "calendarSales": "Comercial",
+    "eventStandup": "Reunión diaria del equipo",
+    "eventCoffee": "Café con el equipo",
+    "eventWorkshop": "Taller de enseñanza",
+    "eventBudget": "Revisión del presupuesto",
+    "eventPlanning": "Planificación del culto",
+    "eventArchitecture": "Alineación de arquitectura",
+    "eventSales": "Alineación comercial",
+    "eventCancelled": "Revisión trimestral",
+    "eventOffsite": "Encuentro del equipo",
+    "eventInterview": "Entrevista",
+    "eventRetreat": "Retiro de la comunidad",
+    "eventDemo": "Demostración del producto",
+    "eventLong": "Revisión del plan anual para todo el departamento y sus socios",
+    "eventBusy": "Sesión de planificación",
+    "personAna": "Ana Souza",
+    "personBruno": "Bruno Lima",
+    "personCarla": "Carla Mendes",
+    "personDiego": "Diego Alves",
+    "personElisa": "Elisa Rocha",
+    "filterCalendars": "Mostrar eventos de",
+    "filterMine": "Mis eventos",
+    "filterTeam": "Eventos del equipo",
+    "detailTitle": "Detalles del evento",
+    "detailText": "El producto muestra aquí los detalles del evento.",
+    "detailClose": "Cerrar los detalles",
+    "detailAction": "Editar evento"
   }
 }
