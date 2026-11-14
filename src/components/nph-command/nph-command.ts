@@ -21,7 +21,7 @@
  *   `nph-combobox` with no difference of case or accent; or `none`, when the consumer answers from
  *   a server) and the `carregando` content;
  * - the texts, already localized, as in `nph-dialog`: `label` (the name of the dialog and of the
- *   field), `placeholder`, `loading-label` (the "Buscando…" row), `empty-heading` and
+ *   field), `placeholder`, `loading-label` (the loading row), `empty-heading` and
  *   `empty-description` (the `vazio` content), `results-label` (the sentence the screen reader
  *   hears with the number of results, `{count}` is replaced by it) and `hint-navigate`, `hint-open`
  *   and `hint-close`, the words of the footer. The keys `↑↓`, `↵` and `esc` are legends of keys, not

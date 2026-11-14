@@ -59,7 +59,7 @@ const ITEMS: NphCommandEntry[] = [
   { value: 'delete', text: 'Delete draft', icon: 'trash', severity: 'destructive' },
   { type: 'label', text: 'Go to' },
   { value: 'home', text: 'Go to the start', icon: 'house' },
-  { value: 'cafe', text: 'Café da manhã', icon: 'folder', count: 3, tag: 'New' },
+  { value: 'cafe', text: 'Café menu', icon: 'folder', count: 3, tag: 'New' },
 ];
 
 interface Spec {
@@ -361,16 +361,16 @@ describe('opening and closing', () => {
     for (const chord of ['{Control>}k{/Control}', '{Meta>}k{/Meta}']) {
       const command = await mount();
       const seen = listen<NphDialogCloseDetail>(command, 'nph-close');
-      const keydowns: KeyboardEvent[] = [];
+      const keys: KeyboardEvent[] = [];
       const record = (event: KeyboardEvent): void => {
-        if (event.key === 'k') keydowns.push(event);
+        if (event.key === 'k') keys.push(event);
       };
       document.addEventListener('keydown', record);
       await press(command, chord);
       document.removeEventListener('keydown', record);
       await closed(command);
       expect(seen.map((event) => event.detail.source)).toEqual(['open-key']);
-      expect(keydowns[0]?.defaultPrevented).toBe(true);
+      expect(keys[0]?.defaultPrevented).toBe(true);
       expect(document.activeElement?.id).toBe('trigger');
       command.remove();
       document.getElementById('trigger')?.remove();
@@ -440,10 +440,10 @@ describe('the search', () => {
     expect(texts(command)).toEqual(['Open settings']);
     await userEvent.clear(fieldOf(command));
     await type(command, 'cafe');
-    expect(texts(command)).toEqual(['Café da manhã']);
+    expect(texts(command)).toEqual(['Café menu']);
     await userEvent.clear(fieldOf(command));
     await type(command, 'café');
-    expect(texts(command)).toEqual(['Café da manhã']);
+    expect(texts(command)).toEqual(['Café menu']);
   });
 
   it('a group left with no command goes away with its label', async () => {
@@ -541,9 +541,9 @@ describe('the keyboard', () => {
     await press(command, '{ArrowUp}');
     expect(activeText(command)).toBe('Open invoice 1042');
     await press(command, '{End}');
-    expect(activeText(command)).toBe('Café da manhã');
+    expect(activeText(command)).toBe('Café menu');
     await press(command, '{ArrowDown}');
-    expect(activeText(command)).toBe('Café da manhã');
+    expect(activeText(command)).toBe('Café menu');
   });
 
   it('Home and End go to the first and the last command, skipping a disabled one at the end', async () => {
@@ -1070,16 +1070,16 @@ describe('the global shortcut', () => {
   it('on, Ctrl+K and ⌘K open it, with the browser kept out, and the same key closes it', async () => {
     const command = await mount({ open: false, set: { globalShortcut: true } });
     document.getElementById('trigger')?.focus();
-    const keydowns: KeyboardEvent[] = [];
+    const keys: KeyboardEvent[] = [];
     const record = (event: KeyboardEvent): void => {
-      if (event.key === 'k') keydowns.push(event);
+      if (event.key === 'k') keys.push(event);
     };
     window.addEventListener('keydown', record);
     await userEvent.keyboard('{Control>}k{/Control}');
     await settle(command);
     await vi.waitFor(() => expect(windowOf(command).open).toBe(true));
     expect(command.open).toBe(true);
-    expect(keydowns[0]?.defaultPrevented).toBe(true);
+    expect(keys[0]?.defaultPrevented).toBe(true);
     expect(focused()).toBe(fieldOf(command));
     const closes = listen<NphDialogCloseDetail>(command, 'nph-close');
     await userEvent.keyboard('{Meta>}k{/Meta}');

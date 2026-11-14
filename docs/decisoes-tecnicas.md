@@ -8476,7 +8476,7 @@ three options, each off by default, and one method. The names follow P64.
   Figma draws every variant at 560. The code keeps 560 while the list filters, so the panel does not change width
   with each key. Recommended: keep it; she confirms, or says it hugs the content.
 - **DSA-80 D-3 — the rest of a searched destructive label.** DSA-46 D-3 puts the rest of a searched label in
-  `color/muted-foreground`. On a destructive command that would turn the unsearched part gray and take the signal
+  `color/muted-foreground`. On a destructive command that would turn the part that was not searched gray and take the signal
   from the label, so the rest keeps the destructive color and only the searched stretch is heavier. Recommended: keep
   it; she confirms, or says the rest is muted there too.
 
