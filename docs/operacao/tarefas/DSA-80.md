@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 790,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-command",
   "dependencies": [
     "DSA-03",
@@ -81,7 +81,7 @@
     "excerpt": null,
     "converted_decision": "The nph-command documentation frame (6076:4910, page 1626:18) was accepted as the API and behavior specification of nph-command, with the visual acceptance of the root (6067:3610). COMPONENT_SET nph-command (6068:3936), 5 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-80-command", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-80-command", "commit": null, "pr": 173 },
   "context": "docs/operacao/contextos/DSA-80.md",
   "updated_at": "2026-11-14"
 }

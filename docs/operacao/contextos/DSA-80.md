@@ -26,7 +26,7 @@ Build `nph-command` in the contract accepted in Figma on 2026-11-12: a command p
 - `npx vitest run --project unit src/components/nph-dialog src/components/nph-command`
 
 ## Result
-In progress on the branch `feat/dsa-80-command`: the dialog options, the component, its tests, the sheet and P123 are written and pass; stories, the Docs page and the dictionaries are being finished, then the twelve proofs and the pull request.
+The pull request 173 is open against `v/5.0.0` and waits for review: the dialog options, the component, its tests, stories, Docs page, dictionaries, sheet and P123 are in, and the twelve proofs pass on the head of the pull request.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -35,4 +35,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npx vitest run --project unit src/components/nph-command src/components/nph-dialog`
+`gh pr view 173 --json reviews,statusCheckRollup`
