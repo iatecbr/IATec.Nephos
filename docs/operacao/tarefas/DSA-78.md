@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 770,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-collapsible",
   "dependencies": [
     "DSA-03",
@@ -25,11 +25,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor ca1914ac5c7620b8da13dbef66589911360562ff origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-78/review-and-merge-2026-11-13.md",
+      "result": "passed",
+      "verified_at": "2026-11-13",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -54,7 +54,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-78/figma-docs-accepted-2026-11-12.md"
+    "docs/operacao/evidencias/DSA-78/figma-docs-accepted-2026-11-12.md",
+    "docs/operacao/evidencias/DSA-78/review-and-merge-2026-11-13.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -68,9 +69,9 @@
     "excerpt": null,
     "converted_decision": "The nph-collapsible documentation frame (6014:1688, page 4128:35275) was accepted as the API and behavior specification of the nph-collapsible, with the visual acceptance of the root (6005:482). COMPONENT_SET nph-collapsible (6006:2250). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-78-collapsible", "commit": null, "pr": 170 },
-  "context": "docs/operacao/contextos/DSA-78.md",
-  "updated_at": "2026-11-12"
+  "git_review": { "branch": "feat/dsa-78-collapsible", "commit": "ca1914ac5c7620b8da13dbef66589911360562ff", "pr": 170 },
+  "context": null,
+  "updated_at": "2026-11-13"
 }
 ```
 
