@@ -18,6 +18,9 @@ import '@fontsource/noto-sans/latin-600.css';
 import '../../tokens/generated/tokens.css';
 import '../nph-field/nph-field';
 import { NphOption } from '../nph-option/nph-option';
+import designMd from '../../../design.md?raw';
+import tokensCss from '../../tokens/generated/tokens.css?raw';
+import componentCss from './nph-combobox.css?raw';
 import { NphCombobox } from './nph-combobox';
 import type { NphComboboxEntry } from './nph-combobox';
 
@@ -667,9 +670,12 @@ describe('free text: no suggestion', () => {
     const element = await mount(`${FREE} filter="none"`, []);
     await type(element, 'Br');
     expect(element.open).toBe(false);
+    /* A server that does not set loading: the region says there is no suggestion while it waits. */
+    expect(announced(element)).toBe('No suggestions');
     element.options = [{ value: 'a', text: 'Brazil' }];
     await settle();
     expect(element.open).toBe(true);
+    expect(announced(element)).toBe('');
     expect(activeOf(element)).toBeNull();
     await press(element, '{Escape}');
     element.options = [{ value: 'a', text: 'Brazil' }, { value: 'b', text: 'Brest' }];
@@ -695,6 +701,9 @@ describe('free text: loading and IME', () => {
     const spinner = element.shadowRoot?.querySelector('nph-spinner') as HTMLElement & { label: string };
     expect(spinner.label).toBe('Searching');
     expect(list(element).getAttribute('aria-busy')).toBe('true');
+    /* The busy list does not hide the name of its spinner from the accessibility tree. */
+    const spinnerNode = await accessibleNodeOf(spinner);
+    expect(spinnerNode.name?.value).toBe('Searching');
     expect(announced(element)).toBe('');
     element.options = [{ value: 'a', text: 'Brazil' }];
     element.loading = false;
@@ -834,5 +843,27 @@ describe('free text: accessibility tree', () => {
     const button = await accessibleNodeOf(clearButton(element) as HTMLButtonElement);
     expect(button.role?.value).toBe('button');
     expect(button.name?.value).toBe('Clear');
+  });
+});
+
+describe('free text: token contract', () => {
+  const strip = (css: string): string => css.replace(/\/\*[\s\S]*?\*\//g, '');
+
+  it('the end padding is the token of the evidence, generated as an alias of space/control-padding, and the CSS consumes it once', () => {
+    expect(tokensCss).toMatch(/--nph-combobox-free-text-padding-end:\s*var\(--nph-space-control-padding\)/);
+    const used = [...strip(componentCss).matchAll(/var\((--nph-combobox-free-text-padding-end)\)/g)];
+    expect(used).toHaveLength(1);
+    expect(strip(componentCss)).toMatch(/:host\(\[free-text\]\) \.control\s*\{[^}]*padding-inline-end:\s*var\(--nph-combobox-free-text-padding-end\)/);
+  });
+
+  it('design.md says the use of space/control-padding includes the end padding of the free text field', () => {
+    expect(designMd).toContain('combobox/free-text-padding-end');
+    expect(designMd).toMatch(/end padding of the nph-combobox free text field, with and without the clear button/);
+  });
+
+  it('the variant adds exactly two properties to the reactive API: freeText and noSuggestionsLabel', () => {
+    const declared = [...(NphCombobox as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
+    expect(declared.filter((name) => ['freeText', 'noSuggestionsLabel'].includes(name)).sort()).toEqual(['freeText', 'noSuggestionsLabel']);
+    expect(declared).not.toContain('variant');
   });
 });

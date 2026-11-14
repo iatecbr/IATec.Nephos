@@ -12,21 +12,25 @@ Add the free text variant to `nph-combobox` in the contract accepted in Figma on
 
 ## Sources opened
 - `docs/operacao/tarefas/DSA-79.md` and `docs/operacao/evidencias/DSA-79/figma-docs-accepted-2026-11-12.md`
-- `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md`, `design.md` (the `combobox/free-text-padding-end` use and the motion rules) and `docs/operacao/component-handoff.md`
-- `src/components/nph-combobox/` (component, list module, CSS, tests, stories, Docs page, demo frame), `src/components/nph-input/` (events and Enter) and `fichas/nph-combobox.md`, `fichas/nph-icon.md`
-- P95, P96 and P121 in `docs/decisoes-tecnicas.md`
+- `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md` and `docs/operacao/component-handoff.md`
+- `design.md`: the hard rules, the selection criteria, the anti-patterns, the procedure for gaps, the motion and spacing rules and the tokens the evidence names
+- `docs/stories.md`: the reflect rule (§2.4), invalid input (§2.5) and the stories and tests rules (§4 and §5)
+- `src/components/nph-combobox/` (component, list module, CSS, tests, stories, Docs page, demo frame), `src/components/nph-input/` (events and Enter) and the sheets `fichas/nph-combobox.md` and `fichas/nph-icon.md`
+- P95, P96, P120 and P121 in `docs/decisoes-tecnicas.md`
 - `src/tokens/generated/tokens.css`: `--nph-combobox-free-text-padding-end`
 
 ## Changes
-Component, CSS and tests of the free text variant (`free-text` and `no-suggestions-label`), in `nph-combobox.ts`, `nph-combobox.css` and the new `nph-combobox.free-text.test.ts`. The list module, the tests of the arrow variant and the tokens are untouched.
+Component, CSS and tests of the free text variant (`free-text` and `no-suggestions-label`) in `nph-combobox.ts`, `nph-combobox.css` and the new `nph-combobox.free-text.test.ts`; the Validation stories `FreeText`, `FreeTextList` and `FreeTextExamples`, the Docs section "Free text", the demo frame, the dictionaries in three languages, the sheet with its Metadata and P122. The list module, the tests of the arrow variant and the tokens are untouched; `nph-combobox.docs.test.ts` only grew (the page list and the free text pages).
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-79-combobox-free-text origin/v/5.0.0`
 - baseline on the untouched branch: `npm run test:naming` and cspell over everything but `design.md` pass
-- `npx vitest run --project unit src/components/nph-combobox src/components/nph-multi-combobox` and `npx tsc --noEmit`
+- `npx vitest run --project unit src/components/nph-combobox src/components/nph-multi-combobox`, `npx tsc --noEmit`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`, `npm run build:lib` and a read of `dist/custom-elements.json` for the two attributes
+- the twelve proofs in sequence, on the final head: `build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`, `test:spelling` (cspell over everything but `design.md`), `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `git diff --check`
 
 ## Result
-Code and tests written and green; stories, Docs page, dictionaries, sheet and P122 are next.
+The task is in review on the branch `feat/dsa-79-combobox-free-text`. D-1 and D-2 wait for Indiane and do not block the pull request. The evidence says the arrow variant has `aria-busy` on its loading list and its code does not; P122 records it and the arrow variant is left as it is.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -35,4 +39,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npx vitest run --project storybook src/components/nph-combobox`
+`gh pr view --json reviews,reviewThreads`

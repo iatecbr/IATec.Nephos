@@ -8263,7 +8263,7 @@ changes, and its tests are untouched. The names follow P64.
    after a pick or the clear button, so a consumer that suggests from a server stays in step.
 
 4. **The keyboard is the APG without automatic selection.** Typing opens the list with the matches and
-   **no suggestion active** (D-5 does not apply here); the arrows, Page Up and Page Down move without
+   **no suggestion active** (DSA-46 D-5 does not apply here); the arrows, Page Up and Page Down move without
    wrapping; ArrowDown activates the first and, with the list closed, opens; ArrowUp with the list closed
    opens on the last; Alt+ArrowDown opens without activating; Enter and Alt+ArrowUp pick the active
    suggestion and, with none active, keep the text and close; with the list closed, Enter passes on to the
@@ -8315,13 +8315,20 @@ changes, and its tests are untouched. The names follow P64.
   variant says it has (point 6).
 - **A selected suggestion** is the one whose text equals the field text exactly, with no difference of
   case; "brazil" does not mark "Brazil".
+- **A server that does not set `loading`.** With `filter="none"`, the consumer is expected to set `loading`
+  inside `nph-search`. If it answers later without doing so, the list has nothing to show while it waits,
+  so it closes and the status region says there is no suggestion until the answer arrives, and then the
+  list reopens. The sheet says it in an AI hint.
+- **The clear button is not on by default.** The accepted documentation has `limpar` on by default; in code
+  `clearable` is off and needs `clear-label`, as in the arrow variant (P95), because the accessible name
+  is text the consumer owns.
 - **Forced colors and right-to-left** are not treated yet, as in P95.
 
 **Source.** Documentation frame `6047:3760` (page `4128:28570`), root `6040:2120` and set `6040:3286` of
 the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 12/11/2026, with the Figma UX QA and the
 textual audit approved; the evidence of the `figma-docs-accepted` gate of DSA-79. The attribute, the value
 model, the events, the no-suggestion region, the IME rule and the invalid input rules are a technical
-proposal of this implementation, approved with the plan by Elvys on 07/11/2026 (standing authorization).
+proposal of this implementation.
 
 **Out of scope.** A new token (`combobox/free-text-padding-end` already came with the task). A change to
 the arrow variant, to the list module or to `nph-multi-combobox`. A separate `nph-autocomplete`: free text

@@ -314,7 +314,7 @@
     "The create row shows only with creatable, with typed text that no option already says.",
     "disabled wins over invalid.",
     "With free-text, the typed text is the value: a suggestion writes its text, the value of an option is not used, and leaving the field keeps the text.",
-    "With free-text, no suggestion is active while typing: ArrowDown activates the first (DSA-79 D-5 does not apply), and Enter with none active keeps the text and closes the list.",
+    "With free-text, no suggestion is active while typing: ArrowDown activates the first (DSA-46 D-5 does not apply), and Enter with none active keeps the text and closes the list.",
     "With free-text, a click on the field takes the focus and does not open the list (DSA-79 D-1); with text in the field, the arrows show only the suggestions that contain it (DSA-79 D-2).",
     "With free-text and no suggestion, the list closes with no nph-empty and a status region says no-suggestions-label."
   ],
@@ -352,7 +352,8 @@
     "Turn creatable on only when the list accepts new items, and add the option on nph-create.",
     "Read the value from the host on input or change; read the typed text from nph-search or query.",
     "Never use the placeholder as the only name.",
-    "For a value that may not be in the list, set free-text and no-suggestions-label; the typed text is the value, read it from value on input or change."
+    "For a value that may not be in the list, set free-text and no-suggestions-label; the typed text is the value, read it from value on input or change.",
+    "With free-text and filter=none, set loading inside nph-search; otherwise the status region says there is no suggestion until the answer arrives."
   ],
   "accessibility": {
     "semantics": "An editable combobox with list autocomplete (APG): the inner text field has role combobox, aria-autocomplete list, aria-expanded and aria-controls; the list has role listbox, the groups role group named by their label, and each nph-option role option with aria-selected. The host is form-associated and labelable. With free-text, a status region outside the list says no-suggestions-label when the typed text has no suggestion, so it speaks while the list is closed, and the loading list carries aria-busy.",
@@ -415,7 +416,7 @@
     "Writing the options as nph-option children of the combobox."
   ],
   "sources": {
-    "design_md": "design.md, color/input, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, text/highlight-weight, elevation/dropdown and motion/*",
+    "design_md": "design.md, color/input, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, text/highlight-weight, elevation/dropdown, motion/* and, for free-text, combobox/free-text-padding-end",
     "decision": "P95 — API and semantics of nph-combobox and its list; the form pattern is P80, the field contract is P83, the option and the layer are P91; P122 — the free text variant",
     "tests": "src/components/nph-combobox/nph-combobox.test.ts and nph-combobox.free-text.test.ts",
     "usage_evidence": "the Examples section of the nph-combobox Docs page",

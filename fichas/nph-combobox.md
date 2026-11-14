@@ -352,7 +352,7 @@ business_rules:
   - "The create row shows only with creatable, with typed text that no option already says."
   - "disabled wins over invalid."
   - "With free-text, the typed text is the value: a suggestion writes its text, the value of an option is not used, and leaving the field keeps the text."
-  - "With free-text, no suggestion is active while typing: ArrowDown activates the first (DSA-79 D-5 does not apply), and Enter with none active keeps the text and closes the list."
+  - "With free-text, no suggestion is active while typing: ArrowDown activates the first (DSA-46 D-5 does not apply), and Enter with none active keeps the text and closes the list."
   - "With free-text, a click on the field takes the focus and does not open the list (DSA-79 D-1); with text in the field, the arrows show only the suggestions that contain it (DSA-79 D-2)."
   - "With free-text and no suggestion, the list closes with no nph-empty and a status region says no-suggestions-label."
 domain_errors:
@@ -388,6 +388,7 @@ ai_hints:
   - "Read the value from the host on input or change; read the typed text from nph-search or query."
   - "Never use the placeholder as the only name."
   - "For a value that may not be in the list, set free-text and no-suggestions-label; the typed text is the value, read it from value on input or change."
+  - "With free-text and filter=none, set loading inside nph-search; otherwise the status region says there is no suggestion until the answer arrives."
 accessibility:
   semantics: "An editable combobox with list autocomplete (APG): the inner text field has role combobox, aria-autocomplete list, aria-expanded and aria-controls; the list has role listbox, the groups role group named by their label, and each nph-option role option with aria-selected. The host is form-associated and labelable. With free-text, a status region outside the list says no-suggestions-label when the typed text has no suggestion, so it speaks while the list is closed, and the loading list carries aria-busy."
   accessible_name: "From the label associated with the host, which the field and the list reference. Without one, from label. The placeholder is not a name. The clear button is named by clear-label. With no name at all, the combobox renders and warns in development."
@@ -425,7 +426,7 @@ anti_patterns:
   - "Using the status dot without a written state."
   - "Writing the options as nph-option children of the combobox."
 sources:
-  design_md: "design.md, color/input, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, text/highlight-weight, elevation/dropdown and motion/*"
+  design_md: "design.md, color/input, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, text/highlight-weight, elevation/dropdown, motion/* and, for free-text, combobox/free-text-padding-end"
   decision: "P95 — API and semantics of nph-combobox and its list; the form pattern is P80, the field contract is P83, the option and the layer are P91; P122 — the free text variant"
   tests: "src/components/nph-combobox/nph-combobox.test.ts and nph-combobox.free-text.test.ts"
   usage_evidence: "the Examples section of the nph-combobox Docs page"
@@ -561,7 +562,7 @@ does not change.
 | Value | The typed text is the value. `value` is the text; the attribute is the initial text and the value of `form.reset()`; the value of an option is not used and a suggestion writes its text. A suggestion that says exactly the text shows as chosen |
 | Events | `input` on every change of the text, as `nph-input`, with the value up to date; `change` when the text settles (a pick, the clear button, Escape, Enter, leaving the field), only if it differs from the last `change`; `nph-search` says the text; setting `value` or `query` from code fires nothing |
 | Form | `name`, `required` (empty text is `valueMissing`) and the text as the form value, empty included |
-| Typing | Opens the list with the matching suggestions, the typed stretch highlighted and none active (DSA-79 D-5 does not apply here) |
+| Typing | Opens the list with the matching suggestions, the typed stretch highlighted and none active (DSA-46 D-5 does not apply here) |
 | Keyboard | ArrowDown activates the first and, closed, opens; ArrowUp closed opens on the last; Alt+ArrowDown opens without activating; Enter picks the active suggestion or keeps the text and closes the list; with the list closed Enter passes on; Escape closes and, closed, clears the text; Tab, leaving the field and an outside click close the list and keep the text |
 | Click | A click on the field takes the focus and does not open the list (DSA-79 D-1); with text in the field, the arrows show only the suggestions that contain it (DSA-79 D-2) |
 | No suggestion | The list closes with no `nph-empty`, and a status region outside the list says `no-suggestions-label`; no create row |
@@ -643,6 +644,8 @@ repeats what the person typed. The width may stretch to the parent.
 - Never use the placeholder as the only name.
 - For a value that may not be in the list, set `free-text` and `no-suggestions-label`; the typed
   text is the value, read it from `value` on `input` or `change`.
+- With `free-text` and `filter="none"`, set `loading` inside `nph-search`; otherwise the status
+  region says there is no suggestion until the answer arrives.
 
 ## Examples
 
@@ -693,7 +696,7 @@ leaving the field.
   `color/border`, `color/popover`, `color/primary-surface`, `status/*`, `focus/*`,
   `state/disabled-opacity`, `control/height-*`, `layout/input-width`,
   `layout/max-list-height`, `radius/control-inner`, `text/highlight-weight`,
-  `elevation/dropdown` and `motion/*`.
+  `elevation/dropdown`, `motion/*` and, for `free-text`, `combobox/free-text-padding-end`.
 - **The decision that originated it:** P95, the API and semantics of `nph-combobox` and its
   list; the form pattern is P80, the field contract is P83, and the option and the layer are
   P91. P122 adds the free text variant.
