@@ -11,6 +11,10 @@
  * they draw (`showing`), as a person would. The mobile menu is a modal `<dialog>`: a page draws
  * it closed, with the button of the product that opens it, and never opens two at once.
  *
+ * The panel menu (DSA-76) is the same menu with `navigation="panel-menu"`: its examples start from the
+ * same entries, with the group that holds the current page left to be born open and a label cut on
+ * purpose, so the tooltip has something to show.
+ *
  * The four examples are the required ones of the accepted documentation: a product with many
  * areas (expanded, with the corner button), the list arriving (expanded, loading), the phone
  * (mobile, over the screen) and the collapsed menu with the flyout next to the rail button and
@@ -22,7 +26,7 @@ import { ref } from 'lit/directives/ref.js';
 
 import './nph-sidebar';
 import '../nph-button/nph-button';
-import type { NphSidebar, NphSidebarEntry, NphSidebarMode } from './nph-sidebar';
+import type { NphSidebar, NphSidebarEntry, NphSidebarMode, NphSidebarNavigation } from './nph-sidebar';
 
 export type Scheme = 'light' | 'dark';
 
@@ -50,6 +54,7 @@ export interface SidebarText {
   byTeam: string;
   alpha: string;
   beta: string;
+  cutLabel: string;
   settings: string;
   profile: string;
   billing: string;
@@ -60,6 +65,7 @@ export interface SidebarText {
 /** What a demonstration changes in the menu; the rest is the same menu. */
 export interface Options {
   mode?: NphSidebarMode;
+  navigation?: NphSidebarNavigation;
   loading?: boolean;
   open?: boolean;
   hideCollapseButton?: boolean;
@@ -121,6 +127,20 @@ export function entries(text: SidebarText, groupOpen = true, current: 'home' | '
       ],
     },
   ];
+}
+
+/**
+ * The entries of the panel menu: the same ones, with no `expanded` (the group that holds the current page, in
+ * the third level, is born open) and a second-level label too long for the column, with its tooltip.
+ */
+export function panelEntries(text: SidebarText): NphSidebarEntry[] {
+  return entries(text, true, 'option').map((entry) => {
+    if (entry.type !== 'group') return entry;
+    const { expanded: _expanded, ...group } = entry;
+    return entry.value === 'reports'
+      ? { ...group, children: [...entry.children, { label: text.cutLabel, href: '#sub-4', tooltip: text.cutLabel }] }
+      : group;
+  });
 }
 
 /** The height of the column the product gives the menu, from the width of the expanded menu. */
@@ -215,11 +235,15 @@ function showing(openers: readonly Opener[]) {
 /** The menu in a column of fixed height, with the text of the page. */
 export function sidebar(text: SidebarText, options: Options = {}, openers: readonly Opener[] = []): TemplateResult {
   const mode = options.mode ?? 'expanded';
-  const items = options.items ?? entries(text, options.groupOpen ?? true, openers.length > 0 ? 'option' : 'home');
+  const navigation = options.navigation ?? 'flyout';
+  const items =
+    options.items ??
+    (navigation === 'panel-menu' ? panelEntries(text) : entries(text, options.groupOpen ?? true, openers.length > 0 ? 'option' : 'home'));
   return html`<div style="block-size: ${options.height ?? HEIGHT}; display: flex;">
     <nph-sidebar
       ${showing(openers)}
       mode=${mode}
+      navigation=${navigation}
       label=${text.label}
       collapse-label=${text.collapseLabel}
       expand-label=${text.expandLabel}
@@ -243,6 +267,16 @@ export function mainMenu(text: SidebarText, options: Options = {}): TemplateResu
   return sidebar(text, options);
 }
 
+/** The panel menu, expanded: the group of the current page and its parent born open, the third level in place. */
+export function panelMenu(text: SidebarText, options: Options = {}): TemplateResult {
+  return sidebar(text, { ...options, navigation: 'panel-menu' });
+}
+
+/** The panel menu arriving: one skeleton row per first-level item, in the same place of the list. */
+export function panelMenuLoading(text: SidebarText): TemplateResult {
+  return sidebar(text, { navigation: 'panel-menu', loading: true });
+}
+
 /** The list still arriving: nph-skeleton rows in place of the items; the logo, the search and the corner button stay. */
 export function loadingMenu(text: SidebarText): TemplateResult {
   return sidebar(text, { loading: true });
@@ -264,13 +298,14 @@ export function phone(text: SidebarText, options: Options = {}): TemplateResult 
     <nph-button severity="primary" emphasis="outline" text=${text.openMenu} @click=${open}></nph-button>
     <nph-sidebar
       mode="mobile"
+      navigation=${options.navigation ?? 'flyout'}
       label=${text.label}
       close-label=${text.closeLabel}
       search-label=${text.searchLabel}
       search-placeholder=${text.searchPlaceholder}
       corner-label=${text.cornerLabel}
       ?loading=${options.loading ?? false}
-      .items=${entries(text)}
+      .items=${options.navigation === 'panel-menu' ? panelEntries(text) : entries(text)}
     ></nph-sidebar>
   </div>`;
 }

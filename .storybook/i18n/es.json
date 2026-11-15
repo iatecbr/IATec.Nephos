@@ -432,6 +432,7 @@
     "components-nph-sidebar-validation--mobile": "Celular",
     "components-nph-sidebar-validation--loading": "Cargando",
     "components-nph-sidebar-validation--flyout": "Flyout",
+    "components-nph-sidebar-validation--panel-menu": "Panel menu",
     "components-nph-sidebar-validation--parts": "Partes",
     "components-nph-sidebar-validation--messages": "Mensajes",
     "components-nph-sidebar-validation--invalid-input": "Entrada no válida",
@@ -8092,11 +8093,12 @@
       "components-nph-sidebar-validation--mobile": "El celular: el botón del producto abre el menú sobre la pantalla, con el scrim detrás y el botón de cerrar en lugar del botón de contraer. La story abre el claro; Esc, el botón de cerrar y el scrim lo cierran.",
       "components-nph-sidebar-validation--loading": "El estado loading, expandido y contraído: filas de nph-skeleton en lugar de los ítems, con el logo, la búsqueda y el botón de la esquina en su lugar.",
       "components-nph-sidebar-validation--flyout": "El panel flyout: junto al botón del riel en el segundo nivel, junto a la opción en el tercer nivel y junto al subítem en el menú expandido. Se abre con un clic, nunca con el hover.",
+      "components-nph-sidebar-validation--panel-menu": "El panel menu: el tercer nivel se abre en su lugar. El grupo de la página actual y su padre nacen abiertos, varios grupos quedan abiertos, la carga tiene una fila por ítem del primer nivel, y el menú contraído y el celular siguen al nph-sidebar.",
       "components-nph-sidebar-validation--parts": "Los dos booleanos de Figma, el botón de contraer y el botón de la esquina, encendidos y apagados, en el menú expandido.",
       "components-nph-sidebar-validation--messages": "El mensaje corto en lugar de la lista: sin ítems y con error. El producto entrega y traduce los dos.",
       "components-nph-sidebar-validation--invalid-input": "Entrada no válida: un modo fuera de los tres no dibuja nada, y una entrada que no puede dibujarse queda fuera, cada una con un error.",
-      "components-nph-sidebar-validation--examples": "Los cuatro ejemplos obligatorios de la documentación: producto con muchas áreas, lista llegando, celular y menú contraído con su flyout, cada uno en modo claro y oscuro.",
-      "components-nph-sidebar-validation--brands": "Las siete marcas en claro y oscuro: la página actual, el contador, el grupo abierto y el botón del riel activo siguen la marca del marco, y el halo de foco con Tab también.",
+      "components-nph-sidebar-validation--examples": "Los ejemplos obligatorios de la documentación: un producto con muchas áreas, la lista llegando, el celular, el menú contraído con su flyout, y el panel menu, listo y cargando, cada uno en modo claro y oscuro.",
+      "components-nph-sidebar-validation--brands": "Las siete marcas en claro y oscuro: la página actual, el contador, el grupo abierto, el subgrupo abierto del panel menu y el botón del riel activo siguen la marca del marco, y el halo de foco en Tab también.",
       "components-nph-stepper-validation--statuses": "Los cuatro estados en un stepper: los pasos completados con un check, el paso actual con un anillo y una etiqueta más fuerte, los pasos pendientes con un número en un contorno fino y el paso con error con un triángulo y su motivo.",
       "components-nph-stepper-validation--counts": "De dos a siete pasos: dos están permitidos, la documentación pide de tres a siete, y siete es el máximo. El conector llena el espacio entre los pasos.",
       "components-nph-stepper-validation--content": "Lo que un paso activa: la línea de apoyo debajo de la etiqueta, la palabra \"Opcional\" y el motivo de un error en la descripción, en el color de error.",
@@ -12676,6 +12678,7 @@
     "byTeam": "Por equipo",
     "alpha": "Equipo Alfa",
     "beta": "Equipo Beta",
+    "cutLabel": "Informes del registro de instituciones",
     "settings": "Configuración",
     "profile": "Perfil",
     "billing": "Facturación",
@@ -12690,10 +12693,14 @@
     "exampleMain": "Producto con muchas áreas, expandido, con el botón de la esquina",
     "exampleLoading": "Lista llegando, expandido, en carga",
     "examplePhone": "Celular: el menú sobre la pantalla, abierto por el botón del producto",
-    "exampleFlyout": "Menú contraído con el panel junto al botón del riel y el tercer nivel junto a la opción"
+    "exampleFlyout": "Menú contraído con el panel junto al botón del riel y el tercer nivel junto a la opción",
+    "panelMenuMain": "Panel menu, expandido, listo y cargando: el grupo de la página actual y su padre nacen abiertos, el tercer nivel se abre en su lugar y la carga tiene una fila por ítem del primer nivel",
+    "panelMenuFollows": "Panel menu, contraído y móvil: siguen al nph-sidebar, con el riel y su panel flyout, y la lista en el diálogo",
+    "examplePanelMenu": "Panel menu, expandido, con el grupo de la página actual abierto y el tercer nivel en su lugar",
+    "examplePanelLoading": "Panel menu llegando, cargando, una fila por ítem del primer nivel"
   },
   "sidebarDocs": {
-    "summary": "El menú de navegación principal de un producto, en una columna a la izquierda, para que la persona sepa dónde está y cambie de área con un clic. Tiene tres modos, expandido, contraído y móvil, y dos estados, listo y cargando. La lista llega hasta el segundo nivel; el tercer nivel y el segundo nivel del menú contraído se abren en un panel flyout junto a quien los abrió.",
+    "summary": "El menú de navegación principal de un producto, en una columna a la izquierda, para que la persona sepa dónde está y cambie de área con un clic. Tiene tres modos, expandido, contraído y móvil, y dos estados, listo y cargando. La lista llega hasta el segundo nivel; el tercer nivel y el segundo nivel del menú contraído se abren en un panel flyout junto a quien los abrió, y en el panel menu (navigation=\"panel-menu\") el tercer nivel se abre en su lugar.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
     "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-sidebar, design.md para los tokens y docs/decisoes-tecnicas.md para la P116. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
@@ -12713,7 +12720,8 @@
       "En el modo contraído, cuando el contenido necesita el ancho: el riel muestra los íconos con un globo, y un ítem con hijos abre un panel flyout junto a él.",
       "En el modo móvil, en pantalla estrecha: el menú se abre sobre la pantalla, con el scrim detrás, y se cierra con el botón de cerrar.",
       "Con loading, mientras la lista del producto aún está llegando.",
-      "Con el botón de la esquina, para la acción principal del producto, como Todas las aplicaciones."
+      "Con el botón de la esquina, para la acción principal del producto, como Todas las aplicaciones.",
+      "Con la navegación panel menu, para un sistema con muchos destinos en hasta tres niveles, donde la persona necesita ver el camino completo sin salir de la columna."
     ],
     "whenNotToUse": [
       "Para las pestañas dentro de una página: use nph-tabs.",
@@ -12722,7 +12730,8 @@
       "Para el rastro de la página: use nph-breadcrumb.",
       "Para la cuenta de la persona: pertenece al encabezado del producto, no al menú.",
       "Para una acción de la página, como guardar, filtrar o exportar, en el botón de la esquina: use nph-button en la barra de la página.",
-      "El modo contraído en un celular: use el modo móvil."
+      "El modo contraído en un celular: use el modo móvil.",
+      "El panel menu con dos niveles o menos de cinco destinos: use la navegación flyout, que es la predeterminada."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -12733,6 +12742,10 @@
       [
         "mode",
         "expanded (predeterminado), collapsed o mobile. El producto lo elige; el botón de contraer también alterna expanded y collapsed."
+      ],
+      [
+        "navigation",
+        "flyout (predeterminado) o panel-menu. En el panel menu el tercer nivel se abre en su lugar, como un acordeón, en vez de en un panel flyout; el menú contraído sigue al nph-sidebar. Los mismos items sirven para los dos."
       ],
       [
         "open, loading",
@@ -12780,7 +12793,7 @@
       ],
       [
         "nph-group-toggle",
-        "Se dispara cuando la persona abre o cierra un grupo de la lista expandida, con detail.value y detail.expanded."
+        "Se dispara cuando la persona abre o cierra un grupo de la lista expandida o, en el panel menu, un subgrupo, con detail.value, el valor del grupo o del hijo, y detail.expanded."
       ],
       [
         "nph-search-change",
@@ -12814,7 +12827,7 @@
       ],
       [
         "child",
-        "label y href, u options; opcionalmente active, disabled, tooltip y value. Con options abre un panel flyout y no tiene href."
+        "label y href, u options; opcionalmente active, disabled, tooltip y value, y expanded en el panel menu. Con options abre un panel flyout, o un subgrupo en su lugar en el panel menu, y no tiene href."
       ],
       [
         "option",
@@ -12916,6 +12929,52 @@
         "Lo que piden sus opciones: como mínimo una línea del menú expandido y como máximo layout/input-width. Figma lo dibuja fijo, sin token."
       ]
     ],
+    "panelMenuTitle": "Panel menu",
+    "panelMenuText": "El panel menu es un modo de navegación del nph-sidebar, sin etiqueta nueva: navigation=\"panel-menu\". Organiza un sistema con muchos destinos en grupos que se abren y se cierran en su lugar, hasta el tercer nivel, sin panel lateral, y muestra dónde está la persona: el grupo de la página actual queda abierto y la página actual se marca. Vale para la lista expandida y la móvil; el menú contraído es el riel con sus paneles flyout en las dos navegaciones.",
+    "panelMenuCaption": "El panel menu, expandido: listo, con el grupo de la página actual abierto, y cargando, con una fila por ítem del primer nivel.",
+    "panelMenuHeader": [
+      "Regla",
+      "Qué hace"
+    ],
+    "panelMenu": [
+      [
+        "Grupos abiertos",
+        "Varios quedan abiertos a la vez; abrir uno no cierra los otros. El grupo de la página actual y su padre nacen abiertos. Si la persona cierra uno, queda cerrado, sin marca nueva, incluso cuando el producto envía una lista nueva."
+      ],
+      [
+        "Control",
+        "La persona abre y cierra con clic, Enter o Espacio. El código puede escribir expanded en un grupo o en un hijo con options, y un valor nuevo vale. El evento nph-group-toggle informa el cambio, con el valor del grupo o del subgrupo."
+      ],
+      [
+        "Grupo y subgrupo",
+        "Son categorías: se abren y se cierran y nunca llevan a una página. Si una categoría necesita página, ponga un enlace dentro de ella."
+      ],
+      [
+        "Tercer nivel",
+        "Un hijo con options es un subgrupo, un botón del segundo nivel con la flecha chevron-down cerrado y chevron-up abierto; sus opciones son subítems en su lugar. Hasta tres niveles."
+      ],
+      [
+        "Movimiento",
+        "La flecha gira 180 grados y el bloque crece en su lugar en panel-menu/expand-duration y panel-menu/expand-easing. Con movimiento reducido, nada se mueve."
+      ],
+      [
+        "Teclado y roles",
+        "Tab y Shift+Tab pasan por los botones y enlaces visibles; Enter y Espacio abren y cierran y mantienen el foco en el botón. Un bloque cerrado queda hidden. Esc no hace nada y un clic fuera no cierra nada. Sin rol de menú ni de árbol."
+      ],
+      [
+        "Texto cortado",
+        "La etiqueta se corta en una línea con puntos suspensivos; el tooltip muestra el texto entero al pasar el puntero, después de motion/hover-delay, y en el foco, sin espera."
+      ],
+      [
+        "Cargando",
+        "Una fila nph-skeleton por ítem del primer nivel, con un lugar de ícono y una línea de texto, sin rótulo de sección y fuera del orden de Tab; la lista queda aria-busy."
+      ],
+      [
+        "Contraído y móvil",
+        "El menú contraído sigue al nph-sidebar: el riel y sus paneles flyout. El menú móvil dibuja el panel menu dentro del diálogo."
+      ]
+    ],
+    "sourcePanelMenu": "Figma, marco de documentación del panel menu 5928:2591, sets 5607:97 y 5608:168; ficha del nph-sidebar; docs/decisoes-tecnicas.md › P124",
     "anatomyTitle": "Anatomía",
     "anatomyHeader": [
       "Parte",
@@ -12998,11 +13057,14 @@
     "examplePhone": "Celular: el menú sobre la pantalla, abierto por el botón del producto.",
     "exampleFlyout": "Menú contraído con el panel junto al botón del riel y el tercer nivel junto a la opción.",
     "exampleThird": "Menú expandido con el tercer nivel junto al subítem.",
+    "exampleMainPanel": "Panel menu, expandido: el grupo de la página actual abierto, el tercer nivel en su lugar",
+    "exampleLoadingPanel": "Panel menu llegando, cargando: una fila por ítem del primer nivel",
     "referencesTitle": "Referencias",
     "references": [
       "Figma DS-IA-NEPHOS 5.0, página NPH — Sidebar (1367:2), marco de documentación 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 y 4605:9594",
+      "Figma DS-IA-NEPHOS 5.0, marco de documentación del panel menu 5928:2591 (página 4128:29872), sets 5607:97 y 5608:168",
       "fichas/nph-sidebar.md, fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md y fichas/nph-sidebar-rail-button.md",
-      "docs/decisoes-tecnicas.md › P116 y P98",
+      "docs/decisoes-tecnicas.md › P116, P98 y P124",
       "WAI-ARIA Authoring Practices, menú de navegación con disclosure y diálogo (modal)"
     ],
     "lightCaption": "Modo claro",
@@ -13029,6 +13091,7 @@
     "byTeam": "Por equipo",
     "alpha": "Equipo Alfa",
     "beta": "Equipo Beta",
+    "cutLabel": "Informes del registro de instituciones",
     "settings": "Configuración",
     "profile": "Perfil",
     "billing": "Facturación",

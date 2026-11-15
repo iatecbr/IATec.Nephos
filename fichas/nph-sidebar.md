@@ -6,7 +6,8 @@ solves: >-
   Shows the main navigation of a product in a column on the left, in three modes (expanded,
   collapsed and mobile) and two states (ready and loading), so the person knows where they are
   and changes area with one click, with a flyout panel for the second level of the collapsed
-  menu and for the third level.
+  menu and for the third level, or, in the panel menu navigation, with the third level opening in
+  place.
 use_when:
   - "For the main navigation of a product: one column on the left, with its areas and their pages."
   - "In the expanded mode, on a wide screen, when the names of the areas help the person to choose."
@@ -14,6 +15,7 @@ use_when:
   - "In the mobile mode, on a narrow screen: the menu opens over the screen, with the scrim behind, and closes with the close button."
   - "With loading, while the list of the product is still arriving."
   - "With the corner button, for the main action of the product, such as All applications."
+  - "With the panel menu navigation, for a system with many destinations in up to three levels, where the person needs to see the whole path without leaving the column."
 do_not_use_when:
   - "For the tabs inside a page: use nph-tabs."
   - "For the actions of a button: use nph-dropdown-menu."
@@ -22,6 +24,7 @@ do_not_use_when:
   - "For the account of the person: it belongs to the product header, not to the menu."
   - "For a page action, such as save, filter or export, in the corner button: use nph-button in the page bar."
   - "The collapsed mode on a phone: use the mobile mode."
+  - "The panel menu with two levels or fewer than five destinations: use the flyout navigation, which is the default."
 api:
   mode:
     type: enum
@@ -35,6 +38,19 @@ api:
       the expanded menu over the screen. The product chooses it and switches to mobile below the md
       breakpoint; the collapse button also switches expanded and collapsed. Reflects because the CSS
       reads it. Any other value draws nothing and emits console.error in development.
+  navigation:
+    type: enum
+    values: [flyout, panel-menu]
+    required: false
+    default: flyout
+    reflects: false
+    constraint: >-
+      How the third level opens (task DSA-76, P124). flyout is the navigation of the first version: the
+      subitem with options opens its panel at the side. panel-menu draws the same items as an accordion
+      whose third level opens in place, below its subgroup; the panel menu is a mode of this tag, not a
+      new one. It changes the expanded and the mobile list; the collapsed menu is the rail with its
+      flyout panels in both. Any other value draws nothing and emits console.error in development. It
+      does not reflect: the CSS reads the markup the panel menu draws, not the host.
   open:
     type: boolean
     required: false
@@ -62,10 +78,14 @@ api:
       active, counter, disabled, tooltip, actions, actionsLabel and value. A group (type group) has
       label, icon and children, and optionally expanded, disabled, tooltip, actions, actionsLabel and
       value. A child has label and href, or options (the third level, each with label and href);
-      active, disabled, tooltip and value. Two levels in the list; the third only in a flyout panel.
-      The menu replaces the list when a group opens or closes and never changes the objects of the
-      consumer. An entry that cannot be drawn is left out and emits console.error in development,
-      once per cause. An empty list is a mount.
+      active, disabled, tooltip and value, and expanded in the panel menu. Two levels in the list; the
+      third in a flyout panel, or in place in the panel menu, where a child with options is a subgroup.
+      In the flyout navigation the menu replaces the list when a group opens or closes and never
+      changes the objects of the consumer. In the panel menu the open groups and subgroups are the
+      person's and the menu keeps them, so a new list does not undo them: the group that holds the
+      current page is born open, once; an expanded the product writes seeds a group, and a new value
+      wins. An entry that cannot be drawn is left out and emits console.error in development, once per
+      cause. An empty list is a mount.
   label:
     type: string
     required: true
@@ -214,8 +234,9 @@ api:
     default: "none"
     reflects: false
     constraint: >-
-      Fired when the person opens or closes a group of the expanded list, with detail.value, the value
-      of the group, and detail.expanded, the new state. It bubbles and crosses shadow roots.
+      Fired when the person opens or closes a group of the expanded list or, in the panel menu, a
+      subgroup, with detail.value, the value of the group or of the child, and detail.expanded, the new
+      state. It bubbles and crosses shadow roots.
   nph-search-change:
     type: event
     required: false
@@ -244,6 +265,12 @@ variants:
     choose_when: "expanded on a wide screen; collapsed when the content needs the width; mobile on a narrow screen."
     do_not_combine_with:
       - "collapsed on a phone: use mobile."
+  navigation:
+    axis: appearance
+    choose_when: "flyout, the default, for the sidebar of two levels or few destinations; panel-menu when the destinations reach the third level and the person needs the whole path in the column."
+    do_not_combine_with:
+      - "panel-menu with two levels or fewer than five destinations: use flyout."
+      - "A group or a subgroup that is also a link: the click opens and closes."
   loading:
     axis: appearance
     choose_when: "While the list of the product is still arriving."
@@ -263,19 +290,26 @@ states:
   flyout-open:
     token: sidebar/flyout-background
     changes_for_user: "The flyout panel opens next to its opener, with the name of the opener as its title; its opener shows aria-expanded true."
+  panel-menu-open:
+    token: panel-menu/subgroup-foreground-open
+    changes_for_user: "The subgroup shows its label in text/label-md and the arrow up, and its options grow in place below it, indented behind a group line; the group of the current page and its parent are born open."
   focus:
     token: focus/border
-    changes_for_user: "Keyboard focus draws the 1 px focus/border border and the focus/halo halo outside the collapse button, the close button, the logo link and the flyout option."
+    changes_for_user: "Keyboard focus draws the 1 px focus/border border and the focus/halo halo outside the collapse button, the close button, the logo link and the flyout option; in the panel menu, the 1 px panel-menu/focus-border border and the panel-menu/focus-ring halo outside the subgroup."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "A disabled option or item at state/disabled-opacity, with no hover and no focus."
 business_rules:
   - "The product chooses the mode, the current item and what opens; the menu only shows. The collapse button is the one exception: it switches expanded and collapsed and reports it."
   - "Only the navigation scrolls; the top and the foot stay fixed."
-  - "Two levels in the list. The third level opens in a flyout panel next to its opener; there is no fourth level."
+  - "Two levels in the list. The third level opens in a flyout panel next to its opener, or in place in the panel menu; there is no fourth level."
   - "A flyout panel opens on a click, Enter or Space, never on hover. Opening another panel of the same level closes the one open. Esc closes the innermost and gives the focus back to its opener."
   - "A click or the focus outside closes the flyout panel; opening it closes the balloon of its opener."
   - "The mobile menu is a modal dialog: the page is inert, the focus is trapped, Esc, the close button and the scrim close it."
+  - "The panel menu is a navigation, not a new tag: the same items, and the child with options is drawn as a subgroup that opens its options in place, up to three levels."
+  - "In the panel menu, a group and a subgroup are categories: they open and close and never go to a page. A category that needs a page holds a link."
+  - "In the panel menu several groups stay open at once, and opening one closes none. The group of the current page and its parent are born open; a group the person closes stays closed, even when the product sends a new list."
+  - "In the panel menu Esc does nothing and a click outside closes nothing: the open block grows in place and is not a layer. The collapsed menu and the mobile menu follow the rules of the sidebar."
   - "The menu does not write words of its own: every visible text and accessible name comes from the product."
 domain_errors: []
 tokens:
@@ -288,6 +322,7 @@ tokens:
   group_label: "sidebar/group-label, text/heading-2xs, no uppercase"
   collapse_button: "control/height-default; icon/size-md place; focus/border"
   corner_button: "nph-button primary solid; nph-button icon-only plus when collapsed"
+  panel_menu: "panel-menu/subgroup-height, panel-menu/subgroup-padding-x and -y, panel-menu/subgroup-gap, panel-menu/subgroup-radius, panel-menu/subgroup-icon-size, panel-menu/subgroup-foreground and -open, panel-menu/subgroup-background-hover, panel-menu/subgroup-disabled-opacity; panel-menu/focus-border, -border-width, -border-radius, panel-menu/focus-ring, -ring-width, panel-menu/focus-radius; panel-menu/nest-padding, panel-menu/nest-gap, panel-menu/guide-background, panel-menu/guide-width; panel-menu/item-gap, panel-menu/section-gap, panel-menu/label-gap; panel-menu/expand-duration and -easing; panel-menu/skeleton-row-height, -row-padding, -gap and -icon-size; text/body-md closed and text/label-md open"
   flyout: "sidebar/flyout-background, sidebar/flyout-border, sidebar/flyout-radius, elevation/dropdown, sidebar/flyout-title, sidebar/flyout-foreground, sidebar/flyout-option-hover"
   flyout_option: "control/height-default, sidebar/item-padding, sidebar/item-radius, sidebar/item-foreground-active, sidebar/item-foreground-open, state/disabled-opacity"
   mobile: "sidebar/mobile-offset, sidebar/scrim"
@@ -299,19 +334,22 @@ ai_hints:
   - "Switch to the mobile mode below the md breakpoint and open the menu with a button of your own."
   - "Pass the label of the landmark, the labels of the collapse and close buttons and every text in the language of the product."
   - "Use the corner button only for the main action of the product."
-  - "Put a third level only in the options of a child: it opens in a flyout panel."
+  - "Put a third level only in the options of a child: it opens in a flyout panel, or in place with navigation panel-menu."
+  - "Use navigation panel-menu for a system with many destinations in up to three levels; with two levels or fewer than five destinations, keep the default."
+  - "In the panel menu give a child with options a value, so the nph-group-toggle event says which subgroup the person opened; leave expanded out unless the product controls it."
 accessibility:
-  semantics: "A navigation landmark with a name; the items are links, and a group, a collapse button and an opener of a flyout panel are buttons with aria-expanded and aria-controls. The mobile menu is a modal dialog with the same name. The flyout panel is a group named by its title."
+  semantics: "A navigation landmark with a name; the items are links, and a group, a collapse button and an opener of a flyout panel are buttons with aria-expanded and aria-controls. In the panel menu a group and a subgroup are buttons with aria-expanded and aria-controls pointing to their block, which stays hidden while closed; there is no menu or tree role. The mobile menu is a modal dialog with the same name. The flyout panel is a group named by its title."
   accessible_name: "label names the landmark and the dialog. The collapse button carries collapse-label or expand-label, and the balloon is its name. In the collapsed mode, each rail button carries the item name in aria-label and in the balloon. The logo is a link named by logo-label. The current item carries aria-current page."
   keyboard:
     - "Tab and Shift+Tab: move through the logo link, the collapse button, the search, each item, subitem or rail button and the corner button, in reading order; the next Tab after an opener enters its flyout panel."
-    - "Enter and Space: follow a link; open and close a group, a flyout panel or the options of a child."
+    - "Enter and Space: follow a link; open and close a group, a flyout panel or the options of a child. In the panel menu they open and close the group and the subgroup and keep the focus on the button; a closed block is out of the Tab order."
     - "Esc: closes the innermost flyout panel and gives the focus back to its opener; with none open, closes the mobile menu."
-  focus: "focus/border and focus/halo on every focusable piece of the menu. The corner button keeps the default focus of nph-button."
+  focus: "focus/border and focus/halo on every focusable piece of the menu; panel-menu/focus-border and panel-menu/focus-ring on the subgroup. The corner button keeps the default focus of nph-button."
   contrast: "Every text of the menu passes 4.5:1 on its background, in light and dark, in the seven brands; the focus border passes 3:1 against the panel and against the flyout panel."
   color_alternative: "The active item uses the brand color, text/label-md and a solid icon; the active rail button turns its icon solid; the open flyout option uses the same color with the arrow, and the weight separates active from open."
 invalid_combinations:
   - "A mode outside expanded, collapsed and mobile — the menu draws nothing."
+  - "A navigation outside flyout and panel-menu — the menu draws nothing."
   - "A link without href, unless disabled — it leads nowhere."
   - "A group without children — it opens nothing."
   - "A child with options and an href, or with options and active — it opens a panel, it is not a page."
@@ -329,13 +367,16 @@ anti_patterns:
   - "Marking two items as active."
   - "Putting the account of the person in the menu."
   - "Writing a line on every row: the one line is between the search and the navigation."
+  - "Using the panel menu with two levels or fewer than five destinations."
+  - "A group or a subgroup that is also a link: put the destination in a link inside it."
+  - "Using the panel menu as a tree of data, of folders or files: use nph-tree."
 sources:
   design_md: "design.md, the sidebar/* tokens, focus/border, overlay/scrim, color/primary-text and color/primary; docs/tokens.md"
-  decision: "P116 — nph-sidebar: API and semantics"
+  decision: "P116 — nph-sidebar: API and semantics; P124 — the panel menu navigation of nph-sidebar"
   tests: "src/components/nph-sidebar/nph-sidebar.test.ts and nph-sidebar.docs.test.ts"
   usage_evidence: "the required examples of the nph-sidebar Docs page"
   storybook: "src/components/nph-sidebar/nph-sidebar.stories.ts and nph-sidebar.docs.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, page NPH — Sidebar 1367:2, documentation 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 and 4605:9594"
+  figma: "DS-IA-NEPHOS 5.0, page NPH — Sidebar 1367:2, documentation 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 and 4605:9594; panel menu documentation 5928:2591 (page 4128:29872), sets 5607:97 and 5608:168"
 ---
 
 # nph-sidebar
@@ -345,9 +386,10 @@ sources:
 **The problem it solves:** shows the main navigation of a product in a column on the left, so
 the person knows where they are and changes area with one click. It has three modes —
 expanded, collapsed and mobile — and two states, ready and loading. The list goes to the second
-level, the item and the subitem; the third level opens in a flyout panel next to its opener. In
-the collapsed mode, an item with children opens a flyout panel next to its rail button, with the
-name of the item as the title. The menu shows where the person is; the product decides the
+level, the item and the subitem; the third level opens in a flyout panel next to its opener, or,
+in the panel menu navigation, in place, below its subgroup, with no side panel. In the collapsed
+mode, an item with children opens a flyout panel next to its rail button, with the name of the
+item as the title. The menu shows where the person is; the product decides the
 current item and the mode. The account of the person is not in the menu: it is in the product
 header.
 
@@ -361,6 +403,7 @@ header.
   and closes with the close button.
 - With `loading`, while the list of the product is still arriving.
 - With the corner button, for the main action of the product, such as All applications.
+- With the panel menu navigation, for a system with many destinations in up to three levels, where the person needs to see the whole path without leaving the column.
 
 **When NOT to use:**
 
@@ -372,11 +415,14 @@ header.
 - **For a page action** in the corner button, such as save, filter or export — use `nph-button`
   in the page bar.
 - **The collapsed mode on a phone** — use the mobile mode.
+- **The panel menu with two levels or fewer than five destinations** — use the flyout navigation,
+  which is the default.
 
 ## Variants
 
-**By appearance:** the mode — `expanded`, `collapsed` or `mobile` — and the state, ready or
-`loading`; and two optional parts, the collapse button and the corner button.
+**By appearance:** the mode — `expanded`, `collapsed` or `mobile` — the navigation — `flyout` or
+`panel-menu` — and the state, ready or `loading`; and two optional parts, the collapse button and
+the corner button.
 
 **By size:** `not_applicable`: the menu fills the height it receives, at `sidebar/panel-width`
 or `layout/sidebar-collapsed`.
@@ -389,10 +435,13 @@ or `layout/sidebar-collapsed`.
 | `modo=recolhido` | `mode="collapsed"` | The content needs the width: the rail shows the icons with a balloon |
 | `modo=móvel` | `mode="mobile"` and `open` | Narrow screen, such as a phone |
 | `estado=carregando` | `loading` | The list is still arriving |
+| nav mode panel menu (frame `5928:2591`) | `navigation="panel-menu"` | The destinations reach the third level and the person needs the whole path in the column |
 | `botão de recolher` | `hide-collapse-button` | The product does not let the person collapse the menu |
 | `botão do canto` | `corner-label` and `hide-corner-button` | The product has a main action |
 
-**Do not combine with:** the collapsed mode on a phone; a page action in the corner button.
+**Do not combine with:** the collapsed mode on a phone; a page action in the corner button; the
+panel menu with two levels or fewer than five destinations; a group or a subgroup that is also a
+link.
 
 ## States
 
@@ -401,7 +450,8 @@ or `layout/sidebar-collapsed`.
 | rest | `sidebar/panel-background` | The panel floats, with a 1 px border in `sidebar/panel-border` and no shadow |
 | `loading` | `sidebar/item-height` | `nph-skeleton` rows in place of the items; the logo, the search and the corner button stay |
 | flyout open | `sidebar/flyout-background` | The panel opens next to its opener, with its name as the title; the opener shows `aria-expanded` |
-| `focus` | `focus/border`, `focus/halo` | Border `border/width` and halo `focus/ring-width` outside the collapse button, the close button, the logo link and the flyout option |
+| panel menu open | `panel-menu/subgroup-foreground-open` | The subgroup shows `text/label-md` and the arrow up; its options grow in place below it, behind a group line |
+| `focus` | `focus/border`, `focus/halo` | Border `border/width` and halo `focus/ring-width` outside the collapse button, the close button, the logo link and the flyout option; in the panel menu `panel-menu/focus-border` and `panel-menu/focus-ring` outside the subgroup |
 | `disabled` | `state/disabled-opacity` | A disabled option or item fades, with no hover and no focus |
 
 **Feedback and focus:** the corner button keeps the default focus of `nph-button`; the search
@@ -415,12 +465,25 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
   `nph-mode-change`.
 - Only the navigation scrolls; the top and the foot stay fixed, so the focused line is never
   hidden behind them.
-- Two levels in the list; the third level opens in a flyout panel. There is no fourth level.
+- Two levels in the list; the third level opens in a flyout panel, or in place in the panel menu.
+  There is no fourth level.
 - A flyout panel opens on a click, Enter or Space, never on hover, next to its opener, `space/inline`
   to the side with its top aligned, and stays inside the screen. One panel per level; Esc closes the
   innermost and gives the focus back to its opener; a click or the focus outside closes it.
 - The mobile menu is a modal dialog: the page is inert, the focus is trapped, and Esc, the close
   button and the scrim close it, after `nph-close`.
+- The panel menu is a navigation, not a new tag: the same `items`, and the child with `options`
+  is drawn as a subgroup that opens its options in place, up to three levels. The collapsed
+  menu is the rail with its flyout panels in both navigations; the mobile menu draws the panel
+  menu inside the dialog.
+- In the panel menu a group and a subgroup are categories: they open and close and never go to a
+  page. A category that needs a page holds a link.
+- In the panel menu several groups stay open at once, and opening one closes none. The group of
+  the current page and its parent are born open, once. A group the person closes stays closed
+  with no new mark, even when the product sends a new list; an `expanded` the product writes
+  seeds a group, and a new value wins. `nph-group-toggle` tells the product.
+- In the panel menu Esc does nothing and a click outside closes nothing: the open block grows in
+  place and is not a layer.
 - The menu writes no word of its own: every text and every accessible name comes from the product.
 
 **Domain error states:** `not_applicable`.
@@ -429,14 +492,15 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
 
 | Criterion | Rule |
 |---|---|
-| Semantics | A navigation landmark with a name. A link is a link; a group, the collapse button and the opener of a flyout panel are buttons with `aria-expanded` and `aria-controls`; the flyout panel is a group named by its title. The mobile menu is a modal dialog |
+| Semantics | A navigation landmark with a name. A link is a link; a group, the collapse button and the opener of a flyout panel are buttons with `aria-expanded` and `aria-controls`; the flyout panel is a group named by its title. In the panel menu a group and a subgroup are buttons with `aria-expanded` and `aria-controls` pointing to their block, which is `hidden` while closed; there is no `menu` or `tree` role. The mobile menu is a modal dialog |
 | Accessible name | `label` names the landmark and the dialog. The collapse button carries `collapse-label` or `expand-label`. Each rail button carries the name of the item in `aria-label` and in the balloon. The logo is a link named by `logo-label`. The current item carries `aria-current="page"`. A counter number is read inside the name of its link |
-| Keyboard | Tab in reading order; the next Tab after an opener enters its panel. Enter and Space open and close a group or a panel. Esc closes the innermost panel and gives the focus back to its opener, and with none open it closes the mobile menu |
-| Focus | `focus/border` and `focus/halo` on every focusable piece of the menu. It measures at least 3.38:1 in light and 4.81:1 in dark against the panel, and 4.32:1 and 4.91:1 against the flyout panel, in every brand |
+| Keyboard | Tab in reading order; the next Tab after an opener enters its panel. Enter and Space open and close a group or a panel. Esc closes the innermost panel and gives the focus back to its opener, and with none open it closes the mobile menu. In the panel menu Tab passes through the visible buttons and links, a closed block is out of the order, Enter and Space open and close the group and the subgroup and keep the focus on the button, and Esc does nothing |
+| Focus | `focus/border` and `focus/halo` on every focusable piece of the menu, and `panel-menu/focus-border` and `panel-menu/focus-ring`, the same tokens, on the subgroup. It measures at least 3.38:1 in light and 4.81:1 in dark against the panel, and 4.32:1 and 4.91:1 against the flyout panel, in every brand |
 | Contrast | Every text of the menu passes 4.5:1 on its background in light and dark, in the seven brands. In some brands, in dark, the background of the active rail button stays below 3:1 against the panel; the solid icon marks it |
-| Alternative to color | The active item uses the brand color, `text/label-md` and a solid icon; the active rail button turns its icon solid; the open option uses the same color with the arrow, and the weight separates active from open |
-| Touch target | Item and rail button at `sidebar/item-height` and `sidebar/rail-button-size`; subitem, option, search, collapse button and corner button at `control/height-default`; all above 24 × 24 |
-| Known limits | The collapse button has a skeleton in place of the `sidebar` icon until it enters `nph-icon` (task DSA-72, D-1). Forced colors and right-to-left are not treated yet |
+| Alternative to color | The active item uses the brand color, `text/label-md` and a solid icon; the active rail button turns its icon solid; the open option uses the same color with the arrow, and the weight separates active from open. The open subgroup uses a heavier label and the arrow up; the group line is decoration, the indent and the order show the level |
+| Touch target | Item and rail button at `sidebar/item-height` and `sidebar/rail-button-size`; subitem, subgroup, option, search, collapse button and corner button at `control/height-default`; all above 24 × 24 |
+| Movement | In the panel menu the arrow turns 180 degrees and the block grows in place in `panel-menu/expand-duration` and `panel-menu/expand-easing`; with reduced motion nothing moves. The flyout panel and the mobile menu keep `motion/enter-*` and `motion/exit-*` |
+| Known limits | The collapse button has a skeleton in place of the `sidebar` icon until it enters `nph-icon` (task DSA-72, D-1). Forced colors and right-to-left are not treated yet. A browser that does not interpolate `grid-template-rows` opens and closes the panel menu with no movement |
 
 ## Relations
 
@@ -466,6 +530,10 @@ left; in the mobile mode it floats over the screen.
 | Group label | `sidebar/group-label`, `text/heading-2xs` |
 | Collapse button | `control/height-default`, `icon/size-md`, `focus/border` |
 | Flyout panel | `sidebar/flyout-background`, `sidebar/flyout-border`, `sidebar/flyout-radius`, `elevation/dropdown`, `sidebar/flyout-title` |
+| Panel menu subgroup | `panel-menu/subgroup-height`, `panel-menu/subgroup-padding-x`, `panel-menu/subgroup-padding-y`, `panel-menu/subgroup-gap`, `panel-menu/subgroup-radius`, `panel-menu/subgroup-icon-size`, `panel-menu/subgroup-foreground`, `panel-menu/subgroup-foreground-open`, `panel-menu/subgroup-background-hover`, `panel-menu/subgroup-disabled-opacity`; `text/body-md` closed, `text/label-md` open |
+| Panel menu focus | `panel-menu/focus-border`, `panel-menu/focus-border-width`, `panel-menu/focus-border-radius`, `panel-menu/focus-ring`, `panel-menu/focus-ring-width`, `panel-menu/focus-radius` |
+| Panel menu levels | `panel-menu/nest-padding`, `panel-menu/nest-gap`, `panel-menu/guide-background`, `panel-menu/guide-width`, `panel-menu/item-gap`, `panel-menu/section-gap`, `panel-menu/label-gap` |
+| Panel menu motion and loading | `panel-menu/expand-duration`, `panel-menu/expand-easing`; `panel-menu/skeleton-row-height`, `panel-menu/skeleton-row-padding`, `panel-menu/skeleton-gap`, `panel-menu/skeleton-icon-size` |
 | Flyout option | `sidebar/flyout-foreground`, `sidebar/flyout-option-hover`, `sidebar/item-foreground-active`, `sidebar/item-foreground-open`, `sidebar/item-padding`, `sidebar/item-radius` |
 | Mobile | `sidebar/mobile-offset`, `sidebar/scrim` |
 | Focus | `focus/border`, `focus/halo`, `focus/ring-width`, `focus/border-radius-sidebar-item`, `focus/radius-sidebar-item` |
@@ -485,14 +553,21 @@ expanded menu and at most `layout/input-width`.
 - Pass the `label` of the landmark, the labels of the collapse and close buttons and every text
   in the language of the product.
 - Use the corner button only for the main action of the product.
-- Put a third level only in the `options` of a child: it opens in a flyout panel.
+- Put a third level only in the `options` of a child: it opens in a flyout panel, or in place with
+  `navigation="panel-menu"`.
+- Use `navigation="panel-menu"` for a system with many destinations in up to three levels; with two
+  levels or fewer than five destinations, keep the default.
+- In the panel menu give a child with `options` a `value`, so `nph-group-toggle` says which subgroup
+  the person opened; leave `expanded` out unless the product controls it.
 
 ## Examples
 
 **Recommended case:** a product with many areas, expanded, the current page `active`, a group
 open with its subitems and the corner button at the foot.
 
-**Alternative case:** the list arriving, with `loading`; the phone, in the mobile mode over the
+**Alternative case:** the panel menu, `navigation="panel-menu"`, for a system with groups that
+reach the third level: the group of the current page and its parent born open, the third level in
+place, and several groups open; the list arriving, with `loading`; the phone, in the mobile mode over the
 screen with the scrim; the collapsed menu with the flyout panel next to the rail button and the
 third level next to the option.
 
@@ -506,6 +581,11 @@ third level next to the option.
 - **Do not mark two items as active** — only the current page is.
 - **Do not put the account of the person in the menu** — it belongs to the product header.
 - **Do not write a line on every row** — the one line is between the search and the navigation.
+- **Do not use the panel menu with two levels or fewer than five destinations** — use the flyout
+  navigation.
+- **Do not make a group or a subgroup a link** — the click opens and closes; put the destination in
+  a link inside it.
+- **Do not use the panel menu as a tree of data, of folders or files** — use `nph-tree`.
 - **Invalid combinations:** a `mode` outside the three; a link without `href`; a group without
   `children`; a child with `options` and an `href` or `active`; a fourth level.
 - **Do not create without a decision:** a group collapsible by its label, a complementary area, an
@@ -515,13 +595,15 @@ third level next to the option.
 
 - **The repository `design.md`:** the `sidebar/*` tokens, `focus/border`, `overlay/scrim`,
   `color/primary-text` and `color/primary`; the token table is in `docs/tokens.md`.
-- **The decision that originated it:** P116, the API and semantics of `nph-sidebar`, which amends
-  P98 for the item, the subitem and the rail button.
+- **The decisions that originated it:** P116, the API and semantics of `nph-sidebar`, which amends
+  P98 for the item, the subitem and the rail button; and P124, the panel menu navigation.
 - **Pending decisions:** D-1 and D-2 of the task DSA-72, with Indiane: the `sidebar` icon in
-  `nph-icon` and the dark logo.
+  `nph-icon` and the dark logo; and D-1 to D-3 of the task DSA-76: the section label in the panel
+  menu, the arrow of the group item and a page inside a group the person closed.
 - **Tests:** `src/components/nph-sidebar/nph-sidebar.test.ts` and `nph-sidebar.docs.test.ts`.
 - **Usage evidence:** the required examples of the `nph-sidebar` Docs page.
 - **Storybook:** `src/components/nph-sidebar/nph-sidebar.stories.ts` and
   `nph-sidebar.docs.stories.ts`.
 - **Figma:** `DS-IA-NEPHOS 5.0`, page `NPH — Sidebar` (`1367:2`), documentation `4633:27036`,
-  sets `4605:9647`, `4605:9612`, `4605:9599`, `4605:9589` and `4605:9594`.
+  sets `4605:9647`, `4605:9612`, `4605:9599`, `4605:9589` and `4605:9594`; the panel menu,
+  documentation `5928:2591` (page `4128:29872`), sets `5607:97` and `5608:168`.

@@ -1,7 +1,8 @@
 /**
  * Contract of the `nph-sidebar` Documentation page and of its Validation stories: index with no
  * orphan anchor in all three languages, no leftover placeholder, the `mode` × `state` matrix, the
- * four required examples in light and dark mode (and the third level of the expanded menu), the
+ * required examples in light and dark mode (the third level of the expanded menu and the panel menu,
+ * ready and loading, included), the
  * flyout panels the examples show open, the `sidebarDocs` and `sidebarValidation` dictionaries with
  * the same shape in pt-BR, en and es (`test:i18n` only reads `.md` pairs), no text of another
  * language on the English page, the two "When to use" lists equal to the ones of the sheet, and
@@ -147,9 +148,9 @@ describe('nph-sidebar Documentation', () => {
       const examples = target.querySelector('section#required-examples') as HTMLElement;
       const figures = [...examples.querySelectorAll('figure[data-nph-color-scheme]')];
       expect(figures.map((figure) => figure.getAttribute('data-nph-color-scheme'))).toEqual(
-        ['light', 'dark', 'light', 'dark', 'light', 'dark', 'light', 'dark', 'light', 'dark'],
+        ['light', 'dark', 'light', 'dark', 'light', 'dark', 'light', 'dark', 'light', 'dark', 'light', 'dark', 'light', 'dark'],
       );
-      const [main, , loading, , phone, , collapsed, , third] = figures as HTMLElement[];
+      const [main, , loading, , phone, , collapsed, , third, , panel, , panelLoading] = figures as HTMLElement[];
       const mainMenu = main?.querySelector<NphSidebar>('nph-sidebar') as NphSidebar;
       expect(mainMenu.mode).toBe('expanded');
       expect(mainMenu.cornerLabel).not.toBe('');
@@ -160,6 +161,29 @@ describe('nph-sidebar Documentation', () => {
       expect(phoneButtons(phone as HTMLElement)).toHaveLength(1);
       expect(collapsed?.querySelector<NphSidebar>('nph-sidebar')?.mode).toBe('collapsed');
       expect(third?.querySelector<NphSidebar>('nph-sidebar')?.mode).toBe('expanded');
+      /* The panel menu (DSA-76): the same menu, expanded, ready and loading, and the other examples keep the flyout navigation. */
+      expect(panel?.querySelector<NphSidebar>('nph-sidebar')?.navigation).toBe('panel-menu');
+      expect(panel?.querySelector<NphSidebar>('nph-sidebar')?.mode).toBe('expanded');
+      expect(panelLoading?.querySelector<NphSidebar>('nph-sidebar')?.navigation).toBe('panel-menu');
+      expect(panelLoading?.querySelector<NphSidebar>('nph-sidebar')?.loading).toBe(true);
+      expect(mainMenu.navigation).toBe('flyout');
+    });
+
+    it(`${locale}: the panel menu section draws the menu with the third level in place, ready and loading, and lists its rules`, async () => {
+      const target = renderInLocale(locale);
+      await ready(target);
+      const section = target.querySelector('section#panel-menu') as HTMLElement;
+      expect(section).not.toBeNull();
+      const menus = [...section.querySelectorAll<NphSidebar>('nph-sidebar')];
+      expect(menus.map((menu) => menu.navigation)).toEqual(['panel-menu', 'panel-menu']);
+      expect(menus.map((menu) => menu.loading)).toEqual([false, true]);
+      const rules = translations(locale).sidebarDocs.panelMenu;
+      expect(rules.length).toBeGreaterThan(0);
+      for (const [term, rule] of rules) {
+        expect(section.textContent, `${locale} ${term}`).toContain(term);
+        expect(section.textContent, `${locale} ${term}`).toContain(rule);
+      }
+      expect(menus[0]?.shadowRoot?.querySelectorAll('.subgroup').length).toBeGreaterThan(0);
     });
 
     it(`${locale}: an example shows its flyout panels open while it is on the screen, and closes them when it leaves`, async () => {
@@ -296,8 +320,8 @@ describe('nph-sidebar Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-sidebar-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the nine pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'Flyout', 'InvalidInput', 'Loading', 'Messages', 'Mobile', 'Modes', 'Parts']);
+  it('the stories are the ten pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'Flyout', 'InvalidInput', 'Loading', 'Messages', 'Mobile', 'Modes', 'PanelMenu', 'Parts']);
   });
 
   for (const [name, story] of stories) {
@@ -340,13 +364,14 @@ describe('nph-sidebar Validation: text only from the dictionary', () => {
     });
   }
 
-  it('Brands: the menu is in each of the fourteen frames, expanded and collapsed', async () => {
+  it('Brands: the menu is in each of the fourteen frames, expanded in both navigations and collapsed', async () => {
     const target = draw(validation.Brands as unknown as Renderable, 'en');
     const frames = [...target.querySelectorAll('[data-nph-brand-frame]')];
     expect(frames).toHaveLength(14);
     for (const frame of frames) {
       const menus = [...frame.querySelectorAll<NphSidebar>('nph-sidebar')];
-      expect(menus.map((menu) => menu.mode)).toEqual(['expanded', 'collapsed']);
+      expect(menus.map((menu) => menu.mode)).toEqual(['expanded', 'expanded', 'collapsed']);
+      expect(menus.map((menu) => menu.navigation)).toEqual(['flyout', 'panel-menu', 'flyout']);
     }
   });
 

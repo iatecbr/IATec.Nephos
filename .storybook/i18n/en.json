@@ -432,6 +432,7 @@
     "components-nph-sidebar-validation--mobile": "Mobile",
     "components-nph-sidebar-validation--loading": "Loading",
     "components-nph-sidebar-validation--flyout": "Flyout",
+    "components-nph-sidebar-validation--panel-menu": "Panel menu",
     "components-nph-sidebar-validation--parts": "Parts",
     "components-nph-sidebar-validation--messages": "Messages",
     "components-nph-sidebar-validation--invalid-input": "Invalid input",
@@ -8092,11 +8093,12 @@
       "components-nph-sidebar-validation--mobile": "The phone: the button of the product opens the menu over the screen, with the scrim behind and the close button in place of the collapse button. The story opens the light one; Esc, the close button and the scrim close it.",
       "components-nph-sidebar-validation--loading": "The state loading, expanded and collapsed: nph-skeleton rows in place of the items, with the logo, the search and the corner button in place.",
       "components-nph-sidebar-validation--flyout": "The flyout panel: next to the rail button for the second level, next to the option for the third level, and next to the subitem in the expanded menu. It opens on a click, never on hover.",
+      "components-nph-sidebar-validation--panel-menu": "The panel menu: the third level opens in place. The group of the current page and its parent are born open, several groups stay open, the loading has one row per first-level item, and the collapsed menu and the phone follow the nph-sidebar.",
       "components-nph-sidebar-validation--parts": "The two Figma booleans, the collapse button and the corner button, on and off, in the expanded menu.",
       "components-nph-sidebar-validation--messages": "The short message in place of the list: no items, and an error. The product provides and translates both.",
       "components-nph-sidebar-validation--invalid-input": "Invalid input: a mode outside the three draws nothing, and an entry that cannot be drawn is left out, each with one error.",
-      "components-nph-sidebar-validation--examples": "The four required examples of the documentation: a product with many areas, the list arriving, the phone and the collapsed menu with its flyout, each in light and dark mode.",
-      "components-nph-sidebar-validation--brands": "The seven brands in light and dark: the current page, the counter, the open group and the active rail button follow the brand of the frame, and so does the focus halo on Tab.",
+      "components-nph-sidebar-validation--examples": "The required examples of the documentation: a product with many areas, the list arriving, the phone, the collapsed menu with its flyout, and the panel menu, ready and loading, each in light and dark mode.",
+      "components-nph-sidebar-validation--brands": "The seven brands in light and dark: the current page, the counter, the open group, the open subgroup of the panel menu and the active rail button follow the brand of the frame, and so does the focus halo on Tab.",
       "components-nph-stepper-validation--statuses": "The four statuses in one stepper: the completed steps with a check, the current step with a ring and a stronger label, the pending steps with a number in a thin outline, and the step with an error with a triangle and its reason.",
       "components-nph-stepper-validation--counts": "From two to seven steps: two are allowed, the documentation asks for three to seven, and seven is the maximum. The connector fills the space between the steps.",
       "components-nph-stepper-validation--content": "What a step turns on: the support line below the label, the word \"Optional\", and the reason of an error in the description, in the error color.",
@@ -12676,6 +12678,7 @@
     "byTeam": "By team",
     "alpha": "Alpha team",
     "beta": "Beta team",
+    "cutLabel": "Reports of the registry of institutions",
     "settings": "Settings",
     "profile": "Profile",
     "billing": "Billing",
@@ -12690,10 +12693,14 @@
     "exampleMain": "Product with many areas, expanded, with the corner button",
     "exampleLoading": "List arriving, expanded, loading",
     "examplePhone": "Phone: the menu over the screen, opened by the button of the product",
-    "exampleFlyout": "Collapsed menu with the panel next to the rail button and the third level next to the option"
+    "exampleFlyout": "Collapsed menu with the panel next to the rail button and the third level next to the option",
+    "panelMenuMain": "Panel menu, expanded, ready and loading: the group of the current page and its parent are born open, the third level opens in place and the loading has one row per first-level item",
+    "panelMenuFollows": "Panel menu, collapsed and mobile: they follow the nph-sidebar, with the rail and its flyout panel, and the list in the dialog",
+    "examplePanelMenu": "Panel menu, expanded, with the group of the current page open and the third level in place",
+    "examplePanelLoading": "Panel menu arriving, loading, one row per first-level item"
   },
   "sidebarDocs": {
-    "summary": "The main navigation menu of a product, in a column on the left, so the person knows where they are and changes area with one click. It has three modes, expanded, collapsed and mobile, and two states, ready and loading. The list goes to the second level; the third level and the second level of the collapsed menu open in a flyout panel next to their opener.",
+    "summary": "The main navigation menu of a product, in a column on the left, so the person knows where they are and changes area with one click. It has three modes, expanded, collapsed and mobile, and two states, ready and loading. The list goes to the second level; the third level and the second level of the collapsed menu open in a flyout panel next to their opener, and in the panel menu (navigation=\"panel-menu\") the third level opens in place.",
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
     "derivedText": "In case of divergence, the canonical sources prevail: the nph-sidebar spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P116. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
@@ -12713,7 +12720,8 @@
       "In the collapsed mode, when the content needs the width: the rail shows the icons with a balloon, and an item with children opens a flyout panel next to it.",
       "In the mobile mode, on a narrow screen: the menu opens over the screen, with the scrim behind, and closes with the close button.",
       "With loading, while the list of the product is still arriving.",
-      "With the corner button, for the main action of the product, such as All applications."
+      "With the corner button, for the main action of the product, such as All applications.",
+      "With the panel menu navigation, for a system with many destinations in up to three levels, where the person needs to see the whole path without leaving the column."
     ],
     "whenNotToUse": [
       "For the tabs inside a page: use nph-tabs.",
@@ -12722,7 +12730,8 @@
       "For the page trail: use nph-breadcrumb.",
       "For the account of the person: it belongs to the product header, not to the menu.",
       "For a page action, such as save, filter or export, in the corner button: use nph-button in the page bar.",
-      "The collapsed mode on a phone: use the mobile mode."
+      "The collapsed mode on a phone: use the mobile mode.",
+      "The panel menu with two levels or fewer than five destinations: use the flyout navigation, which is the default."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -12733,6 +12742,10 @@
       [
         "mode",
         "expanded (default), collapsed or mobile. The product chooses it; the collapse button also switches expanded and collapsed."
+      ],
+      [
+        "navigation",
+        "flyout (default) or panel-menu. In the panel menu the third level opens in place, as an accordion, instead of in a flyout panel; the collapsed menu follows the nph-sidebar. The same items serve both."
       ],
       [
         "open, loading",
@@ -12780,7 +12793,7 @@
       ],
       [
         "nph-group-toggle",
-        "Fired when the person opens or closes a group of the expanded list, with detail.value and detail.expanded."
+        "Fired when the person opens or closes a group of the expanded list or, in the panel menu, a subgroup, with detail.value, the value of the group or of the child, and detail.expanded."
       ],
       [
         "nph-search-change",
@@ -12814,7 +12827,7 @@
       ],
       [
         "child",
-        "label and href, or options; optionally active, disabled, tooltip and value. With options it opens a flyout panel and has no href."
+        "label and href, or options; optionally active, disabled, tooltip and value, and expanded in the panel menu. With options it opens a flyout panel, or a subgroup in place in the panel menu, and has no href."
       ],
       [
         "option",
@@ -12916,6 +12929,52 @@
         "What its options need: at least a line of the expanded menu and at most layout/input-width. Figma draws it fixed, with no token."
       ]
     ],
+    "panelMenuTitle": "Panel menu",
+    "panelMenuText": "The panel menu is a navigation mode of the nph-sidebar, with no new tag: navigation=\"panel-menu\". It organizes a system with many destinations in groups that open and close in place, up to the third level, with no side panel, and shows where the person is: the group of the current page stays open and the current page is marked. It follows the expanded and the mobile list; the collapsed menu is the rail with its flyout panels in both navigations.",
+    "panelMenuCaption": "The panel menu, expanded: ready, with the group of the current page open, and loading, with one row per first-level item.",
+    "panelMenuHeader": [
+      "Rule",
+      "What it does"
+    ],
+    "panelMenu": [
+      [
+        "Open groups",
+        "Several stay open at once; opening one does not close the others. The group of the current page and its parent are born open. If the person closes one, it stays closed, with no new mark, even when the product sends a new list."
+      ],
+      [
+        "Control",
+        "The person opens and closes by click, Enter or Space. The code can write expanded in a group or in a child with options, and a new value wins. The event nph-group-toggle reports the change, with the value of the group or of the subgroup."
+      ],
+      [
+        "Group and subgroup",
+        "They are categories: they open and close and never go to a page. If a category needs a page, put a link inside it."
+      ],
+      [
+        "Third level",
+        "A child with options is a subgroup, a button of the second level with the arrow chevron-down closed and chevron-up open; its options are subitems in place. Up to three levels."
+      ],
+      [
+        "Movement",
+        "The arrow turns 180 degrees and the block grows in place in panel-menu/expand-duration and panel-menu/expand-easing. With reduced motion nothing moves."
+      ],
+      [
+        "Keyboard and roles",
+        "Tab and Shift+Tab pass through the visible buttons and links; Enter and Space open and close and keep the focus on the button. A closed block is hidden. Esc does nothing and a click outside closes nothing. No menu or tree role."
+      ],
+      [
+        "Cut text",
+        "The label is cut on one line with an ellipsis; the tooltip shows the whole text on hover, after motion/hover-delay, and on focus, with no wait."
+      ],
+      [
+        "Loading",
+        "One nph-skeleton row per first-level item, with an icon place and a text line, with no section label and out of the Tab order; the list is aria-busy."
+      ],
+      [
+        "Collapsed and mobile",
+        "The collapsed menu follows the nph-sidebar: the rail and its flyout panels. The mobile menu draws the panel menu inside the dialog."
+      ]
+    ],
+    "sourcePanelMenu": "Figma, panel menu documentation frame 5928:2591, sets 5607:97 and 5608:168; nph-sidebar spec sheet; docs/decisoes-tecnicas.md › P124",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
       "Part",
@@ -12998,11 +13057,14 @@
     "examplePhone": "Phone: the menu over the screen, opened by the button of the product.",
     "exampleFlyout": "Collapsed menu with the panel next to the rail button and the third level next to the option.",
     "exampleThird": "Expanded menu with the third level next to the subitem.",
+    "exampleMainPanel": "Panel menu, expanded: the group of the current page open, the third level in place",
+    "exampleLoadingPanel": "Panel menu arriving, loading: one row per first-level item",
     "referencesTitle": "References",
     "references": [
       "Figma DS-IA-NEPHOS 5.0, page NPH — Sidebar (1367:2), documentation frame 4633:27036, sets 4605:9647, 4605:9612, 4605:9599, 4605:9589 and 4605:9594",
+      "Figma DS-IA-NEPHOS 5.0, panel menu documentation frame 5928:2591 (page 4128:29872), sets 5607:97 and 5608:168",
       "fichas/nph-sidebar.md, fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md and fichas/nph-sidebar-rail-button.md",
-      "docs/decisoes-tecnicas.md › P116 and P98",
+      "docs/decisoes-tecnicas.md › P116, P98 and P124",
       "WAI-ARIA Authoring Practices, disclosure navigation menu and dialog (modal)"
     ],
     "lightCaption": "Light mode",
@@ -13029,6 +13091,7 @@
     "byTeam": "By team",
     "alpha": "Alpha team",
     "beta": "Beta team",
+    "cutLabel": "Reports of the registry of institutions",
     "settings": "Settings",
     "profile": "Profile",
     "billing": "Billing",
