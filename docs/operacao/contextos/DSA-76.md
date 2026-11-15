@@ -24,9 +24,10 @@ Implement the panel menu, a navigation mode of the `nph-sidebar` with no new pub
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-76-panel-menu origin/v/5.0.0`
+- The twelve proofs of the wave, in sequence, on the head of the pull request (`cspell` over everything but `design.md`).
 
 ## Result
-Not finished. The pull request is not open yet.
+Pull request 174 is open and under review. The twelve proofs pass on its head; the Copilot review is pending.
 
 ## Evidence
 `docs/operacao/evidencias/DSA-76/figma-docs-accepted-2026-11-11.md`.
