@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 750,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-26",
@@ -33,15 +33,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B-1",
-      "description": "The panel menu is a navigation mode of the nph-sidebar, and DSA-72 (nph-sidebar) is not merged yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-72 is merged into v/5.0.0 and goes to done; this task then goes to ready, with no other change.",
-      "opened_at": "2026-11-11"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-76/figma-docs-accepted-2026-11-11.md"
@@ -60,7 +52,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-11-11"
+  "updated_at": "2026-11-15"
 }
 ```
 
@@ -102,10 +94,10 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Tokens that stay without a component token
 The pieces by instance use their own tokens: the item, the sub item and the section label of the `nph-sidebar`, the `nph-skeleton`, the `nph-tooltip` and the `nph-icon`, except the overrides of the panel menu: the size and the color of the subgroup arrow (`panel-menu/subgroup-icon-size`, `panel-menu/subgroup-foreground`, `panel-menu/subgroup-foreground-open`) and the size of the icon place in the loading row (`panel-menu/skeleton-icon-size`). The typography of the label comes from the text styles (`text/body-md`, and `text/label-md` in the open subgroup). The panel menu has no shadow style.
 
-## Why it waits
-This task is `blocked` only until DSA-72 is merged: the panel menu is a mode of the `nph-sidebar`, which is built in DSA-72. Everything else is ready.
+## Why it waited, and how B-1 closed
+This task was `blocked` only until DSA-72 was merged: the panel menu is a mode of the `nph-sidebar`, which was built in DSA-72. **B-1 closed on 2026-11-15.** DSA-72 (PR #165, merge `c4ccdfd`, closed on `v/5.0.0` in `0390264`) is `done`, so, as B-1 itself said, this task goes to `ready` with no other change. Everything else was ready.
 
-The 29 tokens (`panel-menu/*`) came with this task and are on `v/5.0.0`. They are all aliases of semantic tokens, except `panel-menu/nest-gap` on `core/space/300`, by decision. No new value entered the core. The pieces inside are done: nph-sidebar-item and sub item (DSA-53), nph-skeleton (DSA-26) and nph-tooltip (DSA-48); the nph-sidebar (DSA-72) is the open dependency.
+The 29 tokens (`panel-menu/*`) came with this task and are on `v/5.0.0`. They are all aliases of semantic tokens, except `panel-menu/nest-gap` on `core/space/300`, by decision. No new value entered the core. The pieces inside are done: nph-sidebar-item and sub item (DSA-53), nph-skeleton (DSA-26), nph-tooltip (DSA-48) and the nph-sidebar (DSA-72).
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
