@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 750,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-26",
@@ -26,11 +26,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor e5c37e2491af1d38325728f9228940cfa471007d origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-76/review-and-merge-2026-11-15.md",
+      "result": "passed",
+      "verified_at": "2026-11-15",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -55,7 +55,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-76/figma-docs-accepted-2026-11-11.md"
+    "docs/operacao/evidencias/DSA-76/figma-docs-accepted-2026-11-11.md",
+    "docs/operacao/evidencias/DSA-76/review-and-merge-2026-11-15.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -69,8 +70,8 @@
     "excerpt": null,
     "converted_decision": "The panel menu documentation frame (5928:2591, page 4128:29872) was accepted as the API and behavior specification of the panel menu navigation mode of the nph-sidebar. COMPONENT_SET nph-panel-menu subgroup set (5607:97) and COMPONENT_SET nph-panel-menu (5608:168). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-76-panel-menu", "commit": "e68c3c2", "pr": 174 },
-  "context": "docs/operacao/contextos/DSA-76.md",
+  "git_review": { "branch": "feat/dsa-76-panel-menu", "commit": "e5c37e2491af1d38325728f9228940cfa471007d", "pr": 174 },
+  "context": null,
   "updated_at": "2026-11-15"
 }
 ```
