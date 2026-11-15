@@ -364,7 +364,7 @@ describe('nph-sidebar Validation: text only from the dictionary', () => {
     });
   }
 
-  it('Brands: the menu is in each of the fourteen frames, expanded in both navigations and collapsed', async () => {
+  it('Brands: the menu is in each of the fourteen frames, expanded in both navigation modes and collapsed', async () => {
     const target = draw(validation.Brands as unknown as Renderable, 'en');
     const frames = [...target.querySelectorAll('[data-nph-brand-frame]')];
     expect(frames).toHaveLength(14);

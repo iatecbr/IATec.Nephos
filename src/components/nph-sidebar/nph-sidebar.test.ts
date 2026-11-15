@@ -16,7 +16,7 @@ import '@fontsource/noto-sans/latin-600.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-sidebar.css?raw';
-import { NPH_SIDEBAR_MODES, NPH_SIDEBAR_NAVIGATIONS, NphSidebar } from './nph-sidebar';
+import { NPH_SIDEBAR_MODES, NPH_SIDEBAR_NAVIGATION_MODES, NphSidebar } from './nph-sidebar';
 import type { NphSidebarEntry } from './nph-sidebar';
 import type { NphSidebarItem } from '../nph-sidebar-item/nph-sidebar-item';
 import type { NphSidebarRailButton } from '../nph-sidebar-rail-button/nph-sidebar-rail-button';
@@ -213,7 +213,7 @@ describe('registration and API', () => {
     expect(sidebar.items).toEqual([]);
     expect(NPH_SIDEBAR_MODES).toEqual(['expanded', 'collapsed', 'mobile']);
     expect(sidebar.navigation).toBe('flyout');
-    expect(NPH_SIDEBAR_NAVIGATIONS).toEqual(['flyout', 'panel-menu']);
+    expect(NPH_SIDEBAR_NAVIGATION_MODES).toEqual(['flyout', 'panel-menu']);
   });
 
   it('reflects mode, open and loading, which the CSS reads', async () => {
@@ -1683,12 +1683,13 @@ describe('the panel menu: the block grows in place', () => {
     const block = blockOf(sidebar, 'group:settings');
     const content = one(sidebar, '#block-4') as HTMLElement;
     expect(block.dataset['state']).toBe('closed');
-    await userEvent.click(innerControl(item(sidebar, 4)));
+    /* The native click is synchronous: the phase is read in the frame the render commits, not a window of the clock. */
+    innerControl(item(sidebar, 4)).click();
     await sidebar.updateComplete;
     expect(block.dataset['state']).toBe('opening');
     expect(content.hasAttribute('hidden')).toBe(false);
     await vi.waitFor(() => expect(block.dataset['state']).toBe('open'), { timeout: 2000 });
-    await userEvent.click(innerControl(item(sidebar, 4)));
+    innerControl(item(sidebar, 4)).click();
     await sidebar.updateComplete;
     expect(block.dataset['state']).toBe('closing');
     expect(content.hasAttribute('hidden')).toBe(false);
@@ -1704,18 +1705,26 @@ describe('the panel menu: the block grows in place', () => {
     const below = item(sidebar, 4);
     const closed = block.getBoundingClientRect().height;
     expect(closed).toBe(0);
-    await userEvent.click(innerControl(below));
+    /* The transition itself is held at its middle, so the measure does not depend on the clock. */
+    const middle = async (): Promise<number> => {
+      const transition = block.getAnimations().find((animation) => (animation as CSSTransition).transitionProperty === 'grid-template-rows');
+      expect(transition).toBeDefined();
+      (transition as Animation).pause();
+      (transition as Animation).currentTime = Number((transition as Animation).effect?.getTiming().duration) / 2;
+      const height = block.getBoundingClientRect().height;
+      (transition as Animation).finish();
+      return height;
+    };
+    innerControl(below).click();
     await sidebar.updateComplete;
-    await pause(60);
-    const during = block.getBoundingClientRect().height;
+    const during = await middle();
     await vi.waitFor(() => expect(block.dataset['state']).toBe('open'), { timeout: 2000 });
     const open = block.getBoundingClientRect().height;
     expect(during).toBeGreaterThan(closed);
     expect(during).toBeLessThan(open);
-    await userEvent.click(innerControl(below));
+    innerControl(below).click();
     await sidebar.updateComplete;
-    await pause(60);
-    const shrinking = block.getBoundingClientRect().height;
+    const shrinking = await middle();
     expect(shrinking).toBeGreaterThan(closed);
     expect(shrinking).toBeLessThan(open);
     await vi.waitFor(() => expect(block.dataset['state']).toBe('closed'), { timeout: 2000 });
@@ -1728,7 +1737,7 @@ describe('the panel menu: the block grows in place', () => {
     const clip = block.querySelector(':scope > .clip') as HTMLElement;
     expect(block.dataset['state']).toBe('open');
     expect(getComputedStyle(clip).overflow).toBe('visible');
-    await userEvent.click(innerControl(item(sidebar, 2)));
+    innerControl(item(sidebar, 2)).click();
     await sidebar.updateComplete;
     expect(getComputedStyle(clip).overflow).toBe('hidden');
     await steady(sidebar);
@@ -1738,9 +1747,9 @@ describe('the panel menu: the block grows in place', () => {
     const sidebar = await mountMenu();
     const arrow = subgroup(sidebar, '2/1').querySelector('.subgroup-arrow') as HTMLElement;
     expect(arrow.getAnimations()).toHaveLength(0);
-    await userEvent.click(subgroup(sidebar, '2/1'));
+    subgroup(sidebar, '2/1').click();
     await sidebar.updateComplete;
-    await vi.waitFor(() => expect(arrow.getAnimations().length).toBeGreaterThan(0));
+    expect(arrow.getAnimations().length).toBeGreaterThan(0);
     const timing = (arrow.getAnimations()[0] as Animation).effect?.getTiming();
     expect(Number(timing?.duration)).toBeCloseTo(Number.parseFloat(resolved('transition-duration', '--nph-panel-menu-expand-duration')) * 1000, 0);
     await steady(sidebar);

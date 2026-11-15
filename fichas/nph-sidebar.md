@@ -336,7 +336,7 @@ ai_hints:
   - "Use the corner button only for the main action of the product."
   - "Put a third level only in the options of a child: it opens in a flyout panel, or in place with navigation panel-menu."
   - "Use navigation panel-menu for a system with many destinations in up to three levels; with two levels or fewer than five destinations, keep the default."
-  - "In the panel menu give a child with options a value, so the nph-group-toggle event says which subgroup the person opened; leave expanded out unless the product controls it."
+  - "In the panel menu give every group and every child with options a value: the menu keeps the open state by it, so a list in another order keeps each choice, and nph-group-toggle says which one the person opened. Leave expanded out unless the product controls it."
 accessibility:
   semantics: "A navigation landmark with a name; the items are links, and a group, a collapse button and an opener of a flyout panel are buttons with aria-expanded and aria-controls. In the panel menu a group and a subgroup are buttons with aria-expanded and aria-controls pointing to their block, which stays hidden while closed; there is no menu or tree role. The mobile menu is a modal dialog with the same name. The flyout panel is a group named by its title."
   accessible_name: "label names the landmark and the dialog. The collapse button carries collapse-label or expand-label, and the balloon is its name. In the collapsed mode, each rail button carries the item name in aria-label and in the balloon. The logo is a link named by logo-label. The current item carries aria-current page."
@@ -474,7 +474,7 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
   button and the scrim close it, after `nph-close`.
 - The panel menu is a navigation, not a new tag: the same `items`, and the child with `options`
   is drawn as a subgroup that opens its options in place, up to three levels. The collapsed
-  menu is the rail with its flyout panels in both navigations; the mobile menu draws the panel
+  menu is the rail with its flyout panels in both navigation modes; the mobile menu draws the panel
   menu inside the dialog.
 - In the panel menu a group and a subgroup are categories: they open and close and never go to a
   page. A category that needs a page holds a link.
@@ -557,8 +557,9 @@ expanded menu and at most `layout/input-width`.
   `navigation="panel-menu"`.
 - Use `navigation="panel-menu"` for a system with many destinations in up to three levels; with two
   levels or fewer than five destinations, keep the default.
-- In the panel menu give a child with `options` a `value`, so `nph-group-toggle` says which subgroup
-  the person opened; leave `expanded` out unless the product controls it.
+- In the panel menu give every group and every child with `options` a `value`: the menu keeps the
+  open state by it, so a list in another order keeps each choice, and `nph-group-toggle` says which
+  one the person opened. Leave `expanded` out unless the product controls it.
 
 ## Examples
 

@@ -8521,7 +8521,7 @@ keyboard and the roles, and leaves the code API to the code, with seven points o
 decision of their own:
 
 - the sidebar already has `mode` for expanded, collapsed and mobile, and the panel menu is chosen in another
-  axis; the same destinations must serve both navigations, so a product can switch without rewriting `items`;
+  axis; the same destinations must serve both navigation modes, so a product can switch without rewriting `items`;
 - the product sends a new `items` at every navigation, to move `active`, and the person's open groups must not
   be lost or reopened by it: a group the person closed stays closed, and opening one closes none of the others;
 - the closed block must leave the Tab order and the accessibility tree (`hidden`), and the open block must grow
@@ -8539,7 +8539,7 @@ nothing and emits `console.error` only in development, once per cause (P21).
 1. **`navigation` chooses it.** `navigation` is `flyout` (default, the navigation of P116) or `panel-menu`, by
    property or attribute. It does not reflect: the internal CSS reads the markup the panel menu draws, not the
    host. A value outside the two renders nothing, as `mode`. It changes how the **expanded** and the **mobile**
-   list are drawn; the **collapsed** menu is the rail with its flyout panels in both navigations (the evidence:
+   list are drawn; the **collapsed** menu is the rail with its flyout panels in both navigation modes (the evidence:
    "collapsed and mobile follow the `nph-sidebar`"), and the mobile menu draws the panel menu inside its dialog.
    Changing `navigation` closes an open flyout panel.
 
@@ -8551,7 +8551,7 @@ nothing and emits `console.error` only in development, once per cause (P21).
 
 3. **The open state is the person's, and it survives a new `items`.** In the panel menu the menu keeps which
    groups and subgroups are open, by key (the `value` of the group or of the child, or its position when it has
-   none), and does not write `expanded` into `items`. The order, for each group and subgroup: what the person
+   none, so a product that reorders the list gives each one a `value`), and does not write `expanded` into `items`. The order, for each group and subgroup: what the person
    did stays; an `expanded` the product writes seeds it, and a **new** value, different from the one it wrote
    before, wins; with neither, the block that holds the current page (`active` in a child or in an option) is
    born open, **once**, and stays as the person leaves it. So a group the person closed stays closed even when the

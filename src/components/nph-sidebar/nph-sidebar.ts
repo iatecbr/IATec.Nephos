@@ -87,8 +87,8 @@ export const NPH_SIDEBAR_MODES = ['expanded', 'collapsed', 'mobile'] as const;
 export type NphSidebarMode = (typeof NPH_SIDEBAR_MODES)[number];
 
 /** How the third level opens: in a flyout panel at the side (default) or in place, in the panel menu (DSA-76). */
-export const NPH_SIDEBAR_NAVIGATIONS = ['flyout', 'panel-menu'] as const;
-export type NphSidebarNavigation = (typeof NPH_SIDEBAR_NAVIGATIONS)[number];
+export const NPH_SIDEBAR_NAVIGATION_MODES = ['flyout', 'panel-menu'] as const;
+export type NphSidebarNavigation = (typeof NPH_SIDEBAR_NAVIGATION_MODES)[number];
 
 /** The skeleton rows of the loading state: the number of items the list is expected to hold. */
 const SKELETON_ROWS = 6;
@@ -532,8 +532,8 @@ export class NphSidebar extends LitElement {
       causes.push(`mode "${mode}" does not exist. Use ${NPH_SIDEBAR_MODES.join(', ')}.`);
     }
     const navigation = this.navigation ?? '';
-    if (!oneOf(NPH_SIDEBAR_NAVIGATIONS, navigation)) {
-      causes.push(`navigation "${navigation}" does not exist. Use ${NPH_SIDEBAR_NAVIGATIONS.join(', ')}.`);
+    if (!oneOf(NPH_SIDEBAR_NAVIGATION_MODES, navigation)) {
+      causes.push(`navigation "${navigation}" does not exist. Use ${NPH_SIDEBAR_NAVIGATION_MODES.join(', ')}.`);
     }
     const rows = this.validRows(causes);
     this.sections = NphSidebar.sectionsOf(rows);
@@ -550,7 +550,7 @@ export class NphSidebar extends LitElement {
     }
     this.report(causes);
     /* A missing name warns and still draws, as `nph-input`: the label may arrive after the first render. */
-    this.valid = oneOf(NPH_SIDEBAR_MODES, mode) && oneOf(NPH_SIDEBAR_NAVIGATIONS, navigation);
+    this.valid = oneOf(NPH_SIDEBAR_MODES, mode) && oneOf(NPH_SIDEBAR_NAVIGATION_MODES, navigation);
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
 
     if (changed.has('mode') || changed.has('items') || changed.has('navigation')) {
@@ -1392,7 +1392,7 @@ export class NphSidebar extends LitElement {
       <div class="subitems" id=${subitems} ?hidden=${entry.expanded !== true}>${row.children.map((child) => this.renderSubitem(row.index, child))}</div>`;
   }
 
-  /** The panel menu draws the expanded and the mobile list; the collapsed menu is the rail in both navigations. */
+  /** The panel menu draws the expanded and the mobile list; the collapsed menu is the rail in both navigation modes. */
   private panelMenu(collapsed: boolean): boolean {
     return !collapsed && this.navigation === 'panel-menu';
   }

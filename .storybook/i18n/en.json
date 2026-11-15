@@ -12930,7 +12930,7 @@
       ]
     ],
     "panelMenuTitle": "Panel menu",
-    "panelMenuText": "The panel menu is a navigation mode of the nph-sidebar, with no new tag: navigation=\"panel-menu\". It organizes a system with many destinations in groups that open and close in place, up to the third level, with no side panel, and shows where the person is: the group of the current page stays open and the current page is marked. It follows the expanded and the mobile list; the collapsed menu is the rail with its flyout panels in both navigations.",
+    "panelMenuText": "The panel menu is a navigation mode of the nph-sidebar, with no new tag: navigation=\"panel-menu\". It organizes a system with many destinations in groups that open and close in place, up to the third level, with no side panel, and shows where the person is: the group of the current page stays open and the current page is marked. It follows the expanded and the mobile list; the collapsed menu is the rail with its flyout panels in both navigation modes.",
     "panelMenuCaption": "The panel menu, expanded: ready, with the group of the current page open, and loading, with one row per first-level item.",
     "panelMenuHeader": [
       "Rule",

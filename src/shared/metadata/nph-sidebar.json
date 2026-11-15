@@ -316,7 +316,7 @@
     "Use the corner button only for the main action of the product.",
     "Put a third level only in the options of a child: it opens in a flyout panel, or in place with navigation panel-menu.",
     "Use navigation panel-menu for a system with many destinations in up to three levels; with two levels or fewer than five destinations, keep the default.",
-    "In the panel menu give a child with options a value, so the nph-group-toggle event says which subgroup the person opened; leave expanded out unless the product controls it."
+    "In the panel menu give every group and every child with options a value: the menu keeps the open state by it, so a list in another order keeps each choice, and nph-group-toggle says which one the person opened. Leave expanded out unless the product controls it."
   ],
   "accessibility": {
     "semantics": "A navigation landmark with a name; the items are links, and a group, a collapse button and an opener of a flyout panel are buttons with aria-expanded and aria-controls. In the panel menu a group and a subgroup are buttons with aria-expanded and aria-controls pointing to their block, which stays hidden while closed; there is no menu or tree role. The mobile menu is a modal dialog with the same name. The flyout panel is a group named by its title.",
