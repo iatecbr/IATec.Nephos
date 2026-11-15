@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 750,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-26",
@@ -51,7 +51,7 @@
     "converted_decision": "The panel menu documentation frame (5928:2591, page 4128:29872) was accepted as the API and behavior specification of the panel menu navigation mode of the nph-sidebar. COMPONENT_SET nph-panel-menu subgroup set (5607:97) and COMPONENT_SET nph-panel-menu (5608:168). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "context": "docs/operacao/contextos/DSA-76.md",
   "updated_at": "2026-11-15"
 }
 ```
