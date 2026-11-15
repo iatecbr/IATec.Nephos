@@ -39,21 +39,36 @@ The PR does not change `design.md`, a token, `nph-icon` (the `sidebar` icon is n
 the place of the icon with an `nph-skeleton`, as `nph-sidebar` does, and the recurring event uses `rotate-right`)
 or any other piece. It was merged on 2026-11-14T02:08:53Z (2026-11-13 in Brazil), at commit `39bcaa3`, under
 Elvys's standing authorization of 2026-11-07. The PR head, `996b5d6`, is an ancestor of the tip of the integration
-branch.
+branch. Copilot reviewed only the first head, `ac0b4cc`; nobody code-reviewed the final head (see "How the review
+went").
 
 ## How the review went
 
-Copilot reviewed; no human code review; merged under Elvys's standing authorization of 2026-11-07.
+Copilot reviewed only `ac0b4cc`. The two later heads, `71a3181` and `996b5d6`, were not reviewed by Copilot or by a
+person. The merge went in under Elvys's standing authorization of 2026-11-07 without anyone seeing that, and the
+gap was noticed only on 2026-11-14.
+
+> **Correction of 2026-11-14.** This section replaces an earlier sentence that recorded a complete Copilot review
+> and gave `71a3181` and `996b5d6` as reviewed with no open issue. That was false. On 2026-11-14 the replies of
+> `copilot-pull-request-reviewer` on PR #171 were checked in the GitHub API, and the answers on those two heads are
+> "Copilot was unable to review this pull request" (quota exhausted). The merge gate counted those replies as
+> reviews. The result of the gate does not change here: the PR was merged at `39bcaa3`.
 
 No review was requested from a person. Copilot was requested when the PR opened and again after each round of
-fixes, and reviewed as `copilot-pull-request-reviewer`. There were three reviews, one round with findings that the
-code had to answer:
+fixes. It answered three times:
 
-| Reviewed head | Findings | Fixed in |
-|---|---|---|
-| `ac0b4cc` | Six threads: a calendar with an empty name was accepted and left its events with no checkbox; a midnight end only counted on the next day; the Tab stop of the mini month and of the compact month stayed on the selected day after the arrows; `loading` kept the events of the last period in the week, work week and day views; the focus of a list row ignored the color of its calendar; the sheet promised to leave out a calendar with a color that does not exist, while the code keeps it with `primary` | `71a3181`, each with a regression test (the calendar with no name and the midnight end in `nph-scheduler.logic.test.ts`; the Tab stop, the loading state and the focus color in `nph-scheduler.test.ts`); the sheet and the generated Metadata separate leaving out from the fallback, and P120 says the same. The six threads were answered and resolved |
-| `71a3181` | No open issue | Not applicable |
-| `996b5d6` | No open issue, no open thread | Not applicable |
+- `ac0b4cc` (2026-11-13T21:20:04Z): a real review, "Changes recommended", with six threads.
+- `71a3181` (2026-11-13T21:29:18Z): "unable to review" (quota exhausted). Nothing was reviewed.
+- `996b5d6` (2026-11-14T01:59:38Z): "unable to review" again. Nothing was reviewed. This is the final head.
+
+So one round had findings that the code had to answer, and the fixes of that round, and everything that came after
+them, had no code review from Copilot or from a person:
+
+| Head | Review | Findings | Fixed in |
+|---|---|---|---|
+| `ac0b4cc` | Reviewed by Copilot | Six threads: a calendar with an empty name was accepted and left its events with no checkbox; a midnight end only counted on the next day; the Tab stop of the mini month and of the compact month stayed on the selected day after the arrows; `loading` kept the events of the last period in the week, work week and day views; the focus of a list row ignored the color of its calendar; the sheet promised to leave out a calendar with a color that does not exist, while the code keeps it with `primary` | `71a3181`, each with a regression test (the calendar with no name and the midnight end in `nph-scheduler.logic.test.ts`; the Tab stop, the loading state and the focus color in `nph-scheduler.test.ts`); the sheet and the generated Metadata separate leaving out from the fallback, and P120 says the same. The six threads were answered and resolved |
+| `71a3181` | Not reviewed: unable to review (quota exhausted) | Not applicable | Not applicable |
+| `996b5d6` | Not reviewed: unable to review (quota exhausted) | Not applicable | Not applicable |
 
 Before the first Copilot request, a review of the whole component (life cycle, focus, keyboard, right-to-left,
 inherited language, announcements, invalid input) found and fixed, each with a test: the calendars drawn in "My
