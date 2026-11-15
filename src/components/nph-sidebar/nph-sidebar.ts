@@ -16,11 +16,18 @@
  *   `counter`, `disabled`, `tooltip`, `actions`, `actionsLabel` and `value`. A `group` has
  *   `label`, `icon`, `children` and optionally `expanded`, `disabled`, `tooltip`, `actions`,
  *   `actionsLabel` and `value`. A child (the subitem) has `label` and `href`, or `options`
- *   (the third level, `label` and `href` each); `active`, `disabled`, `tooltip` and `value`.
- *   Two levels in the list; the third only in a flyout panel;
+ *   (the third level, `label` and `href` each); `active`, `disabled`, `tooltip`, `value` and, in
+ *   the panel menu, `expanded`. Two levels in the list; the third in a flyout panel, or in place
+ *   in the panel menu;
  * - `mode`: `expanded` (default), `collapsed` or `mobile`. Reflects. The product chooses it;
  *   the collapse button also switches expanded and collapsed and fires `nph-mode-change`,
  *   `detail: { mode }`, which the product keeps;
+ * - `navigation`: `flyout` (default, the mode above) or `panel-menu` (DSA-76, P124): the same
+ *   `items`, with the third level of a child with `options` opening in place, below it, as a
+ *   disclosure (the subgroup) instead of in a flyout panel. It changes how the expanded and the
+ *   mobile list are drawn; the collapsed menu is the rail and its flyout panels in both. No new
+ *   tag, no slot. The open groups and subgroups are the person's: they open and close by click,
+ *   Enter or Space, several at once, and the group that holds the current page is born open;
  * - `open`: the mobile menu opened, only in `mobile`. The product opens it with a button of
  *   its own. Reflects; the menu sets it to `false` itself when the person closes it, after the
  *   cancelable event `nph-close` (bubbles, composed), `detail: { source }`, `source` being
@@ -40,7 +47,7 @@
  *   it there is no corner button. The event `nph-corner-action` fires on its click;
  * - `empty-text` and `error-text`: the short messages in place of the list, already localized;
  * - the events `nph-group-toggle`, `detail: { value, expanded }`, when the person opens or closes
- *   a group, and `nph-item-select`, the action chosen in the more actions of an item, with
+ *   a group or, in the panel menu, a subgroup (the `value` of the child), and `nph-item-select`, the action chosen in the more actions of an item, with
  *   `detail: { value, checked, item }`. Links fire nothing: the click is the native `click`;
  * - no slot, no color property and no `::part`. Invalid input does not render and emits
  *   `console.error` only in development, one per cause (P21). An empty list is a mount.
@@ -79,6 +86,10 @@ const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 export const NPH_SIDEBAR_MODES = ['expanded', 'collapsed', 'mobile'] as const;
 export type NphSidebarMode = (typeof NPH_SIDEBAR_MODES)[number];
 
+/** How the third level opens: in a flyout panel at the side (default) or in place, in the panel menu (DSA-76). */
+export const NPH_SIDEBAR_NAVIGATIONS = ['flyout', 'panel-menu'] as const;
+export type NphSidebarNavigation = (typeof NPH_SIDEBAR_NAVIGATIONS)[number];
+
 /** The skeleton rows of the loading state: the number of items the list is expected to hold. */
 const SKELETON_ROWS = 6;
 
@@ -104,8 +115,10 @@ export interface NphSidebarChild {
   active?: boolean;
   disabled?: boolean;
   tooltip?: string;
-  /** The third level, in a flyout panel next to it. Not with `href` or `active`. */
+  /** The third level: in a flyout panel next to it, or in place below it in the panel menu. Not with `href` or `active`. */
   options?: readonly NphSidebarOption[];
+  /** The panel menu only: the subgroup opened. Absent: born open when it holds the current page. */
+  expanded?: boolean;
 }
 
 /** The name of the group that follows it (the Figma `nph-sidebar-label`, `tipo=grupo`). */
@@ -201,6 +214,31 @@ function deepActiveElement(): Element | null {
   return active;
 }
 
+/** The longest time in a computed `transition-duration` list, in milliseconds. */
+function longestDuration(value: string): number {
+  let longest = 0;
+  for (const part of value.split(',')) {
+    const text = part.trim();
+    const amount = Number.parseFloat(text);
+    if (Number.isFinite(amount)) {
+      longest = Math.max(longest, text.endsWith('ms') ? amount : amount * 1000);
+    }
+  }
+  return longest;
+}
+
+/** The phases of a block of the panel menu that grows in place (the machine of `nph-collapsible`, P121). */
+type Phase = 'closed' | 'opening' | 'open' | 'closing';
+
+/** A block of the panel menu that opens in place: a group of the first level, or a subgroup of the second. */
+interface Block {
+  key: string;
+  /** The `expanded` the product wrote, when it wrote one. */
+  data: boolean | undefined;
+  /** Whether the current page is inside it. */
+  holdsCurrent: boolean;
+}
+
 /** An entry as the menu draws it, with its position in `items`. */
 type Row =
   | { kind: 'label'; index: number; text: string }
@@ -226,6 +264,8 @@ export class NphSidebar extends LitElement {
   static override properties = {
     /* `mode`, `open` and `loading` reflect: the internal CSS selects the box by them. */
     mode: { type: String, reflect: true },
+    /* `navigation` does not reflect: the CSS reads the markup the panel menu draws, not the host. */
+    navigation: { type: String },
     open: { type: Boolean, reflect: true },
     loading: { type: Boolean, reflect: true },
     items: { attribute: false },
@@ -251,6 +291,7 @@ export class NphSidebar extends LitElement {
   };
 
   declare mode: NphSidebarMode;
+  declare navigation: NphSidebarNavigation;
   declare open: boolean;
   declare loading: boolean;
   /** The entries, already localized by the consuming application. */
@@ -288,10 +329,24 @@ export class NphSidebar extends LitElement {
   /* After the mode changes, the collapse button is drawn anew: the focus goes back to it. */
   private refocusToggle = false;
   private previousMode: NphSidebarMode | undefined;
+  private previousNavigation: NphSidebarNavigation | undefined;
+  /*
+   * The panel menu: which groups and subgroups are open is the person's, so it survives a new `items`
+   * (the product sends one at every navigation, to move `active`). `openRecord` is the state, by key;
+   * `lastData` is the `expanded` the product wrote the last time, to tell a new instruction from a repeat.
+   */
+  private openRecord = new Map<string, boolean>();
+  private lastData = new Map<string, boolean | undefined>();
+  /* The blocks that grow in place: what each one showed, the phase while it moves, and the end of the move. */
+  private shownOpen = new Map<string, boolean>();
+  private phases = new Map<string, Phase>();
+  private settleTimers = new Map<string, number>();
+  private turning = new Set<string>();
 
   constructor() {
     super();
     this.mode = 'expanded';
+    this.navigation = 'flyout';
     this.open = false;
     this.loading = false;
     this.items = [];
@@ -323,6 +378,13 @@ export class NphSidebar extends LitElement {
       this.closeTimer = undefined;
     }
     this.shown = false;
+    for (const timer of this.settleTimers.values()) {
+      clearTimeout(timer);
+    }
+    this.settleTimers.clear();
+    this.phases.clear();
+    this.turning.clear();
+    this.shownOpen.clear();
   }
 
   /* ----- validation ------------------------------------------------------------ */
@@ -469,6 +531,10 @@ export class NphSidebar extends LitElement {
     if (!oneOf(NPH_SIDEBAR_MODES, mode)) {
       causes.push(`mode "${mode}" does not exist. Use ${NPH_SIDEBAR_MODES.join(', ')}.`);
     }
+    const navigation = this.navigation ?? '';
+    if (!oneOf(NPH_SIDEBAR_NAVIGATIONS, navigation)) {
+      causes.push(`navigation "${navigation}" does not exist. Use ${NPH_SIDEBAR_NAVIGATIONS.join(', ')}.`);
+    }
     const rows = this.validRows(causes);
     this.sections = NphSidebar.sectionsOf(rows);
     this.empty = rows.length === 0;
@@ -484,22 +550,30 @@ export class NphSidebar extends LitElement {
     }
     this.report(causes);
     /* A missing name warns and still draws, as `nph-input`: the label may arrive after the first render. */
-    this.valid = oneOf(NPH_SIDEBAR_MODES, mode);
+    this.valid = oneOf(NPH_SIDEBAR_MODES, mode) && oneOf(NPH_SIDEBAR_NAVIGATIONS, navigation);
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
 
-    if (changed.has('mode') || changed.has('items')) {
-      this.syncFlyoutState(changed.has('mode'));
+    if (changed.has('mode') || changed.has('items') || changed.has('navigation')) {
+      this.syncFlyoutState(changed.has('mode') || changed.has('navigation'));
+    }
+    if (this.valid && this.navigation === 'panel-menu') {
+      this.syncPanelMenu();
     }
   }
 
   /** The panels follow the mode and the list: a path that no longer exists is closed. */
   private syncFlyoutState(modeChanged: boolean): void {
     if (modeChanged) {
-      if (this.previousMode !== undefined && this.previousMode !== this.mode) {
+      /* A change of mode, or of the way the third level opens, closes the panels. */
+      if (
+        (this.previousMode !== undefined && this.previousMode !== this.mode) ||
+        (this.previousNavigation !== undefined && this.previousNavigation !== this.navigation)
+      ) {
         this.openSecond = null;
         this.openThird = null;
       }
       this.previousMode = this.mode;
+      this.previousNavigation = this.navigation;
     }
     const group = (index: number): Row | undefined => this.sections.flatMap((section) => section.rows).find((row) => row.index === index);
     if (this.openSecond !== null) {
@@ -701,10 +775,170 @@ export class NphSidebar extends LitElement {
     }
   }
 
+  /* ----- the panel menu: which blocks are open (DSA-76, P124) ------------------- */
+
+  private static groupKey(row: Row & { kind: 'group' }): string {
+    const value = trimmed(row.entry.value);
+    return `group:${value === '' ? row.index : value}`;
+  }
+
+  private static subgroupKey(group: string, child: ChildRow): string {
+    const value = trimmed(child.child.value);
+    return `${group}/${value === '' ? child.index : value}`;
+  }
+
+  /** The current page is in this child: the child itself, or one of its options. */
+  private static holdsCurrent(child: ChildRow): boolean {
+    return child.options === null ? child.child.active === true : child.options.some((option) => option.active === true);
+  }
+
+  private panelBlocks(): Block[] {
+    const blocks: Block[] = [];
+    const written = (value: unknown): boolean | undefined => (typeof value === 'boolean' ? value : undefined);
+    for (const section of this.sections) {
+      for (const row of section.rows) {
+        if (row.kind !== 'group') {
+          continue;
+        }
+        const key = NphSidebar.groupKey(row);
+        blocks.push({ key, data: written(row.entry.expanded), holdsCurrent: row.children.some((child) => NphSidebar.holdsCurrent(child)) });
+        for (const child of row.children) {
+          if (child.options !== null) {
+            blocks.push({ key: NphSidebar.subgroupKey(key, child), data: written(child.child.expanded), holdsCurrent: NphSidebar.holdsCurrent(child) });
+          }
+        }
+      }
+    }
+    return blocks;
+  }
+
+  /**
+   * The open state of the panel menu survives a new `items`: the product sends one at every navigation to
+   * move `active`. The order, for each group and subgroup: what the person did stays; an `expanded` the
+   * product writes (and changes) seeds it; with neither, the block that holds the current page is born open,
+   * once, and stays as the person leaves it.
+   */
+  private syncPanelMenu(): void {
+    const live = new Set<string>();
+    for (const block of this.panelBlocks()) {
+      live.add(block.key);
+      if (block.data !== undefined && block.data !== this.lastData.get(block.key)) {
+        this.openRecord.set(block.key, block.data);
+      } else if (!this.openRecord.has(block.key) && block.holdsCurrent) {
+        this.openRecord.set(block.key, true);
+      }
+      this.lastData.set(block.key, block.data);
+      const open = this.openRecord.get(block.key) === true;
+      const before = this.shownOpen.get(block.key);
+      this.shownOpen.set(block.key, open);
+      if (before !== undefined && before !== open) {
+        this.startMoving(block.key, open);
+      }
+    }
+    for (const key of [...this.shownOpen.keys()]) {
+      if (!live.has(key)) {
+        this.shownOpen.delete(key);
+        this.stopMoving(key);
+      }
+    }
+  }
+
+  private isOpen(key: string): boolean {
+    return this.openRecord.get(key) === true;
+  }
+
+  private phaseOf(key: string): Phase {
+    return this.phases.get(key) ?? (this.isOpen(key) ? 'open' : 'closed');
+  }
+
+  private blockElement(key: string): HTMLElement | null {
+    return [...this.renderRoot.querySelectorAll<HTMLElement>('.block')].find((block) => block.dataset['block'] === key) ?? null;
+  }
+
+  /** The block grows or shrinks in place when it was already drawn and the browser resolves a duration; otherwise it just changes. */
+  private startMoving(key: string, open: boolean): void {
+    this.stopMoving(key);
+    const block = this.blockElement(key);
+    if (block === null || !(longestDuration(getComputedStyle(block).transitionDuration) > 0)) {
+      return;
+    }
+    this.phases.set(key, open ? 'opening' : 'closing');
+    if (key.includes('/')) {
+      this.turning.add(key);
+    }
+  }
+
+  private stopMoving(key: string): void {
+    const timer = this.settleTimers.get(key);
+    if (timer !== undefined) {
+      clearTimeout(timer);
+      this.settleTimers.delete(key);
+    }
+    this.phases.delete(key);
+    this.turning.delete(key);
+  }
+
+  /** The move is over: the block is steady, open or closed. */
+  private settle(key: string): void {
+    if (this.phases.has(key)) {
+      this.stopMoving(key);
+      this.requestUpdate();
+    }
+  }
+
+  private onBlockEnd(event: TransitionEvent, key: string): void {
+    if (event.target === event.currentTarget && event.propertyName === 'grid-template-rows') {
+      this.settle(key);
+    }
+  }
+
+  /** A safety net for the end of the move: a transition never ends in a box that is not rendered. */
+  private settleSoon(): void {
+    for (const key of this.phases.keys()) {
+      if (!this.settleTimers.has(key)) {
+        const block = this.blockElement(key);
+        const wait = block === null ? 0 : longestDuration(getComputedStyle(block).transitionDuration);
+        this.settleTimers.set(key, window.setTimeout(() => this.settle(key), wait + 50));
+      }
+    }
+  }
+
+  /** The arrow of a subgroup turns 180 degrees as the block moves: the new arrow comes in from the old one's side. */
+  private turnArrows(): void {
+    for (const key of this.turning) {
+      const button = [...this.renderRoot.querySelectorAll<HTMLElement>('.subgroup')].find((candidate) => candidate.dataset['key'] === key);
+      const block = this.blockElement(key);
+      const arrow = button?.querySelector<HTMLElement>('.subgroup-arrow');
+      if (arrow !== null && arrow !== undefined && block !== null && typeof arrow.animate === 'function') {
+        const style = getComputedStyle(block);
+        arrow.animate([{ transform: 'rotate(180deg)' }, { transform: 'rotate(0deg)' }], {
+          duration: longestDuration(style.transitionDuration),
+          easing: style.transitionTimingFunction.split(/,(?![^(]*\))/)[0]?.trim() ?? 'ease',
+        });
+      }
+    }
+    this.turning.clear();
+  }
+
+  /** The person opened or closed a group or a subgroup of the panel menu: the choice is kept, the product is told. */
+  private onPanelToggle(key: string, value: string | undefined, expanded: boolean): void {
+    this.openRecord.set(key, expanded);
+    this.requestUpdate();
+    this.dispatchEvent(
+      new CustomEvent<NphSidebarGroupToggleDetail>(NPH_SIDEBAR_GROUP_TOGGLE_EVENT, {
+        bubbles: true,
+        composed: true,
+        detail: { value: trimmed(value), expanded },
+      }),
+    );
+  }
+
   /* ----- the layers ------------------------------------------------------------ */
 
   protected override updated(): void {
     this.wireControls();
+    this.settleSoon();
+    this.turnArrows();
     this.syncMobile();
     this.syncFlyouts();
     if (this.refocusToggle) {
@@ -1158,8 +1392,111 @@ export class NphSidebar extends LitElement {
       <div class="subitems" id=${subitems} ?hidden=${entry.expanded !== true}>${row.children.map((child) => this.renderSubitem(row.index, child))}</div>`;
   }
 
+  /** The panel menu draws the expanded and the mobile list; the collapsed menu is the rail in both navigations. */
+  private panelMenu(collapsed: boolean): boolean {
+    return !collapsed && this.navigation === 'panel-menu';
+  }
+
+  /** A block that grows in place: the grid track, the clip and the content that `aria-controls` points to. */
+  private renderBlock(key: string, id: string, children: unknown): TemplateResult {
+    const phase = this.phaseOf(key);
+    return html`<div class="block" data-block=${key} data-state=${phase} @transitionend=${(event: TransitionEvent) => this.onBlockEnd(event, key)}>
+      <div class="clip">
+        <div class="content" id=${id} ?hidden=${phase === 'closed'} ?inert=${phase === 'closing'}>
+          <div class="nest">
+            <span class="guide" aria-hidden="true"></span>
+            <div class="column">${children}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /** A level-two entry of the panel menu: a subitem, or the subgroup that opens its options in place. */
+  private renderPanelChild(top: number, groupKey: string, child: ChildRow): TemplateResult {
+    if (child.options === null) {
+      return this.renderSubitem(top, child);
+    }
+    const path = `${top}/${child.index}`;
+    const key = NphSidebar.subgroupKey(groupKey, child);
+    const open = this.isOpen(key);
+    const id = `subgroup-${top}-${child.index}`;
+    const disabled = child.child.disabled === true;
+    const tooltip = trimmed(child.child.tooltip);
+    return html`<div class="entry">
+      <button
+        class="subgroup"
+        id=${id}
+        type="button"
+        data-path=${path}
+        data-key=${key}
+        ?data-open=${open}
+        ?disabled=${disabled}
+        aria-expanded=${open ? 'true' : 'false'}
+        aria-controls=${`block-${top}-${child.index}`}
+        @click=${() => this.onPanelToggle(key, child.child.value, !open)}
+      >
+        <span class="subgroup-label">${trimmed(child.child.label)}</span>
+        <nph-icon class="subgroup-arrow" name=${open ? 'chevron-up' : 'chevron-down'} size="sm"></nph-icon>
+      </button>
+      ${tooltip !== '' && !disabled ? html`<nph-tooltip for=${id} side="right" .text=${tooltip}></nph-tooltip>` : nothing}
+      ${this.renderBlock(
+        key,
+        `block-${top}-${child.index}`,
+        child.options.map(
+          (option, position) => html`<nph-sidebar-subitem
+            data-path=${`${path}/${position}`}
+            label=${trimmed(option.label)}
+            href=${trimmed(option.href) === '' ? nothing : trimmed(option.href)}
+            ?active=${option.active === true}
+            ?disabled=${option.disabled === true}
+            tooltip=${trimmed(option.tooltip)}
+          ></nph-sidebar-subitem>`,
+        ),
+      )}
+    </div>`;
+  }
+
+  /** A first-level entry of the panel menu: a link as in the flyout navigation, a group whose children open in place. */
+  private renderPanelRow(row: Row): TemplateResult | typeof nothing {
+    if (row.kind !== 'group') {
+      return this.renderRow(row);
+    }
+    const { entry } = row;
+    const key = NphSidebar.groupKey(row);
+    const id = `block-${row.index}`;
+    const hasActions = Array.isArray(entry.actions) && entry.actions.length > 0;
+    return html`<div class="entry">
+      <nph-sidebar-item
+        data-path=${String(row.index)}
+        data-controls=${id}
+        type="group"
+        label=${trimmed(entry.label)}
+        icon=${trimmed(entry.icon)}
+        ?expanded=${this.isOpen(key)}
+        ?disabled=${entry.disabled === true}
+        tooltip=${trimmed(entry.tooltip)}
+        .actions=${hasActions ? (entry.actions as readonly NphDropdownMenuEntry[]) : []}
+        actions-label=${trimmed(entry.actionsLabel)}
+        @nph-toggle=${(event: CustomEvent<{ expanded: boolean }>) => {
+          event.stopPropagation();
+          this.onPanelToggle(key, entry.value, event.detail.expanded);
+        }}
+        @nph-item-select=${(event: CustomEvent<NphDropdownMenuItemSelectDetail>) => this.onItemSelect(event, entry.value)}
+      ></nph-sidebar-item>
+      ${this.renderBlock(
+        key,
+        id,
+        row.children.map((child) => this.renderPanelChild(row.index, key, child)),
+      )}
+    </div>`;
+  }
+
   private renderSection(section: Section, collapsed: boolean): TemplateResult {
-    const rows = section.rows.map((row) => (collapsed ? this.renderRail(row) : this.renderRow(row)));
+    const panel = this.panelMenu(collapsed);
+    const items = section.rows.map((row) => (collapsed ? this.renderRail(row) : panel ? this.renderPanelRow(row) : this.renderRow(row)));
+    /* The panel menu keeps the rows in a column of their own, so the gap to the label is the one of the token. */
+    const rows = panel ? html`<div class="rows">${items}</div>` : items;
     if (section.label === '') {
       return html`<div class="section">${rows}</div>`;
     }
@@ -1175,6 +1512,19 @@ export class NphSidebar extends LitElement {
 
   /** The loading state: skeleton rows in place of the items. */
   private renderSkeleton(collapsed: boolean): TemplateResult {
+    if (this.panelMenu(collapsed)) {
+      /* The panel menu: one row per first-level item, an icon place and a text line, with no section label. */
+      const items = this.sections.reduce((total, section) => total + section.rows.length, 0);
+      const rows = Array.from({ length: items === 0 ? SKELETON_ROWS : items }, (_unused, position) => position);
+      return html`<div class="skeleton" data-navigation="panel-menu" aria-hidden="true">
+        ${rows.map(
+          () =>
+            html`<span class="panel-skeleton-row"
+              ><span class="panel-skeleton-icon"><nph-skeleton shape="block"></nph-skeleton></span><nph-skeleton shape="line"></nph-skeleton
+            ></span>`,
+        )}
+      </div>`;
+    }
     const rows = Array.from({ length: SKELETON_ROWS }, (_unused, position) => position);
     return html`<div class="skeleton" aria-hidden="true">
       ${rows.map(() =>
@@ -1209,7 +1559,9 @@ export class NphSidebar extends LitElement {
       </div>
       <div class="middle">
         ${this.renderSearch()}
-        <div class="list" aria-busy=${this.loading ? 'true' : nothing}>${this.renderList(collapsed)}</div>
+        <div class="list" data-navigation=${this.panelMenu(collapsed) ? 'panel-menu' : nothing} aria-busy=${this.loading ? 'true' : nothing}>
+          ${this.renderList(collapsed)}
+        </div>
       </div>
       <div class="foot">${this.renderCorner(collapsed)}</div>
     </nav>`;

@@ -16,7 +16,7 @@ import '@fontsource/noto-sans/latin-600.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-sidebar.css?raw';
-import { NPH_SIDEBAR_MODES, NphSidebar } from './nph-sidebar';
+import { NPH_SIDEBAR_MODES, NPH_SIDEBAR_NAVIGATIONS, NphSidebar } from './nph-sidebar';
 import type { NphSidebarEntry } from './nph-sidebar';
 import type { NphSidebarItem } from '../nph-sidebar-item/nph-sidebar-item';
 import type { NphSidebarRailButton } from '../nph-sidebar-rail-button/nph-sidebar-rail-button';
@@ -194,6 +194,7 @@ describe('registration and API', () => {
         'logoMarkSrc',
         'logoSrc',
         'mode',
+        'navigation',
         'open',
         'searchLabel',
         'searchPlaceholder',
@@ -211,6 +212,8 @@ describe('registration and API', () => {
     expect(sidebar.hideCornerButton).toBe(false);
     expect(sidebar.items).toEqual([]);
     expect(NPH_SIDEBAR_MODES).toEqual(['expanded', 'collapsed', 'mobile']);
+    expect(sidebar.navigation).toBe('flyout');
+    expect(NPH_SIDEBAR_NAVIGATIONS).toEqual(['flyout', 'panel-menu']);
   });
 
   it('reflects mode, open and loading, which the CSS reads', async () => {
@@ -1231,6 +1234,629 @@ describe('the colors in dark mode, per brand', () => {
   });
 });
 
+/* ----- the panel menu (DSA-76, P124) ------------------------------------------------------- */
+
+/** Two groups with the third level: the current page is in the subgroup of the first, so both are born open. */
+const PM_ITEMS: NphSidebarEntry[] = [
+  { type: 'label', text: 'Main' },
+  { label: 'Home', icon: 'house', href: '#home', value: 'home' },
+  {
+    type: 'group',
+    label: 'Registries',
+    icon: 'folder',
+    value: 'registries',
+    children: [
+      { label: 'Units', href: '#units' },
+      {
+        label: 'Institutions',
+        value: 'institutions',
+        tooltip: 'Institutions of the registry',
+        options: [
+          { label: 'Schools', href: '#schools' },
+          { label: 'Hospitals', href: '#hospitals', active: true },
+        ],
+      },
+    ],
+  },
+  { type: 'label', text: 'System' },
+  {
+    type: 'group',
+    label: 'Settings',
+    icon: 'gear',
+    value: 'settings',
+    children: [
+      { label: 'Profile', href: '#profile' },
+      { label: 'Billing', value: 'billing', options: [{ label: 'Plans', href: '#plans' }] },
+    ],
+  },
+];
+
+/** The same list with the current page moved: the product sends a new list at every navigation. */
+function navigated(to: 'hospitals' | 'profile'): NphSidebarEntry[] {
+  const copy = structuredClone(PM_ITEMS) as NphSidebarEntry[];
+  const registries = copy[2] as unknown as { children: Array<{ options?: Array<{ active?: boolean }>; active?: boolean }> };
+  delete (registries.children[1]?.options?.[1] as { active?: boolean }).active;
+  if (to === 'hospitals') {
+    (registries.children[1]?.options?.[1] as { active?: boolean }).active = true;
+  } else {
+    const settings = copy[4] as unknown as { children: Array<{ active?: boolean }> };
+    (settings.children[0] as { active?: boolean }).active = true;
+  }
+  return copy;
+}
+
+const mountMenu = (props: Partial<NphSidebar> = {}): Promise<NphSidebar> => mount({ navigation: 'panel-menu', items: PM_ITEMS, ...props });
+const subgroup = (sidebar: NphSidebar, path: string): HTMLButtonElement => one(sidebar, `.subgroup[data-path="${path}"]`) as HTMLButtonElement;
+const blockOf = (sidebar: NphSidebar, key: string): HTMLElement => one(sidebar, `.block[data-block="${key}"]`) as HTMLElement;
+const panelState = (sidebar: NphSidebar): string[] => all(sidebar, '.block').map((element) => element.dataset['state'] ?? '');
+const labelLeft = (control: HTMLElement): number => (control.querySelector('.label, .subgroup-label') as HTMLElement).getBoundingClientRect().left;
+
+/** The blocks have stopped moving: every one is steady, open or closed. */
+async function steady(sidebar: NphSidebar): Promise<void> {
+  await settle(sidebar);
+  await vi.waitFor(() => expect(panelState(sidebar).every((state) => state === 'open' || state === 'closed')).toBe(true), { timeout: 2000 });
+  await settle(sidebar);
+}
+
+/** Shows the reduced-motion preference for the length of a function. */
+async function withReducedMotion(run: () => Promise<void>): Promise<void> {
+  const session = cdp();
+  try {
+    await session.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+    expect(matchMedia('(prefers-reduced-motion: reduce)').matches).toBe(true);
+    await run();
+  } finally {
+    await session.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
+  }
+  await vi.waitFor(() => expect(matchMedia('(prefers-reduced-motion: reduce)').matches).toBe(false));
+}
+
+describe('the panel menu: the navigation property', () => {
+  it('a navigation outside the two renders nothing and complains once', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const sidebar = await mount({ navigation: 'accordion' as never });
+    expect(sidebar.hasAttribute('data-nph-rendered')).toBe(false);
+    expect(root(sidebar).querySelector('.panel')).toBeNull();
+    sidebar.requestUpdate();
+    await settle(sidebar);
+    expect(error.mock.calls.filter(([message]) => String(message).includes('navigation "accordion"'))).toHaveLength(1);
+  });
+
+  it('is chosen by the attribute, does not reflect, and the default flyout draws no block', async () => {
+    const sidebar = document.createElement('nph-sidebar');
+    sidebar.setAttribute('navigation', 'panel-menu');
+    Object.assign(sidebar, { items: PM_ITEMS, ...TEXT });
+    document.body.append(sidebar);
+    await settle(sidebar);
+    expect(sidebar.navigation).toBe('panel-menu');
+    expect(all(sidebar, '.block').length).toBeGreaterThan(0);
+    const flyout = await mount();
+    expect(flyout.hasAttribute('navigation')).toBe(false);
+    expect(all(flyout, '.block')).toHaveLength(0);
+    expect(all(flyout, '.subitems').length).toBeGreaterThan(0);
+  });
+});
+
+describe('the panel menu: the groups that are open', () => {
+  it('the group of the current page and its parent are born open, the others closed, with no flyout panel', async () => {
+    const sidebar = await mountMenu();
+    expect(item(sidebar, 2).expanded).toBe(true);
+    expect(subgroup(sidebar, '2/1').getAttribute('aria-expanded')).toBe('true');
+    expect(item(sidebar, 4).expanded).toBe(false);
+    expect(subgroup(sidebar, '4/1').getAttribute('aria-expanded')).toBe('false');
+    expect(one(sidebar, '#block-2')?.hasAttribute('hidden')).toBe(false);
+    expect(one(sidebar, '#block-2-1')?.hasAttribute('hidden')).toBe(false);
+    expect(one(sidebar, '#block-4')?.hasAttribute('hidden')).toBe(true);
+    expect(one(sidebar, '#block-4-1')?.hasAttribute('hidden')).toBe(true);
+    expect(flyouts(sidebar)).toHaveLength(0);
+    expect(all<NphSidebarSubitem>(sidebar, 'nph-sidebar-subitem').some((element) => element.options)).toBe(false);
+    expect(innerControl(subitem(sidebar, '2/1/1')).getAttribute('aria-current')).toBe('page');
+    expect(all(sidebar, '[aria-current="page"]')).toHaveLength(0);
+  });
+
+  it('several stay open at once: opening one closes none of the others, in the group and in the subgroup', async () => {
+    const sidebar = await mountMenu();
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    expect(item(sidebar, 4).expanded).toBe(true);
+    await userEvent.click(subgroup(sidebar, '4/1'));
+    await steady(sidebar);
+    expect(subgroup(sidebar, '4/1').getAttribute('aria-expanded')).toBe('true');
+    expect(subgroup(sidebar, '2/1').getAttribute('aria-expanded')).toBe('true');
+    expect(item(sidebar, 2).expanded).toBe(true);
+  });
+
+  it('a group the person closes stays closed, with no new mark, even when the current page is inside it', async () => {
+    const sidebar = await mountMenu();
+    await userEvent.click(innerControl(item(sidebar, 2)));
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(false);
+    expect(one(sidebar, '#block-2')?.hasAttribute('hidden')).toBe(true);
+    expect(innerControl(item(sidebar, 2)).getAttribute('aria-expanded')).toBe('false');
+    expect(item(sidebar, 2).hasAttribute('active')).toBe(false);
+  });
+
+  it('the choice survives the new list the product sends at each navigation: closed stays closed, opened stays open, the new current group is born open, the one left behind stays', async () => {
+    const sidebar = await mountMenu();
+    await userEvent.click(innerControl(item(sidebar, 2)));
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await steady(sidebar);
+    /* The product moves the current page into a group that is already open. */
+    sidebar.items = navigated('profile');
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(false);
+    expect(item(sidebar, 4).expanded).toBe(true);
+    /* And back to the first one, which the person had closed: it stays closed. */
+    sidebar.items = navigated('hospitals');
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(false);
+    expect(item(sidebar, 4).expanded).toBe(true);
+  });
+
+  it('the group the page was born open in is not closed when the current page moves to another group, and the other is born open', async () => {
+    const sidebar = await mountMenu();
+    expect(item(sidebar, 4).expanded).toBe(false);
+    sidebar.items = navigated('profile');
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    expect(item(sidebar, 4).expanded).toBe(true);
+    expect(subgroup(sidebar, '2/1').getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('an expanded the product writes seeds a group and wins over the birth; a repeat of it does not undo the person; a new value does', async () => {
+    const withData = (expanded: boolean | undefined): NphSidebarEntry[] => {
+      const list = structuredClone(PM_ITEMS) as NphSidebarEntry[];
+      if (expanded !== undefined) (list[2] as unknown as { expanded?: boolean }).expanded = expanded;
+      return list;
+    };
+    const sidebar = await mountMenu({ items: withData(false) });
+    expect(item(sidebar, 2).expanded).toBe(false);
+    await userEvent.click(innerControl(item(sidebar, 2)));
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    sidebar.items = withData(false);
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    sidebar.items = withData(true);
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    sidebar.items = withData(false);
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(false);
+  });
+
+  it('a subgroup takes expanded from the data too, and a plain child ignores it', async () => {
+    const list = structuredClone(PM_ITEMS) as NphSidebarEntry[];
+    const settings = list[4] as unknown as { expanded?: boolean; children: Array<{ expanded?: boolean }> };
+    settings.expanded = true;
+    (settings.children[1] as { expanded?: boolean }).expanded = true;
+    (settings.children[0] as { expanded?: boolean }).expanded = true;
+    const sidebar = await mountMenu({ items: list });
+    expect(subgroup(sidebar, '4/1').getAttribute('aria-expanded')).toBe('true');
+    expect(all(sidebar, '.subgroup')).toHaveLength(2);
+  });
+
+  it('the person opening or closing fires nph-group-toggle with the value, for a group and for a subgroup, and the objects of the product stay', async () => {
+    const sidebar = await mountMenu();
+    const original = sidebar.items;
+    const events: Array<{ value: string; expanded: boolean }> = [];
+    const leaked = vi.fn();
+    document.body.addEventListener('nph-toggle', leaked);
+    sidebar.addEventListener('nph-group-toggle', (event) => events.push({ ...event.detail }));
+    await userEvent.click(subgroup(sidebar, '2/1'));
+    await userEvent.click(innerControl(item(sidebar, 2)));
+    await steady(sidebar);
+    expect(events).toEqual([
+      { value: 'institutions', expanded: false },
+      { value: 'registries', expanded: false },
+    ]);
+    expect(leaked).not.toHaveBeenCalled();
+    expect(sidebar.items).toBe(original);
+    expect((original[2] as { expanded?: boolean }).expanded).toBeUndefined();
+    /* Setting items from code fires nothing. */
+    sidebar.items = navigated('profile');
+    await steady(sidebar);
+    expect(events).toHaveLength(2);
+  });
+});
+
+describe('the panel menu: roles, keyboard and focus', () => {
+  it('the group and the subgroup are buttons with aria-expanded and aria-controls pointing to a block, and no menu or tree role', async () => {
+    const sidebar = await mountMenu();
+    const group = innerControl(item(sidebar, 2)) as HTMLElement & { ariaControlsElements: readonly Element[] | null };
+    expect(group.getAttribute('aria-expanded')).toBe('true');
+    expect(group.ariaControlsElements).toEqual([one(sidebar, '#block-2')]);
+    const button = subgroup(sidebar, '2/1');
+    expect(button.tagName).toBe('BUTTON');
+    expect(button.getAttribute('aria-controls')).toBe('block-2-1');
+    expect(one(sidebar, `#${button.getAttribute('aria-controls')}`)).not.toBeNull();
+    expect(root(sidebar).querySelector('[role="menu"], [role="tree"], [role="menuitem"]')).toBeNull();
+    expect(one(sidebar, 'nav')?.getAttribute('aria-label')).toBe('Main menu');
+    expect((await axNode(button)).role).toBe('button');
+    expect((await axNode(button)).name).toBe('Institutions');
+  });
+
+  it('Enter and Space on the subgroup and on the group open and close it, and the focus stays on the button', async () => {
+    const sidebar = await mountMenu();
+    const button = subgroup(sidebar, '4/1');
+    await tabTo(sidebar, innerControl(item(sidebar, 4)));
+    await userEvent.keyboard('{Enter}');
+    await steady(sidebar);
+    expect(item(sidebar, 4).expanded).toBe(true);
+    expect(deepActive()).toBe(innerControl(item(sidebar, 4)));
+    await tabTo(sidebar, button);
+    await userEvent.keyboard('{Enter}');
+    await steady(sidebar);
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+    expect(deepActive()).toBe(button);
+    await userEvent.keyboard(' ');
+    await steady(sidebar);
+    expect(button.getAttribute('aria-expanded')).toBe('false');
+    expect(deepActive()).toBe(button);
+  });
+
+  it('a closed block is out of the Tab order, an open one is in it, and the first child comes on the next Tab', async () => {
+    const sidebar = await mountMenu();
+    const closed = one(sidebar, '#block-4') as HTMLElement;
+    expect(getComputedStyle(closed).display).toBe('none');
+    await tabTo(sidebar, innerControl(item(sidebar, 4)));
+    await userEvent.keyboard('{Tab}');
+    expect(closed.contains(root(sidebar).activeElement)).toBe(false);
+    await tabTo(sidebar, innerControl(item(sidebar, 4)));
+    await userEvent.keyboard('{Enter}');
+    await steady(sidebar);
+    await userEvent.keyboard('{Tab}');
+    expect(closed.contains(root(sidebar).activeElement)).toBe(true);
+  });
+
+  it('Esc does nothing in the expanded panel menu, and a click outside closes nothing', async () => {
+    const sidebar = await mountMenu();
+    const before = panelState(sidebar);
+    await tabTo(sidebar, subgroup(sidebar, '2/1'));
+    await userEvent.keyboard('{Escape}');
+    await userEvent.click(document.body);
+    await steady(sidebar);
+    expect(panelState(sidebar)).toEqual(before);
+    expect(subgroup(sidebar, '2/1').getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('a disabled subgroup is a disabled button out of the Tab order, at state/disabled-opacity, with no tooltip; open and disabled keeps the open look and the arrow up', async () => {
+    const list = structuredClone(PM_ITEMS) as NphSidebarEntry[];
+    const registries = list[2] as unknown as { children: Array<{ disabled?: boolean }> };
+    (registries.children[1] as { disabled?: boolean }).disabled = true;
+    const sidebar = await mountMenu({ items: list });
+    const button = subgroup(sidebar, '2/1');
+    expect(button.disabled).toBe(true);
+    expect(getComputedStyle(button).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+    expect(button.querySelector('nph-icon')?.getAttribute('name')).toBe('chevron-up');
+    expect(getComputedStyle(button).fontWeight).toBe(resolved('font-weight', '--nph-text-label-md-font-weight'));
+    expect(one(sidebar, 'nph-tooltip[for="subgroup-2-1"]')).toBeNull();
+    await tabTo(sidebar, innerControl(item(sidebar, 2)));
+    await userEvent.keyboard('{Tab}');
+    await userEvent.keyboard('{Tab}');
+    expect(deepActive()).not.toBe(button);
+  });
+
+  it('hover paints panel-menu/subgroup-background-hover, open or closed, and moves no focus', async () => {
+    const sidebar = await mountMenu();
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await steady(sidebar);
+    const closed = subgroup(sidebar, '4/1');
+    const open = subgroup(sidebar, '2/1');
+    expect(getComputedStyle(closed).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    await userEvent.hover(closed);
+    expect(getComputedStyle(closed).backgroundColor).toBe(resolved('background-color', '--nph-panel-menu-subgroup-background-hover'));
+    expect(deepActive()).not.toBe(closed);
+    await userEvent.hover(open);
+    expect(getComputedStyle(open).backgroundColor).toBe(resolved('background-color', '--nph-panel-menu-subgroup-background-hover'));
+    expect(getComputedStyle(open).color).toBe(resolved('color', '--nph-panel-menu-subgroup-foreground-open'));
+  });
+
+  it('the focus of the subgroup is a border in panel-menu/focus-border outside it and a halo in panel-menu/focus-ring outside the border; a click draws none', async () => {
+    const sidebar = await mountMenu();
+    const button = subgroup(sidebar, '2/1');
+    await tabTo(sidebar, button);
+    const border = getComputedStyle(button, '::before');
+    const halo = getComputedStyle(button, '::after');
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-panel-menu-focus-border'));
+    expect(border.borderTopWidth).toBe(`${px('--nph-panel-menu-focus-border-width')}px`);
+    expect(border.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-panel-menu-focus-border-radius'));
+    expect(halo.borderTopColor).toBe(resolved('color', '--nph-panel-menu-focus-ring'));
+    expect(halo.borderTopWidth).toBe(`${px('--nph-panel-menu-focus-ring-width')}px`);
+    expect(halo.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-panel-menu-focus-radius'));
+    const box = button.getBoundingClientRect();
+    const frame = (button.parentElement as HTMLElement).getBoundingClientRect();
+    expect(box.width).toBeCloseTo(frame.width, 0);
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await steady(sidebar);
+    await userEvent.click(subgroup(sidebar, '4/1'));
+    expect(getComputedStyle(subgroup(sidebar, '4/1'), '::before').content).toBe('none');
+  });
+
+  it('the cut label has a tooltip at the right of the subgroup, and its label is cut on one line with an ellipsis', async () => {
+    const list = structuredClone(PM_ITEMS) as NphSidebarEntry[];
+    const registries = list[2] as unknown as { children: Array<{ label: string }> };
+    (registries.children[1] as { label: string }).label = 'Reports of the registry and the long names of the institutions';
+    const sidebar = await mountMenu({ items: list });
+    const tooltip = one(sidebar, 'nph-tooltip[for="subgroup-2-1"]') as HTMLElement & { text: string; side: string };
+    expect(tooltip.text).toBe('Institutions of the registry');
+    expect(tooltip.side).toBe('right');
+    const label = subgroup(sidebar, '2/1').querySelector('.subgroup-label') as HTMLElement;
+    expect(getComputedStyle(label).textOverflow).toBe('ellipsis');
+    expect(getComputedStyle(label).whiteSpace).toBe('nowrap');
+    expect(label.scrollWidth).toBeGreaterThan(label.clientWidth);
+  });
+});
+
+describe('the panel menu: the measures', () => {
+  it('the subgroup is a 36 high button with 10 on the sides, 8 on top and bottom, corner 12, 8 between the label and a 16 arrow, in the tokens', async () => {
+    const sidebar = await mountMenu();
+    const button = subgroup(sidebar, '2/1');
+    const style = getComputedStyle(button);
+    expect(button.getBoundingClientRect().height).toBeCloseTo(px('--nph-panel-menu-subgroup-height'), 0);
+    expect(style.paddingLeft).toBe(`${px('--nph-panel-menu-subgroup-padding-x')}px`);
+    expect(style.paddingTop).toBe(`${px('--nph-panel-menu-subgroup-padding-y')}px`);
+    expect(style.borderTopLeftRadius).toBe(`${px('--nph-panel-menu-subgroup-radius')}px`);
+    expect(style.columnGap).toBe(`${px('--nph-panel-menu-subgroup-gap')}px`);
+    const arrow = button.querySelector('.subgroup-arrow') as HTMLElement;
+    expect(arrow.getBoundingClientRect().width).toBeCloseTo(px('--nph-panel-menu-subgroup-icon-size'), 0);
+    expect(arrow.getBoundingClientRect().height).toBeCloseTo(px('--nph-panel-menu-subgroup-icon-size'), 0);
+    expect(arrow.getBoundingClientRect().right).toBeCloseTo(button.getBoundingClientRect().right - px('--nph-panel-menu-subgroup-padding-x'), 0);
+    expect(style.color).toBe(resolved('color', '--nph-panel-menu-subgroup-foreground-open'));
+    expect(getComputedStyle(subgroup(sidebar, '4/1')).color).toBe(resolved('color', '--nph-panel-menu-subgroup-foreground'));
+    expect(getComputedStyle(subgroup(sidebar, '4/1')).fontWeight).toBe(resolved('font-weight', '--nph-text-body-md-font-weight'));
+    expect(style.fontWeight).toBe(resolved('font-weight', '--nph-text-label-md-font-weight'));
+  });
+
+  it('the arrow is chevron-down closed and chevron-up open, at the end of the row', async () => {
+    const sidebar = await mountMenu();
+    expect(subgroup(sidebar, '4/1').querySelector('nph-icon')?.getAttribute('name')).toBe('chevron-down');
+    expect(subgroup(sidebar, '2/1').querySelector('nph-icon')?.getAttribute('name')).toBe('chevron-up');
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await userEvent.click(subgroup(sidebar, '4/1'));
+    await steady(sidebar);
+    expect(subgroup(sidebar, '4/1').querySelector('nph-icon')?.getAttribute('name')).toBe('chevron-up');
+    expect(subgroup(sidebar, '4/1').getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('the group line is 1 px in panel-menu/guide-background, 10 from the edge, and the column of items is 12 from it', async () => {
+    const sidebar = await mountMenu();
+    const edge = item(sidebar, 2).getBoundingClientRect().left;
+    const nest = one(sidebar, '#block-2 > .nest') as HTMLElement;
+    const guide = nest.querySelector(':scope > .guide') as HTMLElement;
+    const column = nest.querySelector(':scope > .column') as HTMLElement;
+    expect(guide.getBoundingClientRect().left - edge).toBeCloseTo(px('--nph-panel-menu-nest-padding'), 0);
+    expect(guide.getBoundingClientRect().width).toBeCloseTo(px('--nph-panel-menu-guide-width'), 0);
+    expect(getComputedStyle(guide).backgroundColor).toBe(resolved('background-color', '--nph-panel-menu-guide-background'));
+    expect(column.getBoundingClientRect().left - guide.getBoundingClientRect().right).toBeCloseTo(px('--nph-panel-menu-nest-gap'), 0);
+    expect(guide.getBoundingClientRect().height).toBeCloseTo(column.getBoundingClientRect().height, 0);
+    expect(guide.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('the text of the subitem starts 33 from the edge in the second level and 56 in the third', async () => {
+    const sidebar = await mountMenu();
+    const edge = item(sidebar, 2).getBoundingClientRect().left;
+    expect(labelLeft(innerControl(subitem(sidebar, '2/0'))) - edge).toBeCloseTo(33, 0);
+    expect(labelLeft(subgroup(sidebar, '2/1')) - edge).toBeCloseTo(33, 0);
+    expect(labelLeft(innerControl(subitem(sidebar, '2/1/0'))) - edge).toBeCloseTo(56, 0);
+  });
+
+  it('the rows are panel-menu/item-gap apart, the section is panel-menu/section-gap below the list, and the label is panel-menu/label-gap from its items', async () => {
+    const sidebar = await mountMenu();
+    const home = item(sidebar, 1).getBoundingClientRect();
+    const group = item(sidebar, 2).getBoundingClientRect();
+    expect(group.top - home.bottom).toBeCloseTo(px('--nph-panel-menu-item-gap'), 0);
+    const sections = all(sidebar, '.section');
+    const firstBottom = (sections[0] as HTMLElement).getBoundingClientRect().bottom;
+    const label = one(sidebar, '.group-label[id="group-label-3"]') as HTMLElement;
+    expect(label.getBoundingClientRect().top - firstBottom).toBeCloseTo(px('--nph-panel-menu-section-gap'), 0);
+    const settings = item(sidebar, 4).getBoundingClientRect();
+    expect(settings.top - label.getBoundingClientRect().bottom).toBeCloseTo(px('--nph-panel-menu-label-gap'), 0);
+    expect(getComputedStyle(label).paddingTop).toBe('0px');
+  });
+
+  it('a closed group takes no room below its row: the next row is panel-menu/item-gap away, as with no block', async () => {
+    const sidebar = await mountMenu({ items: [{ type: 'group', label: 'A', icon: 'folder', children: [{ label: 'A1', href: '#a' }] }, { label: 'B', icon: 'house', href: '#b' }] as NphSidebarEntry[] });
+    const a = item(sidebar, 0).getBoundingClientRect();
+    const b = item(sidebar, 1).getBoundingClientRect();
+    expect(b.top - a.bottom).toBeCloseTo(px('--nph-panel-menu-item-gap'), 0);
+  });
+});
+
+describe('the panel menu: the block grows in place', () => {
+  it('opens in panel-menu/expand-duration and panel-menu/expand-easing, animating only the rows of the grid', async () => {
+    const sidebar = await mountMenu();
+    const block = blockOf(sidebar, 'group:settings');
+    const style = getComputedStyle(block);
+    expect(style.transitionProperty).toBe('grid-template-rows');
+    expect(style.transitionDuration).toBe(resolved('transition-duration', '--nph-panel-menu-expand-duration'));
+    expect(style.transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-panel-menu-expand-easing'));
+    const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
+    const properties = [...cssWithoutComments.matchAll(/transition-property:\s*([^;]+);/g)].map((match) => (match[1] ?? '').trim());
+    expect(properties.filter((value) => value.includes('grid-template-rows'))).toEqual(['grid-template-rows']);
+  });
+
+  it('goes through opening to open and through closing to closed; visible while it moves, hidden and inert only when steady or closing', async () => {
+    const sidebar = await mountMenu();
+    const block = blockOf(sidebar, 'group:settings');
+    const content = one(sidebar, '#block-4') as HTMLElement;
+    expect(block.dataset['state']).toBe('closed');
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await sidebar.updateComplete;
+    expect(block.dataset['state']).toBe('opening');
+    expect(content.hasAttribute('hidden')).toBe(false);
+    await vi.waitFor(() => expect(block.dataset['state']).toBe('open'), { timeout: 2000 });
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await sidebar.updateComplete;
+    expect(block.dataset['state']).toBe('closing');
+    expect(content.hasAttribute('hidden')).toBe(false);
+    expect(content.hasAttribute('inert')).toBe(true);
+    await vi.waitFor(() => expect(block.dataset['state']).toBe('closed'), { timeout: 2000 });
+    expect(content.hasAttribute('hidden')).toBe(true);
+    expect(content.hasAttribute('inert')).toBe(false);
+  });
+
+  it('the height goes through the sizes between closed and open, in both directions, and pushes what is below', async () => {
+    const sidebar = await mountMenu();
+    const block = blockOf(sidebar, 'group:settings');
+    const below = item(sidebar, 4);
+    const closed = block.getBoundingClientRect().height;
+    expect(closed).toBe(0);
+    await userEvent.click(innerControl(below));
+    await sidebar.updateComplete;
+    await pause(60);
+    const during = block.getBoundingClientRect().height;
+    await vi.waitFor(() => expect(block.dataset['state']).toBe('open'), { timeout: 2000 });
+    const open = block.getBoundingClientRect().height;
+    expect(during).toBeGreaterThan(closed);
+    expect(during).toBeLessThan(open);
+    await userEvent.click(innerControl(below));
+    await sidebar.updateComplete;
+    await pause(60);
+    const shrinking = block.getBoundingClientRect().height;
+    expect(shrinking).toBeGreaterThan(closed);
+    expect(shrinking).toBeLessThan(open);
+    await vi.waitFor(() => expect(block.dataset['state']).toBe('closed'), { timeout: 2000 });
+    expect(block.getBoundingClientRect().height).toBe(0);
+  });
+
+  it('the clip cuts while the block moves and lets the focus halo of the lines show when it is open and steady', async () => {
+    const sidebar = await mountMenu();
+    const block = blockOf(sidebar, 'group:registries');
+    const clip = block.querySelector(':scope > .clip') as HTMLElement;
+    expect(block.dataset['state']).toBe('open');
+    expect(getComputedStyle(clip).overflow).toBe('visible');
+    await userEvent.click(innerControl(item(sidebar, 2)));
+    await sidebar.updateComplete;
+    expect(getComputedStyle(clip).overflow).toBe('hidden');
+    await steady(sidebar);
+  });
+
+  it('the arrow of the subgroup turns 180 degrees as the block moves, with the duration of the expansion', async () => {
+    const sidebar = await mountMenu();
+    const arrow = subgroup(sidebar, '2/1').querySelector('.subgroup-arrow') as HTMLElement;
+    expect(arrow.getAnimations()).toHaveLength(0);
+    await userEvent.click(subgroup(sidebar, '2/1'));
+    await sidebar.updateComplete;
+    await vi.waitFor(() => expect(arrow.getAnimations().length).toBeGreaterThan(0));
+    const timing = (arrow.getAnimations()[0] as Animation).effect?.getTiming();
+    expect(Number(timing?.duration)).toBeCloseTo(Number.parseFloat(resolved('transition-duration', '--nph-panel-menu-expand-duration')) * 1000, 0);
+    await steady(sidebar);
+  });
+
+  it('with reduced motion nothing moves: the block opens and closes at once, with no phase and no turn', async () => {
+    await withReducedMotion(async () => {
+      const sidebar = await mountMenu();
+      const block = blockOf(sidebar, 'group:settings');
+      expect(getComputedStyle(block).transitionDuration).toBe('0s');
+      await userEvent.click(innerControl(item(sidebar, 4)));
+      await sidebar.updateComplete;
+      expect(block.dataset['state']).toBe('open');
+      expect(one(sidebar, '#block-4')?.hasAttribute('hidden')).toBe(false);
+      const arrow = subgroup(sidebar, '2/1').querySelector('.subgroup-arrow') as HTMLElement;
+      await userEvent.click(subgroup(sidebar, '2/1'));
+      await sidebar.updateComplete;
+      expect(arrow.getAnimations()).toHaveLength(0);
+      expect(blockOf(sidebar, 'group:registries/institutions').dataset['state']).toBe('closed');
+    });
+  });
+});
+
+describe('the panel menu: loading, the collapsed menu and the mobile menu', () => {
+  it('loading swaps the list for skeleton rows, one per first-level item, with an icon place and a line, no section label, aria-busy and out of the Tab order', async () => {
+    const sidebar = await mountMenu({ loading: true });
+    const rows = all(sidebar, '.panel-skeleton-row');
+    expect(rows).toHaveLength(3);
+    expect(all(sidebar, '.group-label')).toHaveLength(0);
+    expect(one(sidebar, '.list')?.getAttribute('aria-busy')).toBe('true');
+    expect(one(sidebar, '.skeleton')?.getAttribute('aria-hidden')).toBe('true');
+    const row = rows[0] as HTMLElement;
+    expect(row.getBoundingClientRect().height).toBeCloseTo(px('--nph-panel-menu-skeleton-row-height'), 0);
+    expect(getComputedStyle(row).paddingLeft).toBe(`${px('--nph-panel-menu-skeleton-row-padding')}px`);
+    expect(getComputedStyle(row).columnGap).toBe(`${px('--nph-panel-menu-skeleton-gap')}px`);
+    const icon = row.querySelector('.panel-skeleton-icon') as HTMLElement;
+    expect(icon.getBoundingClientRect().width).toBeCloseTo(px('--nph-panel-menu-skeleton-icon-size'), 0);
+    expect(row.querySelectorAll('nph-skeleton')).toHaveLength(2);
+    expect(rows[1]?.getBoundingClientRect().top).toBeCloseTo((row.getBoundingClientRect().bottom) + px('--nph-panel-menu-item-gap'), 0);
+    expect(all(sidebar, 'nph-sidebar-item')).toHaveLength(0);
+  });
+
+  it('loading with no item yet keeps the six rows of the sidebar', async () => {
+    const sidebar = await mountMenu({ loading: true, items: [] });
+    expect(all(sidebar, '.panel-skeleton-row')).toHaveLength(6);
+  });
+
+  it('the collapsed menu follows the nph-sidebar: the rail and its flyout panels, the same data', async () => {
+    const sidebar = await mountMenu({ mode: 'collapsed' });
+    expect(all(sidebar, '.block')).toHaveLength(0);
+    expect(all(sidebar, 'nph-sidebar-rail-button').length).toBe(3);
+    await userEvent.click(innerControl(rail(sidebar, 2)));
+    await entered(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(1);
+    const option = one(sidebar, '.flyout .option[data-path="2/1"]') as HTMLElement;
+    expect(option.getAttribute('aria-expanded')).toBe('false');
+    await userEvent.click(option);
+    await entered(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(2);
+  });
+
+  it('going from collapsed to expanded keeps what the person opened, and closes the panels', async () => {
+    const sidebar = await mountMenu();
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await steady(sidebar);
+    sidebar.mode = 'collapsed';
+    await settle(sidebar);
+    await userEvent.click(innerControl(rail(sidebar, 2)));
+    await entered(sidebar);
+    sidebar.mode = 'expanded';
+    await steady(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(0);
+    expect(item(sidebar, 4).expanded).toBe(true);
+    expect(item(sidebar, 2).expanded).toBe(true);
+  });
+
+  it('changing the navigation closes an open flyout panel', async () => {
+    const sidebar = await mount({ mode: 'collapsed' });
+    await userEvent.click(innerControl(rail(sidebar, 3)));
+    await entered(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(1);
+    sidebar.navigation = 'panel-menu';
+    await settle(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(0);
+  });
+
+  it('the mobile menu draws the panel menu inside the dialog, and Esc closes the menu, not a block', async () => {
+    const sidebar = await mountMenu({ mode: 'mobile', open: true });
+    await settle(sidebar);
+    const dialog = one(sidebar, 'dialog.panel') as HTMLDialogElement;
+    expect(dialog.open).toBe(true);
+    expect(dialog.querySelectorAll('.block').length).toBeGreaterThan(0);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    const closed = vi.fn();
+    sidebar.addEventListener('nph-close', closed);
+    await userEvent.keyboard('{Escape}');
+    expect(closed).toHaveBeenCalledTimes(1);
+    expect(closed.mock.calls[0]?.[0].detail.source).toBe('escape');
+  });
+});
+
+describe('the default navigation is untouched by the panel menu', () => {
+  it('flyout: a group opens its subitems from the data and rewrites the list, and a subitem with options opens a flyout panel', async () => {
+    const sidebar = await mount();
+    const original = sidebar.items;
+    await userEvent.click(innerControl(item(sidebar, 3)));
+    await settle(sidebar);
+    expect(sidebar.items).not.toBe(original);
+    expect(all(sidebar, '.subgroup')).toHaveLength(0);
+    expect(all(sidebar, '.block')).toHaveLength(0);
+    await userEvent.click(innerControl(subitem(sidebar, '3/2')));
+    await entered(sidebar);
+    expect(flyouts(sidebar)).toHaveLength(1);
+  });
+});
+
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)/g)].map((match) => match[1] ?? ''));
@@ -1240,6 +1866,12 @@ describe('token contract', () => {
     for (const name of used) {
       if (defined.has(name)) continue;
       expect(tokensCss, name).toContain(`${name}:`);
+    }
+    /* The panel menu (DSA-76): every token of the family is read. */
+    const family = [...new Set([...tokensCss.matchAll(/(--nph-panel-menu-[a-z-]+):/g)].map((match) => match[1] ?? ''))];
+    expect(family.length).toBeGreaterThan(0);
+    for (const name of family) {
+      expect(used, name).toContain(name);
     }
     for (const name of [
       '--nph-sidebar-panel-background',
