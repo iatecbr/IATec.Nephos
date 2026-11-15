@@ -79,6 +79,7 @@ P62.4 subsection for the detail).
 | **P120** | API and semantics of `nph-scheduler` | 13/11/2026 | Low now. No piece consumes it yet; a product screen will, so changing `events`, `calendars` and `labels`, the instant format, the events `nph-event-click` and `nph-date-change`, the slots `detail` and `detail-footer`, the order of Tab or the invalid-input rule later requires redoing every consumer. The date grid (D-1), the `sidebar` icon (D-2), the derived measures (D-3), the color of a calendar (D-4), the click on a day (D-5), the detail (D-6) and the order of the all-day band (D-7) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The preview that does not grow (D-1), the preview of fewer than three lines (D-2) and the growth against the motion rule (D-3) wait for Indiane. The `aria-expanded` and the `controls` that `nph-button` now hands to its native button are covered by the tests of both pieces | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P123** | API and semantics of `nph-command`; three options and the close origins of `nph-dialog` (amends P87) | 14/11/2026 | Low now. No screen consumes the palette yet; the search of the side menu will, so changing `items`, the texts, the events `nph-run` and `nph-search`, the origins of `nph-close`, the keys, the shortcut rule or the invalid-input rule later requires redoing every consumer. The options of the dialog only add and are off by default. The position near the top (D-1), the width held at the ceiling (D-2), the rest of a searched destructive label (D-3) and the clipped outer pixel of the field halo (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P124** | The panel menu navigation of `nph-sidebar`: the `navigation` property, the open state, the third level in place (extends P116) | 15/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing the name or the values of `navigation`, the shape of `items` (the child with `options` and its `expanded`), the way the open groups are kept or the event `nph-group-toggle` later requires redoing every consumer. The section label in the panel menu (D-1), the arrow of the group item (D-2) and a page inside a group the person closed (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -8511,9 +8512,134 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P124 — `nph-sidebar`: the panel menu navigation (extends P116)
+
+**Technical conflict.** The accepted documentation of the panel menu (frame `5928:2591`, page `4128:29872`, sets
+`5607:97` and `5608:168`) makes it a navigation mode of the `nph-sidebar`, with no new public tag: an accordion
+whose third level opens in place, with no side panel. It fixes the anatomy, the tokens (`panel-menu/*`), the
+keyboard and the roles, and leaves the code API to the code, with seven points open in the task. Six need a
+decision of their own:
+
+- the sidebar already has `mode` for expanded, collapsed and mobile, and the panel menu is chosen in another
+  axis; the same destinations must serve both navigations, so a product can switch without rewriting `items`;
+- the product sends a new `items` at every navigation, to move `active`, and the person's open groups must not
+  be lost or reopened by it: a group the person closed stays closed, and opening one closes none of the others;
+- the closed block must leave the Tab order and the accessibility tree (`hidden`), and the open block must grow
+  in place, which a `hidden` element cannot do;
+- the subgroup is a button of the second level that no piece of DSA-53 draws, and the third level is the
+  `nph-sidebar-subitem` with options off, which the evidence names;
+- the loading, the label of a section and the arrow of the subgroup have measures and movements the evidence
+  states in words, over pieces the code already draws in the flyout navigation;
+- the evidence says the arrow turns 180 degrees and the group item of DSA-53 swaps its arrow without turning.
+
+**Decision.** The panel menu is a navigation of the `nph-sidebar`, in the same tag, with the same open Shadow
+DOM, no slot and no `::part`. It adds one property and one field and creates no token. Invalid input renders
+nothing and emits `console.error` only in development, once per cause (P21).
+
+1. **`navigation` chooses it.** `navigation` is `flyout` (default, the navigation of P116) or `panel-menu`, by
+   property or attribute. It does not reflect: the internal CSS reads the markup the panel menu draws, not the
+   host. A value outside the two renders nothing, as `mode`. It changes how the **expanded** and the **mobile**
+   list are drawn; the **collapsed** menu is the rail with its flyout panels in both navigations (the evidence:
+   "collapsed and mobile follow the `nph-sidebar`"), and the mobile menu draws the panel menu inside its dialog.
+   Changing `navigation` closes an open flyout panel.
+
+2. **The same data in both.** A child with `options` is the subitem with a flyout panel in `flyout` and the
+   subgroup in `panel-menu`; its options keep `label`, `href`, `active`, `disabled`, `tooltip` and `value`. A
+   child gains `expanded`, read only in the panel menu (a plain child ignores it, as a link ignores it today). The
+   third level draws `nph-sidebar-subitem`, never the option of the flyout; the group, the subitem and the
+   section label are the approved pieces, with their own tokens and focus.
+
+3. **The open state is the person's, and it survives a new `items`.** In the panel menu the menu keeps which
+   groups and subgroups are open, by key (the `value` of the group or of the child, or its position when it has
+   none), and does not write `expanded` into `items`. The order, for each group and subgroup: what the person
+   did stays; an `expanded` the product writes seeds it, and a **new** value, different from the one it wrote
+   before, wins; with neither, the block that holds the current page (`active` in a child or in an option) is
+   born open, **once**, and stays as the person leaves it. So a group the person closed stays closed even when the
+   current page is inside it and the product sends a new list; a group born open does not close when the current
+   page moves to another group, and the other is born open too. A repeated `expanded` does not undo the person.
+   Several groups stay open at once. In `flyout` nothing changes: `expanded` is the state and the menu writes a
+   new list. A test sends a new list with the current page moved, after the person closed and opened groups.
+
+4. **The event.** `nph-group-toggle`, with `detail: { value, expanded }`, fires for a group and, new, for a
+   subgroup, with the `value` of the child, when the person opens or closes it; setting `items` or `expanded`
+   from code fires nothing. A product that wants to keep the choice listens and writes `expanded` back.
+
+5. **The subgroup is an inner part, a native `button`** drawn by the menu in its shadow root (as the option of the
+   flyout), with `aria-expanded` and `aria-controls` by id (one root), the label cut on one line with an ellipsis,
+   and the arrow `nph-icon` at the end (`chevron-down` closed, `chevron-up` open). The focus is the border and the
+   halo of `panel-menu/focus-*`, the hover is `panel-menu/subgroup-background-hover`, and a disabled subgroup is a
+   disabled button, out of the Tab order, whose open look stays under `state/disabled-opacity` (rule T11). The
+   `tooltip` of the child becomes an `nph-tooltip` at the right, which waits `motion/hover-delay` on hover, opens
+   at once on focus and is cancelled by a click. The group of the first level keeps its `nph-sidebar-item`, whose
+   button now points to its block with `aria-controls`.
+
+6. **Growing in place.** A block is a grid track that goes from `0fr` to `1fr` in `panel-menu/expand-duration` and
+   `panel-menu/expand-easing`, inside a clip, around the content that `aria-controls` points to. The content
+   carries `hidden` only when the block is closed and steady, and `inert` while it closes: the machine of phases
+   of `nph-collapsible` (P121), `closed`, `opening`, `open` and `closing`, which ends on `transitionend` of the
+   track with a safety timer, and goes straight to the end when the browser resolves no duration. The clip cuts
+   while the block moves and lets the focus halo of the lines show when it is open and steady. The arrow of the
+   subgroup swaps and turns 180 degrees with the same duration and curve, read from the resolved style; with
+   reduced motion the duration is 0 and nothing moves. A browser that does not interpolate `grid-template-rows`
+   opens and closes with no movement. It does not use `motion/enter-*` and `motion/exit-*`.
+
+7. **Loading.** The panel menu in loading draws one `nph-skeleton` row per first-level item, an icon place at
+   `panel-menu/skeleton-icon-size` and a text line, with no section label, aria-hidden and out of the Tab order,
+   with `aria-busy` on the list; with no item yet it draws the six rows of the sidebar. Collapsed and `flyout`
+   keep their rows.
+
+8. **Measures and keys.** The indent, the group line and the column of items are `panel-menu/nest-padding`,
+   `guide-width`, `guide-background` and `nest-gap`, repeated in the third level, so the text of the sub item
+   starts 33 and 56 from the edge by the sum of the measures. The rows are `item-gap` apart, the sections
+   `section-gap`, and the label is `label-gap` from its items: **the section label of the panel menu has no
+   vertical padding of its own**, so the two gaps are exactly the ones of the tokens (D-1). Tab and Shift+Tab pass
+   through the visible buttons and links; Enter and Space open and close and keep the focus on the button; the
+   arrows, Home and End are not used; Esc does nothing and a click outside closes nothing, because the open
+   block is not a layer. There is no `menu` or `tree` role.
+
+9. **Tokens.** Only `--nph-panel-menu-*`, the text styles `text/body-md` and `text/label-md`, and the neighbors
+   the evidence names; no core or theme token. Every one of the 29 tokens of the family is read, and a test
+   proves it. No token was created or changed.
+
+**Known limits.**
+
+- The group item of the first level keeps the arrow swap of the approved `nph-sidebar-item`; only the subgroup turns
+  its arrow (D-2).
+- A page inside a group the person closed does not reopen it (D-3).
+- Forced colors and right-to-left are not treated yet, as in P116.
+
+**Source.** Documentation frame `5928:2591` (page `4128:29872`), appendix `5928:2867`, sets `5607:97` and
+`5608:168` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 11/11/2026, with the Figma UX QA and the
+textual audit approved, and the points of its approval page; the evidence of the `figma-docs-accepted` gate of
+DSA-76. The name and the values of `navigation`, the field `expanded` of the child, the open state kept by key, the
+event on the subgroup, the phases of the block, the turn of the arrow and the section label without vertical
+padding are a technical proposal of this implementation.
+
+**Out of scope.** A token, new or changed. A new public tag. A change in `nph-sidebar-item`,
+`nph-sidebar-subitem`, `nph-skeleton`, `nph-tooltip` or `nph-icon`, and in the collapsed and the mobile modes of the
+`nph-sidebar`. A group that is also a link. A fourth level. Arrow keys between lines.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the section label in the panel menu.** The evidence gives 8 between the label and its items and 16
+  between the list and the section. The label of the `nph-sidebar` has vertical padding of its own (P116, D-4).
+  In the panel menu the code takes the label with no vertical padding, so the two gaps are the ones of the
+  tokens. She confirms it, or gives the measure of the label. The label of the `flyout` navigation does not change.
+- **D-2 — the arrow of the group item.** The evidence says the arrow turns 180 degrees in the panel menu; the group
+  item of the first level, an approved piece, swaps `chevron-down` and `chevron-up` without turning, and this
+  task does not change it. She decides whether the item should turn too, in another task.
+- **D-3 — a page inside a group the person closed.** By the accepted rule ("if the person closes one, it stays
+  closed") the code does not reopen a group when the current page enters it. She confirms it, or asks for the
+  parents of a new current page to open.
+
+**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-1 to D-3 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122 or P123 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123 or P124 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

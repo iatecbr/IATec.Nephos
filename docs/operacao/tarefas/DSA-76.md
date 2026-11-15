@@ -34,7 +34,26 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "In the panel menu the code draws the section label with no vertical padding of its own, so the gap to its items (panel-menu/label-gap, 8) and the gap from the list (panel-menu/section-gap, 16) are exactly the ones of the tokens. The label of the nph-sidebar has vertical padding of its own (P116, D-4). Indiane confirms it, or gives the measure of the label in the panel menu. The label of the flyout navigation did not change. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-15"
+    },
+    {
+      "id": "D-2",
+      "question": "The accepted documentation says the arrow turns 180 degrees in the panel menu. The arrow of the subgroup turns; the group item of the first level, an approved piece of DSA-53, swaps chevron-down and chevron-up without turning, and this task does not change the item. Indiane decides whether the item should turn too, in another task. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-15"
+    },
+    {
+      "id": "D-3",
+      "question": "By the accepted rule, if the person closes a group that holds the current page it stays closed, with no new mark. The code applies it also when the product sends a new list: a new current page inside a group the person closed does not reopen it. Indiane confirms it, or asks for the parents of a new current page to open. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-15"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-76/figma-docs-accepted-2026-11-11.md"
   ],
