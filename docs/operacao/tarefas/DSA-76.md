@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 750,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "in-review",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-26",
@@ -33,16 +33,27 @@
       "verified_by": null
     }
   ],
-  "blockers": [
+  "blockers": [],
+  "pending_decisions": [
     {
-      "id": "B-1",
-      "description": "The panel menu is a navigation mode of the nph-sidebar, and DSA-72 (nph-sidebar) is not merged yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-72 is merged into v/5.0.0 and goes to done; this task then goes to ready, with no other change.",
-      "opened_at": "2026-11-11"
+      "id": "D-1",
+      "question": "In the panel menu the code draws the section label with no vertical padding of its own, so the gap to its items (panel-menu/label-gap, 8) and the gap from the list (panel-menu/section-gap, 16) are exactly the ones of the tokens. The label of the nph-sidebar has vertical padding of its own (P116, D-4). Indiane confirms it, or gives the measure of the label in the panel menu. The label of the flyout navigation did not change. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-15"
+    },
+    {
+      "id": "D-2",
+      "question": "The accepted documentation says the arrow turns 180 degrees in the panel menu. The arrow of the subgroup turns; the group item of the first level, an approved piece of DSA-53, swaps chevron-down and chevron-up without turning, and this task does not change the item. Indiane decides whether the item should turn too, in another task. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-15"
+    },
+    {
+      "id": "D-3",
+      "question": "By the accepted rule, if the person closes a group that holds the current page it stays closed, with no new mark. The code applies it also when the product sends a new list: a new current page inside a group the person closed does not reopen it. Indiane confirms it, or asks for the parents of a new current page to open. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-15"
     }
   ],
-  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-76/figma-docs-accepted-2026-11-11.md"
   ],
@@ -58,9 +69,9 @@
     "excerpt": null,
     "converted_decision": "The panel menu documentation frame (5928:2591, page 4128:29872) was accepted as the API and behavior specification of the panel menu navigation mode of the nph-sidebar. COMPONENT_SET nph-panel-menu subgroup set (5607:97) and COMPONENT_SET nph-panel-menu (5608:168). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-11"
+  "git_review": { "branch": "feat/dsa-76-panel-menu", "commit": "e68c3c2", "pr": 174 },
+  "context": "docs/operacao/contextos/DSA-76.md",
+  "updated_at": "2026-11-15"
 }
 ```
 
@@ -102,10 +113,10 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Tokens that stay without a component token
 The pieces by instance use their own tokens: the item, the sub item and the section label of the `nph-sidebar`, the `nph-skeleton`, the `nph-tooltip` and the `nph-icon`, except the overrides of the panel menu: the size and the color of the subgroup arrow (`panel-menu/subgroup-icon-size`, `panel-menu/subgroup-foreground`, `panel-menu/subgroup-foreground-open`) and the size of the icon place in the loading row (`panel-menu/skeleton-icon-size`). The typography of the label comes from the text styles (`text/body-md`, and `text/label-md` in the open subgroup). The panel menu has no shadow style.
 
-## Why it waits
-This task is `blocked` only until DSA-72 is merged: the panel menu is a mode of the `nph-sidebar`, which is built in DSA-72. Everything else is ready.
+## Why it waited, and how B-1 closed
+This task was `blocked` only until DSA-72 was merged: the panel menu is a mode of the `nph-sidebar`, which was built in DSA-72. **B-1 closed on 2026-11-15.** DSA-72 (PR #165, merge `c4ccdfd`, closed on `v/5.0.0` in `0390264`) is `done`, so, as B-1 itself said, this task goes to `ready` with no other change. Everything else was ready.
 
-The 29 tokens (`panel-menu/*`) came with this task and are on `v/5.0.0`. They are all aliases of semantic tokens, except `panel-menu/nest-gap` on `core/space/300`, by decision. No new value entered the core. The pieces inside are done: nph-sidebar-item and sub item (DSA-53), nph-skeleton (DSA-26) and nph-tooltip (DSA-48); the nph-sidebar (DSA-72) is the open dependency.
+The 29 tokens (`panel-menu/*`) came with this task and are on `v/5.0.0`. They are all aliases of semantic tokens, except `panel-menu/nest-gap` on `core/space/300`, by decision. No new value entered the core. The pieces inside are done: nph-sidebar-item and sub item (DSA-53), nph-skeleton (DSA-26), nph-tooltip (DSA-48) and the nph-sidebar (DSA-72).
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

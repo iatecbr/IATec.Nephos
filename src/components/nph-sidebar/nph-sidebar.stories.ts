@@ -6,8 +6,12 @@
  * (expanded, collapsed, mobile) and the two states (ready, loading); the flyout panel of the
  * second level of the collapsed menu and of the third level, next to the opener; the two Figma
  * booleans, the collapse button and the corner button; the short messages in place of the list;
- * the invalid input; and the four required examples of the documentation — a product with many
- * areas, the list arriving, the phone and the collapsed menu with its flyout. Every story shows
+ * the invalid input; the panel menu (DSA-76, P124), the same list with `navigation="panel-menu"`:
+ * the third level opens in place, the group that holds the current page and its parent are born open,
+ * several groups stay open, a label too long is cut, the loading draws one row per first-level item,
+ * and the collapsed menu follows the `nph-sidebar`; and the required examples of the documentation —
+ * a product with many areas, the list arriving, the phone, the collapsed menu with its flyout and the
+ * panel menu, ready and loading. Every story shows
  * the same menu in light and in dark mode, in the same story, through `data-nph-color-scheme` on
  * the frame (P20, P67).
  *
@@ -32,7 +36,7 @@ import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
-import { collapsedMenu, expandedFlyout, inScheme, loadingMenu, mainMenu, phone, sidebar } from './nph-sidebar.demo';
+import { collapsedMenu, expandedFlyout, inScheme, loadingMenu, mainMenu, panelMenu, panelMenuLoading, phone, sidebar } from './nph-sidebar.demo';
 import type { Scheme, SidebarText } from './nph-sidebar.demo';
 
 const meta: Meta = {
@@ -138,6 +142,27 @@ export const Flyout: Story = {
   },
 };
 
+/**
+ * The panel menu: the third level opens in place. The group that holds the current page and its parent are born
+ * open, several stay open, the cut label has its tooltip, the loading draws one row per first-level item, the
+ * collapsed menu follows the `nph-sidebar` and the phone draws the panel menu in the dialog.
+ */
+export const PanelMenu: Story = {
+  name: 'Panel menu',
+  render: (_args, context: GlobalsContext) => {
+    const s = text(context);
+    const v = t(context);
+    return validationPage(
+      context,
+      page('panel-menu'),
+      html`<div style=${stack}>
+        ${inBothSchemes(context, 'panel-menu', () => html`<div style=${row}>${panelMenu(s)} ${panelMenuLoading(s)}</div>`, v.panelMenuMain)}
+        ${inBothSchemes(context, 'panel-menu', () => html`<div style=${row}>${sidebar(s, { navigation: 'panel-menu', mode: 'collapsed' })} ${phone(s, { navigation: 'panel-menu' })}</div>`, v.panelMenuFollows)}
+      </div>`,
+    );
+  },
+};
+
 /** The two Figma booleans, the collapse button and the corner button, on and off, in the expanded menu. */
 export const Parts: Story = {
   name: 'Parts',
@@ -219,6 +244,8 @@ export const Examples: Story = {
         ${inBothSchemes(context, 'examples', () => loadingMenu(s), v.exampleLoading)}
         ${inBothSchemes(context, 'examples', () => phone(s), v.examplePhone)}
         ${inBothSchemes(context, 'examples', () => collapsedMenu(s), v.exampleFlyout)}
+        ${inBothSchemes(context, 'examples', () => panelMenu(s), v.examplePanelMenu)}
+        ${inBothSchemes(context, 'examples', () => panelMenuLoading(s), v.examplePanelLoading)}
       </div>`,
     );
   },
@@ -234,7 +261,9 @@ export const Brands: Story = {
       page('brands'),
       brandFrames(
         validationTitle(context, 'nph-sidebar', page('brands').storyId),
-        () => html`${sidebar(s, { height: cellHeight })} ${sidebar(s, { mode: 'collapsed', height: cellHeight })}`,
+        () =>
+          html`${sidebar(s, { height: cellHeight })} ${sidebar(s, { navigation: 'panel-menu', height: cellHeight })}
+          ${sidebar(s, { mode: 'collapsed', height: cellHeight })}`,
       ),
     );
   },

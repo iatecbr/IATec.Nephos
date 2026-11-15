@@ -7,7 +7,8 @@
  * spec sheet (`fichas/nph-sidebar.md`) and from P116; nothing is decided here. The page follows
  * the order of the `nph-badge` page: it opens with the labelled matrix, and the two lists of
  * "When to use" are the ones of the sheet. Then API, Usage, the three modes, the states, the flyout
- * panel, Anatomy, Accessibility and the four required examples, each in light and dark mode.
+ * panel, the panel menu (DSA-76, P124), Anatomy, Accessibility and the required examples, each in
+ * light and dark mode.
  *
  * Deferred, not fulfilled here, as on every Docs page:
  * - `text/body-lg` in `text` and `list` (DSA-33).
@@ -22,7 +23,7 @@ import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
-import { bothModes, collapsedMenu, expandedFlyout, loadingMenu, mainMenu, phone, sidebar } from './nph-sidebar.demo';
+import { bothModes, collapsedMenu, expandedFlyout, loadingMenu, mainMenu, panelMenu, panelMenuLoading, phone, sidebar } from './nph-sidebar.demo';
 import type { SidebarText } from './nph-sidebar.demo';
 import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
@@ -55,6 +56,7 @@ const SECTIONS = {
   modes: 'modes',
   states: 'states',
   flyout: 'flyout-panel',
+  panelMenu: 'panel-menu',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
   examples: 'required-examples',
@@ -101,6 +103,7 @@ export const Documentation: Story = {
           { id: SECTIONS.modes, title: d.modesTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.flyout, title: d.flyoutTitle },
+          { id: SECTIONS.panelMenu, title: d.panelMenuTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
@@ -165,6 +168,17 @@ export const Documentation: Story = {
         )}
 
         ${section(
+          SECTIONS.panelMenu,
+          d.panelMenuTitle,
+          html`
+            ${text(d.panelMenuText)}
+            ${demo(html`<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--nph-space-stack);">${panelMenu(s, { height: cell })} ${panelMenuLoading(s)}</div>`, d.panelMenuCaption)}
+            ${table(d.panelMenuHeader, d.panelMenu.map(pair), 'text')}
+            ${source(d.sourceLabel, d.sourcePanelMenu)}
+          `,
+        )}
+
+        ${section(
           SECTIONS.anatomy,
           d.anatomyTitle,
           html`${table(d.anatomyHeader, d.anatomy.map(pair), 'text')}
@@ -187,6 +201,8 @@ export const Documentation: Story = {
             ${demo(bothModes(captions, () => phone(s)), d.examplePhone)}
             ${demo(bothModes(captions, () => collapsedMenu(s)), d.exampleFlyout)}
             ${demo(bothModes(captions, () => expandedFlyout(s)), d.exampleThird)}
+            ${demo(bothModes(captions, () => panelMenu(s)), d.exampleMainPanel)}
+            ${demo(bothModes(captions, () => panelMenuLoading(s)), d.exampleLoadingPanel)}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
         )}

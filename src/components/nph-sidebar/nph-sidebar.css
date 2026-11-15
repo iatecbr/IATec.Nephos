@@ -10,7 +10,8 @@
  * receives; the search, the corner button and the options fill the width of their column),
  * `transparent` (no background at rest), `nowrap` and `ellipsis` (one line), `calc(-1 * ...)`
  * (the room of the focus halo around the scrolling list; the slide of the panels) and the
- * `max-content` width of the flyout panel, which the label decides.
+ * `max-content` width of the flyout panel, which the label decides. The panel menu (DSA-76, P124) adds `0fr`
+ * and `1fr`, the closed and the open track of a block that grows in place.
  */
 
 /* The menu fills the height of the column the product gives it; invalid input takes no room. */
@@ -567,6 +568,197 @@ dialog.panel[data-open] {
   border-radius: var(--nph-focus-radius-sidebar-item);
 }
 
+/* ----- the panel menu (DSA-76, P124) --------------------------------------------- */
+
+/*
+ * The third level opens in place. Every measure is a `panel-menu/*` token: the same pixels as the sidebar
+ * in several places, bound to the family of the accepted Figma. The item, the subitem and the section
+ * label are the approved pieces, drawn as they are.
+ */
+.list[data-navigation='panel-menu'] {
+  gap: var(--nph-panel-menu-section-gap);
+}
+
+.list[data-navigation='panel-menu'] .section {
+  gap: var(--nph-panel-menu-label-gap);
+}
+
+/* The section label has no padding of its own here: the gaps are the ones of the tokens. */
+.list[data-navigation='panel-menu'] .group-label {
+  padding-block: 0;
+}
+
+.rows,
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-panel-menu-item-gap);
+}
+
+/* An item and the block below it: the gap between them is inside the block, so a closed one takes no room. */
+.entry {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * A block grows in place: the grid track goes from nothing to its content in `panel-menu/expand-*`. The
+ * clip cuts while the block moves and when it is closed; open and steady it lets the focus halo of the
+ * lines inside show. The content carries `hidden` when closed, and `inert` while it closes.
+ */
+.block {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition-property: grid-template-rows;
+  transition-duration: var(--nph-panel-menu-expand-duration);
+  transition-timing-function: var(--nph-panel-menu-expand-easing);
+}
+
+.block[data-state='opening'],
+.block[data-state='open'] {
+  grid-template-rows: 1fr;
+}
+
+.clip {
+  min-block-size: 0;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.block[data-state='open'] > .clip {
+  overflow: visible;
+}
+
+/* The indent, the group line and the column of items. The line stretches to the height of the column. */
+.nest {
+  display: flex;
+  align-items: stretch;
+  padding-block-start: var(--nph-panel-menu-item-gap);
+  padding-inline-start: var(--nph-panel-menu-nest-padding);
+}
+
+.guide {
+  flex: none;
+  inline-size: var(--nph-panel-menu-guide-width);
+  background-color: var(--nph-panel-menu-guide-background);
+}
+
+.column {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  margin-inline-start: var(--nph-panel-menu-nest-gap);
+}
+
+/* The subgroup: the button of the second level that opens the third in place. */
+.subgroup {
+  --_pm-ring: calc(var(--nph-panel-menu-focus-border-width) + var(--nph-panel-menu-focus-ring-width));
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-panel-menu-subgroup-gap);
+  inline-size: 100%;
+  block-size: var(--nph-panel-menu-subgroup-height);
+  margin: 0;
+  padding-block: var(--nph-panel-menu-subgroup-padding-y);
+  padding-inline: var(--nph-panel-menu-subgroup-padding-x);
+  border: none;
+  border-radius: var(--nph-panel-menu-subgroup-radius);
+  background-color: transparent;
+  color: var(--nph-panel-menu-subgroup-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-align: start;
+  white-space: nowrap;
+  outline: none;
+}
+
+.subgroup-label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subgroup-arrow {
+  flex: none;
+  inline-size: var(--nph-panel-menu-subgroup-icon-size);
+  block-size: var(--nph-panel-menu-subgroup-icon-size);
+}
+
+/* Open: the label goes to `text/label-md` and the arrow follows its color. */
+.subgroup[data-open] {
+  color: var(--nph-panel-menu-subgroup-foreground-open);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* Hover paints the background, open or closed; it does not move the focus. */
+.subgroup:not(:disabled):hover {
+  background-color: var(--nph-panel-menu-subgroup-background-hover);
+}
+
+/* Disabled: the whole subgroup under `state/disabled-opacity`, open look included (rule T11). */
+.subgroup:disabled {
+  opacity: var(--nph-panel-menu-subgroup-disabled-opacity);
+}
+
+.subgroup:focus-visible::before,
+.subgroup:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.subgroup:focus-visible::before {
+  inset: calc(-1 * var(--nph-panel-menu-focus-border-width));
+  border: var(--nph-panel-menu-focus-border-width) solid var(--nph-panel-menu-focus-border);
+  border-radius: var(--nph-panel-menu-focus-border-radius);
+}
+
+.subgroup:focus-visible::after {
+  inset: calc(-1 * var(--_pm-ring));
+  border: var(--nph-panel-menu-focus-ring-width) solid var(--nph-panel-menu-focus-ring);
+  border-radius: var(--nph-panel-menu-focus-radius);
+}
+
+/* Loading in the panel menu: one row per first-level item, an icon place and a text line. */
+.skeleton[data-navigation='panel-menu'] {
+  gap: var(--nph-panel-menu-item-gap);
+}
+
+.panel-skeleton-row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-panel-menu-skeleton-gap);
+  block-size: var(--nph-panel-menu-skeleton-row-height);
+  padding-inline: var(--nph-panel-menu-skeleton-row-padding);
+}
+
+.panel-skeleton-row > nph-skeleton {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.panel-skeleton-icon {
+  display: block;
+  flex: none;
+  inline-size: var(--nph-panel-menu-skeleton-icon-size);
+  block-size: var(--nph-panel-menu-skeleton-icon-size);
+}
+
+.panel-skeleton-icon nph-skeleton {
+  block-size: 100%;
+}
+
 /* ----- reduced motion ------------------------------------------------------------ */
 
 /* Reduced motion: nothing moves (DSA-62 D-3). The fade stays, as in `nph-dropdown-menu`. */
@@ -580,6 +772,11 @@ dialog.panel[data-open] {
   .flyout,
   .flyout[data-open] {
     translate: none;
+  }
+
+  /* The panel menu: the block opens and closes with no movement. */
+  .block {
+    transition: none;
   }
 
   dialog.panel,
