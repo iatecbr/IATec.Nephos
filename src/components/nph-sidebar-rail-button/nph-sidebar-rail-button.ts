@@ -10,7 +10,9 @@
  * - `type`: `link` (default) leads to a page through `href`; `group` is the rail button of an item
  *   with children: a disclosure button that opens the flyout panel of `nph-sidebar` next to it,
  *   with `expanded`, `aria-expanded` and the event `nph-toggle`, as the group of
- *   `nph-sidebar-item` (P116). A group has no `href`, no `counter` and is never `active`;
+ *   `nph-sidebar-item` (P116). A group has no `href` and no `counter`; it is `active` when the current page is
+ *   one of its children, and then it only shows the active look: it is not a page, so it has no
+ *   `aria-current` (the child in the flyout panel carries it) (DSA-72 D-3);
  * - `controls`: the element a group opens, set by `nph-sidebar` (P116). An id cannot cross the
  *   shadow root, so the button takes it as `ariaControlsElements`. Property only;
  * - `label`: the name of the page. Required: without a visible label, it is the `aria-label`
@@ -20,7 +22,8 @@
  *   active, or when a group is open;
  * - `href`: the page it leads to. The rail button is a link;
  * - `active`: the current page, with `aria-current="page"`, `sidebar/rail-background-active`
- *   and the icon in `sidebar/rail-foreground-active`;
+ *   and the icon in `sidebar/rail-foreground-active`. On a group it is the same look and the solid
+ *   icon, with no `aria-current`: the current page is inside the group;
  * - `counter`: a whole number of pending items, in a pill on the top end corner (D-1). It is
  *   read as text, in the name of the link after the label: the name holds the text one sees
  *   on the button (WCAG 2.5.3; Elvys, 27-10-2026, DSA-32). Active, the pill gains an outline in
@@ -167,10 +170,6 @@ export class NphSidebarRailButton extends LitElement {
           devError('a group has no href: it opens the flyout panel of its children.');
           valid = false;
         }
-        if (this.active) {
-          devError('a group is never active: only the current page is.');
-          valid = false;
-        }
         if (this.counter !== null && this.counter !== undefined) {
           devError('a group has no counter: the counter is a link with the number of pending items.');
           valid = false;
@@ -227,7 +226,7 @@ export class NphSidebarRailButton extends LitElement {
     const label = this.label.trim();
     const group = this.type === 'group';
     const hasCounter = !group && isCount(this.counter);
-    const solid = group ? this.expanded : this.active;
+    const solid = group ? this.expanded || this.active : this.active;
     const content = html`<nph-icon
         class="icon"
         name=${this.icon.trim()}

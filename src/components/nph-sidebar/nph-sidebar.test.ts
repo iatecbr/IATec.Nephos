@@ -611,6 +611,45 @@ describe('the collapse button and the collapsed menu', () => {
   });
 });
 
+describe('the collapsed menu marks the group that holds the current page (DSA-72 D-3)', () => {
+  it('the rail button of a group with the current page inside is active; a group without it, and a link that is not current, are not', async () => {
+    const sidebar = await mount({ mode: 'collapsed' });
+    expect(rail(sidebar, 3).active).toBe(true);
+    expect(rail(sidebar, 5).active).toBe(false);
+    expect(rail(sidebar, 1).active).toBe(true);
+    expect(rail(sidebar, 2).active).toBe(false);
+    const solid = (path: number): string | null => (rail(sidebar, path).shadowRoot?.querySelector('.icon') as HTMLElement).getAttribute('variant');
+    expect(solid(3)).toBe('solid');
+    expect(solid(5)).toBe('light');
+    const control = (path: number): HTMLElement => rail(sidebar, path).shadowRoot?.querySelector('.control') as HTMLElement;
+    expect(getComputedStyle(control(3)).backgroundColor).toBe(resolved('background-color', '--nph-sidebar-rail-background-active'));
+    expect(getComputedStyle(control(5)).backgroundColor).not.toBe(resolved('background-color', '--nph-sidebar-rail-background-active'));
+    expect(control(3).hasAttribute('aria-current')).toBe(false);
+  });
+
+  it('it follows the current page: a new page in another group moves the active look, with no error', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const sidebar = await mount({ mode: 'collapsed' });
+    const moved = structuredClone(ITEMS) as unknown as Array<{ children?: Array<{ active?: boolean; options?: Array<{ active?: boolean }> }> }>;
+    for (const option of moved[3]?.children?.[2]?.options ?? []) delete option.active;
+    const profile = moved[5]?.children?.[0];
+    if (profile !== undefined) profile.active = true;
+    sidebar.items = moved as unknown as NphSidebarEntry[];
+    await settle(sidebar);
+    expect(rail(sidebar, 3).active).toBe(false);
+    expect(rail(sidebar, 5).active).toBe(true);
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('a group with the current page inside shows the active look with its flyout open too', async () => {
+    const sidebar = await mount({ mode: 'collapsed' });
+    await userEvent.click(innerControl(rail(sidebar, 3)));
+    await entered(sidebar);
+    expect(rail(sidebar, 3).active).toBe(true);
+    expect(rail(sidebar, 3).expanded).toBe(true);
+  });
+});
+
 describe('the flyout panel of the collapsed menu', () => {
   it('opens on a click, next to the rail button, space/inline to the side and top aligned, with the name as the title', async () => {
     const sidebar = await mount({ mode: 'collapsed' });
@@ -1755,6 +1794,25 @@ describe('the panel menu: the block grows in place', () => {
     await steady(sidebar);
   });
 
+  it('the arrow of the group of the first level turns 180 degrees too, in the duration of the block (DSA-76 D-2)', async () => {
+    const sidebar = await mountMenu();
+    const arrowOf = (path: number): HTMLElement => item(sidebar, path).shadowRoot?.querySelector('.arrow') as HTMLElement;
+    const arrow = arrowOf(4);
+    expect(arrow.getAnimations()).toHaveLength(0);
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await sidebar.updateComplete;
+    expect(arrow.getAnimations().length).toBeGreaterThan(0);
+    const animation = arrow.getAnimations()[0] as Animation;
+    const keyframes = (animation.effect as KeyframeEffect).getKeyframes();
+    expect(keyframes.map((frame) => frame['transform'])).toEqual(['rotate(180deg)', 'rotate(0deg)']);
+    expect(Number(animation.effect?.getTiming().duration)).toBeCloseTo(Number.parseFloat(resolved('transition-duration', '--nph-panel-menu-expand-duration')) * 1000, 0);
+    await steady(sidebar);
+    await userEvent.click(innerControl(item(sidebar, 4)));
+    await sidebar.updateComplete;
+    expect(arrowOf(4).getAnimations().length).toBeGreaterThan(0);
+    await steady(sidebar);
+  });
+
   it('with reduced motion nothing moves: the block opens and closes at once, with no phase and no turn', async () => {
     await withReducedMotion(async () => {
       const sidebar = await mountMenu();
@@ -1764,6 +1822,7 @@ describe('the panel menu: the block grows in place', () => {
       await sidebar.updateComplete;
       expect(block.dataset['state']).toBe('open');
       expect(one(sidebar, '#block-4')?.hasAttribute('hidden')).toBe(false);
+      expect((item(sidebar, 4).shadowRoot?.querySelector('.arrow') as HTMLElement).getAnimations()).toHaveLength(0);
       const arrow = subgroup(sidebar, '2/1').querySelector('.subgroup-arrow') as HTMLElement;
       await userEvent.click(subgroup(sidebar, '2/1'));
       await sidebar.updateComplete;

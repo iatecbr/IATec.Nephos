@@ -353,11 +353,33 @@ describe('the group: the disclosure of an item with children (P116)', () => {
     expect((control(rail) as HTMLElement & { ariaControlsElements: readonly Element[] | null }).ariaControlsElements).toEqual([target]);
   });
 
-  it('a group with an href, active or a counter, or a type outside the two, renders nothing', async () => {
+  it('a group whose child is the current page shows the active look and the solid icon, with no aria-current (DSA-72 D-3)', async () => {
+    const rail = await mount({ type: 'group', href: '', active: true });
+    expect(icon(rail).variant).toBe('solid');
+    expect(control(rail).hasAttribute('aria-current')).toBe(false);
+    expect(control(rail).getAttribute('aria-expanded')).toBe('false');
+    const check = (): void => {
+      const style = getComputedStyle(control(rail));
+      expect(style.backgroundColor).toBe(resolved('background-color', '--nph-sidebar-rail-background-active'));
+      expect(style.color).toBe(resolved('color', '--nph-sidebar-rail-foreground-active'));
+    };
+    check();
+    await userEvent.hover(control(rail));
+    check();
+    rail.expanded = true;
+    await rail.updateComplete;
+    check();
+    rail.expanded = false;
+    rail.active = false;
+    await rail.updateComplete;
+    expect(icon(rail).variant).toBe('light');
+    expect(getComputedStyle(control(rail)).backgroundColor).not.toBe(resolved('background-color', '--nph-sidebar-rail-background-active'));
+  });
+
+  it('a group with an href or a counter, or a type outside the two, renders nothing', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     for (const [props, message] of [
       [{ type: 'group', href: '#x' }, /a group has no href/],
-      [{ type: 'group', href: '', active: true }, /never active/],
       [{ type: 'group', href: '', counter: 2 }, /a group has no counter/],
       [{ type: 'menu' }, /type "menu" does not exist/],
     ] as const) {
