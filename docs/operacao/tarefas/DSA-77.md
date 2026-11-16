@@ -122,7 +122,7 @@ Indiane chose the recommended option 1 on the previews in Figma (parent frame `6
 |---|---|---|---|
 | D-2 | F2 `6763:19532` | Same answer as DSA-72 D-1: `sidebar` and `repeat`, Font Awesome Light, enter nph-icon. The recurring event uses `repeat`, not `rotate-right`, which says "turn". | Changes in DSA-85. |
 | D-3 | F3 `6763:19639` | Not confirmed: component tokens, by rule T9. `scheduler/hour-height` → `core/space/900` (48); `scheduler/mini-month-cell-size` → `control/height-default` (36, as in Figma; the code uses `control/height-compact`, 28); `scheduler/list-time-width` → `core/space/1500` (144); `scheduler/list-time-width-compact` → `core/layout-width/list-time-compact` (72, new in core); `scheduler/month-row-min-height` → `core/space/1200` (96). | Tokens on `v/5.0.0` with DSA-84; the code uses them in DSA-85. |
-| D-4 | V9 `6757:19632` | Confirmed: the color swatch next to the checkbox in "My calendars" ("Meus calendários" in Figma); the color follows the name of the calendar and is not the only sign (WCAG 1.4.1). | Nothing changes. |
+| D-4 | V9 `6757:19632` | Confirmed: the color swatch next to the checkbox in "My calendars"; the color follows the name of the calendar and is not the only sign (WCAG 1.4.1). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

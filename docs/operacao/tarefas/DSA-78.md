@@ -101,7 +101,7 @@ Indiane chose the recommended option 1 on the previews in Figma (parent frame `6
 
 | ID | Preview | Answer | What the code does |
 |---|---|---|---|
-| D-2 | V10 `6759:19096` | Not confirmed: the "Show more" button ("Mostrar mais" in Figma) hides when the text fits in the three lines and nothing is cut (GitLab UI, truncate text). | Changes in DSA-85. |
+| D-2 | V10 `6759:19096` | Not confirmed: the "Show more" button hides when the text fits in the three lines and nothing is cut (GitLab UI, truncate text). | Changes in DSA-85. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
