@@ -33,26 +33,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "Should the foundation fix the brand and error colors on color/dialog in dark, for every component on a dialog? Inside a dialog, in dark, some fall below the contrast minimum (status/error-text 3.62, color/primary-text 4.02, focus/border and the current ring 2.56, error background 2.61). The stepper keeps its tokens. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-10"
-    },
-    {
-      "id": "D-3",
-      "question": "On the narrow width the stepper draws nph-progress of the steps type, which shows the position only: a step with an error does not show as an error there. Do you confirm it, or ask for the error status of the progress when a step has one? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    },
-    {
-      "id": "D-5",
-      "question": "The page may give a step a status that its position does not say, such as a pending step before the current one. The Figma draws only the position, and the connector follows the position too (brand before the current step, neutral after it). Do you confirm it, or ask for the connector to follow the status of the steps? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-73/figma-docs-accepted-2026-11-10.md",
     "docs/operacao/evidencias/DSA-73/review-and-merge-2026-11-11.md"
@@ -60,7 +41,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, nph-stepper: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 10 of the approval page approved (marker size, current ring width, completed connector, text column width and minimum connector width, current label on two lines, narrow width as nph-progress, vertical after nph-collapsible, two steps allowed, the other tokens only alias a semantic token)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -114,12 +96,21 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The 40 `stepper/*` tokens came with this task and are on `v/5.0.0`, with the new `core/layout-width/stepper-text` (160). `stepper/marker-size`, `stepper/marker-border-width-current`, `stepper/connector-min-width` and `stepper/text-max-width` go straight to core by decision; the others alias an existing semantic token. No new semantic token. The pieces inside are done: nph-icon (DSA-03), nph-tooltip (DSA-48) and nph-progress (DSA-65).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-2 in the chat on 2026-11-16, after market research with sources. D-4 was decided on that research by Claude, by her delegation. D-1, D-3 and D-5 stay open: they wait for a preview in Figma, in light and dark.
+Indiane answered D-2 in the chat on 2026-11-16, after market research with sources. D-4 was decided on that research by Claude, by her delegation. D-1, D-3 and D-5 were answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-2 | Confirmed: 37.5rem in a container query on the stepper, which reads its own width. | Nothing changes. |
 | D-4 | Partly confirmed. The hover background only on the steps that can be activated: confirmed. The balloon of a cut label on a pending step: not a focusable span with no role, but a focusable element with a role and `aria-disabled`, so the screen reader names it (APG, focusability of disabled controls); the balloon comes from the same nph-tooltip change as DSA-71 D-1. | Changes in DSA-82. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-1 | F1 `6762:19442` | Yes, the foundation fixes it at the source, with existing primitives (T9). Dark only: `status/error-text` → `core/danger/200`, `status/error` → `core/danger/300`, `color/primary-border` → `theme/brand-200` in the 7 brands, and `theme/brand-text-dark` one tone lighter in Gerencial, Comercial, Financeiro and Recursos Humanos. Light does not change. | Nothing in the component: the tokens are on `v/5.0.0` with DSA-84. |
+| D-3 | V3 `6754:18370` | Not confirmed: on the narrow width, nph-progress shows the error status when a step has an error, so the narrow screen does not lose information (WCAG 1.4.10). | Changes in DSA-85. |
+| D-5 | V4 `6754:18585` | Not confirmed: the connector follows the status of the steps. Only the line after a completed step takes the brand color; a pending step before the current one (skipped) keeps a neutral line (Carbon, progress indicator). | Changes in DSA-85. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

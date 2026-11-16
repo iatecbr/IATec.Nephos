@@ -41,26 +41,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-2",
-      "question": "The sidebar button needs the sidebar icon, which is not in nph-icon, and the recurring event uses rotate-right until repeat is. The code keeps the place of the sidebar icon with an nph-skeleton, as nph-sidebar does (P116). Indiane frees the foundation task that adds sidebar and repeat to nph-icon. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
-      "id": "D-3",
-      "question": "No token states the height of an hour (twice scheduler/event-min-height), the cell of the mini month (control/height-compact), the time of a list row (three times scheduler/time-column-width), the time of a phone row (one and a half times it) and the minimum of a month row (four times scheduler/event-min-height). Indiane confirms them or gives tokens. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
-      "id": "D-4",
-      "question": "\"My calendars\" shows the color of each calendar as a swatch (icon/size-sm, the surface and the bar color of the event) beside the checkbox; the evidence names the checkbox only. Indiane confirms the swatch. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-77/figma-docs-accepted-2026-11-12.md",
     "docs/operacao/evidencias/DSA-77/review-and-merge-2026-11-13.md"
@@ -68,7 +49,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-scheduler: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, and the twelve points of the approval page approved (event color property with primary and seven vertical colors, name nph-scheduler and tokens scheduler/*, extended descriptions of color/border-subtle and core/space/900, container padding, minimum event height of 24 px, same focus on day, month and list rows and cancelled event, each event a Tab stop, \"+N more\" to the day view, provisional pieces until the owner piece, focus of the primary nph-button in dark mode outside this task, past and tentative events outside v1, side panel in every desktop view)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -124,7 +106,7 @@ The pieces by instance use their own tokens: nph-button, nph-icon-button, nph-se
 The tokens (`event/<color>-*` and `scheduler/*`) came with this task and are on `v/5.0.0`. All of them are aliases of semantic tokens or of the `event/<color>-*` group, except seven that point straight to core by decision: `scheduler/event-dot-size` on `core/space/100`, `scheduler/event-indicator-width`, `scheduler/today-indicator-width` and `scheduler/now-indicator-width` on `core/focus-width/sm`, `scheduler/time-column-width` on `core/space/900`, `scheduler/now-indicator-size` on `core/space/200` and `scheduler/event-min-height` on `core/target-size/minimum`; the evidence says why for each one. No new value entered the core. The pieces used by instance are done: nph-icon (DSA-03), nph-button (DSA-13, DSA-43), nph-checkbox (DSA-17), nph-avatar and nph-avatar-stack (DSA-24, DSA-25), nph-skeleton (DSA-26), nph-select (DSA-29), nph-empty (DSA-40), nph-dropdown-menu (DSA-45) and nph-popover (DSA-67). The date-picker grid has no task in the repository yet; the mini month is provisional until it exists.
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-1, D-5, D-6 and D-7 in the chat on 2026-11-16, after market research with sources. D-2, D-3 and D-4 stay open: they wait for a preview in Figma, in light and dark.
+Indiane answered D-1, D-5, D-6 and D-7 in the chat on 2026-11-16, after market research with sources. D-2, D-3 and D-4 were answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
@@ -132,6 +114,15 @@ Indiane answered D-1, D-5, D-6 and D-7 in the chat on 2026-11-16, after market r
 | D-5 | Confirmed: a day only hands its date to the screen (`nph-day-click`). | Nothing changes. |
 | D-6 | Confirmed: the mechanism of the detail popover belongs to the scheduler and its content to the product, through the `detail` and `detail-footer` slots. | Nothing changes. |
 | D-7 | Confirmed: the all-day band comes before the grid in the Tab order, following the visual reading from top to bottom (WCAG 2.4.3). | Nothing changes. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-2 | F2 `6763:19532` | Same answer as DSA-72 D-1: `sidebar` and `repeat`, Font Awesome Light, enter nph-icon. The recurring event uses `repeat`, not `rotate-right`, which says "turn". | Changes in DSA-85. |
+| D-3 | F3 `6763:19639` | Not confirmed: component tokens, by rule T9. `scheduler/hour-height` → `core/space/900` (48); `scheduler/mini-month-cell-size` → `control/height-default` (36, as in Figma; the code uses `control/height-compact`, 28); `scheduler/list-time-width` → `core/space/1500` (144); `scheduler/list-time-width-compact` → `core/layout-width/list-time-compact` (72, new in core); `scheduler/month-row-min-height` → `core/space/1200` (96). | Tokens on `v/5.0.0` with DSA-84; the code uses them in DSA-85. |
+| D-4 | V9 `6757:19632` | Confirmed: the color swatch next to the checkbox in "My calendars" ("Meus calendários" in Figma); the color follows the name of the calendar and is not the only sign (WCAG 1.4.1). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

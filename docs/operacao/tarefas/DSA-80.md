@@ -39,20 +39,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The accepted documentation recommends the panel near the top of the window (about 16% of its height) so it does not jump while the list filters, and says there is no token for that offset. The code keeps the panel centered, as the nph-dialog does, because a literal would break the token rule. Does Indiane confirm the centered panel until a token for the offset exists, or send the token? Recommended: confirm, and bring the offset as a token in the next token round. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-14"
-    },
-    {
-      "id": "D-3",
-      "question": "DSA-46 D-3 puts the rest of a searched label in color/muted-foreground. On a destructive command that would turn the part that was not searched gray and take the signal from the label, so the code keeps the destructive color on the rest and only the searched stretch is heavier. Does Indiane confirm, or is the rest muted there too? Recommended: confirm. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-14"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-80/figma-docs-accepted-2026-11-12.md",
     "docs/operacao/evidencias/DSA-80/review-and-merge-2026-11-14.md"
@@ -61,7 +48,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-11.md, nph-command: Proposal 1 accepted (soft dialog panel without outline, large field in focus, groups separated by space, shortcut as text, footer of hints with nph-kbd)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-command: visual acceptance of the root with the two changes (lines in color/dialog-separator, radius 10), documentation accepted, and the open points answered as recommended (Pend. 2, 3, 5, 9, 10, 14, 15); Pend. 12 and 13 go to one foundation task (DSA-81); a finished component enters the first version",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -112,12 +100,20 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The 15 `command/*` tokens came with this task and are on `v/5.0.0`, all aliases of existing semantics. No new value entered the core. Every piece it uses is done: `nph-icon` (DSA-03), `nph-spinner` (DSA-09), `nph-separator` (DSA-10), `nph-kbd` (DSA-11), `nph-input` (DSA-16), `nph-empty` (DSA-40), `nph-dialog` (DSA-44), `nph-dropdown-menu` (DSA-45), `nph-combobox` (DSA-46).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-2 and D-4 in the chat on 2026-11-16, after market research with sources. D-1 and D-3 stay open: they wait for a preview in Figma, in light and dark.
+Indiane answered D-2 and D-4 in the chat on 2026-11-16, after market research with sources. D-1 and D-3 were answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-2 | Confirmed: the panel keeps the 560 width (`command/max-width`) while the list filters. | Nothing changes. |
 | D-4 | Confirmed: `command/search-padding` stays 4; one clipped pixel of the halo does not hide the focused field (WCAG 2.4.11). | Nothing changes. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-1 | F4 `6763:20858` | Confirmed the provisional centered panel until the token exists; then the panel opens near the top, at 16% of the window height, so the search field does not jump while the list filters (VS Code command palette). Token by T9: `command/offset-top` → `core/layout-offset/top` (16%, new in core), already in Figma. | Changes in DSA-85: the build takes a percentage dimension; then the token enters the sources and the panel opens at 16% of the window height from the top. |
+| D-3 | V11 `6759:19176` | Confirmed: in a destructive command the rest of the label keeps the destructive color and only the matched part gets stronger; color is not the only sign, but it does not disappear (WCAG 1.4.1). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, with the `nph-dialog` option.

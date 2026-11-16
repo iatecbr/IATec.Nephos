@@ -36,14 +36,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-2",
-      "question": "The disabled item receives focus by the arrows (APG, focusability of disabled controls), and Figma has no disabled-with-focus variant. Does the focus border fade with the item under state/disabled-opacity, or stay on top at full opacity? Recommended: on top, at full opacity, because WCAG 2.4.7 asks for a visible focus indicator and has no exception for inactive items, while the faded item stays exempt from contrast (WCAG 1.4.11). Until decided, draw the border on top at full opacity; it is a visual detail and does not block the build of the other states.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-75/figma-docs-accepted-2026-11-11.md",
     "docs/operacao/evidencias/DSA-75/review-and-merge-2026-11-11.md"
@@ -51,7 +44,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-11.md, nph-tree: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 16 of the approval page approved (chevron of the selected item on color/primary-text, icon of the folder and of the file on color/muted-foreground and color/primary-text when selected, the uses outside the description and the new descriptions, item height 36, hover on color/accent, focus inside the row, hover that does not move the focus, error row inside the group, spinner in place of the chevron and skeleton only on the first load, no depth limit, no guide lines, focus over hover, indent 24, the checkbox with its own hover); pending point 7 stays open",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -108,11 +102,18 @@ The pieces inside the item use their own tokens: nph-checkbox, nph-icon, nph-spi
 The 25 tokens (`tree/*`) came with this task and are on `v/5.0.0`. They are all aliases of semantic tokens, except `tree/indent` on `core/space/600` and `tree/indicator-width` and `tree/focus-border-width` on `core/focus-width/sm`, by decision. No new value entered the core. The pieces inside are done: nph-icon (DSA-03), nph-spinner (DSA-09), nph-checkbox (DSA-17), nph-skeleton (DSA-26), nph-empty (DSA-40) and nph-tooltip (DSA-48).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-1 in the chat on 2026-11-16, after market research with sources. D-2 stays open: it waits for a preview in Figma, in light and dark.
+Indiane answered D-1 in the chat on 2026-11-16, after market research with sources. D-2 was answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-1 | Confirmed: keep both. The Tree Table reuses the tree cell of nph-table (a treegrid, whose rows have cells and widgets) and stays apart from nph-tree (APG treegrid pattern). | Nothing changes; the plan of the Tree Table follows this answer. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-2 | V7 `6753:18020` | Confirmed: the focus border draws over the disabled item at full opacity; the dimmed item stays exempt from contrast (WCAG 2.4.7 and 1.4.11, APG keyboard interface). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

@@ -38,20 +38,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The collapse button icon is sidebar (Font Awesome, light), and it is not in nph-icon yet. Adding it to nph-icon is a foundation task that is not open. Until then, the code keeps the place of the icon and does not invent another icon. Indiane frees the foundation task. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-10"
-    },
-    {
-      "id": "D-3",
-      "question": "In the collapsed menu, the rail button of a group is never active (a group is never the current page), so nothing shows that the current page is inside a group until its flyout panel opens. Indiane confirms it, or asks for an active look on the rail button of the group that holds the current page. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-72/figma-docs-accepted-2026-11-10.md",
     "docs/operacao/evidencias/DSA-72/review-and-merge-2026-11-11.md"
@@ -60,7 +47,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, nph-sidebar: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 6), and items 7 to 21 of the approval page approved (color/primary-text on the active item, the open group and the flyout title; active rail button and corner button on color/primary and color/primary-foreground; sidebar/flyout-border on color/border-subtle; sidebar/scrim; sidebar/mobile-offset; focus/border on the approved pieces; label without uppercase; open option only with options; the sidebar icon in nph-icon; radius exceptions; descriptions and missing tokens; cleanup; the logo in dark with the brand)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, the second step of the nph-sidebar released by Indiane, and the flyout panel radius at 12 (sidebar/flyout-radius, as nph-dropdown-menu)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -112,12 +100,20 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The `sidebar/*` tokens came with this task and are on `v/5.0.0`: the active rail pair and the flyout border now on their new aliases, `sidebar/scrim`, `sidebar/mobile-offset`, `sidebar/flyout-radius` (12, as nph-dropdown-menu), and `sidebar/panel-width` (alias of `layout/sidebar-expanded`), `sidebar/rail-padding`, `sidebar/logo-max-height` and `sidebar/logo-mark-size`, which Figma had and the code did not, with `core/space/500`, `core/layout-height/sidebar-logo` and `core/layout-height/sidebar-logo-mark`. `core/layout-width/sidebar-collapsed` and `core/layout-width/sidebar-expanded` now have the Figma values, 80 and 256. No new semantic token: `color/primary-text` is already on `v/5.0.0`. The pieces inside are done: nph-icon (DSA-03), nph-button (DSA-13), nph-input (DSA-16), nph-skeleton (DSA-26), nph-icon-button (DSA-43), nph-tooltip (DSA-48) and nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button (DSA-53).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-2 and D-4 in the chat on 2026-11-16, after market research with sources. D-1 and D-3 stay open: they wait for a preview in Figma, in light and dark.
+Indiane answered D-2 and D-4 in the chat on 2026-11-16, after market research with sources. D-1 and D-3 were answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-2 | Confirmed as provisional: the dark logo does not ship until the brand team confirms which version goes on a dark background. Indiane takes the question to the brand; a new task carries the answer. | Nothing changes. |
 | D-4 | Confirmed: the flyout panel takes the width its options need, between a line of the expanded menu and `layout/input-width`, and the other measures come from existing tokens (P116). | Nothing changes. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-1 | F2 `6763:19532` | Confirmed: the foundation task puts `sidebar` and `repeat`, Font Awesome Light, in nph-icon. In Figma both are already in nph-icon (`sidebar` `5876:219326`, `repeat` `6791:116`). | Changes in DSA-85: the icons enter the code of nph-icon and the collapse button draws `sidebar` instead of the skeleton. |
+| D-3 | V2 `6754:18026` | Not confirmed: in the collapsed menu, the rail button of the group that holds the current page shows the active state (Fluent 2 Nav, Salt vertical navigation). | Changes in DSA-85. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

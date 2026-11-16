@@ -33,14 +33,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-2",
-      "question": "The preview type draws its Show more button even when the text has fewer than three lines, since the documentation does not say otherwise. Does the button go away when nothing is cut? Recommended: keep it, so the piece does not measure the text and the page owns the choice of the type. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-78/figma-docs-accepted-2026-11-12.md",
     "docs/operacao/evidencias/DSA-78/review-and-merge-2026-11-13.md"
@@ -48,7 +41,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-collapsible: visual acceptance of the root, documentation accepted, and the points of the approval answered (the collapsible defines the anatomy and the values, and the accordion item later becomes an instance of it, after both are accepted, with nothing in the accordion changed now; card outline in color/border at border/width and no outline in the default appearance; paddings kept on space/inline, space/inline-tight and space/control-padding; collapsible/content-padding-top on space/stack-snug so the focus ring does not touch the content; the other tokens only alias a semantic and the component enters v1)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -95,12 +89,19 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The tokens (`collapsible/*`) came with this task and are on `v/5.0.0`. All of them are aliases of semantic tokens. No new value entered the core. The pieces used by instance are done: nph-icon (DSA-03) and nph-button (DSA-13, DSA-43).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-1 and D-3 in the chat on 2026-11-16, after market research with sources. D-2 stays open: it waits for a preview in Figma, in light and dark.
+Indiane answered D-1 and D-3 in the chat on 2026-11-16, after market research with sources. D-2 was answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-1 | Confirmed: the preview type lifts the cut at three lines with no movement. | Nothing changes. |
 | D-3 | Confirmed as an exception to the motion rule of `design.md`: the expansion of a disclosure grows its grid rows in `motion/expand-*`; with reduced motion nothing moves (Radix Collapsible animates the content height). | Nothing changes in the code. Writing the exception into the motion rule of `design.md` is Claude's, and waits for Indiane's release. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-2 | V10 `6759:19096` | Not confirmed: the "Show more" button ("Mostrar mais" in Figma) hides when the text fits in the three lines and nothing is cut (GitLab UI, truncate text). | Changes in DSA-85. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

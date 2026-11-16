@@ -481,8 +481,8 @@ tokens_semantic:
   color/primary-border:
     css: '--nph-color-primary-border'
     claro: theme/brand-600
-    escuro: theme/brand-300
-    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands. Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line before the current step (stepper/connector-background-complete): a 1 px line reads as a border, so the no-fill rule does not apply to it. Also the border of the nph-file-upload drop zone while a file is dragged over it (file-upload/border-dragging), which marks the target. Also the 2 px bar that marks the selected item over color/primary-surface (tree/indicator-background, nph-tree), where color/primary does not reach 3:1 in dark. Also the event bar, the event dot, the today mark and the now line of the nph-scheduler (scheduler/event-indicator, scheduler/event-dot, scheduler/today-indicator, scheduler/now-indicator)."
+    escuro: theme/brand-200
+    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it is theme/brand-200, because the dark primary does not reach 3:1 as an outline in two of the seven brands, and theme/brand-300 fell below 3:1 on color/dialog in Gerencial (2.56:1), Igrejas (2.93:1) and Recursos Humanos (2.64:1); with brand-200 the lowest on color/dialog is 4.27:1 (DSA-84, same rule as focus/border in DSA-81). Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line after a completed step (stepper/connector-background-complete; the code follows the status of the steps after DSA-85): a 1 px line reads as a border, so the no-fill rule does not apply to it. Also the border of the nph-file-upload drop zone while a file is dragged over it (file-upload/border-dragging), which marks the target. Also the 2 px bar that marks the selected item over color/primary-surface (tree/indicator-background, nph-tree), where color/primary does not reach 3:1 in dark. Also the event bar, the event dot, the today mark and the now line of the nph-scheduler (scheduler/event-indicator, scheduler/event-dot, scheduler/today-indicator, scheduler/now-indicator)."
   color/link:
     css: '--nph-color-link'
     claro: theme/brand-600
@@ -735,8 +735,8 @@ tokens_semantic:
   status/error:
     css: '--nph-status-error'
     claro: core/danger/600
-    escuro: core/danger/400
-    use: "Solid color of the state: icon, dot, message bar. Error that has already happened: validation failed, request broke. Also the border of an invalid field — the field that failed validation. And the asterisk that marks a required field in nph-label: there it is a notice of requirement, not an error. Also the background of the nph-stepper step marker with an error (stepper/marker-background-error). Also the border of the nph-file-upload drop zone in the error state in light mode (file-upload/border-error; in dark mode core/alpha/danger-400-40), and the icon and the reason of the error in the zone and in the nph-file-upload-item (file-upload/icon-foreground-error, file-upload/error-foreground, file-upload-item/icon-foreground-error, file-upload-item/error-foreground). Also the icon of the nph-tree error row (tree/error-icon-foreground)."
+    escuro: core/danger/300
+    use: "Solid color of the state: icon, dot, message bar. Error that has already happened: validation failed, request broke. Also the border of an invalid field — the field that failed validation. And the asterisk that marks a required field in nph-label: there it is a notice of requirement, not an error. Also the background of the nph-stepper step marker with an error (stepper/marker-background-error). Also the border of the nph-file-upload drop zone in the error state in light mode (file-upload/border-error; in dark mode core/alpha/danger-400-40), and the icon and the reason of the error in the zone and in the nph-file-upload-item (file-upload/icon-foreground-error, file-upload/error-foreground, file-upload-item/icon-foreground-error, file-upload-item/error-foreground). Also the icon of the nph-tree error row (tree/error-icon-foreground). In dark it is core/danger/300 since DSA-84: core/danger/400 measured 2.61:1 on color/dialog, below the 3:1 of a control part; core/danger/300 measures 3.62:1."
     nao_use: "destructive action by the user; error text over a neutral surface (status/error-text)"
   status/error-surface:
     css: '--nph-status-error-surface'
@@ -756,8 +756,8 @@ tokens_semantic:
   status/error-text:
     css: '--nph-status-error-text'
     claro: core/danger/600
-    escuro: core/danger/300
-    use: "Validation error text over a neutral surface (color/popover, color/background, color/card): the error message of nph-field. Passes 4.5:1 over the popover in dark, where status/error does not. Also the label and the reason (description) of the nph-stepper step with an error (stepper/label-foreground-error, stepper/description-foreground-error)."
+    escuro: core/danger/200
+    use: "Validation error text over a neutral surface (color/popover, color/background, color/card, color/dialog): the error message of nph-field. In dark it is core/danger/200 since DSA-84 (5.12:1 on color/dialog, the same as color/destructive-text); core/danger/300 measured 3.62:1 there. Also the label and the reason (description) of the nph-stepper step with an error (stepper/label-foreground-error, stepper/description-foreground-error)."
     nao_use: "Destructive action; text over status/error-surface (status/error-foreground); icon, dot or bar (status/error)."
   status/success:
     css: '--nph-status-success'
@@ -1283,8 +1283,8 @@ tokens_theme:
     use: "Focus halo tone in dark mode, consumed only by focus/halo. In each brand it is darker than the dark focus border (theme/brand-200), which measures from 5,02:1 to 6,74:1 against it; `Educacao` uses 800. Do not use for fill, border or text."
   theme/brand-text-dark:
     css: '--nph-theme-brand-text-dark'
-    valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Educacao`, `Comercial` and `Financeiro`; core/<vertical>/200 in `Gerencial`, `Igrejas` and `Recursos Humanos`"
-    use: "Brand tone for text and icon on background, card or popover in dark mode, consumed by color/primary-text and color/link. In each brand it measures at least 4.5:1 on core/surface/700 and on the nph-sidebar panel (theme/brand-800); lowest: 5.2:1 in `Financeiro`. Do not use for fill or border."
+    valor_por_modo: "core/<vertical>/300 in `Sistemas` and `Educacao`; core/<vertical>/200 in `Comercial`, `Financeiro` and `Igrejas`; core/<vertical>/100 in `Gerencial` and `Recursos Humanos`"
+    use: "Brand tone for text and icon on background, card, popover or dialog in dark mode, consumed by color/primary-text and color/link. In each brand it measures at least 4.5:1 on core/surface/700, on the nph-sidebar panel (theme/brand-800) and on color/dialog. Since DSA-84, one tone lighter in `Gerencial`, `Comercial`, `Financeiro` and `Recursos Humanos`, which fell below 4.5:1 on color/dialog (4.02:1 to 4.43:1). Do not use for fill or border."
   theme/brand-400-hover:
     css: '--nph-theme-brand-400-hover'
     valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial`, `Igrejas` and `Recursos Humanos`; core/educacao/800 in `Educacao`"
@@ -1399,6 +1399,8 @@ tokens_core_space:
   '900':  { valor: 48, rem: '3rem',     css: '--nph-core-space-900' }
   '1000': { valor: 64, rem: '4rem',     css: '--nph-core-space-1000' }
   '1100': { valor: 80, rem: '5rem',     css: '--nph-core-space-1100' }
+  '1200': { valor: 96, rem: '6rem',     css: '--nph-core-space-1200' }
+  '1500': { valor: 144, rem: '9rem',    css: '--nph-core-space-1500' }
 
 tokens_space:
   space/inline-tight:
@@ -1481,7 +1483,7 @@ tokens_control:
     css: '--nph-control-height-default'
     alias: core/control-height/default
     valor: 36
-    use: "Default height of button, field and select. When in doubt, it is this one. Also the height of the nph-tree item and of its error row (tree/item-height). Also the height of the nph-panel-menu subgroup (panel-menu/subgroup-height). Also the minimum height of the nph-collapsible trigger in the default size (collapsible/trigger-height). Also the height of the nph-menubar top item (menubar/trigger-height)."
+    use: "Default height of button, field and select. When in doubt, it is this one. Also the height of the nph-tree item and of its error row (tree/item-height). Also the height of the nph-panel-menu subgroup (panel-menu/subgroup-height). Also the minimum height of the nph-collapsible trigger in the default size (collapsible/trigger-height). Also the side of the day cell in the nph-scheduler mini month (scheduler/mini-month-cell-size). Also the height of the nph-menubar top item (menubar/trigger-height)."
   control/height-large:
     css: '--nph-control-height-large'
     alias: core/control-height/large
@@ -1864,6 +1866,7 @@ tokens_core_layout:
   core/layout-width/switch-track:      { valor: 40, css: '--nph-core-layout-width-switch-track', alias_de: 'switch/track-width' }
   core/layout-width/switch-track-sm:   { valor: 32, css: '--nph-core-layout-width-switch-track-sm', alias_de: 'switch/track-width-sm' }
   core/layout-width/stepper-text:      { valor: 160, css: '--nph-core-layout-width-stepper-text', alias_de: 'stepper/text-max-width' }
+  core/layout-width/list-time-compact: { valor: 72, css: '--nph-core-layout-width-list-time-compact', alias_de: 'scheduler/list-time-width-compact' }
 
 # ---------------------------------------------------------------
 # PRIMITIVES WITHOUT A CONSUMER - they exist in Figma and NO semantic
@@ -1884,11 +1887,9 @@ tokens_core_sem_consumidor:
     '1000': { valor: 26 }
 
   space_degraus_altos:
-    nota: 'Four steps above core/space/1100.'
-    '1200': { valor: 96 }
+    nota: 'Two steps above core/space/1100. 1200 and 1500 left this block in DSA-84: they now have consumers and are in tokens_core_space.'
     '1300': { valor: 112 }
     '1400': { valor: 128 }
-    '1500': { valor: 144 }
 
   space_fora_de_escala:
     nota: 'Twelve values that do NOT belong to the base-4 scale with a half-step of 2. None has a consumer and none has a recorded justification. DO NOT treat them as a scale.'

@@ -34,14 +34,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-2",
-      "question": "The accepted documentation says the arrow turns 180 degrees in the panel menu. The arrow of the subgroup turns; the group item of the first level, an approved piece of DSA-53, swaps chevron-down and chevron-up without turning, and this task does not change the item. Indiane decides whether the item should turn too, in another task. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-15"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-76/figma-docs-accepted-2026-11-11.md",
     "docs/operacao/evidencias/DSA-76/review-and-merge-2026-11-15.md"
@@ -49,7 +42,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-11.md, panel menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 8 of the approval page approved (panel-menu/nest-gap on core/space/300, panel-menu/label-gap on space/stack-snug, a navigation mode of the nph-sidebar with no new public tag, it enters v1 as a mode of the nph-sidebar in a new task linked to DSA-72, the group of the current page and its parents are born open, collapsed and mobile follow the nph-sidebar, several groups open at once); item 9 had no decision, it is only a record",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -109,12 +103,19 @@ This task was `blocked` only until DSA-72 was merged: the panel menu is a mode o
 The 29 tokens (`panel-menu/*`) came with this task and are on `v/5.0.0`. They are all aliases of semantic tokens, except `panel-menu/nest-gap` on `core/space/300`, by decision. No new value entered the core. The pieces inside are done: nph-sidebar-item and sub item (DSA-53), nph-skeleton (DSA-26), nph-tooltip (DSA-48) and the nph-sidebar (DSA-72).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-1 in the chat on 2026-11-16, after market research with sources. D-3 was decided on that research by Claude, by her delegation. D-2 stays open: it waits for a preview in Figma, in light and dark.
+Indiane answered D-1 in the chat on 2026-11-16, after market research with sources. D-3 was decided on that research by Claude, by her delegation. D-2 was answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-1 | Confirmed: the section label of the panel menu has no vertical padding of its own; the gaps are exactly `panel-menu/label-gap` and `panel-menu/section-gap`. | Nothing changes. |
 | D-3 | Not confirmed: when the product sends a new current page, its parent groups open; a group the person closed stays closed only while the current page is the same (Spectrum side navigation, Salt vertical navigation). | Changes in DSA-82. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-2 | V8 `6757:19138` | Not confirmed: the first-level item chevron also turns 180°, like the subgroup, as the accepted documentation says, so the menu has one behavior. | Changes in DSA-85. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

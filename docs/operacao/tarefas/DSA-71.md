@@ -34,14 +34,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-4",
-      "question": "In the segmented and the tab button styles with many tabs, the code cuts the label with an ellipsis and a balloon instead of scrolling. The documentation asks for few tabs there and leaves the overflow to the code. She confirms this or asks for scrolling in those styles too. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-09"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-71/figma-docs-accepted-2026-11-09.md",
     "docs/operacao/evidencias/DSA-71/review-and-merge-2026-11-09.md"
@@ -49,7 +42,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, nph-tabs: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 9 points of the approval page approved (color/primary-text on the active label and line, active counter on theme/brand-200 and theme/brand-700, indicator width on core/focus-width/sm, soft border on the active outline tab button, the solid tab button limit in dark, the label on text/label-md, the accessible name of the counter, the swap of the old instances); a finished component enters the first version",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -98,7 +92,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The fifty `tabs/*` tokens came with this task and are on `v/5.0.0`, with `core/alpha/white-15`, which Figma had and the code did not. No new semantic token: the active label and line use `color/primary-text`, already on `v/5.0.0`. The pieces inside are done: nph-icon (DSA-03), nph-badge (DSA-12), nph-icon-button (DSA-43) and nph-tooltip (DSA-48).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-2, D-3 and D-5 in the chat on 2026-11-16, after market research with sources. D-1 was decided on that research by Claude, by her delegation. D-4 stays open: it waits for a preview in Figma, in light and dark.
+Indiane answered D-2, D-3 and D-5 in the chat on 2026-11-16, after market research with sources. D-1 was decided on that research by Claude, by her delegation. D-4 was answered the same day on the previews in Figma: see the next section.
 
 | ID | Answer | What the code does |
 |---|---|---|
@@ -106,6 +100,13 @@ Indiane answered D-2, D-3 and D-5 in the chat on 2026-11-16, after market resear
 | D-2 | Confirmed, with a default: the two properties stay and override a default name (pt-BR `Rolar para a esquerda` and `Rolar para a direita`), so the arrows never vanish when the product forgets the text (Carbon Tabs does the same). How the default is localized is the code owner's choice. | Changes in DSA-82. |
 | D-3 | Confirmed: 99+ above 99, with the full number in the hidden context text. | Nothing changes. |
 | D-5 | Confirmed: the arrows stay out of the Tab order (`tabindex="-1"`) and keep their name; the axe rule `aria-hidden-focus` is not broken. | Nothing changes. |
+
+## Decisions answered on 2026-11-16 on the Figma previews
+Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
+
+| ID | Preview | Answer | What the code does |
+|---|---|---|---|
+| D-4 | V1 `6753:17857` | Confirmed: in the segmented and tab-button styles a long label is cut with an ellipsis and the whole text shows in the balloon, and the documentation keeps asking for few tabs in those styles (Carbon, content switcher). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
