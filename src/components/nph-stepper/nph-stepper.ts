@@ -39,7 +39,9 @@
  * DSA-48). The status is hidden text at the start of the step, with no hidden text on the current step
  * (the attribute says it); the marker is `aria-hidden`; the description and "Optional" are part of the
  * step, so the reason of an error is read. The connector is decorative: it has no list item of its own
- * and is hidden from assistive technology.
+ * and is hidden from assistive technology. It follows the status of the step before it, not the position:
+ * only the line after a completed step takes the brand color, and a pending step before the current one
+ * keeps a neutral line (DSA-73 D-5).
  *
  * COMBINED STATES (rule T11) — completed + disabled keeps the background and the check under the
  * disabled opacity. Error + disabled: disabled wins, the marker goes back to the pending one, the
@@ -55,7 +57,8 @@
  * `stepper/connector-min-width`. When the room runs short, the text column of the steps gives up its room
  * first, down to nothing, and the marker and the connector keep their structural minimum: below the sum
  * of those minimums the list scrolls sideways and takes the Tab key itself (P117). Below 600 px of its own width the stepper becomes `nph-progress` of
- * the steps type, with "Step 2 of 4" and the current label (DSA-65). It measures the host, not the
+ * the steps type, with "Step 2 of 4" and the current label (DSA-65); when a step has an error, the bar takes the
+ * error status at that step, with a help text that names it (DSA-73 D-3). It measures the host, not the
  * window; a query does not accept a custom property, so the 600 px is written in the CSS, as the
  * breakpoint of `nph-dialog` is (P87). The stepper stretches to the width of where it lives: in a
  * shrink-to-fit parent, give it a width.
@@ -506,20 +509,53 @@ export class NphStepper extends LitElement {
     return html`<li class="item" data-status=${look} data-clickable=${this.clickable(index) ? 'true' : 'false'}>
       ${this.renderStep(index, look)}${last
         ? nothing
-        : html`<span class="connector" data-complete=${index + 1 < this.current ? 'true' : 'false'} aria-hidden="true"></span>`}
+        : html`<span class="connector" data-complete=${this.statusOf(index) === 'completed' ? 'true' : 'false'} aria-hidden="true"></span>`}
     </li>`;
   }
 
+  /**
+   * The first step that looks like an error, as its index, or -1. A disabled error step looks pending and is not
+   * one here (rule T11), as in the wide list.
+   */
+  private errorIndex(): number {
+    return this.steps.findIndex((_, index) => this.lookOf(index) === 'error');
+  }
+
+  /** The help text of the narrow bar on error: what failed, as the wide list reads it (the status word, the label and the reason). */
+  private errorHelp(index: number): string {
+    const step = this.steps[index] as NphStep;
+    const reason = text(step.description);
+    const name = [text(this.errorLabel), text(step.label)].filter((part) => part !== '').join(': ');
+    return reason === '' ? name : `${name}. ${reason}`;
+  }
+
+  /**
+   * The narrow width keeps what the list says: with a step in error the bar shows the error status at that step,
+   * with the help that names it, so the narrow screen does not lose the information (DSA-73 D-3, WCAG 1.4.10).
+   * Without an error the bar shows the current step, as before.
+   */
   private renderNarrow(): TemplateResult {
     const label = text((this.steps[this.current - 1] as NphStep).label);
-    return html`<nph-progress
-      class="narrow"
-      type="steps"
-      steps=${String(this.steps.length)}
-      step=${String(this.current)}
-      label=${label}
-      value-text=${this.progressText()}
-    ></nph-progress>`;
+    const failed = this.errorIndex();
+    return failed === -1
+      ? html`<nph-progress
+          class="narrow"
+          type="steps"
+          steps=${String(this.steps.length)}
+          step=${String(this.current)}
+          label=${label}
+          value-text=${this.progressText()}
+        ></nph-progress>`
+      : html`<nph-progress
+          class="narrow"
+          type="steps"
+          status="error"
+          steps=${String(this.steps.length)}
+          step=${String(failed + 1)}
+          label=${label}
+          value-text=${this.progressText()}
+          help=${this.errorHelp(failed)}
+        ></nph-progress>`;
   }
 
   protected override render(): TemplateResult | typeof nothing {

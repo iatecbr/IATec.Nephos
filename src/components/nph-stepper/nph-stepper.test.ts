@@ -801,6 +801,22 @@ describe('the marker, the label and the connector', () => {
     expect(lines[2]).toBe(color('--nph-stepper-connector-background'));
   });
 
+  it('the connector follows the status of the step before it: a skipped pending step keeps the neutral line (DSA-73 D-5)', async () => {
+    const steps: NphStep[] = [{ label: 'Account' }, { label: 'Address', status: 'pending' }, { label: 'Payment' }, { label: 'Review' }];
+    const stepper = await mount({ steps, current: 3 });
+    const lines = connectors(stepper).map((connector) => getComputedStyle(connector).borderTopColor);
+    expect(lines[0]).toBe(color('--nph-stepper-connector-background-complete'));
+    expect(lines[1]).toBe(color('--nph-stepper-connector-background'));
+    expect(lines[2]).toBe(color('--nph-stepper-connector-background'));
+    expect(connectors(stepper).map((connector) => connector.dataset.complete)).toEqual(['true', 'false', 'false']);
+  });
+
+  it('a step with an error before the current one also keeps the neutral line; only a completed step brings the brand one', async () => {
+    const steps: NphStep[] = [{ label: 'Account', status: 'error' }, { label: 'Address' }, { label: 'Payment' }, { label: 'Review' }];
+    const stepper = await mount({ steps, current: 3 });
+    expect(connectors(stepper).map((connector) => connector.dataset.complete)).toEqual(['false', 'true', 'false']);
+  });
+
   it('the connector fills the space between the steps', async () => {
     const stepper = await mount({}, '60rem');
     const widths = connectors(stepper).map((connector) => connector.getBoundingClientRect().width);
@@ -1143,6 +1159,32 @@ describe('the narrow width', () => {
     holder.style.inlineSize = '60rem';
     await vi.waitFor(() => expect(getComputedStyle(wide(stepper)).display).toBe('block'));
     expect(getComputedStyle(narrow(stepper)).display).toBe('none');
+  });
+
+  it('a step with an error: the narrow bar shows the error status at that step, with a help text that names it (DSA-73 D-3)', async () => {
+    const steps: NphStep[] = [{ label: 'Account' }, { label: 'Address' }, { label: 'Payment', status: 'error', description: 'The card was refused' }, { label: 'Review' }];
+    const stepper = await mount({ steps, current: 2 }, '20rem');
+    expect(narrow(stepper).status).toBe('error');
+    expect(narrow(stepper).step).toBe(3);
+    expect(narrow(stepper).help).toBe('With error: Payment. The card was refused');
+    expect(narrow(stepper).valueText).toBe('Step 2 of 4');
+    expect(narrow(stepper).label).toBe('Address');
+    expect(narrow(stepper).hasAttribute('data-nph-rendered')).toBe(true);
+    const segments = [...(narrow(stepper).shadowRoot?.querySelectorAll<HTMLElement>('.segment') ?? [])].map((segment) => segment.dataset.state);
+    expect(segments).toEqual(['done', 'done', 'error', 'pending']);
+  });
+
+  it('a disabled step with an error looks pending, so the narrow bar keeps the active status; no error, no error status', async () => {
+    const disabled = await mount({ steps: [{ label: 'Account' }, { label: 'Address' }, { label: 'Payment', status: 'error', disabled: true }, { label: 'Review' }], current: 2 }, '20rem');
+    expect(narrow(disabled).status).toBe('active');
+    expect(narrow(disabled).step).toBe(2);
+    const plain = await mount({}, '20rem');
+    expect(narrow(plain).status).toBe('active');
+    expect(narrow(plain).help).toBeFalsy();
+    const fixed = await mount({ steps: [{ label: 'Account' }, { label: 'Address' }, { label: 'Payment', status: 'error' }, { label: 'Review' }], current: 2 }, '20rem');
+    fixed.steps = STEPS;
+    await settle(fixed);
+    expect(narrow(fixed).status).toBe('active');
   });
 
   it('the step text is filled in with {current} and {count}, in any order the language needs', async () => {
