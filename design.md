@@ -1658,7 +1658,7 @@ tokens_radius:
     css: '--nph-radius-full'
     alias: core/radius/full
     valor: 9999
-    use: "Fully rounded shape. USE only on a small piece whose shape communicates a marker: badge, counter, switch knob, position marker (dot or pill) and circular target, like the circular nph-icon-button. Also the dot and pill of the nph-carousel indicators and their circular target (carousel/indicator-radius, carousel/indicator-target-radius). NEVER on a regular button, field or card. NEVER on an avatar: the avatar is a square with rounded corners (avatar/radius-*)."
+    use: "Fully rounded shape. USE only on a small piece whose shape communicates a marker: badge, counter, switch knob, position marker (dot or pill) and circular target. Also the dot and pill of the nph-carousel indicators and their circular target (carousel/indicator-radius, carousel/indicator-target-radius). NEVER on a regular button, field or card. NEVER on an avatar: the avatar is a square with rounded corners (avatar/radius-*)."
 
 # ---------------------------------------------------------------
 # ELEVATION - in Figma the level is an EFFECT STYLE; in code it is a
@@ -2722,7 +2722,7 @@ The curve says what the piece is. The question is not how much to round.
 | `control` × `container` | A button inside a card: the button is `control`, the card is `container`. |
 | `container` × `overlay` | A table or pagination is `container`; popover, hover card and menus have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
-| `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target (circular icon button, carousel indicator target). Button and field are never a pill. |
+| `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target. Button and field are never a pill. |
 
 **Nested radius:** inner = outer − padding. Container at 8 with padding 4 → inner 4. With padding 8 → inner 0 (`radius/none`). Inner never equal to outer.
 
