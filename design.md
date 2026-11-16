@@ -291,13 +291,13 @@ tokens_semantic:
     css: '--nph-color-accent'
     claro: core/surface/50
     escuro: core/surface/600
-    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover)."
+    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover). Also the background of the nph-resizable grip box while dragging (resizable/grip-background-active)."
     nao_use: "Permanent block background, except the nph-select and nph-combobox arrow area."
   color/accent-foreground:
     css: '--nph-color-accent-foreground'
     claro: core/neutral/950
     escuro: core/neutral/100
-    use: "Text on color/accent. Also the label of the nph-tree item in hover (tree/item-foreground-hover)."
+    use: "Text on color/accent. Also the label of the nph-tree item in hover (tree/item-foreground-hover). Also the grip icon of the nph-resizable while dragging (resizable/grip-foreground-active), over resizable/grip-background-active."
   color/muted:
     css: '--nph-color-muted'
     claro: core/surface/50
@@ -308,7 +308,7 @@ tokens_semantic:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground)."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground). Also the grip icon of the nph-resizable handle at rest, in hover, focus and disabled (resizable/grip-foreground): the grip passes 3:1 and shows that the handle can be dragged."
     nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
   color/subtle-foreground:
     css: '--nph-color-subtle-foreground'
@@ -338,19 +338,26 @@ tokens_semantic:
     css: '--nph-color-border'
     claro: core/neutral/200
     escuro: core/surface/400
-    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline."
-    nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle."
+    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color)."
+    nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. Divider of an area in interaction (hover, dragging): there it is color/border-strong."
   color/border-subtle:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
     escuro: core/alpha/white-10
     use: "Soft border and divider of a floating layer: border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the shadow completes the separation from the background. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border)."
     nao_use: "nph-dialog (color/dialog-separator); card (color/border); field (color/input)."
+  color/border-strong:
+    css: '--nph-color-border-strong'
+    claro: core/neutral/600
+    escuro: core/surface/200
+    use: "Divider and outline of an area in interaction: the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 6.69:1 over color/background in light, 9.81:1 in dark."
+    nao_use: "At rest: there it is color/border. Field border: there it is color/input. Text: there it is color/muted-foreground, which points to the same primitives with another function."
   color/input:
     css: '--nph-color-input'
     claro: core/neutral/400
     escuro: core/surface/300
     use: "Field border: input, select, textarea, checkbox. Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link."
+    nao_use: "Divider of an area in interaction: there it is color/border-strong."
   color/dropdown-border:
     css: '--nph-color-dropdown-border'
     claro: color/border-subtle
@@ -1407,7 +1414,7 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline. Also the gap between the rows of the nph-panel-menu list, section, second and third level and loading rows (panel-menu/item-gap). Also the top and bottom padding and the gap of the nph-scheduler event, the day label padding, the sides and gap of the month cell and the list item padding (scheduler/event-padding-y, scheduler/event-gap, scheduler/day-label-padding-y, scheduler/month-cell-padding-x, scheduler/month-cell-gap, scheduler/list-item-padding). Also the breathing room around the nph-command list, as the nph-select list (DSA-29 D9), the breathing room of its search row around the field, the gap between the spinner and the text of its loading state and between the key and the word of each footer hint (command/list-padding, command/search-padding, command/status-gap, command/hint-gap). Also the top and bottom padding of the nph-collapsible trigger in the compact size and the gap between its icon, title and indicator (collapsible/trigger-padding-y-compact, collapsible/trigger-gap)."
+    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab (segmented and tab button) and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). Also between the parts of a dense row of a list, tree or menu, and as breathing room around that list: the gap between the chevron target, the checkbox, the icon and the label of the nph-tree item and the breathing room around the tree (tree/item-gap, tree/toggle-padding, tree/padding). DO NOT USE between independent elements - there it is space/inline. Also the gap between the rows of the nph-panel-menu list, section, second and third level and loading rows (panel-menu/item-gap). Also the top and bottom padding and the gap of the nph-scheduler event, the day label padding, the sides and gap of the month cell and the list item padding (scheduler/event-padding-y, scheduler/event-gap, scheduler/day-label-padding-y, scheduler/month-cell-padding-x, scheduler/month-cell-gap, scheduler/list-item-padding). Also the breathing room around the nph-command list, as the nph-select list (DSA-29 D9), the breathing room of its search row around the field, the gap between the spinner and the text of its loading state and between the key and the word of each footer hint (command/list-padding, command/search-padding, command/status-gap, command/hint-gap). Also the top and bottom padding of the nph-collapsible trigger in the compact size and the gap between its icon, title and indicator (collapsible/trigger-padding-y-compact, collapsible/trigger-gap). Also the gap of the nph-resizable handle line around the grip box and the collapse button (resizable/handle-gap)."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
@@ -1478,7 +1485,7 @@ tokens_control:
     css: '--nph-control-height-compact'
     alias: core/control-height/compact
     valor: 28
-    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8. Exception: the tab inside the segmented nph-tabs rail (tabs/item-height), as the accepted Figma draws it: the tab sits in a rail of control/height-default and stays above 24 x 24. Also the height of the \"+N more\" button of the nph-scheduler month (scheduler/more-height). Also the minimum height of the nph-collapsible trigger in the compact size (collapsible/trigger-height-compact), on a dense screen only."
+    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8. Exception: the tab inside the segmented nph-tabs rail (tabs/item-height), as the accepted Figma draws it: the tab sits in a rail of control/height-default and stays above 24 x 24. Also the height of the \"+N more\" button of the nph-scheduler month (scheduler/more-height). Also the minimum height of the nph-collapsible trigger in the compact size (collapsible/trigger-height-compact), on a dense screen only. Also the collapse button of the nph-resizable handle (nph-icon-button compact), by the T4 exception of 16-11: the handle is thin and the component is desktop only (out of mobile in v1); 28 stays above 24 x 24."
   control/height-default:
     css: '--nph-control-height-default'
     alias: core/control-height/default
@@ -1616,7 +1623,7 @@ tokens_radius:
     css: '--nph-radius-subtle'
     alias: core/radius/100
     valor: 2
-    use: "USE on a small marker that contains nothing: status bar, indicator, minimal tag, resize handle. DO NOT USE on a control."
+    use: "USE on a small marker that contains nothing: status bar, indicator, minimal tag, resize handle. DO NOT USE on a control. Also the corner of the nph-resizable grip box (resizable/grip-radius)."
   radius/inner:
     css: '--nph-radius-inner'
     alias: core/radius/200
@@ -1939,7 +1946,7 @@ tokens_alpha:
     css: '--nph-border-width'
     alias: core/border-width/default
     valor: 1
-    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width). Also the thickness of the nph-scheduler container border, event border and focus border (scheduler/border-width, scheduler/event-border-width, scheduler/focus-border-width). Also the card outline and the focus border of the nph-collapsible (collapsible/card-border-width, collapsible/focus-border-width)."
+    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width). Also the thickness of the nph-scheduler container border, event border and focus border (scheduler/border-width, scheduler/event-border-width, scheduler/focus-border-width). Also the card outline and the focus border of the nph-collapsible (collapsible/card-border-width, collapsible/focus-border-width). Also the line of the nph-resizable handle (resizable/handle-width)."
   focus/border-radius-control:
     css: '--nph-focus-border-radius-control'
     alias: core/radius/off-scale/7
@@ -2350,7 +2357,7 @@ tokens_icon:
     css: '--nph-icon-size-sm'
     alias: core/icon-size/100
     valor: 16
-    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size). Also the arrow of the nph-panel-menu subgroup (panel-menu/subgroup-icon-size). Also the repeat icon of the nph-scheduler event and the icon of its empty state (scheduler/event-icon-size, scheduler/empty-icon-size). Also the indicator and the start icon of the nph-collapsible trigger (collapsible/indicator-size, collapsible/icon-size)."
+    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size). Also the arrow of the nph-panel-menu subgroup (panel-menu/subgroup-icon-size). Also the repeat icon of the nph-scheduler event and the icon of its empty state (scheduler/event-icon-size, scheduler/empty-icon-size). Also the indicator and the start icon of the nph-collapsible trigger (collapsible/indicator-size, collapsible/icon-size). Also the grip box and the grip icon of the nph-resizable (resizable/grip-size)."
   icon/size-md:
     css: '--nph-icon-size-md'
     alias: core/icon-size/200

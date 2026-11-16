@@ -748,6 +748,7 @@
   --nph-scheduler-list-time-width-compact: var(--nph-core-layout-width-list-time-compact);
   --nph-scheduler-month-row-min-height: var(--nph-core-space-1200);
   --nph-collapsible-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-resizable-focus-border-width: var(--nph-core-focus-width-sm);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1032,6 +1033,10 @@
   --nph-command-footer-padding: var(--nph-space-inline);
   --nph-command-footer-gap: var(--nph-space-inline);
   --nph-command-hint-gap: var(--nph-space-inline-tight);
+  --nph-resizable-handle-width: var(--nph-border-width);
+  --nph-resizable-grip-radius: var(--nph-radius-subtle);
+  --nph-resizable-grip-size: var(--nph-icon-size-sm);
+  --nph-resizable-handle-gap: var(--nph-space-inline-tight);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1324,6 +1329,11 @@
   --nph-command-divider: var(--nph-color-dialog-separator);
   --nph-command-status-foreground: var(--nph-color-muted-foreground);
   --nph-command-footer-foreground: var(--nph-color-muted-foreground);
+  --nph-resizable-handle-color: var(--nph-color-border);
+  --nph-resizable-handle-color-hover: var(--nph-color-border-strong);
+  --nph-resizable-grip-foreground: var(--nph-color-muted-foreground);
+  --nph-resizable-grip-foreground-active: var(--nph-color-accent-foreground);
+  --nph-resizable-grip-background-active: var(--nph-color-accent);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
   --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
@@ -1512,6 +1522,7 @@
   --nph-color-inverse: var(--nph-core-neutral-600);
   --nph-color-inverse-foreground: var(--nph-core-base-white);
   --nph-color-border-subtle: var(--nph-core-neutral-50);
+  --nph-color-border-strong: var(--nph-core-neutral-600);
   --nph-focus-ring-error: var(--nph-core-danger-200);
   --nph-overlay-scrim: var(--nph-core-scrim-light);
   --nph-scrollbar-track: var(--nph-core-surface-50);
@@ -1739,6 +1750,7 @@
   --nph-color-inverse: var(--nph-core-neutral-700);
   --nph-color-inverse-foreground: var(--nph-core-neutral-100);
   --nph-color-border-subtle: var(--nph-core-alpha-white-10);
+  --nph-color-border-strong: var(--nph-core-surface-200);
   --nph-focus-ring-error: var(--nph-core-danger-400);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
   --nph-scrollbar-track: var(--nph-core-surface-800);
