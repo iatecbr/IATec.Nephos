@@ -339,7 +339,7 @@ tokens_semantic:
     claro: core/neutral/200
     escuro: core/surface/400
     use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color)."
-    nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. Divider of an area in interaction (hover, dragging): there it is color/border-strong."
+    nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. The line of the nph-resizable handle in hover and dragging: there it is color/border-strong (the hover line of the underline nph-tabs stays here)."
   color/border-subtle:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
@@ -350,14 +350,14 @@ tokens_semantic:
     css: '--nph-color-border-strong'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Divider and outline of an area in interaction: the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 6.69:1 over color/background in light, 9.81:1 in dark."
+    use: "Divider and outline of an area in interaction: today the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 6.69:1 over color/background in light, 9.81:1 in dark. It does not replace accepted hover lines: the underline nph-tabs keeps color/border (tabs/indicator-hover-color) and the done nph-file-upload-item keeps color/input (file-upload-item/border-done-hover)."
     nao_use: "At rest: there it is color/border. Field border: there it is color/input. Text: there it is color/muted-foreground, which points to the same primitives with another function."
   color/input:
     css: '--nph-color-input'
     claro: core/neutral/400
     escuro: core/surface/300
     use: "Field border: input, select, textarea, checkbox. Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link."
-    nao_use: "Divider of an area in interaction: there it is color/border-strong."
+    nao_use: "The line of the nph-resizable handle in hover and dragging: there it is color/border-strong."
   color/dropdown-border:
     css: '--nph-color-dropdown-border'
     claro: color/border-subtle
@@ -1485,7 +1485,7 @@ tokens_control:
     css: '--nph-control-height-compact'
     alias: core/control-height/compact
     valor: 28
-    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8. Exception: the tab inside the segmented nph-tabs rail (tabs/item-height), as the accepted Figma draws it: the tab sits in a rail of control/height-default and stays above 24 x 24. Also the height of the \"+N more\" button of the nph-scheduler month (scheduler/more-height). Also the minimum height of the nph-collapsible trigger in the compact size (collapsible/trigger-height-compact), on a dense screen only. Also the collapse button of the nph-resizable handle (nph-icon-button compact), by the T4 exception of 16-11: the handle is thin and the component is desktop only (out of mobile in v1); 28 stays above 24 x 24."
+    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8. Exception: the tab inside the segmented nph-tabs rail (tabs/item-height), as the accepted Figma draws it: the tab sits in a rail of control/height-default and stays above 24 x 24. Also the height of the \"+N more\" button of the nph-scheduler month (scheduler/more-height). Also the minimum height of the nph-collapsible trigger in the compact size (collapsible/trigger-height-compact), on a dense screen only. Also the collapse button of the nph-resizable handle (nph-icon-button compact), by the T4 exception of 16-11: the handle is thin and the component is desktop only (out of mobile in v1); 28 stays above 24 x 24. On a tablet touch screen it stays compact until the design owner decides otherwise (DSA-86)."
   control/height-default:
     css: '--nph-control-height-default'
     alias: core/control-height/default

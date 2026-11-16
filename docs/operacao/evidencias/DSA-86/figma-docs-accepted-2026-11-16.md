@@ -24,8 +24,8 @@ The documentation of the nph-resizable (frame `5123:2641`, page `1626:34`) was a
 
 What changed in the tokens with this task:
 
-- New semantic `color/border-strong` (light `core/neutral/600`, dark `core/surface/200`): divider and outline of an area in interaction. It measures 6.69:1 over `color/background` in light and 9.81:1 in dark. `color/border` and `color/input` now say DO NOT USE for a divider in interaction, in Figma and in `design.md`.
-- New component group `resizable/*`, 10 tokens in the semantic collection. Nine alias existing semantics; `resizable/focus-border-width` points straight to `core/focus-width/sm` (2) by decision (rule 3 of T9), as `tree/focus-border-width`: `border/width` is 1, `focus/ring-width` is the halo of 4, and no semantic token has the function of a 2 px focus border.
+- New semantic `color/border-strong` (light `core/neutral/600`, dark `core/surface/200`): divider and outline of an area in interaction, today the line of the nph-resizable handle in hover and dragging. It measures 6.69:1 over `color/background` in light and 9.81:1 in dark. `color/border` and `color/input` now say DO NOT USE on the nph-resizable handle line in hover and dragging, in Figma and in `design.md`. The hover line of the underline nph-tabs (`color/border`) and the hover border of the done nph-file-upload-item (`color/input`) do not change.
+- New component group `resizable/*`, 10 tokens in the semantic collection. Nine alias semantics, one of them (`color/border-strong`) new in this task; `resizable/focus-border-width` points straight to `core/focus-width/sm` (2) by decision (rule 3 of T9), as `tree/focus-border-width`: `border/width` is 1, `focus/ring-width` is the halo of 4, and no semantic token has the function of a 2 px focus border.
 - No new value entered the core (rule T9).
 - Extended `use` in `design.md`: `color/border`, `color/accent`, `color/accent-foreground`, `color/muted-foreground`, `space/inline-tight`, `control/height-compact`, `radius/subtle`, `border/width` and `icon/size-sm`.
 - Left without a component token (decided, item 3): the focus color `focus/border`, the disabled opacity `state/disabled-opacity`. The collapse button keeps the tokens of the nph-button.
@@ -88,12 +88,16 @@ No layer of the handle has text, so there is no text style.
 | Line segment (start and end) | 1 px wide (`resizable/handle-width`), fill `resizable/handle-color` | fill `resizable/handle-color-hover` | fill `resizable/handle-color-hover` | becomes the focus border: 2 px (`resizable/focus-border-width`), fill `focus/border`, no halo | as default |
 | Grip box | `resizable/grip-size` square, corner `resizable/grip-radius`, no background | as default | background `resizable/grip-background-active` | as default | as default |
 | Grip icon | nph-icon `grip-vertical`, style `light`, `resizable/grip-size`, color `resizable/grip-foreground` | same | color `resizable/grip-foreground-active` | same as default | same as default |
-| Collapse button | nph-button icon-only `secondary` `ghost` `compact`, square, 28 × 28, chevron icon | same | same | same (its own focus only when it has focus) | disabled with the handle |
+| Collapse button | nph-button icon-only `secondary` `ghost` `compact`, square, 28 × 28, nph-icon `chevron-left` `light` (it points to the start panel, which collapses) | same | same | same (its own focus only when it has focus) | disabled with the handle |
 | Whole handle | — | — | — | — | `state/disabled-opacity` |
 
-**Horizontal handle** (200 × 28): the same with the axis swapped. The line segments are bound by height (`resizable/handle-width`; `resizable/focus-border-width` in focus). The grip icon is the same `grip-vertical` rotated 90 degrees (item 4), as the shadcn handle does (`rotate-90`). When nph-icon gets the dotted `grip` of Font Awesome, it replaces the rotated icon; that is not part of this task.
+**Horizontal handle** (200 × 28): the same with the axis swapped. The line segments are bound by height (`resizable/handle-width`; `resizable/focus-border-width` in focus). The collapse button uses nph-icon `chevron-up` `light` (it points to the top panel, which collapses). The grip icon is the same `grip-vertical` rotated 90 degrees (item 4), as the shadcn handle does (`rotate-90`). When nph-icon gets the dotted `grip` of Font Awesome, it replaces the rotated icon; that is not part of this task.
 
 In Figma the line segments have a fixed length; in code the handle fills the cross size of the group (the whole height of a horizontal group, the whole width of a vertical one), with the two segments filling the space before and after the grip box and the button.
+
+**Order and alignment.** The group is a row (horizontal) or a column (vertical), aligned to the start on both axes. Each panel fills the space left on the group axis (grow 1) and the whole cross size, with its content aligned to the top. In the handle, the parts are centered on both axes, in this order: line segment, grip box, collapse button, line segment.
+
+**Main panel of a handle.** Each handle controls the panel at its start: the left panel on a vertical handle, the top panel on a horizontal one. Figma draws it so: the chevron of every handle, in the 2 and 3 panel variants, points to the start (`chevron-left`, `chevron-up`), and the collapsed example collapses the left panel, with the chevron flipped to `chevron-right`. With 3 panels, the first handle controls the first panel and the second handle controls the second panel. This is the main panel of the APG: `aria-controls`, `aria-valuenow`, Enter, Home and End refer to it.
 
 The focus variants keep a hidden layer named `halo de foco` (bound to `focus/halo` and `focus/ring-width`) on purpose: the accepted focus has no halo, and that layer does not go to code.
 
@@ -118,7 +122,7 @@ The focus variants keep a hidden layer named `halo de foco` (bound to `focus/hal
 | `orientacao` (orientation) | On the handle. `vertical`, the default, or `horizontal`. It follows the direction of the group. |
 | `state` | On the handle. `default`; `hover`, with the line in `resizable/handle-color-hover`; `arrastando` (dragging), with the line as in hover and the grip box with a background; `foco` (focus), with the line as the 2 px focus border, no halo; `disabled`, with the whole handle in `state/disabled-opacity`. |
 | `botão recolher` (collapse button) | On the handle. Boolean, on by default (item 9). Off, the handle shows the line and the grip. The chevron points to the side of the panel that collapses and flips when the panel is collapsed; it is swapped by the icon of the button instance. |
-| Not a property | The size of each panel, minimum and maximum, default size, collapsed size, persistence and a whole disabled group belong to code and to the product. The collapsed panel shows in the examples, with no variant of its own (item 7). The handle has one size. |
+| Not a property | The size of each panel, minimum and maximum, default size, collapsed size, persistence and a whole disabled group belong to code and to the product (each one is an open point in DSA-86). The collapsed panel shows in the examples, with no variant of its own (item 7). The handle has one size. |
 
 ## Relations and context
 
@@ -178,7 +182,7 @@ T11 (same rule for every component): 1. selected or checked + disabled keeps the
 ## Icon and image
 
 - Grip: nph-icon `grip-vertical`, style `light` in every state (dragging changes only the color), 16 px in `resizable/grip-size`; on the horizontal handle, rotated 90 degrees (item 4).
-- Collapse button: nph-icon `chevron-left`, style `light`, 16 px (`icon/size-sm`), inside the nph-button icon-only compact, in `color/secondary-foreground`; the chevron points to the side that collapses and flips with the collapsed panel.
+- Collapse button: nph-icon `chevron-left` on the vertical handle and `chevron-up` on the horizontal one, style `light`, 16 px (`icon/size-sm`), inside the nph-button icon-only compact, in `color/secondary-foreground`; the chevron points to the start panel, which collapses, and flips (`chevron-right`, `chevron-down`) while that panel is collapsed.
 - Image: the component has none; the panel content is free.
 - Sources: https://fontawesome.com/icons/grip-vertical?s=light ; https://fontawesome.com/icons/chevron-left?s=light
 
@@ -189,7 +193,7 @@ T11 (same rule for every component): 1. selected or checked + disabled keeps the
 - Long text: does not apply to the handle, which has no text; the panel content is free and does not break, because the minimum follows its width.
 - Empty: does not apply to the component; the panel content is free.
 - Many items: more than 3 panels by nesting groups.
-- Short window: out of mobile in v1; below the tablet breakpoint the panels stack or become tabs (item 8). Who swaps the layout is the open point below.
+- Short window: out of mobile in v1; below the tablet breakpoint the panels stack or become tabs (item 8). Who swaps the layout is an open point for the code (DSA-86, "Open points for the code").
 
 ## Inherited decisions
 
@@ -202,7 +206,7 @@ T11 (same rule for every component): 1. selected or checked + disabled keeps the
 ## Decisions answered (approval round of 16-11, all as recommended)
 
 1. Documentation `5123:2641` and appendix accepted.
-2. `color/border-strong` created, with the description "Divider and outline of an area in interaction: the line of the nph-resizable handle in hover and dragging. Passes 3:1 over `color/background` and `color/card`. DO NOT USE at rest — there it is `color/border`. DO NOT USE on a field border — there it is `color/input`." `resizable/handle-color-hover` points to it.
+2. `color/border-strong` created, with the description "Divider and outline of an area in interaction: the line of the nph-resizable handle in hover and dragging. Passes 3:1 over `color/background` and `color/card`. DO NOT USE at rest — there it is `color/border`. DO NOT USE on a field border — there it is `color/input`." The matching DO NOT USE in `color/border` and `color/input` names the nph-resizable handle line, so the accepted hover line of the underline nph-tabs and hover border of the nph-file-upload-item keep their tokens. `resizable/handle-color-hover` points to it.
 3. `resizable/focus-border-width` → `core/focus-width/sm`; the focus color and the disabled opacity go straight, with no component token.
 4. Grip rotated 90 degrees on the horizontal handle now; later, the dotted `grip` of Font Awesome in nph-icon (not `grip-lines`).
 5. Invisible hit area of at least 24 px in code (larger on touch); in Figma the thin line stays.
