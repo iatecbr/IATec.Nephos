@@ -163,7 +163,7 @@ describe('nph-collapsible Validation: text only from the dictionary', () => {
     });
   }
 
-  it('Types: the three types, closed and open', () => {
+  it('Types: the three types, closed and open, and a preview whose text fits', () => {
     const pieces = [...draw('Types', 'en').querySelectorAll('nph-collapsible')] as NphCollapsible[];
     expect(pieces.map((piece) => [piece.type, piece.open])).toEqual([
       ['line', false],
@@ -172,6 +172,7 @@ describe('nph-collapsible Validation: text only from the dictionary', () => {
       ['button', true],
       ['preview', false],
       ['preview', true],
+      ['preview', false],
     ]);
   });
 

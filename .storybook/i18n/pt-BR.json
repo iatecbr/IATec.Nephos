@@ -12717,7 +12717,7 @@
     "whenToUse": [
       "Para a navegação principal de um produto: uma coluna à esquerda, com as suas áreas e as suas páginas.",
       "No modo expandido, em tela larga, quando os nomes das áreas ajudam a escolher.",
-      "No modo recolhido, quando o conteúdo precisa da largura: o trilho mostra os ícones com um balão, e um item com filhos abre um painel flyout ao lado dele.",
+      "No modo recolhido, quando o conteúdo precisa da largura: o trilho mostra os ícones com um balão, e um item com filhos abre um painel flyout ao lado dele; o botão de trilho do grupo que contém a página atual mostra o visual ativo.",
       "No modo móvel, em tela estreita: o menu abre sobre a tela, com o scrim atrás, e fecha com o botão de fechar.",
       "Com loading, enquanto a lista do produto ainda está chegando.",
       "Com o botão do canto, para a ação principal do produto, como Todos os aplicativos.",

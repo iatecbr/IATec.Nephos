@@ -12717,7 +12717,7 @@
     "whenToUse": [
       "Para la navegación principal de un producto: una columna a la izquierda, con sus áreas y sus páginas.",
       "En el modo expandido, en pantalla ancha, cuando los nombres de las áreas ayudan a elegir.",
-      "En el modo contraído, cuando el contenido necesita el ancho: el riel muestra los íconos con un globo, y un ítem con hijos abre un panel flyout junto a él.",
+      "En el modo contraído, cuando el contenido necesita el ancho: el riel muestra los íconos con un globo, y un ítem con hijos abre un panel flyout junto a él; el botón de riel del grupo que contiene la página actual muestra el aspecto activo.",
       "En el modo móvil, en pantalla estrecha: el menú se abre sobre la pantalla, con el scrim detrás, y se cierra con el botón de cerrar.",
       "Con loading, mientras la lista del producto aún está llegando.",
       "Con el botón de la esquina, para la acción principal del producto, como Todas las aplicaciones.",
