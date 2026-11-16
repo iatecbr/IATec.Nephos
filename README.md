@@ -44,8 +44,9 @@ To build the static version into `storybook-static/`:
 npm run build-storybook
 ```
 
-The Azure Pipeline also builds this folder and publishes it as the private
-pipeline artifact `storybook`; see [`docs/release.md`](docs/release.md).
+A separate Azure Pipeline, `azure-pipelines.storybook.yml`, also builds this
+folder and publishes it as the private Build artifact `files`, for a release to
+consume; see [`docs/release.md`](docs/release.md).
 
 ## Tokens
 

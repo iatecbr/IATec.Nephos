@@ -293,6 +293,21 @@ scope. The static build carries Font Awesome Pro artwork, so making it reachable
 IATec is a license decision for Indiane (`PO-001`). Reviewed in the pull request that brings
 it; the merge is the approval.
 
+**Annotation of 16/11/2026.** At Elvys's request, the Storybook leaves the pipeline of P75
+and gets its own Azure Pipeline, `azure-pipelines.storybook.yml`. It runs `npm run
+build-storybook` on `v5.*` tags and on manual runs and publishes `storybook-static/` as the
+Build artifact `files`, the pattern of the org releases, for a release to consume; on a pull
+request to `v/5.0.0` it only builds, as a check, and publishes nothing. The pipeline of P75
+(`azure-pipelines.yml`) keeps only the build, the tests and the feed, and its pipeline artifact
+`storybook` no longer exists. The two are not tied: a broken Storybook no longer fails the
+release candidate build, and a tag can publish a version while the Storybook pipeline fails.
+The artifact stays a private CI artifact; the decision itself does not change. The pipeline
+hosts nothing and does not create or change a release. Hosting it outside IATec stays a
+license decision (Font Awesome Pro, `PO-001`, Indiane); public publishing, GitHub Pages, an
+external environment and deploy stay out of scope. This annotation replaces the one of
+26/10/2026 where they differ. Reviewed in the pull request that brings it; the merge is the
+approval.
+
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
 by Elvys on 28/08/2026.
 
@@ -1705,6 +1720,8 @@ point (`import '@iatec/nephos'`) that registers everything.
 **Annotation of 26/10/2026.** The Azure Pipeline also publishes the static Storybook as the
 private pipeline artifact `storybook` (see the annotation of the same date in P19). The
 package, the feed and the `rc` tag do not change.
+Superseded on 16/11/2026: the Storybook moved to its own pipeline (see the annotation of that
+date in P19), so the pipeline of this decision builds and publishes only the package.
 
 **Annotation of 07/11/2026.** The feed has `latest` on `5.0.0-rc.1`. The pipeline published it
 with `npm publish --tag rc` (run 609226), and Azure Artifacts, like the npm registry, gives
