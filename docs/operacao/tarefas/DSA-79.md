@@ -32,27 +32,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The accepted documentation says typing opens the suggestion list and says nothing of a click on the field. The free text variant takes the focus on a click and does not open the list, as the APG autocomplete example and GOV.UK do. Does Indiane confirm the reading, or does a click open the list as in the nph-combobox with the arrow? Recommended: confirm. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-14"
-    },
-    {
-      "id": "D-2",
-      "question": "With text in the field, Down, Up and Alt+Down open the list with only the suggestions that contain that text, because the field filters by the text it holds. Does Indiane confirm the reading, or do the arrows show every suggestion? Recommended: confirm. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-14"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-79/figma-docs-accepted-2026-11-12.md",
     "docs/operacao/evidencias/DSA-79/review-and-merge-2026-11-14.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-combobox free text: visual acceptance of the root, documentation accepted, and the two open points answered (while typing no suggestion is active, Down activates the first one and Enter with no active suggestion keeps the text; with no suggestion the list closes without the nph-empty and the screen reader hears \"no suggestions\"); combobox/free-text-padding-end only aliases space/control-padding"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-combobox free text: visual acceptance of the root, documentation accepted, and the two open points answered (while typing no suggestion is active, Down activates the first one and Enter with no active suggestion keeps the text; with no suggestion the list closes without the nph-empty and the screen reader hears \"no suggestions\"); combobox/free-text-padding-end only aliases space/control-padding",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -64,7 +52,7 @@
   },
   "git_review": { "branch": "feat/dsa-79-combobox-free-text", "commit": "bb1e0a27aee86e47f828cafd8396d385b6cf2a90", "pr": 172 },
   "context": null,
-  "updated_at": "2026-11-14"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -94,6 +82,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The token `combobox/free-text-padding-end` came with this task and is on `v/5.0.0`, an alias of `space/control-padding`. No new value entered the core. The nph-combobox (DSA-46) and the nph-icon (DSA-03) are done.
+
+## Decisions answered on 2026-11-16
+Indiane answered D-1 and D-2 in the chat on 2026-11-16, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Confirmed. The support is GOV.UK accessible-autocomplete, where showing every value on click is an option that is off by default; the APG autocomplete example does open the list on click, so it is not a source for this behavior. | Nothing changes in the code; DSA-82 corrects the source in P122. |
+| D-2 | Confirmed: with text in the field, Down, Up and Alt+Down open the list with only the suggestions that contain the text (APG combobox with list autocomplete). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

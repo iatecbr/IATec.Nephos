@@ -47,20 +47,8 @@
       "opened_at": "2026-11-14"
     },
     {
-      "id": "D-2",
-      "question": "The accepted text says the panel hugs its content up to 560, and Figma draws every variant at 560. The code keeps the width at the 560 ceiling (command/max-width) while the list filters, so the panel does not change width with each key. Does Indiane confirm, or does the panel hug its content? Recommended: confirm. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-14"
-    },
-    {
       "id": "D-3",
       "question": "DSA-46 D-3 puts the rest of a searched label in color/muted-foreground. On a destructive command that would turn the part that was not searched gray and take the signal from the label, so the code keeps the destructive color on the rest and only the searched stretch is heavier. Does Indiane confirm, or is the rest muted there too? Recommended: confirm. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-14"
-    },
-    {
-      "id": "D-4",
-      "question": "The focus of the search field is a border of border/width plus a halo of focus/ring-width, 5 in all, and command/search-padding is 4. The outer pixel of the halo at the top, left and right edges of the panel is clipped by the dialog window. Does Indiane confirm the padding, or does the token grow by one? Recommended: confirm; the pixel is not seen against the veil. It does not block this task.",
       "decider": "indiane",
       "opened_at": "2026-11-14"
     }
@@ -72,7 +60,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-11.md, nph-command: Proposal 1 accepted (soft dialog panel without outline, large field in focus, groups separated by space, shortcut as text, footer of hints with nph-kbd)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-command: visual acceptance of the root with the two changes (lines in color/dialog-separator, radius 10), documentation accepted, and the open points answered as recommended (Pend. 2, 3, 5, 9, 10, 14, 15); Pend. 12 and 13 go to one foundation task (DSA-81); a finished component enters the first version"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-command: visual acceptance of the root with the two changes (lines in color/dialog-separator, radius 10), documentation accepted, and the open points answered as recommended (Pend. 2, 3, 5, 9, 10, 14, 15); Pend. 12 and 13 go to one foundation task (DSA-81); a finished component enters the first version",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,7 +73,7 @@
   },
   "git_review": { "branch": "feat/dsa-80-command", "commit": "b46b79047538ea1bd2932dbf619a5e49b8ec4d65", "pr": 173 },
   "context": null,
-  "updated_at": "2026-11-14"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -121,6 +110,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 15 `command/*` tokens came with this task and are on `v/5.0.0`, all aliases of existing semantics. No new value entered the core. Every piece it uses is done: `nph-icon` (DSA-03), `nph-spinner` (DSA-09), `nph-separator` (DSA-10), `nph-kbd` (DSA-11), `nph-input` (DSA-16), `nph-empty` (DSA-40), `nph-dialog` (DSA-44), `nph-dropdown-menu` (DSA-45), `nph-combobox` (DSA-46).
+
+## Decisions answered on 2026-11-16
+Indiane answered D-2 and D-4 in the chat on 2026-11-16, after market research with sources. D-1 and D-3 stay open: they wait for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Confirmed: the panel keeps the 560 width (`command/max-width`) while the list filters. | Nothing changes. |
+| D-4 | Confirmed: `command/search-padding` stays 4; one clipped pixel of the halo does not hide the focused field (WCAG 2.4.11). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, with the `nph-dialog` option.

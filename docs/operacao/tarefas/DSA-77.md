@@ -43,12 +43,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The mini month and the compact month of the phone are the scheduler's own date grid, because the date-picker grid has no task and building it is outside this task. Indiane decides when the date-picker grid replaces it and whether the compact month keeps the arrow keys. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
       "id": "D-2",
       "question": "The sidebar button needs the sidebar icon, which is not in nph-icon, and the recurring event uses rotate-right until repeat is. The code keeps the place of the sidebar icon with an nph-skeleton, as nph-sidebar does (P116). Indiane frees the foundation task that adds sidebar and repeat to nph-icon. It does not block the pull request.",
       "decider": "indiane",
@@ -65,24 +59,6 @@
       "question": "\"My calendars\" shows the color of each calendar as a swatch (icon/size-sm, the surface and the bar color of the event) beside the checkbox; the evidence names the checkbox only. Indiane confirms the swatch. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-13"
-    },
-    {
-      "id": "D-5",
-      "question": "A day hands its date to the screen (nph-day-click) and does nothing else; the evidence gives it no action. Indiane confirms it, or says that the day of the month opens the day view. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
-      "id": "D-6",
-      "question": "The scheduler hosts the nph-popover of the detail and the screen gives the content through the detail and detail-footer slots; the task says the detail belongs to the product. Indiane confirms that the mechanism belongs to the scheduler and the content to the product. The alternative is the click event only, with no popover. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
-      "id": "D-7",
-      "question": "The all-day band comes before the grid in the document, so Tab reaches an all-day event of a later day before a timed event of an earlier one. Indiane confirms it. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
     }
   ],
   "evidence": [
@@ -91,7 +67,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-scheduler: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, and the twelve points of the approval page approved (event color property with primary and seven vertical colors, name nph-scheduler and tokens scheduler/*, extended descriptions of color/border-subtle and core/space/900, container padding, minimum event height of 24 px, same focus on day, month and list rows and cancelled event, each event a Tab stop, \"+N more\" to the day view, provisional pieces until the owner piece, focus of the primary nph-button in dark mode outside this task, past and tentative events outside v1, side panel in every desktop view)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-scheduler: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, and the twelve points of the approval page approved (event color property with primary and seven vertical colors, name nph-scheduler and tokens scheduler/*, extended descriptions of color/border-subtle and core/space/900, container padding, minimum event height of 24 px, same focus on day, month and list rows and cancelled event, each event a Tab stop, \"+N more\" to the day view, provisional pieces until the owner piece, focus of the primary nph-button in dark mode outside this task, past and tentative events outside v1, side panel in every desktop view)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -107,7 +84,7 @@
     "pr": 171
   },
   "context": null,
-  "updated_at": "2026-11-13"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -145,6 +122,16 @@ The pieces by instance use their own tokens: nph-button, nph-icon-button, nph-se
 
 ## Why it is ready
 The tokens (`event/<color>-*` and `scheduler/*`) came with this task and are on `v/5.0.0`. All of them are aliases of semantic tokens or of the `event/<color>-*` group, except seven that point straight to core by decision: `scheduler/event-dot-size` on `core/space/100`, `scheduler/event-indicator-width`, `scheduler/today-indicator-width` and `scheduler/now-indicator-width` on `core/focus-width/sm`, `scheduler/time-column-width` on `core/space/900`, `scheduler/now-indicator-size` on `core/space/200` and `scheduler/event-min-height` on `core/target-size/minimum`; the evidence says why for each one. No new value entered the core. The pieces used by instance are done: nph-icon (DSA-03), nph-button (DSA-13, DSA-43), nph-checkbox (DSA-17), nph-avatar and nph-avatar-stack (DSA-24, DSA-25), nph-skeleton (DSA-26), nph-select (DSA-29), nph-empty (DSA-40), nph-dropdown-menu (DSA-45) and nph-popover (DSA-67). The date-picker grid has no task in the repository yet; the mini month is provisional until it exists.
+
+## Decisions answered on 2026-11-16
+Indiane answered D-1, D-5, D-6 and D-7 in the chat on 2026-11-16, after market research with sources. D-2, D-3 and D-4 stay open: they wait for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Confirmed as provisional: the scheduler keeps its own date grid until the date-picker grid has a task, and then it is replaced; the compact month keeps the arrow keys (APG date picker grid). | Nothing changes. |
+| D-5 | Confirmed: a day only hands its date to the screen (`nph-day-click`). | Nothing changes. |
+| D-6 | Confirmed: the mechanism of the detail popover belongs to the scheduler and its content to the product, through the `detail` and `detail-footer` slots. | Nothing changes. |
+| D-7 | Confirmed: the all-day band comes before the grid in the Tab order, following the visual reading from top to bottom (WCAG 2.4.3). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

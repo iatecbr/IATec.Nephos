@@ -52,20 +52,8 @@
       "opened_at": "2026-11-11"
     },
     {
-      "id": "D-2",
-      "question": "nph-button forwards no aria-describedby into its own shadow root, and an id does not cross a shadow root, so the rule and the reason of the zone describe the group of the zone and not the Choose files button itself (P119). Indiane decides whether nph-button gains a description property, which is a change outside this task. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    },
-    {
       "id": "D-3",
       "question": "The design draws no disabled item. With the zone disabled, the code dims the items under file-upload/disabled-opacity, goes back to the ready look, disables the buttons and takes the link out of the name (P119). Indiane confirms it, or draws the disabled item. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    },
-    {
-      "id": "D-4",
-      "question": "Inside nph-field the field writes invalid and the message in description, and may draw its own message line, while the evidence keeps the reason of the error in the zone. The zone says the reason in place of the rule, from its own error or from the message of an invalid field, and never turns red without one (P119). Indiane confirms where the reason is shown inside nph-field. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-11"
     },
@@ -82,7 +70,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, nph-file-upload: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 11 of the approval page approved (dashed border style token, spacing straight to core, thumbnail radius, the three uploading and done tokens per theme on the primitive, icon box and uploading icon on the primitive, state borders in dark at 40%, dragging icon on color/primary-on-surface, file-lines and file-image in nph-icon, compact format only in a container of 668 px or more, list with no scroll of its own, the other points of the appendix as recommended)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, nph-file-upload: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 11 of the approval page approved (dashed border style token, spacing straight to core, thumbnail radius, the three uploading and done tokens per theme on the primitive, icon box and uploading icon on the primitive, state borders in dark at 40%, dragging icon on color/primary-on-surface, file-lines and file-image in nph-icon, compact format only in a container of 668 px or more, list with no scroll of its own, the other points of the appendix as recommended)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -94,7 +83,7 @@
   },
   "git_review": { "branch": "feat/dsa-74-file-upload", "commit": "d261d6c", "pr": 168 },
   "context": null,
-  "updated_at": "2026-11-11"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -134,6 +123,14 @@ The size of the `circle-xmark` of the reason and of the icons of the item uses `
 
 ## Why it is ready
 The 64 tokens (`file-upload/*` 28 and `file-upload-item/*` 36) and the three new primitives `core/alpha/danger-400-40`, `core/alpha/success-400-40` and `core/alpha/warn-400-40` came with this task and are on `v/5.0.0`. Two tokens that exist in Figma wait for the build: `core/border-style/dashed` and `file-upload/border-style` (gate `stroke-style-token`). The pieces inside are done: nph-icon (DSA-03), nph-spinner (DSA-09), nph-button (DSA-13), nph-field (DSA-28) and nph-image (DSA-51).
+
+## Decisions answered on 2026-11-16
+Indiane answered D-4 in the chat on 2026-11-16, after market research with sources. D-2 was decided on that research by Claude, by her delegation. D-1, D-3 and D-5 stay open: they wait for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Decided: nph-button gains a description property that it forwards as `aria-describedby` inside its shadow root, so the rule and the reason of the zone describe the Choose files button itself (an id reference does not cross a shadow root). | Changes in DSA-82. |
+| D-4 | Confirmed, with one message: the reason shows once, in the zone, in place of the rule; inside nph-field no second message line is drawn under the zone (WCAG 3.3.1; GOV.UK file upload). | DSA-82 checks it and, if nph-field draws its own line under the zone, removes it. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`stroke-style-token`** — `npm run build:tokens` and `npm run test:tokens` pass with `strokeStyle` handled and the two tokens in the source. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

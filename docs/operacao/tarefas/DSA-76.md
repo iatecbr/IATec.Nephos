@@ -36,20 +36,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "In the panel menu the code draws the section label with no vertical padding of its own, so the gap to its items (panel-menu/label-gap, 8) and the gap from the list (panel-menu/section-gap, 16) are exactly the ones of the tokens. The label of the nph-sidebar has vertical padding of its own (P116, D-4). Indiane confirms it, or gives the measure of the label in the panel menu. The label of the flyout navigation did not change. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-15"
-    },
-    {
       "id": "D-2",
       "question": "The accepted documentation says the arrow turns 180 degrees in the panel menu. The arrow of the subgroup turns; the group item of the first level, an approved piece of DSA-53, swaps chevron-down and chevron-up without turning, and this task does not change the item. Indiane decides whether the item should turn too, in another task. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-15"
-    },
-    {
-      "id": "D-3",
-      "question": "By the accepted rule, if the person closes a group that holds the current page it stays closed, with no new mark. The code applies it also when the product sends a new list: a new current page inside a group the person closed does not reopen it. Indiane confirms it, or asks for the parents of a new current page to open. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-15"
     }
@@ -60,7 +48,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-11.md, panel menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 8 of the approval page approved (panel-menu/nest-gap on core/space/300, panel-menu/label-gap on space/stack-snug, a navigation mode of the nph-sidebar with no new public tag, it enters v1 as a mode of the nph-sidebar in a new task linked to DSA-72, the group of the current page and its parents are born open, collapsed and mobile follow the nph-sidebar, several groups open at once); item 9 had no decision, it is only a record"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-11.md, panel menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 8 of the approval page approved (panel-menu/nest-gap on core/space/300, panel-menu/label-gap on space/stack-snug, a navigation mode of the nph-sidebar with no new public tag, it enters v1 as a mode of the nph-sidebar in a new task linked to DSA-72, the group of the current page and its parents are born open, collapsed and mobile follow the nph-sidebar, several groups open at once); item 9 had no decision, it is only a record",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -72,7 +61,7 @@
   },
   "git_review": { "branch": "feat/dsa-76-panel-menu", "commit": "e5c37e2491af1d38325728f9228940cfa471007d", "pr": 174 },
   "context": null,
-  "updated_at": "2026-11-15"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -118,6 +107,14 @@ The pieces by instance use their own tokens: the item, the sub item and the sect
 This task was `blocked` only until DSA-72 was merged: the panel menu is a mode of the `nph-sidebar`, which was built in DSA-72. **B-1 closed on 2026-11-15.** DSA-72 (PR #165, merge `c4ccdfd`, closed on `v/5.0.0` in `0390264`) is `done`, so, as B-1 itself said, this task goes to `ready` with no other change. Everything else was ready.
 
 The 29 tokens (`panel-menu/*`) came with this task and are on `v/5.0.0`. They are all aliases of semantic tokens, except `panel-menu/nest-gap` on `core/space/300`, by decision. No new value entered the core. The pieces inside are done: nph-sidebar-item and sub item (DSA-53), nph-skeleton (DSA-26), nph-tooltip (DSA-48) and the nph-sidebar (DSA-72).
+
+## Decisions answered on 2026-11-16
+Indiane answered D-1 in the chat on 2026-11-16, after market research with sources. D-3 was decided on that research by Claude, by her delegation. D-2 stays open: it waits for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Confirmed: the section label of the panel menu has no vertical padding of its own; the gaps are exactly `panel-menu/label-gap` and `panel-menu/section-gap`. | Nothing changes. |
+| D-3 | Not confirmed: when the product sends a new current page, its parent groups open; a group the person closed stays closed only while the current page is the same (Spectrum side navigation, Salt vertical navigation). | Changes in DSA-82. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

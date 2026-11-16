@@ -41,20 +41,8 @@
       "opened_at": "2026-11-10"
     },
     {
-      "id": "D-2",
-      "question": "The accepted contract says the stepper becomes nph-progress below 600 px. 600 is not one of the four breakpoints of design.md (md 768, lg, xl, xxl) and a query takes no custom property, so the code writes 37.5rem in a container query on the stepper, which reads its own width and not the window. Do you confirm the value, or choose another? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    },
-    {
       "id": "D-3",
       "question": "On the narrow width the stepper draws nph-progress of the steps type, which shows the position only: a step with an error does not show as an error there. Do you confirm it, or ask for the error status of the progress when a step has one? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    },
-    {
-      "id": "D-4",
-      "question": "The balloon of a cut label on a pending step of the linear stepper needs a focusable span with no role, which is the reading of a rule the evidence marks open for confirmation, and the hover background paints only the steps that can be activated. Do you confirm the reading, or ask for another? It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-11"
     },
@@ -71,7 +59,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, nph-stepper: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 10 of the approval page approved (marker size, current ring width, completed connector, text column width and minimum connector width, current label on two lines, narrow width as nph-progress, vertical after nph-collapsible, two steps allowed, the other tokens only alias a semantic token)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, nph-stepper: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 10 of the approval page approved (marker size, current ring width, completed connector, text column width and minimum connector width, current label on two lines, narrow width as nph-progress, vertical after nph-collapsible, two steps allowed, the other tokens only alias a semantic token)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -83,7 +72,7 @@
   },
   "git_review": { "branch": "feat/dsa-73-stepper", "commit": "406d9fa4c1df869b6253d6045e0ec55d1732cf17", "pr": 166 },
   "context": null,
-  "updated_at": "2026-11-11"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -123,6 +112,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 40 `stepper/*` tokens came with this task and are on `v/5.0.0`, with the new `core/layout-width/stepper-text` (160). `stepper/marker-size`, `stepper/marker-border-width-current`, `stepper/connector-min-width` and `stepper/text-max-width` go straight to core by decision; the others alias an existing semantic token. No new semantic token. The pieces inside are done: nph-icon (DSA-03), nph-tooltip (DSA-48) and nph-progress (DSA-65).
+
+## Decisions answered on 2026-11-16
+Indiane answered D-2 in the chat on 2026-11-16, after market research with sources. D-4 was decided on that research by Claude, by her delegation. D-1, D-3 and D-5 stay open: they wait for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Confirmed: 37.5rem in a container query on the stepper, which reads its own width. | Nothing changes. |
+| D-4 | Partly confirmed. The hover background only on the steps that can be activated: confirmed. The balloon of a cut label on a pending step: not a focusable span with no role, but a focusable element with a role and `aria-disabled`, so the screen reader names it (APG, focusability of disabled controls); the balloon comes from the same nph-tooltip change as DSA-71 D-1. | Changes in DSA-82. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

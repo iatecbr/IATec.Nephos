@@ -36,32 +36,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The accepted Figma documentation asks for the whole text of a cut label in nph-tooltip on hover and on focus, but nph-tooltip only opens on an element with tabIndex 0 or more, and an inactive tab has -1. The code gives tabindex 0 to the cut tab under the pointer while the pointer rests on it, and takes it back when the pointer leaves. She confirms that this serves, or asks for a change in nph-tooltip, which is another task. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-09"
-    },
-    {
-      "id": "D-2",
-      "question": "The icon-only nph-button of the scroll arrows requires a label, and the accepted documentation gives no text for it. The code adds two properties, scroll-previous-label and scroll-next-label, and draws no arrow without them. She confirms the two properties and the text the product uses. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-09"
-    },
-    {
-      "id": "D-3",
-      "question": "The accepted documentation only cites 99+ as an example of a large counter. The code shows 99+ above 99 and keeps the full number in the hidden context text. She confirms the limit of 99. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-09"
-    },
-    {
       "id": "D-4",
       "question": "In the segmented and the tab button styles with many tabs, the code cuts the label with an ellipsis and a balloon instead of scrolling. The documentation asks for few tabs there and leaves the overflow to the code. She confirms this or asks for scrolling in those styles too. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-09"
-    },
-    {
-      "id": "D-5",
-      "question": "The accepted documentation asks for the scroll arrows to be out of the screen reader. aria-hidden on the icon-only nph-button, which holds a focusable element in its shadow root, fails the accessibility gate (aria-hidden-focus). The arrows are out of the Tab order (tabindex -1) and keep their name. She confirms this, or asks for another way to hide them, which needs a change in nph-button and is another task. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-09"
     }
@@ -72,7 +48,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, nph-tabs: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 9 points of the approval page approved (color/primary-text on the active label and line, active counter on theme/brand-200 and theme/brand-700, indicator width on core/focus-width/sm, soft border on the active outline tab button, the solid tab button limit in dark, the label on text/label-md, the accessible name of the counter, the swap of the old instances); a finished component enters the first version"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, nph-tabs: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 9 points of the approval page approved (color/primary-text on the active label and line, active counter on theme/brand-200 and theme/brand-700, indicator width on core/focus-width/sm, soft border on the active outline tab button, the solid tab button limit in dark, the label on text/label-md, the accessible name of the counter, the swap of the old instances); a finished component enters the first version",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,7 +61,7 @@
   },
   "git_review": { "branch": "feat/dsa-71-tabs", "commit": "205d905f450b299053758be55073273c6018af9c", "pr": 162 },
   "context": null,
-  "updated_at": "2026-11-09"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -119,6 +96,16 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The fifty `tabs/*` tokens came with this task and are on `v/5.0.0`, with `core/alpha/white-15`, which Figma had and the code did not. No new semantic token: the active label and line use `color/primary-text`, already on `v/5.0.0`. The pieces inside are done: nph-icon (DSA-03), nph-badge (DSA-12), nph-icon-button (DSA-43) and nph-tooltip (DSA-48).
+
+## Decisions answered on 2026-11-16
+Indiane answered D-2, D-3 and D-5 in the chat on 2026-11-16, after market research with sources. D-1 was decided on that research by Claude, by her delegation. D-4 stays open: it waits for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Not confirmed. The cut tab keeps `tabindex="-1"`; nph-tooltip opens on the hover of any element and on the focus the arrow keys give, so the tab list keeps a single Tab stop (APG Tabs pattern; WCAG 1.4.13). | Changes in DSA-82. |
+| D-2 | Confirmed, with a default: the two properties stay and override a default name (pt-BR `Rolar para a esquerda` and `Rolar para a direita`), so the arrows never vanish when the product forgets the text (Carbon Tabs does the same). How the default is localized is the code owner's choice. | Changes in DSA-82. |
+| D-3 | Confirmed: 99+ above 99, with the full number in the hidden context text. | Nothing changes. |
+| D-5 | Confirmed: the arrows stay out of the Tab order (`tabindex="-1"`) and keep their name; the axe rule `aria-hidden-focus` is not broken. | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

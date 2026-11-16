@@ -46,20 +46,8 @@
       "opened_at": "2026-11-10"
     },
     {
-      "id": "D-2",
-      "question": "In dark, the logo shows its light version. The brand has not confirmed which version of the logo goes on a dark background. Indiane confirms it with the brand. It does not block the pull request; the dark logo does not ship until it is confirmed.",
-      "decider": "indiane",
-      "opened_at": "2026-11-10"
-    },
-    {
       "id": "D-3",
       "question": "In the collapsed menu, the rail button of a group is never active (a group is never the current page), so nothing shows that the current page is inside a group until its flyout panel opens. Indiane confirms it, or asks for an active look on the rail button of the group that holds the current page. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    },
-    {
-      "id": "D-4",
-      "question": "Figma draws the flyout panel fixed at 220 and has no width token; the gap between lines, the padding of the group label and the gap of the logo row are not written either. The code takes the width the options need, between a line of the expanded menu and layout/input-width, and the other measures from existing tokens (P116). Indiane gives the tokens in the next Figma batch, or accepts these. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-11"
     }
@@ -71,7 +59,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, nph-sidebar: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 6), and items 7 to 21 of the approval page approved (color/primary-text on the active item, the open group and the flyout title; active rail button and corner button on color/primary and color/primary-foreground; sidebar/flyout-border on color/border-subtle; sidebar/scrim; sidebar/mobile-offset; focus/border on the approved pieces; label without uppercase; open option only with options; the sidebar icon in nph-icon; radius exceptions; descriptions and missing tokens; cleanup; the logo in dark with the brand)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, the second step of the nph-sidebar released by Indiane, and the flyout panel radius at 12 (sidebar/flyout-radius, as nph-dropdown-menu)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, the second step of the nph-sidebar released by Indiane, and the flyout panel radius at 12 (sidebar/flyout-radius, as nph-dropdown-menu)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -83,7 +72,7 @@
   },
   "git_review": { "branch": "feat/dsa-72-sidebar", "commit": "779ad65e1dfaf7ba125c360bd8af1b3ce21e775d", "pr": 165 },
   "context": null,
-  "updated_at": "2026-11-11"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -121,6 +110,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The `sidebar/*` tokens came with this task and are on `v/5.0.0`: the active rail pair and the flyout border now on their new aliases, `sidebar/scrim`, `sidebar/mobile-offset`, `sidebar/flyout-radius` (12, as nph-dropdown-menu), and `sidebar/panel-width` (alias of `layout/sidebar-expanded`), `sidebar/rail-padding`, `sidebar/logo-max-height` and `sidebar/logo-mark-size`, which Figma had and the code did not, with `core/space/500`, `core/layout-height/sidebar-logo` and `core/layout-height/sidebar-logo-mark`. `core/layout-width/sidebar-collapsed` and `core/layout-width/sidebar-expanded` now have the Figma values, 80 and 256. No new semantic token: `color/primary-text` is already on `v/5.0.0`. The pieces inside are done: nph-icon (DSA-03), nph-button (DSA-13), nph-input (DSA-16), nph-skeleton (DSA-26), nph-icon-button (DSA-43), nph-tooltip (DSA-48) and nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button (DSA-53).
+
+## Decisions answered on 2026-11-16
+Indiane answered D-2 and D-4 in the chat on 2026-11-16, after market research with sources. D-1 and D-3 stay open: they wait for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Confirmed as provisional: the dark logo does not ship until the brand team confirms which version goes on a dark background. Indiane takes the question to the brand; a new task carries the answer. | Nothing changes. |
+| D-4 | Confirmed: the flyout panel takes the width its options need, between a line of the expanded menu and `layout/input-width`, and the other measures come from existing tokens (P116). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

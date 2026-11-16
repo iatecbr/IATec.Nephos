@@ -35,20 +35,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The preview type lifts the cut at three lines with no movement, because a cut of lines is not a size that can grow. Does Indiane confirm the reading, or draw the movement? Recommended: confirm. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
       "id": "D-2",
       "question": "The preview type draws its Show more button even when the text has fewer than three lines, since the documentation does not say otherwise. Does the button go away when nothing is cut? Recommended: keep it, so the piece does not measure the text and the page owns the choice of the type. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-13"
-    },
-    {
-      "id": "D-3",
-      "question": "The accepted documentation asks for the content to grow in motion/expand-*, and the motion rules of design.md say to animate only opacity and transform, and not width, height or layout position. The collapsible follows the documentation and animates the rows of one grid. Does Indiane confirm the reading, or does the rule get an exception for the expansion of a disclosure? Recommended: an exception, because a disclosure that pushes down what comes below cannot grow with transform alone. It does not block this task.",
       "decider": "indiane",
       "opened_at": "2026-11-13"
     }
@@ -59,7 +47,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-collapsible: visual acceptance of the root, documentation accepted, and the points of the approval answered (the collapsible defines the anatomy and the values, and the accordion item later becomes an instance of it, after both are accepted, with nothing in the accordion changed now; card outline in color/border at border/width and no outline in the default appearance; paddings kept on space/inline, space/inline-tight and space/control-padding; collapsible/content-padding-top on space/stack-snug so the focus ring does not touch the content; the other tokens only alias a semantic and the component enters v1)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-12.md, nph-collapsible: visual acceptance of the root, documentation accepted, and the points of the approval answered (the collapsible defines the anatomy and the values, and the accordion item later becomes an instance of it, after both are accepted, with nothing in the accordion changed now; card outline in color/border at border/width and no outline in the default appearance; paddings kept on space/inline, space/inline-tight and space/control-padding; collapsible/content-padding-top on space/stack-snug so the focus ring does not touch the content; the other tokens only alias a semantic and the component enters v1)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -71,7 +60,7 @@
   },
   "git_review": { "branch": "feat/dsa-78-collapsible", "commit": "ca1914ac5c7620b8da13dbef66589911360562ff", "pr": 170 },
   "context": null,
-  "updated_at": "2026-11-13"
+  "updated_at": "2026-11-16"
 }
 ```
 
@@ -104,6 +93,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The tokens (`collapsible/*`) came with this task and are on `v/5.0.0`. All of them are aliases of semantic tokens. No new value entered the core. The pieces used by instance are done: nph-icon (DSA-03) and nph-button (DSA-13, DSA-43).
+
+## Decisions answered on 2026-11-16
+Indiane answered D-1 and D-3 in the chat on 2026-11-16, after market research with sources. D-2 stays open: it waits for a preview in Figma, in light and dark.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Confirmed: the preview type lifts the cut at three lines with no movement. | Nothing changes. |
+| D-3 | Confirmed as an exception to the motion rule of `design.md`: the expansion of a disclosure grows its grid rows in `motion/expand-*`; with reduced motion nothing moves (Radix Collapsible animates the content height). | Nothing changes in the code. Writing the exception into the motion rule of `design.md` is Claude's, and waits for Indiane's release. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
