@@ -81,6 +81,7 @@ P62.4 subsection for the detail).
 | **P122** | `nph-combobox`: the free text variant (extends P95) | 14/11/2026 | Low now. No piece consumes the variant yet, and the arrow variant does not change, so changing the attribute `free-text`, the attribute `no-suggestions-label`, the rule that the typed text is the value (`value` and `query`, with a pick writing the text of the suggestion), the events `input`, `change` and `nph-search`, the keyboard with no suggestion active while typing, the status region outside the list, the IME rule or the invalid-input rules later requires redoing every consumer. The click on the field that does not open the list (D-1) and the arrows that show only the suggestions that contain the text (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P123** | API and semantics of `nph-command`; three options and the close origins of `nph-dialog` (amends P87) | 14/11/2026 | Low now. No screen consumes the palette yet; the search of the side menu will, so changing `items`, the texts, the events `nph-run` and `nph-search`, the origins of `nph-close`, the keys, the shortcut rule or the invalid-input rule later requires redoing every consumer. The options of the dialog only add and are off by default. The position near the top (D-1), the width held at the ceiling (D-2), the rest of a searched destructive label (D-3) and the clipped outer pixel of the field halo (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P124** | The panel menu navigation of `nph-sidebar`: the `navigation` property, the open state, the third level in place (extends P116) | 15/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing the name or the values of `navigation`, the shape of `items` (the child with `options` and its `expanded`), the way the open groups are kept or the event `nph-group-toggle` later requires redoing every consumer. The section label in the panel menu (D-1), the arrow of the group item (D-2) and a page inside a group the person closed (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P126** | API and semantics of `nph-menubar`; the focus border and the submenu gap of the dropdown item (amends P92 and P113) | 16/11/2026 | Low now. No piece consumes the bar yet; the header of an application will, and changing `menus`, `open-menu`, `open-submenu`, `label`, `more-label`, `narrow`, `menu-label`, the event `nph-item-select` (with `menu`), the overflow rule or the invalid-input rule later requires redoing every consumer. The focus border of the dropdown and context-menu item changes color only, and the submenu of the context menu moves 4 px. The open top item in focus (D-1), Enter and Space on a choice and the click on a multiple choice (D-2), the click that opens with no item shown (D-3) and the panel that is not an instance in code (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -8655,9 +8656,152 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P126 — `nph-menubar`: API and semantics; the focus border and the submenu gap of the dropdown item (amends P92 and P113)
+
+**Technical conflict.** The accepted documentation (frame `6432:8686`, page `1626:15`, sets `6410:7769` and
+`6402:4299`) calls the panel of the bar "an instance of the `nph-dropdown-menu`" and leaves the code API to the
+code. The `nph-dropdown-menu` of P92 cannot be that panel without changing it, and the task does not authorize a
+change beyond the focus border of its item. Seven limits of the unmodified dropdown break the accepted contract:
+
+- `for` is looked up in the same root, and `place()` opens the panel only below or above its trigger: a second
+  panel beside an item that lives in the shadow root of another piece has no anchor;
+- a click on the trigger always opens the panel on the first item, where the contract opens it with no item
+  highlighted by click;
+- `activate()` keeps a multiple choice open and closes a single choice on both keys, where the contract wants
+  Enter to close, also on a checkbox and a radio, and Space to check without closing;
+- `place()` clamps the panel to 0 from the window edge, where the contract wants 4 px of collision padding;
+- every open instance registers its own `keydown` for Esc on the `document` and stops its propagation, so two open
+  panels close together, where the contract wants one level at a time (DSA-69 D-5);
+- the shortcut is in `aria-describedby`, where the contract wants `aria-keyshortcuts`, as DSA-69 does;
+- the `focusout` and the `pointerdown` of the instance of the parent close it when the focus or the pointer goes
+  to a sibling submenu panel, so a submenu cannot be a second instance.
+
+The contract also asks for a submenu level, which P92 does not nest, for the overflow and for the narrow screen,
+and the item the panels share draws its focus border in `color/primary`, which measures below 3:1 on
+`color/popover` in dark in four brands.
+
+**Decision.** `nph-menubar` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic
+tokens: the `menubar/*` ones for the bar and its top items, the `dropdown/*` ones for the panel, the item, the
+group label and the separator, `focus/*`, `state/disabled-opacity`, `elevation/dropdown`, the motion roles and the
+text roles; **no token is created or changed**. It has no `::part`, no slot and no color property. What it
+rejects renders nothing and emits `console.error` only in development, once per cause: the rule of P21. The names
+follow P64.
+
+1. **A piece of its own, as P113 (Q1).** The bar draws its own panels in its own shadow root, with the item, the
+   group label and the separator of `nph-dropdown-menu`: a replica of its CSS with the same `dropdown/*` tokens,
+   so the panel looks the same, as `nph-context-menu` does (P113, item 1) and as the group label of
+   `nph-navigation-menu` does (P110). The bar does not import `nph-dropdown-menu`, so P92 does not change. Every
+   ARIA reference stays in one root (P91). The Figma says "instance"; the code says "same tokens". The accepted
+   look does not differ.
+
+2. **The API (Q2).** `menus` is a property only: `{ value, label, disabled, items }`, with `items` as the entries
+   of `nph-context-menu` (item, label and separator; an item has `value`, `text`, `icon`, `severity`, `selection`,
+   `checked`, `shortcut`, `submenu`, one level, and `disabled`). `open-menu`, a reflecting string, is the `value`
+   of the open menu; `open-submenu`, a reflecting string, is the `value` of the item whose submenu is open: the bar
+   writes both, and the consumer may set them to show a panel open, with no focus move. `label` is the accessible
+   name of the bar and wins over the `aria-label` of the host. `more-label` is the text of the overflow item,
+   `narrow` (reflecting) is the consumer's swap of the bar for the button with the `bars` icon, and `menu-label` is
+   the accessible name of that button, required when `narrow`. The texts come already localized. `nph-item-select`
+   bubbles, with `detail: { value, checked, menu }`: `checked` is the new state of a choice and `null` on a common
+   item, and `menu` is the `value` of the top item, also from the overflow panel and from the narrow button. The
+   bar then replaces `menus` with a new list that carries the new `checked`, and never changes the objects of the
+   consumer. There is no slot, no `::part` and no color property. A description, an avatar, a tag, a counter, a
+   switch, a loading state and a header on an item are not in the contract, so they are not in the API.
+
+3. **Overflow measured by the bar, narrow chosen by the consumer (Q3).** The bar measures itself with a
+   `ResizeObserver` over a hidden probe row (`aria-hidden`, `inert`) that shares the class of the top item, so the
+   widths are the ones drawn. The top items that do not fit go into a last top item, `more-label`, a `menuitem`
+   with `aria-haspopup` inside the bar, which opens a panel with those menus as items with a submenu; the bar does
+   not wrap. Without `more-label` nothing overflows and the piece warns once in development. The narrow screen is
+   not measured: the consumer chooses `narrow`, the rule of `narrow` of `nph-navigation-menu` (P110) and of
+   `collapsed` of `nph-breadcrumb` (P109), and the same panel opens from the button, with every menu as an item
+   with a submenu. A menu that already has a submenu shows those items under a group label in the panel of its
+   menu, so the structure stays in one level.
+
+4. **Keyboard and pointer (Q4).** The menubar pattern of the APG, with the lines where the Radix default differs.
+   The bar has one Tab stop, on the top item used last, and Tab leaves it. Left and Right (swapped in right-to-left
+   writing), Home and End move between top items with wrap; Enter, Space and Down open the panel on the first item,
+   Up on the last. With a panel open, Left and Right close it, go to the neighbor top item and open its panel,
+   **keeping the focus on that top item**. In a panel the arrows move with wrap, Home and End go to the ends, a
+   typed character goes to the next item that starts with it, and a disabled item takes the focus and does not run.
+   Right opens a submenu, or goes to the next menu when the item has none; Left closes the submenu, or goes to the
+   previous menu. **Enter always closes**, also on a checkbox and a radio; **Space checks a choice without
+   closing** and on a common item does the same as Enter; a click closes the menu except on a multiple choice, as
+   P92 and P113 do. **Esc closes one level at a time**, giving the focus back to the item that opened it, and does
+   nothing on the top item with the menu closed. A press outside closes and leaves the focus where the person
+   pressed. A click on a top item opens its panel and a click on the open one closes it; the pointer over another
+   top item switches to it, when a panel is already open; in a panel the pointer highlights the item and takes the
+   focus to it (DSA-45 D-6), and a submenu opens by pointer after `motion/hover-delay`. A click opens the panel with
+   the first item focused and not shown, as P92 and P113 do (D-3).
+
+5. **Placement.** Each panel is a `popover="manual"`, in the top layer. The first panel opens below its top item,
+   aligned with its start edge, at `menubar/panel-offset`; the submenu opens beside the panel, on the line of its
+   item, at `dropdown/submenu-offset`, to the right and to the left only when there is no room. Both distances are
+   the margin of the side that faces the item, read from the computed style, so the code has no literal. The panel
+   turns up, moves sideways or shrinks and scrolls close to the window edge, and keeps 4 px from it: the
+   collision padding is `COLLISION_PADDING`, a code setting with no token, decided with the approval of the page.
+
+6. **The top item open and focused (D-1).** While the arrows switch menus the focus stays on the top item, so it
+   is open and focused at once, and the Figma draws `hover-aberto` and `foco` apart. The code composes the two
+   accepted looks, the background and the label of the open item with the border and the halo of the focus, and
+   adds no third look.
+
+7. **The focus border of the dropdown item moves to `focus/border` (amends the look that P92 records and P113 extends).** In
+   `nph-dropdown-menu.css`, `.item:focus-visible::before` draws `border/width` in `focus/border` instead of
+   `color/primary`, and `nph-context-menu` follows, because it replicates the same item. `color/primary` on
+   `color/popover`, dark, measures 1.83:1 in Gerencial, 1.94:1 in Recursos Humanos, 2.28:1 in Igrejas and 2.57:1 in
+   `Educação`, below the 3:1 of WCAG 1.4.11; with `focus/border` the lowest of the seven brands and the two themes is
+   4.32:1 (light, Comercial), and Gerencial in dark is 5.53:1. The halo, the radii and the layout do not change.
+   The replica in `nph-menubar` is born with `focus/border`.
+
+8. **The submenu gap of the context menu (amends P113, item 5).** P113 said the submenu sits flush with the first
+   panel. It now sits at `dropdown/submenu-offset` (4, `core/space/100`), on the side that faces the panel, read
+   from the computed style with no literal; `nph-menubar` uses the same token. The token was created with this
+   task, in Figma and in `design.md`, and the code only reads it.
+
+**Known limits.**
+
+- The panel is not an instance of `nph-dropdown-menu` in code; the same tokens give the same look, and a change
+  in the dropdown item reaches the bar only through them (D-4).
+- A forced-colors mode is not treated, as in P113.
+- A menu that sits in the overflow item cannot be shown open by `open-menu`; only the person opens the overflow
+  item. `open-menu` is ignored while `narrow`.
+
+**Source.** Documentation frame `6432:8686` (page `1626:15`), root `6410:7413` and sets `6410:7769`, `6402:4299`
+and `1365:57` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/11/2026, with the Figma UX QA and
+the textual audit approved, and the eight points of its approval round, all answered as recommended; the evidence
+of the `figma-docs-accepted` gate of DSA-83. The names and values of the API, the overflow measured by the bar,
+the composition of the open and focused top item and the way the panels are placed are a technical proposal of this
+implementation.
+
+**Effects on other pieces.** `nph-dropdown-menu` and `nph-context-menu` change the focus border of the item and
+the test of each says so; `nph-context-menu` also takes the submenu gap. Their sheets name `focus/border` and the
+gap. The behavior of the other keys, the API, the event and the other tokens do not change.
+
+**Out of scope.** A second level of submenu. A compact size. A vertical bar. A mobile layout. A token, new or
+changed. A directive over `nph-dropdown-menu`. A change to the gray open trigger of `nph-dropdown-menu` (DSA-67
+D-2) and to the ellipsis of `nph-breadcrumb`. A forced-colors mode.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the open top item in focus.** The Figma draws the two states apart. The code composes the open look
+  with the focus border and halo. She confirms it or draws the combined look.
+- **D-2 — Enter, Space and the click on a choice.** Enter closes the menu, also on a checkbox and a radio; Space
+  checks without closing; a click on a multiple choice keeps the menu open. The Figma covers the keys, not the
+  click.
+- **D-3 — the click opens with no item shown.** The evidence says the panel opens by click with no item
+  highlighted; the code gives the first item the focus without showing it, as the dropdown and the context menu do.
+- **D-4 — the panel is not an instance in code.** The code draws the panel in the bar with the same `dropdown/*`
+  tokens, as P113 does for the context menu. She confirms the look is the accepted one.
+
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 to D-4 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123 or P124 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124 or P126 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

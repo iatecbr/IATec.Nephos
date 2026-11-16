@@ -37,7 +37,7 @@
   "pending_decisions": [
     {
       "id": "D-1",
-      "question": "A top item that is open and in keyboard focus at once is reached by the arrows, with a panel open (the focus stays on the top item, APG), and Figma draws hover-aberto and foco apart. The code composes the two accepted looks: the background and the label of the open item, with the focus border and the halo. If the combination needs its own look, she decides. It does not block the pull request.",
+      "question": "A top item that is open and in keyboard focus at once is reached by the arrows, with a panel open (the focus stays on the top item, APG), and Figma draws `hover-aberto` and `foco` apart. The code composes the two accepted looks: the background and the label of the open item, with the focus border and the halo. If the combination needs its own look, she decides. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-16"
     },

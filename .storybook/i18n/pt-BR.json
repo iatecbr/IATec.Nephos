@@ -275,6 +275,23 @@
     "components-nph-context-menu-validation--interactive": "Interativo",
     "components-nph-context-menu-validation--examples": "Exemplos",
     "components-nph-context-menu-validation--brands": "Marcas",
+    "components-nph-menubar-docs": "Docs",
+    "components-nph-menubar-docs--documentation": "Documentação",
+    "components-nph-menubar-validation": "Validação",
+    "components-nph-menubar-validation--closed": "Fechada",
+    "components-nph-menubar-validation--file-menu": "Menu Arquivo",
+    "components-nph-menubar-validation--view-menu": "Menu Exibir",
+    "components-nph-menubar-validation--checked-and-disabled": "Marcado e desabilitado",
+    "components-nph-menubar-validation--submenu": "Submenu",
+    "components-nph-menubar-validation--top-items": "Itens de topo",
+    "components-nph-menubar-validation--focus": "Foco",
+    "components-nph-menubar-validation--open-and-focus": "Aberto e em foco",
+    "components-nph-menubar-validation--overflow": "Transbordo",
+    "components-nph-menubar-validation--narrow": "Estreita",
+    "components-nph-menubar-validation--direction": "Direção",
+    "components-nph-menubar-validation--interactive": "Interativo",
+    "components-nph-menubar-validation--examples": "Exemplos",
+    "components-nph-menubar-validation--brands": "Marcas",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentação",
     "components-nph-table-validation": "Validação",
@@ -6176,7 +6193,7 @@
       ],
       [
         "Foco",
-        "Pelo teclado: uma borda de border/width em color/primary e um halo em focus/halo, fora da linha; o ícone de início fica sólido."
+        "Pelo teclado: uma borda de border/width em focus/border e um halo em focus/halo, fora da linha; o ícone de início fica sólido."
       ],
       [
         "Desabilitado",
@@ -6238,7 +6255,7 @@
       ],
       [
         "Foco visível",
-        "A borda color/primary carrega o foco; o halo é decorativo."
+        "A borda focus/border carrega o foco; o halo é decorativo."
       ],
       [
         "A cor não é o único sinal",
@@ -6489,7 +6506,7 @@
       "Oculte a ação que a pessoa nunca pode fazer (permissão); desabilite a que não está disponível agora."
     ],
     "submenuTitle": "Submenu",
-    "submenuText": "Um item com submenu mostra a seta e não leva atalho. O submenu é um segundo painel igual ao primeiro, com o primeiro item na mesma linha do item que o abriu. Abre à direita e à esquerda só quando não há espaço. Um nível só.",
+    "submenuText": "Um item com submenu mostra a seta e não leva atalho. O submenu é um segundo painel igual ao primeiro, com o primeiro item na mesma linha do item que o abriu. Abre à direita e à esquerda só quando não há espaço. O submenu abre a dropdown/submenu-offset (4 px) do painel. Um nível só.",
     "submenuCaption": "O submenu aberto à direita: Copiar link, Baixar arquivo e Mais opções. O item que o abriu mantém o destaque.",
     "sizesTitle": "Tamanhos",
     "sizesText": "default é o tamanho da maioria das telas; compact serve a telas densas, como tabelas. O tamanho vale para o menu inteiro: nunca misture os dois. O tamanho compacto também leva o item destrutivo, só com a troca de cor.",
@@ -6548,7 +6565,7 @@
       ],
       [
         "Foco visível",
-        "O item em foco mostra a borda color/primary e o halo focus/halo; a borda carrega o foco."
+        "O item em foco mostra a borda focus/border e o halo focus/halo; a borda carrega o foco."
       ],
       [
         "A cor não é o único sinal",
@@ -6631,6 +6648,486 @@
     "exampleClosed": "Menu fechado: ações com atalhos, um item com submenu e o item destrutivo por último",
     "exampleRight": "Submenu aberto à direita, na mesma linha do seu item",
     "exampleLeft": "Submenu aberto à esquerda, quando não há espaço à direita; tamanho compacto"
+  },
+  "menubarDocs": {
+    "summary": "A barra de menus de comandos de uma aplicação, como Arquivo, Editar e Exibir: cada item de topo abre um painel com os comandos do seu assunto.",
+    "matrixLabel": "nph-menubar: a barra fechada, aberta, com um item de topo desabilitado e estreita",
+    "closedWord": "fechada",
+    "openWord": "aberta",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha de especificação do nph-menubar, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P126. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra é criada aqui.",
+    "onThisPage": "Nesta página",
+    "sourceLabel": "Fonte:",
+    "sourceSpec": "fichas/nph-menubar.md, Function e Examples; Figma, frame de documentação 6432:8686.",
+    "sourceApi": "P126 em docs/decisoes-tecnicas.md; fichas/nph-menubar.md.",
+    "sourceUsage": "ficha de especificação do nph-menubar; docs/decisoes-tecnicas.md › P126",
+    "sourceStates": "fichas/nph-menubar.md, States; Figma, frame 6432:8686, Properties and states.",
+    "sourcePanel": "fichas/nph-menubar.md, Variants; Figma, frame 6432:8686, Anatomy; P126.",
+    "sourceOverflow": "Figma, frame 6432:8686, Default behavior: Overflow e Narrow screen; P126.",
+    "sourceBehavior": "Figma, frame 6432:8686, Default behavior; WAI-ARIA Authoring Practices, padrão Menubar; P126.",
+    "sourcePractices": "Figma, frame 6432:8686, Do e Do not; fichas/nph-menubar.md, Anti-patterns.",
+    "sourceAnatomy": "Figma, frame 6432:8686, Anatomy; design.md.",
+    "sourceAccessibility": "Figma, frame 6432:8686, Accessibility and contrast; P126.",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "whenToUse": [
+      "Para uma aplicação com muitos comandos que se agrupam em poucos assuntos, como um editor de documentos, uma planilha ou uma ferramenta de desenho, usada com teclado e mouse.",
+      "No cabeçalho da aplicação, sempre à vista, com cada painel abrindo por clique ou por teclado.",
+      "Um atalho no fim do item, para ensinar o teclado a quem usa o mouse.",
+      "Uma escolha do item (única ou múltipla) para opções de exibição, como uma régua, uma grade ou uma densidade.",
+      "narrow quando a largura da página não comporta a barra: a aplicação troca a barra pelo botão com o ícone bars."
+    ],
+    "whenNotToUse": [
+      "Para ir a outra página: use nph-navigation-menu ou nph-sidebar.",
+      "Para as ações frequentes que precisam ficar à vista: use nph-toolbar.",
+      "Para as poucas ações de um botão: use nph-dropdown-menu.",
+      "Para as ações do objeto sob o ponteiro: use nph-context-menu.",
+      "Como uma barra com um único item de topo: a barra agrupa assuntos, e um assunto é um botão que abre um menu.",
+      "Com um submenu dentro de um submenu: só um nível; o que passar disso vai para um diálogo."
+    ],
+    "relationsText": "A barra desenha os próprios painéis. O item, o rótulo de grupo e o separador têm o visual do nph-dropdown-menu, pelos tokens dropdown, e a barra e seus itens de topo usam os tokens menubar. O ícone inicial, a seta e a marca são nph-icon, a escolha múltipla é um nph-checkbox e o botão da tela estreita é um nph-button.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "menus",
+        "Os itens de topo, em ordem, como dados. Só por propriedade. Obrigatória."
+      ],
+      [
+        "open-menu",
+        "O valor do menu cujo painel está aberto; vazio é fechado. A barra escreve; quem consome pode defini-la para mostrar um painel aberto, e um painel aberto por código não recebe foco. Refletida."
+      ],
+      [
+        "open-submenu",
+        "O valor do item cujo submenu está aberto; vazio é fechado. A barra escreve; quem consome pode defini-la para mostrar o submenu aberto. Refletida."
+      ],
+      [
+        "label",
+        "O nome acessível da barra, já localizado, como Menu do editor. O aria-label do host faz o mesmo."
+      ],
+      [
+        "more-label",
+        "O texto do último item de topo, que guarda os menus que não cabem na largura. Sem ele, nada transborda."
+      ],
+      [
+        "narrow",
+        "A aplicação troca a barra pelo botão com o ícone bars. A peça não mede o ponto de quebra. Refletida."
+      ],
+      [
+        "menu-label",
+        "O nome acessível desse botão, já localizado. Obrigatória com narrow."
+      ],
+      [
+        "nph-item-select",
+        "O evento, que borbulha, com detail value, checked e menu: o valor do item de topo a que o comando pertence. Mudar menus ou open-menu por código nunca o dispara."
+      ],
+      [
+        "color and parts",
+        "Não são propriedades: as cores vêm dos tokens, e a peça não tem slot nem ::part."
+      ]
+    ],
+    "menuText": "Cada entrada de menus é um item de topo com o painel que ele abre:",
+    "menuHeader": [
+      "Campo",
+      "Regra"
+    ],
+    "menu": [
+      [
+        "value",
+        "Obrigatório. O que open-menu e o evento informam. Único na barra."
+      ],
+      [
+        "label",
+        "Obrigatório. O texto do item de topo, curto, de preferência uma palavra."
+      ],
+      [
+        "disabled",
+        "O item de topo recebe o foco e não abre."
+      ],
+      [
+        "items",
+        "Obrigatório. As entradas do painel."
+      ]
+    ],
+    "entryText": "Cada entrada de items é um item, um rótulo de grupo ou um separador; o submenu de um item é uma lista das mesmas entradas, de um nível só:",
+    "entryHeader": [
+      "Campo",
+      "Regra"
+    ],
+    "entry": [
+      [
+        "value",
+        "Obrigatório. O que o nph-item-select informa. Único no menu."
+      ],
+      [
+        "text",
+        "Obrigatório. O rótulo, em uma linha, cortado com reticências; o nome acessível."
+      ],
+      [
+        "icon",
+        "Um nome do núcleo do nph-icon: leve em repouso, sólido no destaque."
+      ],
+      [
+        "severity",
+        "default ou destructive. O item destrutivo vai por último, depois de um separador."
+      ],
+      [
+        "selection",
+        "none, single ou multiple. Single mostra a marca no fim; multiple mostra a caixa no início."
+      ],
+      [
+        "checked",
+        "O estado de uma escolha. A barra escreve uma lista nova com o novo estado."
+      ],
+      [
+        "shortcut",
+        "Texto simples no fim, como Ctrl+N. Vai em aria-keyshortcuts. Não em um item com submenu."
+      ],
+      [
+        "submenu",
+        "Uma lista de entradas, de um nível: a seta no fim do item."
+      ],
+      [
+        "disabled",
+        "O item recebe o foco e não ativa."
+      ],
+      [
+        "type",
+        "item (o padrão), label ou separator."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-menubar label=\"Menu do editor\" more-label=\"Mais\"></nph-menubar>",
+    "usageTag": "Os itens de topo chegam como dados na propriedade menus, definida por JavaScript. O label dá o nome à barra; o more-label liga o item de transbordo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "statesTitle": "Estados do item de topo",
+    "statesText": "O item de topo tem 36 de altura e a largura se ajusta ao rótulo, sem ícone. Tem quatro estados; não há eixo de tamanho nem estado para a barra inteira. Uma barra que não se aplica a uma tela sai da tela em vez de ficar desabilitada.",
+    "statesHeader": [
+      "Estado",
+      "Regra"
+    ],
+    "states": [
+      [
+        "default",
+        "Sem fundo, o rótulo em menubar/trigger-foreground."
+      ],
+      [
+        "hover and open",
+        "Ponteiro sobre ele, ou o painel aberto: fundo menubar/trigger-background-hover e rótulo menubar/trigger-foreground-hover, na paleta primária."
+      ],
+      [
+        "focus",
+        "Por teclado: uma borda de border/width em focus/border e um halo em focus/halo, fora do item, sem fundo. Aberto e em foco ao mesmo tempo mantém os dois visuais."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity no item inteiro. Recebe o foco e não abre."
+      ]
+    ],
+    "statesCaption": "A barra com o painel Arquivo aberto, e a barra com o item de topo Ajuda desabilitado e um item de topo com rótulo longo.",
+    "panelTitle": "Painel, escolhas e submenu",
+    "panelText": "Cada painel abre abaixo do seu item de topo, alinhado à borda inicial, a menubar/panel-offset (4 px), na camada superior. Só um fica aberto por vez: o ponteiro sobre outro item de topo, ou as setas, passam para ele.",
+    "panelHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "panel": [
+      [
+        "Atalho",
+        "Texto simples no fim do item, em color/muted-foreground. Ensina o atalho a quem usa o mouse."
+      ],
+      [
+        "Rótulo de grupo e separador",
+        "Um rótulo dá nome ao grupo que vem depois; um separador o fecha. O item destrutivo vai por último, depois de um separador."
+      ],
+      [
+        "Escolhas",
+        "A escolha única mostra a marca no fim e o texto em color/primary-hover; a escolha múltipla mostra a caixa no início. Uma escolha marcada e desabilitada mantém a marca sob a opacidade de desabilitado."
+      ],
+      [
+        "Item desabilitado",
+        "Um comando que não se aplica agora fica desabilitado, não oculto: recebe o foco e não executa."
+      ],
+      [
+        "Submenu",
+        "Um item com submenu desenha a seta e não leva atalho. O submenu é um segundo painel, ao lado do primeiro a dropdown/submenu-offset (4 px), na linha do seu item. Um nível só."
+      ],
+      [
+        "Perto da borda da janela",
+        "O painel vira para cima quando não há espaço abaixo, desliza para o lado além da borda, ou encolhe e rola, mantendo 4 px da borda."
+      ]
+    ],
+    "overflowTitle": "Transbordo e tela estreita",
+    "overflowText": "Os itens de topo que não cabem na largura vão para o último item de topo, nomeado por more-label, que abre um painel com eles como itens com submenu; a barra nunca quebra em uma segunda linha. Em uma tela estreita a aplicação define narrow: a barra vira um botão com o ícone bars que abre um painel com os menus como submenus. Um menu que já tem submenu mostra esses itens sob um rótulo de grupo, para ficar em um nível só.",
+    "overflowCaption": "A barra em uma caixa estreita demais para seus itens de topo, e o botão da tela estreita.",
+    "keyboardTitle": "Teclado e ponteiro",
+    "keyboardHeader": [
+      "Tecla ou situação",
+      "Regra"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Uma parada na barra, no item de topo usado por último, o primeiro na primeira vez. O Tab sai da barra e fecha o painel."
+      ],
+      [
+        "Seta para a esquerda e para a direita, Home e End",
+        "Na barra, movem entre os itens de topo, com volta ao início. As setas se trocam na escrita da direita para a esquerda."
+      ],
+      [
+        "Enter, Espaço e seta para baixo",
+        "Em um item de topo, abrem o painel no primeiro item. A seta para cima o abre no último."
+      ],
+      [
+        "Setas com um painel aberto",
+        "No painel, as setas para cima e para baixo movem com volta ao início e Home e End vão às pontas; uma letra digitada vai ao próximo item que começa com ela. No nível do topo, esquerda e direita fecham o painel, passam ao item de topo vizinho e abrem o painel dele, mantendo o foco nesse item de topo."
+      ],
+      [
+        "Seta para a direita e para a esquerda em um painel",
+        "A direita abre um submenu, ou vai ao próximo menu quando o item não tem; a esquerda fecha o submenu, ou vai ao menu anterior."
+      ],
+      [
+        "Enter e Espaço em um item",
+        "O Enter ativa e fecha o painel, também em uma escolha. O Espaço em uma escolha a marca sem fechar; em um item comum faz o mesmo que o Enter."
+      ],
+      [
+        "Esc",
+        "Fecha um nível por vez e devolve o foco a quem abriu. Com o painel fechado, no item de topo, não faz nada."
+      ],
+      [
+        "Ponteiro",
+        "Um clique em um item de topo abre o painel sem nenhum item destacado; um clique no aberto o fecha. Com um painel aberto, o ponteiro sobre outro item de topo passa para ele. No painel, o ponteiro destaca o item e leva o foco a ele; um submenu abre após um pequeno atraso. Um toque fora fecha os painéis."
+      ]
+    ],
+    "practicesTitle": "Faça e não faça",
+    "doHeader": [
+      "Faça",
+      "Porque"
+    ],
+    "doRules": [
+      [
+        "Agrupe os comandos por assunto e separe os grupos com o separador.",
+        "Quem procura um comando o encontra pela categoria."
+      ],
+      [
+        "Mostre o atalho de teclado à direita do item.",
+        "Ele ensina o atalho a quem usa o mouse."
+      ],
+      [
+        "Use a caixa de seleção e o rádio do item para opções de exibição.",
+        "A marca mostra o estado além da cor."
+      ],
+      [
+        "Deixe desabilitado, e não oculto, um comando que não se aplica agora.",
+        "A pessoa aprende onde ele está."
+      ],
+      [
+        "Monte cada painel com o item de menu, o rótulo de grupo e o separador da peça.",
+        "O menu da barra fica igual aos outros menus do Nephos e acompanha os tokens dropdown quando eles mudam."
+      ]
+    ],
+    "dontHeader": [
+      "Não faça",
+      "Em vez disso"
+    ],
+    "dontRules": [
+      [
+        "Não use para navegar entre páginas.",
+        "Use o nph-navigation-menu ou o nph-sidebar. Exemplo de erro: itens de topo que levam a páginas, como Início, Clientes, Relatórios e Ajustes."
+      ],
+      [
+        "Não use para as ações de um único objeto ou de um único botão.",
+        "Use o nph-context-menu ou o nph-dropdown-menu. Exemplo de erro: uma barra com um único item de topo."
+      ],
+      [
+        "Não crie um submenu dentro de um submenu.",
+        "Mantenha um nível; o que passar disso vai para um diálogo. Exemplo de erro: um terceiro painel aberto a partir de um item do submenu, como versão 3, versão 2 e versão 1."
+      ]
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Barra",
+        "Horizontal, sem fundo, sem borda e sem espaçamento próprio: o fundo vem do cabeçalho onde ela mora. O espaço entre itens de topo é menubar/bar-gap."
+      ],
+      [
+        "2. Item de topo",
+        "Altura menubar/trigger-height, espaçamento menubar/trigger-padding-x de cada lado, cantos menubar/trigger-radius; a largura se ajusta ao rótulo."
+      ],
+      [
+        "3. Rótulo",
+        "text/label-md, em menubar/trigger-foreground; em menubar/trigger-foreground-hover no hover e aberto."
+      ],
+      [
+        "4. Foco",
+        "Só em foco, fora do item: a borda em focus/border e o halo em focus/halo."
+      ],
+      [
+        "5. Painel",
+        "Superfície em color/popover, borda de border/width em color/dropdown-border, cantos de dropdown/panel-radius, sombra elevation/dropdown e espaçamento space/inline-tight. Largura layout/input-width. Abre menubar/panel-offset abaixo do item de topo."
+      ],
+      [
+        "6. Item",
+        "Ícone inicial opcional e o rótulo; espaçamento e espaço space/inline, cantos de dropdown/item-radius. O ícone é leve em repouso e sólido no destaque."
+      ],
+      [
+        "7. Atalho",
+        "Texto opcional no fim do item, em text/caption e color/muted-foreground."
+      ],
+      [
+        "8. Separador",
+        "A linha entre grupos, em dropdown/separator, com space/inline-tight acima e abaixo."
+      ],
+      [
+        "9. Submenu",
+        "Um segundo painel igual ao primeiro, ao lado dele a dropdown/submenu-offset, com o primeiro item na linha do item que o abriu."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "O rótulo do item de topo passa de 4,5:1 nos dois temas, em repouso e, em hover e aberto, em menubar/trigger-foreground-hover sobre menubar/trigger-background-hover, com 6,43:1 ou mais nas sete marcas. Um item desabilitado fica fora da regra."
+      ],
+      [
+        "Foco visível",
+        "O item de topo em foco mostra a borda focus/border e o halo focus/halo, sem fundo; a borda carrega o foco e passa de 3:1. O item do painel também mostra a borda focus/border."
+      ],
+      [
+        "A cor não é o único sinal",
+        "O item de topo aberto tem o painel aberto abaixo, além do fundo. Uma caixa marcada mostra a marca, e um rádio marcado mostra a marca no fim. O item destrutivo leva o ícone de lixeira junto com a cor."
+      ],
+      [
+        "Alvo de toque",
+        "O item de topo e o item do painel têm 36 de altura, acima dos 24 px da WCAG 2.5.8."
+      ],
+      [
+        "Teclado",
+        "O Tab entra no item de topo usado por último e sai. As setas, Home e End movem entre os itens de topo. Enter, Espaço ou seta para baixo abre o painel no primeiro item. O Esc fecha um nível por vez."
+      ],
+      [
+        "Nome acessível",
+        "A barra é um menubar nomeado por label, e cada item de topo um menuitem com aria-haspopup e aria-expanded. O painel é um menu nomeado pelo seu item de topo; cada item é um menuitem, menuitemradio ou menuitemcheckbox nomeado pelo texto, e o atalho vai em aria-keyshortcuts. Ícone e seta não são lidos."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleFile": "O editor com o menu Arquivo aberto, com atalhos, um item com submenu e o item destrutivo por último.",
+    "exampleView": "O menu Exibir: um rótulo de grupo, régua e grade como caixas de seleção, e densidade como rádios.",
+    "exampleStates": "Marcado e desabilitado: a marca fica sob a opacidade de desabilitado; um comando que não se aplica agora fica desabilitado.",
+    "exampleRecent": "O submenu Recentes, com os arquivos abertos há pouco.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Menubar, frame de documentação 6432:8686.",
+      "fichas/nph-menubar.md, a ficha de especificação.",
+      "docs/decisoes-tecnicas.md, P126 — API e semântica do nph-menubar.",
+      "design.md, os tokens menubar e dropdown, focus/border e color/primary-surface-hover.",
+      "WAI-ARIA Authoring Practices, padrão Menubar e exemplo de editor com menubar."
+    ],
+    "barLabel": "Menu do editor",
+    "moreLabel": "Mais",
+    "menuLabel": "Menu",
+    "menuFile": "Arquivo",
+    "menuEdit": "Editar",
+    "menuView": "Exibir",
+    "menuHelp": "Ajuda",
+    "menuAdvanced": "Configurações avançadas",
+    "new": "Novo",
+    "open": "Abrir",
+    "recent": "Recentes",
+    "recentOne": "relatorio-anual.pdf",
+    "recentTwo": "orcamento-2026.xlsx",
+    "recentThree": "ata-reuniao.docx",
+    "delete": "Excluir",
+    "undo": "Desfazer",
+    "redo": "Refazer",
+    "cut": "Recortar",
+    "copy": "Copiar",
+    "paste": "Colar",
+    "viewShow": "Mostrar",
+    "ruler": "Régua",
+    "grid": "Grade",
+    "viewDensity": "Densidade",
+    "comfortable": "Confortável",
+    "compact": "Compacta",
+    "minimap": "Minimapa",
+    "resetView": "Restaurar exibição",
+    "shortcutsItem": "Atalhos de teclado",
+    "about": "Sobre",
+    "preferences": "Preferências",
+    "shortcutNew": "Ctrl+N",
+    "shortcutOpen": "Ctrl+O",
+    "shortcutDelete": "Del",
+    "shortcutUndo": "Ctrl+Z",
+    "shortcutRedo": "Ctrl+Y",
+    "shortcutCut": "Ctrl+X",
+    "shortcutCopy": "Ctrl+C",
+    "shortcutPaste": "Ctrl+V"
+  },
+  "menubarValidation": {
+    "barLabel": "Menu do editor",
+    "moreLabel": "Mais",
+    "menuLabel": "Menu",
+    "menuFile": "Arquivo",
+    "menuEdit": "Editar",
+    "menuView": "Exibir",
+    "menuHelp": "Ajuda",
+    "menuAdvanced": "Configurações avançadas",
+    "new": "Novo",
+    "open": "Abrir",
+    "recent": "Recentes",
+    "recentOne": "relatorio-anual.pdf",
+    "recentTwo": "orcamento-2026.xlsx",
+    "recentThree": "ata-reuniao.docx",
+    "delete": "Excluir",
+    "undo": "Desfazer",
+    "redo": "Refazer",
+    "cut": "Recortar",
+    "copy": "Copiar",
+    "paste": "Colar",
+    "viewShow": "Mostrar",
+    "ruler": "Régua",
+    "grid": "Grade",
+    "viewDensity": "Densidade",
+    "comfortable": "Confortável",
+    "compact": "Compacta",
+    "minimap": "Minimapa",
+    "resetView": "Restaurar exibição",
+    "shortcutsItem": "Atalhos de teclado",
+    "about": "Sobre",
+    "preferences": "Preferências",
+    "shortcutNew": "Ctrl+N",
+    "shortcutOpen": "Ctrl+O",
+    "shortcutDelete": "Del",
+    "shortcutUndo": "Ctrl+Z",
+    "shortcutRedo": "Ctrl+Y",
+    "shortcutCut": "Ctrl+X",
+    "shortcutCopy": "Ctrl+C",
+    "shortcutPaste": "Ctrl+V",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "statusIdle": "Nenhum comando ativado ainda.",
+    "statusChosen": "Ativado {value} em {menu}; marcado: {checked}.",
+    "exampleFile": "O menu Arquivo aberto: comandos com atalhos, um item com submenu e o item destrutivo por último",
+    "exampleView": "O menu Exibir: régua e grade como caixas de seleção, densidade como rádios",
+    "exampleStates": "Marcado e desabilitado: a marca fica sob a opacidade de desabilitado",
+    "exampleRecent": "O submenu Recentes, com os arquivos abertos há pouco"
   },
   "comboboxDocs": {
     "summary": "O campo em que a pessoa digita para filtrar uma lista de opções e escolhe uma. Participa do formulário que o contém; o rótulo, o apoio e a mensagem de erro são do nph-field.",
@@ -7970,6 +8467,20 @@
       "components-nph-context-menu-validation--interactive": "Um objeto para experimentar: o clique direito, Shift+F10 ou a tecla Menu abre o menu no ponto; as setas, Enter, Esc e as setas direita e esquerda funcionam nele; ativar um item dispara nph-item-select.",
       "components-nph-context-menu-validation--examples": "Os três exemplos obrigatórios, cada um nos modos claro e escuro: o menu fechado, o submenu aberto à direita e o submenu aberto à esquerda no tamanho compacto.",
       "components-nph-context-menu-validation--brands": "As sete marcas nos modos claro e escuro: o item do submenu aberto, o ícone sólido e o foco usam o primário da marca do quadro.",
+      "components-nph-menubar-validation--closed": "A barra fechada: os itens de topo Arquivo, Editar, Exibir e Ajuda, com 36 de altura e a largura do rótulo, sem painel aberto, nos modos claro e escuro.",
+      "components-nph-menubar-validation--file-menu": "O painel Arquivo aberto abaixo do item de topo, alinhado à borda inicial: comandos com atalhos no fim, um item com submenu e o item destrutivo por último, depois de um separador.",
+      "components-nph-menubar-validation--view-menu": "O painel Exibir: um rótulo de grupo, a régua e a grade como caixas de seleção, um segundo grupo com a densidade como rádios, o marcado com a marca no fim e o texto em color/primary-hover.",
+      "components-nph-menubar-validation--checked-and-disabled": "Uma escolha marcada e desabilitada mantém a marca sob a opacidade de desabilitado, e um comando que não se aplica agora fica no painel, desabilitado: recebe o foco e não executa.",
+      "components-nph-menubar-validation--submenu": "O submenu Recentes aberto ao lado do painel a dropdown/submenu-offset, um segundo painel com o primeiro item na linha do item que o abriu; esse item mantém o destaque com o ícone e a seta sólidos.",
+      "components-nph-menubar-validation--top-items": "Um item de topo desabilitado fica na barra com a opacidade de desabilitado, e um item de topo com rótulo longo se ajusta ao texto: a largura é o rótulo com o espaçamento de cada lado.",
+      "components-nph-menubar-validation--focus": "O item de topo em foco de teclado: a borda em focus/border e o halo em focus/halo, sem fundo. O quadro claro recebe o foco; aperte Tab para levá-lo ao escuro.",
+      "components-nph-menubar-validation--open-and-focus": "O item de topo aberto e em foco ao mesmo tempo, como as setas o deixam: o visual de aberto com a borda e o halo de foco por cima. O quadro claro recebe o foco; aperte Tab para levá-lo ao escuro: sair da barra clara fecha o painel dela.",
+      "components-nph-menubar-validation--overflow": "Os itens de topo que não cabem na largura vão para o último item de topo, nomeado por more-label, em uma só linha: a barra nunca quebra.",
+      "components-nph-menubar-validation--narrow": "A tela estreita: a aplicação troca a barra pelo botão com o ícone bars, nomeado por menu-label.",
+      "components-nph-menubar-validation--direction": "Escrita da direita para a esquerda: a barra começa à direita, o painel se alinha à borda inicial, a seta do submenu é espelhada e o submenu abre para a esquerda.",
+      "components-nph-menubar-validation--interactive": "Uma barra para testar: clique em um item de topo ou use as setas, Enter, Espaço, Esc e Tab; ativar um comando dispara o nph-item-select, com o valor, o estado marcado e o item de topo, mostrados abaixo.",
+      "components-nph-menubar-validation--examples": "Os quatro exemplos obrigatórios, cada um nos modos claro e escuro: o menu Arquivo com atalhos, o menu Exibir com caixas de seleção e rádios, marcado e desabilitado, e o submenu Recentes.",
+      "components-nph-menubar-validation--brands": "As sete marcas nos modos claro e escuro: o item de topo aberto usa color/primary-surface-hover com color/primary-on-surface-hover por cima, e a escolha marcada e o foco usam o primário da marca do quadro.",
       "components-nph-combobox-validation--matrix": "size × estado: placeholder, valor, valor com o botão limpar, erro, desabilitado e os dois, com o divisor e a área da seta em color/accent. Passe o mouse para o hover, aperte Tab para o foco e de novo para o botão limpar.",
       "components-nph-combobox-validation--start": "O início do campo: a lupa, um ícone e um avatar, antes de uma escolha e com o início da opção escolhida.",
       "components-nph-combobox-validation--list-states": "Os sete estados da lista, aberta: resultados, busca com o trecho digitado em destaque, status, grupos, carregando, criar e vazio; e o rodapé de atalhos (D-1 a D-3).",
