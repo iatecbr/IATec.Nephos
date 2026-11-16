@@ -1,0 +1,140 @@
+# Nephos Storybook build pipeline (Azure DevOps, org `sda-iatec`).
+#
+# Builds the static Storybook (`npm run build-storybook`) and publishes the
+# folder `storybook-static/` as the Build artifact `files`, which a classic
+# release consumes. This follows the pattern of the org releases (for example
+# `PrimeNg.Apollo.Versions`, artifact `files`, type Container). In a release,
+# the site is at `$(System.DefaultWorkingDirectory)/<artifact alias>/files`,
+# with `index.html` at its root.
+#
+# It is a separate pipeline from the release candidate pipeline
+# (`azure-pipelines.yml`, P75), which builds, tests and publishes the package
+# to the feed and no longer builds Storybook (P19, annotation of 16/11/2026).
+# The two are not tied: a tag can publish a version while this pipeline fails.
+# Both start on a `v5.*` tag, so check this run of the same tag too.
+#
+# The artifact is private CI output. This pipeline hosts nothing: it does not
+# create or change a release. The static build carries Font Awesome Pro
+# artwork, so serving it outside IATec is a license decision for Indiane
+# (`PO-001`), not a hosting choice (P19).
+#
+# The install steps repeat the Build job of `azure-pipelines.yml`: the
+# Storybook build needs only `npm ci`, with the Font Awesome Pro token that
+# `.npmrc.pipeline` takes from the variable group `nuget-credentials`. It reads
+# the generated tokens committed in the repository and nothing from `dist/`,
+# so there is no token or library build here (the check that the generated
+# tokens are up to date stays in the other pipeline). It does not call
+# `npmAuthenticate`, as the Build and Test jobs of the other pipeline do not:
+# only its Publish job talks to the feed.
+#
+# The pipeline is created in Azure DevOps from the GitHub repository
+# `iatecbr/IATec.Nephos`; this file is its definition. Human prerequisites
+# (variable group, secret, extension, pool) are in `docs/release.md`.
+#
+# Secrets: this file holds only references to pipeline variables. Real values
+# live in the variable group `nuget-credentials`. `.npmrc.pipeline` holds
+# placeholders only; the real `.npmrc` is generated on the agent and never
+# committed.
+
+# Tag builds only (for example `v5.0.0-rc.1`). No branch builds.
+trigger:
+  branches:
+    exclude:
+      - '*'
+  tags:
+    include:
+      - 'v5.*'
+
+# Pull requests to the integration branch build Storybook, so a broken
+# Storybook is caught on the PR. The artifact is not published on a PR (see
+# the condition of the publish step). Keep "Make secrets available to builds of
+# forks" disabled on the pipeline. Without this `pr` section, a pipeline linked
+# to GitHub would run on a pull request to any branch.
+pr:
+  branches:
+    include:
+      - v/5.0.0
+
+variables:
+  # Font Awesome Pro token and feed credentials, consumed by `.npmrc.pipeline`
+  # through replacetokens.
+  - group: nuget-credentials
+  # Node version validated for the repository (24.18).
+  - name: nodeVersion
+    value: '24.x'
+  # Name of the Build artifact. The release reads `<alias>/files`.
+  - name: filesArtifactName
+    value: 'files'
+
+stages:
+  - stage: Build
+    displayName: Build Stage
+    jobs:
+      - job: StorybookJob
+        displayName: Storybook Job
+        pool:
+          name: IATec-Builds-Agents-Linux
+        timeoutInMinutes: 30
+        steps:
+          - task: UseNode@1
+            displayName: Install Node.js
+            inputs:
+              version: $(nodeVersion)
+
+          - task: Bash@3
+            displayName: Prepare .npmrc file
+            inputs:
+              targetType: inline
+              workingDirectory: $(Build.SourcesDirectory)
+              script: cp .npmrc.pipeline .npmrc
+
+          # Fills the #{NAME}# placeholders from the variable group
+          # `nuget-credentials`. Same settings as `azure-pipelines.yml`.
+          - task: replacetokens@6
+            displayName: Replace variables in .npmrc
+            inputs:
+              targetFiles: .npmrc
+              encoding: auto
+              writeBOM: true
+              actionOnMissing: warn
+              keepToken: false
+              tokenPrefix: '#{'
+              tokenSuffix: '}#'
+
+          - task: Npm@1
+            displayName: Install dependencies
+            inputs:
+              command: ci
+              workingDir: $(Build.SourcesDirectory)
+            env:
+              NPM_CONFIG_USERCONFIG: $(Build.SourcesDirectory)/.npmrc
+
+          # The workspace survives between runs on self-hosted agents, so the
+          # output folder is emptied first: nothing of an earlier run reaches
+          # the artifact.
+          - bash: |
+              set -euo pipefail
+              rm -rf storybook-static
+              npm run build-storybook
+              test -f storybook-static/index.html
+            displayName: Build Storybook
+            workingDirectory: $(Build.SourcesDirectory)
+
+          # Build artifact `files` (type Container), the type a classic release
+          # takes as a Build artifact. The content of `storybook-static/` is at
+          # the root of `files`. Not on a pull request, and not after a failure.
+          - task: PublishBuildArtifacts@1
+            displayName: Publish Storybook files
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+            inputs:
+              PathtoPublish: $(Build.SourcesDirectory)/storybook-static
+              ArtifactName: $(filesArtifactName)
+              publishLocation: Container
+
+          # Self-hosted agents keep the workspace: never leave credentials behind.
+          - task: CmdLine@2
+            displayName: Remove .npmrc
+            condition: always()
+            inputs:
+              script: rm -f .npmrc
+              workingDirectory: $(Build.SourcesDirectory)

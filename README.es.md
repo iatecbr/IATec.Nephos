@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=708063a78d777b197200be401cad6da1ff872c8dd28f94b49aa8e7bd673edd16 | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=b58dc272b2fa5c256fe9bec10b530ce2a2504ff47f5dd2eac745314237f43467 | status=revisado -->
 
 # Nephos 5.0
 
@@ -49,8 +49,9 @@ Para generar la versión estática en `storybook-static/`:
 npm run build-storybook
 ```
 
-El Azure Pipeline también genera esta carpeta y la publica como el artefacto
-privado de pipeline `storybook`; consulte [`docs/release.md`](docs/release.md).
+Un Azure Pipeline separado, `azure-pipelines.storybook.yml`, también genera esta
+carpeta y la publica como el artefacto privado de build `files`, para que una
+release lo consuma; consulte [`docs/release.md`](docs/release.md).
 
 ## Tokens
 

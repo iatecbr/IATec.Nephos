@@ -4,21 +4,25 @@ This note has no translations: it is an internal instruction for those who
 maintain the repository, not usage documentation. See [`i18n.md`](i18n.md).
 
 It describes how a release candidate such as `5.0.0-rc.1` reaches the Azure
-Artifacts feed. The pipeline definition is
-[`../azure-pipelines.yml`](../azure-pipelines.yml).
+Artifacts feed, and how the static Storybook is built for a release. There are
+two pipelines, and they are not tied to each other:
 
-## What the pipeline does
+| Pipeline | Definition | What it produces |
+|---|---|---|
+| `iatecbr.IATec.Nephos` (release candidate) | [`../azure-pipelines.yml`](../azure-pipelines.yml) | Builds, tests and publishes `@iatec/nephos` to the feed; the pipeline artifact `npm-package` |
+| `iatecbr.IATec.Nephos.Storybook` | [`../azure-pipelines.storybook.yml`](../azure-pipelines.storybook.yml) | Builds the static Storybook; the Build artifact `files` that a release consumes |
+
+## What the release candidate pipeline does
 
 The structure follows the reference pipeline of `IATec.Nephos.Blocks.Angular`
 (`projects/iatec/nephos-layout/azure-pipelines.yml`), without its code review
 and SonarQube stages. It runs on the self-hosted pool `IATec-Builds-Agents-Linux`.
 
-1. **Build**: installs dependencies, checks the generated tokens are committed,
-   runs `build:lib`, `test:package` and `pack:check`, then `build-storybook`,
-   and publishes `storybook-static/` as the pipeline artifact `storybook` (see
-   [The Storybook artifact](#the-storybook-artifact)). On a tag build it
+1. **Build**: installs dependencies, checks the generated tokens are committed
+   and runs `build:lib`, `test:package` and `pack:check`. On a tag build it
    asserts that the tag is `v<package.json version>`. It ends with `npm pack`
-   and publishes the tarball as the pipeline artifact `npm-package`.
+   and publishes the tarball as the pipeline artifact `npm-package`. It does
+   not build Storybook (see [The Storybook pipeline](#the-storybook-pipeline)).
 2. **Test** (in parallel with Build): typecheck, `test:naming`,
    `test:operacao`, `test:i18n` and the browser tests (Playwright Chromium).
 3. **Publish** (tag builds, or a manual run with `publish: true`; never on a
@@ -33,41 +37,52 @@ and SonarQube stages. It runs on the self-hosted pool `IATec-Builds-Agents-Linux
    refused. It fails before publishing if that version already exists in the
    feed.
 
+The release candidate pipeline depends on the package configuration from PR #89
+(`feat/npm-package-rc1`): `name`, `version`, `build:lib`, `test:package`,
+`pack:check`, `prepublishOnly` and `publishConfig`.
+
 Pull requests to `v/5.0.0` run Build and Test only. A manual run publishes only
 from a `v5.*` tag or from `v/5.0.0`.
 
-Publish depends on Build succeeding, and Build runs the Storybook build before
-`npm pack`. A broken Storybook therefore fails Build, and no version reaches the
-feed from that run.
+Publish depends on Build and Test succeeding. Storybook is not part of that
+chain: since the annotation of 16/11/2026 in P19, a broken Storybook no longer
+fails Build, so a tag can publish a version to the feed while the Storybook
+pipeline fails. Both pipelines start on a `v5.*` tag: check the run of the
+Storybook pipeline for the same tag too.
 
-## The Storybook artifact
+## The Storybook pipeline
 
-Every run of Build (a `v5.*` tag, a pull request to `v/5.0.0` or a manual run)
-builds the static Storybook with `npm run build-storybook` and publishes the
-folder `storybook-static/` as the pipeline artifact **`storybook`**. A run that
-publishes a version therefore always carries the Storybook of the same commit.
-This is the private CI artifact that P19 foresees; the pipeline does not host
-it anywhere.
+[`../azure-pipelines.storybook.yml`](../azure-pipelines.storybook.yml) builds
+the static Storybook with `npm run build-storybook` and publishes the folder
+`storybook-static/` as the **Build artifact `files`** (`PublishBuildArtifacts@1`,
+type Container). This is the pattern of the org releases, for example the
+pipeline `PrimeNg.Apollo.Versions`, whose release takes the artifact `files`
+from a Build artifact. It is a private CI artifact (P19); the pipeline hosts
+nothing and does not create or change a release.
 
-To get it:
-
-- In Azure DevOps, open the run, then **Summary**, then the published
-  artifacts, and download `storybook`; or
-- with the Azure CLI: `az pipelines runs artifact download --run-id <id>
-  --artifact-name storybook --path <folder>`.
-
-The folder is a static site: serve it with any static file server (opening
-`index.html` from disk does not load the stories). To get one without a new
-tag, use **Run pipeline** on `v/5.0.0` and leave `publish` false.
+- **Triggers.** A `v5.*` tag and a manual run publish `files`. A pull request to
+  `v/5.0.0` only builds, as a check, and does not publish the artifact, so a
+  broken Storybook is still caught on the PR. A run that fails publishes
+  nothing.
+- **Steps.** The install steps repeat the Build job of the release candidate
+  pipeline (Node, `.npmrc` from `.npmrc.pipeline`, `replacetokens`, `npm ci`
+  with the Font Awesome Pro token, `.npmrc` removed at the end). Storybook needs
+  only `npm ci`: it reads the generated tokens committed in the repository and
+  nothing from `dist/`, so there is no token or library build in this pipeline.
+- **What a release consumes.** Add the pipeline as a Build artifact of the
+  release; its content is the site, with `index.html` at the root of `files`:
+  `$(System.DefaultWorkingDirectory)/<artifact alias>/files`.
+- **Without a new tag.** Use **Run pipeline** on `v/5.0.0` (or on a tag) and take
+  the artifact `files` of the run. To read it outside a release: in Azure
+  DevOps, open the run, then **Summary**, then the published artifacts, or
+  `az pipelines runs artifact download --run-id <id> --artifact-name files
+  --path <folder>`. The folder is a static site: serve it with a static file
+  server.
 
 Keep it internal. Public publishing stays out of scope (P19), and the static
 build carries Font Awesome Pro artwork (the icon gallery of `nph-icon`), so
 hosting it where people outside IATec can reach it is a license decision for
 Indiane (`PO-001`), not a hosting choice.
-
-The pipeline depends on the package configuration from PR #89
-(`feat/npm-package-rc1`): `name`, `version`, `build:lib`, `test:package`,
-`pack:check`, `prepublishOnly` and `publishConfig`.
 
 ## The `.npmrc` handling
 
@@ -94,13 +109,16 @@ example `sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community`, so that
 These are set once, outside the repository. Nothing here can be done by the
 pipeline file.
 
-1. **Create the pipeline** in the Azure DevOps organization `sda-iatec`:
+1. **Create the pipelines** in the Azure DevOps organization `sda-iatec`:
    Pipelines, New pipeline, GitHub, repository `iatecbr/IATec.Nephos`, existing
-   YAML file `/azure-pipelines.yml`. This needs a GitHub service connection
-   (Azure Pipelines GitHub app) with access to the repository. On the pipeline,
-   keep "Make secrets available to builds of forks" disabled, because pull
-   requests run Build and Test.
-2. **Pool.** The pipeline must be authorized to use the agent pool
+   YAML file `/azure-pipelines.yml` (release candidate, `iatecbr.IATec.Nephos`)
+   and `/azure-pipelines.storybook.yml` (Storybook,
+   `iatecbr.IATec.Nephos.Storybook`). This needs a GitHub service connection
+   (Azure Pipelines GitHub app) with access to the repository. On each
+   pipeline, keep "Make secrets available to builds of forks" disabled, because
+   pull requests run a build. The first run of a new pipeline can ask for
+   authorization of the agent pool and of the variable group.
+2. **Pool.** Both pipelines must be authorized to use the agent pool
    `IATec-Builds-Agents-Linux`. The agents need outbound access to
    `npm.fontawesome.com` and to the feed. Test runs
    `npx playwright install chromium`, which downloads only the browser, without
@@ -110,13 +128,13 @@ pipeline file.
 3. **Extension** "Replace Tokens" (task `replacetokens@6`) installed in the
    organization, as in the reference pipeline.
 4. **Variable group** `nuget-credentials` (Pipelines, Library) available to
-   the pipeline and holding `NPM_IATEC_HOST_COMMUNITY`, `NPM_Username`,
+   both pipelines and holding `NPM_IATEC_HOST_COMMUNITY`, `NPM_Username`,
    `Base64_Password` and `NPM_email`.
 5. **Secret variable** `FONTAWESOME_NPM_AUTH_TOKEN` in the same variable group,
    marked secret (a secret variable on the pipeline, Pipeline, Edit,
    Variables, also works). The value is the Font Awesome Pro npm token
    (P19, item 6). It never enters the repository. Without it `npm ci` fails
-   with 401 in every stage.
+   with 401 in every stage and in the Storybook pipeline.
 6. **Feed permission.** On the org-scoped feed `IATec.Community`, give
    `Project Collection Build Service (sda-iatec)` (and the project build
    service of the project that owns the pipeline) the role **Contributor**,
