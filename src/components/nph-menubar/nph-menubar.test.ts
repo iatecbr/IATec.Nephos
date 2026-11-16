@@ -971,12 +971,12 @@ describe('keyboard in the panel', () => {
     await openByKeyboard(bar, 'Edit');
     await press(bar, 'p');
     expect(active(bar)).toBe(byText(bar, 'Paste'));
-    await sleep(600);
+    await sleep(1100);
     await press(bar, 'c');
     expect(active(bar)).toBe(byText(bar, 'Cut'));
     await press(bar, 'c');
     expect(active(bar)).toBe(byText(bar, 'Copy'));
-    await sleep(600);
+    await sleep(1100);
     await press(bar, 'u');
     expect(active(bar)).toBe(byText(bar, 'Undo'));
   });
@@ -987,7 +987,7 @@ describe('keyboard in the panel', () => {
     await press(bar, 'c');
     await press(bar, 'o');
     expect(active(bar)).toBe(byText(bar, 'Copy'));
-    await sleep(600);
+    await sleep(1100);
     await press(bar, 'z');
     expect(active(bar)).toBe(byText(bar, 'Copy'));
   });
@@ -1336,7 +1336,7 @@ describe('pointer', () => {
     await openSubmenuFromCode(bar);
     await userEvent.hover(byText(bar, 'Recent'));
     await userEvent.hover(byText(bar, 'budget-2026.xlsx', 1));
-    await sleep(600);
+    await sleep(1100);
     expect(bar.openSubmenu).toBe('recent');
   });
 
