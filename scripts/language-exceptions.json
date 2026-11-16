@@ -600,5 +600,96 @@
       "sistemas"
     ],
     "reason": "Value of the color property of a calendar of nph-scheduler (the Sistemas vertical), quoted as it is in the accepted documentation frame (P64: Figma is in Portuguese); the code API takes the same value."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-71.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-72.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-73.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-74.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-75.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-76.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-77.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-78.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-80.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-84/figma-preview-accepted-2026-11-16.md",
+    "class": "prose-text",
+    "names": [
+      "Educação",
+      "Sistemas"
+    ],
+    "reason": "Names of brands (verticals), proper names, quoted in the contrast measurements per brand."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-76/review-and-merge-2026-11-15.md",
+    "class": "prose-text",
+    "names": [
+      "pode",
+      "para",
+      "revisão"
+    ],
+    "reason": "Literal quotes in Portuguese, quoted as they were written: Elvys's review message relayed by the orchestrating session and the ready-for-review comment posted on the pull request (the text is in the evidence itself)."
   }
 ]
