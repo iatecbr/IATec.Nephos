@@ -761,9 +761,9 @@ describe('the event', () => {
     expect(titled(item, long)).toBe(true);
   });
 
-  it('is placed by time: the hour is twice the minimum height, the top is the start and the height is the duration', async () => {
+  it('is placed by time: the hour is `scheduler/hour-height`, the top is the start and the height is the duration', async () => {
     const element = await mount({ view: 'week' });
-    const hour = px('--nph-scheduler-event-min-height') * 2;
+    const hour = px('--nph-scheduler-hour-height');
     expect((part(element, '.hour') as HTMLElement).getBoundingClientRect().height).toBe(hour);
     expect(MIN_VISUAL_MINUTES * (hour / 60)).toBe(px('--nph-scheduler-event-min-height'));
     const column = (index: number): HTMLElement => parts(element, '.column')[index] as HTMLElement;
@@ -1332,7 +1332,7 @@ describe('the now line', () => {
     const lines = parts(element, '.now');
     expect(lines).toHaveLength(1);
     expect(parts(element, '.column')[3]?.contains(lines[0] as HTMLElement)).toBe(true);
-    const hour = px('--nph-scheduler-event-min-height') * 2;
+    const hour = px('--nph-scheduler-hour-height');
     expect(lines[0]?.offsetTop).toBe(Math.round((620 / 60) * hour));
     expect(textOf(part(element, '.now-time'))).toBe('10:20 AM');
     expect(getComputedStyle(lines[0] as HTMLElement).backgroundColor).toBe(background('--nph-scheduler-now-indicator'));
@@ -1372,7 +1372,7 @@ describe('the now line', () => {
     const scroll = part(element, '.scroll') as HTMLElement;
     expect(scroll.scrollHeight).toBeGreaterThan(scroll.clientHeight);
     expect(getComputedStyle(scroll).overflowY).toBe('auto');
-    const hour = px('--nph-scheduler-event-min-height') * 2;
+    const hour = px('--nph-scheduler-hour-height');
     expect(scroll.scrollTop).toBe(8 * hour);
     const toolbarTop = (part(element, '.toolbar') as HTMLElement).getBoundingClientRect().top;
     scroll.scrollTop = 12 * hour;
@@ -1460,6 +1460,48 @@ describe('what the review of the piece found', () => {
     const emitted = [...new Set([...tokensCss.matchAll(/^\s*(--nph-scheduler-[a-z0-9-]+):/gm)].map((match) => match[1] as string))];
     expect(emitted.length).toBeGreaterThan(100);
     expect(emitted.filter((name) => !css.includes(name))).toEqual([]);
+  });
+});
+
+describe('the measures that have their own tokens (DSA-85, DSA-77 D-3)', () => {
+  it('the hour of the week grid is `scheduler/hour-height`, and the day is twenty-four of them', async () => {
+    const element = await mount({ view: 'week' });
+    const hour = px('--nph-scheduler-hour-height');
+    expect(hour).toBeGreaterThan(0);
+    expect((part(element, '.hour') as HTMLElement).getBoundingClientRect().height).toBe(hour);
+    expect((part(element, '.columns') as HTMLElement).getBoundingClientRect().height).toBe(hour * 24);
+  });
+
+  it('the cell of the mini month is `scheduler/mini-month-cell-size`, 36 and not the compact control height', async () => {
+    const element = await mount();
+    const size = px('--nph-scheduler-mini-month-cell-size');
+    expect(size).toBe(px('--nph-control-height-default'));
+    expect(size).not.toBe(px('--nph-control-height-compact'));
+    for (const selector of ['.date-grid[data-kind="mini"] .grid-cell', '.date-grid[data-kind="mini"] .grid-head']) {
+      const cell = part(element, selector) as HTMLElement;
+      expect(cell.getBoundingClientRect().width, selector).toBe(size);
+    }
+    expect((part(element, '.date-grid[data-kind="mini"] .grid-cell') as HTMLElement).getBoundingClientRect().height).toBe(size);
+  });
+
+  it('the time of a list row is `scheduler/list-time-width`, and the one of a phone row is `scheduler/list-time-width-compact`', async () => {
+    const list = await mount({ view: 'list' });
+    const row = part(list, '.row-time') as HTMLElement;
+    expect(row.getBoundingClientRect().width).toBe(px('--nph-scheduler-list-time-width'));
+    list.remove();
+    const phone = await mount({}, '24rem', '48rem');
+    const phoneRow = part(phone, '.day-row-time') as HTMLElement;
+    expect(phoneRow.getBoundingClientRect().width).toBe(px('--nph-scheduler-list-time-width-compact'));
+  });
+
+  it('a month row is at least `scheduler/month-row-min-height`, even when the screen gives less height', async () => {
+    const element = await mount({ view: 'month' }, '72rem', '12rem');
+    const rowMin = px('--nph-scheduler-month-row-min-height');
+    const cells = parts(element, '.cells > *');
+    expect(cells.length).toBeGreaterThan(0);
+    for (const cell of cells.slice(0, 7)) {
+      expect(Math.round(cell.getBoundingClientRect().height)).toBeGreaterThanOrEqual(Math.round(rowMin));
+    }
   });
 });
 
@@ -1556,7 +1598,7 @@ describe('the scroll of the grid', () => {
   it('leaves the grid where the person put it when the data changes, and starts a new period at its first event', async () => {
     const element = await mount({ view: 'week' }, '72rem', '28rem');
     const scroll = part(element, '.scroll') as HTMLElement;
-    const hour = px('--nph-scheduler-event-min-height') * 2;
+    const hour = px('--nph-scheduler-hour-height');
     scroll.scrollTop = 14 * hour;
     await frame();
     element.calendars = CALENDARS.map((calendar) => (calendar.id === 'classes' ? { ...calendar, visible: false } : calendar));
@@ -1571,7 +1613,7 @@ describe('the scroll of the grid', () => {
   it('events that arrive after the first draw take the grid to the first of them, until the person scrolls', async () => {
     const element = await mount({ view: 'week', events: [] }, '72rem', '28rem');
     const scroll = part(element, '.scroll') as HTMLElement;
-    const hour = px('--nph-scheduler-event-min-height') * 2;
+    const hour = px('--nph-scheduler-hour-height');
     expect(scroll.scrollTop).toBe(Math.round((620 / 60 - 1) * hour));
     element.events = EVENTS;
     await settle(element);
