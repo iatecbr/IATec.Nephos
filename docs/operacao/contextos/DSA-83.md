@@ -22,9 +22,10 @@ Implement the `nph-menubar` in `src/components/nph-menubar/` — component, CSS,
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-83-menubar origin/v/5.0.0`
+- The twelve proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-In progress.
+PR #178 is open against `v/5.0.0`, in review. The gate `review-and-merge` stays pending until the merge.
 
 ## Blocker
 None. The base is red on `nph-scheduler.test.ts` ("every scheduler token is read by the CSS"), which DSA-85 fixes.

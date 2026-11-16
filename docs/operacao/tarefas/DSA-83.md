@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 820,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-menubar",
   "dependencies": [
     "DSA-03",
@@ -76,7 +76,7 @@
     "excerpt": null,
     "converted_decision": "The nph-menubar documentation frame (6432:8686, page 1626:15) was accepted as the API and behavior specification of nph-menubar, with the visual acceptance of the root (6410:7413). COMPONENT_SET nph-menubar (6410:7769), 2 variants, and COMPONENT_SET nph-menubar top item (6402:4299), 4 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-83-menubar", "commit": "4a90229", "pr": 178 },
   "context": "docs/operacao/contextos/DSA-83.md",
   "updated_at": "2026-11-16"
 }
