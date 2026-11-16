@@ -523,6 +523,7 @@
   --nph-dropdown-item-radius: var(--nph-core-radius-400);
   --nph-dropdown-item-focus-border-radius: var(--nph-core-radius-off-scale-9);
   --nph-dropdown-item-focus-halo-radius: var(--nph-core-radius-off-scale-13);
+  --nph-dropdown-submenu-offset: var(--nph-core-space-100);
   --nph-focus-border-radius-control: var(--nph-core-radius-off-scale-7);
   --nph-focus-radius-control: var(--nph-core-radius-450);
   --nph-focus-radius-control-with-border: var(--nph-core-radius-off-scale-11);
@@ -571,6 +572,7 @@
   --nph-layout-dialog-content-md: var(--nph-core-layout-width-dialog-content-md);
   --nph-layout-dialog-content-lg: var(--nph-core-layout-width-dialog-content-lg);
   --nph-layout-dialog-max-height: var(--nph-core-layout-height-dialog-max);
+  --nph-menubar-panel-offset: var(--nph-core-space-100);
   --nph-motion-enter-duration: var(--nph-core-duration-300);
   --nph-motion-enter-easing: var(--nph-core-easing-enter);
   --nph-motion-exit-duration: var(--nph-core-duration-200);
@@ -740,6 +742,10 @@
   --nph-scheduler-now-indicator-size: var(--nph-core-space-200);
   --nph-collapsible-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
+  --nph-menubar-bar-gap: var(--nph-space-inline);
+  --nph-menubar-trigger-height: var(--nph-control-height-default);
+  --nph-menubar-trigger-padding-x: var(--nph-space-control-padding);
+  --nph-menubar-trigger-radius: var(--nph-radius-control);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-switch-track-height-sm: var(--nph-icon-size-sm);
@@ -1041,6 +1047,7 @@
   --nph-focus-ring-default: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring);
   --nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
   --nph-focus-ring-sidebar: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-sidebar-ring);
+  --nph-menubar-trigger-foreground: var(--nph-color-foreground);
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
   --nph-sidebar-flyout-background: var(--nph-color-background);
@@ -1310,6 +1317,8 @@
   --nph-command-status-foreground: var(--nph-color-muted-foreground);
   --nph-command-footer-foreground: var(--nph-color-muted-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
+  --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
+  --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
   --nph-sidebar-item-background-hover: var(--nph-color-primary-surface);
