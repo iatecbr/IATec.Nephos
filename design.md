@@ -291,7 +291,7 @@ tokens_semantic:
     css: '--nph-color-accent'
     claro: core/surface/50
     escuro: core/surface/600
-    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover). Also the background of the nph-resizable grip box while dragging (resizable/grip-background-active)."
+    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover). Also the background of the nph-resizable grip box while dragging (resizable/grip-background-active). Also the hover background of the nph-carousel indicator target (carousel/indicator-target-background-hover); the indicator with focus does not take it, and the current one has no hover."
     nao_use: "Permanent block background, except the nph-select and nph-combobox arrow area."
   color/accent-foreground:
     css: '--nph-color-accent-foreground'
@@ -308,13 +308,13 @@ tokens_semantic:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground). Also the grip icon of the nph-resizable handle at rest, in hover, focus and disabled (resizable/grip-foreground): the grip passes 3:1 and shows that the handle can be dragged."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground). Also the grip icon of the nph-resizable handle at rest, in hover, focus and disabled (resizable/grip-foreground): the grip passes 3:1 and shows that the handle can be dragged. Also the chevron of the nph-carousel arrows, by override on the nph-icon-button instance (carousel/control-foreground): 5.75:1 light and 5.10:1 dark over the arrow background, 4.91:1 and 3.91:1 in hover. Also the nph-carousel counter (carousel/counter-foreground)."
     nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
   color/subtle-foreground:
     css: '--nph-color-subtle-foreground'
     claro: core/neutral/500
     escuro: core/neutral/300
-    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 4.74:1 over color/popover in light, 5.55:1 in dark."
+    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 4.74:1 over color/popover in light, 5.55:1 in dark. Also a non-current position marker, a non-text mark that passes 3:1: the dot of the nph-carousel indicators (carousel/indicator-background), 4.74:1 over color/background in light and 8.23:1 in dark, and 3:1 or more over color/card and color/muted in every brand."
     nao_use: "Placeholder, caption or helper text (color/muted-foreground); text needed to complete the task."
   color/destructive:
     css: '--nph-color-destructive'
@@ -489,7 +489,7 @@ tokens_semantic:
     css: '--nph-color-primary-border'
     claro: theme/brand-600
     escuro: theme/brand-200
-    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it is theme/brand-200, because the dark primary does not reach 3:1 as an outline in two of the seven brands, and theme/brand-300 fell below 3:1 on color/dialog in Gerencial (2.56:1), Igrejas (2.93:1) and Recursos Humanos (2.64:1); with brand-200 the lowest on color/dialog is 4.27:1 (DSA-84, same rule as focus/border in DSA-81). Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line after a completed step (stepper/connector-background-complete; the code follows the status of the steps after DSA-85): a 1 px line reads as a border, so the no-fill rule does not apply to it. Also the border of the nph-file-upload drop zone while a file is dragged over it (file-upload/border-dragging), which marks the target. Also the 2 px bar that marks the selected item over color/primary-surface (tree/indicator-background, nph-tree), where color/primary does not reach 3:1 in dark. Also the event bar, the event dot, the today mark and the now line of the nph-scheduler (scheduler/event-indicator, scheduler/event-dot, scheduler/today-indicator, scheduler/now-indicator)."
+    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. Exception: a small position or progress marker, where color/primary does not reach 3:1 in dark: the nph-progress indicator (progress/indicator-background) and the current marker of the nph-carousel indicators (carousel/indicator-background-current). In light it is the same tone as the primary; in dark it is theme/brand-200, because the dark primary does not reach 3:1 as an outline in two of the seven brands, and theme/brand-300 fell below 3:1 on color/dialog in Gerencial (2.56:1), Igrejas (2.93:1) and Recursos Humanos (2.64:1); with brand-200 the lowest on color/dialog is 4.27:1 (DSA-84, same rule as focus/border in DSA-81). Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line after a completed step (stepper/connector-background-complete; the code follows the status of the steps after DSA-85): a 1 px line reads as a border, so the no-fill rule does not apply to it. Also the border of the nph-file-upload drop zone while a file is dragged over it (file-upload/border-dragging), which marks the target. Also the 2 px bar that marks the selected item over color/primary-surface (tree/indicator-background, nph-tree), where color/primary does not reach 3:1 in dark. Also the event bar, the event dot, the today mark and the now line of the nph-scheduler (scheduler/event-indicator, scheduler/event-dot, scheduler/today-indicator, scheduler/now-indicator)."
   color/link:
     css: '--nph-color-link'
     claro: theme/brand-600
@@ -1419,7 +1419,7 @@ tokens_space:
     css: '--nph-space-inline'
     alias: core/space/200
     valor: 8
-    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item. Also the side padding of the nph-scheduler event, the gap of its toolbar and day header, the day padding, the top and bottom of the month cell and the gaps of the list and the empty state (scheduler/event-padding-x, scheduler/toolbar-gap, scheduler/day-header-gap, scheduler/day-padding, scheduler/month-cell-padding-y, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/empty-gap). Also the padding of the nph-command hint footer (DSA-46 D-2) and the gap between its hints (command/footer-padding, command/footer-gap). Also the top and bottom padding of the nph-collapsible trigger in the default and large sizes (collapsible/trigger-padding-y), by decision, as in nph-navigation-menu. Also the gap between the nph-menubar top items (menubar/bar-gap)."
+    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item. Also the side padding of the nph-scheduler event, the gap of its toolbar and day header, the day padding, the top and bottom of the month cell and the gaps of the list and the empty state (scheduler/event-padding-x, scheduler/toolbar-gap, scheduler/day-header-gap, scheduler/day-padding, scheduler/month-cell-padding-y, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/empty-gap). Also the padding of the nph-command hint footer (DSA-46 D-2) and the gap between its hints (command/footer-padding, command/footer-gap). Also the top and bottom padding of the nph-collapsible trigger in the default and large sizes (collapsible/trigger-padding-y), by decision, as in nph-navigation-menu. Also the gap between the nph-menubar top items (menubar/bar-gap). Also the gap between the slides of the nph-carousel track and between the pieces of its controls bar (carousel/slide-gap, carousel/control-gap)."
   space/stack-tight:
     css: '--nph-space-stack-tight'
     alias: core/space/100
@@ -1429,7 +1429,7 @@ tokens_space:
     css: '--nph-space-stack'
     alias: core/space/400
     valor: 16
-    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel. Also the gap between the main list and each section of the nph-panel-menu (panel-menu/section-gap). Also the gap between the side panel blocks and between the days of the list of the nph-scheduler (scheduler/sidebar-gap, scheduler/list-gap). Also the gap between the blocks of the nph-collapsible open content (collapsible/content-gap)."
+    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel. Also the gap between the main list and each section of the nph-panel-menu (panel-menu/section-gap). Also the gap between the side panel blocks and between the days of the list of the nph-scheduler (scheduler/sidebar-gap, scheduler/list-gap). Also the gap between the blocks of the nph-collapsible open content (collapsible/content-gap). Also the gap between the nph-carousel track and its controls bar (carousel/controls-offset)."
   space/section:
     css: '--nph-space-section'
     alias: core/space/700
@@ -1623,7 +1623,7 @@ tokens_radius:
     css: '--nph-radius-subtle'
     alias: core/radius/100
     valor: 2
-    use: "USE on a small marker that contains nothing: status bar, indicator, minimal tag, resize handle. DO NOT USE on a control. Also the corner of the nph-resizable grip box (resizable/grip-radius)."
+    use: "USE on a small marker that contains nothing: status bar, bar indicator, minimal tag, resize handle. DO NOT USE on a control. Also the corner of the nph-resizable grip box (resizable/grip-radius)."
   radius/inner:
     css: '--nph-radius-inner'
     alias: core/radius/200
@@ -1658,7 +1658,7 @@ tokens_radius:
     css: '--nph-radius-full'
     alias: core/radius/full
     valor: 9999
-    use: "Fully rounded shape. USE only on a small piece whose shape communicates a marker: badge, counter, switch knob. NEVER on a regular button, field or card. NEVER on an avatar: the avatar is a square with rounded corners (avatar/radius-*)."
+    use: "Fully rounded shape. USE only on a small piece whose shape communicates a marker: badge, counter, switch knob, position marker (dot or pill) and circular target, like the circular nph-icon-button. Also the dot and pill of the nph-carousel indicators and their circular target (carousel/indicator-radius, carousel/indicator-target-radius). NEVER on a regular button, field or card. NEVER on an avatar: the avatar is a square with rounded corners (avatar/radius-*)."
 
 # ---------------------------------------------------------------
 # ELEVATION - in Figma the level is an EFFECT STYLE; in code it is a
@@ -2713,7 +2713,7 @@ The curve says what the piece is. The question is not how much to round.
 | **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card, menus and the nph-sidebar flyout panel have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`, `sidebar/flyout-radius`) |
 | **floats large** | `radius/overlay` (10) |
 | **carries content** without floating | `radius/surface` (14) |
-| is a **marker** | `radius/subtle` (2) or `radius/full` |
+| is a **marker** | `radius/subtle` (2) for a bar indicator, or `radius/full` for a dot, a pill or a circular target |
 | is **touching an edge** | `radius/none` (0) |
 | is **nested** | `radius/inner` (4) |
 
@@ -2722,7 +2722,7 @@ The curve says what the piece is. The question is not how much to round.
 | `control` × `container` | A button inside a card: the button is `control`, the card is `container`. |
 | `container` × `overlay` | A table or pagination is `container`; popover, hover card and menus have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
-| `full` × `control` | `full` only on a small piece whose shape communicates a marker. Button and field are never a pill. |
+| `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target (circular icon button, carousel indicator target). Button and field are never a pill. |
 
 **Nested radius:** inner = outer − padding. Container at 8 with padding 4 → inner 4. With padding 8 → inner 0 (`radius/none`). Inner never equal to outer.
 

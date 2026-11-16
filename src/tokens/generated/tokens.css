@@ -749,6 +749,10 @@
   --nph-scheduler-month-row-min-height: var(--nph-core-space-1200);
   --nph-collapsible-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-resizable-focus-border-width: var(--nph-core-focus-width-sm);
+  --nph-carousel-indicator-size: var(--nph-core-space-200);
+  --nph-carousel-indicator-width-current: var(--nph-core-space-300);
+  --nph-carousel-indicator-target-size: var(--nph-core-target-size-minimum);
+  --nph-carousel-peek-size: var(--nph-core-space-700);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1037,6 +1041,11 @@
   --nph-resizable-grip-radius: var(--nph-radius-subtle);
   --nph-resizable-grip-size: var(--nph-icon-size-sm);
   --nph-resizable-handle-gap: var(--nph-space-inline-tight);
+  --nph-carousel-indicator-radius: var(--nph-radius-full);
+  --nph-carousel-indicator-target-radius: var(--nph-radius-full);
+  --nph-carousel-control-gap: var(--nph-space-inline);
+  --nph-carousel-controls-offset: var(--nph-space-stack);
+  --nph-carousel-slide-gap: var(--nph-space-inline);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1334,6 +1343,10 @@
   --nph-resizable-grip-foreground: var(--nph-color-muted-foreground);
   --nph-resizable-grip-foreground-active: var(--nph-color-accent-foreground);
   --nph-resizable-grip-background-active: var(--nph-color-accent);
+  --nph-carousel-indicator-background: var(--nph-color-subtle-foreground);
+  --nph-carousel-indicator-target-background-hover: var(--nph-color-accent);
+  --nph-carousel-control-foreground: var(--nph-color-muted-foreground);
+  --nph-carousel-counter-foreground: var(--nph-color-muted-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
   --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
@@ -1431,6 +1444,7 @@
   --nph-scheduler-focus-halo: var(--nph-focus-halo);
   --nph-collapsible-focus-border: var(--nph-focus-border);
   --nph-collapsible-focus-halo: var(--nph-focus-halo);
+  --nph-carousel-indicator-background-current: var(--nph-color-primary-border);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
