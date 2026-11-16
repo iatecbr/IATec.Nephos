@@ -29,7 +29,7 @@ Apply in the code the answers Indiane gave on 2026-11-16 on the Figma previews t
 - The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-Pull request open against `v/5.0.0`.
+Pull request #177 is open against `v/5.0.0`. The task is `in-review`: the icon row and the offset of the command panel are not in the code (T-1, T-2).
 
 ## Evidence
 None yet: the gate `review-and-merge` stays pending until the merge.
