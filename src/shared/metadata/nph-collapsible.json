@@ -30,7 +30,7 @@
       "required": false,
       "default": "line",
       "reflects": true,
-      "constraint": "The Figma property `tipo`. line is the trigger as the whole row, with the title and the chevron. button is an nph-button, secondary ghost, in the default size, with the chevron at the end, to open details from an action. preview shows the content cut at three lines while closed and the nph-button below it opens the rest. A value outside the list draws nothing and emits console.error in development."
+      "constraint": "The Figma property `tipo`. line is the trigger as the whole row, with the title and the chevron. button is an nph-button, secondary ghost, in the default size, with the chevron at the end, to open details from an action. preview shows the content cut at three lines while closed and the nph-button below it opens the rest; when the text fits in the three lines, nothing is cut and the button is not drawn. A value outside the list draws nothing and emits console.error in development."
     },
     "appearance": {
       "type": "enum",
@@ -176,7 +176,7 @@
     "Open, the content pushes down what comes below and covers nothing. It does not flip, shrink or cut near the edge of the window.",
     "The whole trigger is clickable. The content starts collapsible/content-padding-top below it, so the focus halo does not touch the content.",
     "With the indicator at the start, or the start icon on, the open content indents to the title by the size of each part plus the gap.",
-    "The preview type cuts the text at three lines while closed and shows it whole when open; it does not grow, and the button swaps its text and its chevron.",
+    "The preview type cuts the text at three lines while closed and shows it whole when open; it does not grow, and the button swaps its text and its chevron. When the text fits in the three lines nothing is cut, and the button is not drawn.",
     "The piece keeps its state: the person changes open, the event says so, and the page may set it. It closes on no outside click and on no Escape.",
     "A pending item in a closed step goes in the description, in text, such as 2 fields missing. Error, warning and a pending required field are not hidden in closed content.",
     "Several one under the other are separated by space/stack, in the same column and the same width, with no divider.",

@@ -357,6 +357,11 @@ the source of the rule on format and responsibility per layer.
    the DTCG structured form as `[object Object]`. The source remains
    structured; the conversion happens only at output, through a custom transformer. There is
    a validation that aborts the build if `[object Object]` reappears.
+6. **Amended on 16/11/2026 (DSA-85, for DSA-80 D-1):** the build takes a `dimension` in `%`, emitted as it is (`16%`)
+   with no `rem` conversion, and stops on any unit other than `px` and `%` (`DIMENSION_UNITS` in
+   `scripts/tokens-lib.mjs`). The two paths of the build can be moved with `NEPHOS_TOKENS_SRC` and `NEPHOS_TOKENS_OUT`
+   only so that `npm run test:tokens` can build a copy of the sources; no script and no pipeline sets them. No token was
+   created or changed.
 
 **Out of scope.** Creating a CI workflow. Publishing. Generating formats other than CSS.
 Migrating effect styles, text styles or the postponed primitives.
@@ -7101,7 +7106,15 @@ list. Scrolling in the segmented and tab button styles. A form association.
   (`aria-hidden-focus`). The arrows are out of the Tab order and keep their name. She confirms it, or
   asks for another way to hide them, which needs a change in `nph-button`, another task.
 
-**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-5 wait for Indiane. API
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-4 — segmented and tab button.** Confirmed: in the segmented and tab-button styles a long label is cut with an
+  ellipsis and the whole text shows in the balloon, and the documentation keeps asking for few tabs in those styles
+  (Carbon, content switcher). Nothing changes in the code.
+
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-4 was answered on the previews (16/11/2026), as above;
+the task records the answers to the other points. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7207,8 +7220,10 @@ names follow P64.
    with `detail: { expanded }`, as the group of the item (P98, item 3): Figma answered DSA-53 D-4. It has
    no `href` and is never `active`, each of them invalid input, as the group of the item. The rail button
    gets `type`, `link` (default) or `group`, reflected: a group is a native `button` with `aria-expanded`,
-   `expanded` and `nph-toggle`, with no `href`, `counter` or `active`, and its flyout panel is the one of
-   the second level. Opening either closes its own balloon. The rail button of an open group draws the
+   `expanded` and `nph-toggle`, with no `href` or `counter`, and its flyout panel is the one of
+   the second level. Amended on 16/11/2026 (DSA-85, D-3 of DSA-72): a group of the rail button takes `active`
+   when the current page is inside it, and shows the active look with no `aria-current`; the subitem and the item
+   keep their rule. Opening either closes its own balloon. The rail button of an open group draws the
    hover background and the solid icon. This is the only way to give the collapsed menu a button that
    opens a panel without a new tag.
 
@@ -7299,7 +7314,21 @@ attached or inset surface and the `nph-drawer`. A keyboard shortcut to collapse.
   lines, the padding of the group label and the gap of the logo row are not written either. She gives the
   tokens in the next batch, or accepts these.
 
-**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-4 wait for Indiane. API and
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-1 — the `sidebar` icon.** Confirmed: `sidebar` and `repeat`, Font Awesome Light, enter `nph-icon` (in Figma they
+  are already there, `5876:219326` and `6791:116`), and the collapse button draws `sidebar` in place of the skeleton.
+  It is not in the code yet: adding the two names to `nph-icon` needs the core icon list of `design.md` to change, and
+  that edit waits for the authorization of Elvys (T-1 of DSA-85).
+- **D-3 — the current page in a collapsed group.** Not confirmed as drawn: in the collapsed menu, the rail button of the
+  group that holds the current page shows the active look (Fluent 2 Nav, Salt vertical navigation). Since 16/11/2026
+  (DSA-85) the rail button accepts `active` on a group: the same background and solid icon of the current page, with no
+  `aria-current`, because the group is not a page; `nph-sidebar` sets it. It wins over the open look. The item of the
+  expanded menu is still never `active`.
+
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 and D-3 were answered on the previews (16/11/2026), as
+above; the task records the answers to the other points. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7417,8 +7446,11 @@ names follow P64.
    accept a custom property, so the 600 px of the accepted contract is written in the CSS, in `rem`
    (`37.5rem`), as P87 does for the breakpoint of `nph-dialog`. `design.md` lists "create a breakpoint
    outside the four" as a mistake for the page grid (A55); this is a threshold of one component, accepted
-   by Indiane in the documentation, and it is not a page breakpoint (D-2). `nph-progress` here has no
-   error: a step with an error does not show as an error on the narrow width (D-3). Between 600 px and the
+   by Indiane in the documentation, and it is not a page breakpoint (D-2). `nph-progress` here
+   had no error: a step with an error did not show as an error on the narrow width (D-3). Since 16/11/2026 (DSA-85)
+   it does: with a step in error the bar takes `status="error"` at the first such step (a disabled one looks pending and
+   does not count), and `help` names it with the error text, the label and the reason; the value text and the label
+   stay those of the current step. Between 600 px and the
    room the steps need, the text column gives up its room first, down to nothing (a cut label ends in an
    ellipsis and a balloon), and the marker and the connector keep their structural minimum: the step area
    around the marker, and the connector at `stepper/connector-min-width` with its gap on each side. The
@@ -7480,7 +7512,23 @@ change in `nph-icon`, `nph-tooltip` or `nph-progress`. The contrast of the brand
   before, pending after), and the connector follows the position too: brand before the current step,
   neutral after it. She confirms it, or asks for the connector to follow the status of the steps.
 
-**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-5 wait for Indiane. API and
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-1 — the contrast on a dialog in dark.** Yes, the foundation fixes it at the source, with existing primitives, in
+  dark only: `status/error-text` to `core/danger/200`, `status/error` to `core/danger/300`, `color/primary-border` to
+  `theme/brand-200` in the seven brands, and `theme/brand-text-dark` one tone lighter in Gerencial, Comercial,
+  Financeiro and Recursos Humanos. Light does not change. The tokens are on `v/5.0.0` with DSA-84; nothing changes in
+  the component.
+- **D-3 — the error on the narrow width.** Not confirmed as drawn: on the narrow width `nph-progress` shows the error
+  status when a step has an error (WCAG 1.4.10). Item 9 records how (DSA-85).
+- **D-5 — a status against the position.** Not confirmed as drawn: the connector follows the status of the steps. Only
+  the line after a completed step takes the brand color, and a pending step before the current one (skipped) keeps a
+  neutral line (Carbon, progress indicator). Since 16/11/2026 (DSA-85) `data-complete` is true only after a step whose
+  status is `completed`, so a step with an error before the current one keeps a neutral line too.
+
+**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1, D-3 and D-5 were answered on the previews (16/11/2026),
+as above; the task records the answers to the other points. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ## P118 — `nph-tree`: API and semantics
@@ -7658,7 +7706,15 @@ the first load of the tree.
   no disabled-with-focus variant. Whether the focus border fades with the item or stays on top at full
   opacity. Recommended, and built: on top, at full opacity. It does not block the pull request.
 
-**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-1 and D-2 wait for Indiane. API
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-2 — the focus of the disabled item.** Confirmed: the focus border draws over the disabled item at full opacity;
+  the dimmed item stays exempt from contrast (WCAG 2.4.7 and 1.4.11, APG keyboard interface). Nothing changes in the
+  code.
+
+**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-2 was answered on the previews (16/11/2026), as above;
+the task records the answer to D-1. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7854,7 +7910,19 @@ state for a server error. A form association and the reading of a dropped folder
 - **D-5 — the lines of the item.** The format and size line is separate from the status line, and `done`
   shows the `circle-check` and a word. She confirms the reading.
 
-**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 to D-5 wait for Indiane. API and
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-3 — the items of a disabled zone.** Confirmed: with the zone disabled, the items dim with
+  `file-upload/disabled-opacity`, go back to the ready look, their buttons are disabled and the name has no link (a
+  disabled component is exempt from 3:1, WCAG 1.4.11). Nothing changes in the code.
+- **D-5 — the lines of the item.** Confirmed the reading of the code: the status takes a third line, under format and
+  size; the ready item has no status (66); the others are 86; in the complete state the name becomes a link to the saved
+  file (Carbon, file uploader). Nothing changes in the code.
+
+**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 waits for Indiane with the gate
+`stroke-style-token`; D-3 and D-5 were answered on the previews (16/11/2026), as above; the task records the answers to the
+other points. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ## P120 — `nph-scheduler`: API and semantics
@@ -7976,8 +8044,9 @@ rule of P21. The names follow P64.
    that date and the focus lands on its day header. A click on a day fires `nph-day-click` and does
    nothing else: the evidence gives the day no action.
 
-7. **The hour is twice the minimum height of an event.** There is no token for the height of an hour.
-   The CSS makes it `calc(scheduler/event-min-height * 2)`, so a half hour fits the 24 px minimum;
+7. **The hour is twice the minimum height of an event.** It had no token, and the CSS made it
+   `calc(scheduler/event-min-height * 2)`; since 16/11/2026 (DSA-85) it is `scheduler/hour-height`, 48, which is still
+   twice the minimum, so a half hour fits the 24 px minimum;
    `MIN_VISUAL_MINUTES` (30) in the logic file is that duration, and a test holds the two together. An
    event is placed by minute, from the top of its day, and takes the longer of its duration and the
    minimum; events that touch share the column side by side (the first column is the longer of two that
@@ -7990,13 +8059,13 @@ rule of P21. The names follow P64.
 8. **The month measures its cells.** The cell shows the lines that fit and "+N more" (an `nph-button`
    compact, in a group named by the count and the date). What fits is measured after the render
    (`ResizeObserver`) from a probe line and the room of the first cell, and draws again when the room
-   changes; before the first measure, every line is drawn. The rows have at least four minimum heights.
+   changes; before the first measure, every line is drawn. The rows have at least `scheduler/month-row-min-height` (96, four minimum heights; before 16/11/2026, DSA-85, the CSS derived it).
    A line is one text line, `text/label-sm`, at `scheduler/event-min-height`: the evidence draws it one text
    line high and also sets 24 px as the minimum of an event (WCAG 2.5.8), and the accessibility gate of P72
    fails a 16 px target, so the minimum wins. A multi-day event has one line on each day it covers.
 
 9. **The list.** The week of `date`, only the days that have events, each under a heading; a multi-day event
-   appears under each day it covers. The time column is three times `scheduler/time-column-width`.
+   appears under each day it covers. The time column is `scheduler/list-time-width` (144, three times `scheduler/time-column-width`; before 16/11/2026, DSA-85, the CSS derived it), and the one of a phone row is `scheduler/list-time-width-compact` (72).
 
 10. **The phone is a width, not a user-agent.** Below 768 px of the width of the element (the `md`
     breakpoint of P116, read by a `ResizeObserver` on the host, not by a media query on the window) the
@@ -8012,7 +8081,7 @@ rule of P21. The names follow P64.
     other months dimmed and selectable; the compact one adds the event dot. It has no popup, no range, no
     minimum or maximum and no form association: it is not an `nph-date-picker`. The month label and two
     buttons move the month shown without moving the date. When the date-picker grid exists, this grid is the
-    one that goes. The cell of the mini month is `control/height-compact`.
+    one that goes. The cell of the mini month is `scheduler/mini-month-cell-size` (36, `control/height-default`); it was `control/height-compact` (28) until 16/11/2026 (DSA-85).
 
 12. **The `sidebar` icon keeps its place (the case of P116, item 9).** The icon is not in `nph-icon` and the
     task does not add it. The sidebar button is a native button with the look of the `nph-button` secondary
@@ -8078,7 +8147,25 @@ and the drag of an event. The focus of the primary `nph-button` in dark mode, co
 - **D-7 — the order of the all-day band.** The band comes before the grid in the document, so Tab reaches an
   all-day event of a later day before a timed event of an earlier one. She confirms it.
 
-**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-1 to D-7 wait for Indiane. API and
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-2 — the `sidebar` icon.** Same answer as DSA-72 D-1 (P116): `sidebar` and `repeat`, Font Awesome Light, enter
+  `nph-icon`, and the recurring event uses `repeat`, not `rotate-right`, which says "turn". It is not in the code yet:
+  it waits for the authorization of Elvys to edit the core icon list of `design.md` (T-1 of DSA-85), and the recurring
+  event keeps `rotate-right` until then.
+- **D-3 — derived measures.** Not confirmed as derived: component tokens, by rule T9. `scheduler/hour-height`
+  (`core/space/900`, 48), `scheduler/mini-month-cell-size` (`control/height-default`, 36 as in Figma, where the code used
+  `control/height-compact`, 28), `scheduler/list-time-width` (`core/space/1500`, 144),
+  `scheduler/list-time-width-compact` (`core/layout-width/list-time-compact`, 72, new in core) and
+  `scheduler/month-row-min-height` (`core/space/1200`, 96). The tokens are on `v/5.0.0` with DSA-84 and the CSS reads
+  them since 16/11/2026 (DSA-85): the hour, the month row, the time of a list row and of a phone row, and the cell of the
+  mini month, which goes from 28 to 36. The swatch of a calendar stays `icon/size-sm`.
+- **D-4 — the color of a calendar.** Confirmed: the swatch beside the checkbox in "My calendars"; the color follows the
+  name of the calendar and is not the only sign (WCAG 1.4.1). Nothing changes in the code.
+
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-2, D-3 and D-4 were answered on the previews
+(16/11/2026), as above; the task records the answers to the other points. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8199,8 +8286,8 @@ cause: the rule of P21. The names follow P64.
 9. **The preview does not grow.** The text is cut by `-webkit-line-clamp` at three lines, the count
    written in the CSS because a line count is not a token, as the `nph-stepper` does with its two. Open,
    the cut is lifted and the button swaps its text and its chevron; nothing moves (D-1). The button is
-   drawn even when the text has fewer than three lines, since the contract does not say otherwise
-   (D-2). The preview type is for text: a link or a button inside the cut part stays in the Tab order,
+   drawn even when the text has fewer than three lines, since the contract did not say otherwise
+   (D-2; answered on 16/11/2026: it is not drawn when the text fits in the three lines, see the answer above). The preview type is for text: a link or a button inside the cut part stays in the Tab order,
    which the sheet records.
 
 10. **The focus.** No `delegatesFocus`: a click on the content would be sent to the trigger. `focus()`
@@ -8232,7 +8319,16 @@ stepper waits for its own task (DSA-73).
   follows the documentation. She confirms the reading, or the rule gets an exception for the expansion of a
   disclosure.
 
-**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-1 to D-3 wait for Indiane. API and
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-2 — a preview of fewer than three lines.** Not confirmed as drawn: the "Show more" button hides when the text fits in
+  the three lines and nothing is cut (GitLab UI, truncate text). Since 16/11/2026 (DSA-85) the preview measures its text
+  against three line heights, closed or open, and again when the width, the text or the fonts change, and draws no button
+  when it fits; a text that grows later brings it back.
+
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-2 was answered on the previews (16/11/2026), as above;
+the task records the answers to D-1 and D-3. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8525,7 +8621,22 @@ implementation.
 border, fixed in the semantic colors by DSA-81 and not overridden here. The placement near the top. A non-modal
 palette.
 
-**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-80 D-1, D-2, D-3 and D-4 wait for Indiane. API and
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **DSA-80 D-1 — the panel near the top.** Confirmed: the provisional centered panel stays until the token exists; then
+  the panel opens near the top, at 16% of the window height, so the search field does not jump while the list filters (VS
+  Code command palette). Token by T9: `command/offset-top` to `core/layout-offset/top` (16%, new in core), already in
+  Figma. The build takes a percentage dimension since 16/11/2026 (DSA-85): a `dimension` in `%` comes out as it is, with no
+  `rem` conversion, and any other unit stops the build (`scripts/tokens-lib.mjs`, `DIMENSION_UNITS`; the proof of
+  `test:tokens` builds a copy of the sources with a percentage in it). The two tokens are Claude's, in Figma and in the
+  sources, and are **not** in the repository yet, so the panel stays centered; the placement enters when they do.
+- **DSA-80 D-3 — the rest of a searched destructive label.** Confirmed: in a destructive command the rest of the label
+  keeps the destructive color and only the matched part gets stronger; color is not the only sign, but it does not
+  disappear (WCAG 1.4.1). Nothing changes in the code.
+
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-80 D-1 and D-3 were answered on the previews
+(16/11/2026), as above; the task records the answers to D-2 and D-4. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8621,8 +8732,7 @@ nothing and emits `console.error` only in development, once per cause (P21).
 
 **Known limits.**
 
-- The group item of the first level keeps the arrow swap of the approved `nph-sidebar-item`; only the subgroup turns
-  its arrow (D-2).
+- The arrow of a group of the first level turns like the one of the subgroup (D-2, answered on 16/11/2026).
 - A page inside a group the person closed does not reopen it (D-3).
 - Forced colors and right-to-left are not treated yet, as in P116.
 
@@ -8650,7 +8760,17 @@ padding are a technical proposal of this implementation.
   closed") the code does not reopen a group when the current page enters it. She confirms it, or asks for the
   parents of a new current page to open.
 
-**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-1 to D-3 wait for Indiane. API and
+**Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
+records the other answers):
+
+- **D-2 — the arrow of the group item.** Not confirmed as drawn: the first-level item chevron also turns 180 degrees,
+  like the subgroup, as the accepted documentation says, so the menu has one behavior. Since 16/11/2026 (DSA-85) the menu
+  turns the arrow of a first-level group as it turns the one of a subgroup, in the duration and the curve of the block
+  (the arrow is in the shadow root of the open `nph-sidebar-item`, which the menu reaches; the item gets no new property,
+  and the flyout navigation keeps the swap without turning).
+
+**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-2 was answered on the previews (16/11/2026), as above;
+the task records the answers to D-1 and D-3. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
