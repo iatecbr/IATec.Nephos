@@ -8105,7 +8105,7 @@
       "components-nph-stepper-validation--states": "Pasos deshabilitados y los estados combinados: un paso completado y deshabilitado mantiene el fondo y el check, y un paso con error deshabilitado vuelve al aspecto de pendiente. El hover y el foco aparecen con el puntero y el teclado, y las pruebas los comprueban.",
       "components-nph-stepper-validation--navigation": "El stepper lineal, en el que solo los pasos completados y los que tienen error permiten volver, y el no lineal, en el que los pendientes también se pueden pulsar y un paso deshabilitado no.",
       "components-nph-stepper-validation--width": "La columna de texto se detiene en su máximo: una etiqueta pendiente, completada o con error termina en puntos suspensivos con el texto completo en un globo, la etiqueta actual se parte en dos líneas, y el conector nunca queda más estrecho que su mínimo.",
-      "components-nph-stepper-validation--narrow": "Por debajo de 600 px de ancho propio el stepper se vuelve una barra de progreso del tipo pasos, con \"Paso 2 de 4\" y la etiqueta del paso actual. Cuenta el ancho del stepper, no el de la ventana.",
+      "components-nph-stepper-validation--narrow": "Por debajo de 600 px de ancho propio el stepper se vuelve una barra de progreso del tipo pasos, con \"Paso 2 de 4\" y la etiqueta del paso actual. Cuenta el ancho del stepper, no el de la ventana. Con un paso en error, la barra toma el estado de error en ese paso, con un texto de ayuda que lo nombra.",
       "components-nph-stepper-validation--form": "El stepper en la parte superior de un formulario dentro de una tarjeta, con el contenido del paso actual justo debajo.",
       "components-nph-stepper-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el registro en cuatro pasos en el paso 2, el paso con error y su motivo, y el stepper lineal en tres pasos.",
       "components-nph-stepper-validation--brands": "Las siete marcas en modo claro y oscuro: el anillo y el número del paso actual, el check de los completados y el conector antes del paso actual siguen la marca del marco.",
@@ -8129,7 +8129,7 @@
       "components-nph-file-upload-validation--field": "La zona como el control de nph-field, con la etiqueta, el asterisco y el texto de apoyo del campo y el motivo en la zona; y la zona compacta en un formulario con otro campo.",
       "components-nph-file-upload-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: la zona vacía con su regla, la lista en uso con un envío en curso, un error y un archivo concluido, y el límite alcanzado.",
       "components-nph-file-upload-validation--brands": "Las siete marcas en modo claro y oscuro: los colores de arrastrando, la caja del elemento y el anillo de foco siguen la marca.",
-      "components-nph-collapsible-validation--types": "Los tres tipos, cerrados y abiertos: la línea, cuyo disparador es la fila entera con el título y la flecha; el botón, un nph-button con la flecha al final; y la vista previa, un texto cortado en tres líneas con el botón justo debajo.",
+      "components-nph-collapsible-validation--types": "Los tres tipos, cerrados y abiertos: la línea, cuyo disparador es la fila entera con el título y la flecha; el botón, un nph-button con la flecha al final; y la vista previa, un texto cortado en tres líneas con el botón justo debajo. Cuando el texto cabe en las tres líneas, no se corta nada y no hay botón.",
       "components-nph-collapsible-validation--appearances": "La apariencia flush, sin fondo, contorno ni relleno, y la tarjeta, con el fondo, el contorno, la esquina y el relleno, en los tipos línea, botón y vista previa.",
       "components-nph-collapsible-validation--sizes": "Los tamaños compact, default y large del tipo línea: cambian la altura mínima del disparador, y el large cambia el estilo de texto del título.",
       "components-nph-collapsible-validation--indicator": "El indicador al final y al inicio, con y sin el icono inicial: el contenido abierto se sangra hasta el título, después del indicador y del icono.",
@@ -8827,11 +8827,11 @@
     ],
     "railTitle": "Botón del riel",
     "railText": "El nph-sidebar-rail-button hace el papel del ítem cuando el nph-sidebar está contraído: un cuadrado de sidebar/rail-button-size solo con el ícono. El label es su nombre y el texto del globo, que siempre está encendido. El contador queda en la esquina superior del final y, cuando está activo, gana un contorno de 4 px en sidebar/panel-background. Un botón del riel de type group es el disclosure de un ítem con hijos: abre el panel flyout del nph-sidebar.",
-    "railCaption": "En reposo, activo, con contador, activo con contador, deshabilitado, y el grupo cerrado y abierto.",
+    "railCaption": "En reposo, activo, con contador, activo con contador, deshabilitado, y el grupo cerrado y abierto, y el grupo que contiene la página actual.",
     "railApi": [
       [
         "type",
-        "link (predeterminado) lleva a una página; group es el disclosure de un ítem con hijos y abre el panel flyout del nph-sidebar. Un grupo no tiene href ni contador, y nunca es activo."
+        "link (predeterminado) lleva a una página; group es el disclosure de un ítem con hijos y abre el panel flyout del nph-sidebar. Un grupo no tiene href ni contador, y queda activo cuando la página actual está dentro de él: el mismo fondo y el ícono sólido, sin aria-current."
       ],
       [
         "label",
@@ -12857,7 +12857,7 @@
       ],
       [
         "collapsed",
-        "Ancho layout/sidebar-collapsed: la marca del logo, el botón de contraer, un botón del riel por ítem con un globo y el botón de la esquina como ícono. Sin búsqueda. Un ítem con hijos abre un panel flyout."
+        "Ancho layout/sidebar-collapsed: la marca del logo, el botón de contraer, un botón de riel por ítem con un globo y el botón de esquina como ícono. Sin búsqueda. Un ítem con hijos abre un panel flotante; el botón de riel del grupo que contiene la página actual muestra el aspecto activo."
       ],
       [
         "mobile",
@@ -12955,7 +12955,7 @@
       ],
       [
         "Movimiento",
-        "La flecha gira 180 grados y el bloque crece en su lugar en panel-menu/expand-duration y panel-menu/expand-easing. Con movimiento reducido, nada se mueve."
+        "La flecha de un grupo y la de un subgrupo giran 180 grados y el bloque crece en su lugar en panel-menu/expand-duration y panel-menu/expand-easing. Con movimiento reducido, nada se mueve."
       ],
       [
         "Teclado y roles",
@@ -13219,7 +13219,7 @@
       "El conector llena el espacio entre los pasos y nunca queda más estrecho que el ancho mínimo. Con más de siete pasos, divide el proceso: el stepper nunca recoge pasos.",
       "Por debajo de 600 px de ancho propio, el stepper se vuelve una barra de progreso del tipo pasos, con \"Paso 2 de 4\" y la etiqueta del paso actual. Cuenta el ancho del stepper, no el de la ventana; el stepper se estira hasta el ancho de donde vive, así que en una fila flex dale flex: 1.",
       "Cuando falta espacio por encima de ese ancho, la columna de texto de los pasos cede su espacio primero y el marcador y el conector mantienen su mínimo; si ni eso cabe, la lista se desplaza en horizontal y recibe el Tab por sí sola.",
-      "En el ancho estrecho, un paso con error no aparece como error: la barra muestra solo la posición.",
+      "En el ancho estrecho, un paso con error aparece como error: la barra toma el estado de error en ese paso, con un texto de ayuda que lo nombra, y mantiene el texto de posición del paso actual.",
       "Con movimiento reducido nada se mueve: el color de un estado cambia de inmediato."
     ],
     "keyboardTitle": "Teclado",
@@ -13288,7 +13288,7 @@
       ],
       [
         "Conector",
-        "Una línea fina entre dos pasos, que pasa por el centro del marcador; en el color de la marca antes del paso actual y en el neutro después de él."
+        "Una línea fina entre dos pasos, que pasa por el centro del marcador; en el color de la marca después de un paso completado y en el neutro después de cualquier otro, incluso un paso pendiente que se saltó."
       ],
       [
         "Foco",
@@ -14104,7 +14104,7 @@
     "api": [
       [
         "type",
-        "line (predeterminado), button o preview. El disparador de la línea es la fila entera, con el título y la flecha. El botón es un nph-button, secondary ghost, con la flecha al final. La vista previa muestra el texto cortado en tres líneas y el nph-button debajo abre el resto."
+        "line (predeterminado), button o preview. El disparador de la línea es la fila entera, con el título y la flecha. El botón es un nph-button, secondary ghost, con la flecha al final. La vista previa muestra el texto cortado en tres líneas y el nph-button debajo abre el resto; cuando el texto cabe en las tres líneas no hay nada que abrir y el botón no se dibuja."
       ],
       [
         "appearance",
@@ -14177,7 +14177,7 @@
       },
       {
         "value": "preview",
-        "label": "El texto se corta en tres líneas y el nph-button debajo cambia Mostrar más por Mostrar menos. Para un texto largo cuyo comienzo ya informa."
+        "label": "El texto se corta en tres líneas y el nph-button debajo cambia Mostrar más por Mostrar menos. Para un texto largo cuyo comienzo ya informa. Cuando el texto cabe en las tres líneas, no se corta nada y el botón no se dibuja."
       }
     ],
     "variantsTitle": "Apariencias, tamaños e indicador",

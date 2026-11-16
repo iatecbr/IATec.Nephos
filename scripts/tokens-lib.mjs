@@ -30,7 +30,7 @@ export const HANDLED_TYPES = new Set([
  * `px` is the unit of every dimension so far; the build writes it as `rem`, except the families that stay in
  * `px` by their own rule (P62.4, P62.5). `%` is a percentage of the reference box the property uses: the
  * build writes it as it is, with no conversion, because a percentage has no `rem` equivalent (DSA-85, DSA-80
- * D-1: `core/layout-offset/top`, 16, read by `top` of a fixed panel, so it is 16% of the window height).
+ * D-1: the offset token of the command panel is 16%, a percentage of the box the property reads).
  * Any other unit stops the build, so a `vh` or an `em` never slips through unchecked.
  */
 export const DIMENSION_UNITS = new Set(['px', '%']);

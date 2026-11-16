@@ -8105,7 +8105,7 @@
       "components-nph-stepper-validation--states": "Disabled steps and the combined states: a completed step that is disabled keeps its background and its check, and a step with an error that is disabled goes back to the pending look. Hover and focus show up with the pointer and the keyboard, and the tests prove them.",
       "components-nph-stepper-validation--navigation": "The linear stepper, where only the completed steps and the steps with an error go back, and the non-linear stepper, where the pending steps are clickable too and a disabled step is not.",
       "components-nph-stepper-validation--width": "The text column stops at its maximum: a pending, completed or error label ends in an ellipsis with its whole text in a balloon, the current label wraps to two lines, and the connector never gets narrower than its minimum.",
-      "components-nph-stepper-validation--narrow": "Below 600 px of its own width the stepper becomes a progress bar of the steps type, with \"Step 2 of 4\" and the label of the current step. The width counts the stepper, not the window.",
+      "components-nph-stepper-validation--narrow": "Below 600 px of its own width the stepper becomes a progress bar of the steps type, with \"Step 2 of 4\" and the label of the current step. The width counts the stepper, not the window. With a step in error the bar takes the error status at that step, with a help text that names it.",
       "components-nph-stepper-validation--form": "The stepper at the top of a form inside a card, with the content of the current step right below it.",
       "components-nph-stepper-validation--examples": "The three required examples, each in light and dark mode: the sign-up in four steps on step 2, the step with an error and its reason, and the linear stepper in three steps.",
       "components-nph-stepper-validation--brands": "The seven brands in light and dark mode: the ring and the number of the current step, the check of the completed ones and the connector before the current step follow the brand of the frame.",
@@ -8129,7 +8129,7 @@
       "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason in the zone; and the compact zone in a form with another field.",
       "components-nph-file-upload-validation--examples": "The three required examples, each in light and dark mode: the empty zone with its rule, the list in use with an upload in progress, an error and a done file, and the limit reached.",
       "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand.",
-      "components-nph-collapsible-validation--types": "The three types, closed and open: the line, whose trigger is the whole row with the title and the chevron; the button, an nph-button with the chevron at the end; and the preview, a text cut at three lines with the button below it.",
+      "components-nph-collapsible-validation--types": "The three types, closed and open: the line, whose trigger is the whole row with the title and the chevron; the button, an nph-button with the chevron at the end; and the preview, a text cut at three lines with the button below it. When the text fits in the three lines nothing is cut and there is no button.",
       "components-nph-collapsible-validation--appearances": "The flush appearance, with no background, outline or padding, and the card, with the background, the outline, the corner and the padding, in the line, button and preview types.",
       "components-nph-collapsible-validation--sizes": "The compact, default and large sizes of the line type: they change the minimum height of the trigger, and the large one changes the text style of the title.",
       "components-nph-collapsible-validation--indicator": "The indicator at the end and at the start, with and without the start icon: the open content indents to the title, past the indicator and the icon.",
@@ -8827,11 +8827,11 @@
     ],
     "railTitle": "Rail button",
     "railText": "nph-sidebar-rail-button plays the role of the item when nph-sidebar is collapsed: a square of sidebar/rail-button-size with the icon only. The label is its name and the text of the balloon, which is always on. The counter sits on the top end corner and, when active, gains a 4 px outline in sidebar/panel-background. A rail button of type group is the disclosure of an item with children: it opens the flyout panel of nph-sidebar.",
-    "railCaption": "At rest, active, with the counter, active with the counter, disabled, and the group closed and open.",
+    "railCaption": "At rest, active, with the counter, active with the counter, disabled, and the group closed and open, and the group that holds the current page.",
     "railApi": [
       [
         "type",
-        "link (default) leads to a page; group is the disclosure of an item with children and opens the flyout panel of nph-sidebar. A group has no href, no counter and is never active."
+        "link (default) leads to a page; group is the disclosure of an item with children and opens the flyout panel of nph-sidebar. A group has no href and no counter, and it is active when the current page is inside it: the same background and solid icon, with no aria-current."
       ],
       [
         "label",
@@ -12857,7 +12857,7 @@
       ],
       [
         "collapsed",
-        "Width layout/sidebar-collapsed: the logo mark, the collapse button, one rail button per item with a balloon, and the corner button as an icon. No search. An item with children opens a flyout panel."
+        "Width layout/sidebar-collapsed: the logo mark, the collapse button, one rail button per item with a balloon, and the corner button as an icon. No search. An item with children opens a flyout panel; the rail button of the group that holds the current page shows the active look."
       ],
       [
         "mobile",
@@ -12955,7 +12955,7 @@
       ],
       [
         "Movement",
-        "The arrow turns 180 degrees and the block grows in place in panel-menu/expand-duration and panel-menu/expand-easing. With reduced motion nothing moves."
+        "The arrow of a group and of a subgroup turns 180 degrees and the block grows in place in panel-menu/expand-duration and panel-menu/expand-easing. With reduced motion nothing moves."
       ],
       [
         "Keyboard and roles",
@@ -13219,7 +13219,7 @@
       "The connector fills the space between the steps and never gets narrower than its minimum width. With more than seven steps, split the process: the stepper never collapses steps.",
       "Below 600 px of its own width, the stepper becomes a progress bar of the steps type, with \"Step 2 of 4\" and the label of the current step. The width that counts is the stepper, not the window; the stepper stretches to the width of where it lives, so in a flex row give it flex: 1.",
       "When the room runs short above that width, the text column of the steps gives up its room first and the marker and the connector keep their minimum; if even that does not fit, the list scrolls sideways and takes the Tab key itself.",
-      "On the narrow width, a step with an error does not show as an error: the bar shows the position only.",
+      "On the narrow width, a step with an error shows as an error: the bar takes the error status at that step, with a help text that names it, and keeps the position text of the current step.",
       "With reduced motion nothing moves: the color of a status changes at once."
     ],
     "keyboardTitle": "Keyboard",
@@ -13288,7 +13288,7 @@
       ],
       [
         "Connector",
-        "A thin line between two steps, through the center of the marker; the brand color before the current step and the neutral one after it."
+        "A thin line between two steps, through the center of the marker; the brand color after a completed step and the neutral one after any other step, a pending step that was skipped included."
       ],
       [
         "Focus",
@@ -14104,7 +14104,7 @@
     "api": [
       [
         "type",
-        "line (default), button or preview. The line trigger is the whole row, with the title and the chevron. The button is an nph-button, secondary ghost, with the chevron at the end. The preview shows the text cut at three lines and the nph-button below it opens the rest."
+        "line (default), button or preview. The line trigger is the whole row, with the title and the chevron. The button is an nph-button, secondary ghost, with the chevron at the end. The preview shows the text cut at three lines and the nph-button below it opens the rest; when the text fits in the three lines there is nothing to open and the button is not drawn."
       ],
       [
         "appearance",
@@ -14177,7 +14177,7 @@
       },
       {
         "value": "preview",
-        "label": "The text is cut at three lines and the nph-button below it swaps Show more for Show less. For a long text whose beginning already informs."
+        "label": "The text is cut at three lines and the nph-button below it swaps Show more for Show less. For a long text whose beginning already informs. When the text fits in the three lines nothing is cut, and the button is not drawn."
       }
     ],
     "variantsTitle": "Appearances, sizes and indicator",

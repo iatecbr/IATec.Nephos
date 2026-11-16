@@ -8105,7 +8105,7 @@
       "components-nph-stepper-validation--states": "Etapas desabilitadas e os estados combinados: uma etapa concluída e desabilitada mantém o fundo e o check, e uma etapa com erro desabilitada volta ao visual de pendente. O hover e o foco aparecem com o ponteiro e o teclado, e os testes os provam.",
       "components-nph-stepper-validation--navigation": "O stepper linear, em que só as etapas concluídas e as com erro permitem voltar, e o não linear, em que as pendentes também são clicáveis e uma etapa desabilitada não é.",
       "components-nph-stepper-validation--width": "A coluna de texto para no máximo: um rótulo pendente, concluído ou com erro termina em reticências com o texto inteiro num balão, o rótulo atual quebra em duas linhas, e o conector nunca fica mais estreito que o mínimo.",
-      "components-nph-stepper-validation--narrow": "Abaixo de 600 px de largura própria o stepper vira uma barra de progresso do tipo etapas, com \"Etapa 2 de 4\" e o rótulo da etapa atual. Conta a largura do stepper, não a da janela.",
+      "components-nph-stepper-validation--narrow": "Abaixo de 600 px de largura própria o stepper vira uma barra de progresso do tipo etapas, com \"Etapa 2 de 4\" e o rótulo da etapa atual. Conta a largura do stepper, não a da janela. Com uma etapa em erro, a barra assume o status de erro nessa etapa, com um texto de ajuda que a nomeia.",
       "components-nph-stepper-validation--form": "O stepper no topo de um formulário dentro de um cartão, com o conteúdo da etapa atual logo abaixo.",
       "components-nph-stepper-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: o cadastro em quatro etapas na etapa 2, a etapa com erro e o seu motivo, e o stepper linear em três etapas.",
       "components-nph-stepper-validation--brands": "As sete marcas em modo claro e escuro: o anel e o número da etapa atual, o check das concluídas e o conector antes da etapa atual seguem a marca do quadro.",
@@ -8129,7 +8129,7 @@
       "components-nph-file-upload-validation--field": "A zona como o controle do nph-field, com o rótulo, o asterisco e o texto de apoio do campo e o motivo na zona; e a zona compacta em um formulário com outro campo.",
       "components-nph-file-upload-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: a zona vazia com a sua regra, a lista em uso com um envio em andamento, um erro e um arquivo concluído, e o limite atingido.",
       "components-nph-file-upload-validation--brands": "As sete marcas em modo claro e escuro: as cores de arrastando, a caixa do item e o anel de foco seguem a marca.",
-      "components-nph-collapsible-validation--types": "Os três tipos, fechados e abertos: a linha, cujo gatilho é a linha inteira com o título e a seta; o botão, um nph-button com a seta no fim; e a prévia, um texto cortado em três linhas com o botão logo abaixo.",
+      "components-nph-collapsible-validation--types": "Os três tipos, fechados e abertos: a linha, cujo gatilho é a linha inteira com o título e a seta; o botão, um nph-button com a seta no fim; e a prévia, um texto cortado em três linhas com o botão logo abaixo. Quando o texto cabe nas três linhas, nada é cortado e não há botão.",
       "components-nph-collapsible-validation--appearances": "A aparência flush, sem fundo, contorno nem preenchimento, e o cartão, com o fundo, o contorno, o canto e o preenchimento, nos tipos linha, botão e prévia.",
       "components-nph-collapsible-validation--sizes": "Os tamanhos compact, default e large do tipo linha: mudam a altura mínima do gatilho, e o large muda o estilo de texto do título.",
       "components-nph-collapsible-validation--indicator": "O indicador no fim e no início, com e sem o ícone inicial: o conteúdo aberto recua até o título, depois do indicador e do ícone.",
@@ -8827,11 +8827,11 @@
     ],
     "railTitle": "Botão do trilho",
     "railText": "O nph-sidebar-rail-button faz o papel do item quando o nph-sidebar está recolhido: um quadrado de sidebar/rail-button-size só com o ícone. O label é o seu nome e o texto do balão, que fica sempre ligado. O contador fica no canto superior do fim e, quando ativo, ganha um contorno de 4 px em sidebar/panel-background. Um botão do trilho de type group é o disclosure de um item com filhos: abre o painel flyout do nph-sidebar.",
-    "railCaption": "Em repouso, ativo, com contador, ativo com contador, desabilitado, e o grupo fechado e aberto.",
+    "railCaption": "Em repouso, ativo, com contador, ativo com contador, desabilitado, e o grupo fechado e aberto, e o grupo que contém a página atual.",
     "railApi": [
       [
         "type",
-        "link (padrão) leva a uma página; group é o disclosure de um item com filhos e abre o painel flyout do nph-sidebar. Um grupo não tem href, nem contador, e nunca é ativo."
+        "link (padrão) leva a uma página; group é o disclosure de um item com filhos e abre o painel flyout do nph-sidebar. Um grupo não tem href nem contador, e fica ativo quando a página atual está dentro dele: o mesmo fundo e o ícone sólido, sem aria-current."
       ],
       [
         "label",
@@ -12857,7 +12857,7 @@
       ],
       [
         "collapsed",
-        "Largura layout/sidebar-collapsed: a marca do logo, o botão de recolher, um botão do trilho por item com um balão e o botão do canto como ícone. Sem busca. Um item com filhos abre um painel flyout."
+        "Largura layout/sidebar-collapsed: a marca do logo, o botão de recolher, um botão de trilho por item com um balão e o botão de canto como ícone. Sem busca. Um item com filhos abre um painel flutuante; o botão de trilho do grupo que contém a página atual mostra o visual ativo."
       ],
       [
         "mobile",
@@ -12955,7 +12955,7 @@
       ],
       [
         "Movimento",
-        "A seta gira 180 graus e o bloco cresce no lugar em panel-menu/expand-duration e panel-menu/expand-easing. Com movimento reduzido, nada se move."
+        "A seta de um grupo e a de um subgrupo giram 180 graus e o bloco cresce no lugar em panel-menu/expand-duration e panel-menu/expand-easing. Com movimento reduzido, nada se move."
       ],
       [
         "Teclado e papéis",
@@ -13219,7 +13219,7 @@
       "O conector preenche o espaço entre as etapas e nunca fica mais estreito que a largura mínima. Com mais de sete etapas, divida o processo: o stepper nunca recolhe etapas.",
       "Abaixo de 600 px de largura própria, o stepper vira uma barra de progresso do tipo etapas, com \"Etapa 2 de 4\" e o rótulo da etapa atual. Conta a largura do stepper, não a da janela; o stepper se estica até a largura de onde mora, então numa linha flex dê a ele flex: 1.",
       "Quando falta espaço acima dessa largura, a coluna de texto das etapas cede o seu espaço primeiro e o marcador e o conector mantêm o mínimo; se nem isso couber, a lista rola na horizontal e recebe o Tab sozinha.",
-      "Na largura estreita, uma etapa com erro não aparece como erro: a barra mostra só a posição.",
+      "Na largura estreita, uma etapa com erro aparece como erro: a barra assume o status de erro nessa etapa, com um texto de ajuda que a nomeia, e mantém o texto de posição da etapa atual.",
       "Com movimento reduzido nada se move: a cor de um status muda de uma vez."
     ],
     "keyboardTitle": "Teclado",
@@ -13288,7 +13288,7 @@
       ],
       [
         "Conector",
-        "Uma linha fina entre duas etapas, passando pelo centro do marcador; na cor da marca antes da etapa atual e na neutra depois dela."
+        "Uma linha fina entre duas etapas, passando pelo centro do marcador; na cor da marca depois de uma etapa concluída e na neutra depois de qualquer outra, inclusive uma etapa pendente que foi pulada."
       ],
       [
         "Foco",
@@ -14104,7 +14104,7 @@
     "api": [
       [
         "type",
-        "line (padrão), button ou preview. O gatilho da linha é a linha inteira, com o título e a seta. O botão é um nph-button, secondary ghost, com a seta no fim. A prévia mostra o texto cortado em três linhas e o nph-button abaixo dele abre o resto."
+        "line (padrão), button ou preview. O gatilho da linha é a linha inteira, com o título e a seta. O botão é um nph-button, secondary ghost, com a seta no fim. A prévia mostra o texto cortado em três linhas e o nph-button abaixo dele abre o resto; quando o texto cabe nas três linhas não há o que abrir e o botão não é desenhado."
       ],
       [
         "appearance",
@@ -14177,7 +14177,7 @@
       },
       {
         "value": "preview",
-        "label": "O texto é cortado em três linhas e o nph-button abaixo dele troca Mostrar mais por Mostrar menos. Para um texto longo cujo começo já informa."
+        "label": "O texto é cortado em três linhas e o nph-button abaixo dele troca Mostrar mais por Mostrar menos. Para um texto longo cujo começo já informa. Quando o texto cabe nas três linhas, nada é cortado e o botão não é desenhado."
       }
     ],
     "variantsTitle": "Aparências, tamanhos e indicador",
