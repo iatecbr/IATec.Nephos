@@ -20,10 +20,12 @@
 import StyleDictionary from 'style-dictionary';
 import fs from 'node:fs';
 import path from 'node:path';
-import { NS, HANDLED_TYPES, aliasOf, leaves, refs, buildIndex, classify, dependents } from './tokens-lib.mjs';
+import { NS, HANDLED_TYPES, aliasOf, dimensionProblem, leaves, refs, buildIndex, classify, dependents } from './tokens-lib.mjs';
 
-const SRC = 'src/tokens/source';
-const OUT = 'src/tokens/generated/tokens.css';
+/* The two paths can be moved only by the proof of the build (`npm run test:tokens`), which builds a copy of the
+   sources with a percentage in it; no script and no pipeline sets them. */
+const SRC = process.env.NEPHOS_TOKENS_SRC || 'src/tokens/source';
+const OUT = process.env.NEPHOS_TOKENS_OUT || 'src/tokens/generated/tokens.css';
 
 const errors = [];
 const fail = (m) => errors.push(m);
@@ -65,6 +67,12 @@ for (const source of sources) {
     }
 
     const m = t.$extensions && t.$extensions[NS] && t.$extensions[NS].modes;
+    if (t.$type === 'dimension') {
+      for (const value of [t.$value].concat(Object.values(m || {}))) {
+        const problem = dimensionProblem(value);
+        if (problem) fail('token "' + name + '": ' + problem);
+      }
+    }
     if (m) {
       if (!modes) {
         fail('token "' + name + '": declares modes, but layer "' + layer + '" does not declare modeSet');
@@ -124,6 +132,10 @@ StyleDictionary.registerTransform({
  *
  * The text that called radius the only foundation in px had been wrong since
  * `elevacao_regras` existed. Fixed in `design.md` in the same PR.
+ *
+ * A PERCENTAGE (`{ value: 16, unit: '%' }`) is the third case, and it is not a family: it is a unit. It comes out as
+ * `16%`, with no conversion, because `%` has no `rem` equivalent; the filter below converts only what is in `px`.
+ * The units a dimension may have are `DIMENSION_UNITS` in `tokens-lib.mjs`, checked before the build (DSA-85).
  */
 const REM_ROOT = 16;
 const NO_CONVERSION = ['radius', 'shadow-y', 'shadow-blur', 'shadow-spread'];

@@ -25,6 +25,29 @@ export const HANDLED_TYPES = new Set([
 ]);
 
 /**
+ * The units a structured `dimension` may carry in the source.
+ *
+ * `px` is the unit of every dimension so far; the build writes it as `rem`, except the families that stay in
+ * `px` by their own rule (P62.4, P62.5). `%` is a percentage of the reference box the property uses: the
+ * build writes it as it is, with no conversion, because a percentage has no `rem` equivalent (DSA-85, DSA-80
+ * D-1: `core/layout-offset/top`, 16, read by `top` of a fixed panel, so it is 16% of the window height).
+ * Any other unit stops the build, so a `vh` or an `em` never slips through unchecked.
+ */
+export const DIMENSION_UNITS = new Set(['px', '%']);
+
+/**
+ * The problem of a `dimension` value, or null. A reference is not checked here: its target is.
+ * The value is `{ value: number, unit }`; the unit is on `DIMENSION_UNITS` and a percentage is a finite number.
+ */
+export function dimensionProblem(v) {
+  if (typeof v === 'string') return aliasOf(v) !== null ? null : 'a dimension is { value, unit } or a reference, not "' + v + '"';
+  if (v === null || typeof v !== 'object' || Array.isArray(v)) return 'a dimension is { value, unit } or a reference';
+  if (typeof v.value !== 'number' || !Number.isFinite(v.value)) return 'the dimension value is not a finite number';
+  if (!DIMENSION_UNITS.has(v.unit)) return 'unit "' + v.unit + '" is not handled. Handled: ' + [...DIMENSION_UNITS].join(', ');
+  return null;
+}
+
+/**
  * Canonical representation of a value, stable and independent of object
  * identity and key order. `{value:250,unit:'ms'}` and `{unit:'ms',value:250}`
  * produce the SAME string.
