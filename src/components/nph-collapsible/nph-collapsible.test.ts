@@ -155,7 +155,7 @@ describe('registration and API', () => {
 
   it('the public API is exactly P121', () => {
     const declared = [...(NphCollapsible as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()].filter(
-      (name) => name !== 'phase',
+      (name) => name !== 'phase' && name !== 'fits',
     );
     expect(declared.sort()).toEqual(
       ['appearance', 'description', 'disabled', 'icon', 'indicator', 'label', 'open', 'openLabel', 'size', 'type'].sort(),
@@ -1134,11 +1134,36 @@ describe('the preview type', () => {
     expect(text.getBoundingClientRect().height).toBeLessThanOrEqual(line * 3 + 1);
   });
 
-  it('a text of fewer than three lines is shown whole, with its button', async () => {
+  it('a text of fewer than three lines is shown whole, with no button: nothing is cut (DSA-78 D-2)', async () => {
     const piece = await mount({ type: 'preview', label: 'Show more' }, '<p style="margin: 0">Short.</p>', '24rem');
     const text = root(piece).querySelector('.preview-content') as HTMLElement;
     expect(text.scrollHeight).toBeLessThanOrEqual(text.clientHeight + 1);
-    expect(trigger(piece).tagName).toBe('NPH-BUTTON');
+    expect(root(piece).querySelector('nph-button')).toBeNull();
+    expect(root(piece).querySelector('.button-row')).toBeNull();
+  });
+
+  it('a text of exactly three lines has no button, and one more line brings it back', async () => {
+    const line = '<p style="margin: 0">One line.</p>';
+    const piece = await mount({ type: 'preview', label: 'Show more' }, line.repeat(3), '24rem');
+    expect(root(piece).querySelector('nph-button')).toBeNull();
+    piece.insertAdjacentHTML('beforeend', line);
+    await vi.waitFor(() => expect(root(piece).querySelector('nph-button')).not.toBeNull());
+    piece.lastElementChild?.remove();
+    await vi.waitFor(() => expect(root(piece).querySelector('nph-button')).toBeNull());
+  });
+
+  it('the button follows the width: a text that is cut in a narrow box and fits in a wide one', async () => {
+    const piece = await mount({ type: 'preview', label: 'Show more' }, '<p style="margin: 0">The import started at 09:12 and read 4,812 rows from the file, with no warning.</p>', '10rem');
+    expect(root(piece).querySelector('nph-button')).not.toBeNull();
+    (piece.parentElement as HTMLElement).style.inlineSize = '60rem';
+    await vi.waitFor(() => expect(root(piece).querySelector('nph-button')).toBeNull());
+  });
+
+  it('an open preview whose text fits has no button either, and the text that is cut keeps "Show less"', async () => {
+    const fits = await mount({ type: 'preview', label: 'Show more', openLabel: 'Show less', open: true }, '<p style="margin: 0">Short.</p>', '24rem');
+    expect(root(fits).querySelector('nph-button')).toBeNull();
+    const cut = await mount({ type: 'preview', label: 'Show more', openLabel: 'Show less', open: true }, LONG, '24rem');
+    expect(trigger(cut).getAttribute('text')).toBe('Show less');
   });
 
   it('the button is below the text, at the start, with the gap of the preview', async () => {
