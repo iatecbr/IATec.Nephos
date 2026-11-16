@@ -244,7 +244,7 @@
 
 /*
  * Focus, keyboard only: two layers outside the item box. The border `border/width` in
- * `color/primary`, radius `dropdown/item-focus-border-radius`; the halo `focus/ring-width` in
+ * `focus/border`, radius `dropdown/item-focus-border-radius`; the halo `focus/ring-width` in
  * `focus/halo`, radius `dropdown/item-focus-halo-radius`.
  */
 .item:focus-visible {
@@ -261,7 +261,7 @@
 
 .item:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
-  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border: var(--nph-border-width) solid var(--nph-focus-border);
   border-radius: var(--nph-dropdown-item-focus-border-radius);
 }
 

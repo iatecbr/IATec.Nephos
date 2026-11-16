@@ -1091,6 +1091,58 @@ describe('the submenu', () => {
     expect(panel(setup.menu, 1).dataset.side).toBe('right');
   });
 
+  it('keeps dropdown/submenu-offset between the panel and the submenu, not flush', async () => {
+    const setup = await mount();
+    await openAt(setup, 60, 40);
+    await openSubmenuOf(setup.menu);
+    const offset = px('--nph-dropdown-submenu-offset');
+    expect(offset).toBeGreaterThan(0);
+    const main = panel(setup.menu).getBoundingClientRect();
+    const sub = panel(setup.menu, 1).getBoundingClientRect();
+    expect(sub.left).toBeCloseTo(main.right + offset, 1);
+  });
+
+  it('the gap faces the panel when the submenu opens to the left', async () => {
+    const setup = await mount();
+    const width = document.documentElement.clientWidth;
+    await openAt(setup, width - px('--nph-layout-input-width') - 24, 40);
+    await openSubmenuOf(setup.menu);
+    const offset = px('--nph-dropdown-submenu-offset');
+    const main = panel(setup.menu).getBoundingClientRect();
+    const sub = panel(setup.menu, 1).getBoundingClientRect();
+    expect(panel(setup.menu, 1).dataset.side).toBe('left');
+    expect(sub.right).toBeCloseTo(main.left - offset, 1);
+  });
+
+  it('right to left: the submenu opens to the left of the panel, with the gap between them', async () => {
+    document.documentElement.setAttribute('dir', 'rtl');
+    const setup = await mount();
+    const offset = px('--nph-dropdown-submenu-offset');
+    await openAt(setup, 700, 40);
+    await openSubmenuOf(setup.menu);
+    const main = panel(setup.menu).getBoundingClientRect();
+    const sub = panel(setup.menu, 1).getBoundingClientRect();
+    expect(panel(setup.menu, 1).dataset.side).toBe('left');
+    expect(sub.right).toBeCloseTo(main.left - offset, 1);
+  });
+
+  it('right to left: with no room on the left the submenu turns to the right, with the gap between them', async () => {
+    document.documentElement.setAttribute('dir', 'rtl');
+    const setup = await mount();
+    const offset = px('--nph-dropdown-submenu-offset');
+    await openAt(setup, 20, 40);
+    await openSubmenuOf(setup.menu);
+    const main = panel(setup.menu).getBoundingClientRect();
+    const sub = panel(setup.menu, 1).getBoundingClientRect();
+    expect(panel(setup.menu, 1).dataset.side).toBe('right');
+    expect(sub.left).toBeCloseTo(main.right + offset, 1);
+  });
+
+  it('the source reads dropdown/submenu-offset from the token, with no literal gap', () => {
+    const code = componentSource.replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(code).toContain('--nph-dropdown-submenu-offset');
+  });
+
   it('opens to the left only when there is no room on the right', async () => {
     const setup = await mount();
     const width = document.documentElement.clientWidth;
@@ -1530,7 +1582,7 @@ describe('anatomy, measures and colors', () => {
     expect(box.compareDocumentPosition(item.querySelector('.icon') as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
-  it('the focus is the color/primary border and the focus/halo halo, with the item radii', async () => {
+  it('the focus is the focus/border border and the focus/halo halo, with the item radii', async () => {
     const setup = await mount();
     setup.object.focus();
     await userEvent.keyboard('{ContextMenu}');
@@ -1538,7 +1590,7 @@ describe('anatomy, measures and colors', () => {
     const item = items(setup.menu)[0] as HTMLElement;
     const border = getComputedStyle(item, '::before');
     const halo = getComputedStyle(item, '::after');
-    expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-focus-border'));
     expect(Number.parseFloat(border.borderTopWidth)).toBeCloseTo(px('--nph-border-width'), 1);
     expect(border.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-dropdown-item-focus-border-radius'));
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
