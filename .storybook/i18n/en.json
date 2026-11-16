@@ -6849,7 +6849,7 @@
       ],
       [
         "Choices",
-        "Single choice shows the check at the end and the text in color/primary-hover; multiple choice shows the box at the start. A checked and disabled choice keeps its mark under the disabled opacity."
+        "Single choice shows the check at the end and the text in color/primary-text; multiple choice shows the box at the start. A checked and disabled choice keeps its mark under the disabled opacity."
       ],
       [
         "Disabled item",
@@ -8469,7 +8469,7 @@
       "components-nph-context-menu-validation--brands": "The seven brands in light and dark mode: the open submenu item, the solid icon and the focus take the primary of the brand of the frame.",
       "components-nph-menubar-validation--closed": "The closed bar: the top items File, Edit, View and Help, 36 high with the width of their label, no panel open, in light and dark mode.",
       "components-nph-menubar-validation--file-menu": "The File panel open below its top item, aligned to its start edge: commands with shortcuts at the end, an item with a submenu and the destructive item last, after a separator.",
-      "components-nph-menubar-validation--view-menu": "The View panel: a group label, the ruler and the grid as checkboxes, a second group with the density as radios, the checked one with the check at the end and its text in color/primary-hover.",
+      "components-nph-menubar-validation--view-menu": "The View panel: a group label, the ruler and the grid as checkboxes, a second group with the density as radios, the checked one with the check at the end and its text in color/primary-text.",
       "components-nph-menubar-validation--checked-and-disabled": "A checked and disabled choice keeps its mark under the disabled opacity, and a command that does not apply now stays in the panel, disabled: it takes the focus and does not run.",
       "components-nph-menubar-validation--submenu": "The Recent submenu open beside the panel at dropdown/submenu-offset, a second panel with its first item on the line of the item that opened it; that item keeps the highlight with the solid icon and arrow.",
       "components-nph-menubar-validation--top-items": "A disabled top item stays in the bar at the disabled opacity, and a top item with a long label hugs its text: the width is the label with the padding on each side.",

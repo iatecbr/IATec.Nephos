@@ -148,8 +148,8 @@ export interface NphMenubarItemSelectDetail {
   readonly menu: string;
 }
 
-/** A typed search keeps its characters together for this long, as in `nph-dropdown-menu`. */
-const TYPEAHEAD_MS = 500;
+/** A typed search keeps its characters together for this long: the evidence says letters typed within 1 second form the search. */
+const TYPEAHEAD_MS = 1000;
 
 let nextId = 0;
 
@@ -1155,8 +1155,12 @@ export class NphMenubar extends LitElement {
       disabled: model.disabled,
       submenu: flattenSubmenus(model.source.items),
     }));
+    /* One set of values per menu, so an item left out of its regular panel as a duplicate is left out here too. */
+    const seen = new Map<string, Set<string>>();
     return groupsOf(entries, (entry) => {
-      const sub = groupsOf(entry.submenu ?? [], (child) => this.acceptItem(child, 1, [], new Set<string>()));
+      const values = seen.get(entry.value) ?? new Set<string>();
+      seen.set(entry.value, values);
+      const sub = groupsOf(entry.submenu ?? [], (child) => this.acceptItem(child, 1, [], values));
       return sub.length === 0 ? false : sub;
     });
   }

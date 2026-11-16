@@ -6849,7 +6849,7 @@
       ],
       [
         "Escolhas",
-        "A escolha única mostra a marca no fim e o texto em color/primary-hover; a escolha múltipla mostra a caixa no início. Uma escolha marcada e desabilitada mantém a marca sob a opacidade de desabilitado."
+        "A escolha única mostra a marca no fim e o texto em color/primary-text; a escolha múltipla mostra a caixa no início. Uma escolha marcada e desabilitada mantém a marca sob a opacidade de desabilitado."
       ],
       [
         "Item desabilitado",
@@ -8469,7 +8469,7 @@
       "components-nph-context-menu-validation--brands": "As sete marcas nos modos claro e escuro: o item do submenu aberto, o ícone sólido e o foco usam o primário da marca do quadro.",
       "components-nph-menubar-validation--closed": "A barra fechada: os itens de topo Arquivo, Editar, Exibir e Ajuda, com 36 de altura e a largura do rótulo, sem painel aberto, nos modos claro e escuro.",
       "components-nph-menubar-validation--file-menu": "O painel Arquivo aberto abaixo do item de topo, alinhado à borda inicial: comandos com atalhos no fim, um item com submenu e o item destrutivo por último, depois de um separador.",
-      "components-nph-menubar-validation--view-menu": "O painel Exibir: um rótulo de grupo, a régua e a grade como caixas de seleção, um segundo grupo com a densidade como rádios, o marcado com a marca no fim e o texto em color/primary-hover.",
+      "components-nph-menubar-validation--view-menu": "O painel Exibir: um rótulo de grupo, a régua e a grade como caixas de seleção, um segundo grupo com a densidade como rádios, o marcado com a marca no fim e o texto em color/primary-text.",
       "components-nph-menubar-validation--checked-and-disabled": "Uma escolha marcada e desabilitada mantém a marca sob a opacidade de desabilitado, e um comando que não se aplica agora fica no painel, desabilitado: recebe o foco e não executa.",
       "components-nph-menubar-validation--submenu": "O submenu Recentes aberto ao lado do painel a dropdown/submenu-offset, um segundo painel com o primeiro item na linha do item que o abriu; esse item mantém o destaque com o ícone e a seta sólidos.",
       "components-nph-menubar-validation--top-items": "Um item de topo desabilitado fica na barra com a opacidade de desabilitado, e um item de topo com rótulo longo se ajusta ao texto: a largura é o rótulo com o espaçamento de cada lado.",

@@ -6849,7 +6849,7 @@
       ],
       [
         "Selecciones",
-        "La selección única muestra la marca al final y el texto en color/primary-hover; la selección múltiple muestra la casilla al inicio. Una selección marcada y deshabilitada conserva la marca bajo la opacidad de deshabilitado."
+        "La selección única muestra la marca al final y el texto en color/primary-text; la selección múltiple muestra la casilla al inicio. Una selección marcada y deshabilitada conserva la marca bajo la opacidad de deshabilitado."
       ],
       [
         "Elemento deshabilitado",
@@ -8469,7 +8469,7 @@
       "components-nph-context-menu-validation--brands": "Las siete marcas en modo claro y oscuro: el elemento del submenú abierto, el ícono sólido y el foco usan el primario de la marca del marco.",
       "components-nph-menubar-validation--closed": "La barra cerrada: los elementos superiores Archivo, Editar, Ver y Ayuda, de 36 de alto y con el ancho de su etiqueta, sin panel abierto, en los modos claro y oscuro.",
       "components-nph-menubar-validation--file-menu": "El panel Archivo abierto debajo del elemento superior, alineado al borde inicial: comandos con atajos al final, un elemento con submenú y el elemento destructivo al final, después de un separador.",
-      "components-nph-menubar-validation--view-menu": "El panel Ver: una etiqueta de grupo, la regla y la cuadrícula como casillas, un segundo grupo con la densidad como radios, el marcado con la marca al final y el texto en color/primary-hover.",
+      "components-nph-menubar-validation--view-menu": "El panel Ver: una etiqueta de grupo, la regla y la cuadrícula como casillas, un segundo grupo con la densidad como radios, el marcado con la marca al final y el texto en color/primary-text.",
       "components-nph-menubar-validation--checked-and-disabled": "Una selección marcada y deshabilitada conserva la marca bajo la opacidad de deshabilitado, y un comando que no se aplica ahora queda en el panel, deshabilitado: recibe el foco y no se ejecuta.",
       "components-nph-menubar-validation--submenu": "El submenú Recientes abierto al lado del panel a dropdown/submenu-offset, un segundo panel con su primer elemento en la línea del elemento que lo abrió; ese elemento conserva el resaltado con el icono y la flecha sólidos.",
       "components-nph-menubar-validation--top-items": "Un elemento superior deshabilitado queda en la barra con la opacidad de deshabilitado, y un elemento superior con etiqueta larga se ajusta al texto: el ancho es la etiqueta con el relleno de cada lado.",
