@@ -104,7 +104,7 @@ Widths in Figma: one slide 256, several 520 (two slides and one gap), peek 296 (
 | Color is not the only cue | The current indicator is wider than the others, besides the color. With no wrap-around, the arrow on the side with no slide is disabled at the start and at the end. |
 | Target size | The arrow has the default control height, `control/height-default`. The indicator has the target `carousel/indicator-target-size` around the small marker (WCAG 2.5.8): the dot is `carousel/indicator-size`, and the current one stretches to `carousel/indicator-width-current`. |
 | Alternative to dragging | Arrows and indicators move the slide with one tap. So at least one of the two stays on (WCAG 2.5.7). |
-| Accessible name | Each arrow has a name by `aria-label`, such as "Previous slide" and "Next slide", and the icon has `aria-hidden`. The indicators form a tab group: one Tab stop and arrows between them (item 9). Each indicator has a name with its position, such as "Slide 2 of 5"; in the several layout each one stands for a page, such as "Go to page 2". Each slide announces itself as "position of total" in the several layout too (appendix, item 10). Keyboard, roles and screen reader output live in the repository. |
+| Accessible name | Each arrow has a name, such as "Previous slide" and "Next slide", given by the `label` property of the nph-icon-button, which becomes the native `aria-label` and the tooltip text; the icon has `aria-hidden`. The indicators form a tab group: one Tab stop and arrows between them (item 9). Each indicator has a name with its position, such as "Slide 2 of 5"; in the several layout each one stands for a page, such as "Go to page 2". Each slide announces itself as "position of total" in the several layout too (appendix, item 10). Keyboard, roles and screen reader output live in the repository. |
 
 Measured contrast (lowest ratio among the 7 brands; light / dark), read in the appendix:
 
@@ -167,7 +167,7 @@ Base: the WAI-ARIA APG Carousel pattern, with no deviation, and the tabbed carou
 | Key or action | What it does | Base |
 |---|---|---|
 | Tab | Enters the carousel and goes through the controls in row order: previous arrow, indicators (one stop only, as a tab group) and next arrow. Links and buttons of the visible slide follow the content order. | APG Carousel, keyboard |
-| Enter or Space on an arrow | Goes to the previous or next slide. At the start and the end, the arrow on the side with no slide is disabled and stays focusable, so focus does not get lost. How the arrow stays focusable with the nph-icon-button is an open point of DSA-87. | APG Carousel; APG, focusability of disabled controls |
+| Enter or Space on an arrow | Goes to the previous or next slide. At the start and the end, the arrow on the side with no slide is disabled and stays focusable, so focus does not get lost (appendix). In v1 that depends on the nph-icon-button: see the open point of DSA-87, disabled arrow at the ends. | APG Carousel; APG, focusability of disabled controls |
 | Left and Right arrow keys on the indicators | Move focus between the indicators and show the slide; Home and End go to the first and the last (item 9). | APG Carousel with tabs; APG Tabs |
 | Click or tap on an indicator | Shows the slide of that indicator, which becomes current. | APG Carousel |
 | Drag or swipe on the track | Changes the slide by touch and mouse. Never the only way: arrows and indicators do the same. | WCAG 2.5.7 |
@@ -226,7 +226,7 @@ Read by `git grep` in the DSA tasks of `v/5.0.0`. No D-N names the nph-carousel;
 14. Short window of the several layout: whole slides by container width, at least one (see "Limits").
 15. Slide image exported at 2x, cropped to 16:9 from the center (see "Icon and image").
 
-Also with no decision, linked to an existing semantic and no new value: `carousel/indicator-target-background-hover`, `carousel/indicator-target-radius`, `carousel/control-gap`, `carousel/controls-offset`, `carousel/counter-foreground`. The disabled arrow stays focusable (APG, focusability of disabled controls), with no new decision.
+Also with no decision, linked to an existing semantic and no new value: `carousel/indicator-target-background-hover`, `carousel/indicator-target-radius`, `carousel/control-gap`, `carousel/controls-offset`, `carousel/counter-foreground`. The disabled arrow stays focusable in the appendix (APG, focusability of disabled controls), with no new decision; in v1 that depends on the nph-icon-button (see the open point of DSA-87).
 
 ## Sources
 
