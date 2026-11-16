@@ -89,6 +89,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - Who swaps the layout below the tablet breakpoint, stacked or tabs: the product, or a component property. The breakpoint is the tablet one of `design.md` (`tokens_breakpoint`).
 - The hit area size on touch (above 24): the code picks it, and the spec names it.
 - Accessible names, already translated: the handle takes the name of the panel it controls (`aria-labelledby` when the panel has a visible label, a translated `aria-label` when it has none, as in the APG); the collapse button takes a translated `aria-label` with the action and the panel name.
+- Collapse button state for assistive technology: recommended `aria-expanded` on the button with `aria-controls` on the main panel, or a label that swaps between collapse and restore; the spec names it.
+- Enter with the collapse button off: the APG keeps Enter on the handle, so it still collapses and restores (recommended).
+- Space freed by a collapsed panel: it goes to the panel across the same handle; with 3 panels, the second handle gives the space of the second panel to the third. `aria-valuenow` of a collapsed main panel is its collapsed size (0 when it collapses fully). Dragging from a collapsed panel restores it as the handle moves.
+- The focus line grows from 1 to 2 px: draw it so the panels do not shift (outline or inset shadow); the spec names it.
+- Right-to-left text: the start panel and the chevron mirror (right panel, `chevron-right`), and the arrows follow the visual side, as the APG says for left and right; the spec names it.
+- Motion of collapse and restore: if animated, use the `motion/*` tokens of `design.md` and drop the animation under `prefers-reduced-motion`; no animation is also valid.
+
+## Open point for the design owner (non-blocking)
 - Collapse button on a touch screen (tablet, above the breakpoint): the T4 exception keeps it compact (28, above 24). Whether it grows to `default` on touch, as the nph-popover footer does, goes to the design owner in the next approval round; until then it stays compact.
 
 ## Why it is ready

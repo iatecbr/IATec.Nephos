@@ -87,7 +87,7 @@ No layer of the handle has text, so there is no text style.
 |---|---|---|---|---|---|
 | Line segment (start and end) | 1 px wide (`resizable/handle-width`), fill `resizable/handle-color` | fill `resizable/handle-color-hover` | fill `resizable/handle-color-hover` | becomes the focus border: 2 px (`resizable/focus-border-width`), fill `focus/border`, no halo | as default |
 | Grip box | `resizable/grip-size` square, corner `resizable/grip-radius`, no background | as default | background `resizable/grip-background-active` | as default | as default |
-| Grip icon | nph-icon `grip-vertical`, style `light`, `resizable/grip-size`, color `resizable/grip-foreground` | same | color `resizable/grip-foreground-active` | same as default | same as default |
+| Grip icon | nph-icon `grip-vertical`, style `light`, `resizable/grip-size`, color `resizable/grip-foreground` (on the icon vector) | same | color `resizable/grip-foreground-active` | same as default | same as default |
 | Collapse button | nph-button icon-only `secondary` `ghost` `compact`, square, 28 × 28, nph-icon `chevron-left` `light` (it points to the start panel, which collapses) | same | same | same (its own focus only when it has focus) | disabled with the handle |
 | Whole handle | — | — | — | — | `state/disabled-opacity` |
 
@@ -128,7 +128,7 @@ The focus variants keep a hidden layer named `halo de foco` (bound to `focus/hal
 
 - The panel has no background of its own: it inherits the surface where the group lives, `color/background` or `color/card`. The group has no outer outline.
 - The collapse button is the nph-button icon-only: the icon color (`color/secondary-foreground`), the focus and the corners come from it. The grip is the nph-icon. The panel content is free; in the examples it is nph-skeleton.
-- Between the line, the grip box and the button, the gap is `resizable/handle-gap`. The panel padding is `space/container-padding`. Groups nest in the opposite direction.
+- Between the line, the grip box and the button, the gap is `resizable/handle-gap`. The panel padding is `space/container-padding`. Groups nest in the opposite direction: the panel of a horizontal group receives a vertical group.
 
 ## When to use
 
@@ -144,16 +144,16 @@ List and reading pane (horizontal, 2 panels); nested (the right panel split vert
 ## Do
 
 - Keep the grip in view in every state: it shows that the handle can be dragged, because the line at rest does not reach 3:1 in light.
-- Keep the panel without a background and the group without an outline.
+- Keep the panel without a background and the group without an outline: the panel inherits the surface and the screen stays light.
 - Give each panel a minimum and a maximum from the width of its content: the handle stops there and the content does not break.
 - Store the chosen size and restore it on return.
 - Offer a one-tap way out when the handle is the only way to resize: dragging cannot be the only path.
 
 ## Do not
 
-- Do not hide the grip and leave the line alone.
-- Do not put an outline around the group.
-- Do not give the panel a background of its own.
+- Do not hide the grip and leave the line alone. Use the handle with the grip: the line at rest does not show that it can be dragged.
+- Do not put an outline around the group. Keep the group without an outline, on the surface: the outline is heavy and is not part of the component.
+- Do not give the panel a background of its own. Let the panel inherit the surface where the group lives.
 
 ## Default behavior (appendix, accepted with the documentation)
 
@@ -206,7 +206,7 @@ T11 (same rule for every component): 1. selected or checked + disabled keeps the
 ## Decisions answered (approval round of 16-11, all as recommended)
 
 1. Documentation `5123:2641` and appendix accepted.
-2. `color/border-strong` created, with the description "Divider and outline of an area in interaction: the line of the nph-resizable handle in hover and dragging. Passes 3:1 over `color/background` and `color/card`. DO NOT USE at rest — there it is `color/border`. DO NOT USE on a field border — there it is `color/input`." The matching DO NOT USE in `color/border` and `color/input` names the nph-resizable handle line, so the accepted hover line of the underline nph-tabs and hover border of the nph-file-upload-item keep their tokens. `resizable/handle-color-hover` points to it.
+2. `color/border-strong` created, with the description "Divider and outline of an area in interaction: the line of the nph-resizable handle in hover and dragging. Passes 3:1 over `color/background` and `color/card`. DO NOT USE at rest — there it is `color/border`. DO NOT USE on a field border — there it is `color/input`." Figma and `design.md` add one sentence to it: it does not replace accepted hover lines (the underline nph-tabs keeps `color/border`, the done nph-file-upload-item keeps `color/input`). The matching DO NOT USE in `color/border` and `color/input` names the nph-resizable handle line, so the accepted hover line of the underline nph-tabs and hover border of the nph-file-upload-item keep their tokens. `resizable/handle-color-hover` points to it.
 3. `resizable/focus-border-width` → `core/focus-width/sm`; the focus color and the disabled opacity go straight, with no component token.
 4. Grip rotated 90 degrees on the horizontal handle now; later, the dotted `grip` of Font Awesome in nph-icon (not `grip-lines`).
 5. Invisible hit area of at least 24 px in code (larger on touch); in Figma the thin line stays.
