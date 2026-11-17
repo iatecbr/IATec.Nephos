@@ -302,13 +302,13 @@ tokens_semantic:
     css: '--nph-color-muted'
     claro: core/surface/50
     escuro: core/surface/700
-    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the rail of the segmented nph-tabs (tabs/list-background). Also the background of the pending nph-stepper step marker (stepper/marker-background), decorative: the number carries the status."
+    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the rail of the segmented nph-tabs (tabs/list-background). Also the background of the pending nph-stepper step marker (stepper/marker-background), decorative: the number carries the status. Also the tonal section of the nph-card (card/section-background): it separates by background, with no border."
     nao_use: "Hover: there it is color/accent, including the ghost secondary nph-button (button/secondary-ghost-background-hover, DSA-60)."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground). Also the grip icon of the nph-resizable handle at rest, in hover, focus and disabled (resizable/grip-foreground): the grip passes 3:1 and shows that the handle can be dragged. Also the chevron of the nph-carousel arrows, by override on the nph-icon-button instance (carousel/control-foreground): 5.75:1 light and 5.10:1 dark over the arrow background, 4.91:1 and 3.91:1 in hover. Also the nph-carousel counter (carousel/counter-foreground)."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground). Also the grip icon of the nph-resizable handle at rest, in hover, focus and disabled (resizable/grip-foreground): the grip passes 3:1 and shows that the handle can be dragged. Also the chevron of the nph-carousel arrows, by override on the nph-icon-button instance (carousel/control-foreground): 5.75:1 light and 5.10:1 dark over the arrow background, 4.91:1 and 3.91:1 in hover. Also the nph-carousel counter (carousel/counter-foreground). Also the description, the tonal section label, the list key and the meta footer of the nph-card (card/description-foreground)."
     nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
   color/subtle-foreground:
     css: '--nph-color-subtle-foreground'
@@ -338,19 +338,19 @@ tokens_semantic:
     css: '--nph-color-border'
     claro: core/neutral/200
     escuro: core/surface/400
-    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color)."
-    nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. The line of the nph-resizable handle in hover and dragging: there it is color/border-strong (the hover line of the underline nph-tabs stays here)."
+    use: "Divider, outline of an area, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color). Also the outline of the clickable nph-card in hover (card/border-hover): only the outline rises one step; background and shadow stay."
+    nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, the resting outline and the divider of the nph-card (card/border, card/divider), and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. The line of the nph-resizable handle in hover and dragging: there it is color/border-strong (the hover line of the underline nph-tabs stays here)."
   color/border-subtle:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
     escuro: core/alpha/white-10
-    use: "Soft border and divider of a floating layer: border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the shadow completes the separation from the background. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border)."
-    nao_use: "nph-dialog (color/dialog-separator); card (color/border); field (color/input)."
+    use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border)."
+    nao_use: "nph-dialog (color/dialog-separator); field (color/input)."
   color/border-strong:
     css: '--nph-color-border-strong'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Divider and outline of an area in interaction: today the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 6.69:1 over color/background in light, 9.81:1 in dark. It does not replace accepted hover lines: the underline nph-tabs keeps color/border (tabs/indicator-hover-color) and the done nph-file-upload-item keeps color/input (file-upload-item/border-done-hover)."
+    use: "Divider and outline of an area in interaction: today the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 6.69:1 over color/background in light, 9.81:1 in dark. It does not replace accepted hover lines: the underline nph-tabs keeps color/border (tabs/indicator-hover-color), the outline of the clickable nph-card in hover keeps color/border (card/border-hover), strong enough for the soft style, and the done nph-file-upload-item keeps color/input (file-upload-item/border-done-hover)."
     nao_use: "At rest: there it is color/border. Field border: there it is color/input. Text: there it is color/muted-foreground, which points to the same primitives with another function."
   color/input:
     css: '--nph-color-input'
@@ -418,13 +418,13 @@ tokens_semantic:
     css: '--nph-color-card'
     claro: core/base/white
     escuro: core/surface/800
-    use: "Card background. Also the background of the nph-scheduler container and of its cancelled event (scheduler/background, scheduler/event-cancelled-background). Also the background of the nph-collapsible card appearance (collapsible/card-background)."
+    use: "Card background. Also the background of the nph-scheduler container and of its cancelled event (scheduler/background, scheduler/event-cancelled-background). Also the background of the nph-collapsible card appearance (collapsible/card-background). Also the background of the nph-card, in hover too (card/background)."
     nao_use: "Shadow to simulate elevation in dark mode."
   color/card-foreground:
     css: '--nph-color-card-foreground'
     claro: core/neutral/950
     escuro: core/neutral/100
-    use: "Text on color/card."
+    use: "Text on color/card. Also the title, the content, the tonal section text, the list value and the arrow of the clickable nph-card (card/foreground, card/indicator-foreground)."
   color/popover:
     css: '--nph-color-popover'
     claro: core/base/white
@@ -469,12 +469,12 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted. Also the background of the completed nph-stepper step marker (stepper/marker-background-complete), always with color/primary-on-surface. Also the background of the nph-file-upload drop zone while a file is dragged over it (file-upload/background-dragging) and of the nph-file-upload-item while it uploads (file-upload-item/background-uploading), with color/primary-on-surface for the icon and the phrase of the zone. Exception: on the uploading nph-file-upload-item the text over it (name, format, size and status) stays on color/foreground and color/muted-foreground, as accepted by Indiane. Also the background of the selected item of lists and of the nph-tree (tree/item-background-selected), with color/primary-text on the label, the chevron and the icon: 7.21:1 at least, against 4.64:1 of color/primary-on-surface in light. Also the background of the nph-scheduler event and the selected day (scheduler/event-background, scheduler/day-selected-background)."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted. Also the background of the completed nph-stepper step marker (stepper/marker-background-complete), always with color/primary-on-surface. Also the background of the nph-file-upload drop zone while a file is dragged over it (file-upload/background-dragging) and of the nph-file-upload-item while it uploads (file-upload-item/background-uploading), with color/primary-on-surface for the icon and the phrase of the zone. Exception: on the uploading nph-file-upload-item the text over it (name, format, size and status) stays on color/foreground and color/muted-foreground, as accepted by Indiane. Also the background of the selected item of lists and of the nph-tree (tree/item-background-selected), with color/primary-text on the label, the chevron and the icon: 7.21:1 at least, against 4.64:1 of color/primary-on-surface in light. Also the background of the nph-scheduler event and the selected day (scheduler/event-background, scheduler/day-selected-background). Also the tonal icon box at the start of the nph-card (card/icon-container-background), with color/primary-on-surface on the icon (card/icon-container-foreground): in dark the box almost disappears against the card (1.04:1 to 1.25:1) and the icon carries the sign (4.64:1 or more); the box is decorative (WCAG 1.4.11)."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
     escuro: theme/brand-100
-    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete). Also the icon and the phrase of the nph-file-upload drop zone while a file is dragged over it (file-upload/icon-foreground-dragging, file-upload/foreground-dragging). Also the title and time of the nph-scheduler event and its selected dot, and the number of the selected day of the compact mobile month (scheduler/event-foreground, scheduler/event-dot-selected, scheduler/day-selected-foreground)."
+    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete). Also the icon and the phrase of the nph-file-upload drop zone while a file is dragged over it (file-upload/icon-foreground-dragging, file-upload/foreground-dragging). Also the title and time of the nph-scheduler event and its selected dot, and the number of the selected day of the compact mobile month (scheduler/event-foreground, scheduler/event-dot-selected, scheduler/day-selected-foreground). Also the icon in the tonal icon box at the start of the nph-card (card/icon-container-foreground)."
   color/primary-surface-hover:
     css: '--nph-color-primary-surface-hover'
     claro: theme/brand-100
@@ -1419,7 +1419,7 @@ tokens_space:
     css: '--nph-space-inline'
     alias: core/space/200
     valor: 8
-    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item. Also the side padding of the nph-scheduler event, the gap of its toolbar and day header, the day padding, the top and bottom of the month cell and the gaps of the list and the empty state (scheduler/event-padding-x, scheduler/toolbar-gap, scheduler/day-header-gap, scheduler/day-padding, scheduler/month-cell-padding-y, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/empty-gap). Also the padding of the nph-command hint footer (DSA-46 D-2) and the gap between its hints (command/footer-padding, command/footer-gap). Also the top and bottom padding of the nph-collapsible trigger in the default and large sizes (collapsible/trigger-padding-y), by decision, as in nph-navigation-menu. Also the gap between the nph-menubar top items (menubar/bar-gap). Also the gap between the slides of the nph-carousel track and between the pieces of its controls bar (carousel/slide-gap, carousel/control-gap)."
+    use: "Horizontal space BETWEEN independent elements: buttons of a group, label and badge, items of a bar. Also the side padding of the nph-tree item (tree/item-padding-inline). Also the top and bottom breathing room of the nph-panel-menu subgroup and the gap between its label and its arrow (panel-menu/subgroup-padding-y, panel-menu/subgroup-gap), as the approved nph-sidebar sub item. Also the side padding of the nph-scheduler event, the gap of its toolbar and day header, the day padding, the top and bottom of the month cell and the gaps of the list and the empty state (scheduler/event-padding-x, scheduler/toolbar-gap, scheduler/day-header-gap, scheduler/day-padding, scheduler/month-cell-padding-y, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/empty-gap). Also the padding of the nph-command hint footer (DSA-46 D-2) and the gap between its hints (command/footer-padding, command/footer-gap). Also the top and bottom padding of the nph-collapsible trigger in the default and large sizes (collapsible/trigger-padding-y), by decision, as in nph-navigation-menu. Also the gap between the nph-menubar top items (menubar/bar-gap). Also the gap between the slides of the nph-carousel track and between the pieces of its controls bar (carousel/slide-gap, carousel/control-gap). Also the gap between the pieces of the nph-card header and between its footer actions (card/header-item-gap, card/footer-gap)."
   space/stack-tight:
     css: '--nph-space-stack-tight'
     alias: core/space/100
@@ -1429,7 +1429,7 @@ tokens_space:
     css: '--nph-space-stack'
     alias: core/space/400
     valor: 16
-    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel. Also the gap between the main list and each section of the nph-panel-menu (panel-menu/section-gap). Also the gap between the side panel blocks and between the days of the list of the nph-scheduler (scheduler/sidebar-gap, scheduler/list-gap). Also the gap between the blocks of the nph-collapsible open content (collapsible/content-gap). Also the gap between the nph-carousel track and its controls bar (carousel/controls-offset)."
+    use: "Default vertical space between sibling items: fields of a form, items of a list, rows of a panel. Also the gap between the main list and each section of the nph-panel-menu (panel-menu/section-gap). Also the gap between the side panel blocks and between the days of the list of the nph-scheduler (scheduler/sidebar-gap, scheduler/list-gap). Also the gap between the blocks of the nph-collapsible open content (collapsible/content-gap). Also the gap between the nph-carousel track and its controls bar (carousel/controls-offset). Also the gap between the header, the content and the tonal section of the nph-card (card/gap)."
   space/section:
     css: '--nph-space-section'
     alias: core/space/700
@@ -1444,12 +1444,18 @@ tokens_space:
     css: '--nph-space-container-padding'
     alias: core/space/400
     valor: 16
-    use: "Inner padding of card, panel, popover and dialog - what contains. DO NOT USE on a control. Also the side padding of the nph-file-upload-item and of the compact nph-file-upload drop zone (file-upload-item/padding-inline, file-upload/padding-compact-inline): the item and the zone are containers of controls, not controls. Also the padding of the nph-scheduler container and of its side panel (scheduler/padding). Also the inner padding of the nph-collapsible card appearance (collapsible/card-padding)."
+    use: "Inner padding of panel, popover and dialog, and of a card in the compact density - what contains; a card in the default density is space/surface-padding (24). DO NOT USE on a control. Also the side padding of the nph-file-upload-item and of the compact nph-file-upload drop zone (file-upload-item/padding-inline, file-upload/padding-compact-inline): the item and the zone are containers of controls, not controls. Also the padding of the nph-scheduler container and of its side panel (scheduler/padding). Also the inner padding of the nph-collapsible card appearance (collapsible/card-padding). Also the compact padding of the nph-card body and action footer and the padding of its tonal section (card/padding-compact, card/footer-padding-compact, card/section-padding)."
+  space/surface-padding:
+    css: '--nph-space-surface-padding'
+    alias: core/space/600
+    valor: 24
+    use: "Inner padding of a card in the default density: the body and the action footer of the nph-card (card/padding, card/footer-padding). In the compact density it is space/container-padding."
+    nao_use: "Panel, popover or dialog: those are space/container-padding. The layer that blocks the page (dialog, modal, side panel): space/overlay-padding."
   space/stack-snug:
     css: '--nph-space-stack-snug'
     alias: core/space/200
     valor: 8
-    use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack. Also the gap between the icon, the action line and the rule of the nph-file-upload drop zone in the default format (file-upload/gap). Also the gap between the section label and its items in the nph-panel-menu (panel-menu/label-gap): the vertical space after a header. Also the gap between the title and the description of the nph-collapsible trigger and the space between the trigger and its open content (collapsible/title-gap, collapsible/content-padding-top), so the focus halo does not touch the content."
+    use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack. Also the gap between the icon, the action line and the rule of the nph-file-upload drop zone in the default format (file-upload/gap). Also the gap between the section label and its items in the nph-panel-menu (panel-menu/label-gap): the vertical space after a header. Also the gap between the title and the description of the nph-collapsible trigger and the space between the trigger and its open content (collapsible/title-gap, collapsible/content-padding-top), so the focus halo does not touch the content. Also the gap between title and description, between the label and the text of the tonal section and between the key-value rows of the nph-card (card/header-gap, card/section-gap, card/list-gap)."
   space/inline-loose:
     css: '--nph-space-inline-loose'
     alias: core/space/300
@@ -1459,7 +1465,7 @@ tokens_space:
     css: '--nph-space-overlay-padding'
     alias: core/space/600
     valor: 24
-    use: "Inner padding of the layer that BLOCKS the page: dialog, modal and side panel. USE on the padding of the nph-dialog. DO NOT USE on card, popover or control - those are space/container-padding."
+    use: "Inner padding of the layer that BLOCKS the page: dialog, modal and side panel. USE on the padding of the nph-dialog. DO NOT USE on card, popover or control - the card is space/surface-padding in the default density, the popover is space/container-padding."
 
 regras_raio_parcial:
   preferido: 'The container carries the radius and CLIPS (overflow: hidden). The children stay at radius/none and do not need to know they are inside something curved. Applies to table, list, accordion and any stack.'
@@ -1611,7 +1617,9 @@ tokens_core_radius:
   off-scale/7:  { valor: 7,  css: '--nph-core-radius-off-scale-7',  alias_de: 'focus/border-radius-control' }
   off-scale/9:  { valor: 9,  css: '--nph-core-radius-off-scale-9',  alias_de: 'focus/radius-inner-with-border' }
   off-scale/11: { valor: 11, css: '--nph-core-radius-off-scale-11', alias_de: 'focus/radius-control-with-border' }
+  off-scale/15: { valor: 15, css: '--nph-core-radius-off-scale-15', alias_de: 'focus/border-radius-surface' }
   off-scale/18: { valor: 18, css: '--nph-core-radius-off-scale-18', alias_de: 'focus/radius-surface' }
+  off-scale/19: { valor: 19, css: '--nph-core-radius-off-scale-19', alias_de: 'focus/radius-surface-with-border' }
 
 tokens_radius:
   radius/none:
@@ -1628,7 +1636,13 @@ tokens_radius:
     css: '--nph-radius-inner'
     alias: core/radius/200
     valor: 4
-    use: "USE on an element nested inside a control or container (checkbox, icon with background, thumbnail), on nph-tooltip and on the tab inside the segmented nph-tabs rail (tabs/item-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius."
+    use: "USE on an element nested inside a control or container (checkbox, thumbnail), on nph-tooltip and on the tab inside the segmented nph-tabs rail (tabs/item-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on a surface or box fitted inside a card or panel (the tonal section and the icon box of the nph-card): there it is radius/inset. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius."
+  radius/inset:
+    css: '--nph-radius-inset'
+    alias: core/radius/400
+    valor: 8
+    use: "Surface or box fitted inside a card or panel: the tonal section and the start icon box of the nph-card (card/section-radius, card/icon-container-radius). Smaller than the outer radius/surface (14)."
+    nao_use: "A piece inside a control (checkbox) or a thumbnail: there it is radius/inner."
   radius/control:
     css: '--nph-radius-control'
     alias: core/radius/300
@@ -1643,7 +1657,7 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
+    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface; a box fitted inside them is radius/inset. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
@@ -1653,7 +1667,7 @@ tokens_radius:
     css: '--nph-radius-surface'
     alias: core/radius/600
     valor: 14
-    use: "USE on card, panel and sheet - the surface that carries content. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer: dialog and modal are radius/overlay, the tooltip uses radius/inner, and popover, hover card and menu have their own radius. Also the corner of the nph-scheduler container (scheduler/radius). Also the corner of the nph-collapsible card appearance (collapsible/card-radius)."
+    use: "USE on card, panel and sheet - the surface that carries content. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer: dialog and modal are radius/overlay, the tooltip uses radius/inner, and popover, hover card and menu have their own radius. Also the corner of the nph-scheduler container (scheduler/radius). Also the corner of the nph-collapsible card appearance (collapsible/card-radius). Also the corner of the nph-card (card/radius)."
   radius/full:
     css: '--nph-radius-full'
     alias: core/radius/full
@@ -1946,7 +1960,7 @@ tokens_alpha:
     css: '--nph-border-width'
     alias: core/border-width/default
     valor: 1
-    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width). Also the thickness of the nph-scheduler container border, event border and focus border (scheduler/border-width, scheduler/event-border-width, scheduler/focus-border-width). Also the card outline and the focus border of the nph-collapsible (collapsible/card-border-width, collapsible/focus-border-width). Also the line of the nph-resizable handle (resizable/handle-width)."
+    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width). Also the thickness of the nph-scheduler container border, event border and focus border (scheduler/border-width, scheduler/event-border-width, scheduler/focus-border-width). Also the card outline and the focus border of the nph-collapsible (collapsible/card-border-width, collapsible/focus-border-width). Also the line of the nph-resizable handle (resizable/handle-width). Also the outline and the divider of the nph-card (card/border-width)."
   focus/border-radius-control:
     css: '--nph-focus-border-radius-control'
     alias: core/radius/off-scale/7
@@ -1981,11 +1995,21 @@ tokens_alpha:
     css: '--nph-focus-radius-surface'
     alias: core/radius/off-scale/18
     valor: 18
-    use: "Radius of the focus halo around a piece with radius/surface: radius/surface + focus/ring-width."
+    use: "Radius of the focus halo around a piece with radius/surface: radius/surface + focus/ring-width. Without the 1 px focus border; with it (the clickable nph-card), the halo is focus/radius-surface-with-border."
+  focus/border-radius-surface:
+    css: '--nph-focus-border-radius-surface'
+    alias: core/radius/off-scale/15
+    valor: 15
+    use: "Radius of the 1 px focus border around a piece with radius/surface: the clickable nph-card in focus."
+  focus/radius-surface-with-border:
+    css: '--nph-focus-radius-surface-with-border'
+    alias: core/radius/off-scale/19
+    valor: 19
+    use: "Radius of the focus halo around the focus border of a piece with radius/surface: focus/border-radius-surface + focus/ring-width. The clickable nph-card in focus."
   state/disabled-opacity:
     css: '--nph-state-disabled-opacity'
     valor: 0.5
-    use: "Opacity of the disabled control, applied to the WHOLE control. WCAG exempts a disabled element from the minimum contrast, but disabled is NEVER the only sign: the control also stops responding and, when there is a reason, it is stated in text. Also the whole disabled nph-tree item (tree/item-disabled-opacity). Also the whole disabled nph-panel-menu subgroup (panel-menu/subgroup-disabled-opacity). Also the opacity of the whole disabled nph-collapsible (collapsible/disabled-opacity)."
+    use: "Opacity of the disabled control, applied to the WHOLE control. WCAG exempts a disabled element from the minimum contrast, but disabled is NEVER the only sign: the control also stops responding and, when there is a reason, it is stated in text. Also the whole disabled nph-tree item (tree/item-disabled-opacity). Also the whole disabled nph-panel-menu subgroup (panel-menu/subgroup-disabled-opacity). Also the opacity of the whole disabled nph-collapsible (collapsible/disabled-opacity). Also the whole disabled clickable nph-card (card/disabled-opacity)."
   state/hover-opacity:
     css: '--nph-state-hover-opacity'
     valor: 0.95
@@ -2357,7 +2381,7 @@ tokens_icon:
     css: '--nph-icon-size-sm'
     alias: core/icon-size/100
     valor: 16
-    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size). Also the arrow of the nph-panel-menu subgroup (panel-menu/subgroup-icon-size). Also the repeat icon of the nph-scheduler event and the icon of its empty state (scheduler/event-icon-size, scheduler/empty-icon-size). Also the indicator and the start icon of the nph-collapsible trigger (collapsible/indicator-size, collapsible/icon-size). Also the grip box and the grip icon of the nph-resizable (resizable/grip-size)."
+    use: "DEFAULT. Inside a control, table cell, field, and next to 14px text. When in doubt, it is this one. Also the chevron, the spinner that replaces it and the folder, file and error icons of the nph-tree (tree/toggle-icon-size, tree/icon-size). Also the arrow of the nph-panel-menu subgroup (panel-menu/subgroup-icon-size). Also the repeat icon of the nph-scheduler event and the icon of its empty state (scheduler/event-icon-size, scheduler/empty-icon-size). Also the indicator and the start icon of the nph-collapsible trigger (collapsible/indicator-size, collapsible/icon-size). Also the grip box and the grip icon of the nph-resizable (resizable/grip-size). Also the start icon of the compact nph-card and the arrow of the clickable nph-card (card/icon-size-dense, card/indicator-size)."
   icon/size-md:
     css: '--nph-icon-size-md'
     alias: core/icon-size/200
@@ -2367,7 +2391,7 @@ tokens_icon:
     css: '--nph-icon-size-lg'
     alias: core/icon-size/300
     valor: 24
-    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list. Also the icon of the nph-file-upload drop zone (file-upload/icon-size); the zone is a section area, not a list."
+    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list. Also the icon of the nph-file-upload drop zone (file-upload/icon-size); the zone is a section area, not a list. Also the start icon of the nph-card in the default density (card/icon-size)."
 
 icones_nucleo:
   navegacao_e_menus:
@@ -2692,8 +2716,9 @@ Space groups. The question is not how much looks nice, but **what these two thin
 | `inline-tight` × `stack-tight` | Same value (4), different axes. `inline` is horizontal, `stack` is vertical. Exception: the top and bottom breathing room of the `nph-badge` is `inline-tight`, as Figma draws it. |
 | `inline-tight` × `inline` | Inside a unit it is `tight`; between units it is `inline`. An icon in a button is `tight`; a button next to a button is `inline`. |
 | `stack` × `section` | 16 is between items of the same list; 32 is between subjects. If there is a new title, it is `section`. |
+| `container-padding` × `surface-padding` | `surface-padding` (24) is the inner padding of a card in the default density (nph-card); `container-padding` (16) is panel, popover, dialog and the compact card. |
 | `control-padding` × `container-padding` | A control is what is **operated** (button, field, select). A container is what **contains** (card, panel, popover). The `nph-badge` uses `control-padding` on the sides. |
-| `container-padding` × page margin | Inside the card it is `container-padding`. The page margin **is not a space token**: it is `layout/margin-compact`, `-default` or `-wide`, which change by breakpoint. |
+| `container-padding` × page margin | Inside a panel or popover it is `container-padding`; the nph-card is `surface-padding` (24) in the default density and `container-padding` in the compact one. The page margin **is not a space token**: it is `layout/margin-compact`, `-default` or `-wide`, which change by breakpoint. |
 
 **Padding is not gap.** Padding is the breathing room inside a box; gap is the distance between boxes. The value may coincide; the intent does not.
 
@@ -2715,12 +2740,14 @@ The curve says what the piece is. The question is not how much to round.
 | **carries content** without floating | `radius/surface` (14) |
 | is a **marker** | `radius/subtle` (2) for a bar indicator, or `radius/full` for a dot, a pill or a circular target |
 | is **touching an edge** | `radius/none` (0) |
-| is **nested** | `radius/inner` (4) |
+| is **fitted inside** a card or panel (tonal section, icon box) | `radius/inset` (8) |
+| is **nested** inside a control, or a thumbnail | `radius/inner` (4) |
 
 | Question | Rule |
 |---|---|
 | `control` × `container` | A button inside a card: the button is `control`, the card is `container`. |
 | `container` × `overlay` | A table or pagination is `container`; popover, hover card and menus have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
+| `inset` × `inner` | `inset` is a surface or box fitted inside a card or panel (the nph-card tonal section and icon box). `inner` is a piece inside a control (checkbox) or a thumbnail. |
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
 | `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target. Button and field are never a pill. |
 
@@ -2749,7 +2776,7 @@ The curve says what the piece is. The question is not how much to round.
 
 **A modal requires `overlay/scrim`.** Without a scrim, the content behind keeps looking available.
 
-**Border and shadow together, no.** In light, the card uses one or the other.
+**Border and shadow together, only with the soft border.** In light, a card with `elevation/raised` takes only the soft outline `color/border-subtle` (the raised nph-card, `card/border`), never `color/border`: the outline is decorative and the shadow separates. The outlined card has the outline and no shadow.
 
 ---
 
@@ -2855,7 +2882,7 @@ It is not an inversion. Three rules:
 2. **No pure black or white.** The background is `surface/900`, not `#000000`. Text is `neutral/100`, not white. Absolute black with white text causes halation.
 3. **The border lightens much more than symmetry suggests.** `color/border` in light is `neutral/200`; in dark it is **not** `neutral/700` (it would give 2,04:1 and fail) — it is `surface/400`.
 
-**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`; there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background.
+**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`; there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background. The nph-card also uses `color/border-subtle` (`card/border`, `card/divider`), decorative: the card background, the `elevation/raised` shadow or the space between blocks separates it.
 
 ---
 
@@ -2933,7 +2960,7 @@ Never do it. Each row is a prevented error.
 | A45 | Raise the elevation level on hover or focus |
 | A46 | Create a shadow outside the eight levels |
 | A47 | Tint the shadow with the brand color |
-| A48 | Border and shadow together on the card in light mode |
+| A48 | Strong border (`color/border`) and shadow together on the card in light mode |
 | A49 | Change the column count between breakpoints |
 | A50 | Use a gutter value outside `layout/gutter` |
 | A51 | Let a panel or table stretch beyond `layout/max-app` |
