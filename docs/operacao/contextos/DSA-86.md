@@ -26,7 +26,7 @@ Implement the `nph-resizable`, a group of two or three panels separated by a han
 - The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-In progress.
+Pull request #181 is open against `v/5.0.0`, waiting for the review and the merge by Elvys. The Copilot review was requested and did not register (out of quota); none is recorded.
 
 ## Blocker
 None.

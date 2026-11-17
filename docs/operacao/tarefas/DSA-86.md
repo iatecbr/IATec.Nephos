@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 850,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-resizable",
   "dependencies": [
     "DSA-03",
@@ -64,7 +64,7 @@
     "excerpt": null,
     "converted_decision": "The nph-resizable documentation frame (5123:2641, page 1626:34) was accepted as the API and behavior specification of nph-resizable, with the visual acceptance of the root (5112:1850). COMPONENT_SET nph-resizable (5112:1849), 4 variants, and COMPONENT_SET nph-resizable handle (5099:172), 10 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-86-resizable", "commit": "d025d9c", "pr": 181 },
   "context": "docs/operacao/contextos/DSA-86.md",
   "updated_at": "2026-11-17"
 }
