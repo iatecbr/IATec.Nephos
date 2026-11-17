@@ -50,16 +50,18 @@
       "opened_at": "2026-11-16"
     }
   ],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-85/review-and-merge-partial-2026-11-17.md"
+  ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane asked for one new task with the code changes instead of reopening the done ones (DSA-70)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": null,
-  "git_review": { "branch": "feat/dsa-85-respostas", "commit": "21cff5ab6d96571e9dbbf1a6476f2c2e80319791", "pr": "177" },
+  "git_review": { "branch": "feat/dsa-85-respostas", "commit": "fbe57196cdaa9835820fa70dabf3224820abf7bf", "pr": "179" },
   "context": "docs/operacao/contextos/DSA-85.md",
-  "updated_at": "2026-11-16"
+  "updated_at": "2026-11-17"
 }
 ```
 

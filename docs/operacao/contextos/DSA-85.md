@@ -30,10 +30,10 @@ Apply in the code the answers Indiane gave on 2026-11-16 on the Figma previews t
 - The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-Pull request #177 is open against `v/5.0.0`. The task is `in-review`: the offset of the command panel is not in the code (T-2).
+Pull requests #177 and #179 are merged into `v/5.0.0`. The task stays `in-review`: the offset of the command panel is not in the code (T-2).
 
 ## Evidence
-None yet: the gate `review-and-merge` stays pending until the merge.
+`docs/operacao/evidencias/DSA-85/review-and-merge-partial-2026-11-17.md`. The gate `review-and-merge` stays pending until T-2 is in.
 
 ## Blocker
 T-2: the tokens `command/offset-top` and `core/layout-offset/top` come from Claude in Figma.
