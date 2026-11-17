@@ -761,6 +761,10 @@
   --nph-carousel-peek-size: var(--nph-core-space-700);
   --nph-card-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-card-icon-container-padding: var(--nph-core-space-200);
+  --nph-timeline-marker-size: var(--nph-core-icon-size-300);
+  --nph-timeline-dot-size: var(--nph-core-space-200);
+  --nph-timeline-connector-gap: var(--nph-core-space-100);
+  --nph-timeline-content-gap: var(--nph-core-space-300);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1072,6 +1076,12 @@
   --nph-card-icon-size: var(--nph-icon-size-lg);
   --nph-card-icon-size-dense: var(--nph-icon-size-sm);
   --nph-card-indicator-size: var(--nph-icon-size-sm);
+  --nph-timeline-marker-icon-size: var(--nph-icon-size-sm);
+  --nph-timeline-marker-radius: var(--nph-radius-full);
+  --nph-timeline-item-gap: var(--nph-space-stack);
+  --nph-timeline-text-gap: var(--nph-space-stack-tight);
+  --nph-timeline-action-gap: var(--nph-space-stack);
+  --nph-timeline-marker-border-width: var(--nph-border-width);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1381,6 +1391,17 @@
   --nph-card-border-hover: var(--nph-color-border);
   --nph-card-section-background: var(--nph-color-muted);
   --nph-card-indicator-foreground: var(--nph-color-card-foreground);
+  --nph-timeline-title-foreground: var(--nph-color-foreground);
+  --nph-timeline-title-foreground-pending: var(--nph-color-muted-foreground);
+  --nph-timeline-description-foreground: var(--nph-color-muted-foreground);
+  --nph-timeline-meta-foreground: var(--nph-color-subtle-foreground);
+  --nph-timeline-marker-border-pending: var(--nph-color-input);
+  --nph-timeline-marker-background-error: var(--nph-status-error-surface);
+  --nph-timeline-marker-foreground-error: var(--nph-status-error-foreground);
+  --nph-timeline-marker-border-error: var(--nph-status-error-border);
+  --nph-timeline-marker-background-warning: var(--nph-status-warning-surface);
+  --nph-timeline-marker-foreground-warning: var(--nph-status-warning-foreground);
+  --nph-timeline-marker-border-warning: var(--nph-status-warning-border);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
   --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
@@ -1481,6 +1502,12 @@
   --nph-carousel-indicator-background-current: var(--nph-color-primary-border);
   --nph-card-icon-container-background: var(--nph-color-primary-surface);
   --nph-card-icon-container-foreground: var(--nph-color-primary-on-surface);
+  --nph-timeline-dot-background: var(--nph-color-primary);
+  --nph-timeline-connector-border: var(--nph-color-primary-border);
+  --nph-timeline-marker-background: var(--nph-color-primary-surface);
+  --nph-timeline-marker-foreground: var(--nph-color-primary-on-surface);
+  --nph-timeline-marker-background-primary: var(--nph-color-primary-surface);
+  --nph-timeline-marker-foreground-primary: var(--nph-color-primary-on-surface);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
