@@ -10,7 +10,7 @@
  * contract.
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { userEvent } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 
 import '@fontsource/noto-sans/latin-500.css';
 import '../../tokens/generated/tokens.css';
@@ -690,6 +690,20 @@ describe('the pointer', () => {
     const settled = [...group.sizes];
     pointer(separator(group), 'pointermove', 700);
     expect(group.sizes).toEqual(settled);
+  });
+
+  it('a real pointer drags the handle: it presses the line, moves and releases, with the pointer captured', async () => {
+    /* A frame that fits in the test viewport, so the real pointer reaches every point of it. */
+    const group = await mount({ width: 360, height: 240 });
+    const { sizes } = listen(group);
+    const source = page.elementLocator(separator(group));
+    const target = page.elementLocator(panels(group)[1]!);
+    await userEvent.dragAndDrop(source, target, { sourcePosition: { x: 14, y: 10 }, targetPosition: { x: 60, y: 100 } });
+    await group.updateComplete;
+    expect(group.sizes[0]).toBeGreaterThan(50);
+    expect(sizes.length).toBeGreaterThan(0);
+    expect(handle(group).hasAttribute('data-dragging')).toBe(false);
+    expect(lengths(group)[0]).toBeCloseTo((group.sizes[0]! / 100) * (360 - HANDLE), 0);
   });
 
   it('double click restores the default size', async () => {
