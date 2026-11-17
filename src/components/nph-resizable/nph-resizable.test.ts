@@ -1161,7 +1161,7 @@ describe('what the event says is what the group keeps', () => {
       ],
     });
     const { sizes } = listen(group);
-    const actions: Array<() => void | Promise<void>> = [
+    const actions: Array<() => unknown> = [
       () => press(separator(group, 0), 'Enter'),
       () => press(separator(group, 1), 'End'),
       () => press(separator(group, 1), 'Enter'),
