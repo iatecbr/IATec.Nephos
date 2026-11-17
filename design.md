@@ -1636,13 +1636,13 @@ tokens_radius:
     css: '--nph-radius-inner'
     alias: core/radius/200
     valor: 4
-    use: "USE on an element nested inside a control or container (checkbox, thumbnail), on nph-tooltip and on the tab inside the segmented nph-tabs rail (tabs/item-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on a surface or box fitted inside a card or panel (the tonal section and the icon box of the nph-card): there it is radius/inset. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius."
+    use: "USE on an element nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item), on nph-tooltip and on the tab inside the segmented nph-tabs rail (tabs/item-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on a surface or box fitted inside a card (the tonal section and the icon box of the nph-card): there it is radius/inset. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius."
   radius/inset:
     css: '--nph-radius-inset'
     alias: core/radius/400
     valor: 8
-    use: "Surface or box fitted inside a card or panel: the tonal section and the start icon box of the nph-card (card/section-radius, card/icon-container-radius). Smaller than the outer radius/surface (14)."
-    nao_use: "A piece inside a control (checkbox) or a thumbnail: there it is radius/inner."
+    use: "Surface or box fitted inside a card: the tonal section and the start icon box of the nph-card (card/section-radius, card/icon-container-radius). A fixed value of the soft style, 8 inside the 14 of radius/surface, not the outer radius minus the padding (DSA-88)."
+    nao_use: "A piece nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item): there it is radius/inner."
   radius/control:
     css: '--nph-radius-control'
     alias: core/radius/300
@@ -1657,7 +1657,7 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface; a box fitted inside them is radius/inset. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
+    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface; a box fitted inside a card is radius/inset. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
@@ -2391,7 +2391,7 @@ tokens_icon:
     css: '--nph-icon-size-lg'
     alias: core/icon-size/300
     valor: 24
-    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list. Also the icon of the nph-file-upload drop zone (file-upload/icon-size); the zone is a section area, not a list. Also the start icon of the nph-card in the default density (card/icon-size)."
+    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list. Also the icon of the nph-file-upload drop zone (file-upload/icon-size); the zone is a section area, not a list. Also the start icon of the nph-card in the default density (card/icon-size), also when cards form a collection list: the card is a surface, not a list row; a dense list uses the compact card."
 
 icones_nucleo:
   navegacao_e_menus:
@@ -2740,18 +2740,18 @@ The curve says what the piece is. The question is not how much to round.
 | **carries content** without floating | `radius/surface` (14) |
 | is a **marker** | `radius/subtle` (2) for a bar indicator, or `radius/full` for a dot, a pill or a circular target |
 | is **touching an edge** | `radius/none` (0) |
-| is **fitted inside** a card or panel (tonal section, icon box) | `radius/inset` (8) |
-| is **nested** inside a control, or a thumbnail | `radius/inner` (4) |
+| is **fitted inside** a card (tonal section, icon box) | `radius/inset` (8) |
+| is **nested** inside a control or container (checkbox, thumbnail, the nph-navigation-menu item) | `radius/inner` (4) |
 
 | Question | Rule |
 |---|---|
 | `control` × `container` | A button inside a card: the button is `control`, the card is `container`. |
 | `container` × `overlay` | A table or pagination is `container`; popover, hover card and menus have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
-| `inset` × `inner` | `inset` is a surface or box fitted inside a card or panel (the nph-card tonal section and icon box). `inner` is a piece inside a control (checkbox) or a thumbnail. |
+| `inset` × `inner` | `inset` is a surface or box fitted inside a card (the nph-card tonal section and icon box). `inner` is a piece nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item). |
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
 | `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target. Button and field are never a pill. |
 
-**Nested radius:** inner = outer − padding. Container at 8 with padding 4 → inner 4. With padding 8 → inner 0 (`radius/none`). Inner never equal to outer.
+**Nested radius:** inner = outer − padding. Container at 8 with padding 4 → inner 4. With padding 8 → inner 0 (`radius/none`). Inner never equal to outer. Exception: `radius/inset` (8) inside the card (14) is a fixed value of the soft style, not the subtraction (DSA-88).
 
 **Radius is px, not rem.** Shadow too — they are the two foundations like this, and both for the same reason. In rem, the corner would grow with the user font and the piece would change shape.
 
@@ -2776,7 +2776,7 @@ The curve says what the piece is. The question is not how much to round.
 
 **A modal requires `overlay/scrim`.** Without a scrim, the content behind keeps looking available.
 
-**Border and shadow together, only with the soft border.** In light, a card with `elevation/raised` takes only the soft outline `color/border-subtle` (the raised nph-card, `card/border`), never `color/border`: the outline is decorative and the shadow separates. The outlined card has the outline and no shadow.
+**Border and shadow together, only with the soft border.** In light, a card with `elevation/raised` takes, at rest, only the soft outline `color/border-subtle` (the raised nph-card, `card/border`), never `color/border`: the outline is decorative and the shadow separates. The clickable nph-card in hover raises the outline to `color/border` (`card/border-hover`) and keeps the shadow. The outlined card has the outline and no shadow.
 
 ---
 
@@ -2882,7 +2882,7 @@ It is not an inversion. Three rules:
 2. **No pure black or white.** The background is `surface/900`, not `#000000`. Text is `neutral/100`, not white. Absolute black with white text causes halation.
 3. **The border lightens much more than symmetry suggests.** `color/border` in light is `neutral/200`; in dark it is **not** `neutral/700` (it would give 2,04:1 and fail) — it is `surface/400`.
 
-**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`; there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background. The nph-card also uses `color/border-subtle` (`card/border`, `card/divider`), decorative: the card background, the `elevation/raised` shadow or the space between blocks separates it.
+**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`; there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background. The nph-card also uses `color/border-subtle` (`card/border`, `card/divider`), decorative: in dark the card background, one step above the page, or the space between blocks separates it.
 
 ---
 
@@ -2960,7 +2960,7 @@ Never do it. Each row is a prevented error.
 | A45 | Raise the elevation level on hover or focus |
 | A46 | Create a shadow outside the eight levels |
 | A47 | Tint the shadow with the brand color |
-| A48 | Strong border (`color/border`) and shadow together on the card in light mode |
+| A48 | Strong border (`color/border`) and shadow together on the card at rest in light mode |
 | A49 | Change the column count between breakpoints |
 | A50 | Use a gutter value outside `layout/gutter` |
 | A51 | Let a panel or table stretch beyond `layout/max-app` |
