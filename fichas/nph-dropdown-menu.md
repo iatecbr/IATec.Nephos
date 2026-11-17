@@ -97,7 +97,7 @@ states:
     token: "color/primary-surface; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground"
     changes_for_user: "The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color."
   focus:
-    token: "border border/width in color/primary, radius dropdown/item-focus-border-radius; halo focus/ring-width in focus/halo, radius dropdown/item-focus-halo-radius"
+    token: "border border/width in focus/border, radius dropdown/item-focus-border-radius; halo focus/ring-width in focus/halo, radius dropdown/item-focus-halo-radius"
     changes_for_user: "For keyboard users, a border and a halo outside the row mark the focused item; the start icon turns solid."
   disabled:
     token: state/disabled-opacity
@@ -136,7 +136,7 @@ tokens:
   single_choice: [text/label-md, color/primary-text]
   destructive: [dropdown/item-destructive-foreground, dropdown/item-destructive-hover-foreground, dropdown/item-destructive-hover-background]
   hover: [color/primary-surface, dropdown/item-destructive-hover-background, dropdown/item-hover-icon-foreground]
-  focus: [border/width, color/primary, dropdown/item-focus-border-radius, focus/ring-width, focus/halo, dropdown/item-focus-halo-radius]
+  focus: [border/width, focus/border, dropdown/item-focus-border-radius, focus/ring-width, focus/halo, dropdown/item-focus-halo-radius]
   disabled: state/disabled-opacity
   motion: [motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing]
   motion_reduced: motion/hover-duration
@@ -159,7 +159,7 @@ accessibility:
     - "Enter and Space activate the item."
     - "Esc closes the menu and gives the focus back to the trigger, and does not reach a dialog around it."
     - "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
-  focus: "The focus moves to the items. Keyboard only, a border of border/width in color/primary and a halo in focus/halo show outside the row; the border carries the focus (5.37:1 in light and 4.59:1 in dark), the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it."
+  focus: "The focus moves to the items. Keyboard only, a border of border/width in focus/border and a halo in focus/halo show outside the row; the border carries the focus, the halo is decorative. With `focus/border` the border passes 3:1 on `color/popover` in every brand and in both themes, the lowest being 4.32:1 (light, `Comercial`); `color/primary` is not used for it because it falls below 3:1 in dark in some brands (`Gerencial` 1.83:1, `Recursos Humanos` 1.94:1, `Igrejas` 2.28:1, `Educacao` 2.57:1). Opened by a mouse click, the first item takes the focus without showing it."
   contrast: "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The checked item of single choice reads color/primary-text, at least 4.5:1 on color/popover in the seven brands, light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The menu border, the separator and the halo are decorative."
   color_alternative: "The destructive item is recognized by the icon of the action and by the text. Single choice shows the check; multiple choice shows the checked box; the switch shows the knob position; the tag carries text."
 invalid_combinations:
@@ -265,7 +265,7 @@ the box.
 |---|---|---|
 | Rest | no background; text in `color/popover-foreground` | The row is quiet; the start icon is light |
 | Hover | `color/primary-surface`; icon in `dropdown/item-hover-icon-foreground`. Destructive: `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in `dropdown/item-destructive-hover-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color |
-| Focus | border `border/width` in `color/primary`, radius `dropdown/item-focus-border-radius`; halo `focus/ring-width` in `focus/halo`, radius `dropdown/item-focus-halo-radius` | For keyboard users, a border and a halo outside the row; the start icon turns solid |
+| Focus | border `border/width` in `focus/border`, radius `dropdown/item-focus-border-radius`; halo `focus/ring-width` in `focus/halo`, radius `dropdown/item-focus-halo-radius` | For keyboard users, a border and a halo outside the row; the start icon turns solid |
 | Disabled | `state/disabled-opacity` | The whole row loses opacity; it takes the focus but does not activate |
 | Loading | `nph-spinner` sm at the end | The spinner takes the end; the item is busy and does not activate |
 | Open trigger | the trigger `nph-button` reads `button/secondary-solid-background-hover` (secondary solid), the same open look as the trigger of `nph-popover`; it carries `aria-haspopup` menu and `aria-expanded` | While the menu is open, the trigger keeps the hover look even with the pointer away; closed, it goes back to rest. The `nph-button` hands both attributes to its native button (DSA-67 D-2) |
@@ -300,7 +300,7 @@ takes the destructive item with the color change only.
 | Semantics | A popover panel with a `role=menu` inside; every group is a `role=group`, named by its label when it has one. Items are `menuitem`, `menuitemradio` (single choice) or `menuitemcheckbox` (multiple choice and switch), with `aria-checked`. The profile header sits outside the menu. The inner `nph-checkbox` and `nph-switch` are `inert` |
 | Accessible name | The menu: `label`, or the trigger. The item: its `text`; the description, the tag, the counter and the shortcut describe it, in that order. Support icons are not read |
 | Keyboard | The menu button pattern of the APG: on the trigger, Enter, Space and ↓ open on the first item, ↑ on the last; in the menu, ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, Esc closes and gives the focus back, Tab and Shift+Tab close and move on from the trigger. The pointer over an item moves the focus to it, and the arrows go on from there |
-| Focus | The `color/primary` border carries the focus, 5.37:1 in light and 4.59:1 in dark; the halo is decorative |
+| Focus | The `focus/border` border carries the focus; it passes 3:1 on `color/popover` in every brand and in both themes, the lowest being 4.32:1 (light, `Comercial`); `color/primary` is not used because it falls below 3:1 in dark in some brands (`Gerencial` 1.83:1, `Recursos Humanos` 1.94:1, `Igrejas` 2.28:1, `Educacao` 2.57:1); the halo is decorative |
 | Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`; the checked item of single choice reads `color/primary-text`, at least 4.5:1 on `color/popover` in the seven brands. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
 | Alternative to color | The destructive item has the icon of the action; single choice shows the check; multiple choice the checked box; the switch the knob position; the tag carries text |
 | Touch target | The whole row, above 24 by 24 in every size |
@@ -338,7 +338,7 @@ takes the destructive item with the color change only.
 | Single choice | `text/label-md` in `color/primary-text`; check solid at `icon/size-sm` |
 | Destructive | `dropdown/item-destructive-foreground`; hover `dropdown/item-destructive-hover-foreground` on `dropdown/item-destructive-hover-background` |
 | Hover | `color/primary-surface`, `dropdown/item-destructive-hover-background`, `dropdown/item-hover-icon-foreground` |
-| Focus | `border/width`, `color/primary`, `dropdown/item-focus-border-radius`, `focus/ring-width`, `focus/halo`, `dropdown/item-focus-halo-radius` |
+| Focus | `border/width`, `focus/border`, `dropdown/item-focus-border-radius`, `focus/ring-width`, `focus/halo`, `dropdown/item-focus-halo-radius` |
 | Disabled | `state/disabled-opacity` |
 | Motion | `motion/enter-*` and `motion/exit-*`; `motion/hover-duration` under reduced motion |
 

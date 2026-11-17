@@ -667,7 +667,7 @@ describe('focus visibility', () => {
     expect(items(menu)[0]?.matches(':focus-visible')).toBe(false);
   });
 
-  it('the focus is the color/primary border and the focus/halo halo, outside the item box', async () => {
+  it('the focus is the focus/border border and the focus/halo halo, outside the item box', async () => {
     const { menu, trigger } = await mount();
     trigger.focus();
     await userEvent.keyboard('{Enter}');
@@ -675,7 +675,7 @@ describe('focus visibility', () => {
     const item = items(menu)[0] as HTMLElement;
     const border = getComputedStyle(item, '::before');
     const halo = getComputedStyle(item, '::after');
-    expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-focus-border'));
     expect(Number.parseFloat(border.borderTopWidth)).toBeCloseTo(px('--nph-border-width'), 1);
     expect(border.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-dropdown-item-focus-border-radius'));
     expect(Number.parseFloat(border.top)).toBeCloseTo(-px('--nph-border-width'), 1);

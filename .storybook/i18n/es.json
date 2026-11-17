@@ -275,6 +275,23 @@
     "components-nph-context-menu-validation--interactive": "Interactivo",
     "components-nph-context-menu-validation--examples": "Ejemplos",
     "components-nph-context-menu-validation--brands": "Marcas",
+    "components-nph-menubar-docs": "Docs",
+    "components-nph-menubar-docs--documentation": "Documentación",
+    "components-nph-menubar-validation": "Validación",
+    "components-nph-menubar-validation--closed": "Cerrada",
+    "components-nph-menubar-validation--file-menu": "Menú Archivo",
+    "components-nph-menubar-validation--view-menu": "Menú Ver",
+    "components-nph-menubar-validation--checked-and-disabled": "Marcado y deshabilitado",
+    "components-nph-menubar-validation--submenu": "Submenú",
+    "components-nph-menubar-validation--top-items": "Elementos superiores",
+    "components-nph-menubar-validation--focus": "Foco",
+    "components-nph-menubar-validation--open-and-focus": "Abierto y en foco",
+    "components-nph-menubar-validation--overflow": "Desborde",
+    "components-nph-menubar-validation--narrow": "Estrecha",
+    "components-nph-menubar-validation--direction": "Dirección",
+    "components-nph-menubar-validation--interactive": "Interactivo",
+    "components-nph-menubar-validation--examples": "Ejemplos",
+    "components-nph-menubar-validation--brands": "Marcas",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentación",
     "components-nph-table-validation": "Validación",
@@ -6176,7 +6193,7 @@
       ],
       [
         "Foco",
-        "Por teclado: un borde de border/width en color/primary y un halo en focus/halo, fuera de la fila; el ícono de inicio se vuelve sólido."
+        "Por teclado: un borde de border/width en focus/border y un halo en focus/halo, fuera de la fila; el ícono de inicio se vuelve sólido."
       ],
       [
         "Deshabilitado",
@@ -6238,7 +6255,7 @@
       ],
       [
         "Foco visible",
-        "El borde color/primary lleva el foco; el halo es decorativo."
+        "El borde focus/border lleva el foco; el halo es decorativo."
       ],
       [
         "El color no es la única señal",
@@ -6489,7 +6506,7 @@
       "Oculte la acción que la persona nunca puede hacer (permiso); deshabilite la que no está disponible ahora."
     ],
     "submenuTitle": "Submenú",
-    "submenuText": "Un elemento con submenú muestra la flecha y no lleva atajo. El submenú es un segundo panel igual al primero, con su primer elemento en la misma línea del elemento que lo abrió. Se abre a la derecha y a la izquierda solo cuando no hay espacio. Un solo nivel.",
+    "submenuText": "Un elemento con submenú muestra la flecha y no lleva atajo. El submenú es un segundo panel igual al primero, con su primer elemento en la misma línea del elemento que lo abrió. Se abre a la derecha y a la izquierda solo cuando no hay espacio. El submenú abre a dropdown/submenu-offset (4 px) del panel. Un solo nivel.",
     "submenuCaption": "El submenú abierto a la derecha: Copiar enlace, Descargar archivo y Más opciones. El elemento que lo abrió mantiene el resaltado.",
     "sizesTitle": "Tamaños",
     "sizesText": "default es el tamaño de la mayoría de las pantallas; compact sirve a pantallas densas, como las tablas. El tamaño vale para todo el menú: nunca mezcle los dos. El tamaño compacto también lleva el elemento destructivo, solo con el cambio de color.",
@@ -6548,7 +6565,7 @@
       ],
       [
         "Foco visible",
-        "El elemento en foco muestra el borde color/primary y el halo focus/halo; el borde lleva el foco."
+        "El elemento en foco muestra el borde focus/border y el halo focus/halo; el borde lleva el foco."
       ],
       [
         "El color no es la única señal",
@@ -6631,6 +6648,486 @@
     "exampleClosed": "Menú cerrado: acciones con atajos, un elemento con submenú y el elemento destructivo al final",
     "exampleRight": "Submenú abierto a la derecha, en la misma línea de su elemento",
     "exampleLeft": "Submenú abierto a la izquierda, cuando no hay espacio a la derecha; tamaño compacto"
+  },
+  "menubarDocs": {
+    "summary": "La barra de menús de comandos de una aplicación, como Archivo, Editar y Ver: cada elemento superior abre un panel con los comandos de su tema.",
+    "matrixLabel": "nph-menubar: la barra cerrada, abierta, con un elemento superior deshabilitado y estrecha",
+    "closedWord": "cerrada",
+    "openWord": "abierta",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de especificación del nph-menubar, design.md para los tokens y docs/decisoes-tecnicas.md para la P126. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
+    "onThisPage": "En esta página",
+    "sourceLabel": "Fuente:",
+    "sourceSpec": "fichas/nph-menubar.md, Function y Examples; Figma, frame de documentación 6432:8686.",
+    "sourceApi": "P126 en docs/decisoes-tecnicas.md; fichas/nph-menubar.md.",
+    "sourceUsage": "ficha de especificación del nph-menubar; docs/decisoes-tecnicas.md › P126",
+    "sourceStates": "fichas/nph-menubar.md, States; Figma, frame 6432:8686, Properties and states.",
+    "sourcePanel": "fichas/nph-menubar.md, Variants; Figma, frame 6432:8686, Anatomy; P126.",
+    "sourceOverflow": "Figma, frame 6432:8686, Default behavior: Overflow y Narrow screen; P126.",
+    "sourceBehavior": "Figma, frame 6432:8686, Default behavior; WAI-ARIA Authoring Practices, patrón Menubar; P126.",
+    "sourcePractices": "Figma, frame 6432:8686, Do y Do not; fichas/nph-menubar.md, Anti-patterns.",
+    "sourceAnatomy": "Figma, frame 6432:8686, Anatomy; design.md.",
+    "sourceAccessibility": "Figma, frame 6432:8686, Accessibility and contrast; P126.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Para una aplicación con muchos comandos que se agrupan en pocos temas, como un editor de documentos, una hoja de cálculo o una herramienta de dibujo, usada con teclado y mouse.",
+      "En el encabezado de la aplicación, siempre a la vista, con cada panel abriendo por clic o por teclado.",
+      "Un atajo al final del elemento, para enseñar el teclado a quien usa el mouse.",
+      "Una selección del elemento (única o múltiple) para opciones de visualización, como una regla, una cuadrícula o una densidad.",
+      "narrow cuando el ancho de la página no alcanza para la barra: la aplicación cambia la barra por el botón con el icono bars."
+    ],
+    "whenNotToUse": [
+      "Para ir a otra página: use nph-navigation-menu o nph-sidebar.",
+      "Para las acciones frecuentes que deben quedar a la vista: use nph-toolbar.",
+      "Para las pocas acciones de un botón: use nph-dropdown-menu.",
+      "Para las acciones del objeto bajo el puntero: use nph-context-menu.",
+      "Como una barra con un único elemento superior: la barra agrupa temas, y un tema es un botón que abre un menú.",
+      "Con un submenú dentro de un submenú: un solo nivel; lo que pase de ahí va a un diálogo."
+    ],
+    "relationsText": "La barra dibuja sus propios paneles. El elemento, la etiqueta de grupo y el separador toman el aspecto del nph-dropdown-menu, mediante sus tokens dropdown, y la barra y sus elementos superiores usan los tokens menubar. El icono inicial, la flecha y la marca son nph-icon, la selección múltiple es un nph-checkbox y el botón de la pantalla estrecha es un nph-button.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "menus",
+        "Los elementos superiores, en orden, como datos. Solo por propiedad. Obligatoria."
+      ],
+      [
+        "open-menu",
+        "El valor del menú cuyo panel está abierto; vacío es cerrado. La barra lo escribe; quien consume puede definirla para mostrar un panel abierto, y un panel abierto por código no recibe foco. Reflejada."
+      ],
+      [
+        "open-submenu",
+        "El valor del elemento cuyo submenú está abierto; vacío es cerrado. La barra lo escribe; quien consume puede definirla para mostrar el submenú abierto. Reflejada."
+      ],
+      [
+        "label",
+        "El nombre accesible de la barra, ya localizado, como Menú del editor. El aria-label del host hace lo mismo."
+      ],
+      [
+        "more-label",
+        "El texto del último elemento superior, que guarda los menús que no caben en el ancho. Sin él, nada se desborda."
+      ],
+      [
+        "narrow",
+        "La aplicación cambia la barra por el botón con el icono bars. La pieza no mide el punto de quiebre. Reflejada."
+      ],
+      [
+        "menu-label",
+        "El nombre accesible de ese botón, ya localizado. Obligatoria con narrow."
+      ],
+      [
+        "nph-item-select",
+        "El evento, que burbujea, con detail value, checked y menu: el valor del elemento superior al que pertenece el comando. Cambiar menus u open-menu por código nunca lo dispara."
+      ],
+      [
+        "color and parts",
+        "No son propiedades: los colores vienen de los tokens, y la pieza no tiene slot ni ::part."
+      ]
+    ],
+    "menuText": "Cada entrada de menus es un elemento superior con el panel que abre:",
+    "menuHeader": [
+      "Campo",
+      "Regla"
+    ],
+    "menu": [
+      [
+        "value",
+        "Obligatorio. Lo que informan open-menu y el evento. Único en la barra."
+      ],
+      [
+        "label",
+        "Obligatorio. El texto del elemento superior, corto, de preferencia una palabra."
+      ],
+      [
+        "disabled",
+        "El elemento superior recibe el foco y no abre."
+      ],
+      [
+        "items",
+        "Obligatorio. Las entradas del panel."
+      ]
+    ],
+    "entryText": "Cada entrada de items es un elemento, una etiqueta de grupo o un separador; el submenú de un elemento es una lista de las mismas entradas, de un solo nivel:",
+    "entryHeader": [
+      "Campo",
+      "Regla"
+    ],
+    "entry": [
+      [
+        "value",
+        "Obligatorio. Lo que informa nph-item-select. Único en el menú."
+      ],
+      [
+        "text",
+        "Obligatorio. La etiqueta, en una línea, cortada con puntos suspensivos; el nombre accesible."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon: ligero en reposo, sólido al resaltar."
+      ],
+      [
+        "severity",
+        "default o destructive. El elemento destructivo va al final, después de un separador."
+      ],
+      [
+        "selection",
+        "none, single o multiple. Single muestra la marca al final; multiple muestra la casilla al inicio."
+      ],
+      [
+        "checked",
+        "El estado de una selección. La barra escribe una lista nueva con el nuevo estado."
+      ],
+      [
+        "shortcut",
+        "Texto simple al final, como Ctrl+N. Va en aria-keyshortcuts. No en un elemento con submenú."
+      ],
+      [
+        "submenu",
+        "Una lista de entradas, de un nivel: la flecha al final del elemento."
+      ],
+      [
+        "disabled",
+        "El elemento recibe el foco y no se activa."
+      ],
+      [
+        "type",
+        "item (el predeterminado), label o separator."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-menubar label=\"Menú del editor\" more-label=\"Más\"></nph-menubar>",
+    "usageTag": "Los elementos superiores llegan como datos en la propiedad menus, definida desde JavaScript. El label da nombre a la barra; el more-label enciende el elemento de desborde.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "statesTitle": "Estados del elemento superior",
+    "statesText": "El elemento superior mide 36 de alto y su ancho se ajusta a la etiqueta, sin icono. Tiene cuatro estados; no hay eje de tamaño ni estado para la barra entera. Una barra que no se aplica a una pantalla sale de la pantalla en lugar de quedar deshabilitada.",
+    "statesHeader": [
+      "Estado",
+      "Regla"
+    ],
+    "states": [
+      [
+        "default",
+        "Sin fondo, la etiqueta en menubar/trigger-foreground."
+      ],
+      [
+        "hover and open",
+        "Puntero encima, o su panel abierto: fondo menubar/trigger-background-hover y etiqueta menubar/trigger-foreground-hover, en la paleta primaria."
+      ],
+      [
+        "focus",
+        "Por teclado: un borde de border/width en focus/border y un halo en focus/halo, fuera del elemento, sin fondo. Abierto y en foco a la vez conserva los dos aspectos."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity en todo el elemento. Recibe el foco y no abre."
+      ]
+    ],
+    "statesCaption": "La barra con el panel Archivo abierto, y la barra con el elemento superior Ayuda deshabilitado y un elemento superior con etiqueta larga.",
+    "panelTitle": "Panel, selecciones y submenú",
+    "panelText": "Cada panel abre debajo de su elemento superior, alineado al borde inicial, a menubar/panel-offset (4 px), en la capa superior. Solo uno queda abierto a la vez: el puntero sobre otro elemento superior, o las flechas, pasan a él.",
+    "panelHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "panel": [
+      [
+        "Atajo",
+        "Texto simple al final del elemento, en color/muted-foreground. Enseña el atajo a quien usa el mouse."
+      ],
+      [
+        "Etiqueta de grupo y separador",
+        "Una etiqueta da nombre al grupo que sigue; un separador lo cierra. El elemento destructivo va al final, después de un separador."
+      ],
+      [
+        "Selecciones",
+        "La selección única muestra la marca al final y el texto en color/primary-text; la selección múltiple muestra la casilla al inicio. Una selección marcada y deshabilitada conserva la marca bajo la opacidad de deshabilitado."
+      ],
+      [
+        "Elemento deshabilitado",
+        "Un comando que no se aplica ahora queda deshabilitado, no oculto: recibe el foco y no se ejecuta."
+      ],
+      [
+        "Submenú",
+        "Un elemento con submenú dibuja la flecha y no lleva atajo. El submenú es un segundo panel, al lado del primero a dropdown/submenu-offset (4 px), en la línea de su elemento. Un solo nivel."
+      ],
+      [
+        "Cerca del borde de la ventana",
+        "El panel se voltea hacia arriba cuando no hay espacio debajo, se desplaza hacia el lado pasado el borde, o se encoge y desplaza, manteniendo 4 px del borde."
+      ]
+    ],
+    "overflowTitle": "Desborde y pantalla estrecha",
+    "overflowText": "Los elementos superiores que no caben en el ancho van al último elemento superior, nombrado por more-label, que abre un panel con ellos como elementos con submenú; la barra nunca se parte en una segunda línea. En una pantalla estrecha la aplicación define narrow: la barra se vuelve un botón con el icono bars que abre un panel con los menús como submenús. Un menú que ya tiene submenú muestra esos elementos bajo una etiqueta de grupo, para quedar en un solo nivel.",
+    "overflowCaption": "La barra en una caja demasiado estrecha para sus elementos superiores, y el botón de la pantalla estrecha.",
+    "keyboardTitle": "Teclado y puntero",
+    "keyboardHeader": [
+      "Tecla o situación",
+      "Regla"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Una parada en la barra, en el elemento superior usado por última vez, el primero la primera vez. El Tab sale de la barra y cierra el panel."
+      ],
+      [
+        "Flecha izquierda y derecha, Inicio y Fin",
+        "En la barra, mueven entre los elementos superiores, con vuelta al inicio. Las flechas se invierten en la escritura de derecha a izquierda."
+      ],
+      [
+        "Enter, Espacio y flecha abajo",
+        "En un elemento superior, abren el panel en el primer elemento. La flecha arriba lo abre en el último."
+      ],
+      [
+        "Flechas con un panel abierto",
+        "En el panel, las flechas arriba y abajo mueven con vuelta al inicio e Inicio y Fin van a los extremos; una letra escrita va al próximo elemento que empieza con ella. En el nivel superior, izquierda y derecha cierran el panel, pasan al elemento superior vecino y abren su panel, manteniendo el foco en ese elemento superior."
+      ],
+      [
+        "Flecha derecha e izquierda en un panel",
+        "La derecha abre un submenú, o va al próximo menú cuando el elemento no tiene; la izquierda cierra el submenú, o va al menú anterior."
+      ],
+      [
+        "Enter y Espacio en un elemento",
+        "El Enter activa y cierra el panel, también en una selección. El Espacio en una selección la marca sin cerrar; en un elemento común hace lo mismo que el Enter."
+      ],
+      [
+        "Esc",
+        "Cierra un nivel a la vez y devuelve el foco a quien abrió. Con el panel cerrado, en el elemento superior, no hace nada."
+      ],
+      [
+        "Puntero",
+        "Un clic en un elemento superior abre el panel sin ningún elemento resaltado; un clic en el abierto lo cierra. Con un panel abierto, el puntero sobre otro elemento superior pasa a él. En el panel, el puntero resalta el elemento y lleva el foco a él; un submenú abre tras una pequeña demora. Una pulsación fuera cierra los paneles."
+      ]
+    ],
+    "practicesTitle": "Haga y no haga",
+    "doHeader": [
+      "Haga",
+      "Porque"
+    ],
+    "doRules": [
+      [
+        "Agrupe los comandos por tema y separe los grupos con el separador.",
+        "Quien busca un comando lo encuentra por categoría."
+      ],
+      [
+        "Muestre el atajo de teclado a la derecha del elemento.",
+        "Enseña el atajo a quien usa el mouse."
+      ],
+      [
+        "Use la casilla y el radio del elemento para opciones de visualización.",
+        "La marca muestra el estado además del color."
+      ],
+      [
+        "Deje deshabilitado, y no oculto, un comando que no se aplica ahora.",
+        "La persona aprende dónde está."
+      ],
+      [
+        "Arme cada panel con el elemento de menú, la etiqueta de grupo y el separador de la pieza.",
+        "El menú de la barra queda igual a los otros menús de Nephos y sigue los tokens dropdown cuando cambian."
+      ]
+    ],
+    "dontHeader": [
+      "No haga",
+      "En su lugar"
+    ],
+    "dontRules": [
+      [
+        "No lo use para navegar entre páginas.",
+        "Use el nph-navigation-menu o el nph-sidebar. Ejemplo de error: elementos superiores que llevan a páginas, como Inicio, Clientes, Informes y Ajustes."
+      ],
+      [
+        "No lo use para las acciones de un solo objeto o de un solo botón.",
+        "Use el nph-context-menu o el nph-dropdown-menu. Ejemplo de error: una barra con un solo elemento superior."
+      ],
+      [
+        "No cree un submenú dentro de un submenú.",
+        "Mantenga un nivel; lo que pase de ahí va a un diálogo. Ejemplo de error: un tercer panel abierto desde un elemento del submenú, como versión 3, versión 2 y versión 1."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Barra",
+        "Horizontal, sin fondo, sin borde y sin relleno propio: el fondo viene del encabezado donde vive. El espacio entre elementos superiores es menubar/bar-gap."
+      ],
+      [
+        "2. Elemento superior",
+        "Altura menubar/trigger-height, relleno menubar/trigger-padding-x a cada lado, esquinas menubar/trigger-radius; el ancho se ajusta a la etiqueta."
+      ],
+      [
+        "3. Etiqueta",
+        "text/label-md, en menubar/trigger-foreground; en menubar/trigger-foreground-hover al pasar el puntero y abierto."
+      ],
+      [
+        "4. Foco",
+        "Solo en foco, fuera del elemento: el borde en focus/border y el halo en focus/halo."
+      ],
+      [
+        "5. Panel",
+        "Superficie en color/popover, borde de border/width en color/dropdown-border, esquinas de dropdown/panel-radius, sombra elevation/dropdown y relleno space/inline-tight. Ancho layout/input-width. Abre menubar/panel-offset debajo del elemento superior."
+      ],
+      [
+        "6. Elemento",
+        "Icono inicial opcional y la etiqueta; relleno y espacio space/inline, esquinas de dropdown/item-radius. El icono es ligero en reposo y sólido al resaltar."
+      ],
+      [
+        "7. Atajo",
+        "Texto opcional al final del elemento, en text/caption y color/muted-foreground."
+      ],
+      [
+        "8. Separador",
+        "La línea entre grupos, en dropdown/separator, con space/inline-tight arriba y abajo."
+      ],
+      [
+        "9. Submenú",
+        "Un segundo panel igual al primero, a su lado a dropdown/submenu-offset, con su primer elemento en la línea del elemento que lo abrió."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "La etiqueta del elemento superior supera 4,5:1 en los dos temas, en reposo y, al pasar el puntero y abierto, en menubar/trigger-foreground-hover sobre menubar/trigger-background-hover, con 6,43:1 o más en las siete marcas. Un elemento deshabilitado queda fuera de la regla."
+      ],
+      [
+        "Foco visible",
+        "El elemento superior en foco muestra el borde focus/border y el halo focus/halo, sin fondo; el borde lleva el foco y supera 3:1. El elemento del panel también muestra el borde focus/border."
+      ],
+      [
+        "El color no es la única señal",
+        "El elemento superior abierto tiene el panel abierto debajo, además del fondo. Una casilla marcada muestra la marca, y un radio marcado muestra la marca al final. El elemento destructivo lleva el icono de papelera junto con el color."
+      ],
+      [
+        "Área táctil",
+        "El elemento superior y el elemento del panel miden 36 de alto, por encima de los 24 px de la WCAG 2.5.8."
+      ],
+      [
+        "Teclado",
+        "El Tab entra en el elemento superior usado por última vez y sale. Las flechas, Inicio y Fin mueven entre los elementos superiores. Enter, Espacio o flecha abajo abre el panel en el primer elemento. El Esc cierra un nivel a la vez."
+      ],
+      [
+        "Nombre accesible",
+        "La barra es un menubar nombrado por label, y cada elemento superior un menuitem con aria-haspopup y aria-expanded. El panel es un menu nombrado por su elemento superior; cada elemento es un menuitem, menuitemradio o menuitemcheckbox nombrado por su texto, y el atajo va en aria-keyshortcuts. Icono y flecha no se leen."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleFile": "El editor con el menú Archivo abierto, con atajos, un elemento con submenú y el elemento destructivo al final.",
+    "exampleView": "El menú Ver: una etiqueta de grupo, regla y cuadrícula como casillas, y densidad como radios.",
+    "exampleStates": "Marcado y deshabilitado: la marca queda bajo la opacidad de deshabilitado; un comando que no se aplica ahora queda deshabilitado.",
+    "exampleRecent": "El submenú Recientes, con los archivos abiertos hace poco.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Menubar, frame de documentación 6432:8686.",
+      "fichas/nph-menubar.md, la ficha de especificación.",
+      "docs/decisoes-tecnicas.md, P126 — API y semántica del nph-menubar.",
+      "design.md, los tokens menubar y dropdown, focus/border y color/primary-surface-hover.",
+      "WAI-ARIA Authoring Practices, patrón Menubar y ejemplo de editor con menubar."
+    ],
+    "barLabel": "Menú del editor",
+    "moreLabel": "Más",
+    "menuLabel": "Menú",
+    "menuFile": "Archivo",
+    "menuEdit": "Editar",
+    "menuView": "Ver",
+    "menuHelp": "Ayuda",
+    "menuAdvanced": "Configuración avanzada",
+    "new": "Nuevo",
+    "open": "Abrir",
+    "recent": "Recientes",
+    "recentOne": "informe-anual.pdf",
+    "recentTwo": "presupuesto-2026.xlsx",
+    "recentThree": "acta-reunion.docx",
+    "delete": "Eliminar",
+    "undo": "Deshacer",
+    "redo": "Rehacer",
+    "cut": "Cortar",
+    "copy": "Copiar",
+    "paste": "Pegar",
+    "viewShow": "Mostrar",
+    "ruler": "Regla",
+    "grid": "Cuadrícula",
+    "viewDensity": "Densidad",
+    "comfortable": "Cómoda",
+    "compact": "Compacta",
+    "minimap": "Minimapa",
+    "resetView": "Restablecer vista",
+    "shortcutsItem": "Atajos de teclado",
+    "about": "Acerca de",
+    "preferences": "Preferencias",
+    "shortcutNew": "Ctrl+N",
+    "shortcutOpen": "Ctrl+O",
+    "shortcutDelete": "Supr",
+    "shortcutUndo": "Ctrl+Z",
+    "shortcutRedo": "Ctrl+Y",
+    "shortcutCut": "Ctrl+X",
+    "shortcutCopy": "Ctrl+C",
+    "shortcutPaste": "Ctrl+V"
+  },
+  "menubarValidation": {
+    "barLabel": "Menú del editor",
+    "moreLabel": "Más",
+    "menuLabel": "Menú",
+    "menuFile": "Archivo",
+    "menuEdit": "Editar",
+    "menuView": "Ver",
+    "menuHelp": "Ayuda",
+    "menuAdvanced": "Configuración avanzada",
+    "new": "Nuevo",
+    "open": "Abrir",
+    "recent": "Recientes",
+    "recentOne": "informe-anual.pdf",
+    "recentTwo": "presupuesto-2026.xlsx",
+    "recentThree": "acta-reunion.docx",
+    "delete": "Eliminar",
+    "undo": "Deshacer",
+    "redo": "Rehacer",
+    "cut": "Cortar",
+    "copy": "Copiar",
+    "paste": "Pegar",
+    "viewShow": "Mostrar",
+    "ruler": "Regla",
+    "grid": "Cuadrícula",
+    "viewDensity": "Densidad",
+    "comfortable": "Cómoda",
+    "compact": "Compacta",
+    "minimap": "Minimapa",
+    "resetView": "Restablecer vista",
+    "shortcutsItem": "Atajos de teclado",
+    "about": "Acerca de",
+    "preferences": "Preferencias",
+    "shortcutNew": "Ctrl+N",
+    "shortcutOpen": "Ctrl+O",
+    "shortcutDelete": "Supr",
+    "shortcutUndo": "Ctrl+Z",
+    "shortcutRedo": "Ctrl+Y",
+    "shortcutCut": "Ctrl+X",
+    "shortcutCopy": "Ctrl+C",
+    "shortcutPaste": "Ctrl+V",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "statusIdle": "Ningún comando activado todavía.",
+    "statusChosen": "Activado {value} en {menu}; marcado: {checked}.",
+    "exampleFile": "El menú Archivo abierto: comandos con atajos, un elemento con submenú y el elemento destructivo al final",
+    "exampleView": "El menú Ver: regla y cuadrícula como casillas, densidad como radios",
+    "exampleStates": "Marcado y deshabilitado: la marca queda bajo la opacidad de deshabilitado",
+    "exampleRecent": "El submenú Recientes, con los archivos abiertos hace poco"
   },
   "comboboxDocs": {
     "summary": "El campo donde la persona escribe para filtrar una lista de opciones y elige una. Forma parte del formulario que lo contiene; la etiqueta, la ayuda y el mensaje de error son del nph-field.",
@@ -7970,6 +8467,20 @@
       "components-nph-context-menu-validation--interactive": "Un objeto para probar: el clic derecho, Shift+F10 o la tecla Menú abre el menú en el punto; las flechas, Enter, Esc y las flechas derecha e izquierda funcionan en él; activar un elemento dispara nph-item-select.",
       "components-nph-context-menu-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el menú cerrado, el submenú abierto a la derecha y el submenú abierto a la izquierda en el tamaño compacto.",
       "components-nph-context-menu-validation--brands": "Las siete marcas en modo claro y oscuro: el elemento del submenú abierto, el ícono sólido y el foco usan el primario de la marca del marco.",
+      "components-nph-menubar-validation--closed": "La barra cerrada: los elementos superiores Archivo, Editar, Ver y Ayuda, de 36 de alto y con el ancho de su etiqueta, sin panel abierto, en los modos claro y oscuro.",
+      "components-nph-menubar-validation--file-menu": "El panel Archivo abierto debajo del elemento superior, alineado al borde inicial: comandos con atajos al final, un elemento con submenú y el elemento destructivo al final, después de un separador.",
+      "components-nph-menubar-validation--view-menu": "El panel Ver: una etiqueta de grupo, la regla y la cuadrícula como casillas, un segundo grupo con la densidad como radios, el marcado con la marca al final y el texto en color/primary-text.",
+      "components-nph-menubar-validation--checked-and-disabled": "Una selección marcada y deshabilitada conserva la marca bajo la opacidad de deshabilitado, y un comando que no se aplica ahora queda en el panel, deshabilitado: recibe el foco y no se ejecuta.",
+      "components-nph-menubar-validation--submenu": "El submenú Recientes abierto al lado del panel a dropdown/submenu-offset, un segundo panel con su primer elemento en la línea del elemento que lo abrió; ese elemento conserva el resaltado con el icono y la flecha sólidos.",
+      "components-nph-menubar-validation--top-items": "Un elemento superior deshabilitado queda en la barra con la opacidad de deshabilitado, y un elemento superior con etiqueta larga se ajusta al texto: el ancho es la etiqueta con el relleno de cada lado.",
+      "components-nph-menubar-validation--focus": "El elemento superior en foco de teclado: el borde en focus/border y el halo en focus/halo, sin fondo. El cuadro claro recibe el foco; pulse Tab para llevarlo al oscuro.",
+      "components-nph-menubar-validation--open-and-focus": "El elemento superior abierto y en foco a la vez, como lo dejan las flechas: el aspecto de abierto con el borde y el halo de foco encima. El cuadro claro recibe el foco; pulse Tab para llevarlo al oscuro: salir de la barra clara cierra su panel.",
+      "components-nph-menubar-validation--overflow": "Los elementos superiores que no caben en el ancho van al último elemento superior, nombrado por more-label, en una sola línea: la barra nunca se parte.",
+      "components-nph-menubar-validation--narrow": "La pantalla estrecha: la aplicación cambia la barra por el botón con el icono bars, nombrado por menu-label.",
+      "components-nph-menubar-validation--direction": "Escritura de derecha a izquierda: la barra empieza a la derecha, el panel se alinea al borde inicial, la flecha del submenú se refleja y el submenú abre hacia la izquierda.",
+      "components-nph-menubar-validation--interactive": "Una barra para probar: haga clic en un elemento superior o use las flechas, Enter, Espacio, Esc y Tab; activar un comando dispara el nph-item-select, con el valor, el estado marcado y el elemento superior, mostrados abajo.",
+      "components-nph-menubar-validation--examples": "Los cuatro ejemplos obligatorios, cada uno en los modos claro y oscuro: el menú Archivo con atajos, el menú Ver con casillas y radios, marcado y deshabilitado, y el submenú Recientes.",
+      "components-nph-menubar-validation--brands": "Las siete marcas en los modos claro y oscuro: el elemento superior abierto usa color/primary-surface-hover con color/primary-on-surface-hover encima, y la selección marcada y el foco usan el primario de la marca del cuadro.",
       "components-nph-combobox-validation--matrix": "size × estado: placeholder, valor, valor con el botón borrar, error, deshabilitado y ambos, con el divisor y el área de la flecha en color/accent. Pase el mouse para el hover, presione Tab para el foco y otra vez para el botón borrar.",
       "components-nph-combobox-validation--start": "El inicio del campo: la lupa, un ícono y un avatar, antes de una elección y con el inicio de la opción elegida.",
       "components-nph-combobox-validation--list-states": "Los siete estados de la lista, abierta: resultados, búsqueda con el tramo escrito resaltado, estado, grupos, cargando, crear y vacía; y el pie de atajos (D-1 a D-3).",

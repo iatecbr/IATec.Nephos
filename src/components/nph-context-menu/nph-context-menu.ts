@@ -38,8 +38,8 @@
  *
  * LAYER — each panel is a `popover="manual"`, so it lives in the top layer: no `z-index` and no
  * clipping by an ancestor. The panel opens with its top start corner at the point and changes
- * side on collision; the submenu opens to the right, on the same line as its item, and to the
- * left only when there is no room.
+ * side on collision; the submenu opens to the right, on the same line as its item, at
+ * `dropdown/submenu-offset` from the panel, and to the left only when there is no room.
  *
  * KEYBOARD — the menu pattern of the APG. Opened by keyboard, the first item takes the focus;
  * opened by the mouse, it takes the focus without showing it. The arrows move with wrap, Home
@@ -341,6 +341,7 @@ export class NphContextMenu extends LitElement {
   private hoverTimer: number | undefined;
   private warnedDelay = false;
   private readonly warnedLongPress = new Set<string>();
+  private warnedSubmenuOffset = false;
   private longPressTimer: number | undefined;
   private pressStart: Point | null = null;
   /** The distance a held touch may move, read from its token when the touch went down. */
@@ -789,6 +790,23 @@ export class NphContextMenu extends LitElement {
     this.reportLongPress('context-menu/long-press-delay', Number.isNaN(delay));
     this.reportLongPress('context-menu/long-press-tolerance', Number.isNaN(tolerance));
     return Number.isNaN(delay) || Number.isNaN(tolerance) ? null : { delay: Math.max(delay, 0), tolerance: Math.max(tolerance, 0) };
+  }
+
+  /**
+   * The gap between the panel and its open submenu, read from `dropdown/submenu-offset` as computed on
+   * the element. There is no literal fallback: when the token does not resolve, the submenu sits flush
+   * with the panel and one error is reported in development.
+   */
+  private submenuOffset(): number {
+    const offset = pixels(getComputedStyle(this).getPropertyValue('--nph-dropdown-submenu-offset'));
+    if (Number.isNaN(offset)) {
+      if (!this.warnedSubmenuOffset) {
+        this.warnedSubmenuOffset = true;
+        devError('dropdown/submenu-offset is not defined (load tokens.css); the submenu opens with no gap from the panel.');
+      }
+      return 0;
+    }
+    return Math.max(offset, 0);
   }
 
   private reportLongPress(token: string, missing: boolean): void {
@@ -1249,9 +1267,9 @@ export class NphContextMenu extends LitElement {
 
   /**
    * The main panel opens with its start top corner at the point and turns to the other side of
-   * it when it does not fit; the submenu opens to the right, on the same line as its item, and to
-   * the left only when there is no room. Neither leaves the window; one taller than the window
-   * scrolls inside.
+   * it when it does not fit; the submenu opens to the right, on the same line as its item, at
+   * `dropdown/submenu-offset` from the panel, and to the left only when there is no room. Neither
+   * leaves the window; one taller than the window scrolls inside.
    */
   private place(level: Level, panel: HTMLElement): void {
     const view = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
@@ -1304,8 +1322,10 @@ export class NphContextMenu extends LitElement {
       /* The first item sits on the line of the item that opened it: past the border and the padding. */
       const inset = parseFloat(style.borderTopWidth) + parseFloat(style.paddingTop);
       y = item.top - inset;
-      const toEnd = rtl ? side.left - width : side.right;
-      const toStart = rtl ? side.right : side.left - width;
+      /* `dropdown/submenu-offset` is the gap on the side that faces the panel, whichever side it opens to. */
+      const gap = this.submenuOffset();
+      const toEnd = rtl ? side.left - gap - width : side.right + gap;
+      const toStart = rtl ? side.right + gap : side.left - gap - width;
       const fitsEnd = rtl ? toEnd >= 0 : toEnd + width <= view.width;
       x = fitsEnd ? toEnd : toStart;
       panel.dataset.side = fitsEnd === !rtl ? 'right' : 'left';

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 820,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-menubar",
   "dependencies": [
     "DSA-03",
@@ -34,7 +34,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "A top item that is open and in keyboard focus at once is reached by the arrows, with a panel open (the focus stays on the top item, APG), and Figma draws `hover-aberto` and `foco` apart. The code composes the two accepted looks: the background and the label of the open item, with the focus border and the halo. If the combination needs its own look, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-16"
+    },
+    {
+      "id": "D-2",
+      "question": "The accepted contract says Enter activates the item and closes the panel, also on a checkbox and a radio, and Space on those checks without closing; it says nothing about the pointer. The code closes on a click on a common item and on a single choice and keeps the panel open on a multiple choice, as nph-dropdown-menu and nph-context-menu do. If the click should follow the keys, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-16"
+    },
+    {
+      "id": "D-3",
+      "question": "The contract says that by click the panel opens with no item highlighted. The code opens it with the first item focused and the focus ring not shown, as nph-dropdown-menu and nph-context-menu do (P92, P113), so the arrows go on from the first item. If the panel should open with no focused item, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-16"
+    },
+    {
+      "id": "D-4",
+      "question": "The contract calls the panel an instance of nph-dropdown-menu. In code the panel is drawn by the nph-menubar itself, with the same dropdown tokens and the same look, because the unmodified nph-dropdown-menu cannot open a second panel beside an item, closes when the focus or the pointer goes to it, and has other differences from the keyboard contract (P126, which follows P113 for the nph-context-menu). If the panel must be a real instance of the nph-dropdown-menu, that menu changes first and it is her call. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-16"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-83/figma-docs-accepted-2026-11-16.md"
   ],
@@ -51,8 +76,8 @@
     "excerpt": null,
     "converted_decision": "The nph-menubar documentation frame (6432:8686, page 1626:15) was accepted as the API and behavior specification of nph-menubar, with the visual acceptance of the root (6410:7413). COMPONENT_SET nph-menubar (6410:7769), 2 variants, and COMPONENT_SET nph-menubar top item (6402:4299), 4 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-83-menubar", "commit": "4a90229", "pr": 178 },
+  "context": "docs/operacao/contextos/DSA-83.md",
   "updated_at": "2026-11-16"
 }
 ```

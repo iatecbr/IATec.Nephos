@@ -192,8 +192,10 @@
   --nph-core-radius-off-scale-9: 9px;
   --nph-core-radius-off-scale-11: 11px;
   --nph-core-radius-off-scale-13: 13px;
+  --nph-core-radius-off-scale-15: 15px;
   --nph-core-radius-off-scale-17: 17px;
   --nph-core-radius-off-scale-18: 18px;
+  --nph-core-radius-off-scale-19: 19px;
   --nph-core-rh-50: #ede9f2;
   --nph-core-rh-100: #dbd2e5;
   --nph-core-rh-200: #b7a6cc;
@@ -534,6 +536,8 @@
   --nph-focus-radius-inner: var(--nph-core-radius-400);
   --nph-focus-radius-inner-with-border: var(--nph-core-radius-off-scale-9);
   --nph-focus-radius-surface: var(--nph-core-radius-off-scale-18);
+  --nph-focus-border-radius-surface: var(--nph-core-radius-off-scale-15);
+  --nph-focus-radius-surface-with-border: var(--nph-core-radius-off-scale-19);
   --nph-focus-border-radius-sidebar-item: var(--nph-core-radius-off-scale-13);
   --nph-focus-radius-sidebar-item: var(--nph-core-radius-off-scale-17);
   --nph-focus-border-radius-container: var(--nph-core-radius-off-scale-9);
@@ -602,6 +606,7 @@
   --nph-radius-control-inner: var(--nph-core-radius-off-scale-5);
   --nph-radius-full: var(--nph-core-radius-full);
   --nph-radius-inner: var(--nph-core-radius-200);
+  --nph-radius-inset: var(--nph-core-radius-400);
   --nph-radius-none: var(--nph-core-radius-0);
   --nph-radius-overlay: var(--nph-core-radius-450);
   --nph-radius-subtle: var(--nph-core-radius-100);
@@ -620,6 +625,7 @@
   --nph-sidebar-mobile-offset: var(--nph-core-space-200);
   --nph-skeleton-line-height: var(--nph-core-line-height-100);
   --nph-space-container-padding: var(--nph-core-space-400);
+  --nph-space-surface-padding: var(--nph-core-space-600);
   --nph-space-control-padding: var(--nph-core-space-300);
   --nph-space-inline-tight: var(--nph-core-space-100);
   --nph-space-inline: var(--nph-core-space-200);
@@ -753,6 +759,8 @@
   --nph-carousel-indicator-width-current: var(--nph-core-space-300);
   --nph-carousel-indicator-target-size: var(--nph-core-target-size-minimum);
   --nph-carousel-peek-size: var(--nph-core-space-700);
+  --nph-card-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-card-icon-container-padding: var(--nph-core-space-200);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1046,6 +1054,24 @@
   --nph-carousel-control-gap: var(--nph-space-inline);
   --nph-carousel-controls-offset: var(--nph-space-stack);
   --nph-carousel-slide-gap: var(--nph-space-inline);
+  --nph-card-border-width: var(--nph-border-width);
+  --nph-card-radius: var(--nph-radius-surface);
+  --nph-card-padding: var(--nph-space-surface-padding);
+  --nph-card-padding-compact: var(--nph-space-container-padding);
+  --nph-card-gap: var(--nph-space-stack);
+  --nph-card-header-gap: var(--nph-space-stack-snug);
+  --nph-card-header-item-gap: var(--nph-space-inline);
+  --nph-card-section-radius: var(--nph-radius-inset);
+  --nph-card-section-padding: var(--nph-space-container-padding);
+  --nph-card-section-gap: var(--nph-space-stack-snug);
+  --nph-card-list-gap: var(--nph-space-stack-snug);
+  --nph-card-footer-gap: var(--nph-space-inline);
+  --nph-card-footer-padding: var(--nph-space-surface-padding);
+  --nph-card-footer-padding-compact: var(--nph-space-container-padding);
+  --nph-card-icon-container-radius: var(--nph-radius-inset);
+  --nph-card-icon-size: var(--nph-icon-size-lg);
+  --nph-card-icon-size-dense: var(--nph-icon-size-sm);
+  --nph-card-indicator-size: var(--nph-icon-size-sm);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1347,6 +1373,14 @@
   --nph-carousel-indicator-target-background-hover: var(--nph-color-accent);
   --nph-carousel-control-foreground: var(--nph-color-muted-foreground);
   --nph-carousel-counter-foreground: var(--nph-color-muted-foreground);
+  --nph-card-background: var(--nph-color-card);
+  --nph-card-foreground: var(--nph-color-card-foreground);
+  --nph-card-description-foreground: var(--nph-color-muted-foreground);
+  --nph-card-border: var(--nph-color-border-subtle);
+  --nph-card-divider: var(--nph-color-border-subtle);
+  --nph-card-border-hover: var(--nph-color-border);
+  --nph-card-section-background: var(--nph-color-muted);
+  --nph-card-indicator-foreground: var(--nph-color-card-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
   --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
@@ -1445,6 +1479,8 @@
   --nph-collapsible-focus-border: var(--nph-focus-border);
   --nph-collapsible-focus-halo: var(--nph-focus-halo);
   --nph-carousel-indicator-background-current: var(--nph-color-primary-border);
+  --nph-card-icon-container-background: var(--nph-color-primary-surface);
+  --nph-card-icon-container-foreground: var(--nph-color-primary-on-surface);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
