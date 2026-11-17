@@ -51,9 +51,9 @@
  *   that cannot be drawn is left out with its own error; a missing label renders and says which, and the control
  * that would have no accessible name without it (an icon-only button, the sidebar button, the view select) is not drawn.
  *
- * PROVISIONAL (D-1, D-2 of the task): the mini month and the compact month are the scheduler's own date
- * grid, until the date-picker grid exists; the sidebar button keeps the place of the `sidebar` icon with
- * an `nph-skeleton`, as the collapse button of `nph-sidebar` (P116), until the icon enters `nph-icon`.
+ * PROVISIONAL (D-1 of the task): the mini month and the compact month are the scheduler's own date
+ * grid, until the date-picker grid exists. The sidebar button draws the `sidebar` icon, as the collapse
+ * button of `nph-sidebar` does (DSA-72 D-1, DSA-77 D-2).
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -900,7 +900,7 @@ export class NphScheduler extends LitElement {
       <span class="content">
         <span class="title-row">
           <span class="title">${occurrence.cancelled ? html`<span class="prefix">${this.text('cancelled')} </span>` : nothing}<span class="name">${occurrence.title}</span></span>
-          ${occurrence.recurring ? html`<nph-icon class="repeat" name="rotate-right" size="sm"></nph-icon>` : nothing}
+          ${occurrence.recurring ? html`<nph-icon class="repeat" name="repeat" size="sm"></nph-icon>` : nothing}
         </span>
         ${showTime ? html`<span class="time">${this.timeRange(occurrence)}</span>` : nothing}
       </span>`;
@@ -954,7 +954,7 @@ export class NphScheduler extends LitElement {
         aria-controls="side"
         @click=${() => this.toggleSidePanel()}
       >
-        <span class="side-toggle-place"><nph-skeleton shape="block"></nph-skeleton></span>
+        <span class="side-toggle-place"><nph-icon name="sidebar" size="md"></nph-icon></span>
       </button>
       <nph-tooltip for="side-toggle" relation="name" .text=${name}></nph-tooltip>`;
   }
@@ -1209,7 +1209,7 @@ export class NphScheduler extends LitElement {
       >
         <span class="row-time">${time}</span>
         <span class="bar" aria-hidden="true"></span>
-        <span class="row-title"><span class="title">${occurrence.cancelled ? html`<span class="prefix">${this.text('cancelled')} </span>` : nothing}<span class="name">${occurrence.title}</span></span>${occurrence.recurring ? html`<nph-icon class="repeat" name="rotate-right" size="sm"></nph-icon>` : nothing}</span>
+        <span class="row-title"><span class="title">${occurrence.cancelled ? html`<span class="prefix">${this.text('cancelled')} </span>` : nothing}<span class="name">${occurrence.title}</span></span>${occurrence.recurring ? html`<nph-icon class="repeat" name="repeat" size="sm"></nph-icon>` : nothing}</span>
       </button>
       ${this.renderPeople(occurrence.people)}
     </li>`;

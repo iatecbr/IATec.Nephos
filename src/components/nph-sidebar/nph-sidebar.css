@@ -164,7 +164,7 @@
   border-radius: var(--nph-focus-radius-control-with-border);
 }
 
-/* ----- collapse button (D-1: a skeleton keeps the place of the `sidebar` icon) --------- */
+/* ----- collapse button (draws the `sidebar` icon, DSA-72 D-1) ----------------------- */
 
 /* The look of the `nph-button` primary ghost, at `control/height-default`, with the focus on `focus/border`. */
 .toggle {
@@ -194,10 +194,6 @@
   display: block;
   inline-size: var(--nph-icon-size-md);
   block-size: var(--nph-icon-size-md);
-}
-
-.toggle-place nph-skeleton {
-  block-size: 100%;
 }
 
 .toggle:focus-visible::before,

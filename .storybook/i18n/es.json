@@ -13015,7 +13015,7 @@
       ]
     ],
     "knownLimitTitle": "Límite conocido.",
-    "knownLimitText": "El botón de contraer muestra un skeleton en lugar del ícono sidebar, hasta que ese ícono esté en nph-icon.",
+    "knownLimitText": "Los colores forzados y la dirección de derecha a izquierda aún no se tratan.",
     "accessibilityTitle": "Accesibilidad",
     "accessibilityHeader": [
       "Criterio",
@@ -14731,7 +14731,7 @@
       "Funciona con nph-button (Hoy, anterior, siguiente, Filtrar, Nuevo evento y +N más), nph-select (la vista), nph-checkbox (uno por calendario), nph-avatar y nph-avatar-stack (las personas de las reuniones), nph-dropdown-menu (el menú Filtrar), nph-tooltip, nph-skeleton (cargando) y nph-icon.",
       "Para elegir una fecha en un formulario, use el selector de fecha, no el scheduler. Para tareas sin hora del día, use una lista o una tabla.",
       "La creación, la edición y el detalle de un evento son de la pantalla: la pieza solo dice lo que hizo la persona, en sus eventos.",
-      "El mes pequeño y el mes compacto son la grilla de fechas del propio scheduler, el botón de barra lateral dibuja un nph-skeleton donde va su icono, el estado vacío tiene icono y texto propios, y el icono de repetición es rotate-right; cada uno se cambia por la pieza o el icono dueño cuando exista."
+      "El mes pequeño y el mes compacto son la grilla de fechas del propio scheduler, y el estado vacío tiene icono y texto propios; cada uno se cambia por la pieza dueña cuando exista."
     ],
     "anatomyTitle": "Anatomía",
     "anatomyHeader": [

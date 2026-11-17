@@ -1171,7 +1171,7 @@ export class NphSidebar extends LitElement {
       : html`<a class="logo" data-mark=${collapsed ? 'true' : 'false'} href=${href} aria-label=${name === '' ? nothing : name}>${image}</a>`;
   }
 
-  /** D-1: the `sidebar` icon is not in `nph-icon` yet, so the button keeps its place with a skeleton. */
+  /** The collapse button draws the `sidebar` icon (DSA-72 D-1, answered on 16/11/2026). */
   private renderCollapse(): TemplateResult | typeof nothing {
     if (this.hideCollapseButton || this.mode === 'mobile') {
       return nothing;
@@ -1182,7 +1182,7 @@ export class NphSidebar extends LitElement {
       return nothing;
     }
     return html`<button class="toggle" id="toggle" type="button" aria-label=${name} aria-expanded=${collapsed ? 'false' : 'true'} @click=${() => this.onCollapse()}>
-        <span class="toggle-place"><nph-skeleton shape="block"></nph-skeleton></span>
+        <span class="toggle-place"><nph-icon name="sidebar" size="md"></nph-icon></span>
       </button>
       <nph-tooltip for="toggle" relation="name" .text=${name}></nph-tooltip>`;
   }

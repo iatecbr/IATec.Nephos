@@ -21,21 +21,22 @@ Apply in the code the answers Indiane gave on 2026-11-16 on the Figma previews t
 - `nph-collapsible`: the preview type draws no button when the text fits in three lines.
 - `nph-sidebar` and `nph-sidebar-rail-button`: the rail button of the group that holds the current page shows the active look; the arrow of a first-level group of the panel menu turns 180 degrees.
 - `scripts/tokens-lib.mjs`, `scripts/build-tokens.mjs`, `scripts/test-invariance.mjs`: the build takes a `%` dimension and refuses any unit other than `px` and `%`.
+- `design.md` (only the `icones_nucleo` list, in its own commit, authorized by Elvys on 2026-11-17) and `nph-icon`: the icons `sidebar` and `repeat`, Light and Solid. The collapse buttons of `nph-sidebar` and `nph-scheduler` draw `sidebar`; the recurring event draws `repeat`.
 - The Storybook dictionary, the sheets and P115 to P124.
-- Left out: the icons `sidebar` and `repeat` in `nph-icon` and what draws them (T-1 of the task); the tokens `command/offset-top` and `core/layout-offset/top` (T-2, Claude's).
+- Left out: the tokens `command/offset-top` and `core/layout-offset/top` (T-2, Claude's).
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-85-respostas origin/v/5.0.0`
 - The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-Pull request #177 is open against `v/5.0.0`. The task is `in-review`: the icon row and the offset of the command panel are not in the code (T-1, T-2).
+Pull request #177 is open against `v/5.0.0`. The task is `in-review`: the offset of the command panel is not in the code (T-2).
 
 ## Evidence
 None yet: the gate `review-and-merge` stays pending until the merge.
 
 ## Blocker
-T-1: the edit of the core icon list in `design.md` is not authorized for this pass.
+T-2: the tokens `command/offset-top` and `core/layout-offset/top` come from Claude in Figma.
 
 ## Next command
-When Elvys answers T-1: add `sidebar` and `repeat` to the core icon list of `design.md`, to `nph-icon.icons.ts` and to the demo of `nph-icon`; draw `sidebar` in the collapse buttons of `nph-sidebar` and `nph-scheduler`, and `repeat` in the recurring event.
+When the tokens are on `v/5.0.0`: the panel of `nph-command` opens at that distance from the top, by a change of its CSS.
