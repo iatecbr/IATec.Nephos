@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 820,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-menubar",
   "dependencies": [
     "DSA-03",
@@ -26,11 +26,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0, with the focus border of the nph-dropdown-menu item in focus/border and dropdown/submenu-offset in the nph-context-menu.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor bc55cec201975a1891bd1b7e51d96ba60eb60db8 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-83/review-and-merge-2026-11-17.md",
+      "result": "passed",
+      "verified_at": "2026-11-17",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -61,7 +61,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-83/figma-docs-accepted-2026-11-16.md"
+    "docs/operacao/evidencias/DSA-83/figma-docs-accepted-2026-11-16.md",
+    "docs/operacao/evidencias/DSA-83/review-and-merge-2026-11-17.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -76,9 +77,9 @@
     "excerpt": null,
     "converted_decision": "The nph-menubar documentation frame (6432:8686, page 1626:15) was accepted as the API and behavior specification of nph-menubar, with the visual acceptance of the root (6410:7413). COMPONENT_SET nph-menubar (6410:7769), 2 variants, and COMPONENT_SET nph-menubar top item (6402:4299), 4 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-83-menubar", "commit": "4a90229", "pr": 178 },
-  "context": "docs/operacao/contextos/DSA-83.md",
-  "updated_at": "2026-11-16"
+  "git_review": { "branch": "feat/dsa-83-menubar", "commit": "bc55cec201975a1891bd1b7e51d96ba60eb60db8", "pr": 178 },
+  "context": null,
+  "updated_at": "2026-11-17"
 }
 ```
 
