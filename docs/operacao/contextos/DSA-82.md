@@ -35,4 +35,4 @@ Not yet: the pull request is not open.
 None. D-1 (the role of the cut pending step) is a pending decision for Indiane and does not block.
 
 ## Next command
-Open the pull request against `v/5.0.0`, request Copilot, follow Azure, comment "Pronto para revisão" on the final head.
+Open the pull request against `v/5.0.0`, request Copilot, follow Azure, comment the ready-for-review phrase on the final head.

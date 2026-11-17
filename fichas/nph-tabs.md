@@ -94,8 +94,8 @@ api:
       underline list, already localized, such as Scroll tabs back. The arrow is an icon-only
       nph-button and needs a name. It overrides a default name, so the arrows are drawn and named
       even when the product gives no text: the default follows the lang nearest to the list, read
-      when the arrows are drawn, as Rolar para a esquerda (the default language), Scroll left or
-      Desplazar a la izquierda; it names the side the arrow points to, also in right-to-left writing.
+      when the arrows are drawn: Portuguese by default, English or Spanish; it names the side the
+      arrow points to, also in right-to-left writing.
   scroll-next-label:
     type: string
     required: false
@@ -104,7 +104,7 @@ api:
     constraint: >-
       The accessible name and the balloon of the scroll arrow that goes toward the end of the
       underline list, already localized, such as Scroll tabs forward. Same rule as
-      scroll-previous-label; the default is Rolar para a direita, Scroll right or Desplazar a la derecha.
+      scroll-previous-label; the default is the name of the arrow that points to the end of the line.
   slots:
     default: "none"
     named: "one per tab, named by the value of the tab: the panel of that tab. The piece draws the tabpanel around the slot."
