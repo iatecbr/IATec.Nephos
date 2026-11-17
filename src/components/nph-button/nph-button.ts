@@ -46,6 +46,11 @@
  *   `hover-active`, no color, no state. And `controls`, an element, is given to the native button as
  *   `ariaControlsElements`, because an `id` reference does not cross a shadow root. Property only. A host without
  *   `aria-expanded`, and any `aria-haspopup`, behave as before;
+ * - `description` (DSA-74 D-2, DSA-82; P127, amends P68): a text that describes the action, such as the rule
+ *   and the reason of a drop zone. An `id` reference does not cross a shadow root, so the button draws the
+ *   text itself, hidden, inside its own root and gives the native button an `aria-describedby` to it. Empty by
+ *   default and strictly additive: without it the button draws and behaves as before. With the icon only it
+ *   describes the button next to the name the balloon gives;
  * - one public focus hook, `--nph-button-focus-border` (DSA-72, P116): the color of the focus
  *   border, which the severity sets when the hook is unset. `nph-sidebar` sets it to
  *   `focus/border` on its close button; the default focus does not change;
@@ -75,6 +80,8 @@ const ICON_ONLY_ATTRIBUTE = 'data-nph-icon-only';
 const OPEN_ATTRIBUTE = 'data-nph-open';
 /** The `id` of the native button, which the tooltip finds by `for`; unique in the shadow root. */
 const CONTROL_ID = 'control';
+/** The `id` of the hidden description inside the shadow root, which the native button points to. */
+const DESCRIPTION_ID = 'description';
 
 export const NPH_BUTTON_SEVERITIES = [
   'primary',
@@ -147,6 +154,7 @@ export class NphButton extends LitElement {
     loading: { type: Boolean, reflect: true },
     shape: { type: String, reflect: true },
     controls: { attribute: false },
+    description: { type: String },
   };
 
   /*
@@ -179,6 +187,8 @@ export class NphButton extends LitElement {
   declare shape: NphButtonShape;
   /** The element this button opens or closes, for the `aria-controls` of a disclosure trigger. Property only. */
   declare controls: HTMLElement | null;
+  /** A text that describes the action, already localized. It becomes the `aria-describedby` of the native button. */
+  declare description: string;
 
   private valid = false;
   private iconOnly = false;
@@ -196,6 +206,7 @@ export class NphButton extends LitElement {
     this.loading = false;
     this.shape = 'square';
     this.controls = null;
+    this.description = '';
     /* `click()` called on the host itself also stops in disabled and loading. */
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
   }
@@ -343,6 +354,7 @@ export class NphButton extends LitElement {
     }
 
     const label = (this.label ?? '').trim();
+    const description = (this.description ?? '').trim();
     /*
      * One root template for both forms: switching between text and icon only keeps the
      * native button, and its focus. Every icon-only button carries its balloon (P86).
@@ -359,10 +371,11 @@ export class NphButton extends LitElement {
       aria-busy=${this.loading ? 'true' : nothing}
       aria-haspopup=${this.popupKind ?? nothing}
       aria-expanded=${this.expandedForNative ?? nothing}
+      aria-describedby=${description === '' ? nothing : DESCRIPTION_ID}
       @click=${(event: Event) => this.blockInactive(event)}
     >
       ${content}
-    </button>${this.iconOnly
+    </button>${description === '' ? nothing : html`<span id=${DESCRIPTION_ID} hidden>${description}</span>`}${this.iconOnly
       ? html`<nph-tooltip for=${CONTROL_ID} relation="name" .text=${label}></nph-tooltip>`
       : nothing}`;
   }

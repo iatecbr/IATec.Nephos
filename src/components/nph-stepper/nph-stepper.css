@@ -145,7 +145,7 @@ button.step {
 }
 
 /* The whole disabled step, under the disabled opacity (rule T11). */
-.step[aria-disabled='true'] {
+.step[data-disabled='true'] {
   opacity: var(--nph-stepper-item-disabled-opacity);
 }
 

@@ -83,8 +83,10 @@ api:
       In the flyout navigation the menu replaces the list when a group opens or closes and never
       changes the objects of the consumer. In the panel menu the open groups and subgroups are the
       person's and the menu keeps them, so a new list does not undo them: the group that holds the
-      current page is born open, once; an expanded the product writes seeds a group, and a new value
-      wins. An entry that cannot be drawn is left out and emits console.error in development, once per
+      current page is born open, once, and a NEW current page opens its parent groups, even one the
+      person closed (a group the person closed stays closed only while the current page is the same;
+      the opening is not a choice of the person and fires no nph-group-toggle); an expanded the
+      product writes seeds a group, and a new value wins. An entry that cannot be drawn is left out and emits console.error in development, once per
       cause. An empty list is a mount.
   label:
     type: string
@@ -308,7 +310,7 @@ business_rules:
   - "The mobile menu is a modal dialog: the page is inert, the focus is trapped, Esc, the close button and the scrim close it."
   - "The panel menu is a navigation, not a new tag: the same items, and the child with options is drawn as a subgroup that opens its options in place, up to three levels."
   - "In the panel menu, a group and a subgroup are categories: they open and close and never go to a page. A category that needs a page holds a link."
-  - "In the panel menu several groups stay open at once, and opening one closes none. The group of the current page and its parent are born open; a group the person closes stays closed, even when the product sends a new list."
+  - "In the panel menu several groups stay open at once, and opening one closes none. The group of the current page and its parent are born open; a group the person closes stays closed, even when the product sends a new list, as long as the current page is the same; a new current page opens its parent groups."
   - "In the panel menu Esc does nothing and a click outside closes nothing: the open block grows in place and is not a layer. The collapsed menu and the mobile menu follow the rules of the sidebar."
   - "The menu does not write words of its own: every visible text and accessible name comes from the product."
 domain_errors: []
@@ -480,8 +482,12 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
   page. A category that needs a page holds a link.
 - In the panel menu several groups stay open at once, and opening one closes none. The group of
   the current page and its parent are born open, once. A group the person closes stays closed
-  with no new mark, even when the product sends a new list; an `expanded` the product writes
-  seeds a group, and a new value wins. `nph-group-toggle` tells the product.
+  with no new mark, even when the product sends a new list, as long as the current page is the
+  same one (the page is told apart by its `value`, else its `href`, else its position); when the
+  product sends a NEW current page, its parent groups open, even one the person closed, and that
+  opening fires no `nph-group-toggle` (DSA-76 D-3, decided by Claude by Indiane's delegation;
+  DSA-82, P127). An `expanded` the product writes seeds a group, and a new value wins.
+  `nph-group-toggle` tells the product what the person did.
 - In the panel menu Esc does nothing and a click outside closes nothing: the open block grows in
   place and is not a layer.
 - The menu writes no word of its own: every text and every accessible name comes from the product.
@@ -598,6 +604,8 @@ third level next to the option.
   `color/primary-text` and `color/primary`; the token table is in `docs/tokens.md`.
 - **The decisions that originated it:** P116, the API and semantics of `nph-sidebar`, which amends
   P98 for the item, the subitem and the rail button; and P124, the panel menu navigation.
+- **Decisions answered on 2026-11-16 in the chat (DSA-76):** D-1, nothing changes; D-3, a new
+  current page opens its parent groups (code in DSA-82, P127).
 - **Pending decisions:** D-2 of the task DSA-72, with Indiane: the dark logo, provisional until
   the brand team says which version goes on a dark background. The `sidebar` icon in `nph-icon`
   (DSA-72 D-1) is answered and drawn by the collapse button since DSA-85.

@@ -1071,6 +1071,10 @@
       [
         "controls",
         "The element this button opens or closes, for the aria-controls of a disclosure trigger such as nph-collapsible. Property only: the native button takes it as ariaControlsElements."
+      ],
+      [
+        "description",
+        "A text that describes the action, such as the rule and the reason of a drop zone, already localized. The button draws it hidden in its own shadow root and points its native button at it with aria-describedby. Empty by default: without it the button is the same."
       ]
     ],
     "usageTitle": "Usage",
@@ -1579,7 +1583,7 @@
       ],
       [
         "for",
-        "The id of the element that opens the balloon, in the same root as the tooltip, as in the native label. The element must receive focus: a disabled element or loose text gets no balloon. The tooltip listens on that element and adds its own id to its aria-describedby, or to its aria-labelledby with relation=\"name\". Without a matching element, nothing is drawn."
+        "The id of the element that opens the balloon, in the same root as the tooltip, as in the native label. The element must receive focus: a disabled element or loose text gets no balloon. An element out of the Tab order by tabindex=\"-1\", such as a tab of a list moved by the arrows, does get it: the pointer opens it on hover and the arrows on focus. The tooltip listens on that element and adds its own id to its aria-describedby, or to its aria-labelledby with relation=\"name\". Without a matching element, nothing is drawn."
       ],
       [
         "side",
@@ -3712,7 +3716,7 @@
       ],
       [
         "error",
-        "The error message, in text/body-md and status/error-text, with no icon. Filled in, the field is invalid and the control is in error; the message replaces the help."
+        "The error message, in text/body-md and status/error-text, with no icon. Filled in, the field is invalid and the control is in error; the message replaces the help. A control that shows the reason itself, such as nph-file-upload, keeps the single message: the field draws no line under it."
       ],
       [
         "counter",
@@ -12910,7 +12914,7 @@
       ],
       [
         "scroll-previous-label and scroll-next-label",
-        "The names of the two scroll arrows of the underline style. Without them the arrows are not drawn. Already localized."
+        "The names of the two scroll arrows of the underline style. They override a default name that follows the language of the page (by default, Rolar para a esquerda and Rolar para a direita; English and Spanish too), so the arrows are never drawn without a name. Already localized."
       ],
       [
         "nph-tab-change",
@@ -13450,7 +13454,7 @@
     "panelMenu": [
       [
         "Open groups",
-        "Several stay open at once; opening one does not close the others. The group of the current page and its parent are born open. If the person closes one, it stays closed, with no new mark, even when the product sends a new list."
+        "Several stay open at once; opening one does not close the others. The group of the current page and its parent are born open. If the person closes one, it stays closed, with no new mark, even when the product sends a new list, as long as the current page is the same. When the product sends a new current page, its parent groups open."
       ],
       [
         "Control",
@@ -13741,7 +13745,7 @@
     "keyboard": [
       [
         "Tab and Shift+Tab",
-        "Move the focus through the clickable steps, in list order. The current step and a disabled step take no Tab. A pending step of the linear stepper with a cut label takes Tab only to open the balloon: it is not a link."
+        "Move the focus through the clickable steps, in list order. The current step and a disabled step take no Tab. A pending step of the linear stepper with a cut label takes Tab only to open the balloon: it is not a link, it has a role and aria-disabled, and Enter does nothing."
       ],
       [
         "Enter",
@@ -14465,7 +14469,7 @@
     ],
     "relationsTitle": "Relations and context",
     "relations": [
-      "The zone takes the place of the control of nph-field, which brings the label, the asterisk and the help text. The reason of the error stays in the zone, in the place of the rule.",
+      "The zone takes the place of the control of nph-field, which brings the label, the asterisk and the help text. The reason of the error stays in the zone, in the place of the rule, and shows once: the field draws no error line under the zone.",
       "It works with nph-button (Choose files, Try again and the remove button), nph-icon, nph-spinner (the upload in progress) and nph-image (the thumbnail).",
       "For one file only, use the single file field (nph-input-file). The files of a record outside the form, in table columns, are a composition with nph-data-table."
     ],
@@ -14520,7 +14524,7 @@
       ],
       [
         "Description",
-        "The rule and the reason describe the group of the zone. nph-button forwards no aria-describedby into its own shadow root, so the description is not on the button itself."
+        "The rule and the reason describe the group of the zone, and the Choose files button itself: nph-button draws the same text in its own shadow root, through its description, and points the native button at it."
       ],
       [
         "Contrast and color",

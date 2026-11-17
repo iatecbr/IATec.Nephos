@@ -132,7 +132,9 @@ api:
     constraint: >-
       Written by nph-field. With a reason to say, the message of the field in description, the zone
       goes to the error state and says it; without one it stays as it is: the zone never turns red
-      without a reason.
+      without a reason. The reason shows once, in the zone: nph-field draws no error line under the
+      zone (the static nphFieldShowsError of the class, P127), and the message keeps describing the
+      group.
   required:
     type: boolean
     required: false
@@ -393,7 +395,7 @@ ai_hints:
   - "Give the zone the rule in one line (formats, size and limit) so the person knows what is accepted before choosing; set accept, max-size and max-files to match it."
   - "On nph-file-upload-add, add the files in files as ready or uploading; for each rejected file say the reason: a size as an item in error, a type or a count as the error of the zone."
   - "Say the reason of an error of the upload in the entry and offer Try again; do not show an error only by color."
-  - "Put the zone inside nph-field to get the label, the asterisk and the help text; the reason of the error stays in the zone."
+  - "Put the zone inside nph-field to get the label, the asterisk and the help text; the reason of the error stays in the zone and shows once: the field draws no error line under it."
   - "Give every text the zone owes, already localized, including the four messages of the live region."
   - "Use the default or large size of the form for the buttons, never compact."
 accessibility:
@@ -547,7 +549,8 @@ entry.
 | Alternative to color | Every colored state has text and an icon |
 | Target size | The button and the remove button use the size of the form, `default` or `large`, never `compact`: 24 by 24 at least (WCAG 2.5.8). Dragging has the button as an alternative (WCAG 2.5.7) |
 | Live region | One `aria-live` polite region announces added, sent, failed and removed files by comparing the list; nothing on the first render; no announcement per percent |
-| Known limit | `nph-button` forwards no `aria-describedby` into its own shadow root, and an id does not cross it, so the rule and the reason describe the group, not the button itself (P119, D-2) |
+| Button description | The rule, the limit rule or the reason of the zone is also the `description` of the Choose files `nph-button`, which draws it hidden in its own shadow root and points its native button at it, because an id of this root cannot cross into the button; the group keeps its own `aria-describedby`. The description of the field is not passed to the button (DSA-74 D-2, DSA-82; P127) |
+| Field message | Inside `nph-field` the zone declares `nphFieldShowsError`: while the field is invalid the field draws no error line under the zone, and the reason shows once, in the zone, in place of the rule (DSA-74 D-4, DSA-82; P127). The help and the counter stay on the line of the field |
 
 ## Relations
 
@@ -624,7 +627,10 @@ single zone in an error, with the reason in place of the rule.
 - **The decision that originated it:** P119 — `nph-file-upload`: API and semantics. The
   documentation was accepted in Figma (frame `5311:8328`, sets `5297:7473` and `5298:7669`); the
   property names, the controlled list, the events, the validation, the live region and the
-  thumbnail are a technical proposal of this implementation.
+  thumbnail are a technical proposal of this implementation. Decisions answered on 2026-11-16
+  (DSA-74): D-2 (decided by Claude by Indiane's delegation), the description of `nph-button`; D-3
+  and D-5, nothing changes; D-4, the reason shows once, in the zone (code in DSA-82, P127). D-1, the
+  dashed border token, stays open with the gate `stroke-style-token`.
 - **Tests:** `src/components/nph-file-upload/nph-file-upload.test.ts` and
   `src/components/nph-file-upload-item/nph-file-upload-item.test.ts`.
 - **Usage evidence:** no screen consumes it yet.

@@ -92,8 +92,10 @@ api:
     constraint: >-
       The accessible name and the balloon of the scroll arrow that goes toward the start of the
       underline list, already localized, such as Scroll tabs back. The arrow is an icon-only
-      nph-button and needs a name. Without this or scroll-next-label, the arrows are not drawn
-      and the piece warns in development; the list still scrolls by keyboard and by touch.
+      nph-button and needs a name. It overrides a default name, so the arrows are drawn and named
+      even when the product gives no text: the default follows the lang nearest to the list, read
+      when the arrows are drawn, as Rolar para a esquerda (the default language), Scroll left or
+      Desplazar a la izquierda; it names the side the arrow points to, also in right-to-left writing.
   scroll-next-label:
     type: string
     required: false
@@ -102,7 +104,7 @@ api:
     constraint: >-
       The accessible name and the balloon of the scroll arrow that goes toward the end of the
       underline list, already localized, such as Scroll tabs forward. Same rule as
-      scroll-previous-label.
+      scroll-previous-label; the default is Rolar para a direita, Scroll right or Desplazar a la derecha.
   slots:
     default: "none"
     named: "one per tab, named by the value of the tab: the panel of that tab. The piece draws the tabpanel around the slot."
@@ -206,7 +208,7 @@ domain_errors:
   - "Every tab disabled: the piece draws nothing and emits console.error in development."
   - "A value that names no tab: the first enabled tab is active and the piece warns in development."
   - "A list with no accessible name draws and warns once in development, because the name may arrive after the first render."
-  - "An underline list that does not fit, without scroll-previous-label and scroll-next-label: the arrows are not drawn and the piece warns once in development."
+  - "An underline list that does not fit, without scroll-previous-label and scroll-next-label: the arrows are drawn with the default name of the language, and nothing is warned."
 tokens:
   list: "tabs/list-background, tabs/list-height, tabs/list-padding, tabs/list-gap, tabs/list-radius"
   tab: "tabs/item-height, tabs/underline-item-height, tabs/item-padding-x, tabs/item-padding-y, tabs/item-gap, tabs/item-radius"
@@ -229,7 +231,7 @@ ai_hints:
   - "Listen to nph-tab-change to react to the choice; do not listen to click, and do not wait for an event when you set value from code."
   - "Give the list a label, or an aria-label, because it is the accessible name of the tab list."
   - "Choose manual activation only when a panel is slow to load."
-  - "On an underline list that can scroll, give scroll-previous-label and scroll-next-label."
+  - "On an underline list that can scroll, give scroll-previous-label and scroll-next-label in the language of the page: the default names are a fallback."
 accessibility:
   semantics: "A tablist of native buttons with role tab, aria-selected and aria-controls, and a tabpanel for each tab, named by its tab with aria-labelledby, hidden while inactive. The icon is decorative and hidden from assistive technology. The scroll arrows are out of the Tab order and keep their name (D-5)."
   accessible_name: "The tab list: label, else the aria-label of the host. A tab: its label, followed by the counterLabel when there is a counter, and by the tag; the visible number is hidden from assistive technology. A cut label keeps the same name; the balloon is its description. The scroll arrows are named by scroll-previous-label and scroll-next-label."
@@ -400,7 +402,7 @@ for the arrows draw what they can and warn in development.
 | Contrast | The inactive label meets 4.5:1 over the rail and over the background, in light and dark. The label and the line of the active tab use the primary text color, which meets it in every brand, in light and dark. In the tab button, the label of the active tab meets it over its background. The counter number meets it at rest, in the rail and when active |
 | Alternative to color | The active tab has a card (segmented), a line (underline) or a background (tab button), and the icon turns solid, besides the text color |
 | Touch target | The whole tab is the target, above the minimum target size, in every style. The scroll arrows are `nph-button` |
-| Known limits | (a) `nph-tooltip` opens only on an element with `tabIndex` of 0 or more, and an inactive tab has -1: so the cut tab under the pointer takes `tabindex="0"` while the pointer is on it, and gets it back when the pointer leaves (D-1). (b) A panel with no focusable item takes `tabindex="0"` by a selector list of elements, not by a real test of the content: a panel whose focusable item the list does not know gets one more Tab stop. (c) Segmented and tab button cut the label with a balloon instead of scrolling; the usage rule asks for few tabs and short labels there (D-4). (d) The visible number above 99 becomes `99+` (D-3); the accessible name keeps the text of the consumer. (e) `nph-icon-button` has no sheet of its own: it is `nph-button` with an icon only (DSA-43), and the scroll arrows are `nph-button` with severity `secondary`, emphasis `ghost`, size `compact` and shape `square`; their names are text of the consumer (D-2). (f) In dark, the background of the active solid tab button stays below 3:1 against the page in some brands: an accepted limit, because the label marks the active tab. (g) The counter pill is decorative: over the hover of the tab button it almost disappears, and the number stays readable |
+| Known limits | (a) The cut tab keeps `tabindex="-1"` and the list keeps a single Tab stop: `nph-tooltip` opens on the hover of an element that is not a Tab stop and on the focus the arrows give (D-1, DSA-82); nothing is lent to the tab under the pointer. (b) A panel with no focusable item takes `tabindex="0"` by a selector list of elements, not by a real test of the content: a panel whose focusable item the list does not know gets one more Tab stop. (c) Segmented and tab button cut the label with a balloon instead of scrolling; the usage rule asks for few tabs and short labels there (D-4). (d) The visible number above 99 becomes `99+` (D-3); the accessible name keeps the text of the consumer. (e) `nph-icon-button` has no sheet of its own: it is `nph-button` with an icon only (DSA-43), and the scroll arrows are `nph-button` with severity `secondary`, emphasis `ghost`, size `compact` and shape `square`; their names are text of the consumer, with a default that follows the `lang` nearest to the list, read when the arrows are drawn (no observer: a `lang` that changes later is seen at the next render) (D-2). (f) In dark, the background of the active solid tab button stays below 3:1 against the page in some brands: an accepted limit, because the label marks the active tab. (g) The counter pill is decorative: over the hover of the tab button it almost disappears, and the number stays readable |
 
 ## Relations
 
@@ -463,7 +465,7 @@ color property, no form association and no vertical list. The event is `nph-tab-
   for an event when you set `value` from code.
 - Give the list a `label`, or an `aria-label`, because it is the accessible name of the tab list.
 - Choose `manual` activation only when a panel is slow to load.
-- On an underline list that can scroll, give `scroll-previous-label` and `scroll-next-label`.
+- On an underline list that can scroll, give `scroll-previous-label` and `scroll-next-label` in the language of the page: the default names are a fallback.
 
 ## Examples
 
@@ -497,10 +499,11 @@ bar on top of a panel, in solid, light or outline.
 - **The repository `design.md`:** the `tabs/*` tokens, `text/label-md`, `text/label-sm`,
   `icon/size-sm`, `elevation/subtle`, `state/disabled-opacity` and the global `focus/*` tokens.
 - **The decision that originated it:** P115.
-- **Pending decisions:** D-1 to D-5 of the task DSA-71: the balloon of the cut tab through a
-  temporary `tabindex` on hover, the text of the names of the scroll arrows, `99+` above 99,
-  the cut label instead of the scroll in the segmented and tab button styles, and the scroll
-  arrows that keep their name for the screen reader.
+- **Decisions answered on 2026-11-16:** D-1 to D-5 of the task DSA-71 are answered. D-1 (decided by
+  Claude by Indiane's delegation): the cut tab keeps `tabindex="-1"` and the balloon comes from
+  `nph-tooltip`; D-2: the two names stay and override a default name; D-3: `99+`; D-4: the cut label
+  instead of the scroll in the segmented and tab button styles; D-5: the arrows stay out of the Tab
+  order and keep their name. The code of D-1 and D-2 is in DSA-82 and P127.
 - **Tests:** `src/components/nph-tabs/nph-tabs.test.ts`.
 - **Usage evidence:** no screen consumes it yet.
 - **Storybook:** `src/components/nph-tabs/nph-tabs.stories.ts` and

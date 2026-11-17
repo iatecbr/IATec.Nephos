@@ -104,7 +104,10 @@ api:
     constraint: >-
       The Figma `⮑ controle`. One control, such as nph-input, or the options of a group
       of checkboxes, radios or switches. An option declares itself with the static
-      nphFieldRole of its class, option or radio; anything else is a control.
+      nphFieldRole of its class, option or radio; anything else is a control. A control that
+      draws the reason of the error itself, such as the zone of nph-file-upload, declares
+      static nphFieldShowsError = true: while the field is invalid the field draws no error line
+      under it, and still passes the message as description (DSA-74 D-4, P127).
 variants:
   error:
     axis: state
@@ -295,7 +298,10 @@ control applies to its focusable element, in its own root:
 
 An option declares itself with `static nphFieldRole`: `'option'` for a checkbox or a switch,
 `'radio'` for a radio. A control needs no declaration. `focus()` on the host of a control
-moves the focus to its focusable element.
+moves the focus to its focusable element. A control that says the reason of the error itself
+declares `static nphFieldShowsError = true`: while the field is invalid, the field draws no error
+line under it, so the reason shows once; the message is still written as `description`, and the
+help and the counter stay on the line of the field (DSA-74 D-4, DSA-82; P127, extends P83).
 
 ## Relations
 
@@ -372,7 +378,7 @@ message below the options.
   `space/inline-tight`, `space/inline`, `text/caption`, `text/body-md`,
   `color/muted-foreground`, `status/error-text` and `state/disabled-opacity`.
 - **The decision that originated it:** P83 — `nph-field`: API, semantics and the
-  field–control contract.
+  field–control contract; P127 extends it with `nphFieldShowsError` (DSA-82).
 - **Tests:** `src/components/nph-field/nph-field.test.ts`.
 - **Usage evidence:** none in code yet.
 - **Storybook:** `src/components/nph-field/nph-field.stories.ts` (Validation) and

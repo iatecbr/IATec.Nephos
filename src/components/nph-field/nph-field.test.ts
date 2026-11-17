@@ -53,6 +53,11 @@ class StubRadio extends StubControl {
   static nphFieldRole: NphFieldRole = 'radio';
 }
 
+/** A control that draws the reason of the error itself, as the zone of nph-file-upload does (P127). */
+class StubShowsError extends StubControl {
+  static readonly nphFieldShowsError = true;
+}
+
 /** A custom element with no contract at all. */
 class StubOther extends HTMLElement {}
 
@@ -60,6 +65,7 @@ customElements.define('test-field-control', StubControl);
 customElements.define('test-field-option', StubOption);
 customElements.define('test-field-radio', StubRadio);
 customElements.define('test-field-other', StubOther);
+customElements.define('test-field-shows-error', StubShowsError);
 
 interface FieldSpec {
   label?: string;
@@ -379,6 +385,43 @@ describe('the counter', () => {
     expect(box.top - text.bottom).toBeCloseTo(parseFloat(token('--nph-space-stack-tight')), 1);
     expect(box.right).toBeCloseTo(field.getBoundingClientRect().right, 1);
     expect(getComputedStyle(counter).color).toBe(colorOf('--nph-color-muted-foreground'));
+  });
+});
+
+describe('a control that draws the reason of the error itself (DSA-74 D-4, P127, extends P83)', () => {
+  it('the field draws no error line under it, and still passes the message as the description of the control', async () => {
+    const field = await mount({ help: 'Use a PDF.', error: 'Attach at least one file.', children: ['test-field-shows-error'] });
+    expect(textOf(field)).toBeNull();
+    expect(messageOf(field)).toBeNull();
+    expect(root(field).textContent).not.toContain('Attach at least one file.');
+    expect(first(field).invalid).toBe(true);
+    expect(first(field).description).toBe('Attach at least one file.');
+  });
+
+  it('draws the help when the field is not invalid, and the counter in both states, as for any control', async () => {
+    const field = await mount({ help: 'Use a PDF.', counter: '1/3', children: ['test-field-shows-error'] });
+    expect(textOf(field)?.textContent).toBe('Use a PDF.');
+    expect(counterOf(field)?.textContent).toBe('1/3');
+    field.error = 'Attach at least one file.';
+    await settle(field);
+    expect(textOf(field)).toBeNull();
+    expect(counterOf(field)?.textContent).toBe('1/3');
+    expect(messageOf(field)?.classList.contains('message--error')).toBe(false);
+    field.error = '';
+    await settle(field);
+    expect(textOf(field)?.textContent).toBe('Use a PDF.');
+  });
+
+  it('a disabled field hides the error as for any control: the help comes back', async () => {
+    const field = await mount({ help: 'Use a PDF.', error: 'Attach at least one file.', disabled: true, children: ['test-field-shows-error'] });
+    expect(first(field).invalid).toBe(false);
+    expect(textOf(field)?.textContent).toBe('Use a PDF.');
+  });
+
+  it('a control that does not say it keeps the error line of the field', async () => {
+    const field = await mount({ error: 'Enter a valid email.', children: ['test-field-control'] });
+    expect(textOf(field)?.textContent).toBe('Enter a valid email.');
+    expect(messageOf(field)?.classList.contains('message--error')).toBe(true);
   });
 });
 

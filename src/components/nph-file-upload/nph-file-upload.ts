@@ -34,7 +34,8 @@
  *   `error` with its reason, and says the others in `error`;
  * - `error`: the reason of an error of the zone, already localized. Filled in, the zone is in error: the
  *   reason takes the place of the rule, with `circle-xmark`. Inside `nph-field`, `invalid` with the
- *   message of the field in `description` does the same: the zone never turns red without a reason;
+ *   message of the field in `description` does the same: the zone never turns red without a reason, and
+ *   the reason shows once: `nph-field` draws no error line of its own under the zone (`nphFieldShowsError`);
  * - `nph-file-upload-remove` and `nph-file-upload-retry`: the events of the item, which cross the zone.
  *   The zone removes nothing: the page takes the entry out of `files`, and only then the focus moves;
  * - `disabled`: the whole zone at `file-upload/disabled-opacity`, with a real `disabled` on the button
@@ -68,8 +69,9 @@
  * removed, by comparing the list before and after, without moving the focus; nothing is announced on the
  * first render, and a file that arrives `done` is not "added". The progress stays in the visible text and
  * in `role="progressbar"` on the item, with no announcement per percent. The zone is a `group` named by
- * `label`, described by the rule or the reason and by `description`: the id reference sits in this root
- * because `nph-button` forwards no `aria-describedby` into its own (P119, D-2).
+ * `label`, described by the rule or the reason and by `description`: the id reference sits in this root.
+ * The "Choose files" button is described by the same rule or reason through the `description` of `nph-button`,
+ * which draws it in its own shadow root, where an `id` of this root cannot reach (DSA-74 D-2, P127).
  *
  * Invalid input draws nothing and emits `console.error` only in development, one per cause (P66 rule): a
  * `files` that is not a list, an entry without `id` or `name`, a repeated `id`, a `status` or `kind`
@@ -242,6 +244,9 @@ type PendingFocus = { kind: 'remove'; id: string; index: number } | { kind: 'ret
 
 export class NphFileUpload extends LitElement {
   static override styles = unsafeCSS(uploadCss);
+
+  /** Inside `nph-field` the reason is shown once, in the zone, in place of the rule: the field draws no error line (DSA-74 D-4, P127). */
+  static readonly nphFieldShowsError = true;
 
   static override properties = {
     files: { attribute: false },
@@ -833,7 +838,9 @@ export class NphFileUpload extends LitElement {
     const state = this.state;
     const label = text(this.label);
     const description = text(this.description);
-    const hasRule = state === 'error' || (state === 'limit' ? text(this.limitRule) : text(this.rule)) !== '';
+    /* What the zone says under the phrase: the reason in error, the limit rule at the limit, the rule otherwise. */
+    const ruleText = state === 'error' ? this.reason : state === 'limit' ? text(this.limitRule) : text(this.rule);
+    const hasRule = ruleText !== '';
     /* The message of an invalid field is already the reason the zone says: it is not said twice. */
     const extra = description !== '' && description !== this.reason ? description : '';
     const describedBy = [hasRule ? 'rule' : '', extra !== '' ? 'description' : ''].filter((id) => id !== '').join(' ');
@@ -865,6 +872,7 @@ export class NphFileUpload extends LitElement {
             emphasis="solid"
             size=${this.size}
             text=${text(this.buttonText)}
+            description=${ruleText}
             ?disabled=${this.disabled || this.atLimit}
             @click=${() => this.openPicker()}
             @pointerenter=${() => {

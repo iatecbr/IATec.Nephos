@@ -176,13 +176,13 @@
     "Do not put more than 7 steps, and do not put two steppers on the same page."
   ],
   "accessibility": {
-    "semantics": "A nav, named, holding an ordered list. Each step is a list item: a link or a button when it can be activated, and text otherwise. The current step carries aria-current step. A disabled step carries aria-disabled true. The stepper is navigation, not a tablist: it has no arrow keys. The marker is hidden from assistive technology and the position comes from the list. The connector is decorative, hidden, and has no list item of its own.",
+    "semantics": "A nav, named, holding an ordered list. Each step is a list item: a link or a button when it can be activated, and text otherwise. The current step carries aria-current step. A disabled step carries aria-disabled true. A pending step of the linear stepper with a cut label is a focusable element with a role (button, or link when the step has an href) and aria-disabled true, so the screen reader names it. The stepper is navigation, not a tablist: it has no arrow keys. The marker is hidden from assistive technology and the position comes from the list. The connector is decorative, hidden, and has no list item of its own.",
     "accessible_name": "The landmark: label, else the aria-label of the host. A step: the hidden status text at its start, then its label; the current step has no hidden text, since aria-current says it. The description and Optional are part of the step, so the reason of an error is read. A disabled step with an error is named as pending.",
     "keyboard": [
       "Tab and Shift+Tab move through the clickable steps, in list order. The current step and the disabled steps take no Tab.",
       "Enter activates a step. Space activates it too when it is a button; on a link, Space scrolls the page as the browser does.",
       "The arrow keys do nothing in the stepper: each step is a Tab stop.",
-      "A pending step of the linear stepper whose label is cut takes Tab only to open the balloon with the whole label: it is not a link and Enter does nothing.",
+      "A pending step of the linear stepper whose label is cut takes Tab only to open the balloon with the whole label: it has a role and aria-disabled, it is not a link and Enter does nothing.",
       "Esc closes the balloon of a cut label without moving the focus."
     ],
     "focus": "Keyboard only, on a step that takes Tab: a border of stepper/focus-border-width in stepper/focus-border and a halo in stepper/focus-ring outside the step area, which the connector keeps from clipping. A focused step has no hover background.",

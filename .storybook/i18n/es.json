@@ -1071,6 +1071,10 @@
       [
         "controls",
         "El elemento que este botón abre o cierra, para el aria-controls del disparador de un disclosure, como el nph-collapsible. Solo como propiedad: el botón nativo lo recibe como ariaControlsElements."
+      ],
+      [
+        "description",
+        "Un texto que describe la acción, como la regla y el motivo de una zona de soltar, ya localizado. El botón lo dibuja oculto en su propia sombra y apunta su botón nativo hacia él con aria-describedby. Vacío por defecto: sin él el botón es el mismo."
       ]
     ],
     "usageTitle": "Uso",
@@ -1579,7 +1583,7 @@
       ],
       [
         "for",
-        "El id del elemento que abre el globo, en la misma raíz del tooltip, como en el label nativo. El elemento debe recibir foco: un elemento deshabilitado o un texto suelto no recibe globo. El tooltip escucha ese elemento y añade su propio id a su aria-describedby, o a su aria-labelledby con relation=\"name\". Sin un elemento correspondiente, no se dibuja nada."
+        "El id del elemento que abre el globo, en la misma raíz del tooltip, como en el label nativo. El elemento debe recibir foco: un elemento deshabilitado o un texto suelto no recibe globo. Un elemento fuera del orden del Tab por tabindex=\"-1\", como una pestaña de una lista movida con las flechas, sí lo recibe: el puntero lo abre al pasar por encima y las flechas con el foco. El tooltip escucha ese elemento y añade su propio id a su aria-describedby, o a su aria-labelledby con relation=\"name\". Sin un elemento correspondiente, no se dibuja nada."
       ],
       [
         "side",
@@ -3712,7 +3716,7 @@
       ],
       [
         "error",
-        "El mensaje de error, en text/body-md y status/error-text, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda."
+        "El mensaje de error, en text/body-md y status/error-text, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda. Un control que muestra el motivo él mismo, como nph-file-upload, conserva un solo mensaje: el campo no dibuja línea bajo él."
       ],
       [
         "counter",
@@ -12910,7 +12914,7 @@
       ],
       [
         "scroll-previous-label y scroll-next-label",
-        "Los nombres de las dos flechas de desplazamiento del estilo subrayado. Sin ellos las flechas no se dibujan. Ya localizados."
+        "Los nombres de las dos flechas de desplazamiento del estilo subrayado. Reemplazan un nombre por defecto que sigue el idioma de la página (por defecto, Rolar para a esquerda y Rolar para a direita; también en inglés y español), así que las flechas nunca se dibujan sin nombre. Ya localizados."
       ],
       [
         "nph-tab-change",
@@ -13450,7 +13454,7 @@
     "panelMenu": [
       [
         "Grupos abiertos",
-        "Varios quedan abiertos a la vez; abrir uno no cierra los otros. El grupo de la página actual y su padre nacen abiertos. Si la persona cierra uno, queda cerrado, sin marca nueva, incluso cuando el producto envía una lista nueva."
+        "Varios quedan abiertos a la vez; abrir uno no cierra los otros. El grupo de la página actual y su padre nacen abiertos. Si la persona cierra uno, queda cerrado, sin marca nueva, incluso cuando el producto envía una lista nueva, mientras la página actual sea la misma. Cuando el producto envía una página actual nueva, sus grupos padres se abren."
       ],
       [
         "Control",
@@ -13741,7 +13745,7 @@
     "keyboard": [
       [
         "Tab y Shift+Tab",
-        "Mueven el foco por los pasos pulsables, en el orden de la lista. El paso actual y un paso deshabilitado no reciben Tab. Un paso pendiente del stepper lineal con etiqueta cortada recibe Tab solo para abrir el globo: no es un enlace."
+        "Mueven el foco por los pasos pulsables, en el orden de la lista. El paso actual y un paso deshabilitado no reciben Tab. Un paso pendiente del stepper lineal con etiqueta cortada recibe Tab solo para abrir el globo: no es un enlace, tiene un rol y aria-disabled, y Enter no hace nada."
       ],
       [
         "Enter",
@@ -14465,7 +14469,7 @@
     ],
     "relationsTitle": "Relaciones y contexto",
     "relations": [
-      "La zona ocupa el lugar del control de nph-field, que trae la etiqueta, el asterisco y el texto de apoyo. El motivo del error se queda en la zona, en el lugar de la regla.",
+      "La zona ocupa el lugar del control de nph-field, que trae la etiqueta, el asterisco y el texto de apoyo. El motivo del error se queda en la zona, en el lugar de la regla, y se muestra una sola vez: el campo no dibuja línea de error bajo la zona.",
       "Funciona con nph-button (Elegir archivos, Reintentar y el botón de quitar), nph-icon, nph-spinner (el envío en curso) y nph-image (la miniatura).",
       "Para un solo archivo, usa el campo de archivo único (nph-input-file). Los archivos de un registro fuera del formulario, en columnas de tabla, son una composición con nph-data-table."
     ],
@@ -14520,7 +14524,7 @@
       ],
       [
         "Descripción",
-        "La regla y el motivo describen el grupo de la zona. nph-button no reenvía aria-describedby a su propia sombra, así que la descripción no está en el botón mismo."
+        "La regla y el motivo describen el grupo de la zona y el propio botón Elegir archivos: nph-button dibuja el mismo texto en su propia sombra, mediante su descripción, y apunta el botón nativo hacia él."
       ],
       [
         "Contraste y color",
