@@ -1,0 +1,212 @@
+/**
+ * Internal style of `nph-resizable`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. The `--_*` variable is internal to the shadow root and is not
+ * API either.
+ *
+ * The group has no background and no outline: the panels take the surface where it lives. The
+ * handle sits in the flow, as wide as the compact button (`control/height-compact`), with the line
+ * of `resizable/handle-width` at its center. The separator element covers the whole handle and is
+ * what the pointer and the keyboard act on; the line segments, the grip box and the collapse button
+ * are drawn over it, and the segments and the grip let the pointer through. No literal design
+ * value goes in here: the only plain numbers are box relations (`0`, `1`, `100%`, `2`, a quarter
+ * turn).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+:host([direction='vertical'][data-nph-rendered]) {
+  flex-direction: column;
+}
+
+/* ----- the panels ------------------------------------------------------------------------ */
+
+/*
+ * The size is the weight of the panel in the free space, so the sizes in percent add up to the
+ * length the handles leave. The padding lives in the content, not in the flex item, or it would
+ * shift every share.
+ */
+.panel {
+  flex: var(--_size, 1) 1 0;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.content {
+  box-sizing: border-box;
+  block-size: 100%;
+  padding: var(--nph-space-container-padding);
+}
+
+/* Collapsed with a size of its own: the panel keeps its box and clips what does not fit. */
+.panel[data-collapsed] {
+  overflow: hidden;
+}
+
+/* Collapsed to nothing: the content leaves the screen, the focus order and the accessibility tree. */
+.panel[data-empty] {
+  visibility: hidden;
+}
+
+/* ----- the handle ------------------------------------------------------------------------ */
+
+.handle {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nph-resizable-handle-gap);
+  inline-size: var(--nph-control-height-compact);
+}
+
+:host([direction='vertical']) .handle {
+  flex-direction: row;
+  inline-size: auto;
+  block-size: var(--nph-control-height-compact);
+}
+
+/* The element the pointer and the keyboard act on: it covers the whole handle, under what is drawn. */
+.separator {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+}
+
+:host([direction='vertical']) .separator {
+  cursor: row-resize;
+}
+
+.line,
+.grip,
+.collapse {
+  position: relative;
+  z-index: 1;
+}
+
+.line {
+  flex: 1 1 0;
+  min-block-size: 0;
+  inline-size: var(--nph-resizable-handle-width);
+  background: var(--nph-resizable-handle-color);
+  pointer-events: none;
+}
+
+:host([direction='vertical']) .line {
+  min-block-size: 0;
+  min-inline-size: 0;
+  inline-size: auto;
+  block-size: var(--nph-resizable-handle-width);
+}
+
+.grip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  inline-size: var(--nph-resizable-grip-size);
+  block-size: var(--nph-resizable-grip-size);
+  border-radius: var(--nph-resizable-grip-radius);
+  color: var(--nph-resizable-grip-foreground);
+  pointer-events: none;
+}
+
+/* The only icon is the vertical grip: on the horizontal handle it turns a quarter. */
+:host([direction='vertical']) .grip nph-icon {
+  rotate: 90deg;
+}
+
+.collapse {
+  flex: none;
+}
+
+/* ----- states ---------------------------------------------------------------------------- */
+
+:host(:not([disabled])) .handle:hover .line,
+:host(:not([disabled])) .handle[data-dragging] .line {
+  background: var(--nph-resizable-handle-color-hover);
+}
+
+:host(:not([disabled])) .handle[data-dragging] .grip {
+  background: var(--nph-resizable-grip-background-active);
+  color: var(--nph-resizable-grip-foreground-active);
+}
+
+/* Dragging: the pointer keeps the cursor of the handle and the page selects no text. */
+.handle[data-dragging] .separator {
+  user-select: none;
+}
+
+/*
+ * Focus, by keyboard only: the line becomes the 2 px focus border, with no halo. The handle column
+ * has a fixed width, so the line grows without shifting the panels.
+ */
+:host(:not([disabled])) .handle .separator:focus-visible ~ .line {
+  inline-size: var(--nph-resizable-focus-border-width);
+  background: var(--nph-focus-border);
+}
+
+:host([direction='vertical']:not([disabled])) .handle .separator:focus-visible ~ .line {
+  inline-size: auto;
+  block-size: var(--nph-resizable-focus-border-width);
+}
+
+:host([disabled]) .handle {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+:host([disabled]) .separator {
+  cursor: default;
+}
+
+/*
+ * Hit area. The handle column is already `control/height-compact` wide, above the 24 px minimum. On a
+ * coarse pointer an invisible extension takes the area to `control/height-large`, the touch target.
+ */
+@media (pointer: coarse) {
+  .separator::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc((var(--nph-control-height-compact) - var(--nph-control-height-large)) / 2);
+  }
+
+  :host([direction='vertical']) .separator::before {
+    inset-block: calc((var(--nph-control-height-compact) - var(--nph-control-height-large)) / 2);
+    inset-inline: 0;
+  }
+}
+
+/*
+ * With forced colors the browser drops the backgrounds above: the line keeps a color of its own in
+ * the system palette (`CanvasText`, and `Highlight` for the focus; no token, the user's palette decides).
+ */
+@media (forced-colors: active) {
+  .line {
+    background: CanvasText;
+  }
+
+  :host(:not([disabled])) .handle .separator:focus-visible ~ .line {
+    background: Highlight;
+  }
+}

@@ -292,6 +292,17 @@
     "components-nph-menubar-validation--interactive": "Interactive",
     "components-nph-menubar-validation--examples": "Examples",
     "components-nph-menubar-validation--brands": "Brands",
+    "components-nph-resizable-docs": "Docs",
+    "components-nph-resizable-docs--documentation": "Documentation",
+    "components-nph-resizable-validation": "Validation",
+    "components-nph-resizable-validation--matrix": "Matrix",
+    "components-nph-resizable-validation--handle-states": "Handle states",
+    "components-nph-resizable-validation--collapsed": "Collapsed",
+    "components-nph-resizable-validation--nested": "Nested",
+    "components-nph-resizable-validation--limits": "Limits",
+    "components-nph-resizable-validation--interactive": "Interactive",
+    "components-nph-resizable-validation--examples": "Examples",
+    "components-nph-resizable-validation--brands": "Brands",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentation",
     "components-nph-table-validation": "Validation",
@@ -8671,7 +8682,15 @@
       "components-nph-command-validation--disabled-command": "A disabled command is dimmed, skipped by the keys and the pointer, and does not run.",
       "components-nph-command-validation--destructive-command": "The destructive command keeps its own colors at rest and active, in light and dark mode.",
       "components-nph-command-validation--focus-and-escape": "Opening moves the focus to the field; Esc closes the palette and the focus goes back to the button that opened it.",
-      "components-nph-command-validation--brands": "The seven brands in light and dark: opened by the button of its frame, the palette follows the brand of that frame."
+      "components-nph-command-validation--brands": "The seven brands in light and dark: opened by the button of its frame, the palette follows the brand of that frame.",
+      "components-nph-resizable-validation--matrix": "Two and three panels, side by side and stacked, each pair of panels separated by a handle with the line, the grip and the collapse button; the panels have no background and the group no outline.",
+      "components-nph-resizable-validation--handle-states": "The handle at rest and disabled, with the collapse button on and off, in both directions; hover, dragging and focus show up when you use the handle, and the component test measures each one.",
+      "components-nph-resizable-validation--collapsed": "A collapsed panel is a size, not a look of the handle: collapsed to nothing, or to a size of its own, the chevron flips and the button restores the panel.",
+      "components-nph-resizable-validation--nested": "More than three panels by nesting: the right panel of a horizontal group takes a vertical group, each with its own handles.",
+      "components-nph-resizable-validation--limits": "The handle stops at the minimum and at the maximum of each panel, set in percent or in pixels, and the main panel of the handle is the one that reports them.",
+      "components-nph-resizable-validation--interactive": "A drag, a key or a click fires nph-resize with detail.sizes, shown below the group; the product keeps the sizes and gives them back through sizes, and setting sizes from code does not fire the event.",
+      "components-nph-resizable-validation--examples": "The three required examples, each in light and dark mode: List and reading pane, Nested and Collapsed.",
+      "components-nph-resizable-validation--brands": "The seven brands in light and dark mode: the focus border and the collapse button follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -15742,5 +15761,25 @@
     "sourceFigma": "nph-command documentation frame 6076:4910 (DS-IA-NEPHOS 5.0) and the nph-command spec sheet.",
     "sourceApi": "P123 and the nph-command spec sheet.",
     "sourceAccessibility": "Accessibility of the frame 6076:4910 and P123."
+  },
+  "resizableValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "list": "List",
+    "reading": "Reading pane",
+    "navigation": "Navigation",
+    "editor": "Editor",
+    "console": "Console",
+    "preview": "Preview",
+    "details": "Details",
+    "collapse": "Collapse panel",
+    "expand": "Expand panel",
+    "collapseList": "Collapse the list",
+    "expandList": "Expand the list",
+    "exampleListReading": "List and reading pane",
+    "exampleNested": "Nested",
+    "exampleCollapsed": "Collapsed",
+    "statusIdle": "Waiting for a drag, a key or a click.",
+    "statusChanged": "nph-resize fired with detail.sizes = {sizes}."
   }
 }

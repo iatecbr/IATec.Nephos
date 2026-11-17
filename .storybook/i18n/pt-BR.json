@@ -292,6 +292,17 @@
     "components-nph-menubar-validation--interactive": "Interativo",
     "components-nph-menubar-validation--examples": "Exemplos",
     "components-nph-menubar-validation--brands": "Marcas",
+    "components-nph-resizable-docs": "Docs",
+    "components-nph-resizable-docs--documentation": "Documentação",
+    "components-nph-resizable-validation": "Validação",
+    "components-nph-resizable-validation--matrix": "Matriz",
+    "components-nph-resizable-validation--handle-states": "Estados da alça",
+    "components-nph-resizable-validation--collapsed": "Recolhido",
+    "components-nph-resizable-validation--nested": "Aninhado",
+    "components-nph-resizable-validation--limits": "Limites",
+    "components-nph-resizable-validation--interactive": "Interativo",
+    "components-nph-resizable-validation--examples": "Exemplos",
+    "components-nph-resizable-validation--brands": "Marcas",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentação",
     "components-nph-table-validation": "Validação",
@@ -8671,7 +8682,15 @@
       "components-nph-command-validation--disabled-command": "Um comando desabilitado fica esmaecido, é pulado pelas teclas e pelo ponteiro e não executa.",
       "components-nph-command-validation--destructive-command": "O comando destrutivo mantém as próprias cores em repouso e ativo, no modo claro e no escuro.",
       "components-nph-command-validation--focus-and-escape": "Abrir move o foco para o campo; Esc fecha a paleta e o foco volta ao botão que a abriu.",
-      "components-nph-command-validation--brands": "As sete marcas no claro e no escuro: aberta pelo botão do seu quadro, a paleta segue a marca desse quadro."
+      "components-nph-command-validation--brands": "As sete marcas no claro e no escuro: aberta pelo botão do seu quadro, a paleta segue a marca desse quadro.",
+      "components-nph-resizable-validation--matrix": "Dois e três painéis, lado a lado e empilhados, cada par de painéis separado por uma alça com a linha, o grip e o botão de recolher; os painéis não têm fundo e o grupo não tem contorno.",
+      "components-nph-resizable-validation--handle-states": "A alça em repouso e desabilitada, com o botão de recolher ligado e desligado, nas duas direções; hover, arrastando e foco aparecem quando você usa a alça, e o teste do componente mede cada um.",
+      "components-nph-resizable-validation--collapsed": "Um painel recolhido é um tamanho, não um visual da alça: recolhido a zero, ou a um tamanho próprio, a seta vira e o botão restaura o painel.",
+      "components-nph-resizable-validation--nested": "Mais de três painéis por aninhamento: o painel da direita de um grupo horizontal recebe um grupo vertical, cada um com as suas alças.",
+      "components-nph-resizable-validation--limits": "A alça para no mínimo e no máximo de cada painel, dados em porcentagem ou em pixels, e o painel principal da alça é o que os informa.",
+      "components-nph-resizable-validation--interactive": "Um arrasto, uma tecla ou um clique dispara nph-resize com detail.sizes, mostrado abaixo do grupo; o produto guarda os tamanhos e os devolve por sizes, e definir sizes por código não dispara o evento.",
+      "components-nph-resizable-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: Lista e painel de leitura, Aninhado e Recolhido.",
+      "components-nph-resizable-validation--brands": "As sete marcas em modo claro e escuro: a borda de foco e o botão de recolher seguem a marca do quadro."
     }
   },
   "multiComboboxDocs": {
@@ -15742,5 +15761,25 @@
     "sourceFigma": "Quadro de documentação do nph-command 6076:4910 (DS-IA-NEPHOS 5.0) e a ficha do nph-command.",
     "sourceApi": "P123 e a ficha do nph-command.",
     "sourceAccessibility": "Acessibilidade do quadro 6076:4910 e P123."
+  },
+  "resizableValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "list": "Lista",
+    "reading": "Painel de leitura",
+    "navigation": "Navegação",
+    "editor": "Editor",
+    "console": "Console",
+    "preview": "Pré-visualização",
+    "details": "Detalhes",
+    "collapse": "Recolher painel",
+    "expand": "Expandir painel",
+    "collapseList": "Recolher a lista",
+    "expandList": "Expandir a lista",
+    "exampleListReading": "Lista e painel de leitura",
+    "exampleNested": "Aninhado",
+    "exampleCollapsed": "Recolhido",
+    "statusIdle": "Aguardando um arrasto, uma tecla ou um clique.",
+    "statusChanged": "nph-resize disparado com detail.sizes = {sizes}."
   }
 }

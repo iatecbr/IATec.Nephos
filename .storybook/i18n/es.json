@@ -292,6 +292,17 @@
     "components-nph-menubar-validation--interactive": "Interactivo",
     "components-nph-menubar-validation--examples": "Ejemplos",
     "components-nph-menubar-validation--brands": "Marcas",
+    "components-nph-resizable-docs": "Docs",
+    "components-nph-resizable-docs--documentation": "Documentación",
+    "components-nph-resizable-validation": "Validación",
+    "components-nph-resizable-validation--matrix": "Matriz",
+    "components-nph-resizable-validation--handle-states": "Estados del tirador",
+    "components-nph-resizable-validation--collapsed": "Colapsado",
+    "components-nph-resizable-validation--nested": "Anidado",
+    "components-nph-resizable-validation--limits": "Límites",
+    "components-nph-resizable-validation--interactive": "Interactivo",
+    "components-nph-resizable-validation--examples": "Ejemplos",
+    "components-nph-resizable-validation--brands": "Marcas",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentación",
     "components-nph-table-validation": "Validación",
@@ -8671,7 +8682,15 @@
       "components-nph-command-validation--disabled-command": "Un comando deshabilitado se atenúa, las teclas y el puntero lo saltan y no se ejecuta.",
       "components-nph-command-validation--destructive-command": "El comando destructivo mantiene sus propios colores en reposo y activo, en modo claro y oscuro.",
       "components-nph-command-validation--focus-and-escape": "Abrir mueve el foco al campo; Esc cierra la paleta y el foco vuelve al botón que la abrió.",
-      "components-nph-command-validation--brands": "Las siete marcas en claro y oscuro: abierta con el botón de su marco, la paleta sigue la marca de ese marco."
+      "components-nph-command-validation--brands": "Las siete marcas en claro y oscuro: abierta con el botón de su marco, la paleta sigue la marca de ese marco.",
+      "components-nph-resizable-validation--matrix": "Dos y tres paneles, lado a lado y apilados, cada par de paneles separado por un tirador con la línea, el grip y el botón de colapsar; los paneles no tienen fondo y el grupo no tiene contorno.",
+      "components-nph-resizable-validation--handle-states": "El tirador en reposo y deshabilitado, con el botón de colapsar activado y desactivado, en las dos direcciones; hover, arrastrando y foco aparecen cuando usas el tirador, y la prueba del componente mide cada uno.",
+      "components-nph-resizable-validation--collapsed": "Un panel colapsado es un tamaño, no un aspecto del tirador: colapsado a cero, o a un tamaño propio, la flecha se invierte y el botón restaura el panel.",
+      "components-nph-resizable-validation--nested": "Más de tres paneles por anidamiento: el panel de la derecha de un grupo horizontal recibe un grupo vertical, cada uno con sus tiradores.",
+      "components-nph-resizable-validation--limits": "El tirador se detiene en el mínimo y en el máximo de cada panel, dados en porcentaje o en píxeles, y el panel principal del tirador es el que los informa.",
+      "components-nph-resizable-validation--interactive": "Un arrastre, una tecla o un clic dispara nph-resize con detail.sizes, mostrado debajo del grupo; el producto guarda los tamaños y los devuelve por sizes, y definir sizes por código no dispara el evento.",
+      "components-nph-resizable-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Lista y panel de lectura, Anidado y Colapsado.",
+      "components-nph-resizable-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el botón de colapsar siguen la marca del marco."
     }
   },
   "multiComboboxDocs": {
@@ -15742,5 +15761,25 @@
     "sourceFigma": "Marco de documentación de nph-command 6076:4910 (DS-IA-NEPHOS 5.0) y la ficha de nph-command.",
     "sourceApi": "P123 y la ficha de nph-command.",
     "sourceAccessibility": "Accesibilidad del marco 6076:4910 y P123."
+  },
+  "resizableValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "list": "Lista",
+    "reading": "Panel de lectura",
+    "navigation": "Navegación",
+    "editor": "Editor",
+    "console": "Consola",
+    "preview": "Vista previa",
+    "details": "Detalles",
+    "collapse": "Colapsar panel",
+    "expand": "Expandir panel",
+    "collapseList": "Colapsar la lista",
+    "expandList": "Expandir la lista",
+    "exampleListReading": "Lista y panel de lectura",
+    "exampleNested": "Anidado",
+    "exampleCollapsed": "Colapsado",
+    "statusIdle": "Esperando un arrastre, una tecla o un clic.",
+    "statusChanged": "nph-resize disparado con detail.sizes = {sizes}."
   }
 }
