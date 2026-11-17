@@ -704,6 +704,9 @@ describe('the pointer', () => {
     expect(sizes.length).toBeGreaterThan(0);
     expect(handle(group).hasAttribute('data-dragging')).toBe(false);
     expect(lengths(group)[0]).toBeCloseTo((group.sizes[0]! / 100) * (360 - HANDLE), 0);
+    /* A press focuses the handle, and the focus border shows only by keyboard. */
+    expect(group.shadowRoot!.activeElement).toBe(separator(group));
+    expect(getComputedStyle(handle(group).querySelector<HTMLElement>('.line')!).width).toBe(resolved('width', '--nph-resizable-handle-width'));
   });
 
   it('double click restores the default size', async () => {
@@ -1010,14 +1013,6 @@ describe('focus', () => {
     expect(getComputedStyle(line).height).toBe(resolved('height', '--nph-resizable-focus-border-width'));
   });
 
-  it('a pointer press focuses the handle but does not show the focus border', async () => {
-    const group = await mount();
-    const line = handle(group).querySelector<HTMLElement>('.line')!;
-    separator(group).focus({ focusVisible: false } as FocusOptions);
-    expect(group.shadowRoot!.activeElement).toBe(separator(group));
-    expect(getComputedStyle(line).width).toBe(resolved('width', '--nph-resizable-handle-width'));
-  });
-
   it('the handle and the collapse button are separate stops in the Tab order, in document order', async () => {
     const group = await mount({ panels: THREE });
     const stops: Element[] = [];
@@ -1127,6 +1122,87 @@ describe('the own event', () => {
   });
 });
 
+describe('what the event says is what the group keeps', () => {
+  it('a collapse is kept when the panel across the handle has a maximum: the maximum yields while the panel is collapsed', async () => {
+    const group = await mount({
+      sizes: [40, 60],
+      panels: [{ name: 'List' }, { name: 'Reading pane', attributes: { 'max-size': '60' } }],
+    });
+    const { sizes } = listen(group);
+    press(separator(group), 'Enter');
+    await settle(group);
+    expect(rounded(group.sizes)).toEqual([0, 100]);
+    expect(rounded(sizes[0]!)).toEqual([0, 100]);
+    expect(lengths(group)[1]).toBeCloseTo(WIDTH - HANDLE, 0);
+    collapseButton(group).shadowRoot!.querySelector('button')!.click();
+    await settle(group);
+    expect(rounded(group.sizes)).toEqual([40, 60]);
+    expect(rounded(sizes[1]!)).toEqual([40, 60]);
+  });
+
+  it('restoring a panel brings the maximum of the panel across back, and the event says so', async () => {
+    const group = await mount({
+      sizes: [0, 100],
+      panels: [{ name: 'List', attributes: { 'default-size': '30' } }, { name: 'Reading pane', attributes: { 'max-size': '60' } }],
+    });
+    const { sizes } = listen(group);
+    press(separator(group), 'Enter');
+    await settle(group);
+    expect(rounded(group.sizes)).toEqual([40, 60]);
+    expect(rounded(sizes[0]!)).toEqual([40, 60]);
+  });
+
+  it('after every action, sizes equals the last detail.sizes once the group has updated', async () => {
+    const group = await mount({
+      panels: [
+        { name: 'Navigation', attributes: { 'min-size': '15', 'max-size': '40' } },
+        { name: 'List', attributes: { 'max-size': '50', 'min-size': '10' } },
+        { name: 'Reading pane', attributes: { 'max-size': '70' } },
+      ],
+    });
+    const { sizes } = listen(group);
+    const actions: Array<() => void | Promise<void>> = [
+      () => press(separator(group, 0), 'Enter'),
+      () => press(separator(group, 1), 'End'),
+      () => press(separator(group, 1), 'Enter'),
+      () => press(separator(group, 0), 'Enter'),
+      () => press(separator(group, 1), 'Enter'),
+      () => press(separator(group, 0), 'ArrowRight', { shiftKey: true }),
+      () => drag(group, 1, -120),
+      () => separator(group, 0).dispatchEvent(new MouseEvent('dblclick', { bubbles: true, composed: true })),
+    ];
+    for (const action of actions) {
+      await action();
+      pointer(separator(group, 1), 'pointerup', 0);
+      await settle(group);
+      const last = sizes.at(-1);
+      if (last !== undefined) expect(rounded(group.sizes)).toEqual(rounded(last));
+      expect(group.sizes.reduce((total, size) => total + size, 0)).toBeCloseTo(100, 4);
+    }
+  });
+
+  it('a default size in pixels is the same size at the first measure and when the default is restored', async () => {
+    const group = await mount({ panels: [{ name: 'List', attributes: { 'default-size': '240px' } }, { name: 'Reading pane' }] });
+    expect(lengths(group)[0]).toBeCloseTo(240, 0);
+    press(separator(group), 'End');
+    await settle(group);
+    separator(group).dispatchEvent(new MouseEvent('dblclick', { bubbles: true, composed: true }));
+    await settle(group);
+    expect(lengths(group)[0]).toBeCloseTo(240, 0);
+  });
+
+  it('sizes the consumer wrote are not settled again by a measure, and an empty list asks for the defaults again', async () => {
+    const group = await mount({ sizes: [30, 70], panels: [{ name: 'List', attributes: { 'default-size': '240px' } }, { name: 'Reading pane' }] });
+    frameOf(group).style.inlineSize = '900px';
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await settle(group);
+    expect(rounded(group.sizes)).toEqual([30, 70]);
+    group.sizes = [];
+    await settle(group);
+    expect(lengths(group)[0]).toBeCloseTo(240, 0);
+  });
+});
+
 describe('the panels change', () => {
   it('a panel that comes in or goes out changes the handles and the sizes, with no event', async () => {
     const group = await mount();
@@ -1161,6 +1237,18 @@ describe('the panels change', () => {
     await settle(group);
     expect(lengths(group)[0]).toBeGreaterThanOrEqual(299);
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('a change deep inside a panel asks for no update of the group', async () => {
+    const group = await mount({ panels: [{ name: 'List', text: '' }, { name: 'Reading pane' }] });
+    const request = vi.spyOn(group, 'requestUpdate');
+    const inner = document.createElement('div');
+    group.children[0]!.append(inner);
+    inner.append(document.createElement('span'));
+    inner.setAttribute('aria-label', 'Deep');
+    inner.setAttribute('min-size', '10');
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(request).not.toHaveBeenCalled();
   });
 
   it('text and comments between the panels are not panels', async () => {

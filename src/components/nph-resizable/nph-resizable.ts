@@ -33,7 +33,8 @@
  *   one in a vertical group; the right one in right-to-left text): the main panel of the APG.
  *   `aria-valuenow`, `aria-valuemin` and `aria-valuemax` are its size in percent, an integer from
  *   0 to 100, and `aria-controls` points to it. The space a collapsed panel frees goes to the
- *   panel across the same handle;
+ *   panel across the same handle, whose maximum yields while the collapse lasts. Every change is
+ *   settled inside the limits before it is kept and told, so `detail.sizes` is what `sizes` holds;
  * - keys: the arrows on the handle axis move it 1 percent, Shift with an arrow 10 percent, Home
  *   and End take the main panel to its minimum and maximum, Enter collapses and restores it.
  *   F6 is not used: the browser circulates its own panes with it. Double click restores the
@@ -216,6 +217,10 @@ export class NphResizable extends LitElement {
   /** The size a panel had before the collapse, to restore it. */
   private restoreSizes: Array<number | undefined> = [];
   private drag: { index: number; pointer: number; origin: number; start: number[]; available: number; reversed: boolean } | null = null;
+  /** The array the group wrote last: a `sizes` that is another array was set by the consumer. */
+  private own: number[] | null = null;
+  /** The sizes are still the default ones: neither the person nor the consumer set them, so a measure settles them again. */
+  private pristine = true;
   private shownWarnings = new Set<string>();
   private shownErrors = new Set<string>();
   /** The size attributes of the panels that are not a number, as messages. */
@@ -223,7 +228,7 @@ export class NphResizable extends LitElement {
   /** The message of `sizes` that did not match the panels at the last update, or empty. */
   private sizesMismatch = '';
   /** The panels are direct children: a child that comes, goes or changes an attribute the group reads. */
-  private readonly childObserver = new MutationObserver(() => this.requestUpdate());
+  private readonly childObserver = new MutationObserver((records) => this.onChildMutation(records));
   /** The size of the group on its axis changes the pixel limits in percent. */
   private readonly sizeObserver = new ResizeObserver(() => this.onGroupResize());
 
@@ -236,6 +241,14 @@ export class NphResizable extends LitElement {
     this.expandLabel = '';
     this.sizes = [];
     this.dragging = null;
+  }
+
+  /** Only a change of the panels themselves counts: a child that comes or goes, or an attribute of a direct child. */
+  private onChildMutation(records: MutationRecord[]): void {
+    const own = records.some((record) => (record.type === 'childList' ? record.target === this : record.target.parentNode === this));
+    if (own) {
+      this.requestUpdate();
+    }
   }
 
   override connectedCallback(): void {
@@ -297,14 +310,26 @@ export class NphResizable extends LitElement {
     return available > 0 ? (size.value / available) * 100 : fallback;
   }
 
-  private limits(index: number, available: number): Limits {
+  /** Where the panel at `index` collapses, in percent. */
+  private collapsedOf(index: number, available: number): number {
+    const model = this.models[index];
+    return model === undefined ? 0 : clamp(this.toPercent(model.collapsed, available, 0), 0, 100);
+  }
+
+  /**
+   * The limits of a panel in percent. The maximum of a panel yields while the panel before it, the main
+   * panel of the handle between them, is collapsed: the space a collapse frees goes to the panel across the
+   * handle, whatever its maximum says (P128).
+   */
+  private limits(index: number, available: number, sizes: readonly number[] = this.sizes): Limits {
     const model = this.models[index];
     if (model === undefined) {
       return { collapsed: 0, min: 0, max: 100 };
     }
-    const collapsed = clamp(this.toPercent(model.collapsed, available, 0), 0, 100);
+    const collapsed = this.collapsedOf(index, available);
     const min = clamp(Math.max(this.toPercent(model.min, available, 0), collapsed), 0, 100);
-    const max = clamp(Math.max(this.toPercent(model.max, available, 100), min), 0, 100);
+    const yields = index > 0 && (sizes[index - 1] ?? 0) <= this.collapsedOf(index - 1, available) + EPSILON;
+    const max = yields ? 100 : clamp(Math.max(this.toPercent(model.max, available, 100), min), 0, 100);
     return { collapsed, min, max };
   }
 
@@ -334,7 +359,7 @@ export class NphResizable extends LitElement {
   private fit(sizes: readonly number[], available: number): number[] {
     const count = this.models.length;
     const next = Array.from({ length: count }, (_, index) => {
-      const limit = this.limits(index, available);
+      const limit = this.limits(index, available, sizes);
       const value = sizes[index] ?? 0;
       if (this.collapsible(index) && value <= limit.collapsed + EPSILON) {
         return limit.collapsed;
@@ -348,7 +373,7 @@ export class NphResizable extends LitElement {
         continue;
       }
       for (let index = count - 1; index >= 0 && Math.abs(difference) > EPSILON; index -= 1) {
-        const limit = this.limits(index, available);
+        const limit = this.limits(index, available, sizes);
         const room = difference > 0 ? limit.max - (next[index] ?? 0) : (next[index] ?? 0) - limit.min;
         const take = Math.min(Math.abs(difference), Math.max(0, room)) * direction;
         next[index] = (next[index] ?? 0) + take;
@@ -369,8 +394,8 @@ export class NphResizable extends LitElement {
     if (this.models[across] === undefined) {
       return [...start];
     }
-    const own = this.limits(index, available);
-    const other = this.limits(across, available);
+    const own = this.limits(index, available, start);
+    const other = this.limits(across, available, start);
     const startOwn = start[index] ?? 0;
     const startOther = start[across] ?? 0;
     const total = startOwn + startOther;
@@ -399,17 +424,28 @@ export class NphResizable extends LitElement {
     return Math.min(own.max, total - Math.min(other.min, this.sizes[index + 1] ?? 0));
   }
 
-  /** The person changed the sizes: the group keeps them and tells the consumer, once, when they moved. */
+  /** The group writes the sizes itself: `sizes` set by anyone else is told apart by the array. */
+  private writeSizes(next: number[]): void {
+    this.own = next;
+    this.sizes = next;
+  }
+
+  /**
+   * The person changed the sizes: the group settles them inside the limits, keeps them and tells the
+   * consumer, once, what it kept. What the event says is what `sizes` holds afterwards.
+   */
   private commit(next: readonly number[]): void {
-    if (sameSizes(next, this.sizes)) {
+    const settled = this.fit(next, this.available());
+    if (sameSizes(settled, this.sizes)) {
       return;
     }
-    this.sizes = [...next];
+    this.pristine = false;
+    this.writeSizes(settled);
     this.dispatchEvent(
       new CustomEvent<NphResizableResizeDetail>(NPH_RESIZABLE_RESIZE_EVENT, {
         bubbles: true,
         composed: true,
-        detail: { sizes: this.sizes },
+        detail: { sizes: [...settled] },
       }),
     );
   }
@@ -526,9 +562,9 @@ export class NphResizable extends LitElement {
     }
     const available = this.available();
     this.defaultSizes = this.computeDefaults(available);
-    const next = this.fit(this.sizes, available);
+    const next = this.fit(this.pristine ? this.defaultSizes : this.sizes, available);
     if (!sameSizes(next, this.sizes)) {
-      this.sizes = next;
+      this.writeSizes(next);
     }
     this.requestUpdate();
   }
@@ -547,6 +583,10 @@ export class NphResizable extends LitElement {
     if (!this.valid) {
       return;
     }
+    if (changed.has('sizes') && this.sizes !== this.own) {
+      /* The consumer wrote it: an empty list asks for the default sizes again. */
+      this.pristine = !Array.isArray(this.sizes) || this.sizes.length === 0;
+    }
     const { models, invalid } = this.readPanels();
     const count = models.length;
     const previous = this.models.length;
@@ -560,7 +600,11 @@ export class NphResizable extends LitElement {
     /* The sizes of the person, or the default ones when they do not match the panels. */
     const given = Array.isArray(this.sizes) ? this.sizes : [];
     this.sizesMismatch = given.length !== 0 && given.length !== count ? `sizes has ${given.length} numbers for ${count} panels: the default sizes are used.` : '';
-    this.sizes = count === 0 ? [] : this.fit(given.length === count ? given : this.defaultSizes, available);
+    const useDefaults = this.pristine || given.length !== count;
+    if (useDefaults) {
+      this.pristine = true;
+    }
+    this.writeSizes(count === 0 ? [] : this.fit(useDefaults ? this.defaultSizes : given, available));
   }
 
   protected override updated(): void {

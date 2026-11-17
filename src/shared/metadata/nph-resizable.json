@@ -30,7 +30,7 @@
       "required": false,
       "default": "horizontal",
       "reflects": true,
-      "constraint": "The Figma property direcao. horizontal puts the panels side by side, with the vertical handle; vertical stacks them, with the horizontal handle. Reflects because the internal CSS selects the handle by it. A value outside the list, or padded with whitespace, draws nothing and emits console.error in development."
+      "constraint": "The Figma property `direcao`. horizontal puts the panels side by side, with the vertical handle; vertical stacks them, with the horizontal handle. Reflects because the internal CSS selects the handle by it. A value outside the list, or padded with whitespace, draws nothing and emits console.error in development."
     },
     "disabled": {
       "type": "boolean",
@@ -44,7 +44,7 @@
       "required": false,
       "default": false,
       "reflects": false,
-      "constraint": "The Figma property botao recolher is on by default, so the property turns it off. With it, the handle shows the line and the grip, and Enter on the handle still collapses and restores the panel. The property is hideCollapseButton."
+      "constraint": "The Figma boolean `botão recolher` is on by default, so the property turns it off. With it, the handle shows the line and the grip, and Enter on the handle still collapses and restores the panel. The property is hideCollapseButton."
     },
     "collapse-label": {
       "type": "string",
@@ -172,6 +172,7 @@
   "business_rules": [
     "Each handle controls the panel at its start: the left panel in a horizontal group, the top panel in a vertical group, the right panel in right-to-left text. With three panels, the first handle controls the first panel and the second handle controls the second. aria-controls, aria-valuenow, Enter, Home, End and the collapse button refer to that main panel.",
     "The space a collapsed panel frees goes to the panel across the same handle; with three panels, the second handle gives the space of the second panel to the third. aria-valuenow of a collapsed main panel is its collapsed size.",
+    "While the main panel of a handle is collapsed, the maximum of the panel across the handle yields, so a collapse is kept whatever that maximum says; restoring the panel brings the maximum back, and the sizes the event reports are the ones the group keeps.",
     "A handle moves the pair of panels it separates and keeps their sum. The main panel stays inside its minimum and maximum and the panel across the handle inside its own, or where it already was when it was outside them.",
     "Dragging from a collapsed panel restores it as the handle moves. A pointer that lands under the minimum settles on the nearer of the minimum and the collapsed size; the arrow key collapses the panel when it pushes it under the minimum, and brings it back to the minimum from the collapsed size.",
     "Restoring takes the size the panel had before the collapse, or its default size, never less than its minimum.",

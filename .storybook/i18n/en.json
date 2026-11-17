@@ -15816,7 +15816,7 @@
     "api": [
       [
         "direction",
-        "horizontal (default) or vertical, the Figma property direcao. horizontal puts the panels side by side with the vertical handle; vertical stacks them with the horizontal handle. Reflected to the attribute."
+        "horizontal (default) or vertical, the direction property of Figma. horizontal puts the panels side by side with the vertical handle; vertical stacks them with the horizontal handle. Reflected to the attribute."
       ],
       [
         "disabled",

@@ -8975,7 +8975,9 @@ emits `console.error` only in development, once per cause: the rule of P21. The 
 5. **The main panel and what a collapse frees (Q6).** Each handle controls the panel at its start: the left one, the
    top one, the right one in right-to-left text. With three panels the first handle controls the first and the
    second handle the second. A collapsed panel has its collapsed size (0 by default), and the space it frees goes to
-   the panel across the same handle. A panel is collapsed when its size equals its collapsed size: there is no
+   the panel across the same handle, and **the maximum of that panel yields while the collapse lasts**, so a collapse
+   is kept whatever that maximum says and restoring brings it back. What `nph-resize` reports is what the group
+   keeps: every change is settled inside the limits before it is stored and told. A panel is collapsed when its size equals its collapsed size: there is no
    collapsed property and no variant (the Figma shows it as an example). A handle moves the pair it separates and
    keeps their sum, inside the limits of both, or where the other panel already was when it was outside them.
    Restoring takes the size before the collapse, or the default size, never less than the minimum. Dragging from a
