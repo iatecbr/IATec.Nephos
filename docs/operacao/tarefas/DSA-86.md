@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 850,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-resizable",
   "dependencies": [
     "DSA-03",
@@ -34,7 +34,20 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The collapse button on a touch screen (tablet, above the breakpoint) stays compact, 28 px, by the T4 exception of the handle. If it should grow to default on touch, as the nph-popover footer does, she decides in the next approval round. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-17"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence gives no width for the handle with the collapse button off. The code keeps the handle column at control/height-compact (28 px), because the handle has one size and the drag area stays above 24 px, so the panels do not move when the button is turned off. If Figma should draw it narrower, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-17"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-86/figma-docs-accepted-2026-11-16.md"
   ],
@@ -52,8 +65,8 @@
     "converted_decision": "The nph-resizable documentation frame (5123:2641, page 1626:34) was accepted as the API and behavior specification of nph-resizable, with the visual acceptance of the root (5112:1850). COMPONENT_SET nph-resizable (5112:1849), 4 variants, and COMPONENT_SET nph-resizable handle (5099:172), 10 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-16"
+  "context": "docs/operacao/contextos/DSA-86.md",
+  "updated_at": "2026-11-17"
 }
 ```
 
