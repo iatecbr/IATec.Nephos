@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 840,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-03",
@@ -30,7 +30,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "T-1",
+      "question": "Adding the icons sidebar and repeat to nph-icon (row 1 of the table) needs the core icon list of design.md to change, because the test of nph-icon binds the map of the component to that list, and the instruction of this pass says not to edit design.md. The precedent (P119, item 14) did it under the explicit authorization of Elvys for that list only. Does Elvys authorize the edit of the two names in the core icon list (sidebar in the navigation category, repeat in the action category)? Until then the collapse button of nph-sidebar and of nph-scheduler keeps the skeleton and the recurring event keeps rotate-right. Recommended: authorize; it is two names and no token.",
+      "decider": "elvys",
+      "opened_at": "2026-11-16"
+    },
+    {
+      "id": "T-2",
+      "question": "The tokens command/offset-top and core/layout-offset/top are not on v/5.0.0 yet, and the code agent never creates a token. The build now takes a percentage dimension, written as { value: 16, unit: '%' } and emitted as 16%, and stops on any unit other than px and %. Claude in Figma brings the two tokens with that unit; then the panel of nph-command opens at that distance from the top, by a change of the CSS of the piece. Until then the panel stays centered.",
+      "decider": "indiane",
+      "opened_at": "2026-11-16"
+    },
+    {
+      "id": "D-1",
+      "question": "On the narrow width, with a step in error, nph-stepper gives nph-progress status error at the first step with an error, with step equal to that step, and a help text made of the error word, the label and the reason. The bar then shows done up to the step before the error, the error segment, and pending after it. When the error step is before the current one, the current step is drawn as pending and the bar reads 50% on four steps; when it is after the current one, the steps between are drawn as done. The text (Step N of M) and the label stay those of the current step, so the position of the bar and the text can differ. nph-progress was not changed: a bar that shows both the current step and the error would need a new property in it. Does Indiane confirm this reading of the answer of the previews, or ask for the new property?",
+      "decider": "indiane",
+      "opened_at": "2026-11-16"
+    },
+    {
+      "id": "D-2",
+      "question": "The rail button of a group that holds the current page shows the active look (background and solid icon) and carries no aria-current, because the group is a disclosure button and not a page; the current page inside its flyout panel carries aria-current page. Does Indiane confirm the active look with no aria-current on the group? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-16"
+    }
+  ],
   "evidence": [],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -38,8 +63,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
   ],
   "external_origin": null,
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-85-respostas", "commit": "21cff5ab6d96571e9dbbf1a6476f2c2e80319791", "pr": "177" },
+  "context": "docs/operacao/contextos/DSA-85.md",
   "updated_at": "2026-11-16"
 }
 ```

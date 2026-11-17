@@ -61,6 +61,7 @@ export const Types: Story = {
         { label: 'type: button · open: yes', cells: [collapsible(v, { type: 'button', open: true })] },
         { label: 'type: preview · open: no', cells: [collapsible(v, { type: 'preview', content: long })] },
         { label: 'type: preview · open: yes', cells: [collapsible(v, { type: 'preview', open: true, content: long })] },
+        { label: 'type: preview · text fits in three lines', cells: [collapsible(v, { type: 'preview' })] },
       ]),
     );
   },

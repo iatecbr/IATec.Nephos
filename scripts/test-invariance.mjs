@@ -8,7 +8,11 @@
  *
  * Run with: npm run test:tokens
  */
-import { canon, classify, buildIndex, dependents, NS } from './tokens-lib.mjs';
+import { spawnSync } from 'node:child_process';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { canon, classify, buildIndex, dependents, dimensionProblem, NS } from './tokens-lib.mjs';
 
 const MODES = ['light', 'dark'];
 const DEFAULT_MODES = { core: null, theme: 'sistemas', semantic: null };
@@ -154,7 +158,64 @@ for (const [n, ok] of guards) {
   console.log((ok ? 'PASSED ' : 'FAILED ') + n);
 }
 
+/*
+ * The units of a dimension (DSA-85, DSA-80 D-1): `px` becomes `rem`, `%` comes out as it is, and any other unit
+ * stops the build. The first part checks the rule; the second builds a copy of the real sources with a
+ * percentage in it and reads the CSS, so the proof is the output and not the function.
+ */
+const unitChecks = [
+  ['a px dimension is valid', dimensionProblem({ value: 16, unit: 'px' }) === null],
+  ['a percentage dimension is valid', dimensionProblem({ value: 16, unit: '%' }) === null],
+  ['a reference is left to the check of its target', dimensionProblem('{core.space.400}') === null],
+  ['a vh dimension is refused', dimensionProblem({ value: 16, unit: 'vh' }) !== null],
+  ['an em dimension is refused', dimensionProblem({ value: 1, unit: 'em' }) !== null],
+  ['a dimension with no unit is refused', dimensionProblem({ value: 16 }) !== null],
+  ['a dimension that is not a number is refused', dimensionProblem({ value: '16', unit: '%' }) !== null],
+  ['a literal string is refused', dimensionProblem('16%') !== null],
+];
+
+/** Builds a copy of the sources, with the core changed by `edit`, and returns the exit code, the CSS and the log. */
+function buildCopy(edit) {
+  const dir = mkdtempSync(join(tmpdir(), 'nephos-tokens-'));
+  try {
+    cpSync('src/tokens/source', join(dir, 'source'), { recursive: true });
+    const corePath = join(dir, 'source', 'core.tokens.json');
+    const core = JSON.parse(readFileSync(corePath, 'utf8'));
+    edit(core);
+    writeFileSync(corePath, JSON.stringify(core, null, 2));
+    const run = spawnSync(process.execPath, ['scripts/build-tokens.mjs'], {
+      encoding: 'utf8',
+      env: { ...process.env, NEPHOS_TOKENS_SRC: join(dir, 'source'), NEPHOS_TOKENS_OUT: join(dir, 'tokens.css') },
+    });
+    let css = '';
+    try { css = readFileSync(join(dir, 'tokens.css'), 'utf8'); } catch { /* the build stopped before writing */ }
+    return { status: run.status, css, log: run.stdout + run.stderr };
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+const addDimension = (unit) => (core) => {
+  core.core['layout-offset'] = { top: { $type: 'dimension', $value: { value: 16, unit } } };
+  core.$extensions[NS].expectedCount += 1;
+};
+
+const percent = buildCopy(addDimension('%'));
+const vh = buildCopy(addDimension('vh'));
+unitChecks.push(
+  ['the build accepts a percentage', percent.status === 0],
+  ['a percentage comes out as 16%, with no conversion', /--nph-core-layout-offset-top: 16%;/.test(percent.css)],
+  ['a px dimension still comes out in rem next to it', /--nph-core-space-400: 1rem;/.test(percent.css)],
+  ['the build stops on a vh dimension and names the token', vh.status !== 0 && /core\.layout-offset\.top/.test(vh.log) && /unit "vh" is not handled/.test(vh.log)],
+);
+
+console.log('\n=== PROOF: the units of a dimension ===');
+for (const [n, ok] of unitChecks) {
+  if (!ok) failures++;
+  console.log((ok ? 'PASSED ' : 'FAILED ') + n);
+}
+
 console.log('\n' + (failures === 0
-  ? 'RESULT: ' + (Object.keys(EXPECTED).length + Object.keys(EXPECTED_DEPENDENTS).length + guards.length) + ' checks, all passed.'
+  ? 'RESULT: ' + (Object.keys(EXPECTED).length + Object.keys(EXPECTED_DEPENDENTS).length + guards.length + unitChecks.length) + ' checks, all passed.'
   : 'RESULT: ' + failures + ' failure(s).'));
 process.exit(failures === 0 ? 0 : 1);

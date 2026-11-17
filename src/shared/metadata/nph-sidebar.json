@@ -6,7 +6,7 @@
   "use_when": [
     "For the main navigation of a product: one column on the left, with its areas and their pages.",
     "In the expanded mode, on a wide screen, when the names of the areas help the person to choose.",
-    "In the collapsed mode, when the content needs the width: the rail shows the icons with a balloon, and an item with children opens a flyout panel next to it.",
+    "In the collapsed mode, when the content needs the width: the rail shows the icons with a balloon, and an item with children opens a flyout panel next to it; the rail button of the group that holds the current page shows the active look.",
     "In the mobile mode, on a narrow screen: the menu opens over the screen, with the scrim behind, and closes with the close button.",
     "With loading, while the list of the product is still arriving.",
     "With the corner button, for the main action of the product, such as All applications.",

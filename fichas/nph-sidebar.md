@@ -11,7 +11,7 @@ solves: >-
 use_when:
   - "For the main navigation of a product: one column on the left, with its areas and their pages."
   - "In the expanded mode, on a wide screen, when the names of the areas help the person to choose."
-  - "In the collapsed mode, when the content needs the width: the rail shows the icons with a balloon, and an item with children opens a flyout panel next to it."
+  - "In the collapsed mode, when the content needs the width: the rail shows the icons with a balloon, and an item with children opens a flyout panel next to it; the rail button of the group that holds the current page shows the active look."
   - "In the mobile mode, on a narrow screen: the menu opens over the screen, with the scrim behind, and closes with the close button."
   - "With loading, while the list of the product is still arriving."
   - "With the corner button, for the main action of the product, such as All applications."
@@ -499,7 +499,7 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
 | Contrast | Every text of the menu passes 4.5:1 on its background in light and dark, in the seven brands. In some brands, in dark, the background of the active rail button stays below 3:1 against the panel; the solid icon marks it |
 | Alternative to color | The active item uses the brand color, `text/label-md` and a solid icon; the active rail button turns its icon solid; the open option uses the same color with the arrow, and the weight separates active from open. The open subgroup uses a heavier label and the arrow up; the group line is decoration, the indent and the order show the level |
 | Touch target | Item and rail button at `sidebar/item-height` and `sidebar/rail-button-size`; subitem, subgroup, option, search, collapse button and corner button at `control/height-default`; all above 24 × 24 |
-| Movement | In the panel menu the arrow turns 180 degrees and the block grows in place in `panel-menu/expand-duration` and `panel-menu/expand-easing`; with reduced motion nothing moves. The flyout panel and the mobile menu keep `motion/enter-*` and `motion/exit-*` |
+| Movement | In the panel menu the arrow of a group and of a subgroup turns 180 degrees and the block grows in place in `panel-menu/expand-duration` and `panel-menu/expand-easing`; with reduced motion nothing moves. The flyout panel and the mobile menu keep `motion/enter-*` and `motion/exit-*` |
 | Known limits | The collapse button has a skeleton in place of the `sidebar` icon until it enters `nph-icon` (task DSA-72, D-1). Forced colors and right-to-left are not treated yet. A browser that does not interpolate `grid-template-rows` opens and closes the panel menu with no movement |
 
 ## Relations
@@ -598,9 +598,9 @@ third level next to the option.
   `color/primary-text` and `color/primary`; the token table is in `docs/tokens.md`.
 - **The decisions that originated it:** P116, the API and semantics of `nph-sidebar`, which amends
   P98 for the item, the subitem and the rail button; and P124, the panel menu navigation.
-- **Pending decisions:** D-1 and D-2 of the task DSA-72, with Indiane: the `sidebar` icon in
-  `nph-icon` and the dark logo; and D-1 to D-3 of the task DSA-76: the section label in the panel
-  menu, the arrow of the group item and a page inside a group the person closed.
+- **Pending decisions:** D-2 of the task DSA-72, with Indiane: the dark logo, provisional until
+  the brand team says which version goes on a dark background. The `sidebar` icon in `nph-icon`
+  (DSA-72 D-1) is answered and still to be drawn by the collapse button.
 - **Tests:** `src/components/nph-sidebar/nph-sidebar.test.ts` and `nph-sidebar.docs.test.ts`.
 - **Usage evidence:** the required examples of the `nph-sidebar` Docs page.
 - **Storybook:** `src/components/nph-sidebar/nph-sidebar.stories.ts` and

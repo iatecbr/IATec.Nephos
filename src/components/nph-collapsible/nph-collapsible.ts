@@ -7,7 +7,8 @@
  * - `type` (the Figma `tipo`): `line` (default), `button` or `preview`. In `line` the trigger is the
  *   whole row, with the title and the chevron. In `button` the trigger is an `nph-button`, secondary
  *   ghost, with a chevron at the end, to open details from an action. In `preview` the content is shown
- *   cut at three lines and the `nph-button` below it opens the rest;
+ *   cut at three lines and the `nph-button` below it opens the rest. When the text fits in the three
+ *   lines and nothing is cut, there is nothing to open and the button is not drawn (DSA-78 D-2);
  * - `appearance` (the `aparencia`): `flush` (default, no outline) or `card`;
  * - `indicator` (the `indicador`): `end` (default) or `start`. `size`: `compact`, `default` (default) or
  *   `large`. Both are valid for the `line` type only: the `button` and `preview` types use the chevron and
@@ -133,6 +134,7 @@ export class NphCollapsible extends LitElement {
     description: { type: String },
     icon: { type: String },
     phase: { state: true },
+    fits: { state: true },
   };
 
   declare type: NphCollapsibleType;
@@ -152,12 +154,16 @@ export class NphCollapsible extends LitElement {
   declare icon: string;
   /** Growing or shrinking, or steady. Internal. */
   declare protected phase: Phase;
+  /** The preview text fits in its three lines, so nothing is cut and there is no button. Internal. */
+  declare protected fits: boolean;
 
   private valid = false;
   private reported = new Set<string>();
   private settleTimer: ReturnType<typeof setTimeout> | undefined;
   /** The trigger had the focus when the type changed, so the new trigger takes it. */
   private refocus = false;
+  /** Watches the size and the text of a preview, to tell whether the cut hides anything. */
+  private fitWatch: { resize: ResizeObserver; mutation: MutationObserver } | undefined;
   /** The page search opened the piece: the browser scrolls to the text it found, so the content opens at once. */
   private instant = false;
 
@@ -174,6 +180,7 @@ export class NphCollapsible extends LitElement {
     this.description = '';
     this.icon = '';
     this.phase = 'closed';
+    this.fits = false;
   }
 
   /* The host takes no focus of its own: `delegatesFocus` would send a click on the content to the trigger. */
@@ -192,6 +199,7 @@ export class NphCollapsible extends LitElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.unwatchFit();
     this.stopSettling();
     this.phase = this.open ? 'open' : 'closed';
   }
@@ -314,6 +322,7 @@ export class NphCollapsible extends LitElement {
   protected override updated(changed: PropertyValues<this>): void {
     this.applyHidden();
     this.wireControls();
+    this.watchFit();
     if (this.instant) this.openWithoutMovement();
 
     if (this.phase === 'opening' || this.phase === 'closing') {
@@ -349,6 +358,49 @@ export class NphCollapsible extends LitElement {
     panel.style.transition = 'none';
     void panel.offsetHeight;
     panel.style.transition = '';
+  }
+
+  /**
+   * The preview type shows its button only when the cut hides something: the natural height of the text is
+   * more than three lines (DSA-78 D-2). The text is measured, closed or open, against three line heights, and
+   * measured again when the box changes size, when the text changes and when the fonts arrive.
+   */
+  private measureFit(): void {
+    const content = this.type === 'preview' ? this.renderRoot.querySelector<HTMLElement>('.preview-content') : null;
+    if (content === null) {
+      if (this.fits) this.fits = false;
+      return;
+    }
+    const line = Number.parseFloat(getComputedStyle(content).lineHeight);
+    if (!Number.isFinite(line) || line <= 0) return;
+    /* Half a pixel of room: the height of a line is rounded by the browser. */
+    const fits = content.scrollHeight <= line * 3 + 0.5;
+    if (fits !== this.fits) this.fits = fits;
+  }
+
+  private watchFit(): void {
+    const content = this.type === 'preview' ? this.renderRoot.querySelector<HTMLElement>('.preview-content') : null;
+    if (content === null) {
+      this.unwatchFit();
+      if (this.fits) this.fits = false;
+      return;
+    }
+    if (this.fitWatch === undefined) {
+      const measure = (): void => this.measureFit();
+      const resize = new ResizeObserver(measure);
+      const mutation = new MutationObserver(measure);
+      resize.observe(content);
+      mutation.observe(this, { childList: true, characterData: true, subtree: true });
+      this.fitWatch = { resize, mutation };
+      void document.fonts?.ready.then(measure);
+    }
+    this.measureFit();
+  }
+
+  private unwatchFit(): void {
+    this.fitWatch?.resize.disconnect();
+    this.fitWatch?.mutation.disconnect();
+    this.fitWatch = undefined;
   }
 
   /** The `nph-button` trigger points to the content by its `controls`, an element: an `id` cannot cross a shadow root. */
@@ -493,7 +545,7 @@ export class NphCollapsible extends LitElement {
   private renderPreview(): TemplateResult {
     return html`<div class="preview">
       <div class="preview-content" id=${CONTENT_ID} data-clamped=${this.open ? nothing : ''}><slot></slot></div>
-      ${this.renderButtonTrigger()}
+      ${this.fits ? nothing : this.renderButtonTrigger()}
     </div>`;
   }
 

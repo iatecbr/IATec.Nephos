@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=f671b293e34f31613d48567efcfa3c3a3d9f03ea0f9c6923005264e6d653346f | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=7f2a70b17fc1070d2d81674de9938c991921e5c5e2ffbf61a65fb5b0f220f345 | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -381,6 +381,14 @@ El build **falla** — con código 1 y mensaje específico — cuando:
    modo;
 9. un invariante dependiente queda fuera del bloque
    `:root, [data-nph-color-scheme]`, o uno independiente entra en él.
+
+**En la fuente, añadido el 16/11/2026 (DSA-85)**
+
+10. una `dimension` trae una unidad distinta de `px` o `%`, o un valor que no es
+    un número finito. Una dimensión en `px` sale en `rem` (salvo las familias que
+    quedan en `px`, arriba); una dimensión en `%` sale tal cual, como `16%`, porque
+    el porcentaje no tiene equivalente en `rem`. La prueba de `npm run test:tokens`
+    arma una copia de las fuentes con un porcentaje y lee el CSS.
 
 ## Qué queda fuera de esta ronda
 

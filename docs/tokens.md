@@ -371,6 +371,14 @@ The build **fails** — with exit code 1 and a specific message — when:
 9. a dependent invariant is outside the `:root, [data-nph-color-scheme]` block,
    or an independent one is inside it.
 
+**In the source, added on 16/11/2026 (DSA-85)**
+
+10. a `dimension` carries a unit other than `px` or `%`, or a value that is not a
+    finite number. A `px` dimension comes out in `rem` (except the families that stay in
+    `px`, above); a `%` dimension comes out as it is, such as `16%`, because a percentage
+    has no `rem` equivalent. The proof of `npm run test:tokens` builds a copy of the sources
+    with a percentage in it and reads the CSS.
+
 ## Out of scope for this round
 
 | Item | Status |

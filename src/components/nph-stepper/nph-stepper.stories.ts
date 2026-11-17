@@ -168,7 +168,7 @@ export const Width: Story = {
   },
 };
 
-/** Below 600 px of its own width the stepper becomes `nph-progress` of the steps type, with "Step 2 of 4" and the current label. */
+/** Below 600 px of its own width the stepper becomes `nph-progress` of the steps type, with "Step 2 of 4" and the current label; a step with an error gives the bar the error status. */
 export const Narrow: Story = {
   name: 'Narrow',
   render: (_args, context: GlobalsContext) => {
@@ -179,6 +179,7 @@ export const Narrow: Story = {
       matrix(validationTitle(context, 'nph-stepper', page('narrow').storyId), [], [
         { label: 'width: 20rem', cells: [stepper(v, { current: 2, width: NARROW_WIDTH })] },
         { label: 'width: 20rem · steps: 7', cells: [stepper(v, { steps: [...signUpSteps(v), ...v.threeSteps.map((label) => ({ label }))], current: 5, width: NARROW_WIDTH })] },
+        { label: 'width: 20rem · status: error', cells: [stepper(v, { steps: errorSteps(v), current: 3, width: NARROW_WIDTH })] },
         { label: 'width: 40rem', cells: [stepper(v, { current: 2, width: MATRIX_WIDTH })] },
       ]),
     );

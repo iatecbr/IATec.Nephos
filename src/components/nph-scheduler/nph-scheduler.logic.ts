@@ -335,7 +335,7 @@ export function coversDay(event: Occurrence, day: Day): boolean {
 
 /**
  * The shortest stretch of a day an event takes on the grid, in minutes: the minimum height of 24 px
- * (`scheduler/event-min-height`) over the height of an hour, which the CSS makes twice that height.
+ * (`scheduler/event-min-height`) over the height of an hour (`scheduler/hour-height`, twice that height).
  * The layout uses it to know when two events touch; the test of the CSS holds the two together.
  */
 export const MIN_VISUAL_MINUTES = 30;

@@ -8,13 +8,13 @@
  * flex and grid relations, and the half of a mark), `auto`, `none`, `100%` (the columns fill the width
  * they receive), `transparent` (no background at rest), `nowrap`, `ellipsis` and `max-content` (one line
  * and the width the mini month decides), `calc(-1 * ...)` (the room of the focus border and halo outside
- * a part), `2` (the hour is twice the minimum height of an event: a half hour fits the minimum, and
- * `MIN_VISUAL_MINUTES` in the logic file holds the two together), `24` (the hours of a day), `4` (the
- * month rows have at least four minimum heights), `7` (the days of a week), `1` (the `z-index` that keeps
+ * a part), `24` (the hours of a day), `7` (the days of a week), `1` (the `z-index` that keeps
  * the day header over the grid it scrolls over) and `1px` (the visually hidden box of the live region).
- * The width of the time of a list row is three times `scheduler/time-column-width`, the one of a phone row
- * is one and a half times it, and the cell of the mini month is `control/height-compact`: no token states
- * them (D-3 of the task).
+ * The five measures that were derived from other tokens have their own: the hour is
+ * `scheduler/hour-height`, the month row has at least `scheduler/month-row-min-height`, the time of a
+ * list row is `scheduler/list-time-width` (`scheduler/list-time-width-compact` on a phone) and the cell of
+ * the mini month is `scheduler/mini-month-cell-size` (DSA-85, from DSA-77 D-3). `MIN_VISUAL_MINUTES`
+ * in the logic file holds the hour and the minimum event height together, and a test checks it.
  */
 
 :host {
@@ -483,7 +483,7 @@ button {
 /* ----- the week and day views ---------------------------------------------------------- */
 
 .scroll {
-  --_hour: calc(var(--nph-scheduler-event-min-height) * 2);
+  --_hour: var(--nph-scheduler-hour-height);
   position: relative;
   flex: 1;
   min-block-size: 0;
@@ -745,7 +745,7 @@ button {
 .cell-events {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-template-rows: repeat(var(--_weeks), minmax(calc(var(--nph-scheduler-event-min-height) * 4), 1fr));
+  grid-template-rows: repeat(var(--_weeks), minmax(var(--nph-scheduler-month-row-min-height), 1fr));
   min-block-size: 100%;
 }
 
@@ -905,7 +905,7 @@ button {
 
 .row-time {
   flex: none;
-  inline-size: calc(var(--nph-scheduler-time-column-width) * 3);
+  inline-size: var(--nph-scheduler-list-time-width);
   white-space: nowrap;
   color: var(--nph-scheduler-time-foreground);
   font-family: var(--nph-text-label-sm-font-family);
@@ -1005,12 +1005,12 @@ button {
 }
 
 .date-grid[data-kind='mini'] .grid-cell {
-  inline-size: var(--nph-control-height-compact);
-  block-size: var(--nph-control-height-compact);
+  inline-size: var(--nph-scheduler-mini-month-cell-size);
+  block-size: var(--nph-scheduler-mini-month-cell-size);
 }
 
 .date-grid[data-kind='mini'] .grid-head {
-  inline-size: var(--nph-control-height-compact);
+  inline-size: var(--nph-scheduler-mini-month-cell-size);
 }
 
 .date-grid[data-kind='compact'] {
@@ -1127,7 +1127,7 @@ button {
 
 .day-row-time {
   flex: none;
-  inline-size: calc(var(--nph-scheduler-time-column-width) * 3 / 2);
+  inline-size: var(--nph-scheduler-list-time-width-compact);
   white-space: nowrap;
   padding-block-start: var(--nph-scheduler-event-padding-y);
   color: var(--nph-scheduler-time-foreground);

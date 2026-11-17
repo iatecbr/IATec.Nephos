@@ -31,7 +31,8 @@ api:
       The Figma property `tipo`. line is the trigger as the whole row, with the title and the
       chevron. button is an nph-button, secondary ghost, in the default size, with the chevron at
       the end, to open details from an action. preview shows the content cut at three lines while
-      closed and the nph-button below it opens the rest. A value outside the list draws nothing and
+      closed and the nph-button below it opens the rest; when the text fits in the three lines, nothing
+      is cut and the button is not drawn. A value outside the list draws nothing and
       emits console.error in development.
   appearance:
     type: enum
@@ -175,7 +176,7 @@ business_rules:
   - "Open, the content pushes down what comes below and covers nothing. It does not flip, shrink or cut near the edge of the window."
   - "The whole trigger is clickable. The content starts collapsible/content-padding-top below it, so the focus halo does not touch the content."
   - "With the indicator at the start, or the start icon on, the open content indents to the title by the size of each part plus the gap."
-  - "The preview type cuts the text at three lines while closed and shows it whole when open; it does not grow, and the button swaps its text and its chevron."
+  - "The preview type cuts the text at three lines while closed and shows it whole when open; it does not grow, and the button swaps its text and its chevron. When the text fits in the three lines nothing is cut, and the button is not drawn."
   - "The piece keeps its state: the person changes open, the event says so, and the page may set it. It closes on no outside click and on no Escape."
   - "A pending item in a closed step goes in the description, in text, such as 2 fields missing. Error, warning and a pending required field are not hidden in closed content."
   - "Several one under the other are separated by space/stack, in the same column and the same width, with no divider."
@@ -328,7 +329,9 @@ not jump to the content. With forced colors, the trigger keeps an outline in the
 
 **Movement:** the content grows and the chevron turns in `collapsible/expand-duration` with
 `collapsible/expand-easing`. With reduced motion, nothing moves. The preview type does not grow: a
-cut of lines is not a size, so the cut is lifted and the text of the button changes.
+cut of lines is not a size, so the cut is lifted and the text of the button changes. The button is
+drawn only when the cut hides something: the piece measures the text against three line heights,
+and again when the width, the text or the fonts change.
 
 **Business rule the piece carries:**
 
@@ -361,7 +364,7 @@ the type is ignored and warned once. No `label` is a mount: nothing is drawn and
 | Touch target | The trigger takes the whole row, 28, 36 or 44 high, all above 24. The button and preview types take the target of the `nph-button` |
 | Movement | The content grows and the chevron turns in `collapsible/expand-duration`; with reduced motion nothing moves, and the state color, the focus and the content in view stay |
 | Page search | Closed content with `hidden="until-found"` is found by the search of the page, which opens the piece and fires `nph-toggle` |
-| Known limits | (a) The trigger of the button and preview types is an `nph-button` that carries `aria-expanded` and gets `controls`, an element, which it gives to its native button, because an id reference does not cross a shadow root (P121, amends P68 after P111 and P116). (b) The preview type holds text: a link or a button inside the cut part stays in the Tab order though its line is hidden. (c) The preview type shows its button even when the text has fewer than three lines. (d) The content grows by the rows of a grid, which animates height; the accepted contract asks for the growth and `design.md` says to animate only opacity and transform, a divergence that waits for Indiane. When the page search opens the content, it opens at once, with no growth. (e) In a browser without the element reflection of ARIA, the `aria-controls` of the button and preview types is not exposed, and neither is the one of the sidebar pieces |
+| Known limits | (a) The trigger of the button and preview types is an `nph-button` that carries `aria-expanded` and gets `controls`, an element, which it gives to its native button, because an id reference does not cross a shadow root (P121, amends P68 after P111 and P116). (b) The preview type holds text: a link or a button inside the cut part stays in the Tab order though its line is hidden. (c) The preview type draws no button when the text fits in the three lines, which the piece decides by measuring it; a text that grows later brings the button back. (d) The content grows by the rows of a grid, which animates height; the accepted contract asks for the growth and `design.md` says to animate only opacity and transform, a divergence that waits for Indiane. When the page search opens the content, it opens at once, with no growth. (e) In a browser without the element reflection of ARIA, the `aria-controls` of the button and preview types is not exposed, and neither is the one of the sidebar pieces |
 
 ## Relations
 

@@ -863,9 +863,7 @@ export class NphSidebar extends LitElement {
       return;
     }
     this.phases.set(key, open ? 'opening' : 'closing');
-    if (key.includes('/')) {
-      this.turning.add(key);
-    }
+    this.turning.add(key);
   }
 
   private stopMoving(key: string): void {
@@ -903,12 +901,24 @@ export class NphSidebar extends LitElement {
     }
   }
 
-  /** The arrow of a subgroup turns 180 degrees as the block moves: the new arrow comes in from the old one's side. */
+  /**
+   * The arrow of a subgroup and the arrow of a first-level group turn 180 degrees as the block moves: the new arrow
+   * comes in from the old one's side (DSA-76 D-2, so the menu has one behavior). The subgroup is a button of this
+   * menu; the arrow of the group is in the shadow root of its `nph-sidebar-item`, which is open (P01), so the menu
+   * turns it from here with the duration and the curve of the block. The item gets no property for it: the
+   * flyout navigation keeps the swap without turning.
+   */
   private turnArrows(): void {
     for (const key of this.turning) {
-      const button = [...this.renderRoot.querySelectorAll<HTMLElement>('.subgroup')].find((candidate) => candidate.dataset['key'] === key);
       const block = this.blockElement(key);
-      const arrow = button?.querySelector<HTMLElement>('.subgroup-arrow');
+      let arrow: HTMLElement | null | undefined;
+      if (key.includes('/')) {
+        const button = [...this.renderRoot.querySelectorAll<HTMLElement>('.subgroup')].find((candidate) => candidate.dataset['key'] === key);
+        arrow = button?.querySelector<HTMLElement>('.subgroup-arrow');
+      } else {
+        const item = block?.closest('.entry')?.querySelector<HTMLElement>(':scope > nph-sidebar-item');
+        arrow = item?.shadowRoot?.querySelector<HTMLElement>('.arrow');
+      }
       if (arrow !== null && arrow !== undefined && block !== null && typeof arrow.animate === 'function') {
         const style = getComputedStyle(block);
         arrow.animate([{ transform: 'rotate(180deg)' }, { transform: 'rotate(0deg)' }], {
@@ -1301,6 +1311,7 @@ export class NphSidebar extends LitElement {
         type="group"
         label=${trimmed(row.entry.label)}
         icon=${trimmed(row.entry.icon)}
+        ?active=${row.children.some((child) => NphSidebar.holdsCurrent(child))}
         ?expanded=${open}
         ?disabled=${row.entry.disabled === true}
         @nph-toggle=${(event: CustomEvent<{ expanded: boolean }>) => this.onSecondToggle(event, path)}

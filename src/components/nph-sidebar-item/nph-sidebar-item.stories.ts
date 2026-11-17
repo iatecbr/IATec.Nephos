@@ -181,7 +181,7 @@ export const Subitem: Story = {
   },
 };
 
-/** The rail button: counter off and on, at rest, active and disabled, and the group, the disclosure of an item with children, closed, open and disabled. */
+/** The rail button: counter off and on, at rest, active and disabled, and the group, the disclosure of an item with children, closed, open and disabled, and the group that holds the current page. */
 export const RailButton: Story = {
   name: 'Rail button',
   render: (_args, context: GlobalsContext) => {
@@ -196,11 +196,12 @@ export const RailButton: Story = {
         ?active=${state.active ?? false}
         ?disabled=${state.disabled ?? false}
       ></nph-sidebar-rail-button>`;
-    const group = (state: { expanded?: boolean; disabled?: boolean } = {}): TemplateResult =>
+    const group = (state: { active?: boolean; expanded?: boolean; disabled?: boolean } = {}): TemplateResult =>
       html`<nph-sidebar-rail-button
         type="group"
         label=${v.group.label}
         icon=${v.group.icon}
+        ?active=${state.active ?? false}
         ?expanded=${state.expanded ?? false}
         ?disabled=${state.disabled ?? false}
       ></nph-sidebar-rail-button>`;
@@ -217,6 +218,7 @@ export const RailButton: Story = {
               cells: [cell(counter), cell(counter, { active: true }), cell(counter, { disabled: true })],
             })),
             { label: 'type: group', cells: [group(), group({ expanded: true }), group({ disabled: true })] },
+            { label: 'type: group · current page inside', cells: [group({ active: true }), group({ active: true, expanded: true }), group({ active: true, disabled: true })] },
           ],
         ),
       ),

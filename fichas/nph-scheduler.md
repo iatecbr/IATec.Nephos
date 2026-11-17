@@ -491,19 +491,19 @@ tokens:
   container: "scheduler/background, scheduler/border, scheduler/border-width, scheduler/radius, scheduler/padding, scheduler/foreground"
   toolbar: "scheduler/toolbar-padding-y, scheduler/toolbar-gap, scheduler/sidebar-gap"
   day: "scheduler/day-label-foreground, scheduler/day-label-padding-y, scheduler/day-header-gap, scheduler/day-padding, scheduler/day-radius, scheduler/today-foreground, scheduler/today-indicator, scheduler/today-indicator-width"
-  time_grid: "scheduler/time-column-width, scheduler/time-foreground, scheduler/grid-line, scheduler/now-indicator, scheduler/now-indicator-width, scheduler/now-indicator-size, scheduler/now-foreground"
+  time_grid: "scheduler/time-column-width, scheduler/hour-height, scheduler/time-foreground, scheduler/grid-line, scheduler/now-indicator, scheduler/now-indicator-width, scheduler/now-indicator-size, scheduler/now-foreground"
   event_primary: "scheduler/event-background, scheduler/event-foreground, scheduler/event-background-hover, scheduler/event-foreground-hover, scheduler/event-indicator, scheduler/event-indicator-width"
   event_shape: "scheduler/event-radius, scheduler/event-min-height, scheduler/event-padding-x, scheduler/event-padding-y, scheduler/event-gap, scheduler/event-icon-size, scheduler/event-border-width"
   event_cancelled: "scheduler/event-cancelled-background, scheduler/event-cancelled-border, scheduler/event-cancelled-foreground"
   event_colors: "scheduler/event-<color>-background, scheduler/event-<color>-foreground, scheduler/event-<color>-indicator, scheduler/event-<color>-background-hover, scheduler/event-<color>-foreground-hover, scheduler/event-<color>-focus-border, scheduler/event-<color>-focus-halo, for each of sistemas, gerencial, educacao, comercial, financeiro, igrejas and rh"
   event_semantic: "event/<color>-surface, event/<color>-on-surface, event/<color>-indicator, event/<color>-surface-hover, event/<color>-on-surface-hover, event/<color>-focus-border, event/<color>-focus-halo, which the scheduler/event-<color>-* tokens alias"
-  month: "scheduler/month-cell-padding-x, scheduler/month-cell-padding-y, scheduler/month-cell-gap, scheduler/more-height"
-  list: "scheduler/list-gap, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/list-item-padding"
-  compact_month: "scheduler/event-dot, scheduler/event-dot-size, scheduler/event-dot-selected, scheduler/day-selected-background, scheduler/day-selected-foreground"
+  month: "scheduler/month-cell-padding-x, scheduler/month-cell-padding-y, scheduler/month-cell-gap, scheduler/month-row-min-height, scheduler/more-height"
+  list: "scheduler/list-gap, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/list-item-padding, scheduler/list-time-width, scheduler/list-time-width-compact"
+  compact_month: "scheduler/mini-month-cell-size, scheduler/event-dot, scheduler/event-dot-size, scheduler/event-dot-selected, scheduler/day-selected-background, scheduler/day-selected-foreground"
   empty: "scheduler/empty-gap, scheduler/empty-icon-size"
   focus: "scheduler/focus-border, scheduler/focus-border-width, scheduler/focus-border-radius, scheduler/focus-halo, scheduler/focus-halo-width, scheduler/focus-halo-radius"
   typography: "text/label-sm (the event title), text/caption (the event time), text/label-md and text/label-md-strong (the day numbers and the title of the chosen day), text/heading-sm (the month label on a phone), text/body-md (the list row and the container)"
-  other_semantic: "the CSS also reads control/height-default, control/height-compact, icon/size-sm, icon/size-md, radius/control, radius/full, space/inline-tight, space/stack-snug, color/secondary-foreground and icon-button/secondary-ghost-background-hover directly, for the sidebar button, the mini month cell and the calendar dot, where no scheduler/* token has the role"
+  other_semantic: "the CSS also reads control/height-default, icon/size-sm, icon/size-md, radius/control, radius/full, space/inline-tight, space/stack-snug, color/secondary-foreground and icon-button/secondary-ghost-background-hover directly, for the sidebar button and the calendar dot, where no scheduler/* token has the role"
 ai_hints:
   - "Use nph-scheduler to show the events of a calendar over time; to choose a date in a form use the date picker, and for tasks with no time use a list or a table."
   - "Own the data: set events, calendars and labels, and change view and date when nph-view-change and nph-date-change fire. The piece writes them itself when the person acts, and fires nothing when code sets them."
@@ -691,11 +691,11 @@ buttons of the mini month), `nph-select` (the view), `nph-checkbox` (one per cal
 | Container and side panel | `scheduler/background`, `scheduler/border`, `scheduler/border-width`, `scheduler/radius`, `scheduler/padding`, `scheduler/sidebar-gap` |
 | Toolbar | `scheduler/toolbar-padding-y`, `scheduler/toolbar-gap` |
 | Day header and today | `scheduler/day-*`, `scheduler/today-*` |
-| Time grid and now line | `scheduler/time-*`, `scheduler/grid-line`, `scheduler/now-*` |
+| Time grid and now line | `scheduler/time-*`, `scheduler/hour-height`, `scheduler/grid-line`, `scheduler/now-*` |
 | Event, primary | `scheduler/event-*`, `scheduler/event-cancelled-*` |
 | Event, other colors | `scheduler/event-<color>-*`, which alias `event/<color>-*` |
 | Month and list | `scheduler/month-*`, `scheduler/more-height`, `scheduler/list-*` |
-| Compact month | `scheduler/event-dot*`, `scheduler/day-selected-*` |
+| Mini month and compact month | `scheduler/mini-month-cell-size`, `scheduler/event-dot*`, `scheduler/day-selected-*` |
 | Empty | `scheduler/empty-*` |
 | Focus | `scheduler/focus-*` |
 | Typography | `text/label-sm`, `text/caption`, `text/label-md`, `text/label-md-strong`, `text/heading-sm`, `text/body-md` |
@@ -704,9 +704,11 @@ buttons of the mini month), `nph-select` (the view), `nph-checkbox` (one per cal
 a token, and each color of an event is bound to its own `scheduler/event-<color>-*`, never to the
 semantic token it points to. The piece has no shadow: in dark mode the elevation is the background,
 `color/card` over `color/background`. The CSS also reads a few semantic tokens directly, for the
-sidebar button, the cell of the mini month and the calendar dot, where no `scheduler/*` token has
-the role; they are listed in the YAML. The height of the hour is twice the minimum height of an
-event, so a half hour fits the minimum.
+sidebar button and the calendar dot, where no `scheduler/*` token has the role; they are listed in
+the YAML. The hour, the month row, the time of a list row (wide and compact) and the cell of the
+mini month have their own tokens, so changing `scheduler/event-min-height` moves none of them. The
+hour is twice the minimum height of an event, so a half hour fits the minimum, and a test holds the
+two together.
 
 **Provisional parts:** the mini month and the compact month are the date grid of the scheduler
 itself, until the date picker has its grid; the sidebar button draws an `nph-skeleton` where the

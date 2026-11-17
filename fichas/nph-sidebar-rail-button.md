@@ -22,7 +22,7 @@ api:
     constraint: >-
       link leads to a page through href; group is the rail button of an item with children: a
       disclosure button that opens the flyout panel of nph-sidebar (P116). A group has no
-      href, no counter and is never active. Reflects because the CSS reads it. Any other
+      href and no counter. It is active when the current page is inside it. Reflects because the CSS reads it. Any other
       value draws nothing and emits console.error in development.
   label:
     type: string
@@ -57,7 +57,9 @@ api:
     reflects: true
     constraint: >-
       The current page: aria-current="page", sidebar/rail-background-active and the solid
-      icon in sidebar/rail-foreground-active. It does not exist in a group.
+      icon in sidebar/rail-foreground-active. In a group it means that the current page is one of
+      its children: the same background and solid icon, with no aria-current, because the group is
+      not a page.
   counter:
     type: number
     required: false
@@ -111,7 +113,7 @@ variants:
     axis: appearance
     choose_when: "link to lead to a page; group for an item with children, which opens the flyout panel."
     do_not_combine_with:
-      - "group with href, counter or active."
+      - "group with href or counter."
 states:
   rest:
     token: sidebar/item-foreground
@@ -162,7 +164,7 @@ invalid_combinations:
   - "A rail button without label — it would have no name."
   - "An icon empty or outside the core — the rail button draws nothing."
   - "A rail button without href, unless disabled or a group — it leads nowhere."
-  - "A group with href, counter or active — a group opens a flyout panel and is never the current page."
+  - "A group with href or counter — a group opens a flyout panel and is not a page."
   - "A type outside link and group — the rail button draws nothing."
   - "A counter that is not a whole number from zero up — the counter shows a number only."
 relations:
@@ -223,7 +225,7 @@ corner (D-1).
 | group | `type="group"` | The item has children: the button opens the flyout panel |
 
 **Do not combine with:** a way to turn the balloon off — it is always on; a group with
-`href`, `counter` or `active`.
+`href` or `counter`.
 
 ## States
 
@@ -233,6 +235,7 @@ corner (D-1).
 | `hover` | `sidebar/rail-background-hover` | The button background; the balloon opens after the wait |
 | `active` | `sidebar/rail-background-active`, `sidebar/rail-foreground-active` | The background and the solid icon; the counter gains a 4 px outline in `sidebar/panel-background` (D-2) |
 | open group | `sidebar/rail-background-hover` | The hover background and the solid icon while its flyout panel is open |
+| group with the current page | `sidebar/rail-background-active`, `sidebar/rail-foreground-active` | The active background and the solid icon, with no `aria-current`; it wins over the open look |
 | `focus` | `focus/border`, `focus/halo` | Border `border/width` and halo `focus/ring-width` around the button; the balloon opens at once |
 | `disabled` | `state/disabled-opacity` | The whole button fades, with no hover and no balloon, out of the Tab order |
 
