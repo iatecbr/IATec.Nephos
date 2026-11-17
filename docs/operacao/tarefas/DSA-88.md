@@ -111,8 +111,8 @@ The code does not create a token or change a token value. It does not change Fig
 - WAI-ARIA APG, Link: https://www.w3.org/WAI/ARIA/apg/patterns/link/
 - WAI-ARIA APG, Menu Button: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 - Inclusive Components, Cards: https://inclusive-components.design/cards/
-- Adrian Roselli, Block Links, Cards, Clickable Regions: https://adrianroselli.com/2020/02/block-links-cards-clickable-regions-etc.html
-- Adrian Roselli, More Accessible Skeletons: https://adrianroselli.com/2020/11/more-accessible-skeletons.html
+- Block Links, Cards, Clickable Regions: https://adrianroselli.com/2020/02/block-links-cards-clickable-regions-etc.html
+- More Accessible Skeletons: https://adrianroselli.com/2020/11/more-accessible-skeletons.html
 - WCAG 2.2, target size (minimum): https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html
 - MDN, container queries: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries
 - Custom Elements Manifest: https://github.com/webcomponents/custom-elements-manifest
