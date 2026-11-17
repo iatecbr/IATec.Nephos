@@ -169,7 +169,7 @@ button {
   flex: none;
 }
 
-/* The sidebar button keeps the place of the `sidebar` icon with a skeleton (D-2), with the look of the secondary ghost. */
+/* The sidebar button draws the `sidebar` icon (DSA-77 D-2), with the look of the secondary ghost. */
 .side-toggle {
   position: relative;
   display: inline-flex;
@@ -191,10 +191,6 @@ button {
   display: block;
   inline-size: var(--nph-icon-size-md);
   block-size: var(--nph-icon-size-md);
-}
-
-.side-toggle-place nph-skeleton {
-  block-size: 100%;
 }
 
 /* ----- the focus: the same border and halo on every part that takes it ----------------- */

@@ -542,11 +542,11 @@ describe('the side panel and the calendars', () => {
     expect((part(hidden, '.body') as HTMLElement).getBoundingClientRect().width).toBeGreaterThan((part(shown, '.body') as HTMLElement).getBoundingClientRect().width);
   });
 
-  it('the sidebar button keeps the place of the icon with a skeleton, until `sidebar` is in nph-icon (D-2)', async () => {
+  it('the sidebar button draws the `sidebar` icon (DSA-77 D-2)', async () => {
     const element = await mount();
     const toggle = part(element, '.side-toggle') as HTMLElement;
-    expect(toggle.querySelector('nph-skeleton')).not.toBeNull();
-    expect(toggle.querySelector('nph-icon')).toBeNull();
+    expect(toggle.querySelector('nph-icon')?.getAttribute('name')).toBe('sidebar');
+    expect(toggle.querySelector('nph-skeleton')).toBeNull();
     expect(part(element, 'nph-tooltip[for="side-toggle"]')?.getAttribute('relation')).toBe('name');
   });
 
@@ -727,7 +727,7 @@ describe('the event', () => {
     const element = await mount({ view: 'week' });
     const item = eventByTitle(element, 'Team stand-up', 'grid');
     const icon = item.querySelector('nph-icon.repeat') as HTMLElement;
-    expect(icon.getAttribute('name')).toBe('rotate-right');
+    expect(icon.getAttribute('name')).toBe('repeat');
     expect(item.querySelector('.title-row')?.lastElementChild).toBe(icon);
     expect(item.getAttribute('aria-label')).toContain('repeats');
     expect(eventByTitle(element, 'Interview', 'grid').querySelector('nph-icon.repeat')).toBeNull();

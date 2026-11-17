@@ -32,12 +32,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "T-1",
-      "question": "Adding the icons sidebar and repeat to nph-icon (row 1 of the table) needs the core icon list of design.md to change, because the test of nph-icon binds the map of the component to that list, and the instruction of this pass says not to edit design.md. The precedent (P119, item 14) did it under the explicit authorization of Elvys for that list only. Does Elvys authorize the edit of the two names in the core icon list (sidebar in the navigation category, repeat in the action category)? Until then the collapse button of nph-sidebar and of nph-scheduler keeps the skeleton and the recurring event keeps rotate-right. Recommended: authorize; it is two names and no token.",
-      "decider": "elvys",
-      "opened_at": "2026-11-16"
-    },
-    {
       "id": "T-2",
       "question": "The tokens command/offset-top and core/layout-offset/top are not on v/5.0.0 yet, and the code agent never creates a token. The build now takes a percentage dimension, written as { value: 16, unit: '%' } and emitted as 16%, and stops on any unit other than px and %. Claude in Figma brings the two tokens with that unit; then the panel of nph-command opens at that distance from the top, by a change of the CSS of the piece. Until then the panel stays centered.",
       "decider": "indiane",

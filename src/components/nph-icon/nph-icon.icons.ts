@@ -128,12 +128,16 @@ import { faPaperclip as lPaperclip } from '@fortawesome/pro-light-svg-icons/faPa
 import { faPaperclip as sPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
 import { faPen as lPen } from '@fortawesome/pro-light-svg-icons/faPen';
 import { faPen as sPen } from '@fortawesome/pro-solid-svg-icons/faPen';
+import { faSidebar as lSidebar } from '@fortawesome/pro-light-svg-icons/faSidebar';
+import { faSidebar as sSidebar } from '@fortawesome/pro-solid-svg-icons/faSidebar';
 import { faPrint as lPrint } from '@fortawesome/pro-light-svg-icons/faPrint';
 import { faPrint as sPrint } from '@fortawesome/pro-solid-svg-icons/faPrint';
 import { faRightFromBracket as lRightFromBracket } from '@fortawesome/pro-light-svg-icons/faRightFromBracket';
 import { faRightFromBracket as sRightFromBracket } from '@fortawesome/pro-solid-svg-icons/faRightFromBracket';
 import { faRightToBracket as lRightToBracket } from '@fortawesome/pro-light-svg-icons/faRightToBracket';
 import { faRightToBracket as sRightToBracket } from '@fortawesome/pro-solid-svg-icons/faRightToBracket';
+import { faRepeat as lRepeat } from '@fortawesome/pro-light-svg-icons/faRepeat';
+import { faRepeat as sRepeat } from '@fortawesome/pro-solid-svg-icons/faRepeat';
 import { faRotateRight as lRotateRight } from '@fortawesome/pro-light-svg-icons/faRotateRight';
 import { faRotateRight as sRotateRight } from '@fortawesome/pro-solid-svg-icons/faRotateRight';
 import { faShare as lShare } from '@fortawesome/pro-light-svg-icons/faShare';
@@ -262,6 +266,7 @@ export const NPH_ICON_NAMES = [
   'calendar-days',
   'user',
   'house',
+  'sidebar',
   'angle-left',
   'arrow-down-to-line',
   'arrow-left-to-line',
@@ -285,6 +290,7 @@ export const NPH_ICON_NAMES = [
   'paperclip',
   'pen',
   'print',
+  'repeat',
   'right-from-bracket',
   'right-to-bracket',
   'rotate-right',
@@ -392,6 +398,7 @@ const GLYPHS = {
   'calendar-days': glyph(lCalendarDays, sCalendarDays),
   user: glyph(lUser, sUser),
   house: glyph(lHouse, sHouse),
+  sidebar: glyph(lSidebar, sSidebar),
   'angle-left': glyph(lAngleLeft, sAngleLeft),
   'arrow-down-to-line': glyph(lArrowDownToLine, sArrowDownToLine),
   'arrow-left-to-line': glyph(lArrowLeftToLine, sArrowLeftToLine),
@@ -415,6 +422,7 @@ const GLYPHS = {
   paperclip: glyph(lPaperclip, sPaperclip),
   pen: glyph(lPen, sPen),
   print: glyph(lPrint, sPrint),
+  repeat: glyph(lRepeat, sRepeat),
   'right-from-bracket': glyph(lRightFromBracket, sRightFromBracket),
   'right-to-bracket': glyph(lRightToBracket, sRightToBracket),
   'rotate-right': glyph(lRotateRight, sRotateRight),

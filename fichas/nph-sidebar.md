@@ -500,7 +500,7 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
 | Alternative to color | The active item uses the brand color, `text/label-md` and a solid icon; the active rail button turns its icon solid; the open option uses the same color with the arrow, and the weight separates active from open. The open subgroup uses a heavier label and the arrow up; the group line is decoration, the indent and the order show the level |
 | Touch target | Item and rail button at `sidebar/item-height` and `sidebar/rail-button-size`; subitem, subgroup, option, search, collapse button and corner button at `control/height-default`; all above 24 × 24 |
 | Movement | In the panel menu the arrow of a group and of a subgroup turns 180 degrees and the block grows in place in `panel-menu/expand-duration` and `panel-menu/expand-easing`; with reduced motion nothing moves. The flyout panel and the mobile menu keep `motion/enter-*` and `motion/exit-*` |
-| Known limits | The collapse button has a skeleton in place of the `sidebar` icon until it enters `nph-icon` (task DSA-72, D-1). Forced colors and right-to-left are not treated yet. A browser that does not interpolate `grid-template-rows` opens and closes the panel menu with no movement |
+| Known limits | Forced colors and right-to-left are not treated yet. A browser that does not interpolate `grid-template-rows` opens and closes the panel menu with no movement |
 
 ## Relations
 
@@ -600,7 +600,7 @@ third level next to the option.
   P98 for the item, the subitem and the rail button; and P124, the panel menu navigation.
 - **Pending decisions:** D-2 of the task DSA-72, with Indiane: the dark logo, provisional until
   the brand team says which version goes on a dark background. The `sidebar` icon in `nph-icon`
-  (DSA-72 D-1) is answered and still to be drawn by the collapse button.
+  (DSA-72 D-1) is answered and drawn by the collapse button since DSA-85.
 - **Tests:** `src/components/nph-sidebar/nph-sidebar.test.ts` and `nph-sidebar.docs.test.ts`.
 - **Usage evidence:** the required examples of the `nph-sidebar` Docs page.
 - **Storybook:** `src/components/nph-sidebar/nph-sidebar.stories.ts` and

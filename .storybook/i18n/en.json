@@ -13526,7 +13526,7 @@
       ]
     ],
     "knownLimitTitle": "Known limit.",
-    "knownLimitText": "The collapse button shows a skeleton in place of the sidebar icon, until that icon is in nph-icon.",
+    "knownLimitText": "Forced colors and right-to-left are not treated yet.",
     "accessibilityTitle": "Accessibility",
     "accessibilityHeader": [
       "Criterion",
@@ -15242,7 +15242,7 @@
       "It works with nph-button (Today, previous, next, Filter, New event and +N more), nph-select (the view), nph-checkbox (one per calendar), nph-avatar and nph-avatar-stack (the people of the meetings), nph-dropdown-menu (the Filter menu), nph-tooltip, nph-skeleton (loading) and nph-icon.",
       "To choose a date in a form, use the date picker, not the scheduler. For tasks with no time of day, use a list or a table.",
       "The creation, the editing and the detail of an event belong to the screen: the piece only says what the person did, in its events.",
-      "The mini month and the compact month are the date grid of the scheduler itself, the sidebar button draws an nph-skeleton where its icon goes, the empty state has its own icon and text, and the repeat icon is rotate-right; each one is replaced by the owner piece or icon when it exists."
+      "The mini month and the compact month are the date grid of the scheduler itself, and the empty state has its own icon and text; each one is replaced by the owner piece when it exists."
     ],
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [

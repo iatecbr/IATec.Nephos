@@ -13526,7 +13526,7 @@
       ]
     ],
     "knownLimitTitle": "Limite conhecido.",
-    "knownLimitText": "O botão de recolher mostra um skeleton no lugar do ícone sidebar, até esse ícone entrar no nph-icon.",
+    "knownLimitText": "Cores forçadas e direita para esquerda ainda não foram tratadas.",
     "accessibilityTitle": "Acessibilidade",
     "accessibilityHeader": [
       "Critério",
@@ -15242,7 +15242,7 @@
       "Funciona com nph-button (Hoje, anterior, próximo, Filtrar, Novo evento e +N mais), nph-select (a vista), nph-checkbox (um por agenda), nph-avatar e nph-avatar-stack (as pessoas das reuniões), nph-dropdown-menu (o menu Filtrar), nph-tooltip, nph-skeleton (carregando) e nph-icon.",
       "Para escolher uma data em um formulário, use o seletor de data, não o scheduler. Para tarefas sem horário do dia, use uma lista ou uma tabela.",
       "A criação, a edição e o detalhe de um evento são da tela: a peça só diz o que a pessoa fez, em seus eventos.",
-      "O mês pequeno e o mês compacto são a grade de datas do próprio scheduler, o botão de barra lateral desenha um nph-skeleton onde vai o seu ícone, o estado vazio tem ícone e texto próprios, e o ícone de repetição é rotate-right; cada um é trocado pela peça ou pelo ícone dono quando existir."
+      "O mês pequeno e o mês compacto são a grade de datas do próprio scheduler, e o estado vazio tem ícone e texto próprios; cada um é trocado pela peça dona quando existir."
     ],
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [

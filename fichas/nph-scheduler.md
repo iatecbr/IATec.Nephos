@@ -666,7 +666,7 @@ missing, which renders and says which. All with `console.error` in development, 
 | Alternative to color | `Cancelled:` and the strike; the number, the mark and the now line for today; the calendar name in the accessible name |
 | Target size | The event has a minimum height of 24 px: the short event takes a little more than its duration (WCAG 2.5.8) |
 | Live region | One polite status announces the new period when the person changes the date or the view; the loading label is a status while loading |
-| Provisional | The sidebar button keeps the place of the `sidebar` icon with an `nph-skeleton`; it is a native button with the look of the secondary ghost, with `aria-expanded` and a tooltip |
+| Sidebar button | A native button that draws the `sidebar` icon, with the look of the secondary ghost, `aria-expanded` and a tooltip |
 
 ## Relations
 
@@ -711,10 +711,9 @@ hour is twice the minimum height of an event, so a half hour fits the minimum, a
 two together.
 
 **Provisional parts:** the mini month and the compact month are the date grid of the scheduler
-itself, until the date picker has its grid; the sidebar button draws an `nph-skeleton` where the
-`sidebar` icon goes, until the icon enters `nph-icon`; the empty state uses its own `calendar`
-icon, title and hint, until `nph-empty` has its set in Figma; the repeat icon is `rotate-right`
-until `repeat` enters `nph-icon`.
+itself, until the date picker has its grid; the empty state uses its own `calendar` icon, title
+and hint, until `nph-empty` has its set in Figma. The sidebar button draws the `sidebar` icon and
+the recurring event the `repeat` icon (DSA-85, authorized on 17/11/2026).
 
 **AI hints:**
 

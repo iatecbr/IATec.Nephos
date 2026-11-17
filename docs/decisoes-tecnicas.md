@@ -7320,8 +7320,8 @@ records the other answers):
 
 - **D-1 — the `sidebar` icon.** Confirmed: `sidebar` and `repeat`, Font Awesome Light, enter `nph-icon` (in Figma they
   are already there, `5876:219326` and `6791:116`), and the collapse button draws `sidebar` in place of the skeleton.
-  It is not in the code yet: adding the two names to `nph-icon` needs the core icon list of `design.md` to change, and
-  that edit waits for the authorization of Elvys (T-1 of DSA-85).
+  In the code since 17/11/2026 (DSA-85): Elvys authorized the edit of the core icon list of `design.md` for the two
+  names, as in P119 (item 14), and `nph-icon` has both, in Light and Solid; the collapse button draws `sidebar`.
 - **D-3 — the current page in a collapsed group.** Not confirmed as drawn: in the collapsed menu, the rail button of the
   group that holds the current page shows the active look (Fluent 2 Nav, Salt vertical navigation). Since 16/11/2026
   (DSA-85) the rail button accepts `active` on a group: the same background and solid icon of the current page, with no
@@ -8152,9 +8152,9 @@ and the drag of an event. The focus of the primary `nph-button` in dark mode, co
 records the other answers):
 
 - **D-2 — the `sidebar` icon.** Same answer as DSA-72 D-1 (P116): `sidebar` and `repeat`, Font Awesome Light, enter
-  `nph-icon`, and the recurring event uses `repeat`, not `rotate-right`, which says "turn". It is not in the code yet:
-  it waits for the authorization of Elvys to edit the core icon list of `design.md` (T-1 of DSA-85), and the recurring
-  event keeps `rotate-right` until then.
+  `nph-icon`, and the recurring event uses `repeat`, not `rotate-right`, which says "turn". In the code since
+  17/11/2026 (DSA-85), with the edit of the core icon list of `design.md` authorized by Elvys: the collapse button
+  draws `sidebar` and the recurring event draws `repeat`.
 - **D-3 — derived measures.** Not confirmed as derived: component tokens, by rule T9. `scheduler/hour-height`
   (`core/space/900`, 48), `scheduler/mini-month-cell-size` (`control/height-default`, 36 as in Figma, where the code used
   `control/height-compact`, 28), `scheduler/list-time-width` (`core/space/1500`, 144),

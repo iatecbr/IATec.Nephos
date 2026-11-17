@@ -33,7 +33,7 @@ export type CoreCategory = readonly NphIconName[];
  */
 export const CATEGORIES: readonly CoreCategory[] = [
   /* `navegacao_e_menus` */
-  ['bars', 'house'],
+  ['bars', 'house', 'sidebar'],
   /* `direcao_e_revelacao` */
   [
     'angle-left',
@@ -90,6 +90,7 @@ export const CATEGORIES: readonly CoreCategory[] = [
     'pen-to-square',
     'plus',
     'print',
+    'repeat',
     'right-from-bracket',
     'right-to-bracket',
     'rotate-right',

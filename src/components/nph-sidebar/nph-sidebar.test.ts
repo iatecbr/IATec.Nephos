@@ -523,17 +523,16 @@ describe('the collapse and close buttons with no logo', () => {
 });
 
 describe('the collapse button and the collapsed menu', () => {
-  it('the collapse button names the action, carries aria-expanded and keeps the place of the sidebar icon with a skeleton (D-1)', async () => {
+  it('the collapse button names the action, carries aria-expanded and draws the sidebar icon (DSA-72 D-1)', async () => {
     const sidebar = await mount();
     const toggle = one(sidebar, '.toggle') as HTMLButtonElement;
     expect(toggle.getAttribute('aria-label')).toBe('Collapse menu');
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
     const place = toggle.querySelector('.toggle-place') as HTMLElement;
-    expect(place.querySelector('nph-skeleton')).not.toBeNull();
+    expect(place.querySelector('nph-icon')?.getAttribute('name')).toBe('sidebar');
     expect(place.getBoundingClientRect().width).toBeCloseTo(px('--nph-icon-size-md'), 0);
     expect(place.getBoundingClientRect().height).toBeCloseTo(px('--nph-icon-size-md'), 0);
     expect(toggle.getBoundingClientRect().width).toBeCloseTo(px('--nph-control-height-default'), 0);
-    expect(toggle.querySelector('nph-icon')).toBeNull();
     const node = await axNode(toggle);
     expect(node.role).toBe('button');
     expect(node.name).toBe('Collapse menu');
