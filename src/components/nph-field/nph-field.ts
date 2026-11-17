@@ -40,7 +40,8 @@
  * - a control that draws the error reason itself (`static nphFieldShowsError = true`, as the zone of
  *   `nph-file-upload` does: the reason takes the place of its rule) keeps the single message: while the field is
  *   invalid the field draws no error line of its own under it, and still passes the message as `description`,
- *   which the control says (DSA-74 D-4, WCAG 3.3.1; P127, extends P83). The help and the counter are the field's;
+ *   which the control says (DSA-74 D-4, WCAG 3.3.1; P127, extends P83). While that control is disabled by the page the
+ *   field draws the line, since a disabled control shows no reason. The help and the counter are the field's;
  * - inside a field, the field is the source of `label`, `description`, `invalid` and
  *   `required`. `disabled` adds up: the field turns it on while it is disabled and
  *   gives back only what it turned on, even when the control moves to another field;
@@ -468,10 +469,15 @@ export class NphField extends LitElement {
     this.shownWarnings = warnings;
   }
 
-  /** The control says the reason of the error itself: the field draws only the help, never the error, on its line. */
+  /**
+   * The control says the reason of the error itself: the field draws only the help, never the error, on its line.
+   * Not while the control is disabled by the page: a disabled zone shows no reason (disabled wins), so the field says it.
+   */
   private get errorShownByControl(): boolean {
     const control = this.control;
-    return this.invalid && control !== undefined && showsErrorItself(control);
+    return (
+      this.invalid && control !== undefined && showsErrorItself(control) && (control as unknown as { disabled?: unknown }).disabled !== true
+    );
   }
 
   private renderMessage(): TemplateResult | typeof nothing {

@@ -1221,6 +1221,25 @@ describe('semantics and the field–control contract', () => {
     expect(button.shadowRoot.getElementById('description')?.hidden).toBe(true);
   });
 
+  it('a zone the page disables while the field is invalid shows no reason, so the field keeps its error line', async () => {
+    const field = document.createElement('nph-field') as NphField;
+    field.label = 'Documents';
+    field.error = 'Attach at least one file.';
+    const zone = document.createElement('nph-file-upload') as NphFileUpload;
+    Object.assign(zone, { ...TEXTS, label: '' });
+    field.append(zone);
+    document.body.append(field);
+    await field.updateComplete;
+    await settle(zone);
+    expect(field.shadowRoot?.querySelector('.message__text')).toBeNull();
+    zone.disabled = true;
+    await settle(zone);
+    field.requestUpdate();
+    await field.updateComplete;
+    expect(area(zone).dataset.state).toBe('disabled');
+    expect(field.shadowRoot?.querySelector('.message__text')?.textContent).toBe('Attach at least one file.');
+  });
+
   it('a reason of the zone of its own next to a different message of the field: the message is not lost, it describes the group', async () => {
     const field = document.createElement('nph-field') as NphField;
     field.label = 'Documents';

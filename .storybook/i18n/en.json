@@ -1547,7 +1547,7 @@
     "hoverCaption": "Put the pointer on each element and wait a moment, or focus it with Tab: the balloon opens after the wait on hover, at once on focus, on any element that receives focus. It stays open while the pointer is over it.",
     "disabledTarget": "Disabled element",
     "nameCaption": "The icon-only button has no text: the balloon text is its accessible name, and a screen reader announces it once, as the name.",
-    "focusableCaption": "Both elements ask for an open balloon. The enabled button gets it; the disabled one gets none, because without focus a keyboard user would never see it."
+    "focusableCaption": "All three elements ask for an open balloon. The button in the Tab order gets it, and so does the button out of it by tabindex -1, which the arrows can focus; the disabled one gets none, because without focus a keyboard user would never see it."
   },
   "tooltipDocs": {
     "summary": "A floating text balloon attached to any element of the interface. It shows complementary information, an explanation or context data when the pointer rests on the element and when the element receives keyboard focus.",
@@ -8370,7 +8370,7 @@
       "components-nph-tooltip-validation--focus-and-escape": "Keyboard focus opens the balloon and Esc closes it, with the focus staying on the element.",
       "components-nph-tooltip-validation--hover-and-focus": "Hover after a short wait and keyboard focus at once open the balloon on any element that receives focus: a button, a link and a field.",
       "components-nph-tooltip-validation--accessible-name": "On an icon-only button the balloon text is the accessible name of the action, announced once.",
-      "components-nph-tooltip-validation--focusable-only": "The balloon goes only on an element that receives focus: a disabled button gets none.",
+      "components-nph-tooltip-validation--focusable-only": "The balloon goes only on an element that can receive focus: a button in the Tab order and one out of it by tabindex -1 get it, a disabled button gets none.",
       "components-nph-input-validation--matrix": "size × state of the set, in compact, default and large: placeholder, value, value with the clear button, error, disabled and disabled with error. Move the mouse over a field for hover, click it for focus and press Tab to the clear button for its focus.",
       "components-nph-input-validation--types": "The five types of D1, each with a value it accepts. Password, number and mask are out of v1.",
       "components-nph-input-validation--icons": "Start and end icons, light, at icon/size-sm: none, start, end and both. The end icon only swaps the art; the action is always to clear.",
@@ -8598,7 +8598,7 @@
       "components-nph-tabs-validation--variants": "The five styles, each with the second tab active: the segmented rail with a card on the active tab, the underline with a line under it, and the solid, light and outline tab buttons with a background on the active tab.",
       "components-nph-tabs-validation--content": "What a tab turns on, in every style: the start icon, the counter after the label and the tag after the counter, always in this order, and the three tones of the counter: inactive outside the rail, inactive inside the rail and active.",
       "components-nph-tabs-validation--states": "Active, rest and disabled in every style, and the active tab disabled as well, which keeps its active look under the disabled opacity. Hover and focus show up with the pointer and the keyboard, and the tests prove them.",
-      "components-nph-tabs-validation--scroll": "The underline list that does not fit: each tab keeps the width of its content and an arrow sits at each end, disabled at the end the list has reached; when the tabs fit, they share the width and no arrow shows.",
+      "components-nph-tabs-validation--scroll": "The underline list that does not fit: each tab keeps the width of its content and an arrow sits at each end, disabled at the end the list has reached; when the tabs fit, they share the width and no arrow shows. Without the two labels the arrows take a default name that follows the language.",
       "components-nph-tabs-validation--cut-label": "In the segmented and the tab button styles the tabs share the width, and a label that does not fit ends in an ellipsis; its whole text shows in a balloon on hover and on focus.",
       "components-nph-tabs-validation--panels": "The panel is the consumer content, slotted by the value of each tab: only the panel of the active tab shows, and the list stays on top of it.",
       "components-nph-tabs-validation--direction": "Right-to-left writing: the list reads from the right and the arrows follow the ends of the line.",
@@ -8641,7 +8641,7 @@
       "components-nph-file-upload-validation--kinds": "The image kind, with the thumbnail in nph-image, in every status; the last image has no thumbnail yet and shows the file-image icon. The file kind shows file-lines.",
       "components-nph-file-upload-validation--limit": "The limit reached, with the button disabled and the rule that says how to free space; a file above the maximum size, which comes in as an item in error with its reason; and a passed limit, said by the zone in error.",
       "components-nph-file-upload-validation--width": "A name that does not fit is cut on one line with an ellipsis and its whole text reaches the screen reader; a long reason wraps and the item grows.",
-      "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason in the zone; and the compact zone in a form with another field.",
+      "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason once, in the zone, with no error line of the field under it, also when the message comes from the field; and the compact zone in a form with another field.",
       "components-nph-file-upload-validation--examples": "The three required examples, each in light and dark mode: the empty zone with its rule, the list in use with an upload in progress, an error and a done file, and the limit reached.",
       "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand.",
       "components-nph-collapsible-validation--types": "The three types, closed and open: the line, whose trigger is the whole row with the title and the chevron; the button, an nph-button with the chevron at the end; and the preview, a text cut at three lines with the button below it. When the text fits in the three lines nothing is cut and there is no button.",

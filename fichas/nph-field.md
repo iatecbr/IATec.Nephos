@@ -301,7 +301,8 @@ An option declares itself with `static nphFieldRole`: `'option'` for a checkbox 
 moves the focus to its focusable element. A control that says the reason of the error itself
 declares `static nphFieldShowsError = true`: while the field is invalid, the field draws no error
 line under it, so the reason shows once; the message is still written as `description`, and the
-help and the counter stay on the line of the field (DSA-74 D-4, DSA-82; P127, extends P83).
+help and the counter stay on the line of the field; while that control is disabled by the page the
+field keeps its line, because a disabled control shows no reason (the field reads it at its next update) (DSA-74 D-4, DSA-82; P127, extends P83).
 
 ## Relations
 

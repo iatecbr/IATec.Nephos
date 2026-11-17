@@ -9048,16 +9048,25 @@ changed: the code reads tokens that already exist.
    gets none. The hover wait, the focus without wait, the Esc and the 1.4.13 holds are unchanged, and a touch pointer
    still never opens it. `nph-tabs` drops the `tabindex="0"` it lent to the cut tab under the pointer: the tab keeps
    `-1`, the list keeps one Tab stop (APG Tabs), and the balloon opens on hover and on the focus the arrows give.
-   No other piece changed behavior: the full suite of the repository passes with the new rule.
+   The suite of the repository passes with the new rule. The pieces that draw an `nph-tooltip` were listed: `nph-button`,
+   `nph-chip`, `nph-label`, `nph-navigation-menu`, `nph-pagination`, `nph-scheduler`, the three sidebar pieces,
+   `nph-sidebar`, `nph-slider`, `nph-stepper`, `nph-table`, `nph-tabs` and `nph-tree`. Two of them have a target that can
+   carry a negative `tabindex`: the rows of `nph-tree` (roving) and the tree rows and cells of `nph-table`; there a cut
+   label now also opens its balloon on hover for an item that is not the Tab stop, which is the same limit this item
+   lifts. `nph-tree` keeps its own workaround (it lends the Tab stop to the item under the pointer), which keeps working
+   and is now redundant: removing it is a change of another piece and is left for another task. The slider thumb with
+   `tabindex="-1"` is disabled and has no balloon, and the other pieces point at a control with no negative `tabindex`.
 2. **A tab keeps its roving `tabindex`.** `moveTo` no longer writes `tabIndex` on every tab before it moves the focus;
    it records the stop and focuses the target, as the focus event already did.
 3. **The default names of the scroll arrows follow the `lang` nearest to the list (DSA-71 D-2).** The two properties stay
    and override the default; the arrows are drawn whenever the list overflows, and the warning for the missing text
    is gone. The default is `Rolar para a esquerda` and `Rolar para a direita` (the language of the product), `Scroll
    left` and `Scroll right` for `en`, `Desplazar a la izquierda` and `Desplazar a la derecha` for `es`; any other
-   `lang`, or none, takes the Portuguese one. The `lang` is read from the list and its ancestors, through shadow roots,
-   at the render that draws the arrows: there is no observer, so a `lang` that changes later is seen at the next
-   render. The name is the side the arrow points to, so it follows right-to-left writing. The three pairs are
+   `lang`, or none, takes the Portuguese one, because the answer fixes it as the default. The lookup is the closest
+   `lang` of the list or of an ancestor, crossing shadow roots through their hosts, as `languageOf` of
+   `nph-file-upload-item` reads it; it differs only in the fallback, which there is the browser language and then English
+   (a size is written by `Intl`, and the default name has one language chosen by the answer). It is read at the render
+   that draws the arrows: there is no observer, so a `lang` that changes later is seen at the next render. The name is the side the arrow points to, so it follows right-to-left writing. The three pairs are
    written in `nph-tabs.ts` and are not a general translation layer; a product that needs another language gives the
    two properties.
 4. **A cut pending step of the linear stepper is `span`, `tabindex="0"`, `aria-disabled="true"` and a role (DSA-73 D-4).**
@@ -9078,7 +9087,10 @@ changed: the code reads tokens that already exist.
    the error text out of its message line, and still writes it as `description`, which the zone says in place of its
    rule. The help (not invalid) and the counter stay on the line. If the zone has an `error` of its own and the field
    a different message, the zone shows its own and the field message is not lost: it is the hidden description of the
-   group. A control that does not declare it keeps the line, so no other piece changes.
+   group. A control that is disabled does not show the reason (disabled wins), so while it is disabled the field keeps its
+   line. The field reads the control when it renders: a zone the page disables directly, not through the field, is seen
+   at the next update of the field, which is a known limit (disabling through the field hides the error, as for any
+   control). A control that does not declare the flag keeps the line, so no other piece changes.
 7. **The panel menu opens the parents of a new current page (DSA-76 D-3).** The current page is told apart by an identity
    made of its group and its leaf, by `value`, else `href`, else position, so a new `items` that reorders the options does
    not look like a new page. A new page opens the groups and subgroups that hold it, even the ones the person closed; the
@@ -9098,7 +9110,7 @@ The technical choices above are reviewed in the pull request that brings them; t
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124 or P126 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126 or P127 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

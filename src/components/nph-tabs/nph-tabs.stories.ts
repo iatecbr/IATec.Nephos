@@ -120,6 +120,18 @@ export const Scroll: Story = {
             cells: [list(v, { variant: 'underline', tabs: sectionTabs(v), value: 'section-0', width: 'calc(var(--nph-layout-field-width) * 1.25)' })],
           },
           {
+            label: 'variant: underline · tabs: do not fit · scroll labels: default names',
+            cells: [
+              list(v, {
+                variant: 'underline',
+                tabs: sectionTabs(v),
+                value: 'section-0',
+                width: 'calc(var(--nph-layout-field-width) * 1.25)',
+                defaultNames: true,
+              }),
+            ],
+          },
+          {
             label: 'variant: underline · tabs: fit',
             cells: [list(v, { variant: 'underline', tabs: sectionTabs(v).slice(0, 4), value: 'section-0' })],
           },

@@ -162,7 +162,7 @@ export const AccessibleName: Story = {
   },
 };
 
-/** The balloon goes only on an element that receives focus: the disabled button gets none. */
+/** The balloon goes only on an element that can receive focus: the button out of the Tab order by `tabindex="-1"` gets it, the disabled button gets none. */
 export const FocusableOnly: Story = {
   name: 'Focusable only',
   render: (_args, context: GlobalsContext) => {
@@ -173,6 +173,7 @@ export const FocusableOnly: Story = {
       html`${caption(v.focusableCaption)}
         <div style="${room} gap: calc(var(--nph-space-section) * 3); align-items: center;">
           ${anchored((id) => html`<button id=${id} type="button">${v.target}</button>`, { text: v.oneLine, open: true })}
+          ${anchored((id) => html`<button id=${id} type="button" tabindex="-1">${v.target}</button>`, { text: v.oneLine, open: true })}
           ${anchored((id) => html`<button id=${id} type="button" disabled>${v.disabledTarget}</button>`, { text: v.oneLine, open: true })}
         </div>`,
     );

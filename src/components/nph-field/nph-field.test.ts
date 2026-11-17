@@ -418,6 +418,20 @@ describe('a control that draws the reason of the error itself (DSA-74 D-4, P127,
     expect(textOf(field)?.textContent).toBe('Use a PDF.');
   });
 
+  it('a control the page disables while the field stays invalid: it shows no reason, so the field keeps its line', async () => {
+    const field = await mount({ error: 'Attach at least one file.', children: ['test-field-shows-error'] });
+    expect(textOf(field)).toBeNull();
+    first(field).disabled = true;
+    field.requestUpdate();
+    await settle(field);
+    expect(first(field).invalid).toBe(true);
+    expect(textOf(field)?.textContent).toBe('Attach at least one file.');
+    first(field).disabled = false;
+    field.requestUpdate();
+    await settle(field);
+    expect(textOf(field)).toBeNull();
+  });
+
   it('a control that does not say it keeps the error line of the field', async () => {
     const field = await mount({ error: 'Enter a valid email.', children: ['test-field-control'] });
     expect(textOf(field)?.textContent).toBe('Enter a valid email.');

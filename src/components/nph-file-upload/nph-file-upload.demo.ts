@@ -189,10 +189,10 @@ export function longFiles(texts: ExampleTexts): NphFileUploadEntry[] {
 }
 
 /** The zone as the control of `nph-field`: the label, the asterisk and the help text belong to the field. */
-export function inField(texts: ExampleTexts, options: UploadOptions & { required?: boolean } = {}): TemplateResult {
-  const { files = [], format = 'default', required = true, width = ZONE_WIDTH, error = '' } = options;
+export function inField(texts: ExampleTexts, options: UploadOptions & { required?: boolean; fieldError?: string } = {}): TemplateResult {
+  const { files = [], format = 'default', required = true, width = ZONE_WIDTH, error = '', fieldError = '' } = options;
   return html`<div style="inline-size: ${width}; max-inline-size: 100%;">
-    <nph-field label=${texts.fieldLabel} help=${texts.fieldHelp} ?required=${required}>
+    <nph-field label=${texts.fieldLabel} help=${texts.fieldHelp} error=${fieldError} ?required=${required}>
       <nph-file-upload
         .files=${files}
         format=${format}

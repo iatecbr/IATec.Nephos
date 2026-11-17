@@ -195,6 +195,7 @@ export const Field: Story = {
       matrix(validationTitle(context, 'nph-file-upload', page('field').storyId), [], [
         { label: 'field: required · help', cells: [inField(v, { files: inUseFiles(v) })] },
         { label: 'field: required · state: error', cells: [inField(v, { error: v.typeError })] },
+        { label: 'field: required · state: invalid · message: the reason once, in the zone', cells: [inField(v, { fieldError: v.typeError })] },
         { label: 'format: compact · container: card', cells: [inForm(v)] },
       ]),
     );
