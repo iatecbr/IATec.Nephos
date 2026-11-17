@@ -1206,7 +1206,7 @@ describe('right-to-left text', () => {
 });
 
 describe('composition warnings: the group still renders', () => {
-  const warnings = (warn: ReturnType<typeof vi.spyOn>) => warn.mock.calls.map((call) => String(call[0])).join('\n');
+  const warnings = (warn: { mock: { calls: unknown[][] } }) => warn.mock.calls.map((call) => String(call[0])).join('\n');
 
   it('fewer than two panels', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);

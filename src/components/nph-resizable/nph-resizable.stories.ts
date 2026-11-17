@@ -27,7 +27,7 @@ import { localeOf, validationPage, validationTitle } from '../../shared/docs/val
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-resizable';
 import type { NphResizableResizeDetail } from './nph-resizable';
-import { collapsed, frame, group, inScheme, linesContent, listAndReading, listContent, nested, readingContent, sample } from './nph-resizable.demo';
+import { collapsed, collapsedRail, inScheme, limited, listAndReading, nested, sample } from './nph-resizable.demo';
 import type { Scheme } from './nph-resizable.demo';
 
 const meta: Meta = {
@@ -140,18 +140,7 @@ export const Collapsed: Story = {
             label: 'direction: horizontal',
             cells: [
               collapsed(v),
-              frame(
-                group({
-                  collapseLabel: v.collapse,
-                  expandLabel: v.expand,
-                  sizes: [5, 95],
-                  panels: [
-                    { name: v.navigation, content: linesContent(), collapsedSize: '5', defaultSize: '30' },
-                    { name: v.reading, content: readingContent() },
-                  ],
-                }),
-                'wide',
-              ),
+              collapsedRail(v),
             ],
           },
         ]),
@@ -172,26 +161,13 @@ export const Limits: Story = {
   name: 'Limits',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
-    const limited = (sizes: readonly number[], min: string, max: string): TemplateResult =>
-      frame(
-        group({
-          collapseLabel: v.collapse,
-          expandLabel: v.expand,
-          sizes,
-          panels: [
-            { name: v.list, content: listContent(), minSize: min, maxSize: max },
-            { name: v.reading, content: readingContent() },
-          ],
-        }),
-        'wide',
-      );
     return validationPage(
       context,
       page('limits'),
       inBothModes(context, 'limits', (label) =>
         matrix(label, ['size: at the minimum', 'size: at the maximum'], [
-          { label: 'min-size: 25 · max-size: 60', cells: [limited([25, 75], '25', '60'), limited([60, 40], '25', '60')] },
-          { label: 'min-size: 160px · max-size: 320px', cells: [limited([20, 80], '160px', '320px'), limited([40, 60], '160px', '320px')] },
+          { label: 'min-size: 25 · max-size: 60', cells: [limited(v, [25, 75], '25', '60'), limited(v, [60, 40], '25', '60')] },
+          { label: 'min-size: 160px · max-size: 320px', cells: [limited(v, [20, 80], '160px', '320px'), limited(v, [40, 60], '160px', '320px')] },
         ]),
       ),
     );

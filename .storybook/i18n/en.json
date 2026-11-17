@@ -15781,5 +15781,258 @@
     "exampleCollapsed": "Collapsed",
     "statusIdle": "Waiting for a drag, a key or a click.",
     "statusChanged": "nph-resize fired with detail.sizes = {sizes}."
+  },
+  "resizableDocs": {
+    "summary": "A group of two or three panels, side by side or stacked, separated by a handle that is dragged, or moved by keyboard, to give more room to one of them. It follows the Window Splitter pattern of the WAI-ARIA Authoring Practices and is for a desktop work area; it has no mobile layout in v1.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-resizable spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P128. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "In a desktop work area, for long sessions, when the person needs to adjust the space between neighbor contents, such as an editor beside a preview or a list beside a reading pane.",
+      "Horizontal for contents side by side; vertical for content over detail, such as an editor over a console.",
+      "Three panels when navigation, list and reading pane share the screen; for more panels, nest groups.",
+      "Keep the collapse button on when a panel can get out of the way; turn it off only when the screen already offers another one-tap way to resize.",
+      "Give each panel a minimum and a maximum from the width of its content, so the handle stops there and the content does not break.",
+      "Store the chosen sizes from the nph-resize event and give them back through sizes.",
+      "Offer a one-tap way out, such as sizes in a menu, a size field or step buttons, when the handle is the only way to resize."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To show or hide a side area without resizing: use nph-sidebar.",
+      "To separate two contents without dragging: use nph-separator.",
+      "On a mobile screen, below the tablet breakpoint: stack the panels or turn them into tabs; v1 draws no handle there.",
+      "On a reading page or in a form.",
+      "For more than three panels in one group: nest groups, the panel of one group takes another group in the other direction.",
+      "Hiding the grip and leaving the line alone, putting an outline around the group or giving a panel a background of its own."
+    ],
+    "relationsText": "The collapse button is nph-button and the grip is nph-icon; the panels hold free content, and the examples on this page use nph-skeleton. nph-sidebar shows or hides a side area without resizing, and nph-separator separates without being dragged: the group replaces neither. To stack or swap the panels below the tablet breakpoint is a job of the product.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "direction",
+        "horizontal (default) or vertical, the Figma property direcao. horizontal puts the panels side by side with the vertical handle; vertical stacks them with the horizontal handle. Reflected to the attribute."
+      ],
+      [
+        "disabled",
+        "Turns the whole group off: every handle takes state/disabled-opacity and the default cursor, leaves the Tab order and answers to nothing, and its collapse button is disabled with it. It belongs to the group, not to each handle."
+      ],
+      [
+        "hide-collapse-button",
+        "The collapse button is on by default, as in Figma; this attribute turns it off. Enter on the handle still collapses and restores the panel."
+      ],
+      [
+        "collapse-label and expand-label",
+        "The name of the collapse button while the panel is open and while it is collapsed, already localized, such as Collapse panel and Expand panel. Without both, the button is not drawn and the group emits console.error in development."
+      ],
+      [
+        "sizes",
+        "The size of each panel in percent of the length the group has without the handles, adding up to 100. The attribute reads sizes=\"30 70\"; the property is a list of numbers and always holds the current sizes. The product stores it and gives it back. Setting it from code never fires the event."
+      ],
+      [
+        "default-size, min-size, max-size, collapsed-size (on each panel)",
+        "A number in percent, or a number with px, such as 30 or 240px. The panels with no default-size share the rest equally. Home and End go to the minimum and the maximum; a panel collapsed to collapsed-size, 0 by default, leaves the screen."
+      ],
+      [
+        "collapse-label and expand-label (on a panel)",
+        "The names of the collapse button of that panel, which replace the ones of the group. They tell which panel a button collapses when the group has two handles."
+      ],
+      [
+        "default slot",
+        "The panels: two or three direct element children with free content. The group writes no attribute on them. The panel a handle controls needs a role that takes a name, such as section, and an aria-label or aria-labelledby: the handle takes that name. The group needs a width from its container, or a height when it is vertical."
+      ],
+      [
+        "nph-resize",
+        "The event fired when the person changes the sizes, by drag, key, button or double click. It bubbles, crosses the shadow root and is not cancelable. detail.sizes is the list of sizes in percent. Setting sizes from code never fires it."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-resizable collapse-label=\"Collapse panel\" expand-label=\"Expand panel\">\n  <section aria-label=\"List\" default-size=\"35\" min-size=\"20\">List content</section>\n  <section aria-label=\"Reading pane\">Reading pane content</section>\n</nph-resizable>",
+    "usageTag": "The group with its two panels as children; each panel a handle controls is named with aria-label. The group takes its width from its container, and a height when it is vertical.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "nph-resizable spec sheet; docs/decisoes-tecnicas.md › P70",
+    "handleTitle": "Handle",
+    "handleText": "The handle is a line with the grip and the collapse button on it. The grip shows in every state, because the line at rest does not reach 3:1 in the light scheme: it is what tells the handle can be dragged. Hover, dragging and focus show up when you use the handle. In disabled, the whole handle takes state/disabled-opacity and its button is disabled.",
+    "handleCaption": "The handle at rest, disabled and with the collapse button off, in both directions.",
+    "handleHeader": [
+      "State",
+      "What the person sees"
+    ],
+    "handleStates": [
+      [
+        "default",
+        "A line of resizable/handle-width in resizable/handle-color, with the grip in resizable/grip-foreground and the collapse button."
+      ],
+      [
+        "hover",
+        "The line takes resizable/handle-color-hover and the cursor is the resize cursor of the axis. Hover does not move focus."
+      ],
+      [
+        "dragging",
+        "While the pointer drags, the line is as in hover and the grip box takes resizable/grip-background-active with the icon in resizable/grip-foreground-active."
+      ],
+      [
+        "focus",
+        "By keyboard only, the line becomes a border of resizable/focus-border-width in focus/border, with no halo, and no panel shifts."
+      ],
+      [
+        "disabled",
+        "The whole handle takes state/disabled-opacity and the default cursor, and leaves the Tab order."
+      ]
+    ],
+    "sizesTitle": "Sizes and limits",
+    "sizesText": "Each panel declares its sizes with attributes: default-size, min-size and max-size, in percent or in pixels. The handle stops at the minimum and the maximum of each panel, so the content does not break. The product stores detail.sizes of nph-resize and gives it back through sizes; the component stores nothing.",
+    "sizesCaption": "A group at the minimum and at the maximum of its first panel, in percent and in pixels.",
+    "collapseTitle": "Collapse",
+    "collapseText": "A collapsed panel is a size, not a look of the handle: it has its collapsed size, the chevron flips and the panel across the handle takes the space. The button, Enter on the handle or a drag restores it. The button and the double click do not reach a chosen size, so the product offers a one-tap way out, such as sizes in a menu, a size field or step buttons, when the handle is the only way to resize.",
+    "collapseCaption": "The first panel collapsed to nothing and the second collapsed to a size of its own.",
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Key or action",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Arrows on the axis",
+        "Left and right on the vertical handle, up and down on the horizontal one: move the handle 1 percent. The arrows of the other axis do nothing. In right-to-left text they follow the visual side."
+      ],
+      [
+        "Shift + arrow",
+        "Moves the handle 10 percent."
+      ],
+      [
+        "Enter",
+        "Collapses the main panel and, again, restores it, also with the collapse button off."
+      ],
+      [
+        "Home and End",
+        "Take the main panel to its minimum and to its maximum."
+      ],
+      [
+        "F6",
+        "Not used: the browser circulates its own panes with it."
+      ],
+      [
+        "Tab",
+        "The handle and the collapse button are separate stops, in order; a disabled handle leaves the Tab order."
+      ],
+      [
+        "Double click",
+        "Restores the default size of the main panel."
+      ],
+      [
+        "Drag",
+        "Moves the handle with the pointer, inside the limits of both panels; a press focuses the handle without showing the focus border."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Group",
+        "A row, or a column when vertical, with no background and no outline. The panels fill what the handles leave."
+      ],
+      [
+        "Panel",
+        "No background of its own; padding of space/container-padding; free content aligned to the top. It scrolls when the content does not fit."
+      ],
+      [
+        "Handle",
+        "A column as wide as the compact button, control/height-compact, in the flow between the panels, with the segments, the grip and the button centered on its axis, gap resizable/handle-gap. The whole column is the drag area, above 24 px; on a coarse pointer an invisible extension takes it to control/height-large."
+      ],
+      [
+        "Line segments",
+        "Two, before and after the grip and the button, of resizable/handle-width; they fill the space the other parts leave."
+      ],
+      [
+        "Grip box",
+        "resizable/grip-size square with the corner of resizable/grip-radius, holding the light grip-vertical, turned a quarter on the horizontal handle."
+      ],
+      [
+        "Collapse button",
+        "The nph-button icon only, secondary, ghost, compact and square, beside the separator and not inside it, with the chevron pointing to the main panel and flipping while it is collapsed."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "Each handle is a separator that receives focus, with aria-orientation, aria-valuenow, aria-valuemin and aria-valuemax as the percent of the main panel, and aria-controls pointing to it. The grip is aria-hidden. The group has no role of its own."
+      ],
+      [
+        "Accessible name",
+        "The handle takes the name of the panel it controls: its aria-label, or the elements its aria-labelledby names. The collapse button takes collapse-label or expand-label, with aria-expanded and aria-controls."
+      ],
+      [
+        "Keyboard",
+        "The Window Splitter of the APG: arrows, Shift + arrow, Enter, Home and End. The handle and the button are separate Tab stops."
+      ],
+      [
+        "Visible focus",
+        "The line becomes a border of resizable/focus-border-width in focus/border, with no halo, and it passes 3:1 in both schemes and every brand."
+      ],
+      [
+        "Contrast",
+        "The grip passes 3:1 in both schemes; the line at rest does not in light, so the grip shows in every state; hover and dragging pass 3:1."
+      ],
+      [
+        "Alternative to dragging",
+        "The collapse button and the double click; the product offers a one-tap way out for a chosen size."
+      ],
+      [
+        "Target size",
+        "The drag area is the handle column, above 24 px, and larger on a coarse pointer; the collapse button is 28 px, an exception of this handle."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleListReading": "List and reading pane: horizontal, two panels.",
+    "exampleNested": "Nested: the right panel is split vertically.",
+    "exampleCollapsed": "Collapsed: the left panel is collapsed and the button restores it.",
+    "referencesTitle": "References",
+    "references": [
+      "nph-resizable spec sheet — function, variants, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P128 (API and semantics), P01, P02, P03 and P116.",
+      "design.md — the resizable/* tokens, color/border-strong, focus/border and state/disabled-opacity.",
+      "WAI-ARIA Authoring Practices — Window Splitter pattern.",
+      "Figma DS-IA-NEPHOS 5.0 — nph-resizable documentation frame (5123:2641) and sets 5112:1849 and 5099:172.",
+      "Storybook — Validation, in the folder beside this one."
+    ],
+    "sourceSpec": "nph-resizable spec sheet; Figma, frame nph-resizable (5123:2641)",
+    "sourceApi": "nph-resizable spec sheet; docs/decisoes-tecnicas.md › P128",
+    "sourceHandle": "nph-resizable spec sheet; Figma, set nph-resizable handle (5099:172)",
+    "sourceSizes": "nph-resizable spec sheet; docs/decisoes-tecnicas.md › P128",
+    "sourceKeyboard": "nph-resizable spec sheet; WAI-ARIA Authoring Practices, Window Splitter",
+    "sourceAnatomy": "Figma, sets 5112:1849 and 5099:172; design.md",
+    "sourceAccessibility": "nph-resizable spec sheet; nph-resizable.test.ts",
+    "matrixLabel": "Component matrix",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "list": "List",
+    "reading": "Reading pane",
+    "navigation": "Navigation",
+    "editor": "Editor",
+    "console": "Console",
+    "preview": "Preview",
+    "details": "Details",
+    "collapse": "Collapse panel",
+    "expand": "Expand panel",
+    "collapseList": "Collapse the list",
+    "expandList": "Expand the list"
   }
 }

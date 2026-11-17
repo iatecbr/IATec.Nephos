@@ -222,3 +222,35 @@ export function collapsed(d: PanelsText): TemplateResult {
     'wide',
   );
 }
+
+/** The first panel with a minimum and a maximum, shown at the size given: the handle stops at them. */
+export function limited(d: PanelsText, sizes: readonly number[], min: string, max: string): TemplateResult {
+  return frame(
+    group({
+      collapseLabel: d.collapse,
+      expandLabel: d.expand,
+      sizes,
+      panels: [
+        { name: d.list, content: listContent(), minSize: min, maxSize: max },
+        { name: d.reading, content: readingContent() },
+      ],
+    }),
+    'wide',
+  );
+}
+
+/** A panel collapsed to a size of its own: it stays visible and clips what does not fit. */
+export function collapsedRail(d: PanelsText): TemplateResult {
+  return frame(
+    group({
+      collapseLabel: d.collapse,
+      expandLabel: d.expand,
+      sizes: [5, 95],
+      panels: [
+        { name: d.navigation, content: linesContent(), collapsedSize: '5', defaultSize: '30' },
+        { name: d.reading, content: readingContent() },
+      ],
+    }),
+    'wide',
+  );
+}

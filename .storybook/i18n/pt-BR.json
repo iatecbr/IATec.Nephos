@@ -15781,5 +15781,258 @@
     "exampleCollapsed": "Recolhido",
     "statusIdle": "Aguardando um arrasto, uma tecla ou um clique.",
     "statusChanged": "nph-resize disparado com detail.sizes = {sizes}."
+  },
+  "resizableDocs": {
+    "summary": "Um grupo de dois ou três painéis, lado a lado ou empilhados, separados por uma alça que se arrasta, ou se move pelo teclado, para dar mais espaço a um deles. Segue o padrão Window Splitter do WAI-ARIA Authoring Practices e é para uma área de trabalho no desktop; não tem layout mobile na v1.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-resizable, o design.md para os tokens e docs/decisoes-tecnicas.md para a P128. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Em uma área de trabalho no desktop, em sessões longas, quando a pessoa precisa ajustar o espaço entre conteúdos vizinhos, como um editor ao lado de uma pré-visualização ou uma lista ao lado de um painel de leitura.",
+      "Horizontal para conteúdos lado a lado; vertical para conteúdo sobre detalhe, como um editor sobre um console.",
+      "Três painéis quando navegação, lista e painel de leitura dividem a tela; para mais painéis, aninhe grupos.",
+      "Mantenha o botão de recolher ligado quando um painel pode sair do caminho; desligue-o só quando a tela já oferece outro jeito de redimensionar com um toque.",
+      "Dê a cada painel um mínimo e um máximo a partir da largura do seu conteúdo, para que a alça pare ali e o conteúdo não quebre.",
+      "Guarde os tamanhos escolhidos a partir do evento nph-resize e devolva-os por sizes.",
+      "Ofereça uma saída de um toque, como tamanhos em um menu, um campo de tamanho ou botões de passo, quando a alça é o único jeito de redimensionar."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para mostrar ou esconder uma área lateral sem redimensionar: use nph-sidebar.",
+      "Para separar dois conteúdos sem arrastar: use nph-separator.",
+      "Em uma tela mobile, abaixo do breakpoint de tablet: empilhe os painéis ou transforme-os em abas; a v1 não desenha a alça ali.",
+      "Em uma página de leitura ou em um formulário.",
+      "Para mais de três painéis em um grupo: aninhe grupos, o painel de um grupo recebe outro grupo na outra direção.",
+      "Esconder o grip e deixar só a linha, pôr um contorno em volta do grupo ou dar um fundo próprio ao painel."
+    ],
+    "relationsText": "O botão de recolher é o nph-button e o grip é o nph-icon; os painéis guardam conteúdo livre, e os exemplos desta página usam nph-skeleton. O nph-sidebar mostra ou esconde uma área lateral sem redimensionar, e o nph-separator separa sem ser arrastado: o grupo não substitui nenhum dos dois. Empilhar ou trocar os painéis abaixo do breakpoint de tablet é tarefa do produto.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "direction",
+        "horizontal (padrão) ou vertical, a propriedade direcao do Figma. horizontal põe os painéis lado a lado com a alça vertical; vertical os empilha com a alça horizontal. Refletida no atributo."
+      ],
+      [
+        "disabled",
+        "Desliga o grupo inteiro: cada alça recebe state/disabled-opacity e o cursor padrão, sai da ordem do Tab e não responde a nada, e o botão de recolher fica desabilitado com ela. Pertence ao grupo, não a cada alça."
+      ],
+      [
+        "hide-collapse-button",
+        "O botão de recolher vem ligado por padrão, como no Figma; este atributo o desliga. O Enter na alça continua recolhendo e restaurando o painel."
+      ],
+      [
+        "collapse-label e expand-label",
+        "O nome do botão de recolher enquanto o painel está aberto e enquanto está recolhido, já localizado, como Recolher painel e Expandir painel. Sem os dois, o botão não é desenhado e o grupo emite console.error em desenvolvimento."
+      ],
+      [
+        "sizes",
+        "O tamanho de cada painel em porcentagem do comprimento que o grupo tem sem as alças, somando 100. O atributo lê sizes=\"30 70\"; a propriedade é uma lista de números e guarda sempre os tamanhos atuais. O produto os guarda e os devolve. Definir por código nunca dispara o evento."
+      ],
+      [
+        "default-size, min-size, max-size, collapsed-size (em cada painel)",
+        "Um número em porcentagem, ou um número com px, como 30 ou 240px. Os painéis sem default-size dividem o resto em partes iguais. Home e End vão ao mínimo e ao máximo; um painel recolhido a collapsed-size, 0 por padrão, sai da tela."
+      ],
+      [
+        "collapse-label e expand-label (em um painel)",
+        "Os nomes do botão de recolher daquele painel, que substituem os do grupo. Dizem qual painel um botão recolhe quando o grupo tem duas alças."
+      ],
+      [
+        "slot padrão",
+        "Os painéis: dois ou três filhos elementos diretos com conteúdo livre. O grupo não escreve atributo neles. O painel que uma alça controla precisa de um papel que aceite nome, como section, e de um aria-label ou aria-labelledby: a alça toma esse nome. O grupo precisa de uma largura do seu contêiner, ou de uma altura quando é vertical."
+      ],
+      [
+        "nph-resize",
+        "O evento disparado quando a pessoa muda os tamanhos, por arrasto, tecla, botão ou duplo clique. Borbulha, atravessa o shadow root e não é cancelável. detail.sizes é a lista de tamanhos em porcentagem. Definir sizes por código nunca o dispara."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-resizable collapse-label=\"Recolher painel\" expand-label=\"Expandir painel\">\n  <section aria-label=\"Lista\" default-size=\"35\" min-size=\"20\">Conteúdo da lista</section>\n  <section aria-label=\"Painel de leitura\">Conteúdo do painel de leitura</section>\n</nph-resizable>",
+    "usageTag": "O grupo com seus dois painéis como filhos; cada painel que uma alça controla recebe um nome com aria-label. O grupo toma a largura do seu contêiner, e uma altura quando é vertical.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha nph-resizable; docs/decisoes-tecnicas.md › P70",
+    "handleTitle": "Alça",
+    "handleText": "A alça é uma linha com o grip e o botão de recolher sobre ela. O grip aparece em todos os estados, porque a linha em repouso não chega a 3:1 no esquema claro: é ele que mostra que a alça pode ser arrastada. Hover, arrastando e foco aparecem quando você usa a alça. Desabilitada, a alça inteira recebe state/disabled-opacity e o botão fica desabilitado.",
+    "handleCaption": "A alça em repouso, desabilitada e com o botão de recolher desligado, nas duas direções.",
+    "handleHeader": [
+      "Estado",
+      "O que a pessoa vê"
+    ],
+    "handleStates": [
+      [
+        "default",
+        "Uma linha de resizable/handle-width em resizable/handle-color, com o grip em resizable/grip-foreground e o botão de recolher."
+      ],
+      [
+        "hover",
+        "A linha recebe resizable/handle-color-hover e o cursor é o de redimensionar do eixo. O hover não move o foco."
+      ],
+      [
+        "arrastando",
+        "Enquanto o ponteiro arrasta, a linha fica como no hover e a caixa do grip recebe resizable/grip-background-active com o ícone em resizable/grip-foreground-active."
+      ],
+      [
+        "foco",
+        "Só pelo teclado, a linha vira uma borda de resizable/focus-border-width em focus/border, sem halo, e nenhum painel se desloca."
+      ],
+      [
+        "disabled",
+        "A alça inteira recebe state/disabled-opacity e o cursor padrão, e sai da ordem do Tab."
+      ]
+    ],
+    "sizesTitle": "Tamanhos e limites",
+    "sizesText": "Cada painel declara seus tamanhos com atributos: default-size, min-size e max-size, em porcentagem ou em pixels. A alça para no mínimo e no máximo de cada painel, para que o conteúdo não quebre. O produto guarda detail.sizes do nph-resize e o devolve por sizes; o componente não guarda nada.",
+    "sizesCaption": "Um grupo no mínimo e no máximo do seu primeiro painel, em porcentagem e em pixels.",
+    "collapseTitle": "Recolher",
+    "collapseText": "Um painel recolhido é um tamanho, não um visual da alça: ele tem o seu tamanho recolhido, a seta vira e o painel do outro lado da alça toma o espaço. O botão, o Enter na alça ou um arrasto o restauram. O botão e o duplo clique não chegam a um tamanho escolhido, então o produto oferece uma saída de um toque, como tamanhos em um menu, um campo de tamanho ou botões de passo, quando a alça é o único jeito de redimensionar.",
+    "collapseCaption": "O primeiro painel recolhido a zero e o segundo recolhido a um tamanho próprio.",
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Tecla ou ação",
+      "O que faz"
+    ],
+    "keyboard": [
+      [
+        "Setas no eixo",
+        "Esquerda e direita na alça vertical, cima e baixo na horizontal: movem a alça 1 por cento. As setas do outro eixo não fazem nada. No texto da direita para a esquerda seguem o lado visual."
+      ],
+      [
+        "Shift + seta",
+        "Move a alça 10 por cento."
+      ],
+      [
+        "Enter",
+        "Recolhe o painel principal e, de novo, o restaura, também com o botão de recolher desligado."
+      ],
+      [
+        "Home e End",
+        "Levam o painel principal ao mínimo e ao máximo."
+      ],
+      [
+        "F6",
+        "Não é usada: o navegador circula os próprios painéis com ela."
+      ],
+      [
+        "Tab",
+        "A alça e o botão de recolher são paradas separadas, em ordem; uma alça desabilitada sai da ordem do Tab."
+      ],
+      [
+        "Duplo clique",
+        "Restaura o tamanho padrão do painel principal."
+      ],
+      [
+        "Arrasto",
+        "Move a alça com o ponteiro, dentro dos limites dos dois painéis; um toque foca a alça sem mostrar a borda de foco."
+      ]
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Grupo",
+        "Uma linha, ou uma coluna quando vertical, sem fundo e sem contorno. Os painéis ocupam o que as alças deixam."
+      ],
+      [
+        "Painel",
+        "Sem fundo próprio; padding de space/container-padding; conteúdo livre alinhado ao topo. Rola quando o conteúdo não cabe."
+      ],
+      [
+        "Alça",
+        "Uma coluna tão larga quanto o botão compacto, control/height-compact, no fluxo entre os painéis, com os segmentos, o grip e o botão centrados no seu eixo, vão resizable/handle-gap. A coluna inteira é a área de arrasto, acima de 24 px; em ponteiro grosso uma extensão invisível a leva a control/height-large."
+      ],
+      [
+        "Segmentos da linha",
+        "Dois, antes e depois do grip e do botão, de resizable/handle-width; preenchem o espaço que as outras partes deixam."
+      ],
+      [
+        "Caixa do grip",
+        "Quadrada de resizable/grip-size com o canto de resizable/grip-radius, com o grip-vertical light, girado um quarto na alça horizontal."
+      ],
+      [
+        "Botão de recolher",
+        "O nph-button só com ícone, secondary, ghost, compact e quadrado, ao lado do separador e não dentro dele, com a seta apontando ao painel principal e virando enquanto ele está recolhido."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Cada alça é um separator que recebe foco, com aria-orientation, aria-valuenow, aria-valuemin e aria-valuemax como a porcentagem do painel principal, e aria-controls apontando para ele. O grip é aria-hidden. O grupo não tem papel próprio."
+      ],
+      [
+        "Nome acessível",
+        "A alça toma o nome do painel que controla: o seu aria-label, ou os elementos que o seu aria-labelledby nomeia. O botão de recolher toma collapse-label ou expand-label, com aria-expanded e aria-controls."
+      ],
+      [
+        "Teclado",
+        "O Window Splitter do APG: setas, Shift + seta, Enter, Home e End. A alça e o botão são paradas de Tab separadas."
+      ],
+      [
+        "Foco visível",
+        "A linha vira uma borda de resizable/focus-border-width em focus/border, sem halo, e passa 3:1 nos dois esquemas e em todas as marcas."
+      ],
+      [
+        "Contraste",
+        "O grip passa 3:1 nos dois esquemas; a linha em repouso não passa no claro, por isso o grip aparece em todos os estados; hover e arrastando passam 3:1."
+      ],
+      [
+        "Alternativa ao arrasto",
+        "O botão de recolher e o duplo clique; o produto oferece uma saída de um toque para um tamanho escolhido."
+      ],
+      [
+        "Tamanho do alvo",
+        "A área de arrasto é a coluna da alça, acima de 24 px, e maior em ponteiro grosso; o botão de recolher tem 28 px, uma exceção desta alça."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleListReading": "Lista e painel de leitura: horizontal, dois painéis.",
+    "exampleNested": "Aninhado: o painel da direita é dividido na vertical.",
+    "exampleCollapsed": "Recolhido: o painel da esquerda está recolhido e o botão o restaura.",
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-resizable — função, variantes, estados, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P128 (API e semântica), P01, P02, P03 e P116.",
+      "design.md — os tokens resizable/*, color/border-strong, focus/border e state/disabled-opacity.",
+      "WAI-ARIA Authoring Practices — padrão Window Splitter.",
+      "Figma DS-IA-NEPHOS 5.0 — quadro de documentação do nph-resizable (5123:2641) e conjuntos 5112:1849 e 5099:172.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-resizable; Figma, quadro nph-resizable (5123:2641)",
+    "sourceApi": "ficha nph-resizable; docs/decisoes-tecnicas.md › P128",
+    "sourceHandle": "ficha nph-resizable; Figma, conjunto nph-resizable handle (5099:172)",
+    "sourceSizes": "ficha nph-resizable; docs/decisoes-tecnicas.md › P128",
+    "sourceKeyboard": "ficha nph-resizable; WAI-ARIA Authoring Practices, Window Splitter",
+    "sourceAnatomy": "Figma, conjuntos 5112:1849 e 5099:172; design.md",
+    "sourceAccessibility": "ficha nph-resizable; nph-resizable.test.ts",
+    "matrixLabel": "Matriz do componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "list": "Lista",
+    "reading": "Painel de leitura",
+    "navigation": "Navegação",
+    "editor": "Editor",
+    "console": "Console",
+    "preview": "Pré-visualização",
+    "details": "Detalhes",
+    "collapse": "Recolher painel",
+    "expand": "Expandir painel",
+    "collapseList": "Recolher a lista",
+    "expandList": "Expandir a lista"
   }
 }
