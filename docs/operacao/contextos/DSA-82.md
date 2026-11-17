@@ -29,10 +29,10 @@ Apply in the code the answers Indiane gave on 2026-11-16 in the chat to the pend
 - The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-Not yet: the pull request is not open.
+Pull request 180 is open against `v/5.0.0`; the proofs run on its head and Elvys reviews and merges it.
 
 ## Blocker
 None. D-1 (the role of the cut pending step) is a pending decision for Indiane and does not block.
 
 ## Next command
-Open the pull request against `v/5.0.0`, request Copilot, follow Azure, comment the ready-for-review phrase on the final head.
+Follow Azure on the pull request, comment the ready-for-review phrase on the final head; after the merge, the closing of the task.

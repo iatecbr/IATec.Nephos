@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 810,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-13",
@@ -43,7 +43,7 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions of DSA-71 to DSA-80 in the chat, delegated the technical rest to Claude (market research with sources), and released recording the answers in the tasks and opening this task"
   ],
   "external_origin": null,
-  "git_review": { "branch": "feat/dsa-82-respostas", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-82-respostas", "commit": "f3250d14893574c8eee34bb96fd5708f20c29529", "pr": "180" },
   "context": "docs/operacao/contextos/DSA-82.md",
   "updated_at": "2026-11-17"
 }
