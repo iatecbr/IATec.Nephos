@@ -92,7 +92,7 @@ In Figma the neutral circle and the completed circle use the same background and
 ### Used directly or by instance
 
 - Text styles: title `text/label-md`, on the current item `text/label-md-strong`; description `text/body-md`; meta line and the waiting word `text/caption`.
-- The connector line is an nph-separator instance (vertical): thickness `border/width` and color from the item (`timeline/connector-border`); the pending item keeps the separator color, `color/border`. The default separator height (`layout/separator-height`) gives way to the item height.
+- The connector line is an nph-separator instance (vertical) in Figma: thickness `border/width` from the separator and color from the item (`timeline/connector-border`), set by override; the pending item keeps the separator color, `color/border`. `fichas/nph-separator.md` fixes the separator color at `color/border`, so how the code paints the item color is an open point of the task. The default separator height (`layout/separator-height`) gives way to the item height.
 - The avatar marker is an nph-avatar `sm` instance: `avatar/size-sm`, `avatar/radius-sm`, `color/muted` background, `color/border` outline, `user` icon in `color/muted-foreground` with no photo. No circle around it. Its connector line stays on `timeline/connector-border`.
 - The icon is an nph-icon instance, `light` style, in the `timeline/marker-icon-size` box, with the color of the marker on the vector.
 - The action is an nph-button instance: secondary, ghost, default size (`control/height-default`, `space/control-padding`, `space/inline-tight`, `radius/control`, label in `color/secondary-foreground`) and the button focus (focus border and halo).
@@ -114,9 +114,9 @@ Item, common structure (the 8 variants):
      - **Title row**: horizontal, children centered on the cross axis, minimum height `timeline/marker-size` (24), height hugs: the title sits in the middle of the marker; with two lines it grows without cutting.
        - **Title**: `timeline/title-foreground`, `text/label-md` (current `text/label-md-strong`; pending `timeline/title-foreground-pending`).
      - **Description**: `timeline/description-foreground`, `text/body-md`, optional (boolean `descrição`).
-     - **Meta line**: horizontal, start aligned.
+     - **Meta line**: horizontal, start aligned, gap 0 (the spaces are in the text).
        - **Waiting word** (Figma text `Aguardando`): `timeline/description-foreground`, `text/caption`; shown only on the pending item, hidden on purpose on the others.
-       - **Who and when**: `timeline/meta-foreground`, `text/caption`.
+       - **Who and when**: `timeline/meta-foreground`, `text/caption`; one text with a middle dot and a space on each side between who and when (Figma example `Ana Souza · 08/11, 09:12`; on the dot item `Sistema · 08/11, 10:05`). On the pending item it starts with the middle dot and holds who only, after the waiting word (Figma `Aguardando` + ` · Almoxarifado`). On the avatar item the main component shows the date only (`08/11, 09:40`); the name goes on the meta line by override, because the avatar has no label (section Icon and image).
    - **Action**: nph-button secondary ghost default, optional (boolean `ação`, off by default), below the text.
 
 Marker by variant:
@@ -134,7 +134,6 @@ List (`5216:701`): vertical, start aligned, width and height hug, no gap of its 
 
 Order: the marker column comes at the start and the content after it; inside the content, from top to bottom, title, description, meta line and action.
 
-Draw the connector line once per item, with the item token; Figma uses the separator instance to get the 1 px line.
 
 ## Accessibility
 
@@ -250,14 +249,14 @@ Sources: MDN responsive images (https://developer.mozilla.org/en-US/docs/Web/HTM
 
 ## Connector line position (item 12)
 
-In Figma the 1 px line sits at x 12 in a 24 px column (layers `5216:145` and `5216:224`): the line center falls at 12.5, half a pixel off the column center. In code, place the line at `left: 12px`, with no `transform`: a percentage translate creates a half pixel and blurs the line. The line stays sharp, half a pixel off center. The 1 px thickness stays, because thickness and color come from the nph-separator.
+In Figma the 1 px line sits at x 12 in a 24 px column (layers `5216:145` and `5216:224`): the line center falls at 12.5, half a pixel off the column center. In code, place the line at `left: 12px`, with no `transform`: a percentage translate creates a half pixel and blurs the line. The line stays sharp, half a pixel off center. The 1 px thickness stays, because the thickness comes from the nph-separator (`border/width`); the color comes from the item.
 
 ## Inherited decisions
 
 - follows DSA-73 D-1: in dark, `color/primary-border` points to `theme/brand-200` in the 7 brands (foundation, DSA-84); the connector line inherits it with no change in the component.
 - follows DSA-73 D-5 in part: the connector line follows the status and the pending item stays neutral (`color/border`), as in the nph-stepper. It diverges: on the timeline the line of the current, error and warning items is also on the brand color (item 6), because the timeline records and does not lead; the state is on the marker.
 - follows DSA-73 D-4: a hover background only on a step that can be activated. The timeline item cannot be activated, so it has no hover.
-- follows DSA-65 D-1 in part (process type): the list takes 2 items or more, with no ceiling of 7, because a long list ends in "Show more". A single event is the item with the connector line off.
+- follows DSA-65 D-1 in part (process type): the list takes 2 items or more, with no ceiling of 7, because a long list ends in "Show more". A single event is the item with the connector line off (limits, minimum), in the same named `ol` with one `li` (default behavior, structure); the same holds for the history type.
 - follows DSA-24 D1, D2, D3 and D4 (avatar marker): `user` icon `light`; size `sm` with `icon/size-sm`; the icon stays while the photo loads and when it fails; outline `border/width` in `color/border` over the photo.
 - follows DSA-88 (nph-card, 17-11): image exported at 2x, cover crop; loading with `aria-busy="true"`, skeleton with `aria-hidden="true"` and a hidden "Loading" text; nothing interactive inside the clickable card, so a timeline with an action goes in the base or section card.
 - follows DSA-62 D-3 (with reduced motion, nothing moves; cited in DSA-73 and DSA-88): if the code animates the arrival of events, the motion goes away under `prefers-reduced-motion`.

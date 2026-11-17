@@ -712,12 +712,12 @@ tokens_semantic:
     css: '--nph-status-warning-border'
     claro: core/warn/200
     escuro: core/warn/400
-    use: "Message border. Always together with the other three roles of status/warning. Also the discreet outline of the nph-timeline warning marker (timeline/marker-border-warning): 1.66:1 against the background in light, so the icon carries the meaning."
+    use: "Message border. Always together with the other three roles of status/warning. Also the discreet outline of the nph-timeline warning marker (timeline/marker-border-warning), without status/warning (see status/warning-surface): 1.66:1 against the background in light, so the icon carries the meaning."
   status/warning-foreground:
     css: '--nph-status-warning-foreground'
     claro: core/warn/800
     escuro: core/warn/100
-    use: "Text inside the message. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border. Also the triangle-exclamation icon of the nph-timeline warning marker (timeline/marker-foreground-warning), over status/warning-surface."
+    use: "Text inside the message. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border. Also the triangle-exclamation icon of the nph-timeline warning marker (timeline/marker-foreground-warning), over status/warning-surface, without status/warning (see status/warning-surface)."
   status/help:
     css: '--nph-status-help'
     claro: core/help/600
@@ -754,12 +754,12 @@ tokens_semantic:
     css: '--nph-status-error-border'
     claro: core/danger/200
     escuro: core/danger/400
-    use: "Message border. Always together with the other three roles of status/error. Also the border of the nph-file-upload-item in the error status in light mode (file-upload-item/border-error); in dark mode the item points to core/alpha/danger-400-40, so the border is soft as in light. Also the discreet outline of the nph-timeline error marker (timeline/marker-border-error): 1.93:1 against the background in light, so the icon carries the meaning."
+    use: "Message border. Always together with the other three roles of status/error. Also the border of the nph-file-upload-item in the error status in light mode (file-upload-item/border-error); in dark mode the item points to core/alpha/danger-400-40, so the border is soft as in light. Also the discreet outline of the nph-timeline error marker (timeline/marker-border-error), without status/error (see status/error-surface): 1.93:1 against the background in light, so the icon carries the meaning."
   status/error-foreground:
     css: '--nph-status-error-foreground'
     claro: core/danger/800
     escuro: core/danger/100
-    use: "Text inside the message. Always together with the other three roles of status/error. Also the circle-xmark icon of the nph-timeline error marker (timeline/marker-foreground-error), over status/error-surface."
+    use: "Text inside the message. Always together with the other three roles of status/error. Also the circle-xmark icon of the nph-timeline error marker (timeline/marker-foreground-error), over status/error-surface, without status/error (see status/error-surface)."
   status/error-text:
     css: '--nph-status-error-text'
     claro: core/danger/600
