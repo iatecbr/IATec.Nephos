@@ -452,7 +452,7 @@ tokens_semantic:
     claro: core/neutral/100
     escuro: core/surface/500
     use: "Line of the nph-dialog header and footer. Softer than color/border, to separate long content, such as a list or a table, without weight. Decorative: the content does not depend on it. Also the lines between the field, the list and the footer of the nph-command, which opens in a dialog (command/divider)."
-    nao_use: "Outside the nph-dialog and the nph-command. A divider of a page, card or table is color/border."
+    nao_use: "Outside the nph-dialog and the nph-command. A divider of a page or table is color/border; the divider of the nph-card is color/border-subtle (card/divider)."
   color/secondary-on-dialog:
     css: '--nph-color-secondary-on-dialog'
     claro: color/secondary
@@ -1702,7 +1702,7 @@ tokens_elevation:
     css: '--nph-elevation-hairline'
     camadas: ['0 1px 0 0 shadow/color-light']
     equivale_a: 'shadow-2xs of the reference kit'
-    use: "Elevation hairline. USE when the piece only needs to separate from what is behind it without looking like it floats: fixed bar, table header, weighted divider. DO NOT USE on a card - a card is elevation/raised."
+    use: "Elevation hairline. USE when the piece only needs to separate from what is behind it without looking like it floats: fixed bar, table header, weighted divider. DO NOT USE on a card - a card is elevation/raised, or has no elevation when outlined."
   elevation/subtle:
     css: '--nph-elevation-subtle'
     camadas: ['0 1px 2px 0 shadow/color-light']
@@ -2717,7 +2717,7 @@ Space groups. The question is not how much looks nice, but **what these two thin
 | `inline-tight` × `inline` | Inside a unit it is `tight`; between units it is `inline`. An icon in a button is `tight`; a button next to a button is `inline`. |
 | `stack` × `section` | 16 is between items of the same list; 32 is between subjects. If there is a new title, it is `section`. |
 | `container-padding` × `surface-padding` | `surface-padding` (24) is the inner padding of a card in the default density (nph-card); `container-padding` (16) is panel, popover, dialog and the compact card. |
-| `control-padding` × `container-padding` | A control is what is **operated** (button, field, select). A container is what **contains** (card, panel, popover). The `nph-badge` uses `control-padding` on the sides. |
+| `control-padding` × `container-padding` | A control is what is **operated** (button, field, select). A container is what **contains** (compact card, panel, popover). The `nph-badge` uses `control-padding` on the sides. |
 | `container-padding` × page margin | Inside a panel or popover it is `container-padding`; the nph-card is `surface-padding` (24) in the default density and `container-padding` in the compact one. The page margin **is not a space token**: it is `layout/margin-compact`, `-default` or `-wide`, which change by breakpoint. |
 
 **Padding is not gap.** Padding is the breathing room inside a box; gap is the distance between boxes. The value may coincide; the intent does not.

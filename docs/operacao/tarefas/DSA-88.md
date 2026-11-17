@@ -93,6 +93,8 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - The hidden "Loading" text: its translated string and where it sits. The spec names it.
 - Touch detection for the 36 px menu action (for example `pointer: coarse`): the spec names the media query.
 - The narrow container rule for the side media: the width at which it moves to the top (a container query); Figma shows the wide case only. The spec names the value.
+- Loading with media: Figma draws the loading state without media. Whether the media place shows the nph-image in its own loading state or the media stays out while loading is open for Indiane, in Figma. It does not block the pull request.
+- Long key or value in the key-value list of the section type: Figma does not draw it. Wrap or truncate is open for Indiane, in Figma. It does not block the pull request.
 - The width: Figma widths (360, 320, 560) are examples; the card takes the container width.
 - The menu of the menu action is the product's nph-dropdown-menu; the card only places the trigger.
 
