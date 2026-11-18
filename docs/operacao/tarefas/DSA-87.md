@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 860,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-carousel",
   "dependencies": [
     "DSA-03",
@@ -53,8 +53,8 @@
     "converted_decision": "The nph-carousel documentation frame (5173:1429, page 1626:32) was accepted as the API and behavior specification of nph-carousel, with the visual acceptance of the root (5164:663). COMPONENT_SET nph-carousel (5165:1094), 9 variants; COMPONENT_SET nph-carousel indicators (5164:771), 11 variants; COMPONENT_SET nph-carousel indicator (5164:687), 5 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-16"
+  "context": "docs/operacao/contextos/DSA-87.md",
+  "updated_at": "2026-11-18"
 }
 ```
 
