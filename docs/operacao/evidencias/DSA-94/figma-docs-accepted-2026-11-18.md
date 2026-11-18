@@ -76,7 +76,7 @@ The panel shadow is the effect style `elevation/dropdown` (a style is not a toke
 | `color/skeleton` | `core/surface/50` · `core/surface/600` | `#EDEEEF` | `#3C444F` | New semantic: background of the loading block |
 | `skeleton/background` | `color/skeleton` | `#EDEEEF` | `#3C444F` | Background of the `nph-skeleton` shape (line, block, circle) |
 
-Before, the shape used `color/muted` (`#2D333B` in dark), the same value as `color/popover`: 1.00:1, it vanished on the panel of the first load. Now, 1.16:1 over `color/popover`, `color/background` and `color/card` in light (unchanged); in dark, 1.29:1 over `color/popover`, 1.62:1 over `color/card` and 1.92:1 over `color/background`. Decorative: the block carries no state and no text.
+Contrasts in this evidence that the documentation does not carry are computed from the `core` values (WCAG relative luminance; white 10% blended over its background). Before, the shape used `color/muted` (`#2D333B` in dark), the same value as `color/popover`: 1.00:1, it vanished on the panel of the first load. Now, 1.16:1 over `color/popover`, `color/background` and `color/card` in light (unchanged); in dark, 1.29:1 over `color/popover`, 1.62:1 over `color/card` and 1.92:1 over `color/background`. Decorative: the block carries no state and no text.
 
 ### Used by instance
 
@@ -246,6 +246,7 @@ Base: the WAI-ARIA APG combobox with a tree popup and the tree view; the decisio
 | Pointer and focus | Hover only paints the item; it does not move the active item. With both on the same item, the focus wins over the hover. | `nph-tree`, approval of 2026-11-11 (items 4 and 10) |
 | Near the window edge | With no room below, the panel opens above, at the same distance. Above `layout/max-list-height`, it scrolls inside; the width does not shrink. | DSA-29 D-2 and D9; https://floating-ui.com/docs/flip |
 | Loading branch and error | The spinner takes the place of the chevron of the branch that opens; the first load shows the skeleton. On a branch error, the row says the error and Try again; Enter tries again. The row takes the panel width; when it does not fit, Try again drops below the message, at the same indent (item 5). | `nph-tree`, approval of 2026-11-11 (items 5 and 6); approval of 2026-11-18, item 5 |
+| A letter in single (field not editable) | Not in the accepted documentation nor in the appendix. Open with the design owner as D-1 of the task, with the recommendation: closed, the letter opens the panel on the first visible item that starts with it; open, it moves the active item to the next one; the value does not change. | Review of 2026-11-18; APG combobox (select-only) and tree view; `fichas/nph-select.md` line 229; `fichas/nph-tree.md` line 290 |
 | Clear (single with search) | The clear target erases the text and gives the focus back to the field. | `nph-combobox` |
 | Motion | The panel enters with a fade and a 4 px slide (`motion/enter-*`) and leaves with `motion/exit-*`. With reduced motion, opacity only. | DSA-29 D2 |
 | Code | Event, aria, slot, property and console warning stay with the code owner, following the APG and the Custom Elements Manifest. | — |
@@ -291,8 +292,8 @@ Out of the v1, with the reason (the out-of-scope list of the matrix):
 - Checking the parent and the children independently: a business rule per screen; an open point of the code in DSA-75.
 - A small size: the Nephos field has no such size; it would come for the whole family.
 - A warning status: the Nephos fields have error and no warning; it would come for the whole family.
-- A chip that counts the extra items: it does not exist as a piece (pending 6); the counter mode covers the case.
-- Showing in the value the parent, the children or all as an option: a rule of the value, of the code (pending 2).
+- A chip that counts the extra items: it does not exist as a piece (pending 6, approved with the page); the counter mode covers the case.
+- Showing in the value the parent, the children or all as an option: a rule of the value, of the code (pending 2, resolved in the accepted root: one chip for the parent).
 
 ## Inherited decisions
 

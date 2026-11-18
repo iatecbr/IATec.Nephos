@@ -76,6 +76,7 @@ In the evidence of the `design-decision` gate: `docs/operacao/evidencias/DSA-95/
 ### Tests
 - `src/components/nph-select/nph-select.test.ts`, "the list: color/popover, border color/input, radius/container, elevation/dropdown" (today line 880, check at line 886): the title and the check read `--nph-color-border-subtle`.
 - `src/components/nph-combobox/nph-combobox.test.ts`, "the list: color/popover, border color/input, radius/container, elevation/dropdown" (today line 1151): the same.
+- `src/components/nph-select/nph-select.test.ts`, token contract (`describe('token contract')`, today lines 1263 to 1311): the test compares with `toEqual` the exact set of `var(--nph-*)` of the CSS; add `--nph-color-border-subtle` to the set (the field keeps `--nph-color-input`, so it stays). In `src/components/nph-combobox/nph-combobox.test.ts` (today line 1358) the contract checks by inclusion and does not break; add the name to its list if the spec names every token.
 - If the `nph-multi-combobox` tests check the list border, the same. The checks of the field border (`color/input`, `color/input-hover`) stay.
 
 ### Texts
@@ -84,7 +85,7 @@ In the evidence of the `design-decision` gate: `docs/operacao/evidencias/DSA-95/
 - `fichas/nph-multi-combobox.md`: lines 274 and 485, the same.
 - `src/shared/metadata/nph-select.json`, `nph-combobox.json` and `nph-multi-combobox.json`: generated from the specs; regenerate them with `node scripts/verificar-operacao.mjs --gerar-metadata`, do not edit them by hand.
 - `.storybook/i18n/en.json`, `es.json` and `pt-BR.json`: the anatomy text "6. List" of the `nph-select` and of the `nph-combobox` ("color/popover, border color/input, …", today lines 4772 and 7470 of `en.json`, the same lines in the other two files).
-- `design.md` already says it: `color/border-subtle` names the list of the three pieces ("DSA-95; until it merges, the code draws color/input"), and `color/input` and `color/dropdown-border` send the list to `color/border-subtle`. When this task lands, drop "until it merges, the code draws color/input" from the `use` of `color/border-subtle`.
+- `design.md` already says it: `color/border-subtle` names the list of the three pieces, marked "DSA-95" (until this task lands, the code draws `color/input`), and `color/input` and `color/dropdown-border` send the list to `color/border-subtle`. When this task lands, drop the mark "DSA-95" from those lines.
 
 Before closing, search the repository for "border color/input", "in color/input" next to "list", and `--nph-color-input` in the list rules, in the specs, stories, tests and the three translation files, to catch any text this list missed. Leave `docs/operacao/evidencias/` and the other tasks, such as DSA-29 and DSA-46, as they are (history).
 

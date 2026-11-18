@@ -45,12 +45,12 @@ Preview of the approval, light and dark: appendix of the `nph-tree-select`, sect
 |---|---|---|
 | Before, `color/input` | `#8F8F8F` (core/neutral/400) | `#9399A1` (core/surface/300) |
 | After, `color/border-subtle` | `#F1F1F1` (core/neutral/50) | white 10% (core/alpha/white-10) |
-| After, contrast over `color/popover` | 1.13:1 | 1.36:1 |
+| After, contrast over `color/popover` (computed from the `core` values, WCAG relative luminance) | 1.13:1 | 1.36:1 |
 
 Decorative, as the outline of the `nph-popover`, the `nph-hover-card`, the menus and the `nph-tree-select` panel. No token was created: the list uses the semantic straight, as it does today with `color/input` (the rule T9 asks a component token only for new tokens; the existing ones do not change by it).
 
 ## Sources
 - WORK BRAIN, `03 MEMÓRIA/diario/2026/2026-11-16.md` (the correction of the panel) and `2026-11-18.md` (the answer to item 4)
-- Figma `DS-IA-NEPHOS 5.0`: `1357:137`, `1359:141`; the `nph-tree-select` appendix `7149:38729`, pending 1 (`7150:36`) and preview `7174:35`
+- Figma `DS-IA-NEPHOS 5.0`: `1357:137`, `1359:141`; the `nph-tree-select` appendix `7149:38729`, the note of approval item 4 (`7150:36`) and preview `7174:35`
 - `docs/operacao/evidencias/DSA-94/figma-docs-accepted-2026-11-18.md`, decision 4
 - WCAG 2.2, non-text contrast: https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
