@@ -661,6 +661,14 @@ describe('the month and year views (D-2, D-9)', () => {
     expect(root(calendar).querySelector('.status')?.textContent).toBe('2026');
   });
 
+  it('keeps the icons as drawn: chevron-down on the month title, chevron-up on the year title (D-9)', async () => {
+    const calendar = await mount({ month: '2026-10' });
+    expect((root(calendar).querySelector('.title') as HTMLElement & { iconEnd: string }).iconEnd).toBe('chevron-down');
+    (root(calendar).querySelector('.title') as HTMLElement).click();
+    await settle(calendar);
+    expect((root(calendar).querySelector('.title') as HTMLElement & { iconEnd: string }).iconEnd).toBe('chevron-up');
+  });
+
   it('puts the focus on the month shown and marks the current month', async () => {
     const calendar = await openMonths();
     expect(root(calendar).activeElement).toBe(items(calendar)[9]);

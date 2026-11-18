@@ -86,6 +86,7 @@ P62.4 subsection for the detail).
 | **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P129** | API and semantics of `nph-carousel` | 18/11/2026 | Low now. No piece consumes the carousel yet; a gallery, a featured list or a welcome tour will, and changing `layout`, `index`, `hide-arrows`, `hide-indicators`, `counter`, the six names, the event `nph-slide-change`, the meaning of `index` in the several layout, the roles, the keys or the invalid-input rule later requires redoing every consumer. The arrow that is not focusable at the ends (D-1) waits for Indiane; the color of the arrow icon through an internal variable of `nph-button` is for Elvys to confirm in the pull request | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P133** | API and semantics of `nph-date-picker` and `nph-calendar` | 18/11/2026 | Low now. No piece consumes the date picker yet; the filters of a report, a due date in a form and the scheduler adjustment (the `nph-calendar` grid replaces its own) will, and changing `mode`, `size`, `value`, `start`, `end`, `min`, `max`, `unavailable`, `month`, `months`, `week-start`, `now`, `labels`, `name`, `start-name`, `end-name`, `open`, the event `change`, the events `nph-pick` and `nph-month-change`, the date text `YYYY-MM-DD`, the internal control row, the seven shortcuts, the typed date rules, the keys or the invalid-input rule later requires redoing every consumer. D-1 to D-11 follow the provisional rule of the task; the measures with no token (D-12), a typed Start or End with the panel closed (D-13) and the page margin of the narrow switch (D-14) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9580,9 +9581,154 @@ the pull request. API and semantics are reviewed in the pull request that brings
 
 ---
 
+## P133 — `nph-date-picker` and `nph-calendar`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `6673:62837`, page `1364:2`, root `6662:55010`, sets `6666:32`,
+`6662:56378` and the grid `4015:28204`) draws a date field with a calendar in two modes, a single date and a range, and a date
+grid that the scheduler mini month will reuse. It leaves to the code how the date is given and read, how a field that holds the
+text and a button is named by the `nph-field`, how the two months of a range move, how the panel finds its place, how the
+shortcuts are written, how a typed date is checked and what the grid fires. Five limits of the platform and of the system shape
+the answer:
+
+- the `nph-field` names and describes **one** control (P83), and the control row of the date picker holds an `nph-input` and an
+  icon-only button, side by side;
+- the month names, the weekday names and the order of day, month and year belong to the language, and `Intl` knows them;
+  `Intl` does not know on which day the week starts;
+- a date is a calendar day, and a `Date` carries an instant and a time zone, so a day crosses a change of the clock or a time
+  zone wrong;
+- the `nph-option` is written only as a child of the list that owns it, and the shortcut list of the date picker is not an
+  `nph-select`;
+- `npm run test:package` counts one `customElements.define` per component folder, and the date picker needs a second element
+  that is not a component.
+
+**Decision.** Two Web Components with **open Shadow DOM** (P01): `nph-date-picker`, in `src/components/nph-date-picker/`,
+and `nph-calendar`, in `src/components/nph-calendar/`. Every measure and color comes from the semantic tokens and the nine
+component tokens of the task (`calendar/*` and `date-picker/*`); **no token is created or changed**. They have no `::part` and no
+color property. What they reject renders nothing and emits `console.error` only in development, once per cause: the rule of
+P21. The names follow P64.
+
+1. **Two elements (Q1).** `nph-calendar` is its own exported element, the owner of the date grid, with its sheet: the header
+   (arrows and title), the weekday row, six week rows, the month view and the year view. `mode` is `single` or `range`, `size`
+   `default` or `large`, and `months` is `1` or `2`: the two consecutive months of a range are one element, so the arrow keys
+   cross from the last day of the left month to the first day of the right month, the two months move together and the month
+   whose title was chosen is the one that gives way to the view. The `nph-scheduler` keeps its own grid; replacing it with this
+   one, its day radius and its day focus are an adjustment task of the scheduler after this one (DSA-77 D-1, item 7 of the
+   acceptance). `nph-date-picker` composes the field, the calendar button, the panel, the shortcuts and the footer.
+
+2. **A date is the text `YYYY-MM-DD` (Q2).** The properties `value` (single), `start` and `end` (range), `min`, `max`, `month`
+   (`YYYY-MM` or any day of it) and `now` (the date of today, for tests and stories; absent, the clock of the machine) are text,
+   the same format as the `nph-scheduler`, so no time zone and no `new Date(string)` is in the way. A date that does not exist
+   (`2026-02-30`) draws nothing and says so in development. The logic works on whole days counted in UTC (`nph-calendar.logic.ts`).
+   The date picker is **form-associated**: `name` puts the date of a single picker in the form data; `start-name` and `end-name`
+   put the two dates of a range; `required` makes an empty picker `valueMissing`, and a typed text that is not a date makes it
+   `badInput`; `form.reset()` brings back the `value`, `start` and `end` attributes.
+
+3. **The control row is an internal element (Q3).** The `nph-field` writes `label`, `description`, `invalid`, `required` and
+   `disabled` on ONE custom element that takes the contract. The row is `nph-date-picker-control`, defined in
+   `nph-date-picker-control.ts` and drawn by the date picker, which takes that contract in the place of its `nph-input` and hands
+   it on: the input gets the name (the label of the field), the description (the hint or the error sentence) and the state; the
+   calendar button keeps its own name, its tooltip, and fades with `disabled`. It is **not public**: no folder, no `exports`
+   entry, no sheet; the manifest drops it because its path is not `src/components/<tag>/<tag>.ts`, and `@internal` and `@ignore`
+   say it in the source. `scripts/test-package.mjs` lists it in `INTERNAL_ELEMENTS`, so the count of definitions still catches a
+   second element that is not on the list. Alternatives discarded: a second slot child in the field, which makes the field warn
+   about more than one control and stacks the two; placing the button over the field with a measured offset, which breaks when
+   the label wraps; writing a field of its own inside the date picker, which repeats the label, the message line and the error.
+
+4. **Every text comes from the consumer; the names come from `Intl` (Q4).** `labels` is one object with every text the piece
+   writes, already localized (the piece writes no word of its own), and a missing key renders anyway and says which keys, once.
+   The names of the months and of the weekdays, the title of a month and the full name of a day come from `Intl.DateTimeFormat`
+   in the language of the nearest `lang`, as the scheduler reads it. The text of the field is written in the order of that
+   language, two digits for the day and the month, four for the year and the slash as the separator (`10/20/2026` in `en`,
+   `20/10/2026` in `pt-BR` and `es`); the hint in `labels` says the same in words. `week-start` is `sunday` (default) or
+   `monday` (DSA-77 decision 8).
+
+5. **A typed date (Q5, D-4).** No mask (DSA-16 D1). The text is read when the person leaves the field, or clears it: day and
+   month with or without a leading zero, a four-digit year, the slash. One message at a time, in this order: empty (an error
+   only when the field is `required`), invalid, outside the limit (it cites the min, the max or both), unavailable by rule, an
+   End before the Start. The message goes through the `nph-field` (`status/error-text`, the border `status/error`, no icon);
+   a date with a problem is not committed, the value it replaces stays, and the field keeps what was typed. A typed End before
+   the Start does not reorder; only a pick in the panel does. A click in the field is not a click outside, and typing with the
+   panel open moves the panel to the date once it is valid. A message the screen owns (`error`, `start-error`, `end-error`) is
+   shown when the piece has none of its own.
+
+6. **The panel (Q6).** A surface of its own, not an `nph-popover`: its widths stop at 400 and the range is 762. It is a
+   `popover="manual"`, so it lives in the top layer, as the select list and the popover. It opens `date-picker/panel-offset`
+   below the control row, aligned to its start, flips above with the same gap when it does not fit and the room above is larger,
+   and, when neither fits, keeps the larger side and shrinks with an inner scroll. It follows the field on scroll and resize.
+   Esc closes it without change and gives the focus back to the calendar button (the End button of a range); a press outside
+   closes it like Cancel and leaves the focus where the person put it; the button again toggles it; **Tab after the last item
+   closes it like Cancel and gives the focus back to the button**, so the panel is not a trap and a period counts only on Apply.
+   In the month or year view the first Esc goes back to the days. A panel opened by the markup (`open` on the first render) draws
+   and takes no focus, because nothing the person did asked for it; opened later, the focus goes to the date of the field, or
+   to today, or to the nearest allowed day when today is outside the limit (item 9 of the acceptance). It enters with opacity and
+   a 4 px slide and leaves with the exit role; with reduced motion, opacity only (DSA-29 D2).
+
+7. **The range (Q7, D-5 to D-11).** The shortcuts are seven `nph-option` in a `listbox` that the date picker owns: one Tab stop,
+   the arrows move the active option (it takes the hover look), Enter and Space choose; the options keep their own roles (the
+   list needs no `NPH_OPTION_CHANGED`). The period of each one is the one of D-6, cut by the min and the max, and a shortcut
+   with no allowed day is disabled. Choosing one fills the band and waits for Apply; `Custom` changes nothing and moves the
+   focus to the grid; picking days by hand marks `Custom`, or the shortcut whose period is the same. Clear empties the selection
+   in the panel and the shortcut mark at once and stays open; the fields change only on Apply, and Cancel brings the previous
+   period back (D-8). A third pick starts over; one day is a valid period; Apply stays enabled, applies an empty period when
+   nothing is chosen and one day when only the Start is (D-10). The period is announced in a live region (`labels.period`).
+   The panel switches to one month with the shortcuts on top when the viewport does not fit the panel of the size in use plus the
+   page margin (D-7): 12 steps of `date-picker/panel-padding` of shortcuts, two grids and the border, plus
+   `space/container-padding` on each side (D-14).
+
+8. **The grid (Q8, D-1 to D-3, D-9, D-11).** Six week rows always, filled with days of the previous and the next month; a day
+   outside the month can be picked, and in a single date the month moves to it. The weekday names use `text/label-sm`. A day
+   outside the min or the max is a disabled `button` under `state/disabled-opacity`, out of the Tab order; a date unavailable
+   by rule is a `button` with `aria-disabled`, no opacity, focusable, never chosen (item 9). Each grid is one Tab stop (the
+   chosen date, then today, then the first allowed day), the arrows cross between the two grids, Page Up and Page Down move
+   the months and Shift the year, Home and End the week. The title of a month opens the month view in its place, the year title
+   of that view opens a block of twelve years that starts at the decade, a year picked opens its months and a month picked opens
+   its days; the arrows move one year and twelve years; a month or a year is disabled only when none of its days is allowed. The
+   month and year views keep their drawn size, centered, and the panel keeps its width. The band behind the Start and the End
+   and the fill of the middle run straight across the turn of the week, as a pseudo-element of the cell. Events: `nph-pick`
+   (`detail: { date, start, end }`) when the person picks and `nph-month-change` (`detail: { month }`) when the person moves the
+   months; both bubble and are composed; code that sets a property fires nothing.
+
+9. **The events of the date picker (Q9).** One event, `change`, on the host: when a date is applied or a typed date is
+   committed (single), or the period is applied or a typed field is committed (range). The `input` and `change` of the inner text
+   and the `nph-pick` of the grid never leave the piece. `open` reflects, and opening and closing fire nothing.
+
+10. **No property to choose what the evidence fixes (Q10).** There is no property for the first day other than `week-start`, for
+    the format of the text, for the shortcuts (the seven are fixed in v1; the product cannot pass its own) or for the months
+    shown by the date picker (the range shows two, or one when narrow).
+
+**Provisional rules.** The design owner has not answered D-1 to D-11. The code follows, for each one, the column "Until the
+design owner answers" of the task, and names it here so it is easy to change: **D-1** six rows; **D-2** the month and year
+views at their drawn size, the panel shrinking with the open view, a year opens its months and a month opens its days; **D-3**
+`text/label-sm` on the weekday names; **D-4** the typed-date rules of item 5; **D-5** both arrows on each month, the two months
+move together, the Start month on the left, the focus on the Start day; **D-6** the periods of item 7; **D-7** the switch by the
+width available; **D-8** Clear; **D-9** the ladder of item 8, with the year title icon as drawn (`chevron-up`); **D-10** the
+selection cycle; **D-11** a day outside the month is picked, one Tab stop per grid, the arrows cross, only the End filled opens
+on the End.
+
+**Out of scope.** A month-only, year-only, week, quarter or time picker. Replacing the scheduler grid. A token, new or changed.
+A radius semantic for floating layers. Shortcuts of the product. A mask. A read-only state. Locale-aware parsing beyond the order
+of day, month and year and the slash.
+
+**Pending decisions for the design owner.** D-1 to D-11 stay as they are in the task. The code adds three:
+
+- **D-12 — measures with no token.** The shortcut column is 192 wide, the header 40 high and the month and year cell 84 wide in
+  Figma, and no token carries them. The code derives them from tokens, with no literal: 12 steps of `date-picker/panel-padding`,
+  the default control height plus `space/inline-tight`, and 3 of 7 of the default week row. The design owner decides whether
+  they get tokens, through Claude in Figma.
+- **D-13 — a typed Start or End with the panel closed.** The evidence says how typing works with the panel open and what Apply
+  does; it says nothing about the panel closed. The code commits each field when the person leaves it, so a Start without an End
+  can stay, and fires `change` for each. The design owner decides whether a range commits only when both fields are valid.
+- **D-14 — the page margin of D-7.** The narrow switch needs a margin around the panel; the code uses `space/container-padding` on
+  each side of the viewport. The design owner confirms or gives the margin.
+
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-14 wait for the design owner and do not
+block the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129 or P130 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130 or P133 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

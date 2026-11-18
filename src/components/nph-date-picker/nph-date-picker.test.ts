@@ -539,6 +539,34 @@ describe('the panel of a single date', () => {
   });
 });
 
+describe('D-2: the views inside the panel', () => {
+  it('takes the height of the open view, 226 with its border, and keeps the width of the days on both sizes', async () => {
+    for (const [size, width] of [['default', 286], ['large', 342]] as const) {
+      const { picker } = await mount({ size, value: '2026-10-20' });
+      await open(picker);
+      ((calendarRoot(picker).querySelector('.title')) as HTMLElement).click();
+      await settle(picker);
+      await until(() => surface(picker).getBoundingClientRect().height < 300);
+      const box = surface(picker).getBoundingClientRect();
+      expect(box.height, size).toBe(226);
+      expect(box.width, size).toBe(width);
+      picker.remove();
+    }
+  });
+
+  it('goes back to the days with the first Esc and closes the panel with the second (D-9)', async () => {
+    const { picker } = await mount({ value: '2026-10-20' });
+    await open(picker);
+    ((calendarRoot(picker).querySelector('.title')) as HTMLElement).click();
+    await settle(picker);
+    await press(picker, '{Escape}');
+    expect(picker.open).toBe(true);
+    expect(calendarRoot(picker).querySelector('.view')).toBeNull();
+    await press(picker, '{Escape}');
+    expect(picker.open).toBe(false);
+  });
+});
+
 describe('the range: the fields', () => {
   it('puts Start and End side by side, 8 px apart, aligned at the top, each in its own field, with one calendar button, in End', async () => {
     const { picker } = await mount({ mode: 'range', start: '2026-10-10', end: '2026-10-14' });
