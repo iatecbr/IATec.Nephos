@@ -772,7 +772,6 @@
   --nph-select-option-background-hover-opacity: var(--nph-core-opacity-50);
   --nph-select-option-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-select-option-dot-size: var(--nph-core-space-200);
-  --nph-select-option-focus-border-width: var(--nph-core-focus-width-sm);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1104,7 +1103,10 @@
   --nph-select-option-radius: var(--nph-radius-inner);
   --nph-select-option-icon-size: var(--nph-icon-size-md);
   --nph-select-option-marker-size: var(--nph-icon-size-sm);
-  --nph-select-option-focus-border-radius: var(--nph-radius-inner);
+  --nph-select-option-focus-border-width: var(--nph-border-width);
+  --nph-select-option-focus-border-radius: var(--nph-focus-border-radius-inner);
+  --nph-select-option-focus-halo-width: var(--nph-focus-ring-width);
+  --nph-select-option-focus-halo-radius: var(--nph-focus-radius-inner-with-border);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
 }
 
@@ -1547,6 +1549,7 @@
   --nph-rich-option-focus-halo: var(--nph-focus-halo);
   --nph-select-option-marker: var(--nph-color-primary);
   --nph-select-option-focus-border: var(--nph-focus-border);
+  --nph-select-option-focus-halo: var(--nph-focus-halo);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
