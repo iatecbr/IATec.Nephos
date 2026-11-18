@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 880,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-timeline",
   "dependencies": [
     "DSA-03",
@@ -29,11 +29,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 3be61aeabf422ffbf545eef659d4f0a904b81330 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-89/review-and-merge-2026-11-18.md",
+      "result": "passed",
+      "verified_at": "2026-11-18",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -58,7 +58,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-89/figma-docs-accepted-2026-11-17.md"
+    "docs/operacao/evidencias/DSA-89/figma-docs-accepted-2026-11-17.md",
+    "docs/operacao/evidencias/DSA-89/review-and-merge-2026-11-18.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -75,10 +76,10 @@
   },
   "git_review": {
     "branch": "feat/dsa-89-timeline",
-    "commit": null,
+    "commit": "3be61aeabf422ffbf545eef659d4f0a904b81330",
     "pr": 185
   },
-  "context": "docs/operacao/contextos/DSA-89.md",
+  "context": null,
   "updated_at": "2026-11-18"
 }
 ```
