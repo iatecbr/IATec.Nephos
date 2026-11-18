@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 850,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-resizable",
   "dependencies": [
     "DSA-03",
@@ -26,11 +26,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor d94bd7717b6ceaeb93d7277b455e4fa79f3a1115 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-86/review-and-merge-2026-11-17.md",
+      "result": "passed",
+      "verified_at": "2026-11-17",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -49,7 +49,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-86/figma-docs-accepted-2026-11-16.md"
+    "docs/operacao/evidencias/DSA-86/figma-docs-accepted-2026-11-16.md",
+    "docs/operacao/evidencias/DSA-86/review-and-merge-2026-11-17.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -64,8 +65,8 @@
     "excerpt": null,
     "converted_decision": "The nph-resizable documentation frame (5123:2641, page 1626:34) was accepted as the API and behavior specification of nph-resizable, with the visual acceptance of the root (5112:1850). COMPONENT_SET nph-resizable (5112:1849), 4 variants, and COMPONENT_SET nph-resizable handle (5099:172), 10 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-86-resizable", "commit": "d025d9c", "pr": 181 },
-  "context": "docs/operacao/contextos/DSA-86.md",
+  "git_review": { "branch": "feat/dsa-86-resizable", "commit": "d94bd7717b6ceaeb93d7277b455e4fa79f3a1115", "pr": 181 },
+  "context": null,
   "updated_at": "2026-11-17"
 }
 ```
