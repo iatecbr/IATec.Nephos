@@ -503,6 +503,19 @@ describe('the panel of a single date', () => {
     expect(changed).not.toHaveBeenCalled();
   });
 
+  it('follows the field when the layout above it moves with no event: the panel stays 4 px below', async () => {
+    const { picker } = await mount();
+    await open(picker);
+    const spacer = document.createElement('div');
+    spacer.style.cssText = 'block-size: 60px;';
+    document.body.prepend(spacer);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve(null))));
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const box = surface(picker).getBoundingClientRect();
+    const row = (q(picker, 'nph-date-picker-control') as HTMLElement).getBoundingClientRect();
+    expect(Math.round(box.top - row.bottom)).toBe(4);
+  });
+
   it('flips above, with the same 4 px, when there is no room below', async () => {
     const { picker } = await mount();
     picker.style.cssText = 'display: block; position: fixed; left: 40px; top: 640px;';

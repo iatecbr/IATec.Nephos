@@ -8,7 +8,8 @@
  * dark mode, in the same story, through `data-nph-color-scheme` on the frame (P20, P67).
  *
  * The open panels are drawn by the `open` attribute, one frame under the other, and take no focus: nothing the person did asked for
- * it. Hover and keyboard focus show up by using the pickers; the component test measures each one. No attribute forces a state,
+ * it. A panel follows its field and flips above when the window has no room below it, so the frame lower on the page may show its panel
+ * above its field until the page is scrolled. Hover and keyboard focus show up by using the pickers; the component test measures each one. No attribute forces a state,
  * because it would be API. Each page opens with what it proves, from the dictionary (`validationPages.claims`); all visible text comes
  * from the language dictionary, under the key `datePickerValidation` (`docs/i18n.md`, "Storybook").
  */

@@ -285,6 +285,7 @@ export class NphDatePicker extends LitElement {
   private shown = false;
   private closeTimer: number | undefined;
   private frame: number | undefined;
+  private anchorFrame: number | undefined;
   private resizeObserver: ResizeObserver | undefined;
   private readonly scrollTargets: EventTarget[] = [];
   private returnsFocus = false;
@@ -817,6 +818,7 @@ export class NphDatePicker extends LitElement {
       this.resizeObserver.observe(surface);
       this.updateScrollTargets();
       this.place(surface);
+      this.followAnchor();
       /* The first style is the closed one; the next one starts the enter transition. */
       void surface.offsetWidth;
     } else if (reopening) {
@@ -883,6 +885,10 @@ export class NphDatePicker extends LitElement {
     this.clearScrollTargets();
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
+    if (this.anchorFrame !== undefined) {
+      cancelAnimationFrame(this.anchorFrame);
+      this.anchorFrame = undefined;
+    }
     this.shown = false;
     const surface = this.surface;
     if (surface) {
@@ -915,6 +921,25 @@ export class NphDatePicker extends LitElement {
       target.removeEventListener('scroll', this.onViewportChange, true);
     }
     this.scrollTargets.length = 0;
+  }
+
+  /**
+   * While the panel is open the field may move with no event this piece hears: a layout above it settles, a font arrives. A frame
+   * loop compares the rectangle of the field and places the panel again only when it changed.
+   */
+  private followAnchor(): void {
+    let last = this.anchorRect();
+    const tick = (): void => {
+      if (!this.shown) return;
+      const next = this.anchorRect();
+      if (next.left !== last.left || next.top !== last.top || next.width !== last.width || next.height !== last.height) {
+        last = next;
+        const surface = this.surface;
+        if (surface !== null) this.place(surface);
+      }
+      this.anchorFrame = requestAnimationFrame(tick);
+    };
+    this.anchorFrame = requestAnimationFrame(tick);
   }
 
   private readonly onViewportChange = (): void => {
