@@ -581,10 +581,7 @@ export class NphDatePicker extends LitElement {
     }
     this.draft = { start: detail.start, end: detail.end };
     this.shortcut = this.matchDraft();
-    this.errors.start = null;
-    this.errors.end = null;
-    this.texts.start = this.format(parseDay(detail.start));
-    this.texts.end = this.format(parseDay(detail.end));
+    /* The fields keep the period that was applied until Apply: a pick only changes what the panel holds. */
     this.announceDraft();
     this.requestUpdate();
   };
@@ -605,10 +602,6 @@ export class NphDatePicker extends LitElement {
     if (period === null || period.start === null || period.end === null) return;
     this.draft = { start: isoDate(period.start), end: isoDate(period.end) };
     this.shortcut = shortcut;
-    this.errors.start = null;
-    this.errors.end = null;
-    this.texts.start = this.format(period.start);
-    this.texts.end = this.format(period.end);
     this.moveCalendarTo(period.start);
     this.announceDraft();
     this.requestUpdate();

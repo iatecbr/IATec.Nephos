@@ -783,7 +783,7 @@ describe('D-6 and the shortcuts', () => {
     await settle(picker);
     expect(all<HTMLElement & { selected: boolean }>(picker, 'nph-option').map((item) => item.selected)).toEqual([false, false, true, false, false, false, false]);
     expect(picker.start).toBe('');
-    expect(textOf(picker, 'start')).toBe('10/08/2026');
+    expect(textOf(picker, 'start')).toBe('');
   });
 
   it('brings the months to the range the shortcut chose', async () => {
@@ -886,6 +886,7 @@ describe('the footer: Clear, Cancel and Apply (D-8, D-10)', () => {
     await userEvent.click(day(picker, '2026-10-12'));
     await settle(picker);
     expect(picker.start).toBe('');
+    expect(textOf(picker, 'start')).toBe('');
     expect(changed).not.toHaveBeenCalled();
     await click(picker, '.apply');
     expect([picker.start, picker.end]).toEqual(['2026-10-05', '2026-10-12']);

@@ -9668,8 +9668,8 @@ P21. The names follow P64.
    list needs no `NPH_OPTION_CHANGED`). The period of each one is the one of D-6, cut by the min and the max, and a shortcut
    with no allowed day is disabled. Choosing one fills the band and waits for Apply; `Custom` changes nothing and moves the
    focus to the grid; picking days by hand marks `Custom`, or the shortcut whose period is the same. Clear empties the selection
-   in the panel and the shortcut mark at once and stays open; the fields change only on Apply, and Cancel brings the previous
-   period back (D-8). A third pick starts over; one day is a valid period; Apply stays enabled, applies an empty period when
+   in the panel and the shortcut mark at once and stays open; the fields change only on Apply, a pick and a shortcut included, and
+   Cancel brings the previous period back (D-8). A third pick starts over; one day is a valid period; Apply stays enabled, applies an empty period when
    nothing is chosen and one day when only the Start is (D-10). The period is announced in a live region (`labels.period`).
    The panel switches to one month with the shortcuts on top when the viewport does not fit the panel of the size in use plus the
    page margin (D-7): 12 steps of `date-picker/panel-padding` of shortcuts, two grids and the border, plus
