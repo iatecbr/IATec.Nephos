@@ -1,0 +1,120 @@
+```json
+{
+  "id": "DSA-90",
+  "goal": "Implement the nph-date-picker, a date field with a calendar in single date and range modes, and its date grid nph-calendar, in the contract accepted in Figma, and write the spec.",
+  "phase": "F4",
+  "approved_order": 890,
+  "owner": "elvys",
+  "state": "ready",
+  "piece": "nph-date-picker",
+  "dependencies": [
+    "DSA-03",
+    "DSA-10",
+    "DSA-13",
+    "DSA-16",
+    "DSA-28",
+    "DSA-29",
+    "DSA-42",
+    "DSA-47",
+    "DSA-48",
+    "DSA-59",
+    "DSA-60",
+    "DSA-64",
+    "DSA-67",
+    "DSA-77"
+  ],
+  "gates": [
+    {
+      "id": "figma-docs-accepted",
+      "description": "The nph-date-picker documentation in Figma was accepted by the design owner, with the Figma UX QA and the textual audit approved, and its tokens are on v/5.0.0.",
+      "command": null,
+      "evidence": "docs/operacao/evidencias/DSA-90/figma-docs-accepted-2026-11-17.md",
+      "result": "passed",
+      "verified_at": "2026-11-17",
+      "verified_by": "indiane"
+    },
+    {
+      "id": "review-and-merge",
+      "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
+      "command": null,
+      "evidence": null,
+      "result": "pending",
+      "verified_at": null,
+      "verified_by": null
+    }
+  ],
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-90/figma-docs-accepted-2026-11-17.md"
+  ],
+  "decision_refs": [
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-15.md and 2026-11-16.md, nph-date-picker: redesign with the corrections of the design owner (soft style, rounder corners, range mode with shortcuts and two months, solid icon on the calendar button hover, calendar icon color)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md, nph-date-picker: green light (visual acceptance) and the 10 approval items approved as recommended: documentation accepted, calendar/day-radius, calendar/day-focus-radius, date-picker/panel-radius and date-picker/panel-offset straight to the core by decision, the floating layer radius semantic as a later foundation task, the scheduler day radius in a later adjustment task, today and the current month on color/primary-text in the owner grid, a date unavailable by rule focusable and never chosen, and the calendar button unchanged on field hover"
+  ],
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=6673-62837",
+    "date": "2026-11-17",
+    "author": "indiane",
+    "excerpt": null,
+    "converted_decision": "The nph-date-picker documentation frame (6673:62837, page 1364:2) was accepted as the API and behavior specification of nph-date-picker, with the visual acceptance of the root (6662:55010). COMPONENT_SET nph-date-picker (6666:32), 78 variants; COMPONENT_SET of the nph-date-picker panel (6662:56378), 6 variants; the date grid nph-calendar (4015:28204) with its day (4015:28020). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
+  },
+  "git_review": { "branch": null, "commit": null, "pr": null },
+  "context": null,
+  "updated_at": "2026-11-17"
+}
+```
+
+# DSA-90 — nph-date-picker, a date field with a calendar
+
+## Goal
+The `nph-date-picker` in `src/components/nph-date-picker/`, with CSS, tests, stories and the spec `fichas/nph-date-picker.md`, in the contract accepted in Figma: a date field the person types in or fills from a calendar panel, in two modes, a single date (one field, one month; picking the day applies and closes) and a range (Start and End fields, shortcuts, two months and a footer with Apply). The task also builds the date grid `nph-calendar` (header, weekdays, days, month and year views), the owner piece that the nph-scheduler mini month will reuse.
+
+## Where the contract is
+In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA-90/figma-docs-accepted-2026-11-17.md`. It carries the Figma documentation converted to text, with the 9 tokens, the anatomy part by part (with the token of each layer, day state by day state), the measured contrast, the default behavior, the combined states, the inherited decisions, the icon and image rules, the limits, what the date picker asks of each piece it uses and the 10 decisions answered. There is no need to open Figma.
+
+## Specification to follow closely
+- **Field**: each date in its own nph-field (label, help, error), 320 wide (`layout/field-width`). The control row: an nph-input that stretches, then the calendar button, `date-picker/trigger-gap` apart, centered vertically. The `dd/mm/aaaa` hint is in the help text, linked by `aria-describedby`. The clear button is the end icon of the nph-input and shows only with a value. No input mask; the value is validated when the person leaves the field, and the error comes through the nph-field (`status/error-text`, border `status/error`).
+- **Range trigger**: Start and End side by side, `date-picker/trigger-gap` apart, aligned at the top; a single calendar button, in the End field. The error stays only on the field with the problem.
+- **Calendar button**: icon-only nph-button, secondary, ghost, as tall as the field, `calendar` icon in `color/muted-foreground` (light; solid on its own hover and when open), tooltip "Open calendar" as its name. Open: `aria-haspopup="dialog"` and `aria-expanded="true"` on the host, so it keeps the hover-active look (`fichas/nph-button.md`, open trigger). On field hover only the field border changes; the button stays without background and light (item 10).
+- **Sizes**: `compact` 28, `default` 36 (the default), `large` 44 (touch). The compact field opens the default panel.
+- **Panel**: a surface of its own (not an nph-popover: its widths stop at 400), `date-picker/panel-offset` below the field, aligned to the start of the trigger, flipping above with the same gap when there is no room, and shrinking with an inner scroll when neither fits. Background `color/popover`, outline `border/width` in `date-picker/panel-border`, corner `date-picker/panel-radius`, shadow `elevation/dropdown` in light and none in dark. The shell has no padding: the grid brings its own 16 (`space/container-padding`); do not add 16 twice.
+- **Range panel**: body (shortcut column 192 wide, padding `date-picker/panel-padding`, seven nph-option of 36 with no gap; two months side by side, top aligned, no divider between them), then a divider edge to edge in `date-picker/divider` (an nph-separator, with `--nph-color-border` redefined in its scope, as `nph-popover.css` does for `popover/divider`), then the footer (padding `date-picker/panel-padding`): Clear secondary ghost at the start; Cancel secondary solid and Apply primary solid at the end, `date-picker/footer-gap` apart; buttons compact in the default panel and default in the large panel. On a narrow screen the range shows one month with the shortcuts on top (the `intervalo estreito` panel).
+- **Grid `nph-calendar`**: padding `space/container-padding`, gap `space/inline`; header with Previous month and Next month (icon-only buttons with tooltips, `chevron-left` and `chevron-right`, solid on hover) and the month title, an nph-button with `chevron-down` that opens the month view and then the year view (4 × 3 cells); a weekday row starting on Sunday; six week rows of seven days, the days of the next and previous month shown. Day and month and year cell: 36 (default) or 44 (large), corner `calendar/day-radius`, focus halo `calendar/day-focus-radius`; the day states and colors are in the evidence table (today and the current month on `color/primary-text`, number and outline, item 8; the range middle and the preview square, `radius/none`; the band runs straight across the turn of the week; no band on a day outside the month). The font of the number comes from the core type tokens named in the evidence.
+- **Unavailable days** (item 9): outside the min or max, disabled (`state/disabled-opacity`) and skipped by focus; unavailable by rule, such as a holiday, faded number with no opacity on the cell, focusable with `aria-disabled="true"`, Enter does not choose it, and its focus shows the focus border and halo (the `desabilitado foco` day). With today outside the limit, the panel opens with focus on the nearest allowed day.
+- **Keyboard and roles**: the default behavior table of the evidence (APG Date Picker Dialog, with the deviations it names). The grid is one Tab stop with arrows, Page Up and Page Down (Shift for the year), Home and End; Esc closes without change (with the month or year view open, the first Esc goes back to the days); click outside closes like Cancel; Tab inside the panel is not trapped and closes the panel after the last item, focus back to the calendar button (in the range, the End button). The shortcut list is one Tab stop with ↑ and ↓; a shortcut fills the band and waits for Apply. Single date: picking a day applies and closes. Range: first pick the start, then the end; the end before the start reorders; the period counts only on Apply; Clear empties the period. The month name and the chosen period are announced by a live region apart from the title button (`aria-live="polite"`); the day label says today, chosen or unavailable.
+- **Combined states (T11)**: error + disabled, disabled wins; a chosen and disabled shortcut keeps its fill and marker under the opacity. A chosen day cannot be disabled.
+- **Motion**: the panel enters with opacity and a 4 px slide (`motion/enter-*`) and leaves with `motion/exit-*`; with reduced motion, opacity only (DSA-29 D2).
+- **Images**: none.
+
+## Open points for the code
+- Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.
+- The value format of the properties (the value, the min and the max, the range start and end), how the product marks a date unavailable by rule (a list, a function or an event), and the events for a chosen date and an applied period. The spec names them.
+- How the nph-field names the date text when its slot holds the control row (nph-input and calendar button) instead of one control: the field writes the name and the description on the nph-input, and the calendar button keeps its own name. The spec names the path.
+- The shortcut list: the spec of nph-option says it is written only as a child of the list that owns it, such as nph-select. Here the owner is the date picker shortcut list (`role="listbox"`); the spec names whether the date picker hosts nph-option directly or through a list element. How the product passes its own shortcuts, if it can, is named there too.
+- Whether `nph-calendar` is its own exported element (so the scheduler can reuse it) or an inner part of `nph-date-picker`. The spec names it.
+- The translation strings: weekday and month names, the month title format, "Open calendar", "Previous month", "Next month", the seven shortcut labels, "Clear", "Cancel", "Apply", the day labels (today, chosen, unavailable) and the live region text of the period (for example "9 to 20 May 2026"). The display format of the date (`dd/mm/aaaa` in Portuguese) comes from the locale. The spec names them.
+- The focus border of Apply in dark (the primary nph-button) is fixed in the owner piece, apart (DSA-77, decision 10); Apply inherits it.
+
+## Why it is ready
+The 9 tokens (`calendar/*` and `date-picker/*`) came with this task and are on `v/5.0.0`: 5 aliases of semantics and 4 straight to the core by decision (`calendar/day-radius` `core/radius/450`, `calendar/day-focus-radius` `core/radius/600`, `date-picker/panel-radius` `core/radius/600`, `date-picker/panel-offset` `core/space/100`: no semantic of the same value has the function; the evidence says why for each). No new semantic or primitive. Every piece it uses is done: `nph-icon` (DSA-03), `nph-separator` (DSA-10), `nph-button` (DSA-13, icon only DSA-47, ghost hover DSA-60, secondary solid DSA-64), `nph-input` (DSA-16, compact DSA-59), `nph-field` (DSA-28), `nph-select` and `nph-option` (DSA-29), `nph-tooltip` (DSA-42, DSA-48), `nph-popover` (DSA-67, the shell and the footer it follows), `nph-scheduler` (DSA-77, which leaves the date grid to this task).
+
+## How it is proved
+**`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## What this task does not do
+The code does not create a token or change a token value. It does not change Figma. It does not change the nph-scheduler: replacing the scheduler date grid with `nph-calendar` (DSA-77 D-1), its day radius from 6 to 10 px and its day focus (item 7) are an adjustment task of the scheduler, after this one. It does not create the radius semantic for floating layers: that is a foundation task (item 6). It does not build a month only, year only, week, quarter or time picker.
+
+## Sources
+- Figma `DS-IA-NEPHOS 5.0`, page `1364:2`, documentation frame `6673:62837`, root `6662:55010`, appendix `6680:32` and the evidence of the `figma-docs-accepted` gate
+- Component sets: nph-date-picker `6666:32`; nph-date-picker panel `6662:56378`; grid `4015:28204`, day `4015:28020`
+- WAI-ARIA APG, Date Picker Dialog example: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/
+- WAI-ARIA APG, Listbox: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
+- WAI-ARIA APG, focusability of disabled controls: https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#focusabilityofdisabledcontrols
+- React Aria, RangeCalendar: https://react-aria.adobe.com/RangeCalendar
+- MUI X, Date Range Picker: https://mui.com/x/react-date-pickers/date-range-picker/
+- Custom Elements Manifest: https://github.com/webcomponents/custom-elements-manifest
+- `design.md` — the tokens named in the evidence
+- `fichas/nph-field.md`, `fichas/nph-input.md`, `fichas/nph-button.md`, `fichas/nph-option.md`, `fichas/nph-select.md`, `fichas/nph-separator.md`, `fichas/nph-popover.md`, `fichas/nph-tooltip.md`, `fichas/nph-scheduler.md`

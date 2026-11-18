@@ -344,7 +344,7 @@ tokens_semantic:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
     escuro: core/alpha/white-10
-    use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border). Also the outline of the nph-rich-option choice card at rest, checked and in hover (rich-option/border): 1.13:1 light and 1.35:1 dark, decorative; the control inside the card is the boundary that meets 3:1."
+    use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border). Also the outline of the nph-rich-option choice card at rest, checked and in hover (rich-option/border): 1.13:1 light and 1.35:1 dark, decorative; the control inside the card is the boundary that meets 3:1. Also the outline of the nph-date-picker panel and the divider above its range footer (date-picker/panel-border, date-picker/divider)."
     nao_use: "nph-dialog (color/dialog-separator); field (color/input)."
   color/border-strong:
     css: '--nph-color-border-strong'
@@ -363,7 +363,7 @@ tokens_semantic:
     claro: color/border-subtle
     escuro: color/border-subtle
     use: "Outline of a floating list and panel: nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading variant of nph-notification. Same outline as nph-popover; the elevation/dropdown shadow completes the separation from the background. Decorative: the items are read by their text."
-    nao_use: "Select, combobox or date-picker (color/input); the other variants of nph-notification (status/*-border; in neutral, color/border); the divider between groups (dropdown/separator, color/border-subtle)."
+    nao_use: "The field of select, combobox or date-picker (color/input); the nph-date-picker panel, which has its own outline (date-picker/panel-border, on color/border-subtle); the other variants of nph-notification (status/*-border; in neutral, color/border); the divider between groups (dropdown/separator, color/border-subtle)."
   dropdown/item-hover-icon-foreground:
     css: '--nph-dropdown-item-hover-icon-foreground'
     claro: color/primary
@@ -505,7 +505,7 @@ tokens_semantic:
     css: '--nph-color-primary-text'
     claro: theme/brand-700
     escuro: theme/brand-text-dark
-    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item and the active option of the nph-sidebar flyout panel, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands. Also the number of the current nph-stepper step (stepper/marker-foreground-current). Also the label, the chevron and the folder and file icon of the selected nph-tree item (tree/item-foreground-selected, tree/toggle-foreground-selected, tree/icon-foreground-selected), over color/primary-surface: 7.21:1 at least. Also the number of today and the current time of the nph-scheduler (scheduler/today-foreground, scheduler/now-foreground)."
+    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item and the active option of the nph-sidebar flyout panel, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands. Also the number of the current nph-stepper step (stepper/marker-foreground-current). Also the label, the chevron and the folder and file icon of the selected nph-tree item (tree/item-foreground-selected, tree/toggle-foreground-selected, tree/icon-foreground-selected), over color/primary-surface: 7.21:1 at least. Also the number of today and the current time of the nph-scheduler (scheduler/today-foreground, scheduler/now-foreground). Also the number and the outline of today and of the current month in the nph-calendar grid of the nph-date-picker, bound to this semantic with no component token: 8.11:1 in light and 6.05:1 in dark in the default brand over color/popover, at least 5.98:1 in dark in every brand."
     nao_use: "Fill: the brand fill is color/primary. Link text: color/link."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
@@ -1408,7 +1408,7 @@ tokens_core_space:
   '1100': { valor: 80, rem: '5rem',     css: '--nph-core-space-1100' }
   '1200': { valor: 96, rem: '6rem',     css: '--nph-core-space-1200' }
   '1500': { valor: 144, rem: '9rem',    css: '--nph-core-space-1500' }
-  direto_por_decisao: 'A component token aliases a core space straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. In the nph-timeline: 100 above and below the connector line (timeline/connector-gap), 200 on the history dot and the center dot (timeline/dot-size, as carousel/indicator-size) and 300 between the marker column and the text (timeline/content-gap). In the rich option: 200 on its padding and its start dot (select/option-padding, select/option-dot-size): space/inline and space/stack-snug are gaps, radius/container, radius/inset and focus/radius-inner are radii.'
+  direto_por_decisao: 'A component token aliases a core space straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. In the nph-timeline: 100 above and below the connector line (timeline/connector-gap), 200 on the history dot and the center dot (timeline/dot-size, as carousel/indicator-size) and 300 between the marker column and the text (timeline/content-gap). In the rich option: 200 on its padding and its start dot (select/option-padding, select/option-dot-size): space/inline and space/stack-snug are gaps, radius/container, radius/inset and focus/radius-inner are radii. In the nph-date-picker: 100 between the field and the open panel, below or above (date-picker/panel-offset, as popover/offset).'
 
 tokens_space:
   space/inline-tight:
@@ -1461,7 +1461,7 @@ tokens_space:
     css: '--nph-space-inline-loose'
     alias: core/space/300
     valor: 12
-    use: "Space between the actions of a footer, side by side or stacked: nph-dialog, alert and nph-popover. DO NOT USE inside a regular group of buttons - there it is space/inline."
+    use: "Space between the actions of a footer, side by side or stacked: nph-dialog, alert, nph-popover and the range footer of the nph-date-picker (date-picker/footer-gap). DO NOT USE inside a regular group of buttons - there it is space/inline."
   space/overlay-padding:
     css: '--nph-space-overlay-padding'
     alias: core/space/600
@@ -1621,6 +1621,7 @@ tokens_core_radius:
   off-scale/15: { valor: 15, css: '--nph-core-radius-off-scale-15', alias_de: 'focus/border-radius-surface' }
   off-scale/18: { valor: 18, css: '--nph-core-radius-off-scale-18', alias_de: 'focus/radius-surface' }
   off-scale/19: { valor: 19, css: '--nph-core-radius-off-scale-19', alias_de: 'focus/radius-surface-with-border' }
+  direto_por_decisao: 'A component token aliases a core radius straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. 450 on the day cell and on the month and year cell of the nph-calendar grid (calendar/day-radius): the design owner set the day at 10, radius/control (6) is the system default for what is operated, and the two semantics of 10 have other functions (radius/overlay, a large floating layer; focus/radius-control, the focus halo of a control). 600 on the focus halo of those cells, the cell radius plus focus/ring-width (calendar/day-focus-radius), and on the nph-date-picker panel (date-picker/panel-radius), as popover/radius and hover-card/radius: radius/surface (14) says DO NOT USE on a floating layer.'
 
 tokens_radius:
   radius/none:
@@ -2743,8 +2744,8 @@ The curve says what the piece is. The question is not how much to round.
 
 | The piece… | Token |
 |---|---|
-| is **operated** | `radius/control` (6) — system default |
-| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card, menus and the nph-sidebar flyout panel have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`, `sidebar/flyout-radius`) |
+| is **operated** | `radius/control` (6) — system default; the day of the nph-calendar grid has its own radius (`calendar/day-radius`, 10) |
+| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card, menus, the nph-sidebar flyout panel and the nph-date-picker panel have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`, `sidebar/flyout-radius`, `date-picker/panel-radius`) |
 | **floats large** | `radius/overlay` (10) |
 | **carries content** without floating | `radius/surface` (14) |
 | is a **marker** | `radius/subtle` (2) for a bar indicator, or `radius/full` for a dot, a pill or a circular target |
@@ -2755,7 +2756,7 @@ The curve says what the piece is. The question is not how much to round.
 | Question | Rule |
 |---|---|
 | `control` × `container` | A button inside a card: the button is `control`, the card is `container`. |
-| `container` × `overlay` | A table or pagination is `container`; popover, hover card and menus have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
+| `container` × `overlay` | A table or pagination is `container`; popover, hover card, menus and the nph-date-picker panel have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
 | `inset` × `inner` | `inset` is a surface or box fitted inside a card (the nph-card tonal section and icon box). `inner` is a piece nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item). |
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
 | `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target. Button and field are never a pill. |

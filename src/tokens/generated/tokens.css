@@ -772,6 +772,10 @@
   --nph-select-option-background-hover-opacity: var(--nph-core-opacity-50);
   --nph-select-option-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-select-option-dot-size: var(--nph-core-space-200);
+  --nph-calendar-day-radius: var(--nph-core-radius-450);
+  --nph-calendar-day-focus-radius: var(--nph-core-radius-600);
+  --nph-date-picker-panel-radius: var(--nph-core-radius-600);
+  --nph-date-picker-panel-offset: var(--nph-core-space-100);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1107,6 +1111,9 @@
   --nph-select-option-focus-border-radius: var(--nph-focus-border-radius-inner);
   --nph-select-option-focus-halo-width: var(--nph-focus-ring-width);
   --nph-select-option-focus-halo-radius: var(--nph-focus-radius-inner-with-border);
+  --nph-date-picker-panel-padding: var(--nph-space-container-padding);
+  --nph-date-picker-trigger-gap: var(--nph-space-inline);
+  --nph-date-picker-footer-gap: var(--nph-space-inline-loose);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
 }
 
@@ -1439,6 +1446,8 @@
   --nph-select-option-foreground-hover: var(--nph-color-accent-foreground);
   --nph-select-option-description-foreground: var(--nph-color-muted-foreground);
   --nph-select-option-secondary-foreground: var(--nph-color-muted-foreground);
+  --nph-date-picker-panel-border: var(--nph-color-border-subtle);
+  --nph-date-picker-divider: var(--nph-color-border-subtle);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
   --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
