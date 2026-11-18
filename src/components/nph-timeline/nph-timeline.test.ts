@@ -719,7 +719,7 @@ describe('the text', () => {
   });
 
   it('a long word does not push the item out of the container', async () => {
-    const word = 'Superlongwordwithoutanyspaceinsideit'.repeat(4);
+    const word = 'Overflow'.repeat(24);
     const timeline = await mount({ items: [{ title: word, description: word, who: word }] }, '16rem');
     expect(item(timeline, 0).getBoundingClientRect().right).toBeLessThanOrEqual(timeline.getBoundingClientRect().right);
   });
