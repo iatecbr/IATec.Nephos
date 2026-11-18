@@ -547,7 +547,16 @@
     "components-nph-command-validation--focus-and-escape": "Foco y Esc",
     "components-nph-command-validation--brands": "Marcas",
     "components-nph-command-fixtures": "Ejemplos aislados",
-    "components-nph-command-fixtures--example": "Ejemplo"
+    "components-nph-command-fixtures--example": "Ejemplo",
+    "components-nph-carousel-docs": "Docs",
+    "components-nph-carousel-docs--documentation": "Documentación",
+    "components-nph-carousel-validation": "Validación",
+    "components-nph-carousel-validation--matrix": "Matriz",
+    "components-nph-carousel-validation--controls": "Controles",
+    "components-nph-carousel-validation--many-slides": "Muchas diapositivas",
+    "components-nph-carousel-validation--interactive": "Interactivo",
+    "components-nph-carousel-validation--examples": "Ejemplos",
+    "components-nph-carousel-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -8694,7 +8703,13 @@
       "components-nph-resizable-validation--limits": "El tirador se detiene en el mínimo y en el máximo de cada panel, dados en porcentaje o en píxeles, y el panel principal del tirador es el que los informa.",
       "components-nph-resizable-validation--interactive": "Un arrastre, una tecla o un clic dispara nph-resize con detail.sizes, mostrado debajo del grupo; el producto guarda los tamaños y los devuelve por sizes, y definir sizes por código no dispara el evento.",
       "components-nph-resizable-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Lista y panel de lectura, Anidado y Colapsado.",
-      "components-nph-resizable-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el botón de colapsar siguen la marca del marco."
+      "components-nph-resizable-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el botón de colapsar siguen la marca del marco.",
+      "components-nph-carousel-validation--matrix": "Los tres layouts al inicio, en el medio y al final de la secuencia: una diapositiva entera, tantas diapositivas enteras como quepan y la diapositiva actual con el borde de la vecina; las flechas y el indicador actual siguen la posición.",
+      "components-nph-carousel-validation--controls": "La barra de controles con las flechas, los indicadores y el contador encendidos y apagados; al menos uno entre flechas e indicadores queda encendido, y el contador sustituye a los indicadores cuando están apagados.",
+      "components-nph-carousel-validation--many-slides": "Una secuencia con más diapositivas de las que caben los indicadores: por encima de cinco páginas los indicadores salen y entra el contador, y en el layout varias cuenta páginas.",
+      "components-nph-carousel-validation--interactive": "Una flecha, un indicador, una tecla o un arrastre dispara nph-slide-change, y detail.index es la primera diapositiva a la vista que el producto guarda y devuelve por index.",
+      "components-nph-carousel-validation--examples": "Los tres ejemplos obligatorios del frame aceptado: una galería de imágenes en peek, tarjetas destacadas en varias y una secuencia con más diapositivas de las que caben los indicadores.",
+      "components-nph-carousel-validation--brands": "Las siete marcas en claro y oscuro: el indicador actual, el borde de foco y las flechas siguen la marca."
     }
   },
   "multiComboboxDocs": {
@@ -16038,5 +16053,277 @@
     "expand": "Expandir panel",
     "collapseList": "Colapsar la lista",
     "expandList": "Expandir la lista"
+  },
+  "carouselValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleGallery": "Galería de imágenes",
+    "exampleFeatured": "Tarjetas destacadas",
+    "exampleMany": "Muchas diapositivas",
+    "statusIdle": "Esperando una flecha, un indicador, una tecla o un arrastre.",
+    "statusChanged": "nph-slide-change se disparó con detail.index = {index}.",
+    "gallery": "Galería de fotos",
+    "previousLabel": "Diapositiva anterior",
+    "nextLabel": "Diapositiva siguiente",
+    "indicatorsLabel": "Elegir una diapositiva",
+    "slideLabel": "Diapositiva {position} de {total}",
+    "pageLabel": "Ir a la página {position}",
+    "positionLabel": "{position} de {total}",
+    "featuredLabel": "Tarjetas destacadas",
+    "manyLabel": "Pasos del recorrido"
+  },
+  "carouselDocs": {
+    "summary": "Una franja de diapositivas en la que aparece una parte a la vez. La persona avanza con las flechas, con los indicadores o arrastrando. No gira sola y no esconde contenido importante.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-carousel, design.md para los tokens y docs/decisoes-tecnicas.md para la P129. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para una secuencia corta de contenido parecido en la que ver una diapositiva a la vez basta, como una galería de imágenes, tarjetas destacadas o pasos de bienvenida.",
+      "Peek cuando quieres dejar claro que hay más diapositivas: el borde de la vecina invita a seguir. Es el layout recomendado.",
+      "Una sola cuando una a la vez basta; varias cuando ver algunas diapositivas al mismo tiempo ayuda a elegir.",
+      "Con tres a cinco diapositivas, mantén los indicadores; con más de cinco, los indicadores salen y entra el contador.",
+      "Mantén diapositivas del mismo tipo y de la misma altura, para que la franja no salte cuando cambia la diapositiva.",
+      "Pon el texto debajo de la imagen, no encima: el contraste sobre una foto no está garantizado.",
+      "Guarda la diapositiva con el evento nph-slide-change y devuélvela por index cuando la posición deba mantenerse."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para una lista o cuadrícula en la que la persona necesita ver o comparar todo: muestra los elementos juntos.",
+      "Para dividir una lista larga en páginas: usa nph-pagination.",
+      "Para alternar entre secciones con nombre de una página: usa nph-tabs.",
+      "Para mostrar el progreso de una tarea: usa nph-progress.",
+      "Para dos diapositivas: muéstralas juntas, lado a lado o en lista; solo sin espacio usa flechas e indicadores con dos elementos.",
+      "Para contenido importante: una diapositiva fuera de la vista rara vez se ve.",
+      "Para rotación automática, carrusel vertical, miniaturas o vuelta al inicio: no existen en la v1.",
+      "Apagar flechas e indicadores juntos, o dejar la secuencia sin indicadores y sin contador."
+    ],
+    "relationsText": "La diapositiva recibe cualquier contenido aprobado y no tiene fondo, contorno ni radio propios: el contenido trae los suyos. La diapositiva del ejemplo es un nph-image del tamaño media y dos líneas de nph-skeleton. Las flechas son instancias del nph-button, así que traen de él el fondo, el hover, el foco y el aspecto deshabilitado.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "layout",
+        "single (por defecto), several o peek, la propiedad layout de Figma. single es una diapositiva entera a la vez; several muestra tantas diapositivas enteras como quepan en el ancho, como mínimo una; peek muestra la diapositiva actual y el borde de la vecina. Reflejada en el atributo."
+      ],
+      [
+        "index",
+        "La primera diapositiva a la vista, contada desde cero. En several la página actual se deriva de ella. Reflejada. Escribirla por código nunca dispara el evento."
+      ],
+      [
+        "hide-arrows",
+        "Apaga las dos flechas. En Figma vienen encendidas, así que la propiedad las apaga."
+      ],
+      [
+        "hide-indicators",
+        "Apaga los indicadores. Enciende counter cuando estén apagados."
+      ],
+      [
+        "counter",
+        "Muestra la posición del total después de la flecha siguiente. Apagado por defecto; por encima de cinco páginas se enciende solo."
+      ],
+      [
+        "label",
+        "El nombre accesible de la región, ya localizado. Sin él vale el aria-label del host."
+      ],
+      [
+        "previous-label y next-label",
+        "Los nombres de las flechas, que también son el texto del tooltip. Sin ellos vale el valor por defecto del idioma de la página."
+      ],
+      [
+        "indicators-label, slide-label, page-label y position-label",
+        "El nombre del grupo de indicadores y las plantillas del indicador, del indicador de una página y del contador y la diapositiva, con los marcadores position y total entre llaves."
+      ],
+      [
+        "slot",
+        "Las diapositivas: los hijos elemento directos, dos o más, con contenido libre. El carrusel no escribe atributos en ellos."
+      ],
+      [
+        "nph-slide-change",
+        "Evento, disparado cuando la persona cambia la diapositiva, una vez por cambio. Sube por el árbol y no es cancelable. detail.index es la primera diapositiva a la vista."
+      ],
+      [
+        "vuelta al inicio, rotación, vertical y miniaturas",
+        "No existen en la v1."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-carousel layout=\"peek\" label=\"Galería de fotos\">\n  <div>Diapositiva 1</div>\n  <div>Diapositiva 2</div>\n  <div>Diapositiva 3</div>\n</nph-carousel>",
+    "usageTag": "La etiqueta de la pieza. Las diapositivas son sus hijos directos; el carrusel toma el ancho de su contenedor. Dale un label, ya localizado.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, frame nph-carousel (5173:1429); docs/decisoes-tecnicas.md › P129",
+    "layoutsTitle": "Layouts",
+    "layoutsText": "Single muestra una diapositiva entera a la vez. Several muestra tantas diapositivas enteras como quepan en el ancho del carrusel; la diapositiva nunca se encoge ni se corta, y por debajo del ancho de una diapositiva la única sigue al contenedor. Peek muestra la diapositiva actual entera y el borde de la vecina, lo que avisa a la persona de que hay más.",
+    "layoutsCaption": "Los tres layouts al inicio de la secuencia.",
+    "layoutsHeader": [
+      "Layout",
+      "Cuándo usar"
+    ],
+    "layoutsList": [
+      [
+        "single",
+        "Una a la vez basta. La diapositiva tiene el ancho del carrusel."
+      ],
+      [
+        "several",
+        "Ver algunas diapositivas al mismo tiempo ayuda a elegir. En este layout cada indicador es una página y el contador cuenta páginas."
+      ],
+      [
+        "peek",
+        "El layout recomendado: el borde de la vecina invita a seguir. Al final aparece el borde de la diapositiva anterior."
+      ]
+    ],
+    "controlsTitle": "Controles",
+    "controlsText": "La barra de controles queda debajo de la franja, nunca sobre la foto. Trae la flecha anterior, los indicadores, la flecha siguiente y el contador. No hay vuelta al inicio, así que la flecha del lado sin diapositiva queda deshabilitada. Por encima de cinco páginas los indicadores salen y entra el contador solo. Mantén al menos uno entre flechas e indicadores encendido.",
+    "controlsCaption": "Flechas e indicadores; solo indicadores; el contador en lugar de los indicadores.",
+    "sourceLayouts": "Ficha del nph-carousel; Figma, frame nph-carousel (5173:1429)",
+    "sourceControls": "Ficha del nph-carousel; docs/decisoes-tecnicas.md › P129",
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Tecla o acción",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Recorre la flecha anterior, los indicadores (una sola parada, en el actual) y la flecha siguiente. Los enlaces y botones de la diapositiva a la vista siguen el orden del contenido."
+      ],
+      [
+        "Enter o Espacio en una flecha",
+        "Va a la posición anterior o siguiente. Una flecha deshabilitada sale del orden del Tab; cuando la flecha con foco se deshabilita, el foco pasa al indicador actual."
+      ],
+      [
+        "Izquierda y Derecha en un indicador",
+        "Mueven el foco y muestran la diapositiva. En texto de derecha a izquierda se espejan."
+      ],
+      [
+        "Home y End",
+        "Van al primer y al último indicador y muestran esa diapositiva."
+      ],
+      [
+        "Clic o toque en un indicador",
+        "Muestra la diapositiva de ese indicador."
+      ],
+      [
+        "Arrastrar o deslizar en la franja",
+        "Cambia la diapositiva un paso. Nunca es la única vía: flechas e indicadores hacen lo mismo."
+      ],
+      [
+        "Foco al cambiar de diapositiva",
+        "Se queda en el control usado. La nueva diapositiva se anuncia con cortesía."
+      ],
+      [
+        "Movimiento reducido",
+        "El cambio de diapositiva es instantáneo."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Franja",
+        "Muestra las diapositivas lado a lado y corta lo que pasa de su ancho, con carousel/slide-gap entre ellas."
+      ],
+      [
+        "Diapositiva",
+        "Recibe el contenido. Sin fondo, contorno ni radio propios."
+      ],
+      [
+        "Peek",
+        "El borde de la vecina, con carousel/peek-size de ancho, solo en el layout peek."
+      ],
+      [
+        "Barra de controles",
+        "Una fila centrada debajo de la franja, con carousel/control-gap entre las partes y carousel/controls-offset de la franja."
+      ],
+      [
+        "Flecha",
+        "El nph-button secundario, sólido y circular, con un chevron en carousel/control-foreground."
+      ],
+      [
+        "Indicador",
+        "Un punto de carousel/indicator-size en un objetivo de carousel/indicator-target-size; el actual es una píldora más ancha en el color de la marca. Los objetivos se tocan."
+      ],
+      [
+        "Contador",
+        "El texto posición de total, en text/label-md y carousel/counter-foreground."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Una región con aria-roledescription carousel. La franja es aria-live polite. Los indicadores son un tablist de botones tab con aria-selected y aria-controls; cada diapositiva es un tabpanel con aria-roledescription slide, nombrado posición de total. Una diapositiva fuera de la vista es inert."
+      ],
+      [
+        "Nombre accesible",
+        "La región usa label. Las flechas usan previous-label y next-label. Cada indicador se llama Diapositiva N de total, y en el layout varias Ir a la página N."
+      ],
+      [
+        "Foco visible",
+        "El indicador muestra un borde focus/border fuera del objetivo y un halo más allá, sin fondo de hover. La flecha muestra el foco del nph-button."
+      ],
+      [
+        "Contraste",
+        "Los indicadores y el icono de la flecha pasan 3:1; el contador pasa 4,5:1. El indicador actual no tiene hover, porque fallaría sobre el fondo del hover."
+      ],
+      [
+        "El color no es la única señal",
+        "El indicador actual es más ancho; la flecha deshabilitada muestra el final; el contador dice la posición en texto."
+      ],
+      [
+        "Objetivo táctil",
+        "El objetivo del indicador es 24 por 24; la flecha tiene la altura de control por defecto."
+      ],
+      [
+        "Alternativa al arrastre",
+        "Flechas e indicadores cambian la diapositiva con un toque, así que al menos uno de los dos queda encendido (WCAG 2.5.7)."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleGallery": "Galería de imágenes: peek, en el medio de la secuencia, con flechas e indicadores.",
+    "exampleFeatured": "Tarjetas destacadas: varias, al inicio; la flecha anterior deshabilitada muestra que no hay nada antes.",
+    "exampleMany": "Una secuencia con más diapositivas de las que caben los indicadores: el contador dice el total.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-carousel — función, layouts, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P129 (API y semántica), P01, P02, P03, P116 y P127.",
+      "design.md — los tokens carousel/*, focus/border, focus/halo, motion/state-duration y text/label-md.",
+      "WAI-ARIA Authoring Practices — patrones Carousel y Tabs.",
+      "Figma DS-IA-NEPHOS 5.0 — frame de documentación del nph-carousel (5173:1429) y conjuntos 5165:1094, 5164:771 y 5164:687.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-carousel; Figma, frame nph-carousel (5173:1429)",
+    "sourceApi": "Ficha del nph-carousel; docs/decisoes-tecnicas.md › P129",
+    "sourceKeyboard": "Ficha del nph-carousel; WAI-ARIA APG, Carousel y Tabs",
+    "sourceAnatomy": "Ficha del nph-carousel; Figma, frame nph-carousel (5173:1429)",
+    "sourceAccessibility": "Ficha del nph-carousel; WCAG 2.2",
+    "matrixLabel": "nph-carousel por layout y posición",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "gallery": "Galería de fotos",
+    "previousLabel": "Diapositiva anterior",
+    "nextLabel": "Diapositiva siguiente",
+    "indicatorsLabel": "Elegir una diapositiva",
+    "slideLabel": "Diapositiva {position} de {total}",
+    "pageLabel": "Ir a la página {position}",
+    "positionLabel": "{position} de {total}",
+    "featuredLabel": "Tarjetas destacadas",
+    "manyLabel": "Pasos del recorrido"
   }
 }
