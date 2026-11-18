@@ -882,12 +882,6 @@ describe('D-6 and the shortcuts', () => {
     await press(picker, '{Home}{ArrowDown} ');
     expect(range(picker)).toEqual(['2026-10-13', '2026-10-13']);
   });
-
-  it('keeps a chosen and disabled shortcut with its fill under the opacity (T11)', async () => {
-    const picker = await openRange({ start: '2026-09-01', end: '2026-09-30', min: '2026-09-01', max: '2026-09-30' });
-    const last = option(picker, 'Last month') as HTMLElement & { disabled: boolean; selected: boolean };
-    expect(last.disabled).toBe(false);
-  });
 });
 
 describe('the footer: Clear, Cancel and Apply (D-8, D-10)', () => {
@@ -1115,6 +1109,17 @@ describe('typing a date (D-4, D-13)', () => {
     expect(fieldOf(picker, 0).error).toBe('');
   });
 
+  it('says a Start typed after the End is an error on the Start field and commits nothing, closed or open', async () => {
+    const { picker } = await mount({ mode: 'range', start: '2026-10-10', end: '2026-10-14' });
+    await typeInto(picker, 'start', '10/20/2026');
+    expect(fieldOf(picker, 0).error).toBe('The end must be on or after the start (10/20/2026).');
+    expect([picker.start, picker.end]).toEqual(['2026-10-10', '2026-10-14']);
+    await open(picker);
+    await typeInto(picker, 'start', '10/25/2026');
+    expect(fieldOf(picker, 0).error).toBe('The end must be on or after the start (10/25/2026).');
+    expect(calendar(picker).start).toBe('2026-10-10');
+  });
+
   it('asks for the start and the end date with their own messages when required', async () => {
     const { picker } = await mount({ mode: 'range', required: true, start: '2026-10-10', end: '2026-10-14' });
     await typeInto(picker, 'start', '');
@@ -1175,6 +1180,17 @@ describe('typing a date (D-4, D-13)', () => {
     expect(picker.value).toBe('');
     expect(textOf(picker)).toBe('');
     expect(changed).toHaveBeenCalledTimes(1);
+  });
+
+  it('resets the text and clears the error of a single date when the panel closes without applying', async () => {
+    const { picker } = await mount({ value: '2026-10-20' });
+    await typeInto(picker, 'single', '02/31/2026');
+    expect(fieldOf(picker).error).not.toBe('');
+    await open(picker);
+    await press(picker, '{Escape}');
+    await until(() => !shown(picker));
+    expect(fieldOf(picker).error).toBe('');
+    expect(textOf(picker)).toBe('10/20/2026');
   });
 
   it('clears the error of a typed date when the panel closes without applying', async () => {

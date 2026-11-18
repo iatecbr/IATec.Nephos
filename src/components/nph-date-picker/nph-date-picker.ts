@@ -209,7 +209,7 @@ export class NphDatePicker extends LitElement {
   static formAssociated = true;
 
   static override properties = {
-    /* `mode` and `size` reflect: the internal CSS selects the layout and the measures by them. */
+    /* `mode` and `size` reflect for the selectors and the layout of the consumer, which read them from the host. */
     mode: { type: String, reflect: true },
     size: { type: String, reflect: true },
     value: { type: String },
@@ -498,12 +498,17 @@ export class NphDatePicker extends LitElement {
     this.texts[which] = text;
     const parsed = parseTyped(text, this.order);
     const startOfPeriod = which === 'end' ? parseDay(this.open ? this.draft.start : trimmed(this.start)) : undefined;
-    const error = checkTyped(parsed, {
+    let error = checkTyped(parsed, {
       required: this.required,
       limits: this.limits,
       isUnavailable: this.isUnavailable,
       ...(startOfPeriod === undefined ? {} : { start: startOfPeriod }),
     });
+    /* A Start typed after the End would commit an inverted period: the message is the same, on the Start field (D-4). */
+    if (error === null && which === 'start' && parsed.kind === 'date') {
+      const endOfPeriod = parseDay(this.open ? this.draft.end : trimmed(this.end));
+      if (endOfPeriod !== null && parsed.day > endOfPeriod) error = { key: 'endBeforeStart', start: parsed.day };
+    }
     this.errors[which] = error;
     /* A date with a problem is not committed: the value it replaces stays, and the field says what to fix. */
     if (error === null) {
@@ -724,7 +729,7 @@ export class NphDatePicker extends LitElement {
     this.returnsFocus = reason !== 'outside';
     if (reason !== 'apply' && reason !== 'pick') {
       this.syncTexts();
-      this.errors = { single: this.errors.single, start: null, end: null };
+      this.errors = { single: null, start: null, end: null };
     }
     this.open = false;
   }

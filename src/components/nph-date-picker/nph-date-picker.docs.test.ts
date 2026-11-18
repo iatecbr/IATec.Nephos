@@ -185,8 +185,8 @@ describe('Validation stories: text only from the dictionary', () => {
     ]);
   });
 
-  it('the calendar stories are the six pages of the contract', () => {
-    expect(calendarOnly.map(([name]) => name).sort()).toEqual(['Brands', 'Interactive', 'Limits', 'Range', 'Single', 'Week']);
+  it('the calendar stories are the seven pages of the contract', () => {
+    expect(calendarOnly.map(([name]) => name).sort()).toEqual(['Brands', 'Interactive', 'Limits', 'Range', 'Single', 'Views', 'Week']);
   });
 
   it('Field: three sizes, empty and filled, in both modes', async () => {
@@ -209,6 +209,16 @@ describe('Validation stories: text only from the dictionary', () => {
       }
       expect(document.activeElement === document.body || !target.contains(document.activeElement)).toBe(true);
     }
+  });
+
+  it('Views: the month view and the year view open in the grids, as the person opens them', async () => {
+    const target = draw(calendarStories.Views as Renderable, 'en');
+    const frame = target.querySelector('[data-nph-color-scheme="light"]') as HTMLElement;
+    const grids = [...frame.querySelectorAll('nph-calendar')] as Array<HTMLElement & { updateComplete: Promise<unknown> }>;
+    expect(grids).toHaveLength(4);
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    const views = grids.map((grid) => grid.shadowRoot?.querySelector('.view')?.getAttribute('data-view'));
+    expect(views).toEqual(['month', 'year', 'month', 'month']);
   });
 
   it('Examples: the three required examples, each in both modes', async () => {

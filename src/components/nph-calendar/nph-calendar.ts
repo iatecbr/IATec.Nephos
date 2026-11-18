@@ -9,7 +9,7 @@
  * the `nph-date-picker` panel uses it, and the `nph-scheduler` mini month will replace its own grid with it in an
  * adjustment task of the scheduler (DSA-77 D-1), not in this one.
  * - `mode`: `single` (default) or `range` (the Figma `modo`). `size`: `default` (the day is 36) or `large`
- *   (44), the Figma `tamanho`. Both reflect, because the internal CSS selects the measures by them;
+ *   (44), the Figma `tamanho`. Both reflect: `size` because the internal CSS selects the measures by it, `mode` for the selectors of the consumer;
  * - `value` (single) and `start` and `end` (range): the chosen date, or the period. Text `YYYY-MM-DD`, the
  *   same format as the `nph-scheduler`. The piece writes them itself when the person picks, and fires nothing
  *   when code sets them. `min` and `max`: a day outside them is disabled and the focus skips it;
@@ -157,7 +157,7 @@ export class NphCalendar extends LitElement {
   static override styles = unsafeCSS(calendarCss);
 
   static override properties = {
-    /* `mode` and `size` reflect: the internal CSS selects the band and the measures by them. */
+    /* `size` reflects because the internal CSS selects the measures by it; `mode` reflects for the selectors of the consumer. */
     mode: { type: String, reflect: true },
     size: { type: String, reflect: true },
     /* `months` reflects: the consumer's layout reads how many grids it holds. */

@@ -3,10 +3,10 @@
  *
  * They prove the contract accepted in Figma (the grid `4015:28204`, its day `4015:28020`, the month and year cell `4015:28139`) and
  * P133: the single date in the two sizes with the day states, the range with its bands across the turn of the week, a one-day
- * period and the two months, the limits and the day unavailable by rule, the week that starts on Monday, a grid to try with
+ * period and the two months, the limits and the day unavailable by rule, the month and year views, the week that starts on Monday, a grid to try with
  * the mouse and the keyboard, and the seven brands. Every story shows the same grids in light and in dark mode, in the same story,
- * through `data-nph-color-scheme` on the frame (P20, P67). The month and year views open from the title of a month: press it in
- * the grid to try; the component test measures each one. No attribute forces a state, because it would be API.
+ * through `data-nph-color-scheme` on the frame (P20, P67). The month and year views open from the title of a month: the Views story presses it for you, and the Interactive story lets you try it;
+ * the component test measures each one. No attribute forces a state, because it would be API.
  *
  * This piece has no reading page of its own: its contract is in `fichas/nph-calendar.md`, and the date picker `Docs` page shows it
  * at work. Each page opens with what it proves, from the dictionary (`validationPages.claims`); the texts come from the language
@@ -20,7 +20,7 @@ import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
-import { bothModes, grid, interactive } from './nph-calendar.demo';
+import { bothModes, grid, inView, interactive } from './nph-calendar.demo';
 import type { CalendarText } from './nph-calendar.demo';
 
 const meta: Meta = {
@@ -112,6 +112,26 @@ export const Week: Story = {
         matrix(validationTitle(context, 'nph-calendar', page('week').storyId), [], [
           { label: 'week-start: sunday', cells: [grid(v, { value: '2026-10-20' })] },
           { label: 'week-start: monday', cells: [grid(v, { value: '2026-10-20', weekStart: 'monday' })] },
+        ]),
+      ),
+    );
+  },
+};
+
+/** The month view and the year view, opened from the title: 4 rows by 3 columns at their drawn size, a year or twelve years at a time, a disabled cell when none of its days is allowed. */
+export const Views: Story = {
+  name: 'Views',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('views'),
+      bothModes(captions(v), () =>
+        matrix(validationTitle(context, 'nph-calendar', page('views').storyId), [], [
+          { label: 'view: month', cells: [inView(v, 'month', { value: '2026-10-20' })] },
+          { label: 'view: year', cells: [inView(v, 'year', { value: '2026-10-20' })] },
+          { label: 'view: month · min · max', cells: [inView(v, 'month', { min: '2026-08-15', max: '2026-11-10' })] },
+          { label: 'view: month · size: large', cells: [inView(v, 'month', { size: 'large', value: '2026-10-20' })] },
         ]),
       ),
     );

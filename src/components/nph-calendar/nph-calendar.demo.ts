@@ -8,6 +8,7 @@
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
+import { ref } from 'lit/directives/ref.js';
 
 import './nph-calendar';
 import type { NphCalendar, NphCalendarLabels } from './nph-calendar';
@@ -88,4 +89,37 @@ export function interactive(v: CalendarText): TemplateResult {
     ></nph-calendar>
     <p role="status" data-status style="margin: 0; color: var(--nph-color-muted-foreground);">${v.statusIdle}</p>
   </div>`;
+}
+
+/**
+ * A grid with its month view or its year view open: the demo presses the title the way the person does, once for the months
+ * of the year and twice for the twelve years. The views open from the title, and no attribute opens them.
+ */
+export function inView(v: CalendarText, view: 'month' | 'year', props: Partial<Pick<NphCalendar, 'size' | 'value' | 'min' | 'max'>> = {}): TemplateResult {
+  const open = (host?: Element): void => {
+    if (host === undefined) return;
+    void (async () => {
+      const calendar = host as NphCalendar;
+      const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+      await calendar.updateComplete;
+      await wait(150);
+      const press = async (): Promise<void> => {
+        (calendar.shadowRoot?.querySelector('.title') as HTMLElement | null)?.click();
+        await calendar.updateComplete;
+        await wait(50);
+      };
+      await press();
+      if (view === 'year') await press();
+    })();
+  };
+  return html`<nph-calendar
+    ${ref(open)}
+    .now=${TODAY}
+    .labels=${v.labels}
+    size=${props.size ?? 'default'}
+    month="2026-10"
+    .value=${props.value ?? ''}
+    .min=${props.min ?? ''}
+    .max=${props.max ?? ''}
+  ></nph-calendar>`;
 }

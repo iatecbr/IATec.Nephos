@@ -590,7 +590,8 @@
     "components-nph-date-picker-validation--interactive": "Interactive",
     "components-nph-date-picker-validation--form": "Form",
     "components-nph-date-picker-validation--examples": "Examples",
-    "components-nph-date-picker-validation--brands": "Brands"
+    "components-nph-date-picker-validation--brands": "Brands",
+    "components-nph-calendar-validation--views": "Views"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -8770,7 +8771,8 @@
       "components-nph-date-picker-validation--interactive": "A picker to try, single and range: the button opens the panel, Esc, a press outside or Cancel closes it and the focus goes back to the button.",
       "components-nph-date-picker-validation--form": "A picker in a form: the name puts the date in the form data, and reset brings the default back.",
       "components-nph-date-picker-validation--examples": "The three required examples, each in light and dark mode: a due date, a report period with Custom chosen and Apply in the footer, and an invalid date with the message.",
-      "components-nph-date-picker-validation--brands": "The seven brands in light and dark mode: the focus, the chosen day, the period and the Apply button follow the brand of the frame."
+      "components-nph-date-picker-validation--brands": "The seven brands in light and dark mode: the focus, the chosen day, the period and the Apply button follow the brand of the frame.",
+      "components-nph-calendar-validation--views": "The month view and the year view, opened from the title: four rows by three columns at their drawn size, one year or twelve years at a time, and a cell disabled only when none of its days is allowed."
     }
   },
   "multiComboboxDocs": {
@@ -16856,7 +16858,7 @@
       ],
       [
         "labels",
-        "Every text the piece writes, already localized, as one object. The piece writes no word of its own; a missing key renders anyway and emits console.error once."
+        "Every text the piece writes, already localized, as one object. The piece writes no word of its own: an object with no key draws nothing and emits console.error, and a key missing from an object that has others renders anyway and emits console.error once."
       ],
       [
         "change",
@@ -16961,7 +16963,7 @@
       ],
       [
         "End before Start",
-        "The message says the end must be on or after the start. A typed value is never reordered."
+        "The message says the end must be on or after the start; a Start typed after the End gets it too. A typed value is never reordered."
       ]
     ],
     "sourceTyping": "nph-date-picker spec sheet; P133 › D-4",

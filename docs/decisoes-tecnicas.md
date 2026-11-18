@@ -9635,7 +9635,8 @@ P21. The names follow P64.
    the label wraps; writing a field of its own inside the date picker, which repeats the label, the message line and the error.
 
 4. **Every text comes from the consumer; the names come from `Intl` (Q4).** `labels` is one object with every text the piece
-   writes, already localized (the piece writes no word of its own), and a missing key renders anyway and says which keys, once.
+   writes, already localized (the piece writes no word of its own). An object with no key at all draws nothing and says so, because the
+   data comes by the property; a key missing from an object that has others renders anyway and says which keys, once.
    The names of the months and of the weekdays, the title of a month and the full name of a day come from `Intl.DateTimeFormat`
    in the language of the nearest `lang`, as the scheduler reads it. The text of the field is written in the order of that
    language, two digits for the day and the month, four for the year and the slash as the separator (`10/20/2026` in `en`,
@@ -9647,7 +9648,7 @@ P21. The names follow P64.
    only when the field is `required`), invalid, outside the limit (it cites the min, the max or both), unavailable by rule, an
    End before the Start. The message goes through the `nph-field` (`status/error-text`, the border `status/error`, no icon);
    a date with a problem is not committed, the value it replaces stays, and the field keeps what was typed. A typed End before
-   the Start does not reorder; only a pick in the panel does. A click in the field is not a click outside, and typing with the
+   the Start does not reorder; only a pick in the panel does. A Start typed after the End gets the same message on the Start field. A click in the field is not a click outside, and typing with the
    panel open moves the panel to the date once it is valid. A message the screen owns (`error`, `start-error`, `end-error`) is
    shown when the piece has none of its own.
 

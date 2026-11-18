@@ -590,7 +590,8 @@
     "components-nph-date-picker-validation--interactive": "Interactivo",
     "components-nph-date-picker-validation--form": "Formulario",
     "components-nph-date-picker-validation--examples": "Ejemplos",
-    "components-nph-date-picker-validation--brands": "Marcas"
+    "components-nph-date-picker-validation--brands": "Marcas",
+    "components-nph-calendar-validation--views": "Vistas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -8770,7 +8771,8 @@
       "components-nph-date-picker-validation--interactive": "Un selector para probar, único y rango: el botón abre el panel, Esc, un clic fuera o Cancelar lo cierra y el foco vuelve al botón.",
       "components-nph-date-picker-validation--form": "Un selector en un formulario: el nombre pone la fecha en los datos del formulario y el reset trae el valor por defecto.",
       "components-nph-date-picker-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: una fecha de vencimiento, un periodo de informe con Personalizado elegido y Aplicar en el pie, y una fecha no válida con el mensaje.",
-      "components-nph-date-picker-validation--brands": "Las siete marcas en modo claro y oscuro: el foco, el día elegido, el periodo y el botón Aplicar siguen la marca del marco."
+      "components-nph-date-picker-validation--brands": "Las siete marcas en modo claro y oscuro: el foco, el día elegido, el periodo y el botón Aplicar siguen la marca del marco.",
+      "components-nph-calendar-validation--views": "La vista de meses y la de años, abiertas desde el título: cuatro filas por tres columnas en el tamaño dibujado, un año o doce años a la vez, y una celda deshabilitada solo cuando ninguno de sus días está permitido."
     }
   },
   "multiComboboxDocs": {
@@ -16856,7 +16858,7 @@
       ],
       [
         "labels",
-        "Todo texto que la pieza escribe, ya localizado, como un objeto. La pieza no escribe palabra propia; una clave que falta dibuja igual y emite console.error una vez."
+        "Todo texto que la pieza escribe, ya localizado, como un objeto. La pieza no escribe palabra propia: un objeto sin ninguna clave no dibuja nada y emite console.error, y una clave que falta en un objeto que tiene otras dibuja igual y emite console.error una vez."
       ],
       [
         "change",
@@ -16961,7 +16963,7 @@
       ],
       [
         "Fin antes del inicio",
-        "El mensaje dice que el fin debe ser igual o posterior al inicio. Un valor escrito nunca se reordena."
+        "El mensaje dice que el fin debe ser igual o posterior al inicio; un inicio escrito después del fin recibe el mismo. Un valor escrito nunca se reordena."
       ]
     ],
     "sourceTyping": "ficha del nph-date-picker; P133 › D-4",

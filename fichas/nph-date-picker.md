@@ -442,7 +442,7 @@ api:
     reflects: false
     constraint: >-
       The message of a typed text that is not a date that exists. It is also the message of the form when the
-      piece is badInput.
+      piece is badInput, for any typed text the piece does not accept.
   labels.errorMin:
     type: string
     required: true
@@ -479,7 +479,7 @@ api:
     default: "none"
     reflects: false
     constraint: >-
-      The message of an End typed before the Start, with the placeholder start, which is the Start written as
+      The message of an End typed before the Start, and of a Start typed after the End (on the Start field), with the placeholder start, which is the Start written as
       the field writes a date.
   focus:
     type: method
@@ -546,7 +546,7 @@ states:
     changes_for_user: "The marked shortcut takes the surface fill and the check marker, and keeps both under the opacity when it is also disabled."
 business_rules:
   - "The piece is form-associated. Single writes name, with the date as YYYY-MM-DD, when there is a date; range writes start-name and end-name, each when its date exists. Required, a typed text that is not accepted and form.reset() work as in a native field."
-  - "Validity: while a field carries a message the piece wrote for a typed text, the host is badInput, with the text of errorInvalid; with none, it is valueMissing while required and the date, or the start or the end, is empty, with the text of errorRequired. form.reset() brings value, start and end back to their attributes and clears the errors."
+  - "Validity: while a field carries a message the piece wrote for a typed text that is not accepted (not a date, outside the limit, unavailable or an inverted period), the host is badInput, with the text of errorInvalid; with none of those, it is valueMissing while required and the date, or the start or the end, is empty, with the text of errorRequired. form.reset() brings value, start and end back to their attributes and clears the errors."
   - "Each date has its own nph-field. The nph-field names and describes one control, so the control row is the internal element nph-date-picker-control, which holds the nph-input and the calendar button and hands the field contract to the input. The calendar button keeps its own name."
   - "No input mask. The text is checked when the person leaves it, and the message comes through nph-field. The hint is the help line and the placeholder."
   - "Typed date rules (D-4, provisional): the order of day, month and year comes from the language through Intl, with the slash as separator; day and month may have or lack a leading zero and the year has four digits; the text is written back as two digits for day and month and four for the year. One message at a time, in this order: empty, invalid, outside the limit, unavailable, end before start. Empty is an error only when required. A date with a problem is not committed and the value it replaces stays; a typed value is never reordered. Only a typed End is compared with the Start."
@@ -572,7 +572,7 @@ business_rules:
   - "Every text comes from the consumer, already localized, except the order of the date and the names of months and weekdays, which come from Intl."
 domain_errors:
   - "A typed text that is not a date that exists, written in the order of the language with the slash: errorInvalid, on the field, with the value it had kept."
-  - "A typed date outside min or max: errorMin, errorMax or errorBetween, citing the limit; a date unavailable by rule: errorUnavailable; an End typed before the Start: errorEndBeforeStart with the Start."
+  - "A typed date outside min or max: errorMin, errorMax or errorBetween, citing the limit; a date unavailable by rule: errorUnavailable; an End typed before the Start, or a Start typed after the End: errorEndBeforeStart with the Start."
   - "An empty required field: errorRequired, errorRequiredStart or errorRequiredEnd."
   - "A mode, a size or a week-start outside the lists, a date property that does not exist: it draws nothing and emits console.error in development, one per cause while it lasts."
   - "labels with no key at all — the piece draws nothing and emits console.error in development."
@@ -728,8 +728,8 @@ press outside leave the focus where it is.
 
 - The piece is form-associated: single writes `name`; range writes `start-name` and `end-name`; each entry
   is left out while its date is empty. Required, a typed text that is not accepted and `form.reset()` work as
-  in a native field. The host is `badInput` while a field carries a message the piece wrote, with the text of
-  `errorInvalid`, and otherwise `valueMissing` while required and a date is empty, with the text of
+  in a native field. The host is `badInput` while a field carries a message the piece wrote for a typed text that is not accepted,
+  with the text of `errorInvalid`, and otherwise `valueMissing` while required and a date is empty, with the text of
   `errorRequired`. `form.reset()` returns `value`, `start` and `end` to their attributes and clears the errors.
 - **The field and its control row.** `nph-field` names and describes one control. Here each field holds the
   internal element `nph-date-picker-control` (the Figma `date-picker / controle`), which holds the `nph-input`
