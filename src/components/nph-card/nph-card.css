@@ -1,0 +1,472 @@
+/**
+ * Internal style of `nph-card`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties this file
+ * consumes: the `card/*` ones and the semantic ones named in the sheet. The component exposes no `::part` and
+ * declares no custom property of its own that a consumer may set.
+ *
+ * No literal design value goes in here. The written quantities are box relations: `100%`, `0`, `16 / 9` (the
+ * proportion of the top media, from the accepted frame), `40%` and `33%` (the share of the side media, default and
+ * compact density), the shares of the loading skeleton (the Figma widths are examples of a 360 px card, so the
+ * pieces follow the card width), `50%` (a clipped box centered on itself) and `30rem` (the width of the card
+ * under which the side media goes to the top: a length in an at-rule, which a custom property cannot hold, as in
+ * `nph-file-upload`). No transition and no animation: Figma draws the hover as a change of color, and the card
+ * has nothing to reduce under `prefers-reduced-motion`.
+ *
+ * The card does not change the pieces it draws or places. What it sets on them it sets from outside, with the rule
+ * of the cascade that an outer style wins over the `:host` style of a piece: the separator line (a custom
+ * property the separator reads), the color of the arrow (the icon takes `currentColor`), the size of an icon, the
+ * frame of the media and the height of the menu action on a touch screen.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/*
+ * The card takes the width of its container and is the container of its own width: the side media moves to the
+ * top when the card is narrow (the query cannot style the box it measures, so the surface is inside the host).
+ */
+:host([data-nph-rendered]) {
+  display: block;
+  container-type: inline-size;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ----- the surface: one outline, drawn once ------------------------------------------------------------- */
+
+.surface {
+  --_inner-radius: calc(var(--nph-card-radius) - var(--nph-card-border-width));
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: var(--nph-card-background);
+  color: var(--nph-card-foreground);
+  border: var(--nph-card-border-width) solid var(--nph-card-border);
+  border-radius: var(--nph-card-radius);
+}
+
+/* The elevated surface has the shadow; the outlined one has the outline and no shadow. */
+:host([surface='elevated']) .surface {
+  box-shadow: var(--nph-elevation-raised);
+}
+
+/* The hover only changes the color of the outline: the width does not, so the card does not move. */
+:host([type='clickable']:not([disabled], [loading])) .surface:hover {
+  border-color: var(--nph-card-border-hover);
+}
+
+.main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-card-gap);
+  padding: var(--nph-card-padding);
+}
+
+:host([density='compact']) .body {
+  padding: var(--nph-card-padding-compact);
+}
+
+/* ----- the media ---------------------------------------------------------------------------------------- */
+
+/*
+ * The media is clipped by its own box, never by the surface: the focus border and halo sit outside the surface and
+ * must not be cut. The radii follow the mode (logical corners, so right-to-left text mirrors the side media).
+ */
+.media {
+  display: flex;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.media,
+.media ::slotted([slot='media']) {
+  border-start-start-radius: var(--_r-ss, 0);
+  border-start-end-radius: var(--_r-se, 0);
+  border-end-start-radius: var(--_r-es, 0);
+  border-end-end-radius: var(--_r-ee, 0);
+}
+
+/*
+ * The piece in the media slot fills the box, whatever its own size: the frame is the card's. `nph-image` sizes
+ * its host by its `size`, and this outer rule wins over that `:host` rule, so the card gives the frame and the
+ * consumer gives `src` and `alt` only. The image crops to cover.
+ */
+.media ::slotted([slot='media']) {
+  display: block;
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-inline-size: 0;
+  block-size: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.surface[data-media='top'] > .media {
+  --_r-ss: var(--_inner-radius);
+  --_r-se: var(--_inner-radius);
+}
+
+.surface[data-media='inset-top'] .media {
+  --_r-ss: var(--nph-image-radius-lg);
+  --_r-se: var(--nph-image-radius-lg);
+  --_r-es: var(--nph-image-radius-lg);
+  --_r-ee: var(--nph-image-radius-lg);
+}
+
+/* Side: at the start, the card height, a share of the card width; the crop is free in proportion. */
+.surface[data-media='side'] {
+  flex-direction: row;
+}
+
+.surface[data-media='side'] > .media {
+  --_r-ss: var(--_inner-radius);
+  --_r-es: var(--_inner-radius);
+  flex: 0 0 40%;
+}
+
+:host([density='compact']) .surface[data-media='side'] > .media {
+  flex-basis: 33%;
+}
+
+.surface[data-media='side'] > .media ::slotted([slot='media']) {
+  block-size: 100%;
+  aspect-ratio: auto;
+}
+
+/* On a narrow container the side media moves to the top. */
+@container (width < 30rem) {
+  .surface[data-media='side'] {
+    flex-direction: column;
+  }
+
+  .surface[data-media='side'] > .media {
+    --_r-es: 0;
+    --_r-se: var(--_inner-radius);
+    flex: none;
+  }
+
+  :host([density='compact']) .surface[data-media='side'] > .media {
+    flex-basis: auto;
+  }
+
+  .surface[data-media='side'] > .media ::slotted([slot='media']) {
+    block-size: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ----- the header ----------------------------------------------------------------------------------------- */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-card-header-item-gap);
+}
+
+.leading,
+.action,
+.indicator {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+/* The tonal box of the start icon: 40 px by the padding and the icon, 32 px in the compact density. */
+.icon-box {
+  display: inline-flex;
+  padding: var(--nph-card-icon-container-padding);
+  border-radius: var(--nph-card-icon-container-radius);
+  background: var(--nph-card-icon-container-background);
+  color: var(--nph-card-icon-container-foreground);
+}
+
+.icon-box nph-icon {
+  inline-size: var(--nph-card-icon-size);
+  block-size: var(--nph-card-icon-size);
+}
+
+:host([density='compact']) .icon-box nph-icon {
+  inline-size: var(--nph-card-icon-size-dense);
+  block-size: var(--nph-card-icon-size-dense);
+}
+
+/* The arrow of the clickable card: its own color, the same in every state. */
+.indicator {
+  color: var(--nph-card-indicator-foreground);
+}
+
+.indicator nph-icon {
+  inline-size: var(--nph-card-indicator-size);
+  block-size: var(--nph-card-indicator-size);
+}
+
+.titles {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--nph-card-header-gap);
+  min-inline-size: 0;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-card-header-item-gap);
+  min-inline-size: 0;
+}
+
+/* One line with an ellipsis: the title truncates before the status, which never hides. */
+.heading {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--nph-card-foreground);
+  font-family: var(--nph-text-heading-md-font-family);
+  font-size: var(--nph-text-heading-md-font-size);
+  font-weight: var(--nph-text-heading-md-font-weight);
+  line-height: var(--nph-text-heading-md-line-height);
+  letter-spacing: var(--nph-text-heading-md-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:host([density='compact']) .heading {
+  font-family: var(--nph-text-heading-xs-font-family);
+  font-size: var(--nph-text-heading-xs-font-size);
+  font-weight: var(--nph-text-heading-xs-font-weight);
+  line-height: var(--nph-text-heading-xs-line-height);
+  letter-spacing: var(--nph-text-heading-xs-letter-spacing);
+}
+
+.status {
+  display: flex;
+  flex: none;
+}
+
+.description {
+  margin: 0;
+  color: var(--nph-card-description-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/*
+ * The menu action of the base card is 28 px (`control/height-compact`) and 36 px on a touch screen
+ * (`control/height-default`). The button reads `control/height-compact` on its own host, and the value written
+ * here is the one it reads. Only the base card: on the section card the text button keeps its own size.
+ */
+@media (pointer: coarse) {
+  :host([type='base']) ::slotted([slot='action']) {
+    --nph-control-height-compact: var(--nph-control-height-default);
+  }
+}
+
+/* ----- the title link of the clickable card: stretched over the card by the pseudo-element alone ----------- */
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+.link[href]::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--nph-card-border-width));
+  border-radius: var(--nph-card-radius);
+}
+
+.link:not([href]) {
+  cursor: default;
+}
+
+/*
+ * Visible focus around the whole card, for keyboard users only: the border `focus/border` carries the contrast and
+ * the halo `focus/halo` is the reinforcement; both sit outside the surface, with their own corners.
+ */
+.surface:has(.link:focus-visible)::before,
+.surface:has(.link:focus-visible)::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.surface:has(.link:focus-visible)::before {
+  inset: calc(-1 * (var(--nph-card-border-width) + var(--nph-border-width)));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-surface);
+}
+
+.surface:has(.link:focus-visible)::after {
+  inset: calc(-1 * (var(--nph-card-border-width) + var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-surface-with-border);
+}
+
+:host([type='clickable'][disabled]) .surface {
+  opacity: var(--nph-card-disabled-opacity);
+}
+
+/* ----- the content, the tonal section, the list ------------------------------------------------------------ */
+
+.content {
+  color: var(--nph-card-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-card-section-gap);
+  padding: var(--nph-card-section-padding);
+  border-radius: var(--nph-card-section-radius);
+  background: var(--nph-card-section-background);
+  color: var(--nph-card-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+/* The key-value list of the section type: key at the start of the row, value at its end. */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-card-list-gap);
+  margin: 0;
+  padding: 0;
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--nph-card-header-item-gap);
+}
+
+.row dt {
+  margin: 0;
+  color: var(--nph-card-description-foreground);
+  overflow-wrap: anywhere;
+}
+
+.row dd {
+  margin: 0;
+  color: var(--nph-card-foreground);
+  text-align: end;
+  overflow-wrap: anywhere;
+}
+
+/* ----- the divider and the footer ------------------------------------------------------------------------- */
+
+/* The separator draws its line with `color/border`; the card gives it the line of its own divider. */
+.divider {
+  --nph-color-border: var(--nph-card-divider);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--nph-card-footer-gap);
+  padding: var(--nph-card-footer-padding);
+}
+
+:host([density='compact']) .footer {
+  padding: var(--nph-card-footer-padding-compact);
+}
+
+/* The meta text of the clickable card sits in the body, at the start, with no divider and no extra padding. */
+.footer.meta {
+  justify-content: flex-start;
+  padding: 0;
+  color: var(--nph-card-description-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+/* ----- loading: the skeleton in place of the content ---------------------------------------------------------- */
+
+/*
+ * The surface, its outline and the padding stay. The widths of the Figma example (264, 160, 312, 200 and 120 on a
+ * 360 px card) become shares of the room, so the lines follow the card.
+ */
+.sk-title {
+  inline-size: 85%;
+}
+
+.sk-description {
+  inline-size: 50%;
+}
+
+.sk-line {
+  inline-size: 100%;
+}
+
+.sk-line-short {
+  inline-size: 65%;
+}
+
+.sk-action {
+  inline-size: 40%;
+  block-size: var(--nph-control-height-default);
+}
+
+.surface[aria-busy='true'] .content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-card-header-gap);
+}
+
+/* The word for the screen reader: clipped, not `display: none`, and outside the node hidden from assistive technology. */
+.loading-text {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* With forced colors the outline is a system color and the focus is its own system color. */
+@media (forced-colors: active) {
+  .surface {
+    border-color: CanvasText;
+  }
+
+  .surface:has(.link:focus-visible)::before,
+  .surface:has(.link:focus-visible)::after {
+    border-color: Highlight;
+  }
+}
