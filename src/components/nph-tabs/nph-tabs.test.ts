@@ -947,6 +947,8 @@ describe('the scroll of the underline style', () => {
   async function mountNarrow(props: Partial<NphTabs> = {}): Promise<NphTabs> {
     const host = document.createElement('div');
     host.style.inlineSize = '420px';
+    /* The page of the tests has its own `lang`; the default names follow the nearest one, so the list says which. */
+    host.setAttribute('lang', 'pt-BR');
     document.body.append(host);
     const tabs = document.createElement('nph-tabs');
     Object.assign(tabs, {
@@ -1044,11 +1046,43 @@ describe('the scroll of the underline style', () => {
     await vi.waitFor(() => expect(scroller.scrollLeft).toBeLessThan(-100));
   });
 
-  it('without the two labels the arrows are not drawn and a warning is emitted once', async () => {
-    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const tabs = await mountNarrow({ scrollNextLabel: null });
-    expect(arrows(tabs)).toHaveLength(0);
-    expect(spy.mock.calls.filter((call) => /scroll-previous-label/.test(String(call[0])))).toHaveLength(1);
+  describe('the default names of the arrows (DSA-71 D-2)', () => {
+    const names = (tabs: NphTabs) => arrows(tabs).map((arrow) => arrow.getAttribute('label'));
+
+    it('without the two labels the arrows are still drawn, named in Portuguese by default, with no warning', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const tabs = await mountNarrow({ scrollPreviousLabel: null, scrollNextLabel: null });
+      expect(names(tabs)).toEqual(['Rolar para a esquerda', 'Rolar para a direita']);
+      expect(warn.mock.calls.filter((call) => /scroll/.test(String(call[0])))).toHaveLength(0);
+      expect(error).not.toHaveBeenCalled();
+      expect(arrows(tabs)[0]?.shadowRoot?.querySelector('button')?.getAttribute('aria-label')).toBe('Rolar para a esquerda');
+    });
+
+    it('the default follows the lang nearest to the list: English, Spanish, and Portuguese for anything else', async () => {
+      const read = async (lang: string): Promise<(string | null)[]> => {
+        const tabs = await mountNarrow({ scrollPreviousLabel: null, scrollNextLabel: null });
+        (tabs.parentElement as HTMLElement).setAttribute('lang', lang);
+        await tabs.requestUpdate();
+        await settle(tabs);
+        return names(tabs);
+      };
+      expect(await read('en-US')).toEqual(['Scroll left', 'Scroll right']);
+      expect(await read('es')).toEqual(['Desplazar a la izquierda', 'Desplazar a la derecha']);
+      expect(await read('pt-BR')).toEqual(['Rolar para a esquerda', 'Rolar para a direita']);
+      expect(await read('fr')).toEqual(['Rolar para a esquerda', 'Rolar para a direita']);
+    });
+
+    it('a label the product gives overrides the default of its own arrow only', async () => {
+      const tabs = await mountNarrow({ scrollPreviousLabel: 'Back', scrollNextLabel: null });
+      expect(names(tabs)).toEqual(['Back', 'Rolar para a direita']);
+    });
+
+    it('the side in the default name is the side the arrow points to, also in right-to-left writing', async () => {
+      const tabs = await mountNarrow({ scrollPreviousLabel: null, scrollNextLabel: null });
+      (tabs.parentElement as HTMLElement).setAttribute('dir', 'rtl');
+      await vi.waitFor(() => expect(names(tabs)).toEqual(['Rolar para a direita', 'Rolar para a esquerda']));
+    });
   });
 
   it('when the tabs fit there are no arrows and the tabs share the width', async () => {
@@ -1130,20 +1164,21 @@ describe('the cut label and its balloon', () => {
     await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(true));
   });
 
-  it('the pointer opens the balloon after resting on the tab, and leaving closes it', async () => {
+  it('the pointer opens the balloon after resting on the tab, and leaving closes it, with the Tab stop where it was', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const tabs = await mountCut({ value: 'b' });
-    expect(tab(tabs, 0).tabIndex).toBe(-1);
+    expect(buttons(tabs).map((button) => button.tabIndex)).toEqual([-1, 0, -1]);
     await userEvent.hover(tab(tabs, 0));
     await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(true), { timeout: 2000 });
-    expect(tab(tabs, 0).tabIndex).toBe(0);
+    /* DSA-71 D-1: the cut tab keeps `tabindex="-1"`; the list keeps a single Tab stop. */
+    expect(buttons(tabs).map((button) => button.tabIndex)).toEqual([-1, 0, -1]);
     expect(spy).not.toHaveBeenCalled();
     await userEvent.unhover(tab(tabs, 0));
     await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(false), { timeout: 2000 });
-    expect(tab(tabs, 0).tabIndex).toBe(-1);
+    expect(buttons(tabs).map((button) => button.tabIndex)).toEqual([-1, 0, -1]);
   });
 
-  it('the pointer can cross from the tab to its balloon: the balloon stays open and the tab stays eligible (WCAG 1.4.13)', async () => {
+  it('the pointer can cross from the tab to its balloon: the balloon stays open (WCAG 1.4.13)', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const tabs = await mountCut({ value: 'b' });
     await userEvent.hover(tab(tabs, 0));
@@ -1152,22 +1187,19 @@ describe('the cut label and its balloon', () => {
     await userEvent.hover(bubble);
     await wait(400);
     expect(tooltips(tabs)[0]?.open).toBe(true);
-    expect(tab(tabs, 0).tabIndex).toBe(0);
+    expect(tab(tabs, 0).tabIndex).toBe(-1);
     await userEvent.unhover(bubble);
     await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
     await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(false), { timeout: 2000 });
-    expect(tab(tabs, 0).tabIndex).toBe(-1);
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('a list removed and put back while the pointer lent a Tab stop keeps one Tab stop only', async () => {
+  it('a list removed and put back while the pointer was on a cut tab keeps one Tab stop only', async () => {
     const tabs = await mountCut({ value: 'b' });
     await userEvent.hover(tab(tabs, 0));
     await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(true), { timeout: 2000 });
-    expect(tab(tabs, 0).tabIndex).toBe(0);
     const host = tabs.parentElement as HTMLElement;
     tabs.remove();
-    expect(tab(tabs, 0).tabIndex).toBe(-1);
     host.append(tabs);
     await settle(tabs);
     await wait(100);
@@ -1175,6 +1207,16 @@ describe('the cut label and its balloon', () => {
     expect(buttons(tabs).filter((button) => button.tabIndex === 0)).toHaveLength(1);
     expect(tab(tabs, 1).tabIndex).toBe(0);
     await userEvent.unhover(document.body);
+  });
+
+  it('the arrows move the focus to a cut tab that is not the Tab stop and its balloon opens, with one Tab stop all along', async () => {
+    const tabs = await mountCut({ value: 'b' });
+    await userEvent.tab();
+    expect(root(tabs).activeElement).toBe(tab(tabs, 1));
+    await userEvent.keyboard('{ArrowLeft}');
+    expect(root(tabs).activeElement).toBe(tab(tabs, 0));
+    await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(true));
+    expect(buttons(tabs).filter((button) => button.tabIndex === 0)).toHaveLength(1);
   });
 
   it('a click during the wait cancels the balloon and the tab still activates', async () => {

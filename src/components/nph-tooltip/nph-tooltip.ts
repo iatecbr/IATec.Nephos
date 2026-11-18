@@ -11,8 +11,10 @@
  *   (WCAG 1.4.13);
  * - click, Enter and Space run the action of the element: they neither open nor
  *   close the balloon. A click during the wait cancels it;
- * - a disabled element, or one that does not receive focus, gets no balloon: without
- *   focus, a keyboard user never sees it;
+ * - a disabled element, or one that nothing can focus, gets no balloon: without
+ *   focus, a keyboard user never sees it. An element that is out of the Tab order but that
+ *   the arrows focus, such as a tab of the list that is not the Tab stop (`tabindex="-1"`), does get it:
+ *   the pointer opens it on hover and the arrows open it on focus (DSA-71 D-1, DSA-82);
  * - it never opens on touch: without hover, essential information never lives only
  *   in the balloon. The touch target is the element, at its own size; the icon-only
  *   button has no visible name there, an accepted exception;
@@ -265,7 +267,10 @@ export class NphTooltip extends LitElement {
 
   /**
    * The element receives focus: not disabled (natively, or a custom element with a
-   * `disabled` attribute), and in the Tab order or a host that delegates its focus.
+   * `disabled` attribute), and either in the Tab order, or out of it by an explicit `tabindex`
+   * (the arrows of a roving list give the focus to an item whose `tabindex` is `-1`; DSA-71 D-1),
+   * or a host that delegates its focus. An element with no `tabindex` that is not a control gets
+   * no balloon: nothing can focus it.
    */
   private get focusable(): boolean {
     const target = this.target;
@@ -273,6 +278,12 @@ export class NphTooltip extends LitElement {
       return false;
     }
     if ((target instanceof HTMLElement || target instanceof SVGElement) && target.tabIndex >= 0) {
+      return true;
+    }
+    if (
+      (target instanceof HTMLElement || target instanceof SVGElement) &&
+      Number.isInteger(Number.parseInt(target.getAttribute('tabindex') ?? '', 10))
+    ) {
       return true;
     }
     if (

@@ -71,17 +71,18 @@ P62.4 subsection for the detail).
 | **P112** | API and semantics of `nph-hover-card` | 07/11/2026 | Low now. No piece consumes it yet; a profile, a page or an item link will, and changing `href`, the default slot, `heading`, `meta`, `meta-icon`, `meta-title`, `side`, `arrow`, `open`, the slot `media`, the closing on blur or the invalid-input rule later requires redoing every card. The slot `media` and the alignment of the card to the link wait for Indiane (D-1, D-2) | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P113** | API and semantics of `nph-context-menu`; the accepted changes of `nph-dropdown-menu` and `nph-icon` | 08/11/2026 | Low now. No piece consumes the context menu yet; `nph-data-table` is its first expected parent, so changing `for`, `items`, `open-submenu`, `size`, the event `nph-item-select` (with `origin`) or the invalid-input rule later requires redoing every consumer. The `nph-dropdown-menu` change is visual only | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P114** | The answers of 2026-11-09 applied in the code: the size of `nph-switch`, the focus of the dropdown item, the open trigger of `nph-button`, the disclosure and motion of `nph-navigation-menu` and the other choices (amends P87, P111 and P113) | 09/11/2026 | Low. The pieces are not consumed by another piece beyond the dropdown item that draws the small switch; changing `size` of `nph-switch`, `NPH_PROGRESS_MIN_STEPS` or the narrow rows of `nph-navigation-menu` later requires redoing every consumer | Answers by Indiane on 2026-11-09, in the tasks. The choices are reviewed in the pull request that brings them |
-| **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. The balloon of the cut tab (D-1), the names of the arrows (D-2), `99+` (D-3) and the cut label in the segmented and tab button styles (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P116** | API and semantics of `nph-sidebar`; the focus hook of `nph-button`; the disclosure of the subitem and of the rail button (amends P98) | 11/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing `items`, `mode`, `open`, the events, the flyout panel or the focus hook later requires redoing every consumer. The `sidebar` icon in `nph-icon` (D-1), the dark logo (D-2) and the current page in a collapsed group (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. The 600 px of the narrow width (D-2), the position-only progress on the narrow width (D-3) the focusable span of a cut pending step (D-4) and the connector against a status set out of position (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P118** | API and semantics of `nph-tree` | 11/11/2026 | Low now. No piece consumes it yet; the Tree Select and the Tree Table will, and changing `items`, the state properties `selection`, `selected`, `checked` and `expanded`, the cascade, the events `nph-tree-toggle`, `nph-tree-select`, `nph-tree-check` and `nph-tree-load`, the load on demand, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The Tree Table against the tree of `nph-table` (D-1) and the focus border of the disabled item (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. The dashed border token (D-1), the description of the button (D-2), the items of a disabled zone (D-3), the error inside `nph-field` (D-4) and the lines of the item (D-5) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P120** | API and semantics of `nph-scheduler` | 13/11/2026 | Low now. No piece consumes it yet; a product screen will, so changing `events`, `calendars` and `labels`, the instant format, the events `nph-event-click` and `nph-date-change`, the slots `detail` and `detail-footer`, the order of Tab or the invalid-input rule later requires redoing every consumer. The date grid (D-1), the `sidebar` icon (D-2), the derived measures (D-3), the color of a calendar (D-4), the click on a day (D-5), the detail (D-6) and the order of the all-day band (D-7) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. The preview that does not grow (D-1), the preview of fewer than three lines (D-2) and the growth against the motion rule (D-3) wait for Indiane. The `aria-expanded` and the `controls` that `nph-button` now hands to its native button are covered by the tests of both pieces | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P122** | `nph-combobox`: the free text variant (extends P95) | 14/11/2026 | Low now. No piece consumes the variant yet, and the arrow variant does not change, so changing the attribute `free-text`, the attribute `no-suggestions-label`, the rule that the typed text is the value (`value` and `query`, with a pick writing the text of the suggestion), the events `input`, `change` and `nph-search`, the keyboard with no suggestion active while typing, the status region outside the list, the IME rule or the invalid-input rules later requires redoing every consumer. The click on the field that does not open the list (D-1) and the arrows that show only the suggestions that contain the text (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P123** | API and semantics of `nph-command`; three options and the close origins of `nph-dialog` (amends P87) | 14/11/2026 | Low now. No screen consumes the palette yet; the search of the side menu will, so changing `items`, the texts, the events `nph-run` and `nph-search`, the origins of `nph-close`, the keys, the shortcut rule or the invalid-input rule later requires redoing every consumer. The options of the dialog only add and are off by default. The position near the top (D-1), the width held at the ceiling (D-2), the rest of a searched destructive label (D-3) and the clipped outer pixel of the field halo (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P124** | The panel menu navigation of `nph-sidebar`: the `navigation` property, the open state, the third level in place (extends P116) | 15/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing the name or the values of `navigation`, the shape of `items` (the child with `options` and its `expanded`), the way the open groups are kept or the event `nph-group-toggle` later requires redoing every consumer. The section label in the panel menu (D-1), the arrow of the group item (D-2) and a page inside a group the person closed (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. All five points are answered (D-1 to D-5, 16/11/2026); the balloon of the cut tab (D-1) and the default names of the arrows (D-2) were applied in the code with DSA-82 (P127) | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P116** | API and semantics of `nph-sidebar`; the focus hook of `nph-button`; the disclosure of the subitem and of the rail button (amends P98) | 11/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing `items`, `mode`, `open`, the events, the flyout panel or the focus hook later requires redoing every consumer. The four points are answered (D-1 to D-4, 16/11/2026); the dark logo (D-2) stays provisional until the brand team confirms the version | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P117** | API and semantics of `nph-stepper` | 11/11/2026 | Low now. No piece consumes it yet; a sign-up, a hiring or a setup form will, and changing `steps`, `current`, `non-linear`, the hidden status texts, `step-text`, the event `nph-step-select`, the narrow width or the invalid-input rule later requires redoing every consumer. D-1 to D-5 are answered (16/11/2026); the cut pending step (D-4) is a focusable element with a role and `aria-disabled` since DSA-82 (P127) | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P118** | API and semantics of `nph-tree` | 11/11/2026 | Low now. No piece consumes it yet; the Tree Select and the Tree Table will, and changing `items`, the state properties `selection`, `selected`, `checked` and `expanded`, the cascade, the events `nph-tree-toggle`, `nph-tree-select`, `nph-tree-check` and `nph-tree-load`, the load on demand, the texts of the consumer or the invalid-input rule later requires redoing every consumer. D-1 and D-2 are answered (16/11/2026): keep both trees, and the focus border stays on top of the disabled item | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P119** | API and semantics of `nph-file-upload` | 11/11/2026 | Low now. No piece consumes it yet; a form that attaches files will, and changing `files`, the validation and its reasons, the events `nph-file-upload-add`, `nph-file-upload-remove` and `nph-file-upload-retry`, the texts of the consumer, the compact format or the invalid-input rule later requires redoing every consumer. D-2 to D-5 are answered (16/11/2026) and applied in the code with DSA-82 (P127): the description of the button and the single error message; the dashed border token (D-1) waits for Indiane with the gate `stroke-style-token` | Anatomy and behavior: documentation accepted by Indiane on 10/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P120** | API and semantics of `nph-scheduler` | 13/11/2026 | Low now. No piece consumes it yet; a product screen will, so changing `events`, `calendars` and `labels`, the instant format, the events `nph-event-click` and `nph-date-change`, the slots `detail` and `detail-footer`, the order of Tab or the invalid-input rule later requires redoing every consumer. D-1 to D-7 are answered (16/11/2026); the own date grid stays provisional until the date-picker grid has a task (D-1) | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P121** | API and semantics of `nph-collapsible`; the disclosure trigger of `nph-button` (amends P68) | 13/11/2026 | Low now. No piece consumes the collapsible yet, and the amendment to `nph-button` only adds; the accordion item and the vertical stepper will, and changing the properties `type`, `appearance`, `indicator`, `size`, `open`, `label`, `open-label`, `description` and `icon`, the event `nph-toggle`, the content slot, the state written on the native button of the `nph-button`, the texts of the consumer or the invalid-input rule later requires redoing every consumer. D-1 to D-3 are answered (16/11/2026); the exception to the motion rule of `design.md` (D-3) waits for Indiane's release to be written there. The `aria-expanded` and the `controls` that `nph-button` now hands to its native button are covered by the tests of both pieces | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P122** | `nph-combobox`: the free text variant (extends P95) | 14/11/2026 | Low now. No piece consumes the variant yet, and the arrow variant does not change, so changing the attribute `free-text`, the attribute `no-suggestions-label`, the rule that the typed text is the value (`value` and `query`, with a pick writing the text of the suggestion), the events `input`, `change` and `nph-search`, the keyboard with no suggestion active while typing, the status region outside the list, the IME rule or the invalid-input rules later requires redoing every consumer. D-1 and D-2 are answered (16/11/2026); the support for D-1 is GOV.UK accessible-autocomplete, not the APG example | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P123** | API and semantics of `nph-command`; three options and the close origins of `nph-dialog` (amends P87) | 14/11/2026 | Low now. No screen consumes the palette yet; the search of the side menu will, so changing `items`, the texts, the events `nph-run` and `nph-search`, the origins of `nph-close`, the keys, the shortcut rule or the invalid-input rule later requires redoing every consumer. The options of the dialog only add and are off by default. D-1 to D-4 are answered (16/11/2026); the position near the top (D-1) waits for the two tokens | Anatomy and behavior: documentation accepted by Indiane on 12/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P124** | The panel menu navigation of `nph-sidebar`: the `navigation` property, the open state, the third level in place (extends P116) | 15/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing the name or the values of `navigation`, the shape of `items` (the child with `options` and its `expanded`), the way the open groups are kept or the event `nph-group-toggle` later requires redoing every consumer. D-1 to D-3 are answered (16/11/2026); a new current page opens its parent groups since DSA-82 (P127) | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P126** | API and semantics of `nph-menubar`; the focus border and the submenu gap of the dropdown item (amends P92 and P113) | 16/11/2026 | Low now. No piece consumes the bar yet; the header of an application will, and changing `menus`, `open-menu`, `open-submenu`, `label`, `more-label`, `narrow`, `menu-label`, the event `nph-item-select` (with `menu`), the overflow rule or the invalid-input rule later requires redoing every consumer. The focus border of the dropdown and context-menu item changes color only, and the submenu of the context menu moves 4 px. The open top item in focus (D-1), Enter and Space on a choice and the click on a multiple choice (D-2), the click that opens with no item shown (D-3) and the panel that is not an instance in code (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P127** | The answers of 2026-11-16 applied in the code: the technical choices (amends P68, P77 and P83) | 17/11/2026 | Low now. The changes only add or loosen: a balloon on an element with an explicit `tabindex`, a `description` on `nph-button`, a flag a control may declare to `nph-field`, a default name for the scroll arrows of `nph-tabs`, a role on a cut pending step, and the groups of the panel menu that open for a new current page. Changing the role of the step, the default names or the rule of the panel menu later requires redoing every consumer that reads them | The answers come from Indiane, recorded in the tasks (four of them decided by Claude by her delegation, DSA-71 D-1, DSA-73 D-4, DSA-74 D-2 and DSA-76 D-3). The technical choices are reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -2195,7 +2196,9 @@ three findings of the last Copilot review of PR #94 that were missed before its 
    the element is not disabled (`:disabled`, or a `disabled` attribute on a custom element) and is
    in the Tab order (`tabIndex >= 0`, or a `contenteditable` element that is the editing root and has
    no `tabindex`, which the browser tabs to while its `tabIndex` reads `-1`) or is a host that
-   delegates its focus. An element that does not
+   delegates its focus. Amended on 17/11/2026 (DSA-82, P127 item 1): an element with an explicit integer
+   `tabindex`, `-1` included, is eligible too, because the arrows and the script focus it; an element with no
+   `tabindex` that is not a control is still not. An element that does not
    receive focus emits `console.error` once in development; a disabled one does not, because it is a
    passing state. An element disabled while its balloon is open loses it at once. The root observer
    watches `disabled`, `tabindex` and `contenteditable`, and checks the element again only when the
@@ -7039,12 +7042,12 @@ cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The n
    enabled tab gets an `nph-tooltip` with the whole text, as its description (the default
    relation), as the cut label of the removable chip (P100): the name of the tab stays its content,
    with the counter text and the tag, so a name built from the balloon would drop the visible text
-   (axe `label-content-name-mismatch`). `nph-tooltip` opens only on an element with `tabIndex` of 0 or more
-   (P77), and an inactive tab has -1. The piece promotes the cut tab under the pointer to
-   `tabindex="0"` while the pointer is on it, on `pointerover` and before the tooltip reads it, and
-   gives it back to the roving value when the pointer leaves; the arrows write the roving value before
-   they move the focus, so the balloon opens for the focused tab. A touch pointer does not promote.
-   It is a limit, registered in the sheet and as D-1.
+   (axe `label-content-name-mismatch`). `nph-tooltip` opened only on an element with `tabIndex` of 0 or more
+   (P77), and an inactive tab has -1, so the piece promoted the cut tab under the pointer to
+   `tabindex="0"` while the pointer was on it. Amended on 17/11/2026 (DSA-82, D-1 of DSA-71, item 1 of P127):
+   `nph-tooltip` also opens on an element with an explicit `tabindex`, `-1` included, so the cut tab keeps
+   `tabindex="-1"`, the loan is gone and the list keeps one Tab stop; the balloon opens on the hover of the tab and
+   on the focus the arrows give. A touch pointer does not open it.
 
 10. **The scroll arrows.** Only the underline scrolls. When the tabs do not fit, each tab keeps its
     width (`minmax(max-content, 1fr)`) and the list scrolls, with an arrow at each end, measured by
@@ -7052,7 +7055,8 @@ cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The n
     `compact` and shape `square` (the icon-only `nph-button` of DSA-43; there is no sheet for an
     `nph-icon-button`), with the icons `chevron-left` and `chevron-right`, mirrored in right-to-left
     writing. Its name comes from `scroll-previous-label` and `scroll-next-label`, which are text of
-    the consumer (D-2); without them the arrows are not drawn and the piece warns once. At an end of
+    the consumer (D-2); amended on 17/11/2026 (DSA-82, item 3 of P127): they override a default name that
+    follows the `lang` nearest to the list, so the arrows are drawn without them and the warning is gone. At an end of
     the list the arrow is disabled, not hidden, so the list does not change width. The arrows have
     `tabindex="-1"`: out of the Tab order, because the arrow keys already scroll the list. The accepted
     documentation also asks them out of the screen reader, but `aria-hidden` on `nph-button`, which
@@ -7086,8 +7090,8 @@ approved, and the points of its approval page. The property names, the shape of 
 the panel, the event, the invalid-input rule, the accessible name of the counter, the balloon of the
 cut label and the scroll arrows are a technical proposal of this implementation.
 
-**Out of scope.** A vertical list. A token, new or changed. A change in `nph-tooltip`, so that it opens
-on an element with `tabIndex` of -1. Steps in sequence: that is `nph-stepper`. A disabled for the whole
+**Out of scope.** A vertical list. A token, new or changed. (A change in `nph-tooltip`, so that it opens
+on an element with `tabIndex` of -1, was out of scope here and came with DSA-82, P127 item 1.) Steps in sequence: that is `nph-stepper`. A disabled for the whole
 list. Scrolling in the segmented and tab button styles. A form association.
 
 **Pending decisions for Indiane.**
@@ -7095,7 +7099,7 @@ list. Scrolling in the segmented and tab button styles. A form association.
 - **D-1 — the balloon of the cut tab.** The Figma asks for the balloon of the cut label on every tab,
   but `nph-tooltip` opens only on an element with `tabIndex` of 0 or more. The code promotes the cut tab
   under the pointer to `tabindex="0"` while the pointer is on it. She confirms it, or asks for a change
-  in `nph-tooltip`, which is a task of its own.
+  in `nph-tooltip`, which is a task of its own. (Answered below: the change in `nph-tooltip` was the answer.)
 - **D-2 — the names of the scroll arrows.** The icon-only `nph-button` needs a name and the Figma has
   no text for it, so the code takes `scroll-previous-label` and `scroll-next-label` from the consumer.
 - **D-3 — `99+`.** The Figma cites "99+" only as an example. The code shows `99+` above 99 and keeps the
@@ -7107,6 +7111,20 @@ list. Scrolling in the segmented and tab button styles. A form association.
   (`aria-hidden-focus`). The arrows are out of the Tab order and keep their name. She confirms it, or
   asks for another way to hide them, which needs a change in `nph-button`, another task.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-1 — the balloon of the cut tab.** Decided by Claude, by her delegation: not confirmed. The cut tab keeps
+  `tabindex="-1"`; `nph-tooltip` opens on the hover of an element that is not a Tab stop and on the focus the arrows
+  give, so the list keeps a single Tab stop (APG Tabs pattern, WCAG 1.4.13). In the code since 17/11/2026 (DSA-82,
+  item 1 of P127): `nph-tooltip` and `nph-tabs` changed, and the tab no longer takes `tabindex="0"` under the pointer.
+- **D-2 — the names of the scroll arrows.** Confirmed, with a default: the two properties stay and override a default
+  name, so the arrows never vanish when the product forgets the text (Carbon Tabs does the same). In the code since
+  17/11/2026 (DSA-82, item 3 of P127): the default is `Rolar para a esquerda` and `Rolar para a direita`, and follows
+  the `lang` nearest to the list (English and Spanish too).
+- **D-3 — `99+`.** Confirmed: `99+` above 99, with the full number in the hidden context text. Nothing changes.
+- **D-5 — the scroll arrows and the screen reader.** Confirmed: the arrows stay out of the Tab order (`tabindex="-1"`)
+  and keep their name; the axe rule `aria-hidden-focus` is not broken. Nothing changes.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -7114,8 +7132,8 @@ records the other answers):
   ellipsis and the whole text shows in the balloon, and the documentation keeps asking for few tabs in those styles
   (Carbon, content switcher). Nothing changes in the code.
 
-**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-4 was answered on the previews (16/11/2026), as above;
-the task records the answers to the other points. API
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-5 are answered: D-2, D-3 and D-5 in the chat
+(16/11/2026), D-1 decided by Claude by her delegation, D-4 on the previews. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7315,6 +7333,14 @@ attached or inset surface and the `nph-drawer`. A keyboard shortcut to collapse.
   lines, the padding of the group label and the gap of the logo row are not written either. She gives the
   tokens in the next batch, or accepts these.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-2 — the dark logo.** Confirmed as provisional: the dark logo does not ship until the brand team confirms which
+  version goes on a dark background. Indiane takes the question to the brand; a new task carries the answer. Nothing
+  changes in the code.
+- **D-4 — the measures Figma does not give.** Confirmed: the flyout panel takes the width its options need, between a
+  line of the expanded menu and `layout/input-width`, and the other measures come from existing tokens. Nothing changes.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -7328,8 +7354,8 @@ records the other answers):
   `aria-current`, because the group is not a page; `nph-sidebar` sets it. It wins over the open look. The item of the
   expanded menu is still never `active`.
 
-**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 and D-3 were answered on the previews (16/11/2026), as
-above; the task records the answers to the other points. API and
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 and D-3 were answered on the previews (16/11/2026) and
+D-2 and D-4 in the chat, as above. The dark logo stays provisional until the brand confirms (D-2). API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7432,7 +7458,9 @@ names follow P64.
    as its description (the default relation, as P115 does). A clickable step is already a Tab stop. A
    pending step of the linear stepper is not clickable and takes no Tab, so when its label is cut it
    becomes a `span` with `tabindex="0"`, only to open the balloon: the reading of the evidence, "inferred
-   from the linear rule and DSA-48, open for confirmation" (D-4). The current label is never cut: it wraps
+   from the linear rule and DSA-48, open for confirmation" (D-4). Amended on 17/11/2026 (DSA-82, D-4 of DSA-73,
+   item 4 of P127): that `span` also carries a role (`button`, or `link` when the step has `href`) and
+   `aria-disabled="true"`, so the screen reader names it; without a cut label it stays plain text. The current label is never cut: it wraps
    to up to two lines. A disabled step gets no balloon, because `nph-tooltip` opens only on an element
    that takes focus; the screen reader has the whole name by content. The hover wait, the focus without
    wait, the cancel by a click and Esc are the behavior of `nph-tooltip` itself (DSA-48 D1 and D2).
@@ -7513,6 +7541,18 @@ change in `nph-icon`, `nph-tooltip` or `nph-progress`. The contrast of the brand
   before, pending after), and the connector follows the position too: brand before the current step,
   neutral after it. She confirms it, or asks for the connector to follow the status of the steps.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-2 — the 600 px.** Confirmed: 37.5rem in a container query on the stepper, which reads its own width. Nothing
+  changes.
+- **D-4 — the cut pending step.** Decided by Claude, by her delegation, partly confirmed. The hover background only on
+  the steps that can be activated: confirmed (it was already so). The balloon of a cut label on a pending step: not a
+  focusable span with no role, but a focusable element with a role and `aria-disabled`, so the screen reader names it (APG,
+  focusability of disabled controls); the balloon comes from the change in `nph-tooltip` (item 1 of P127). In the code
+  since 17/11/2026 (DSA-82, item 4 of P127): the step is a `span` with `role="button"` (`role="link"` when the step has
+  `href`), `aria-disabled="true"` and `tabindex="0"`, only while its label is cut; the role is a choice of the code owner
+  and is recorded as a pending decision of the task.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -7528,8 +7568,8 @@ records the other answers):
   neutral line (Carbon, progress indicator). Since 16/11/2026 (DSA-85) `data-complete` is true only after a step whose
   status is `completed`, so a step with an error before the current one keeps a neutral line too.
 
-**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1, D-3 and D-5 were answered on the previews (16/11/2026),
-as above; the task records the answers to the other points. API and
+**Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1, D-3 and D-5 were answered on the previews (16/11/2026)
+and D-2 and D-4 in the chat, as above. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ## P118 — `nph-tree`: API and semantics
@@ -7707,6 +7747,12 @@ the first load of the tree.
   no disabled-with-focus variant. Whether the focus border fades with the item or stays on top at full
   opacity. Recommended, and built: on top, at full opacity. It does not block the pull request.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-1 — the Tree Table.** Confirmed: keep both. The Tree Table reuses the tree cell of `nph-table` (a treegrid, whose
+  rows have cells and widgets) and stays apart from `nph-tree` (APG treegrid pattern). Nothing changes; the plan of the
+  Tree Table follows this answer.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -7714,8 +7760,8 @@ records the other answers):
   the dimmed item stays exempt from contrast (WCAG 2.4.7 and 1.4.11, APG keyboard interface). Nothing changes in the
   code.
 
-**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-2 was answered on the previews (16/11/2026), as above;
-the task records the answer to D-1. API
+**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-1 was answered in the chat and D-2 on the previews
+(16/11/2026), as above. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -7803,15 +7849,16 @@ list is a mount: the zone alone, no error. The names follow P64.
 5. **The description is on the group, not on the button.** `nph-button` forwards no `aria-describedby`
    and an id does not cross its shadow root, and the task forbids changing it. The zone is a
    `role="group"` named by `label`, described by `aria-describedby` on the rule or the reason and on
-   the `description`, in the same root. It is a limit of this implementation, recorded in the
-   sheet, and a pending decision (D-2).
+   the `description`, in the same root. It was a limit of this implementation and a pending decision (D-2); amended
+   on 17/11/2026 (DSA-82, item 5 of P127): the button is also described by the rule or the reason, through the
+   `description` of `nph-button`.
 6. **`nph-field` contract.** The zone takes the contract of P83 as a control: `label` names the
    group, `description` is the help text and is never drawn, `required` only reflects (the asterisk
    is the label's and `aria-required` is not valid on a group), `disabled` adds up as for any
    control, and `invalid` puts the zone in error only with a reason to say: the message of the field
    in `description`, or its own `error`. So the zone is never red without a reason (WCAG 1.4.1),
-   and the evidence rule "the reason stays in the zone" holds when the page sets `error`, while
-   the field may also draw its own line (D-4). `focus()` on the host goes to the button, which is
+   and the evidence rule "the reason stays in the zone" holds when the page sets `error`. The field used to draw
+   its own line too (D-4); amended on 17/11/2026 (DSA-82, item 6 of P127): it draws none under the zone. `focus()` on the host goes to the button, which is
    what a click on the label of the field asks.
 7. **The item.** `nph-file-upload-item` is a public tag and works alone, as the row of a list of
    files already saved. It takes `name`, `status`, `kind`, `format`, `bytes`, `progress`, `reason`,
@@ -7911,6 +7958,17 @@ state for a server error. A form association and the reading of a dropped folder
 - **D-5 — the lines of the item.** The format and size line is separate from the status line, and `done`
   shows the `circle-check` and a word. She confirms the reading.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-2 — the description of the button.** Decided by Claude, by her delegation: `nph-button` gains a `description`
+  property that it forwards as `aria-describedby` inside its shadow root, so the rule and the reason of the zone describe
+  the "Choose files" button itself (an id reference does not cross a shadow root). In the code since 17/11/2026 (DSA-82,
+  item 5 of P127), as an addition that changes nothing for a button without it.
+- **D-4 — the error of the zone and the error of the field.** Confirmed, with one message: the reason shows once, in the
+  zone, in place of the rule; inside `nph-field` no second message line is drawn under the zone (WCAG 3.3.1; GOV.UK file
+  upload). In the code since 17/11/2026 (DSA-82, item 6 of P127): the zone already showed the reason in place of the rule,
+  and `nph-field` no longer draws its error line under a control that shows the reason itself.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -7922,8 +7980,7 @@ records the other answers):
   file (Carbon, file uploader). Nothing changes in the code.
 
 **Status.** Anatomy and behavior accepted by Indiane on 10/11/2026. D-1 waits for Indiane with the gate
-`stroke-style-token`; D-3 and D-5 were answered on the previews (16/11/2026), as above; the task records the answers to the
-other points. API and
+`stroke-style-token`; D-3 and D-5 were answered on the previews (16/11/2026) and D-2 and D-4 in the chat, as above. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ## P120 — `nph-scheduler`: API and semantics
@@ -8148,6 +8205,16 @@ and the drag of an event. The focus of the primary `nph-button` in dark mode, co
 - **D-7 — the order of the all-day band.** The band comes before the grid in the document, so Tab reaches an
   all-day event of a later day before a timed event of an earlier one. She confirms it.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-1 — the date grid.** Confirmed as provisional: the scheduler keeps its own date grid until the date-picker grid has
+  a task, and then it is replaced; the compact month keeps the arrow keys (APG date picker grid). Nothing changes.
+- **D-5 — the click on a day.** Confirmed: a day only hands its date to the screen (`nph-day-click`). Nothing changes.
+- **D-6 — the detail.** Confirmed: the mechanism of the detail popover belongs to the scheduler and its content to the
+  product, through the `detail` and `detail-footer` slots. Nothing changes.
+- **D-7 — the order of the all-day band.** Confirmed: the band comes before the grid in the Tab order, following the visual
+  reading from top to bottom (WCAG 2.4.3). Nothing changes.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -8166,7 +8233,8 @@ records the other answers):
   name of the calendar and is not the only sign (WCAG 1.4.1). Nothing changes in the code.
 
 **Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-2, D-3 and D-4 were answered on the previews
-(16/11/2026), as above; the task records the answers to the other points. API and
+(16/11/2026) and D-1, D-5, D-6 and D-7 in the chat, as above; the date grid stays provisional until the date-picker grid
+has a task (D-1). API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8280,7 +8348,8 @@ cause: the rule of P21. The names follow P64.
    reduced motion the CSS sets no transition and the piece goes to the end state at once. The accepted
    documentation asks for the growth, while `design.md` (`movimento_regras`) says to animate only opacity
    and transform, and not width, height or layout position. The two sources diverge: the piece follows the
-   accepted documentation and animates the rows of one grid, and the divergence waits for Indiane (D-3).
+   accepted documentation and animates the rows of one grid, and the divergence waited for Indiane (D-3: confirmed on
+   16/11/2026 as an exception; the text of the exception in `design.md` waits for her release).
    When the page search opens the content, it opens at once, as the native `details` element does, because
    the browser scrolls to the text it found while the content is still cut.
 
@@ -8320,6 +8389,15 @@ stepper waits for its own task (DSA-73).
   follows the documentation. She confirms the reading, or the rule gets an exception for the expansion of a
   disclosure.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-1 — the preview does not grow.** Confirmed: the preview type lifts the cut at three lines with no movement. Nothing
+  changes.
+- **D-3 — the growth and the motion rule.** Confirmed as an exception to the motion rule of `design.md`: the expansion of
+  a disclosure grows its grid rows in `motion/expand-*`; with reduced motion nothing moves (Radix Collapsible animates the
+  content height). Nothing changes in the code. Writing the exception into the motion rule of `design.md` is Claude's and
+  waits for Indiane's release: until then `design.md` still says to animate only opacity and transform.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -8328,8 +8406,8 @@ records the other answers):
   against three line heights, closed or open, and again when the width, the text or the fonts change, and draws no button
   when it fits; a text that grows later brings it back.
 
-**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-2 was answered on the previews (16/11/2026), as above;
-the task records the answers to D-1 and D-3. API and
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. D-2 was answered on the previews (16/11/2026) and D-1
+and D-3 in the chat, as above. The exception of D-3 is not yet in the motion rule of `design.md`. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8392,8 +8470,9 @@ changes, and its tests are untouched. The names follow P64.
    suggestion and, with none active, keep the text and close; with the list closed, Enter passes on to the
    form; Escape closes and stops there, and with the list closed it clears the text (DSA-46 D-4); Tab,
    leaving the field and an outside click close the list and keep the text, never replaced by a
-   suggestion. A click on the field takes the focus and does not open the list (DSA-79 D-1), as in the
-   APG autocomplete example. With text in the field, the arrows show only the suggestions that contain it
+   suggestion. A click on the field takes the focus and does not open the list (DSA-79 D-1), as in GOV.UK
+   accessible-autocomplete, where showing every value on click is an option that is off by default; the APG
+   autocomplete example opens the list on click and is not the support for this (corrected on 17/11/2026, DSA-82). With text in the field, the arrows show only the suggestions that contain it
    (DSA-79 D-2), since the field filters by the text it holds.
 
 5. **No suggestion.** The list closes, the `nph-empty` is never drawn and there is no create row;
@@ -8426,8 +8505,9 @@ changes, and its tests are untouched. The names follow P64.
 **Pending, for Indiane (the task records them; none blocks the pull request).**
 
 - **DSA-79 D-1 — a click on the field does not open the list.** The documentation says typing opens the
-  list and says nothing of a click. Recommended: keep it, as the APG and GOV.UK do; she confirms, or says
-  that a click opens the list as in the arrow variant.
+  list and says nothing of a click. Recommended: keep it, as GOV.UK accessible-autocomplete does (the text first said
+  "the APG and GOV.UK"; the APG autocomplete example opens the list on click, so it was removed from the support on
+  17/11/2026, DSA-82); she confirms, or says that a click opens the list as in the arrow variant.
 - **DSA-79 D-2 — the arrows, with text in the field, show only the suggestions that contain it.**
   Recommended: keep the filter, since the field holds text and a list of everything would disagree with
   what it shows when typing; she confirms, or says the arrows show every suggestion.
@@ -8457,7 +8537,18 @@ proposal of this implementation.
 the arrow variant, to the list module or to `nph-multi-combobox`. A separate `nph-autocomplete`: free text
 is this variant. The Usage section of the page and the accessibility gate beyond what P72 already runs.
 
-**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-79 D-1 and D-2 wait for Indiane. API
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **DSA-79 D-1 — a click on the field does not open the list.** Confirmed. The support is GOV.UK accessible-autocomplete,
+  where showing every value on click is an option that is off by default; the APG autocomplete example does open the list
+  on click, so it is not a source for this behavior. The source is corrected in item 4 and in the pending point above.
+  Nothing changes in the code.
+- **DSA-79 D-2 — the arrows, with text in the field, show only the suggestions that contain it.** Confirmed: with text in
+  the field, Down, Up and Alt+Down open the list with only the suggestions that contain the text (APG combobox with list
+  autocomplete). Nothing changes.
+
+**Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-79 D-1 and D-2 were answered in the chat
+(16/11/2026), as above. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8622,6 +8713,13 @@ implementation.
 border, fixed in the semantic colors by DSA-81 and not overridden here. The placement near the top. A non-modal
 palette.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **DSA-80 D-2 — the width stays at the ceiling.** Confirmed: the panel keeps the 560 width (`command/max-width`) while the
+  list filters. Nothing changes.
+- **DSA-80 D-4 — the outer pixel of the field halo is clipped.** Confirmed: `command/search-padding` stays 4; one clipped
+  pixel of the halo does not hide the focused field (WCAG 2.4.11). Nothing changes.
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -8637,7 +8735,7 @@ records the other answers):
   disappear (WCAG 1.4.1). Nothing changes in the code.
 
 **Status.** Anatomy and behavior accepted by Indiane on 12/11/2026. DSA-80 D-1 and D-3 were answered on the previews
-(16/11/2026), as above; the task records the answers to D-2 and D-4. API and
+(16/11/2026) and D-2 and D-4 in the chat, as above; the panel near the top waits for the two tokens (D-1). API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8734,7 +8832,9 @@ nothing and emits `console.error` only in development, once per cause (P21).
 **Known limits.**
 
 - The arrow of a group of the first level turns like the one of the subgroup (D-2, answered on 16/11/2026).
-- A page inside a group the person closed does not reopen it (D-3).
+- A page inside a group the person closed did not reopen it (D-3); amended on 17/11/2026 (DSA-82, item 7 of P127): a
+  new current page opens its parent groups, and a group the person closed stays closed only while the current page is
+  the same.
 - Forced colors and right-to-left are not treated yet, as in P116.
 
 **Source.** Documentation frame `5928:2591` (page `4128:29872`), appendix `5928:2867`, sets `5607:97` and
@@ -8761,6 +8861,14 @@ padding are a technical proposal of this implementation.
   closed") the code does not reopen a group when the current page enters it. She confirms it, or asks for the
   parents of a new current page to open.
 
+**Answered on 16/11/2026 in the chat** (the task records the answers; each one is the date of Indiane's answer, and where she delegated the point, the answer is Claude's on market research with sources, by her delegation):
+
+- **D-1 — the section label in the panel menu.** Confirmed: the section label of the panel menu has no vertical padding of
+  its own; the gaps are exactly `panel-menu/label-gap` and `panel-menu/section-gap`. Nothing changes.
+- **D-3 — a page inside a group the person closed.** Decided by Claude, by her delegation: not confirmed. When the product
+  sends a new current page, its parent groups open; a group the person closed stays closed only while the current page is
+  the same (Spectrum side navigation, Salt vertical navigation). In the code since 17/11/2026 (DSA-82, item 7 of P127).
+
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
 
@@ -8770,8 +8878,8 @@ records the other answers):
   (the arrow is in the shadow root of the open `nph-sidebar-item`, which the menu reaches; the item gets no new property,
   and the flyout navigation keeps the swap without turning).
 
-**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-2 was answered on the previews (16/11/2026), as above;
-the task records the answers to D-1 and D-3. API and
+**Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-2 was answered on the previews (16/11/2026) and D-1
+and D-3 in the chat (D-3 decided by Claude by her delegation), as above. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -8919,9 +9027,90 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P127 — The answers of 2026-11-16 applied in the code: the technical choices (amends P68, P77 and P83)
+
+**Technical conflict.** Indiane answered, in the chat on 2026-11-16, pending decisions of DSA-71 to DSA-80, and
+delegated the technical rest to Claude, with market research and sources. Five answers change the code and leave
+to it how: how `nph-tooltip` opens on a tab that is not the Tab stop, how the scroll arrows get a default name
+in a library whose texts all come from the consumer, which role a cut pending step takes, how a description
+reaches the native button across a shadow root, where the field stops drawing the reason that its control already
+shows, and how the panel menu tells a new page from the same page in a new list. Seven points needed a choice of
+their own, recorded here so the next reader does not have to rebuild them from the diffs. No token is created or
+changed: the code reads tokens that already exist.
+
+**Decision.** Pieces and rows are in `docs/operacao/tarefas/DSA-82.md`.
+
+1. **`nph-tooltip` opens on an element out of the Tab order that the arrows focus (DSA-71 D-1; amends P77).** P77
+   said a balloon goes only on an element with `tabIndex` of 0 or more. The element is now eligible when it is
+   not disabled or inert and either is a Tab stop, or has an explicit integer `tabindex` (`-1` included), or is a
+   host that delegates its focus. An element with no `tabindex` that is not a control (loose text, a `div`, an
+   SVG) still gets no balloon and still emits the development error; a disabled element with `tabindex="-1"` still
+   gets none. The hover wait, the focus without wait, the Esc and the 1.4.13 holds are unchanged, and a touch pointer
+   still never opens it. `nph-tabs` drops the `tabindex="0"` it lent to the cut tab under the pointer: the tab keeps
+   `-1`, the list keeps one Tab stop (APG Tabs), and the balloon opens on hover and on the focus the arrows give.
+   The suite of the repository passes with the new rule. The pieces that draw an `nph-tooltip` were listed: `nph-button`,
+   `nph-chip`, `nph-label`, `nph-navigation-menu`, `nph-pagination`, `nph-scheduler`, the three sidebar pieces,
+   `nph-sidebar`, `nph-slider`, `nph-stepper`, `nph-table`, `nph-tabs` and `nph-tree`. Two of them have a target that can
+   carry a negative `tabindex`: the rows of `nph-tree` (roving) and the tree rows and cells of `nph-table`; there a cut
+   label now also opens its balloon on hover for an item that is not the Tab stop, which is the same limit this item
+   lifts. `nph-tree` keeps its own workaround (it lends the Tab stop to the item under the pointer), which keeps working
+   and is now redundant: removing it is a change of another piece and is left for another task. The slider thumb with
+   `tabindex="-1"` is disabled and has no balloon, and the other pieces point at a control with no negative `tabindex`.
+2. **A tab keeps its roving `tabindex`.** `moveTo` no longer writes `tabIndex` on every tab before it moves the focus;
+   it records the stop and focuses the target, as the focus event already did.
+3. **The default names of the scroll arrows follow the `lang` nearest to the list (DSA-71 D-2).** The two properties stay
+   and override the default; the arrows are drawn whenever the list overflows, and the warning for the missing text
+   is gone. The default is `Rolar para a esquerda` and `Rolar para a direita` (the language of the product), `Scroll
+   left` and `Scroll right` for `en`, `Desplazar a la izquierda` and `Desplazar a la derecha` for `es`; any other
+   `lang`, or none, takes the Portuguese one, because the answer fixes it as the default. The lookup is the closest
+   `lang` of the list or of an ancestor, crossing shadow roots through their hosts, as `languageOf` of
+   `nph-file-upload-item` reads it; it differs only in the fallback, which there is the browser language and then English
+   (a size is written by `Intl`, and the default name has one language chosen by the answer). It is read at the render
+   that draws the arrows: there is no observer, so a `lang` that changes later is seen at the next render. The name is the side the arrow points to, so it follows right-to-left writing. The three pairs are
+   written in `nph-tabs.ts` and are not a general translation layer; a product that needs another language gives the
+   two properties.
+4. **A cut pending step of the linear stepper is `span`, `tabindex="0"`, `aria-disabled="true"` and a role (DSA-73 D-4).**
+   The answer asks for "a role" and names none. The role is the one the step would have if it could be activated:
+   `button`, or `link` when the step has an `href`; a step with a label that fits stays plain text. It is not
+   dimmed (it is pending, not blocked), and the dimming of a disabled step now reads `data-disabled` and no longer
+   `aria-disabled`, so the two states stay apart. The hover background was already limited to `a.step` and
+   `button.step`: the cut pending step takes none. The role is a choice of the code owner that Indiane confirms: it is
+   a pending decision of DSA-82.
+5. **`nph-button` gains `description`, a text, hidden, in its own shadow root (DSA-74 D-2; amends P68).** An `id` reference
+   does not cross a shadow root, so the button draws the text as a hidden `span` with its own `id` and gives the native
+   button `aria-describedby` to it. Empty by default and only added: without it the DOM, the layout, the focus and the
+   click are as before. The zone of `nph-file-upload` passes the rule, the limit rule or the reason (what it draws in
+   `.rule`) to the Choose files button through it; the description of the field stays on the group and is not passed
+   to the button.
+6. **`nph-field` draws no error line under a control that shows the reason itself (DSA-74 D-4; extends P83).** A control
+   declares `static nphFieldShowsError = true`; `nph-file-upload` does. While the field is invalid the field leaves
+   the error text out of its message line, and still writes it as `description`, which the zone says in place of its
+   rule. The help (not invalid) and the counter stay on the line. If the zone has an `error` of its own and the field
+   a different message, the zone shows its own and the field message is not lost: it is the hidden description of the
+   group. A control that is disabled does not show the reason (disabled wins), so while it is disabled the field keeps its
+   line. The field reads the control when it renders: a zone the page disables directly, not through the field, is seen
+   at the next update of the field, which is a known limit (disabling through the field hides the error, as for any
+   control). A control that does not declare the flag keeps the line, so no other piece changes.
+7. **The panel menu opens the parents of a new current page (DSA-76 D-3).** The current page is told apart by an identity
+   made of its group and its leaf, by `value`, else `href`, else position, so a new `items` that reorders the options does
+   not look like a new page. A new page opens the groups and subgroups that hold it, even the ones the person closed; the
+   same page in a new list leaves a closed group closed; a moment with no current page is not a new page when the same
+   one returns. The opening is not a choice of the person and fires no `nph-group-toggle`. An `expanded` the product
+   changes in the same list still wins.
+
+**Left out.** The dashed border token (DSA-74 D-1), which waits with the gate `stroke-style-token`. The text of the
+exception to the motion rule in `design.md` (DSA-78 D-3), which waits for Indiane's release and which this task, by the
+brief, does not edit. The dark logo (DSA-72 D-2), provisional until the brand confirms. The role of the cut pending
+step (item 4), which is a pending decision of DSA-82.
+
+**Status.** The answers come from Indiane, recorded in the tasks; four of them were decided by Claude by her delegation.
+The technical choices above are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124 or P126 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126 or P127 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

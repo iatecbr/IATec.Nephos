@@ -76,14 +76,14 @@
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The accessible name and the balloon of the scroll arrow that goes toward the start of the underline list, already localized, such as Scroll tabs back. The arrow is an icon-only nph-button and needs a name. Without this or scroll-next-label, the arrows are not drawn and the piece warns in development; the list still scrolls by keyboard and by touch."
+      "constraint": "The accessible name and the balloon of the scroll arrow that goes toward the start of the underline list, already localized, such as Scroll tabs back. The arrow is an icon-only nph-button and needs a name. It overrides a default name, so the arrows are drawn and named even when the product gives no text: the default follows the lang nearest to the list, read when the arrows are drawn: Portuguese by default, English or Spanish; it names the side the arrow points to, also in right-to-left writing."
     },
     "scroll-next-label": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The accessible name and the balloon of the scroll arrow that goes toward the end of the underline list, already localized, such as Scroll tabs forward. Same rule as scroll-previous-label."
+      "constraint": "The accessible name and the balloon of the scroll arrow that goes toward the end of the underline list, already localized, such as Scroll tabs forward. Same rule as scroll-previous-label; the default is the name of the arrow that points to the end of the line."
     },
     "slots": {
       "default": "none",
@@ -225,7 +225,7 @@
     "Every tab disabled: the piece draws nothing and emits console.error in development.",
     "A value that names no tab: the first enabled tab is active and the piece warns in development.",
     "A list with no accessible name draws and warns once in development, because the name may arrive after the first render.",
-    "An underline list that does not fit, without scroll-previous-label and scroll-next-label: the arrows are not drawn and the piece warns once in development."
+    "An underline list that does not fit, without scroll-previous-label and scroll-next-label: the arrows are drawn with the default name of the language, and nothing is warned."
   ],
   "tokens": {
     "list": "tabs/list-background, tabs/list-height, tabs/list-padding, tabs/list-gap, tabs/list-radius",
@@ -250,7 +250,7 @@
     "Listen to nph-tab-change to react to the choice; do not listen to click, and do not wait for an event when you set value from code.",
     "Give the list a label, or an aria-label, because it is the accessible name of the tab list.",
     "Choose manual activation only when a panel is slow to load.",
-    "On an underline list that can scroll, give scroll-previous-label and scroll-next-label."
+    "On an underline list that can scroll, give scroll-previous-label and scroll-next-label in the language of the page: the default names are a fallback."
   ],
   "accessibility": {
     "semantics": "A tablist of native buttons with role tab, aria-selected and aria-controls, and a tabpanel for each tab, named by its tab with aria-labelledby, hidden while inactive. The icon is decorative and hidden from assistive technology. The scroll arrows are out of the Tab order and keep their name (D-5).",

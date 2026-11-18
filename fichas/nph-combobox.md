@@ -699,7 +699,10 @@ leaving the field.
   `elevation/dropdown`, `motion/*` and, for `free-text`, `combobox/free-text-padding-end`.
 - **The decision that originated it:** P95, the API and semantics of `nph-combobox` and its
   list; the form pattern is P80, the field contract is P83, and the option and the layer are
-  P91. P122 adds the free text variant.
+  P91. P122 adds the free text variant. The support for "a click on the field does not open the
+  list" is GOV.UK accessible-autocomplete, where showing every value on click is an option that is
+  off by default; the APG autocomplete example opens the list on click and is not cited for it
+  (DSA-79 D-1, confirmed on 2026-11-16; DSA-82).
 - **Tests:** `src/components/nph-combobox/nph-combobox.test.ts` and
   `nph-combobox.free-text.test.ts`.
 - **Usage evidence:** the Examples section of the `nph-combobox` Docs page.

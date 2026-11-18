@@ -1070,12 +1070,20 @@ describe('the cut label and its balloon', () => {
     await vi.waitFor(() => expect(tooltips(stepper)).toHaveLength(0));
   });
 
-  it('a pending step of the linear stepper with a cut label takes Tab only to open the balloon: it is not a link', async () => {
+  it('a pending step of the linear stepper with a cut label is a focusable element with a role and aria-disabled, not a link (DSA-73 D-4)', async () => {
     const stepper = await mount({ steps: [STEPS[0] as NphStep, STEPS[1] as NphStep, { label: LONG }, STEPS[3] as NphStep], current: 2 }, '90rem');
     const pending = step(stepper, 2);
     expect(pending.tagName).toBe('SPAN');
     expect(pending.getAttribute('tabindex')).toBe('0');
+    expect(pending.getAttribute('role')).toBe('button');
+    expect(pending.getAttribute('aria-disabled')).toBe('true');
     expect(pending.hasAttribute('href')).toBe(false);
+    /* The screen reader names it: a role and the whole label, with the status word at its start. */
+    const node = await axNode(pending);
+    expect(node.role).toBe('button');
+    expect(node.name).toContain(LONG);
+    /* It is pending, not blocked: it keeps the pending look and is not dimmed. */
+    expect(getComputedStyle(pending).opacity).toBe('1');
     expect(tooltips(stepper)).toHaveLength(1);
     const seen = collect(stepper);
     pending.focus();
@@ -1083,9 +1091,53 @@ describe('the cut label and its balloon', () => {
     expect(seen).toEqual([]);
   });
 
-  it('a pending step with a label that fits is no Tab stop', async () => {
+  it('a pending step with a label that fits is no Tab stop and has no role', async () => {
     const stepper = await mount();
     expect(step(stepper, 3).hasAttribute('tabindex')).toBe(false);
+    expect(step(stepper, 3).hasAttribute('role')).toBe(false);
+    expect(step(stepper, 3).hasAttribute('aria-disabled')).toBe(false);
+  });
+
+  it('the cut pending step has the role link when the step has an href, and does not navigate', async () => {
+    const stepper = await mount(
+      { steps: [STEPS[0] as NphStep, STEPS[1] as NphStep, { label: LONG, href: '/step-3' }, STEPS[3] as NphStep], current: 2 },
+      '90rem',
+    );
+    const pending = step(stepper, 2);
+    expect(pending.tagName).toBe('SPAN');
+    expect(pending.getAttribute('role')).toBe('link');
+    expect(pending.getAttribute('aria-disabled')).toBe('true');
+    expect(pending.hasAttribute('href')).toBe(false);
+    expect((await axNode(pending)).role).toBe('link');
+  });
+
+  it('it is the same pending step in the non-linear stepper that is a real button, with no role of its own', async () => {
+    const stepper = await mount(
+      { steps: [STEPS[0] as NphStep, STEPS[1] as NphStep, { label: LONG }, STEPS[3] as NphStep], current: 2, nonLinear: true },
+      '90rem',
+    );
+    expect(step(stepper, 2).tagName).toBe('BUTTON');
+    expect(step(stepper, 2).hasAttribute('role')).toBe(false);
+    expect(step(stepper, 2).hasAttribute('aria-disabled')).toBe(false);
+  });
+
+  it('a disabled step is dimmed and has no role, and the cut pending step is neither', async () => {
+    const stepper = await mount(
+      { steps: [STEPS[0] as NphStep, { label: 'B', disabled: true }, { label: LONG }, STEPS[3] as NphStep], current: 1 },
+      '90rem',
+    );
+    expect(getComputedStyle(step(stepper, 1)).opacity).toBe(resolved('opacity', '--nph-stepper-item-disabled-opacity'));
+    expect(step(stepper, 1).hasAttribute('role')).toBe(false);
+    expect(step(stepper, 1).hasAttribute('tabindex')).toBe(false);
+    expect(getComputedStyle(step(stepper, 2)).opacity).toBe('1');
+  });
+
+  it('the cut pending step takes no hover background: only a step that can be activated does', async () => {
+    const stepper = await mount({ steps: [STEPS[0] as NphStep, STEPS[1] as NphStep, { label: LONG }, STEPS[3] as NphStep], current: 2 }, '90rem');
+    await userEvent.hover(step(stepper, 2));
+    await wait(300);
+    expect(getComputedStyle(step(stepper, 2)).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(getComputedStyle(step(stepper, 2)).cursor).not.toBe('pointer');
   });
 
   it('the balloon opens on focus at once and Esc closes it without moving the focus', async () => {

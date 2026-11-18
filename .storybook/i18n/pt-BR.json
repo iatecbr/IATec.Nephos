@@ -1071,6 +1071,10 @@
       [
         "controls",
         "O elemento que este botão abre ou fecha, para o aria-controls do gatilho de um disclosure, como o nph-collapsible. Só como propriedade: o botão nativo o recebe como ariaControlsElements."
+      ],
+      [
+        "description",
+        "Um texto que descreve a ação, como a regra e o motivo de uma zona de soltar, já localizado. O botão o desenha oculto na própria sombra e aponta o botão nativo para ele com aria-describedby. Vazio por padrão: sem ele o botão é o mesmo."
       ]
     ],
     "usageTitle": "Uso",
@@ -1543,7 +1547,7 @@
     "hoverCaption": "Ponha o ponteiro sobre cada elemento e espere um instante, ou foque com Tab: o balão abre depois da espera no hover, na hora no foco, em qualquer elemento que recebe foco. Ele fica aberto enquanto o ponteiro está sobre ele.",
     "disabledTarget": "Elemento desabilitado",
     "nameCaption": "O botão só de ícone não tem texto: o texto do balão é o nome acessível dele, e o leitor de tela o anuncia uma vez, como nome.",
-    "focusableCaption": "Os dois elementos pedem o balão aberto. O botão habilitado o ganha; o desabilitado não, porque sem foco quem usa teclado nunca o veria."
+    "focusableCaption": "Os três elementos pedem o balão aberto. O botão na ordem do Tab o ganha, e o botão fora dela por tabindex -1, que as setas podem focar, também; o desabilitado não, porque sem foco quem usa teclado nunca o veria."
   },
   "tooltipDocs": {
     "summary": "Um balão de texto flutuante preso a qualquer elemento da interface. Mostra informação complementar, uma explicação ou um dado de contexto quando o ponteiro repousa sobre o elemento e quando o elemento recebe o foco do teclado.",
@@ -1579,7 +1583,7 @@
       ],
       [
         "for",
-        "O id do elemento que abre o balão, na mesma raiz do tooltip, como no label nativo. O elemento precisa receber foco: elemento desabilitado ou texto solto não ganha balão. O tooltip ouve esse elemento e acrescenta o próprio id ao aria-describedby dele, ou ao aria-labelledby com relation=\"name\". Sem um elemento correspondente, nada é desenhado."
+        "O id do elemento que abre o balão, na mesma raiz do tooltip, como no label nativo. O elemento precisa receber foco: elemento desabilitado ou texto solto não ganha balão. Um elemento fora da ordem do Tab por tabindex=\"-1\", como uma aba de uma lista movida pelas setas, ganha o balão: o ponteiro o abre no hover e as setas no foco. O tooltip ouve esse elemento e acrescenta o próprio id ao aria-describedby dele, ou ao aria-labelledby com relation=\"name\". Sem um elemento correspondente, nada é desenhado."
       ],
       [
         "side",
@@ -3712,7 +3716,7 @@
       ],
       [
         "error",
-        "A mensagem de erro, em text/body-md e status/error-text, sem ícone. Preenchida, o campo fica inválido e o controle em erro; a mensagem substitui o apoio."
+        "A mensagem de erro, em text/body-md e status/error-text, sem ícone. Preenchida, o campo fica inválido e o controle em erro; a mensagem substitui o apoio. Um controle que mostra o motivo ele mesmo, como o nph-file-upload, fica com uma mensagem só: o campo não desenha linha abaixo dele."
       ],
       [
         "counter",
@@ -8366,7 +8370,7 @@
       "components-nph-tooltip-validation--focus-and-escape": "O foco do teclado abre o balão e o Esc fecha, com o foco ficando no elemento.",
       "components-nph-tooltip-validation--hover-and-focus": "O hover depois de uma espera curta e o foco do teclado na hora abrem o balão em qualquer elemento que recebe foco: um botão, um link e um campo.",
       "components-nph-tooltip-validation--accessible-name": "No botão só de ícone o texto do balão é o nome acessível da ação, anunciado uma vez.",
-      "components-nph-tooltip-validation--focusable-only": "O balão só vai em elemento que recebe foco: o botão desabilitado não ganha nenhum.",
+      "components-nph-tooltip-validation--focusable-only": "O balão só vai em elemento que pode receber foco: um botão na ordem do Tab e um fora dela por tabindex -1 o ganham, o botão desabilitado não ganha nenhum.",
       "components-nph-input-validation--matrix": "size × state do set, em compact, default e large: placeholder, valor, valor com o botão de limpar, erro, desabilitado e desabilitado com erro. Passe o mouse sobre um campo para o hover, clique para o foco e tecle Tab até o botão de limpar para o foco dele.",
       "components-nph-input-validation--types": "Os cinco tipos da D1, cada um com um valor que aceita. Senha, número e máscara estão fora da v1.",
       "components-nph-input-validation--icons": "Ícones de início e de fim, light, em icon/size-sm: nenhum, início, fim e os dois. O ícone de fim só troca a arte; a ação é sempre limpar.",
@@ -8594,7 +8598,7 @@
       "components-nph-tabs-validation--variants": "Os cinco estilos, cada um com a segunda aba ativa: o trilho segmentado com um cartão na aba ativa, o sublinhado com uma linha embaixo dela, e os botões solid, light e outline com um fundo na aba ativa.",
       "components-nph-tabs-validation--content": "O que uma aba liga, em todos os estilos: o ícone de início, o contador depois do rótulo e a tag depois do contador, sempre nessa ordem, e os três tons do contador: inativo fora do trilho, inativo dentro do trilho e ativo.",
       "components-nph-tabs-validation--states": "Ativa, em repouso e desabilitada em todos os estilos, e a aba ativa também desabilitada, que mantém o visual de ativa sob a opacidade de desabilitado. O hover e o foco aparecem com o ponteiro e o teclado, e os testes os provam.",
-      "components-nph-tabs-validation--scroll": "A lista sublinhada que não cabe: cada aba guarda a largura do seu conteúdo e uma seta fica em cada ponta, desabilitada na ponta que a lista alcançou; quando as abas cabem, dividem a largura e nenhuma seta aparece.",
+      "components-nph-tabs-validation--scroll": "A lista sublinhada que não cabe: cada aba guarda a largura do seu conteúdo e uma seta fica em cada ponta, desabilitada na ponta que a lista alcançou; quando as abas cabem, dividem a largura e nenhuma seta aparece. Sem os dois rótulos as setas ganham um nome padrão que segue o idioma.",
       "components-nph-tabs-validation--cut-label": "Nos estilos segmentado e botão as abas dividem a largura, e um rótulo que não cabe termina em reticências; o texto inteiro aparece num balão no hover e no foco.",
       "components-nph-tabs-validation--panels": "O painel é conteúdo do consumidor, encaixado pelo valor de cada aba: só o painel da aba ativa aparece, e a lista fica em cima dele.",
       "components-nph-tabs-validation--direction": "Escrita da direita para a esquerda: a lista lê da direita e as setas acompanham as pontas da linha.",
@@ -8637,7 +8641,7 @@
       "components-nph-file-upload-validation--kinds": "O tipo imagem, com a miniatura no nph-image, em todos os status; a última imagem ainda não tem miniatura e mostra o ícone file-image. O tipo arquivo mostra file-lines.",
       "components-nph-file-upload-validation--limit": "O limite atingido, com o botão desabilitado e a regra que diz como liberar espaço; um arquivo acima do tamanho máximo, que entra como item em erro com o motivo; e um limite ultrapassado, dito pela zona em erro.",
       "components-nph-file-upload-validation--width": "Um nome que não cabe é cortado em uma linha com reticências e o nome inteiro chega ao leitor de tela; um motivo longo quebra em linhas e o item cresce.",
-      "components-nph-file-upload-validation--field": "A zona como o controle do nph-field, com o rótulo, o asterisco e o texto de apoio do campo e o motivo na zona; e a zona compacta em um formulário com outro campo.",
+      "components-nph-file-upload-validation--field": "A zona como o controle do nph-field, com o rótulo, o asterisco e o texto de apoio do campo e o motivo na zona; e a zona compacta em um formulário com outro campo. Quando a mensagem vem do campo, o motivo aparece uma vez, na zona, sem linha de erro do campo abaixo.",
       "components-nph-file-upload-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: a zona vazia com a sua regra, a lista em uso com um envio em andamento, um erro e um arquivo concluído, e o limite atingido.",
       "components-nph-file-upload-validation--brands": "As sete marcas em modo claro e escuro: as cores de arrastando, a caixa do item e o anel de foco seguem a marca.",
       "components-nph-collapsible-validation--types": "Os três tipos, fechados e abertos: a linha, cujo gatilho é a linha inteira com o título e a seta; o botão, um nph-button com a seta no fim; e a prévia, um texto cortado em três linhas com o botão logo abaixo. Quando o texto cabe nas três linhas, nada é cortado e não há botão.",
@@ -12910,7 +12914,7 @@
       ],
       [
         "scroll-previous-label e scroll-next-label",
-        "Os nomes das duas setas de rolagem do estilo sublinhado. Sem eles as setas não são desenhadas. Já localizados."
+        "Os nomes das duas setas de rolagem do estilo sublinhado. Eles substituem um nome padrão que segue o idioma da página (por padrão, Rolar para a esquerda e Rolar para a direita; também em inglês e espanhol), então as setas nunca são desenhadas sem nome. Já localizados."
       ],
       [
         "nph-tab-change",
@@ -13450,7 +13454,7 @@
     "panelMenu": [
       [
         "Grupos abertos",
-        "Vários ficam abertos ao mesmo tempo; abrir um não fecha os outros. O grupo da página atual e o pai nascem abertos. Se a pessoa fecha um, ele fica fechado, sem marca nova, mesmo quando o produto manda uma lista nova."
+        "Vários ficam abertos ao mesmo tempo; abrir um não fecha os outros. O grupo da página atual e o pai nascem abertos. Se a pessoa fecha um, ele fica fechado, sem marca nova, mesmo quando o produto manda uma lista nova, enquanto a página atual for a mesma. Quando o produto manda uma página atual nova, os grupos pais dela abrem."
       ],
       [
         "Controle",
@@ -13741,7 +13745,7 @@
     "keyboard": [
       [
         "Tab e Shift+Tab",
-        "Movem o foco pelas etapas clicáveis, na ordem da lista. A etapa atual e uma etapa desabilitada não recebem Tab. Uma etapa pendente do stepper linear com rótulo cortado recebe Tab só para abrir o balão: não é um link."
+        "Movem o foco pelas etapas clicáveis, na ordem da lista. A etapa atual e uma etapa desabilitada não recebem Tab. Uma etapa pendente do stepper linear com rótulo cortado recebe Tab só para abrir o balão: não é um link, tem um papel e aria-disabled, e o Enter não faz nada."
       ],
       [
         "Enter",
@@ -14465,7 +14469,7 @@
     ],
     "relationsTitle": "Relações e contexto",
     "relations": [
-      "A zona ocupa o lugar do controle do nph-field, que traz o rótulo, o asterisco e o texto de apoio. O motivo do erro fica na zona, no lugar da regra.",
+      "A zona ocupa o lugar do controle do nph-field, que traz o rótulo, o asterisco e o texto de apoio. O motivo do erro fica na zona, no lugar da regra, e aparece uma vez só: o campo não desenha linha de erro abaixo da zona.",
       "Funciona com o nph-button (Escolher arquivos, Tentar de novo e o botão de remover), o nph-icon, o nph-spinner (o envio em andamento) e o nph-image (a miniatura).",
       "Para um arquivo só, use o campo de arquivo único (nph-input-file). Os arquivos de um registro fora do formulário, em colunas de tabela, são uma composição com o nph-data-table."
     ],
@@ -14520,7 +14524,7 @@
       ],
       [
         "Descrição",
-        "A regra e o motivo descrevem o grupo da zona. O nph-button não repassa aria-describedby para dentro da sua própria sombra, então a descrição não está no botão em si."
+        "A regra e o motivo descrevem o grupo da zona e o próprio botão Escolher arquivos: o nph-button desenha o mesmo texto na sua própria sombra, pela sua descrição, e aponta o botão nativo para ele."
       ],
       [
         "Contraste e cor",

@@ -19,8 +19,11 @@
  *   `manual`, the arrows move the focus and only Enter, Space or a click activate (APG). Reflects;
  * - `label` and the host `aria-label`: the accessible name of the `tablist`;
  * - `scroll-previous-label` and `scroll-next-label`: the names of the two scroll arrows of the
- *   underline style, which `nph-button` icon only requires and shows in its balloon. Without them
- *   the arrows are not drawn and a warning is emitted in development. The arrows are out of the Tab
+ *   underline style, which `nph-button` icon only requires and shows in its balloon. They stay and
+ *   override a default name, so the arrows never vanish when the product forgets the text (DSA-71
+ *   D-2): the default follows the `lang` nearest to the list, read when the arrows are drawn
+ *   (Portuguese, the default, `Rolar para a esquerda` and `Rolar para a direita`; English; Spanish).
+ *   The arrows are out of the Tab
  *   order (`tabindex="-1"`) but not hidden from assistive technology: `aria-hidden` on a button
  *   that holds a focusable element is an axe violation (`aria-hidden-focus`), so they keep a name;
  * - the panels stay with the consumer: each one is the slot named by the `value` of its tab
@@ -100,6 +103,16 @@ export interface NphTab {
  */
 const FOCUSABLE =
   'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"]), [contenteditable=""], [contenteditable="true"]';
+
+/**
+ * The default names of the scroll arrows, by language: the arrow that points to the start of the
+ * line and the one that points to the end of it, as the person sees them (DSA-71 D-2, P127).
+ */
+const SCROLL_NAMES = {
+  pt: { start: 'Rolar para a esquerda', end: 'Rolar para a direita' },
+  en: { start: 'Scroll left', end: 'Scroll right' },
+  es: { start: 'Desplazar a la izquierda', end: 'Desplazar a la derecha' },
+} as const;
 
 /** Development messages; outside a bundler with `import.meta.env`, they stay silent. */
 function devError(message: string): void {
@@ -199,8 +212,6 @@ export class NphTabs extends LitElement {
   /** Watches the `dir` of the host and of every parent: a new direction moves nothing that a resize would tell. */
   private directionObserver: MutationObserver | undefined;
   private observed: Element[] = [];
-  /** The tab that took `tabindex="0"` from the pointer, so its balloon can open; `null` when none. */
-  private hovered: HTMLButtonElement | null = null;
 
   constructor() {
     super();
@@ -242,8 +253,6 @@ export class NphTabs extends LitElement {
     this.observed = [];
     this.directionObserver?.disconnect();
     this.directionObserver = undefined;
-    /* The Tab stop the pointer lent to a tab goes back now: the pointer never leaves a list that was removed. */
-    this.releaseHovered();
   }
 
   /* ----- validation -------------------------------------------------------- */
@@ -343,12 +352,6 @@ export class NphTabs extends LitElement {
     if (this.problem === null && this.tabs.length > 0) {
       if (this.name() === null) {
         this.warnOnce('name', 'the tab list has no accessible name. Give it a `label` or an `aria-label`.');
-      }
-      if (this.variant === 'underline' && this.overflowing && !this.hasScrollLabels) {
-        this.warnOnce(
-          'scroll',
-          'the underline tabs do not fit and the scroll arrows need `scroll-previous-label` and `scroll-next-label`: without them the arrows are not drawn.',
-        );
       }
     }
     /* An update while disconnected records nothing: the parts are observed again on reconnection. */
@@ -515,8 +518,28 @@ export class NphTabs extends LitElement {
     return host === '' ? null : host;
   }
 
-  private get hasScrollLabels(): boolean {
-    return trimmed(this.scrollPreviousLabel) !== '' && trimmed(this.scrollNextLabel) !== '';
+  /**
+   * The language of the default arrow names: the `lang` nearest to the list, through shadow roots, as the
+   * browser reads it. Read when the arrows are drawn: a `lang` that changes later is seen at the next render.
+   */
+  private language(): keyof typeof SCROLL_NAMES {
+    for (let node: Element | null = this; node !== null; node = this.parentOf(node)) {
+      const lang = trimmed(node.getAttribute('lang')).toLowerCase();
+      if (lang !== '') {
+        return /^es(-|_|$)/.test(lang) ? 'es' : /^en(-|_|$)/.test(lang) ? 'en' : 'pt';
+      }
+    }
+    return 'pt';
+  }
+
+  /** The name of a scroll arrow: the one the product gave, else the default of the language. */
+  private scrollName(previous: boolean, start: boolean): string {
+    const given = trimmed(previous ? this.scrollPreviousLabel : this.scrollNextLabel);
+    if (given !== '') {
+      return given;
+    }
+    const names = SCROLL_NAMES[this.language()];
+    return start ? names.start : names.end;
   }
 
   private isEnabled(tab: NphTab): boolean {
@@ -579,18 +602,13 @@ export class NphTabs extends LitElement {
     this.activate(tab.value);
   }
 
-  /** Moves the focus to a tab; the tab is the Tab stop before the focus lands, so its balloon can open. */
+  /** Moves the focus to a tab. The tab keeps its `tabindex`: the focus the arrows give opens its balloon (DSA-71 D-1). */
   private moveTo(index: number): void {
-    const buttons = this.tabButtons();
-    const target = buttons[index];
+    const target = this.tabButtons()[index];
     const tab = this.tabs[index];
     if (target === undefined || tab === undefined) {
       return;
     }
-    for (const button of buttons) {
-      button.tabIndex = button === target ? 0 : -1;
-    }
-    this.hovered = null;
     this.stop = tab.value;
     target.focus();
     if (this.activation === 'automatic') {
@@ -644,71 +662,6 @@ export class NphTabs extends LitElement {
     }
   }
 
-  /**
-   * `nph-tooltip` opens only on an element with `tabIndex >= 0` (P77). An inactive tab has `-1`, so
-   * the cut tab under the pointer takes `0` until the pointer leaves, before the tooltip reads it.
-   * `pointerover` comes before the `pointerenter` the tooltip listens to.
-   */
-  private onPointerover(event: PointerEvent): void {
-    if (event.pointerType === 'touch') {
-      return;
-    }
-    const button = this.tabOf(event);
-    if (button === null || button === this.hovered) {
-      return;
-    }
-    this.releaseHovered();
-    const tab = this.tabs[this.tabButtons().indexOf(button)];
-    if (tab !== undefined && this.isEnabled(tab) && this.cutValues.includes(tab.value) && button.tabIndex < 0) {
-      button.tabIndex = 0;
-      this.hovered = button;
-    }
-  }
-
-  private onPointerout(event: PointerEvent): void {
-    const button = this.tabOf(event);
-    if (button === null || button !== this.hovered) {
-      return;
-    }
-    const target = event.relatedTarget;
-    /* The pointer going from the tab to its own balloon keeps the tab eligible: the balloon stays open
-       while the pointer is over it (WCAG 1.4.13), and the tab is given back when it leaves both. */
-    const entering = target instanceof Node && (button.contains(target) || this.balloonOf(button) === target);
-    if (!entering) {
-      this.releaseHovered();
-    }
-  }
-
-  /** The balloon of a tab, when its label is cut. */
-  private balloonOf(button: HTMLButtonElement): Element | null {
-    return this.renderRoot.querySelector(`nph-tooltip[for="${button.id}"]`);
-  }
-
-  /** The pointer left the balloon: unless it went back to the tab, the tab is given back. */
-  private onBalloonPointerout(event: PointerEvent): void {
-    const button = this.hovered;
-    if (button === null) {
-      return;
-    }
-    const target = event.relatedTarget;
-    const balloon = this.balloonOf(button);
-    if (target instanceof Node && (button.contains(target) || balloon === target)) {
-      return;
-    }
-    this.releaseHovered();
-  }
-
-  private releaseHovered(): void {
-    const button = this.hovered;
-    this.hovered = null;
-    if (button === null) {
-      return;
-    }
-    const tab = this.tabs[this.tabButtons().indexOf(button)];
-    const drawn = this.problem === null && this.tabs.length > 0;
-    button.tabIndex = drawn && tab !== undefined && tab.value === this.tabStop() ? 0 : -1;
-  }
-
   private scrollList(direction: 1 | -1): void {
     const scroller = this.renderRoot.querySelector<HTMLElement>('.scroller');
     if (scroller === null) {
@@ -756,7 +709,7 @@ export class NphTabs extends LitElement {
   }
 
   private renderArrow(direction: 1 | -1): TemplateResult | typeof nothing {
-    if (!this.overflowing || !this.hasScrollLabels) {
+    if (!this.overflowing) {
       return nothing;
     }
     const previous = direction === -1;
@@ -768,7 +721,7 @@ export class NphTabs extends LitElement {
       size="compact"
       shape="square"
       icon-start=${start ? 'chevron-left' : 'chevron-right'}
-      label=${trimmed(previous ? this.scrollPreviousLabel : this.scrollNextLabel)}
+      label=${this.scrollName(previous, start)}
       tabindex="-1"
       ?disabled=${previous ? this.atStart : this.atEnd}
       @click=${() => this.scrollList(direction)}
@@ -807,8 +760,6 @@ export class NphTabs extends LitElement {
             @keydown=${(event: KeyboardEvent) => this.onKeydown(event)}
             @focusin=${(event: FocusEvent) => this.onFocusin(event)}
             @focusout=${(event: FocusEvent) => this.onFocusout(event)}
-            @pointerover=${(event: PointerEvent) => this.onPointerover(event)}
-            @pointerout=${(event: PointerEvent) => this.onPointerout(event)}
           >
             ${this.tabs.map((tab, index) => this.renderTab(tab, index, stop))}
           </div>
@@ -821,7 +772,6 @@ export class NphTabs extends LitElement {
               id=${`balloon-${String(index)}`}
               for=${`tab-${String(index)}`}
               .text=${trimmed(tab.text)}
-              @pointerout=${(event: PointerEvent) => this.onBalloonPointerout(event)}
             ></nph-tooltip>`
           : nothing,
       )}

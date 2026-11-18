@@ -34,9 +34,11 @@
  * arrow keys (W3C multi-page forms tutorial, APG Link pattern). The current step carries
  * `aria-current="step"` and is not a Tab stop; a disabled step carries `aria-disabled="true"` and is
  * not a Tab stop either. Only the clickable steps enter Tab, in list order. A pending step of the
- * linear stepper whose label is cut enters Tab only to open the balloon with the whole text: it is not
- * a link, Enter does nothing, and the balloon describes it (P117, inferred from the linear rule and
- * DSA-48). The status is hidden text at the start of the step, with no hidden text on the current step
+ * linear stepper whose label is cut enters Tab only to open the balloon with the whole text: it is a
+ * focusable element with a role (`button`, or `link` when the step has `href`) and `aria-disabled="true"`,
+ * so the screen reader names it as a control that is not available yet (APG, focusability of disabled
+ * controls); Enter does nothing, and the balloon describes it (DSA-73 D-4, P127). Without a cut label it
+ * is plain text. The status is hidden text at the start of the step, with no hidden text on the current step
  * (the attribute says it); the marker is `aria-hidden`; the description and "Optional" are part of the
  * step, so the reason of an error is read. The connector is decorative: it has no list item of its own
  * and is hidden from assistive technology. It follows the status of the step before it, not the position:
@@ -490,7 +492,7 @@ export class NphStepper extends LitElement {
       return html`<span class="step" id=${id} aria-current="step">${this.renderInside(index, look)}</span>`;
     }
     if (this.disabledOf(index)) {
-      return html`<span class="step" id=${id} aria-disabled="true">${this.renderInside(index, look)}</span>`;
+      return html`<span class="step" id=${id} aria-disabled="true" data-disabled="true">${this.renderInside(index, look)}</span>`;
     }
     if (this.clickable(index)) {
       const href = text(step.href);
@@ -498,9 +500,16 @@ export class NphStepper extends LitElement {
         ? html`<button class="step" id=${id} type="button" @click=${() => this.onSelect(index)}>${this.renderInside(index, look)}</button>`
         : html`<a class="step" id=${id} href=${href}>${this.renderInside(index, look)}</a>`;
     }
-    /* A pending step of the linear stepper: not a link. With its label cut it takes Tab only to open the
-       balloon with the whole text. */
-    return html`<span class="step" id=${id} tabindex=${this.hasBalloon(index) ? '0' : nothing}>${this.renderInside(index, look)}</span>`;
+    /* A pending step of the linear stepper: it cannot be activated yet. With its label cut it takes Tab to open the
+       balloon with the whole text, and then it is a focusable element with a role and `aria-disabled`, so the screen
+       reader names it: the role it would have if it could be activated (DSA-73 D-4, P127). It does not look dimmed:
+       it is pending, not blocked. */
+    if (this.hasBalloon(index)) {
+      return html`<span class="step" id=${id} role=${text(step.href) === '' ? 'button' : 'link'} aria-disabled="true" tabindex="0"
+        >${this.renderInside(index, look)}</span
+      >`;
+    }
+    return html`<span class="step" id=${id}>${this.renderInside(index, look)}</span>`;
   }
 
   private renderItem(index: number): TemplateResult {

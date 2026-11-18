@@ -451,8 +451,19 @@ dictionaryDefinitions:
       - selecionar
       - todas
       - valores
+      # The default names of the scroll arrows of nph-tabs, Portuguese, and their tests (DSA-82, P127).
+      - direita
+      - esquerda
+      - Rolar
+  # Spanish sample text of the tests and of the default names of nph-tabs (DSA-82, P127).
+  - name: nephos-spanish
+    words:
+      - Desplazar
+      - derecha
+      - izquierda
 
 dictionaries:
   - nephos-names
   - nephos-technical
   - nephos-portuguese
+  - nephos-spanish

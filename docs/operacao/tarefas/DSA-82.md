@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 810,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-13",
@@ -28,7 +28,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The answer of DSA-73 D-4 asks for a focusable element with a role and aria-disabled for the cut label of a pending step of the linear stepper, and names no role. The code gives it the role the step would have if it could be activated: button, or link when the step has href. It stays full opacity (pending, not blocked), and a step with a label that fits stays plain text. Does Indiane confirm button and link, or ask for another role? Recommended: confirm. It does not block this task.",
+      "decider": "indiane",
+      "opened_at": "2026-11-17"
+    }
+  ],
   "evidence": [],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -36,9 +43,9 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions of DSA-71 to DSA-80 in the chat, delegated the technical rest to Claude (market research with sources), and released recording the answers in the tasks and opening this task"
   ],
   "external_origin": null,
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-16"
+  "git_review": { "branch": "feat/dsa-82-respostas", "commit": "f3250d14893574c8eee34bb96fd5708f20c29529", "pr": "180" },
+  "context": "docs/operacao/contextos/DSA-82.md",
+  "updated_at": "2026-11-17"
 }
 ```
 

@@ -29,7 +29,7 @@
       "required": true,
       "default": "unset",
       "reflects": true,
-      "constraint": "The id of the element that opens the balloon, looked up in the same root as the tooltip, like the native label. The element must receive focus: a disabled element gets no balloon, and an element that does not receive focus gets none and emits console.error in development. The tooltip listens on that element and adds its own id to the aria-describedby of the element, or to its aria-labelledby with relation name, keeping what is there and following a change of its own id. Without it, or with an id that matches no element, the balloon is not drawn and console.error is emitted in development."
+      "constraint": "The id of the element that opens the balloon, looked up in the same root as the tooltip, like the native label. The element must be able to receive focus: a disabled element gets no balloon, and an element that nothing can focus gets none and emits console.error in development. An element out of the Tab order by an explicit tabindex, such as tabindex=\"-1\" on a tab of a list the arrows move through, can be focused by script and by the arrows, so it gets the balloon: the pointer opens it on hover and the arrows on focus. The tooltip listens on that element and adds its own id to the aria-describedby of the element, or to its aria-labelledby with relation name, keeping what is there and following a change of its own id. Without it, or with an id that matches no element, the balloon is not drawn and console.error is emitted in development."
     },
     "side": {
       "type": "string",
@@ -69,7 +69,7 @@
   "business_rules": [
     "Keyboard focus on the element opens the balloon at once. A mouse or a pen opens it after resting motion/hover-delay on the element; leaving before the wait ends opens nothing. It never opens on touch.",
     "Click, Enter and Space run the action of the element: they neither open nor close the balloon. A click during the wait cancels it.",
-    "The balloon goes only on an element that receives focus. A disabled element and loose text get no balloon: without focus, a keyboard user never sees it.",
+    "The balloon goes only on an element that can receive focus. A disabled element and loose text get no balloon: without focus, a keyboard user never sees it. An element out of the Tab order by a negative tabindex, such as a tab of a list moved by the arrows, does get it: hover opens it after the wait and the arrows open it on focus.",
     "On an icon-only button the balloon text is the accessible name of the action, announced once (relation name). On any other element it complements the accessible name and does not replace it.",
     "It closes when the pointer leaves the element and the balloon, on blur and with Esc. While the pointer is over the balloon it stays open.",
     "It sits on top by default, flips to the opposite side when it does not fit, and may also sit bottom, left or right. While the element is outside the window the balloon is not drawn; it returns with the element.",
@@ -157,7 +157,7 @@
   ],
   "sources": {
     "design_md": "design.md, section on color/tooltip, color/tooltip-foreground, layout/max-tooltip-width, layout/max-tooltip-height, radius/inner, elevation/dropdown, space/inline and the motion roles",
-    "decision": "P77 — nph-tooltip: any element, hover and focus, which amends P65 and P62.6, with its amendment of 22/10/2026 (DSA-48)",
+    "decision": "P77 — nph-tooltip: any element, hover and focus, which amends P65 and P62.6, with its amendment of 22/10/2026 (DSA-48) and the amendment of P127 (DSA-82): an element out of the Tab order by tabindex gets the balloon",
     "tests": "src/components/nph-tooltip/nph-tooltip.test.ts",
     "usage_evidence": "nph-label, through the info trigger",
     "storybook": "src/components/nph-tooltip/nph-tooltip.stories.ts and nph-tooltip.docs.stories.ts",

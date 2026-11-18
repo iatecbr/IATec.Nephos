@@ -1167,9 +1167,11 @@ describe('only on an element that receives focus', () => {
     /* The root observer reacts in a later microtask: wait for it, not only for Lit. */
     await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
 
+    /* An explicit negative `tabindex` leaves the Tab order but not the reach of the script (DSA-71 D-1). */
     inner.tabIndex = -1;
-    await vi.waitFor(() => expect(tooltip.open).toBe(false));
-    await gone(tooltip);
+    await tooltip.updateComplete;
+    await pause(50);
+    expect(isShown(tooltip)).toBe(true);
 
     inner.tabIndex = 0;
     tooltip.open = true;
@@ -1352,6 +1354,80 @@ describe('only on an element that receives focus', () => {
     expect(isShown(tooltip)).toBe(false);
     expect(error).toHaveBeenCalledTimes(1);
     expect(String(error.mock.calls[0]?.[0])).toContain('does not receive focus');
+  });
+
+  describe('an element out of the Tab order that the arrows focus (DSA-71 D-1, DSA-82)', () => {
+    /** Two items of a roving list: only the first is a Tab stop; the second has `tabindex="-1"`. */
+    async function mountRoving(): Promise<{ first: HTMLButtonElement; second: HTMLButtonElement; tooltip: NphTooltip }> {
+      const first = document.createElement('button');
+      first.id = 'roving-first';
+      first.textContent = 'First';
+      first.style.cssText = 'position:fixed;left:200px;top:300px';
+      const second = document.createElement('button');
+      second.id = 'roving-second';
+      second.tabIndex = -1;
+      second.textContent = 'Second';
+      second.style.cssText = 'position:fixed;left:400px;top:300px';
+      first.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight') second.focus();
+      });
+      const tooltip = document.createElement('nph-tooltip');
+      tooltip.setAttribute('for', second.id);
+      tooltip.text = ONE_LINE;
+      document.body.append(first, second, tooltip);
+      await tooltip.updateComplete;
+      return { first, second, tooltip };
+    }
+
+    it('opens on hover after the wait, with no error and without taking a Tab stop', async () => {
+      const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const { second, tooltip } = await mountRoving();
+      expect(second.getAttribute('aria-describedby')).toBe(tooltip.id);
+      await hoverOpen(second, tooltip);
+      expect(second.tabIndex).toBe(-1);
+      expect(error).not.toHaveBeenCalled();
+      await userEvent.unhover(second);
+      await vi.waitFor(() => expect(tooltip.open).toBe(false), { timeout: 2000 });
+    });
+
+    it('opens at once on the focus an arrow key gives, and Esc closes it', async () => {
+      const { first, second, tooltip } = await mountRoving();
+      first.focus();
+      await userEvent.keyboard('{ArrowRight}');
+      expect(document.activeElement).toBe(second);
+      await vi.waitFor(() => expect(tooltip.open).toBe(true));
+      await shown(tooltip);
+      await userEvent.keyboard('{Escape}');
+      await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    });
+
+    it('a disabled element with a negative tabindex still gets no balloon', async () => {
+      const { second, tooltip } = await mountRoving();
+      second.disabled = true;
+      second.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
+      await pause(400);
+      expect(tooltip.open).toBe(false);
+      expect(isShown(tooltip)).toBe(false);
+    });
+
+    it('a div with no tabindex has no balloon, and one with a negative tabindex has it', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+      const box = document.createElement('div');
+      box.id = 'plain-box';
+      box.textContent = 'Box';
+      box.style.cssText = 'position:fixed;left:300px;top:300px';
+      const tooltip = document.createElement('nph-tooltip');
+      tooltip.setAttribute('for', box.id);
+      tooltip.text = ONE_LINE;
+      document.body.append(box, tooltip);
+      await tooltip.updateComplete;
+      box.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
+      await pause(400);
+      expect(tooltip.open).toBe(false);
+      box.setAttribute('tabindex', '-1');
+      await pause(50);
+      await hoverOpen(box, tooltip);
+    });
   });
 
   it('an SVG without tabindex gets no balloon', async () => {
