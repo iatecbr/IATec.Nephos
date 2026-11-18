@@ -122,6 +122,31 @@ stages:
             displayName: Tokens are up to date
             workingDirectory: $(Build.SourcesDirectory)
 
+          # DIAGNOSTIC (branch ci/azure-test-estabilidade): can this agent run
+          # a process in its own network namespace? Changes nothing.
+          - bash: |
+              set +e
+              id; uname -r
+              for t in unshare ip python3 docker; do printf '%s: ' "$t"; command -v "$t" || echo missing; done
+              for f in kernel/unprivileged_userns_clone user/max_user_namespaces kernel/apparmor_restrict_unprivileged_userns; do
+                printf '%s = ' "$f"; cat "/proc/sys/$f" 2>&1
+              done
+              echo '--- host interfaces'; ip -o link 2>&1 | cut -c1-120 | head -40
+              echo '--- unshare -Urn'
+              unshare -Urn sh -c 'id -u; ip link set lo up && ip -o addr show lo; echo "userns+netns ok"' 2>&1
+              echo "exit=$?"
+              echo '--- loopback server inside the namespace'
+              unshare -Urn sh -c 'ip link set lo up && exec node -e "
+                const s=require(\"http\").createServer((q,r)=>r.end(\"pong\")).listen(0,\"localhost\",async()=>{
+                  const r=await fetch(\"http://localhost:\"+s.address().port+\"/\");
+                  console.log(\"fetch\",r.status,await r.text()); s.close();
+                })"' 2>&1
+              echo "exit=$?"
+              cat /proc/loadavg
+              exit 0
+            displayName: Probe network namespace (diagnostic)
+            workingDirectory: $(Build.SourcesDirectory)
+
           # `test:package` ends by importing each component through the
           # package in Chromium (DSA-35), so the browser is installed first,
           # the same way as in the Test stage.
@@ -270,8 +295,23 @@ stages:
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
               free -m
               cat /proc/loadavg
+              # DIAGNOSTIC: record every link/address change of the host while the tests run.
+              IPMON_LOG="$(Agent.TempDirectory)/ip-monitor.log"
+              IPMON_PID=""
+              echo '--- probe'; id -u; command -v unshare ip || true
+              unshare -Urn sh -c 'ip link set lo up && echo "netns probe ok"' 2>&1 || echo "netns probe failed"
+              if command -v ip >/dev/null 2>&1; then
+                { ip monitor link address | while IFS= read -r l; do echo "$(date -u +%FT%T.%3NZ) $l"; done; } >"${IPMON_LOG}" 2>&1 &
+                IPMON_PID=$!
+              fi
+              ip_monitor_summary() {
+                [ -s "${IPMON_LOG}" ] || { echo "ip monitor: no host link/address event recorded"; return 0; }
+                echo "ip monitor: $(wc -l <"${IPMON_LOG}") host event line(s); by interface:"
+                grep -oE '(Deleted )?[0-9]+: [A-Za-z0-9_.-]+' "${IPMON_LOG}" | sed -E 's/^(Deleted )?[0-9]+: /\1/' | sort | uniq -c | sort -rn | head -15
+                echo 'first and last event lines:'; head -5 "${IPMON_LOG}" | cut -c1-200; tail -3 "${IPMON_LOG}" | cut -c1-200
+              }
               # Runs on failure too; the step keeps the exit code of the tests.
-              trap 'cat /proc/loadavg' EXIT
+              trap 'cat /proc/loadavg; [ -n "${IPMON_PID}" ] && kill "${IPMON_PID}" 2>/dev/null; ip_monitor_summary || true' EXIT
               npx playwright install chromium
               run_shard() {
                 local shard="$1"
