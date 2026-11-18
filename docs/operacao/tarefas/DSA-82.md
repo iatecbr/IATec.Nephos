@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 810,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-13",
@@ -20,11 +20,11 @@
     {
       "id": "review-and-merge",
       "description": "Each change in the table of this task is in the code, with tests, stories and specs updated, passes the proof commands and is merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 4b8ce27d47d9eb38202a5513a7d0560f3fe91ab6 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-82/review-and-merge-2026-11-17.md",
+      "result": "passed",
+      "verified_at": "2026-11-17",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -36,15 +36,17 @@
       "opened_at": "2026-11-17"
     }
   ],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-82/review-and-merge-2026-11-17.md"
+  ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane asked for one new task with the code changes instead of reopening the done ones (DSA-70)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions of DSA-71 to DSA-80 in the chat, delegated the technical rest to Claude (market research with sources), and released recording the answers in the tasks and opening this task"
   ],
   "external_origin": null,
-  "git_review": { "branch": "feat/dsa-82-respostas", "commit": "f3250d14893574c8eee34bb96fd5708f20c29529", "pr": "180" },
-  "context": "docs/operacao/contextos/DSA-82.md",
+  "git_review": { "branch": "feat/dsa-82-respostas", "commit": "4b8ce27d47d9eb38202a5513a7d0560f3fe91ab6", "pr": 180 },
+  "context": null,
   "updated_at": "2026-11-17"
 }
 ```
