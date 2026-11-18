@@ -27,10 +27,18 @@
 /*
  * The card takes the width of its container and is the container of its own width: the side media moves to the
  * top when the card is narrow (the query cannot style the box it measures, so the surface is inside the host).
+ * The host is the surface: background, outline, corner and shadow are its own, so the background is the one that
+ * the page and an accessibility check see behind the text and the slotted pieces.
  */
 :host([data-nph-rendered]) {
+  position: relative;
   display: block;
   container-type: inline-size;
+  box-sizing: border-box;
+  background: var(--nph-card-background);
+  color: var(--nph-card-foreground);
+  border: var(--nph-card-border-width) solid var(--nph-card-border);
+  border-radius: var(--nph-card-radius);
 }
 
 [hidden] {
@@ -39,26 +47,22 @@
 
 /* ----- the surface: one outline, drawn once ------------------------------------------------------------- */
 
-.surface {
-  --_inner-radius: calc(var(--nph-card-radius) - var(--nph-card-border-width));
-  position: relative;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  background: var(--nph-card-background);
-  color: var(--nph-card-foreground);
-  border: var(--nph-card-border-width) solid var(--nph-card-border);
-  border-radius: var(--nph-card-radius);
-}
-
 /* The elevated surface has the shadow; the outlined one has the outline and no shadow. */
-:host([surface='elevated']) .surface {
+:host([data-nph-rendered][surface='elevated']) {
   box-shadow: var(--nph-elevation-raised);
 }
 
 /* The hover only changes the color of the outline: the width does not, so the card does not move. */
-:host([type='clickable']:not([disabled], [loading])) .surface:hover {
+:host([data-nph-rendered][type='clickable']:not([disabled], [loading]):hover) {
   border-color: var(--nph-card-border-hover);
+}
+
+/* The layout box inside the outline: the stacking of the media, the body and the footer. */
+.surface {
+  --_inner-radius: calc(var(--nph-card-radius) - var(--nph-card-border-width));
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .main {
@@ -319,7 +323,7 @@
   border-radius: var(--nph-focus-radius-surface-with-border);
 }
 
-:host([type='clickable'][disabled]) .surface {
+:host([data-nph-rendered][type='clickable'][disabled]) {
   opacity: var(--nph-card-disabled-opacity);
 }
 
@@ -461,7 +465,7 @@
 
 /* With forced colors the outline is a system color and the focus is its own system color. */
 @media (forced-colors: active) {
-  .surface {
+  :host([data-nph-rendered]) {
     border-color: CanvasText;
   }
 

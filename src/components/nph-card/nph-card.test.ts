@@ -278,7 +278,7 @@ describe('invalid input draws nothing and says why, once per cause, in developme
 describe('the surface', () => {
   it('has the background, the corner and the 1 px soft outline of its tokens', async () => {
     const card = await mount();
-    const surface = style(part(card, '.surface'));
+    const surface = style(card);
     expect(surface.backgroundColor).toBe(resolved(card, 'background-color', '--nph-card-background'));
     expect(surface.borderTopLeftRadius).toBe(resolved(card, 'border-top-left-radius', '--nph-card-radius'));
     for (const side of ['Top', 'Right', 'Bottom', 'Left'] as const) {
@@ -291,10 +291,10 @@ describe('the surface', () => {
   it('the elevated surface has the raised shadow and the outlined one has none', async () => {
     const elevated = await mount();
     const outlined = await mount({ props: { surface: 'outlined' } });
-    expect(style(part(elevated, '.surface')).boxShadow).toBe(resolved(elevated, 'box-shadow', '--nph-elevation-raised'));
-    expect(style(part(elevated, '.surface')).boxShadow).not.toBe('none');
-    expect(style(part(outlined, '.surface')).boxShadow).toBe('none');
-    expect(style(part(outlined, '.surface')).borderTopColor).toBe(resolved(outlined, 'color', '--nph-card-border'));
+    expect(style(elevated).boxShadow).toBe(resolved(elevated, 'box-shadow', '--nph-elevation-raised'));
+    expect(style(elevated).boxShadow).not.toBe('none');
+    expect(style(outlined).boxShadow).toBe('none');
+    expect(style(outlined).borderTopColor).toBe(resolved(outlined, 'color', '--nph-card-border'));
   });
 
   it('takes the width of its container, whatever the content', async () => {
@@ -512,7 +512,8 @@ describe('the media', () => {
     const card = await mount({ props: { media: 'top' }, children: MEDIA, width: '24rem' });
     const image = card.querySelector('nph-image') as HTMLElement;
     const surface = part(card, '.surface');
-    expect(rect(image).width).toBeCloseTo(rect(surface).width - 2 * px(resolved(card, 'width', '--nph-card-border-width')), 0);
+    expect(rect(image).width).toBeCloseTo(rect(surface).width, 0);
+    expect(rect(surface).width).toBe(rect(card).width - 2 * px(resolved(card, 'width', '--nph-card-border-width')));
     expect(rect(image).width / rect(image).height).toBeCloseTo(16 / 9, 1);
     expect(rect(image).top).toBeLessThan(rect(part(card, '.body')).top);
     const media = style(part(card, '.media'));
@@ -520,6 +521,7 @@ describe('the media', () => {
     expect(media.borderBottomLeftRadius).toBe('0px');
     expect(media.overflow).toBe('hidden');
     expect(style(image).borderTopLeftRadius).toBe(media.borderTopLeftRadius);
+    expect(style(card).overflow).toBe('visible');
     expect(style(part(card, '.surface')).overflow).toBe('visible');
   });
 
@@ -561,7 +563,7 @@ describe('the media', () => {
     expect(rect(wideImage).left).toBeLessThan(rect(part(wide, '.main')).left);
     expect(rect(narrowImage).bottom).toBeLessThanOrEqual(rect(part(narrow, '.main')).top + 1);
     expect(rect(narrowImage).width / rect(narrowImage).height).toBeCloseTo(16 / 9, 1);
-    expect(rect(narrowImage).width).toBeCloseTo(rect(part(narrow, '.surface')).width - 2 * px(resolved(narrow, 'width', '--nph-card-border-width')), 0);
+    expect(rect(narrowImage).width).toBeCloseTo(rect(part(narrow, '.surface')).width, 0);
   });
 
   it('the media slot is not drawn while media is none, or on the section type', async () => {
@@ -661,7 +663,7 @@ describe('the clickable type', () => {
     const link = part<HTMLAnchorElement>(card, '.link');
     const after = style(link, '::after');
     expect(after.position).toBe('absolute');
-    const surface = rect(part(card, '.surface'));
+    const surface = rect(card);
     const stretch = {
       top: px(after.top),
       width: px(after.width),
@@ -708,7 +710,7 @@ describe('the clickable type', () => {
 
   it('hover only raises the outline: color changes, width, size, background and shadow stay', async () => {
     const card = await mount({ props });
-    const surface = part(card, '.surface');
+    const surface = card;
     const before = { box: rect(surface), border: style(surface).borderTopColor, background: style(surface).backgroundColor, shadow: style(surface).boxShadow };
     await userEvent.hover(surface);
     await frame();
@@ -723,7 +725,7 @@ describe('the clickable type', () => {
 
   it('the base card has no hover: the outline stays', async () => {
     const card = await mount();
-    const surface = part(card, '.surface');
+    const surface = card;
     const before = style(surface).borderTopColor;
     await userEvent.hover(surface);
     await frame();
@@ -745,7 +747,7 @@ describe('the clickable type', () => {
     expect(halo.borderTopWidth).toBe(resolved(card, 'width', '--nph-focus-ring-width'));
     expect(halo.borderTopLeftRadius).toBe(resolved(card, 'border-top-left-radius', '--nph-focus-radius-surface-with-border'));
     const box = rect(surface);
-    expect(px(border.width)).toBeCloseTo(box.width + 2 * px(resolved(card, 'width', '--nph-border-width')) - 2 * edge, 0);
+    expect(px(border.width)).toBeCloseTo(box.width + 2 * edge, 0);
     expect(px(halo.width)).toBeGreaterThan(px(border.width));
     expect(surface.getBoundingClientRect()).toEqual(box);
   });
@@ -767,10 +769,11 @@ describe('the clickable type', () => {
     expect(link.getAttribute('aria-disabled')).toBe('true');
     link.focus();
     expect(root(card).activeElement).toBeNull();
-    expect(style(part(card, '.surface')).opacity).toBe(resolved(card, 'opacity', '--nph-card-disabled-opacity'));
+    expect(style(card).opacity).toBe(resolved(card, 'opacity', '--nph-card-disabled-opacity'));
+    expect(part(card, '.surface').getAttribute('aria-disabled')).toBe('true');
     await userEvent.tab();
     expect(root(card).activeElement).toBeNull();
-    const surface = part(card, '.surface');
+    const surface = card;
     const before = style(surface).borderTopColor;
     await userEvent.hover(surface);
     await frame();
@@ -820,7 +823,7 @@ describe('the section type', () => {
     });
     const row = part(card, '.row');
     expect(row.scrollWidth).toBeLessThanOrEqual(row.clientWidth);
-    expect(rect(part(card, '.list')).right).toBeLessThanOrEqual(rect(part(card, '.surface')).right);
+    expect(rect(part(card, '.list')).right).toBeLessThanOrEqual(rect(card).right);
   });
 
   it('a header action with text is placed at the end of the header, with no change of size by the touch rule', async () => {
@@ -872,7 +875,7 @@ describe('loading', () => {
 
   it('keeps the surface, its outline and its padding, and the compact density takes the compact avatar', async () => {
     const card = await mount({ props: { loading: true, loadingLabel: 'Loading', density: 'compact' } });
-    expect(style(part(card, '.surface')).borderTopColor).toBe(resolved(card, 'color', '--nph-card-border'));
+    expect(style(card).borderTopColor).toBe(resolved(card, 'color', '--nph-card-border'));
     expect(style(part(card, '.body')).paddingTop).toBe(resolved(card, 'padding-top', '--nph-card-padding-compact'));
     expect(root(card).querySelector('nph-skeleton')?.getAttribute('shape')).toBe('avatar-md');
   });
@@ -895,7 +898,7 @@ describe('loading', () => {
     expect(has(card, '.footer')).toBe(false);
     expect(has(card, '.divider')).toBe(false);
     expect(has(card, 'a')).toBe(false);
-    const surface = part(card, '.surface');
+    const surface = card;
     const before = style(surface).borderTopColor;
     await userEvent.hover(surface);
     await frame();
@@ -1045,7 +1048,7 @@ describe('the token contract', () => {
   });
 
   it('the card draws no shadow on the outlined surface and no color of its own for the outline in hover', () => {
-    expect(cssWithoutComments).toMatch(/:host\(\[surface='elevated'\]\) \.surface \{\s*box-shadow: var\(--nph-elevation-raised\)/);
+    expect(cssWithoutComments).toMatch(/:host\(\[data-nph-rendered\]\[surface='elevated'\]\) \{\s*box-shadow: var\(--nph-elevation-raised\)/);
     expect(cssWithoutComments).toMatch(/border-color: var\(--nph-card-border-hover\)/);
   });
 });

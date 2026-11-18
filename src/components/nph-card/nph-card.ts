@@ -489,6 +489,7 @@ export class NphCard extends LitElement {
       role=${region.role}
       aria-labelledby=${region.labelledBy}
       aria-label=${region.label}
+      aria-disabled=${clickable && this.disabled ? 'true' : nothing}
     >
       ${media === 'top' || media === 'side' ? this.renderMedia() : nothing}
       <div class="main">
