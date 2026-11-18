@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { isoDate, parseDate } from '../nph-calendar/nph-calendar.logic';
+import type { Limits } from '../nph-calendar/nph-calendar.logic';
 import {
   checkTyped,
   dateOrderOf,
@@ -18,7 +19,7 @@ import {
 import type { DateOrder } from './nph-date-picker.logic';
 
 const day = (text: string): number => parseDate(text) as number;
-const noLimits = { min: null, max: null };
+const noLimits: Limits = { min: null, max: null };
 const DMY: DateOrder = ['day', 'month', 'year'];
 const MDY: DateOrder = ['month', 'day', 'year'];
 

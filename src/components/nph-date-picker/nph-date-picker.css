@@ -1,0 +1,172 @@
+/**
+ * Internal style of `nph-date-picker`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties consumed here. The `--_*`
+ * variables are internal to the shadow root and are not API. The component exposes no `::part`.
+ *
+ * No literal design value goes in here. Written box relations and resets (P133): `0`, `1`, `auto`, `none`, `100%`, `fixed`,
+ * `column`, `flex-start`, `space-between` and `calc(-1 * ...)` (the 4 px slide of the panel). The shortcut column is 12 steps
+ * of `date-picker/panel-padding` (192 with the 16 px step, the measure drawn in Figma, which has no token: DSA-90 D-12). The
+ * redefinitions in scope use no new value: `color/border` on the divider (as `nph-popover` does with `popover/divider`) and
+ * `color/secondary-foreground` on the calendar button, which draws the `calendar` icon in `color/muted-foreground`.
+ */
+
+/* With invalid input it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+}
+
+/* Start and End side by side, `date-picker/trigger-gap` apart, aligned at the top (each date has its own field). */
+.trigger {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-date-picker-trigger-gap);
+}
+
+/* The calendar icon is `color/muted-foreground`, light, as the icons of the field; the solid icon comes with the button's own hover. */
+.calendar-button {
+  --nph-color-secondary-foreground: var(--nph-color-muted-foreground);
+}
+
+/*
+ * The panel: a surface of its own, in the top layer. It resets the browser's `[popover]` style (`inset`, `margin`, padding and color)
+ * and does NOT clip what it holds, so the focus ring of an inner piece is not cut; with no room it shrinks and scrolls inside
+ * (`data-scroll`). JavaScript sets `top`, `left` and, when it must shrink, the maximum height.
+ */
+.surface {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: var(--nph-border-width) solid var(--nph-date-picker-panel-border);
+  border-radius: var(--nph-date-picker-panel-radius);
+  background-color: var(--nph-color-popover);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-color-popover-foreground);
+  text-align: start;
+  outline: none;
+  /* Leaving: the exit role. Opacity and a short slide toward the field. */
+  opacity: 0;
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+.surface[data-scroll] {
+  overflow: auto;
+}
+
+/* Entering: the enter role. */
+.surface[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+.surface[data-side='bottom'] {
+  translate: 0 calc(-1 * var(--nph-date-picker-panel-offset));
+}
+
+.surface[data-side='top'] {
+  translate: 0 var(--nph-date-picker-panel-offset);
+}
+
+.surface[data-open][data-side] {
+  translate: none;
+}
+
+/* ----- the range panel ------------------------------------------------------------------ */
+
+/* The shortcuts and the months, side by side, top aligned, with no divider between them. */
+.body {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* On a narrow screen the shortcuts go on top, full width, over one month. */
+.surface[data-mode='narrow'] .body {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* The shortcut column: seven options of the default height, no space between them, `date-picker/panel-padding` around. */
+.shortcuts {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  inline-size: calc(12 * var(--nph-date-picker-panel-padding));
+  padding: var(--nph-date-picker-panel-padding);
+  outline: none;
+}
+
+.surface[data-mode='narrow'] .shortcuts {
+  inline-size: auto;
+}
+
+/* The options are written only as children of this list, which owns them. */
+.shortcut {
+  inline-size: 100%;
+}
+
+/* The divider: edge to edge, above the footer, in `date-picker/divider`. */
+.divider {
+  --nph-color-border: var(--nph-date-picker-divider);
+  display: block;
+}
+
+/* The footer: Clear at the start, Cancel and Apply at the end, `date-picker/footer-gap` apart, `date-picker/panel-padding` around. */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nph-date-picker-footer-gap);
+  padding: var(--nph-date-picker-panel-padding);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-date-picker-footer-gap);
+}
+
+/* ----- the live region ------------------------------------------------------------------- */
+
+/* Never visible, in the accessibility tree: clipped, not `display: none`, which the browser does not read. */
+.status {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+:host([data-nph-rendered]) {
+  position: relative;
+}
+
+/*
+ * Reduced motion: opacity only (DSA-29 D2), and the duration of `design.md` 2g, 100 ms, through the semantic alias
+ * `motion/hover-duration`, as in `nph-select` and `nph-tooltip`.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .surface,
+  .surface[data-side] {
+    translate: none;
+  }
+
+  .surface,
+  .surface[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}
