@@ -569,7 +569,18 @@
     "components-nph-carousel-validation--many-slides": "Many slides",
     "components-nph-carousel-validation--interactive": "Interactive",
     "components-nph-carousel-validation--examples": "Examples",
-    "components-nph-carousel-validation--brands": "Brands"
+    "components-nph-carousel-validation--brands": "Brands",
+    "components-nph-timeline-docs": "Docs",
+    "components-nph-timeline-docs--documentation": "Documentation",
+    "components-nph-timeline-validation": "Validation",
+    "components-nph-timeline-validation--types": "Types",
+    "components-nph-timeline-validation--short": "Short",
+    "components-nph-timeline-validation--markers": "Markers",
+    "components-nph-timeline-validation--content": "Content",
+    "components-nph-timeline-validation--states": "States",
+    "components-nph-timeline-validation--width": "Width",
+    "components-nph-timeline-validation--examples": "Examples",
+    "components-nph-timeline-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -8732,7 +8743,15 @@
       "components-nph-carousel-validation--many-slides": "A sequence with more slides than the indicators hold: above five pages the indicators go off and the counter comes on, and in the several layout it counts pages.",
       "components-nph-carousel-validation--interactive": "An arrow, an indicator, a key or a drag fires nph-slide-change, and detail.index is the first slide in view that the product keeps and gives back through index.",
       "components-nph-carousel-validation--examples": "The three required examples of the accepted frame: an image gallery in peek, featured cards in several, and a sequence with more slides than the indicators hold.",
-      "components-nph-carousel-validation--brands": "The seven brands in light and dark: the current indicator, the focus border and the arrows follow the brand."
+      "components-nph-carousel-validation--brands": "The seven brands in light and dark: the current indicator, the focus border and the arrows follow the brand.",
+      "components-nph-timeline-validation--types": "The two types with three, four and five items: the process draws the state of each step in a circle, with the connector line in the brand color up to the pending step, and the history draws a neutral dot for each event.",
+      "components-nph-timeline-validation--short": "The short lists: two items, and a single event, which is one item with the connector line off. The last item of a list never has a line.",
+      "components-nph-timeline-validation--markers": "The three markers: the dot, the circle in its six states, with the event icon on the neutral one, and the avatar with a photo and without, which shows the user icon. Only the circle has a state.",
+      "components-nph-timeline-validation--content": "What an item turns on: a long title that wraps, the description, the meta line with who and when and the waiting word of the pending item, the action on and disabled, and an nph-card base and section in the slot of an item.",
+      "components-nph-timeline-validation--states": "Show more after the list, aligned to the marker column; the loading state with skeleton rows in place of the items; and the empty state with nph-empty.",
+      "components-nph-timeline-validation--width": "The list takes the width of its container: a narrow panel of 22 rem and a wide column of 40 rem, with the title and the description wrapping and the connector line following the height of the item.",
+      "components-nph-timeline-validation--examples": "The three required examples, each in light and dark mode: a declined approval process, a history by person with an action, and a history by event type.",
+      "components-nph-timeline-validation--brands": "The seven brands in light and dark mode: the connector line, the dot, the neutral circle and its icon follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -16670,5 +16689,438 @@
     "positionLabel": "{position} of {total}",
     "featuredLabel": "Featured cards",
     "manyLabel": "Steps of the tour"
+  },
+  "timelineValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "processLabel": "Purchase request steps",
+    "historyLabel": "Purchase request activity",
+    "declinedLabel": "Approval of the purchase request",
+    "personLabel": "Activity by person",
+    "typeLabel": "Activity by event type",
+    "completedLabel": "Completed",
+    "currentLabel": "Current step",
+    "errorLabel": "Error",
+    "warningLabel": "Warning",
+    "pendingLabel": "Waiting",
+    "loadingLabel": "Loading events",
+    "moreLabel": "Show more",
+    "newLabel": "{count} new events",
+    "loadedLabel": "{count} earlier events loaded",
+    "emptyHeading": "No events yet",
+    "emptyDescription": "The events of this request appear here.",
+    "action": "See details",
+    "steps": [
+      "Request sent",
+      "Manager review",
+      "Budget check",
+      "Purchase order",
+      "Delivery"
+    ],
+    "events": [
+      "Request created",
+      "Quantity edited",
+      "Status changed to In review",
+      "Comment added",
+      "File attached"
+    ],
+    "eventTypes": [
+      "Creation",
+      "Edit",
+      "Status change",
+      "Comment",
+      "File"
+    ],
+    "whens": [
+      "Nov 8, 09:12",
+      "Nov 8, 10:05",
+      "Nov 9, 14:30",
+      "Nov 10, 08:40",
+      "Nov 11, 16:20"
+    ],
+    "whoAna": "Ana Souza",
+    "whoBruno": "Bruno Lima",
+    "whoCarla": "Carla Dias",
+    "whoFinance": "Finance",
+    "whoProcurement": "Procurement",
+    "longTitle": "Request for the annual renewal of the design software license for the whole product team, with the new price table attached",
+    "description": "Two laptops for the design team, to be delivered to the Recife office.",
+    "declinedTitle": "Request declined",
+    "declinedReason": "The amount is above the quarterly limit of the department. Send a new request with a smaller quantity.",
+    "noteHeading": "Delivery note",
+    "noteDescription": "Leave the boxes at the loading dock.",
+    "summaryHeading": "Order summary",
+    "summaryKeyItem": "Item",
+    "summaryValueItem": "2 laptops",
+    "summaryKeyTotal": "Total",
+    "summaryValueTotal": "USD 2,400",
+    "summaryAction": "Edit"
+  },
+  "timelineDocs": {
+    "summary": "A vertical list of events in order, linked by a connector line, each with a marker, a title and a meta line. It shows where a process is or what happened to a record. It records and does not navigate.",
+    "onThisPage": "On this page",
+    "matrixLabel": "Component matrix",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-timeline spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P132. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "The steps of a process in order, such as a request and its approval, with the state of each step: use the process type.",
+      "The activity history of a record, from the most recent to the oldest, with who did it and when: use the history type, with the dot.",
+      "Who did it matters: use the avatar marker. The type of the event matters: use the circle with an icon.",
+      "A long history: show the most recent events and end the list with the Show more button.",
+      "An event that asks for a next step: turn on the action below its text, such as See details.",
+      "While the events load, show the loading state; with no events, show the empty state."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To lead the person through steps they click: use nph-stepper.",
+      "For a history read in columns (date, who, what): use nph-table.",
+      "For the tabs of a view or the place in a hierarchy: use nph-tabs or nph-breadcrumb.",
+      "To show how much of a task is done with no named events: use nph-progress.",
+      "For a feed that loads on scroll: the timeline loads by the Show more button and takes no role of feed.",
+      "For rich content as the whole event: put an nph-card, base or section, in the slot below the text; never a clickable card in an item that has an action."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "items",
+        "The events, in order, as a list of { id, title, description, who, when, datetime, status, marker, icon, avatar, typeLabel, action, actionDisabled }. Property only: set from JavaScript. title is required and already localized; description is the line under it. who and when make the meta line, who first, with a middle dot between them; when is the date already formatted by the product, absolute or relative, and datetime is the machine value of its time element. typeLabel is the hidden text that says the event type when the title does not. action is the label of the button below the text, and actionDisabled puts only that button under the disabled opacity. An empty list is the empty state, not an error."
+      ],
+      [
+        "type",
+        "process (default) or history. Process is the steps of a flow with the state of each one; history is the events of a record. It sets the marker an item takes when it names none, the circle on the process and the dot on the history, and nothing else: the two types share one layout. Reflected to the attribute."
+      ],
+      [
+        "marker",
+        "A field of an item: dot, circle or avatar. The circle carries the state and, when neutral, the event icon; the avatar is an nph-avatar sm with the photo and no circle around it."
+      ],
+      [
+        "status",
+        "A field of an item: neutral (default), completed, current, pending, error or warning. Only the circle has a state: on a dot or an avatar it is ignored, with a development warning."
+      ],
+      [
+        "icon",
+        "A field of an item: the event type icon of the neutral circle, a core nph-icon name. The icon of every other state is fixed, so icon is read on the neutral circle only."
+      ],
+      [
+        "avatar",
+        "A field of an item: the address of the photo of the avatar marker. Without it, while it loads and if it fails, the avatar shows the user icon."
+      ],
+      [
+        "label",
+        "The accessible name of the list. Already localized."
+      ],
+      [
+        "aria-label",
+        "The accessible name of the list when there is no label."
+      ],
+      [
+        "labelledBy",
+        "A visible title that names the list, given as an element. Property only: aria-labelledby cannot cross the shadow root."
+      ],
+      [
+        "has-more",
+        "Shows the Show more button after the list. The timeline loads nothing: the button fires nph-timeline-more, and the product appends the earlier events at the end of items and turns has-more off on the last batch. Reflected to the attribute."
+      ],
+      [
+        "loading",
+        "Draws skeleton rows in place of the items, with aria-busy and the hidden loading-label. Reflected to the attribute."
+      ],
+      [
+        "live",
+        "The list gets events without the person acting, the new ones at the start. On, a growth of the list is announced by new-label. Reflected to the attribute."
+      ],
+      [
+        "completed-label, current-label, error-label and warning-label",
+        "The hidden text that opens an item and says its state, such as Completed and Current step. Already localized."
+      ],
+      [
+        "pending-label",
+        "The visible word that says the step is waiting, at the start of the meta line of a pending item. Already localized."
+      ],
+      [
+        "loading-label and more-label",
+        "The hidden text of the loading state and the label of the Show more button. Already localized."
+      ],
+      [
+        "new-label and loaded-label",
+        "The announcements of new events and of the events that Show more brought in, both with {count}, such as {count} new events. Already localized."
+      ],
+      [
+        "empty-heading and empty-description",
+        "The title and the description of the empty state, drawn when the list has no items and is not loading. Already localized."
+      ],
+      [
+        "nph-timeline-action",
+        "The event an item action fires when the person activates it, with detail { index, id }: the position from zero and the id of the item, or null. It bubbles and is composed. A disabled action fires nothing."
+      ],
+      [
+        "nph-timeline-more",
+        "The event the Show more button fires when the person activates it, with no detail. It bubbles and is composed."
+      ],
+      [
+        "slot named as the id of an item",
+        "Rich content drawn below the text and the action of the item with that id, such as an nph-card, base or section. The timeline does not style it. An item without id has no slot."
+      ],
+      [
+        "size, orientation and color",
+        "Not properties: one size, vertical only, and the list takes the width of where it lives. The color comes from the state of the item and from the brand."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-timeline id=\"request\" label=\"Request steps\" completed-label=\"Completed\" current-label=\"Current step\" error-label=\"Error\" warning-label=\"Warning\" pending-label=\"Waiting\" loading-label=\"Loading events\" more-label=\"Show more\" new-label=\"{count} new events\" loaded-label=\"{count} earlier events loaded\" empty-heading=\"No events yet\" empty-description=\"The events of this request appear here.\"></nph-timeline>\n<script>\n  request.items = [\n    { title: 'Request sent', who: 'Ana Souza', when: 'Nov 8, 09:12', datetime: '2026-11-08T09:12', status: 'completed' },\n    { title: 'Manager review', who: 'Bruno Lima', when: 'Nov 8, 10:05', datetime: '2026-11-08T10:05', status: 'current' },\n    { title: 'Budget check', who: 'Finance', status: 'pending' },\n  ];\n</script>",
+    "usageTag": "The tag of the piece. The events come as data in the items property, set from JavaScript, and every word the list shows comes already localized by attribute. Rich content goes in a slot named as the id of its item.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-timeline (5237:3423); docs/decisoes-tecnicas.md › P132",
+    "typesTitle": "Types",
+    "typesCaption": "The process type with four steps and the history type with four events.",
+    "typesUseHeader": [
+      "Type",
+      "What it shows"
+    ],
+    "typesUse": [
+      {
+        "value": "process",
+        "label": "The steps of a flow, such as a request and its approval, each with its state: circle items with the completed steps, the current one and the pending ones. It is the default."
+      },
+      {
+        "value": "history",
+        "label": "The events of a record, from the most recent to the oldest, with who did it and when: dot items, neutral. For the avatar or for a circle with an icon, give the marker on the item."
+      }
+    ],
+    "types": [
+      "The two types share one layout. The type only sets the marker that an item takes when it names none.",
+      "The connector line links one marker to the next and runs to the bottom of the item. The last item has none, so the line does not point to an event that does not exist; a single event is one item, with no line.",
+      "The list takes the width of where it lives and has no scroll of its own. The title and the description wrap and the item grows, with no cut and no ellipsis.",
+      "The smallest list is a single event, and there is no ceiling: a long list ends with the Show more button. A history read in columns (date, who, what) is not a timeline: use nph-table."
+    ],
+    "markersTitle": "Markers and states",
+    "markersCaption": "The six states of the circle, the dot and the avatar with and without a photo.",
+    "markersUseHeader": [
+      "Marker or state",
+      "What it shows"
+    ],
+    "markersUse": [
+      {
+        "value": "dot",
+        "label": "The dense form of the history: a small decorative point in the brand color. It has no state."
+      },
+      {
+        "value": "circle",
+        "label": "A tonal circle that carries the state of the item and, when neutral, the icon of the event type. It is the default of the process type."
+      },
+      {
+        "value": "avatar",
+        "label": "The nph-avatar sm of the person who did it, with the photo in avatar and the user icon when there is none. No circle around it and no state."
+      },
+      {
+        "value": "neutral",
+        "label": "The circle with the icon of the event type in icon, such as a comment. It is the default state."
+      },
+      {
+        "value": "completed",
+        "label": "A check on the tonal circle. The step is done."
+      },
+      {
+        "value": "current",
+        "label": "A dot at the center of the tonal circle and a stronger title. It is where the process is, and aria-current marks it on the process type."
+      },
+      {
+        "value": "pending",
+        "label": "A hollow circle with a thin outline and the waiting word on the meta line. The step has not started, and its connector line stays neutral."
+      },
+      {
+        "value": "error",
+        "label": "A circle with a cross on the error background and a discreet outline. The step failed, and the reason goes in the description."
+      },
+      {
+        "value": "warning",
+        "label": "A triangle on the warning background and a discreet outline. The step needs attention."
+      }
+    ],
+    "markers": [
+      "Only the circle has a state. On a dot or an avatar the status is ignored, with a development warning, so the state never depends on a marker that cannot show it.",
+      "Each state has a sign besides color: the check, the center dot with the strong title, the hollow circle with the waiting word, the cross and the triangle. The marker is hidden from assistive technology, so the state is also written in the text of the item.",
+      "The icon of a state is fixed. The event type icon is read on the neutral circle only, in the light weight, and the hidden typeLabel says the type when the title does not.",
+      "The connector line takes the brand color on the neutral, completed, current, error, warning and avatar items; the line of a pending item stays neutral."
+    ],
+    "contentTitle": "Content of an item",
+    "contentCaption": "A description, an action that is disabled, and an nph-card base and an nph-card section in the slot of an item.",
+    "content": [
+      "The title is required and wraps to as many lines as it needs, with no cut and no ellipsis. The title row is at least as tall as the marker, so the title sits at the middle of it.",
+      "The description is the line under the title. Turn it off when the title is enough.",
+      "The meta line shows who and when, who first, with a middle dot between them. The date is a time element with its machine value in datetime, and its text is the absolute date and, if the product wants it, the relative one. The pending item opens the line with the waiting word, then the person it waits for.",
+      "The action is a secondary ghost nph-button below the text, with a label that comes from the context, such as See details. When disabled it dims only the button, and the item keeps its marker, connector line and colors. The item itself is never clickable.",
+      "Rich content goes in the slot named as the id of the item, below the text and the action. Use an nph-card, base or section; never the clickable card in an item that has an action, since nothing interactive sits inside a clickable card. The timeline does not style the slot."
+    ],
+    "loadingTitle": "Loading, Show more and empty",
+    "loadingCaption": "Show more after the list, the loading state and the empty state.",
+    "loading": [
+      "A long list shows the most recent events and ends with the ghost Show more button, outside the list and aligned to the marker column. The timeline loads nothing: the button fires nph-timeline-more, and the product appends the earlier events at the end of items and turns has-more off on the last batch.",
+      "Show more is always announced by loaded-label, with the number of events that came in. The focus stays on the button while there are more events. On the last batch the button goes away and the focus moves to the first new item, so it does not fall to the body.",
+      "With live on, a list that gets events without the person acting announces the growth by new-label, in a short polite region outside the list. The whole list never becomes a live region.",
+      "While the events load, loading draws skeleton rows in place of the items, with aria-busy on the list and a hidden loading-label.",
+      "A list with no items that is not loading draws nph-empty, with a title and a description from the context. No empty list remains.",
+      "The timeline does not load on scroll and has no feed role. It does not animate, so there is nothing to go away under reduced motion."
+    ],
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Input",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab and Shift+Tab",
+        "Move the focus through the actions of the items, in list order, and then Show more. The item, the marker, the connector line, the text and the date take no focus."
+      ],
+      [
+        "Enter and Space",
+        "Those of the nph-button of the action or of Show more. The item answers no key."
+      ],
+      [
+        "Arrow keys",
+        "Do nothing: the list is not a composite widget."
+      ],
+      [
+        "Esc",
+        "Does not apply: nothing opens."
+      ],
+      [
+        "Pointer",
+        "The item has no hover, pressed or focus state and is not clickable. Hover and focus belong to the buttons only, and the text of the item stays selectable."
+      ],
+      [
+        "Focus after Show more",
+        "The focus stays on Show more while there are more events. On the last batch the focus moves to the first new item, which takes tabindex -1 only while it holds the focus."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "The timeline sits on the page background or inside a card, with the same tokens, and has no background, border or margin of its own.",
+      "It is made of nph-icon (the marker icons), nph-avatar (the avatar marker), nph-separator (the connector line), nph-button (the action and Show more), nph-skeleton (loading) and nph-empty (empty).",
+      "The avatar marker is the nph-avatar sm, with the avatar corner and no circle around it. The connector line is the vertical nph-separator, with the thickness of the separator and the color of the item.",
+      "It does not replace nph-stepper, which leads the person through steps they click and numbers each one: the timeline records and does not navigate. A history read in columns is nph-table.",
+      "Rich content below the text is an nph-card, base or section."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Item",
+        "Horizontal, start aligned, at the full width and with the height of its content: the marker column first and the content after it, a gap apart."
+      ],
+      [
+        "Marker column",
+        "24 wide, with the marker at the top and centered, and the connector line below it."
+      ],
+      [
+        "Marker",
+        "The dot (8), the circle (24) or the avatar (sm), with the glyph at its center. Hidden from assistive technology."
+      ],
+      [
+        "Connector line",
+        "A vertical nph-separator, 1 px on a whole pixel at the center of the marker column, a small gap below the marker and above the next one, running to the bottom of the item. The last item has none."
+      ],
+      [
+        "Title row",
+        "The title, in a row at least as tall as the marker. The current title is strong and the pending one is muted."
+      ],
+      [
+        "Description",
+        "The line under the title. Optional."
+      ],
+      [
+        "Meta line",
+        "The waiting word of a pending item, then who and when, in the caption role."
+      ],
+      [
+        "Action",
+        "A secondary ghost nph-button below the text. Optional."
+      ],
+      [
+        "Slot",
+        "The rich content of the item, below the text and the action."
+      ],
+      [
+        "Show more",
+        "A ghost nph-button after the list, aligned to the marker column."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "An ordered list (ol and li) with a name and no role of its own. The APG has no timeline pattern, and the Feed pattern does not apply, because the timeline loads by Show more and not on scroll. Show more sits outside the list, after it."
+      ],
+      [
+        "Accessible name",
+        "The list is named by label, by aria-label or by a visible title through labelledBy. The date is a time element with datetime."
+      ],
+      [
+        "State",
+        "The marker and the connector line are hidden from assistive technology, so the state goes in the text of the item: a hidden text at its start says Completed, Current step, Error or Warning, and the pending item already says it is waiting. The event type goes in typeLabel when the title does not say it."
+      ],
+      [
+        "Current step",
+        "aria-current is step on the li of the current item, on the process type only and on one item. The history never has it."
+      ],
+      [
+        "Live region",
+        "A short polite region outside the list announces the arrival of events. The whole list never becomes a live region."
+      ],
+      [
+        "Contrast",
+        "The title, the description and the meta line meet 4.5:1 in both modes and in every brand. The marker glyph meets 3:1 over its surface, and the outline of the pending circle meets 3:1 over the background. The marker surface and the connector line are decorative."
+      ],
+      [
+        "Color is not the only sign",
+        "Each state has a sign besides color: the check, the center dot with the strong title, the hollow circle with the waiting word, the cross and the triangle."
+      ],
+      [
+        "Visible focus and target",
+        "The timeline takes no focus. The focus and the target size are those of the nph-button of the action and of Show more."
+      ],
+      [
+        "Loading and empty",
+        "Loading puts aria-busy on the list, hides the skeleton from assistive technology and writes a hidden loading text outside the hidden node. The empty state is nph-empty in place of the list."
+      ],
+      [
+        "Motion",
+        "The piece does not animate."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: a declined approval, a history by person with an action, and a history by event type.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-timeline spec sheet — purpose, types, markers, behavior, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P132 (API and semantics).",
+      "design.md — the timeline/* tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — page 1626:37, documentation frame nph-timeline (5237:3423).",
+      "WAI-ARIA APG — patterns, and the Feed pattern, which does not apply.",
+      "MDN — aria-current and the time element."
+    ],
+    "sourceSpec": "nph-timeline spec sheet; Figma, frame nph-timeline (5237:3423)",
+    "sourceApi": "nph-timeline spec sheet; docs/decisoes-tecnicas.md › P132",
+    "sourceAnatomy": "Figma, sets 5216:304 and 5216:701; design.md",
+    "sourceBehavior": "nph-timeline spec sheet; Figma, appendix (5240:5360)"
   }
 }

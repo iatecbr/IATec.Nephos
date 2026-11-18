@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 880,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-timeline",
   "dependencies": [
     "DSA-03",
@@ -37,7 +37,26 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted frame shows the loading state as an avatar sm and a line, with no number of rows. The code draws three skeleton rows (an avatar sm and two lines each). If Figma should show another number, or lines of other widths, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-2",
+      "question": "On the last batch of Show more the button goes away and the focus moves to the first new item, as the accepted behavior asks. The item takes no focus in the contract and no focus token exists for it, so the code draws no ring on that list item (tabindex -1 only while it holds the focus). If a visible mark is wanted there, she decides which one. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-3",
+      "question": "The contract denies aria-current on the history type but does not say what an item with the current status looks like there. The code draws the current look (strong title and center dot) without aria-current. If the history should not take the current status, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-89/figma-docs-accepted-2026-11-17.md"
   ],
@@ -54,9 +73,13 @@
     "excerpt": null,
     "converted_decision": "The nph-timeline documentation frame (5237:3423, page 1626:37) was accepted as the API and behavior specification of nph-timeline, with the visual acceptance of the root (5226:2261). COMPONENT_SET nph-timeline item (5216:304), 8 variants; COMPONENT_SET nph-timeline (5216:701), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-17"
+  "git_review": {
+    "branch": "feat/dsa-89-timeline",
+    "commit": null,
+    "pr": 185
+  },
+  "context": "docs/operacao/contextos/DSA-89.md",
+  "updated_at": "2026-11-18"
 }
 ```
 

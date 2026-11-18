@@ -86,6 +86,7 @@ P62.4 subsection for the detail).
 | **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P129** | API and semantics of `nph-carousel` | 18/11/2026 | Low now. No piece consumes the carousel yet; a gallery, a featured list or a welcome tour will, and changing `layout`, `index`, `hide-arrows`, `hide-indicators`, `counter`, the six names, the event `nph-slide-change`, the meaning of `index` in the several layout, the roles, the keys or the invalid-input rule later requires redoing every consumer. The arrow that is not focusable at the ends (D-1) waits for Indiane; the color of the arrow icon through an internal variable of `nph-button` is for Elvys to confirm in the pull request | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P132** | API and semantics of `nph-timeline` | 18/11/2026 | Low now. No piece consumes the timeline yet; the history of a record and the progress of a request and its approval will, and changing `items`, `type`, `label`, `labelledBy`, `has-more`, `loading`, `live`, the texts of the host, the events `nph-timeline-action` and `nph-timeline-more`, the slot named as the `id` of an item, the paint of the connector line, the focus of the last batch of Show more, the announcements or the invalid-input rule later requires redoing every consumer. The number of skeleton rows (D-1), the look of the item that takes the focus (D-2) and the current status on the history (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9580,9 +9581,172 @@ the pull request. API and semantics are reviewed in the pull request that brings
 
 ---
 
+## P132 — `nph-timeline`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5237:3423`, page `1626:37`, root `5226:2261`, sets
+`5216:304` and `5216:701`) draws a vertical list of events in order, each with a marker, a title, a meta line and an
+optional description and action, linked by a connector line, in two types, three markers and six states, and leaves to
+the code how the events are given, how the list gets its semantics and its name, who writes the words, how the connector
+line is painted from the item over a piece that fixes its own color, where the focus goes when "Show more" goes away,
+what is announced and when, how the list loads and shows nothing, and what happens with an input that does not fit. Four
+limits of the platform and of the system shape the answer:
+
+- the `ol`, its `li` and the `aria-current` of the current one have to live in one shadow root, so the events cannot be
+  child elements that the timeline reads from outside;
+- an `id` does not cross a shadow root, so a visible title that names the list cannot be pointed to by `aria-labelledby`
+  from inside;
+- `nph-separator` fixes its color at `color/border` on its own host and may not change, and the connector line of the
+  item has to be another color, except on the pending item;
+- the focus of the page has nowhere to go when the button it was on goes away, and the item has no focus in the contract.
+
+**Decision.** `nph-timeline` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic tokens:
+the `timeline/*` ones of the accepted frame for every part, `border/width` for the thickness of the connector line, which
+the line takes from `nph-separator`, and the text styles `text/label-md`, `text/label-md-strong`, `text/body-md` and
+`text/caption`; **no token is created or changed**, and every `timeline/*` token is consumed. It has no `::part`, no color
+property and no form association; its events are `nph-timeline-action` and `nph-timeline-more`, and its one slot is the one
+named as the `id` of an item. What it rejects renders nothing and emits `console.error` only in development, once per
+cause: the rule of P21. The names follow P64.
+
+1. **One tag, `items` as a property (Q1).** The timeline is one tag. The events are `items`, a list of
+   `{ id, title, description, who, when, datetime, status, marker, icon, avatar, typeLabel, action, actionDisabled }`,
+   property only, in order. There is no child element `nph-timeline-item`: the list semantics need the `ol`, its `li`
+   and `aria-current` in one shadow root, as the `steps` of `nph-stepper` (P117) and the `levels` of `nph-breadcrumb`
+   (P109) are a property for the same reason. Rich content is a **slot named as the `id` of the item**, drawn below the
+   text and the action, the way the panel slot of `nph-tabs` is named as its `value`; the timeline does not style it,
+   and an item without `id` has no slot.
+
+2. **The fields and the values of an item (Q2).** `type` is `process` or `history`, `process` by default, and reflects;
+   it sets the marker an item takes when it names none, `circle` on the process and `dot` on the history, the
+   `aria-current` rule and nothing else: the two types share one layout. `marker` is `dot`, `circle` or `avatar`.
+   `status` is `neutral`, `completed`, `current`, `pending`, `error` or `warning`, `neutral` by default. **Only the circle
+   has a status**: on a dot or an avatar it is ignored, and a warning says so once in development. The icon of a status is
+   fixed, a `check` on completed, `circle-xmark` on error and `triangle-exclamation` on warning, `current` draws a center
+   dot and `pending` no glyph, so `icon` is read on the neutral circle only. The avatar marker is an `nph-avatar` `sm`
+   with the photo in `avatar` and no circle around it; with no photo it draws the person icon.
+
+3. **The words come from the consumer (Q3).** The hidden state texts, `completed-label`, `current-label`, `error-label`
+   and `warning-label`, the waiting word `pending-label`, which is visible, `loading-label`, `more-label`, `new-label`,
+   `loaded-label`, `empty-heading` and `empty-description` are attributes of the host, **already localized**, as the
+   texts of `nph-stepper` are: the piece writes no word of its own, and a text that is missing draws and warns once in
+   development, because it may arrive after the first render. The one thing the code writes is the **middle dot** of the
+   meta line, which is punctuation and not a string of translation. The order is who, then when; on a pending item the
+   waiting word comes first, then the middle dot and who. The date is formatted by the product: `when` is the visible
+   text, absolute and, if the product wants it, relative, and `datetime` is the value of its `time`; a `when` with no
+   `datetime` is plain text and warns once.
+
+4. **The connector line (Q4).** The line is an `nph-separator` vertical held by the item. Its thickness is `border/width`,
+   which is the separator's. The color is painted by the CSS of the timeline: the item writes `timeline/connector-border`
+   as the `background-color` of the separator it holds, and the **style of an outer tree wins over the `:host` of the
+   separator**, so the separator changes nothing and gains no hook, as the card paints its divider (P130, item 10). The
+   pending item writes nothing, so its line stays in `color/border`. The line sits at `inset-inline-start` of half the
+   marker size, 12 px of 24, **a whole pixel with no `transform`**, because a percentage translate makes a half pixel and
+   blurs a 1 px line (item 12 of the accepted decisions); it runs from the marker to the end of the item, a
+   `timeline/connector-gap` from each, and the last item has none.
+
+5. **"Show more" and the focus (Q5).** The timeline fetches nothing. `has-more` draws a ghost `nph-button` outside the
+   `ol`, after it, aligned to the marker column, with the text of `more-label`. Activating it fires `nph-timeline-more`,
+   with no detail, bubbling and composed. The product appends the earlier events at the end of `items` and sets
+   `has-more` off on the last batch. While there is more, the button keeps the focus. On the last batch the button goes
+   away and **the focus moves to the first new item**, a choice of Nephos, since without the button the focus has no
+   destination and would fall to the `body`: the `li` takes `tabindex="-1"` only while it holds the focus and the attribute
+   goes away on blur. The item has no focus in the contract and no focus token exists for it, so **no ring is drawn**
+   (D-2). If the focus was not on the button, nothing moves. With the last batch and no new event, the focus goes to the
+   last item.
+
+6. **What is announced (Q6).** One region, `aria-live="polite"` with `aria-atomic`, outside the `ol`; the list itself is
+   never a live region. `loaded-label`, with `{count}`, is announced when the list grows after the person activated "Show
+   more", whether or not `live` is on. `new-label`, with `{count}`, is announced when the list grows with `live` on and
+   the person asked for nothing. A non-breaking space alternates at the end, so the same text twice in a row still reads
+   again. The first load, a shrink and a growth with `live` off announce nothing.
+
+7. **Events (Q7).** `nph-timeline-action` fires when the person activates the action of an item, with
+   `detail { index, id }`, the position from zero and the `id`, or `null` when it has none; it bubbles and is composed.
+   `actionDisabled` puts only the button under the disabled opacity and fires nothing; the item keeps its marker, glyph,
+   line and colors. `nph-timeline-more` is item 5. The click is also the native click. **There is no animation and no
+   transition**, so there is nothing to reduce under `prefers-reduced-motion`.
+
+8. **The name of the list (Q8).** `label` wins over the `aria-label` of the host, which is read by a property whose
+   attribute is `aria-label`, since a property called `ariaLabel` is the native reflection. `labelledBy`, an **element and
+   property only**, names the list by a visible title: it becomes the `ariaLabelledByElements` of the `ol`, because an id
+   does not cross the shadow root, as the `controls` of `nph-button` is given (P121). Given with a
+   `label`, the `labelledBy` wins, as the native `aria-labelledby` does over `aria-label`, and it names the list while
+   it loads. A list with none of the three draws and warns once.
+
+9. **Loading and empty (Q9).** `loading` sets `aria-busy="true"` on the `ol`, which holds one `li` with the hidden text of
+   `loading-label`, written **outside** the hidden node, and the skeleton rows in a node with `aria-hidden`: an `nph-skeleton`
+   `avatar-sm` and two lines each. **Three rows**: the contract gives no number (D-1). Loading replaces the items, even when
+   there are some. With no items and not loading the timeline draws `nph-empty` with `empty-heading` and
+   `empty-description` in place of the `ol`; with no `empty-heading` nothing is drawn and a warning says so once.
+
+10. **`aria-current` (Q10).** `aria-current="step"` goes on the `li` of the current item of the **process type only**, and
+    on one item: with more than one current item the first takes it and a warning says so. On the history type an item
+    with the current status draws the current look, a center dot and a stronger title, with no `aria-current` (D-3). The
+    marker and the line are `aria-hidden`; the status goes in the text, as a hidden text at the start of the title; the
+    pending item says it is waiting by the visible word; the date is a `time`. The list has no role of its own: the APG has
+    no timeline pattern, and the Feed pattern does not apply, because the list loads by a button and not on scroll.
+
+11. **Invalid input (Q11, the rule of P21).** Draws nothing and emits `console.error` in development, once per cause: an
+    `items` that is not a list, an item that is not an object or has no `title`, and a `status`, `marker` or `type`
+    outside its list. Draws and emits `console.warn`, once per cause, because the texts may arrive after the first render:
+    a list with no accessible name, a status with no text for it, a `when` with no `datetime`, `has-more` with no
+    `more-label`, `live` with no `new-label`, a status on a dot or an avatar, more than one current item, a repeated `id`
+    (the slot of the second one gets no content), a list that loads with no `loading-label`, and a list with no items and
+    no `empty-heading`. An empty `items` is a mount.
+
+12. **What the task does not change (Q12).** No token is created or changed; every `timeline/*` token is consumed,
+    `border/width`, the pending color `color/border` and the thickness come from `nph-separator`, and the tokens that point
+    straight to the core keep the decision recorded with the tokens. `nph-separator`, `nph-icon`, `nph-avatar`,
+    `nph-button`, `nph-skeleton` and `nph-empty` change nothing: the timeline uses them and sets on them, from outside,
+    only the color of the line.
+
+**Known limits.**
+
+- The code draws three skeleton rows; Figma draws an avatar and a line with no number (D-1).
+- The first new item that takes the focus on the last batch of "Show more" draws no ring (D-2).
+- On the history an item with the current status draws the current look and no `aria-current` (D-3).
+- The line sits on a whole pixel, so its center falls half a pixel off the center of the marker column: the price of a
+  sharp 1 px line (item 12 of the accepted decisions).
+- The outline of the error and warning circles stays below 3:1 against the background in light; the icon carries the
+  meaning. The description of those two tokens in Figma is a foundation task.
+- Two items with the same `id` share one slot name, and the second one gets no content.
+- The list takes the width of where it lives and has no scroll of its own.
+
+**Source.** Documentation frame `5237:3423` (page `1626:37`), root `5226:2261`, appendix `5240:5360` and sets `5216:304` and
+`5216:701` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by the design owner on 17/11/2026, with the 16 items of its test
+round answered as recommended; the evidence of the `figma-docs-accepted` gate of DSA-89, which carries the contract
+converted to text. The names and values of the API, `items` as a property, the slot named as the `id`, the texts as
+attributes of the host, the paint of the line from the item, the focus of the last batch, the announcements, the number of
+skeleton rows and the way the list is named are a technical proposal of this implementation.
+
+**Effects on other pieces.** None. `nph-separator`, `nph-icon`, `nph-avatar`, `nph-button`, `nph-skeleton`, `nph-empty` and
+`nph-stepper` do not change; the timeline only uses the first six.
+
+**Out of scope.** A child element for the item. A hover, a click or a focus of the item. A role feed and a load on scroll.
+An animation of the arrival of events. A change of `nph-separator` or a hook of color on it. A token, new or changed. A color
+property. The fetch of the earlier events, which is the product's. The formatting of the date, which is the product's. A
+history in columns, which is `nph-table`. A vertical stepper, which is `nph-stepper`.
+
+**Pending decisions for the design owner.**
+
+- **D-1 — the number of rows of the loading state.** Figma shows an avatar `sm` and a line, with no number of rows. The code
+  draws three rows, an avatar and two lines each. The design owner decides whether Figma shows another number, or lines of
+  other widths.
+- **D-2 — the look of the item that takes the focus.** On the last batch of "Show more" the button goes away and the focus
+  moves to the first new item, as the accepted behavior asks. The contract gives the item no focus and no focus token
+  exists for it, so the code draws no ring on that `li`. The design owner decides whether a visible mark is wanted and
+  which one.
+- **D-3 — the current status on the history.** The contract denies `aria-current` on the history type but does not say how
+  an item with the current status looks there. The code draws the current look with no `aria-current`. The design owner
+  decides whether the history should take the current status at all.
+
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 wait for the design owner and do not
+block the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129 or P130 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130 or P132 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

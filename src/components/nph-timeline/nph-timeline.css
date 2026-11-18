@@ -1,0 +1,283 @@
+/**
+ * Internal style of `nph-timeline`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `timeline/*` ones, which alias a semantic token (or, by recorded decision, a core
+ * one), and the text roles `text/label-md`, `text/label-md-strong`, `text/body-md` and `text/caption`. The
+ * thickness of the connector line, `border/width`, comes from the `nph-separator` it holds. The status and the marker of an item are
+ * read from `data-status` and `data-marker` on its list item.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `none`, `nowrap`
+ * (the hidden text stays on one line) and `2` (half of the marker column, in `calc(... / 2)`, where
+ * the connector line sits). The skeleton lines take the width of their column.
+ *
+ * THE CONNECTOR LINE — an `nph-separator` vertical. The separator draws its line on its own host in
+ * `color/border`; a style of this tree wins over the `:host` rule of its shadow root, so the item paints
+ * `timeline/connector-border` on it without any change to the separator, and the pending item leaves it
+ * as it is (item 6 of the accepted decisions). It sits at half of the marker column, 12 px of 24, with
+ * no `transform`: a percentage translate makes a half pixel and blurs the 1 px line (item 12).
+ *
+ * No motion: nothing here transitions, so nothing has to go away under `prefers-reduced-motion`.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid timeline. */
+:host([data-nph-rendered]:not([hidden])) {
+  position: relative;
+  display: block;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ----- the item ------------------------------------------------------------- */
+
+/* The marker column and the content, side by side; the column is as tall as the item, for the line. */
+.item {
+  display: flex;
+  align-items: stretch;
+  gap: var(--nph-timeline-content-gap);
+}
+
+/* The programmatic focus of the first new item draws no ring: the item takes no focus of its own. */
+.item:focus {
+  outline: none;
+}
+
+.rail {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  inline-size: var(--nph-timeline-marker-size);
+}
+
+/* ----- the marker ----------------------------------------------------------- */
+
+.marker {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-timeline-marker-size);
+  block-size: var(--nph-timeline-marker-size);
+}
+
+/* The dot sits inside a marker box with no fill, so the dot and the circle share one column. */
+.dot {
+  flex: none;
+  inline-size: var(--nph-timeline-dot-size);
+  block-size: var(--nph-timeline-dot-size);
+  border-radius: var(--nph-timeline-marker-radius);
+  background-color: var(--nph-timeline-dot-background);
+}
+
+/* The circle: a tonal fill and the glyph of the state. */
+[data-marker='circle'] .marker {
+  border-radius: var(--nph-timeline-marker-radius);
+  background-color: var(--nph-timeline-marker-background);
+  color: var(--nph-timeline-marker-foreground);
+}
+
+.marker-icon {
+  flex: none;
+  inline-size: var(--nph-timeline-marker-icon-size);
+  block-size: var(--nph-timeline-marker-icon-size);
+}
+
+/* The center dot of the current item. */
+.center-dot {
+  flex: none;
+  inline-size: var(--nph-timeline-dot-size);
+  block-size: var(--nph-timeline-dot-size);
+  border-radius: var(--nph-timeline-marker-radius);
+  background-color: var(--nph-timeline-marker-foreground-primary);
+}
+
+[data-marker='circle'][data-status='completed'] .marker {
+  background-color: var(--nph-timeline-marker-background-primary);
+  color: var(--nph-timeline-marker-foreground-primary);
+}
+
+[data-marker='circle'][data-status='current'] .marker {
+  background-color: var(--nph-timeline-marker-background-primary);
+  color: var(--nph-timeline-marker-foreground-primary);
+}
+
+/* The hollow circle: no fill, an outline that carries the 3:1 and no glyph. */
+[data-marker='circle'][data-status='pending'] .marker {
+  border: var(--nph-timeline-marker-border-width) solid var(--nph-timeline-marker-border-pending);
+  background-color: transparent;
+}
+
+[data-marker='circle'][data-status='error'] .marker {
+  border: var(--nph-timeline-marker-border-width) solid var(--nph-timeline-marker-border-error);
+  background-color: var(--nph-timeline-marker-background-error);
+  color: var(--nph-timeline-marker-foreground-error);
+}
+
+[data-marker='circle'][data-status='warning'] .marker {
+  border: var(--nph-timeline-marker-border-width) solid var(--nph-timeline-marker-border-warning);
+  background-color: var(--nph-timeline-marker-background-warning);
+  color: var(--nph-timeline-marker-foreground-warning);
+}
+
+/* ----- the connector line --------------------------------------------------- */
+
+/*
+ * From the marker to the bottom of the item, a gap away from each. The separator takes its width from
+ * `border/width` and its color from the rule below; the position is a whole pixel (half of 24), with no
+ * `transform`.
+ */
+.connector {
+  position: absolute;
+  inset-block-start: calc(var(--nph-timeline-marker-size) + var(--nph-timeline-connector-gap));
+  inset-block-end: var(--nph-timeline-connector-gap);
+  inset-inline-start: calc(var(--nph-timeline-marker-size) / 2);
+}
+
+/* Every item but the pending one paints the line; the pending item writes nothing, so the separator keeps `color/border`. */
+[data-status='neutral'] .connector,
+[data-status='completed'] .connector,
+[data-status='current'] .connector,
+[data-status='error'] .connector,
+[data-status='warning'] .connector {
+  background-color: var(--nph-timeline-connector-border);
+}
+
+/* ----- the content ---------------------------------------------------------- */
+
+.content {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nph-timeline-action-gap);
+  min-inline-size: 0;
+  padding-block-end: var(--nph-timeline-item-gap);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: var(--nph-timeline-text-gap);
+  min-inline-size: 0;
+}
+
+/* The title row is as tall as the marker, so the title centers on it; two lines make it grow. */
+.title-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-block-size: var(--nph-timeline-marker-size);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  color: var(--nph-timeline-title-foreground);
+}
+
+.title {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+[data-status='current'] .title-row {
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+}
+
+[data-status='pending'] .title-row {
+  color: var(--nph-timeline-title-foreground-pending);
+}
+
+.description {
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  color: var(--nph-timeline-description-foreground);
+  overflow-wrap: anywhere;
+}
+
+/* The meta line: no gap between the parts, the spaces are in the text. */
+.meta {
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  color: var(--nph-timeline-meta-foreground);
+  overflow-wrap: anywhere;
+}
+
+/* The word that says the step is waiting stays in the description color: the person needs it to act. */
+.waiting {
+  color: var(--nph-timeline-description-foreground);
+}
+
+/* Rich content slotted below the text: the timeline does not style it. An empty slot has no box, so it adds no gap. */
+slot {
+  display: contents;
+}
+
+::slotted(*) {
+  align-self: stretch;
+}
+
+/* "Show more": outside the list, aligned to the marker column. */
+.more-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* ----- the hidden texts and the live region -------------------------------- */
+
+/* The state, for the accessible name only; the live region and the loading word use it too. */
+.hidden,
+.live {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ----- loading --------------------------------------------------------------- */
+
+.loading {
+  position: relative;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-timeline-item-gap);
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-timeline-content-gap);
+}
+
+.row-text {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nph-timeline-text-gap);
+  min-block-size: var(--nph-timeline-marker-size);
+}
