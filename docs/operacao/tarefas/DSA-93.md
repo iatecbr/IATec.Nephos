@@ -56,7 +56,7 @@
 # DSA-93 — Focus of the `nph-tree` item as in the other list items
 
 ## Goal
-With the keyboard, the `nph-tree` item shows the same focus as the item of the `nph-dropdown-menu`, the `nph-menubar` and the `nph-panel-menu`: a 1 px border outside the row and a 4 px halo outside the border. Today it shows a 2 px border inside the row, with no halo. The tokens, the tests and the texts change in the same work.
+With the keyboard, the `nph-tree` item shows the focus of the other list items (`nph-dropdown-menu`, `nph-menubar`, `nph-panel-menu`): a 1 px border outside the row and a 4 px halo outside the border, with the same widths and colors. The corners follow the corner of the tree item (`radius/control`), as on the `nph-collapsible` trigger, not the corners of the dropdown item. Today it shows a 2 px border inside the row, with no halo. The tokens, the tests and the texts change in the same work.
 
 ## Where the decision is
 In the evidence of the `design-decision` gate: `docs/operacao/evidencias/DSA-93/design-decision-2026-11-18.md`. It carries the decision, the Figma variants, the token table and what the documentation says now. There is no need to open Figma.
@@ -88,9 +88,12 @@ Regenerate `src/tokens/generated/tokens.css`. No new `core` value: all six point
 - **Rows next to the focused row:** the rows stack with no gap, so the focused row needs to stay above its neighbors (`z-index: 1`), as `.item:focus-visible` of the `nph-dropdown-menu`. Otherwise the next row covers the halo.
 - **Selected with focus:** the bar is no longer covered. It stays visible inside the border, clipped by the corner of `.face`, as today.
 - **Disabled with focus:** the border and the halo stay on top at full opacity (D-2 of DSA-75).
-- **Comments:** the header comment ("inside the whole row (D-2 of the task)") and the comment over the rule change with it.
+- **Two layers:** today the bar of the selected item is `.face::before`, and `.item::before` is free. So the border and the halo can be `.item:focus-visible::before` and `::after`, as in the `nph-collapsible`.
+- **Forced colors:** today `.item:focus-visible::after` takes `border-color: Highlight` (the `forced-colors` block of the CSS). With two layers, `Highlight` goes on the layer that draws the 1 px border. The halo is decoration, so it may be hidden in forced colors. Write the choice in the spec.
+- **Scroll to the edge:** the focus documentation in Figma asks that the row that scrolls to the edge of the container shows the focus border whole (WCAG 2.4.11). Today the border is inside the row, so the row box is enough. With the border and the halo outside, give `.item` a `scroll-margin-block` of the border width plus the halo width (`calc` of the two `tree/*` tokens), so both stay whole at the edge.
+- **Comments:** the header comment ("inside the whole row (D-2 of the task)", and the item that scrolls to the edge) and the comment over the rule change with it. The header list of written values gains the `-1` of the insets and the `1` of the `z-index`.
 
-**Tree box:** `tree/padding` is 4 px. The 1 px border fits inside it. The halo goes 1 px past the box of the tree on the first and last rows and at the two ends of each row. The tree sets no `overflow`, and Figma draws it the same way. This task does not change `tree/padding`.
+**Tree box:** `tree/padding` is 4 px. The 1 px border fits inside it. The halo goes 1 px past the box of the tree on the first and last rows, at the inline end of every row and at the start of the first-level rows (deeper rows start further in, by `tree/indent`). The tree sets no `overflow`, and Figma draws it the same way. This task does not change `tree/padding`.
 
 ### Tests
 In `src/components/nph-tree/nph-tree.test.ts`:
@@ -99,9 +102,11 @@ In `src/components/nph-tree/nph-tree.test.ts`:
 |---|---|
 | "consumes every one of the twenty-five tree/* tokens" | Twenty-eight tokens. |
 | "the focus is a border of `tree/focus-border-width` in `focus/border`, drawn inside the whole row, with the corner of the item" | The border is outside the row: its box is the row plus the border width on each side. It also checks the halo: width `tree/focus-halo-width`, color `tree/focus-halo`, corner `tree/focus-halo-radius`, box the row plus border and halo on each side. The checks that the row has no `box-shadow` and no `outline` stay. |
-| "on the selected item with focus the border covers the bar, …" | The bar stays visible inside the border. The checks on the background, the color and the weight stay. |
+| "on the selected item with focus the border covers the bar, …" | The bar stays visible inside the border: the title and the comment "The border is drawn after the face, so it is on top of the bar" change. The checks on the background, the color and the weight stay. |
 | "a disabled item with focus keeps the focus border on top at full opacity" | The same for the halo. |
 | "the focus wins over the hover", "the error row takes the hover and the focus of an item" | They read the border color of `::after`. Follow the pseudo-element that draws the border, if it changes. |
+| "tells the selection and the focus with system colors" | It reads `::after` in forced colors. It reads the layer that draws the border, and the halo as written in the spec. |
+| "in a container that scrolls, the arrows keep the focused row whole inside it" | The focused row is whole with its border and its halo, not only the row box. |
 
 Add a check that the focused row is above the next row, so its halo is not covered.
 
@@ -114,12 +119,17 @@ Each text that says the focus is a border inside the row, or that it covers the 
   - `radius/control`: remove "and of its focus border (tree/focus-border-radius)".
   - `core/focus-width/sm`, field `por_decisao`: remove `tree/focus-border-width` from the list of 2 px borders inside an item.
   - `focus/ring-width`: the rich option sentence ends with "as tree/focus-border-width". Remove that comparison; the rich option part follows DSA-91.
-- **`fichas/nph-tree.md`:** the focus in the YAML block (`token`, `changes_for_user`, `focus`) and in the tables (today lines 232, 233, 272, 293, 381, 426 and 463).
-- **`src/shared/metadata/nph-tree.json`:** the same texts (today lines 203, 204, 251 and 275).
+- **`fichas/nph-tree.md`:**
+  - the focus in the YAML block (`token`, `changes_for_user`, `focus`) and in the tables (today lines 232, 233, 272, 293, 381, 426 and 463);
+  - the item that scrolls to the edge "with the focus border whole" (line 255): border and halo whole;
+  - "Selected + focus" and "Focus + disabled" (lines 397 to 401): the bar stays visible; border and halo on top at full opacity; D-2 is no longer open (answered on 2026-11-16, DSA-75);
+  - "Feedback and focus" (lines 406 and 407): the reason "a ring outside would be cut by the neighbor" goes away;
+  - "Known limits" item (d) (line 431): D-2 is answered.
+- **`src/shared/metadata/nph-tree.json`:** the same texts (today lines 203, 204, 232, 251 and 275, and the ones that match the spec lines above).
 - **`.storybook/i18n/en.json`, `es.json`, `pt-BR.json`:** the two focus texts of the `nph-tree` (today lines 14162 and 14193 in the three files).
-- **`docs/decisoes-tecnicas.md`:** P118 records that the focus border stays on top of the disabled item (D-2). Add a note that names DSA-93: the focus moved to the border and halo outside the row on 2026-11-18. The old text stays as history.
+- **`docs/decisoes-tecnicas.md`:** P118 says the focus border is "the `::after` of the row, drawn inside, over the bar" (item 14, today line 7717), and records the answer to D-2 (today line 7760) and the summary row (line 77). Add a note under item 14 that names DSA-93: on 2026-11-18 the focus moved to the border and halo outside the row, with the bar visible inside. The old text stays as history.
 
-Before closing, search the repository for "inside the whole row", "drawn inside the row", "covers the bar", the same phrases in the pt-BR and es files, and `tree/focus`, to catch any text this list missed. Leave `docs/operacao/evidencias/` as it is (evidence is history).
+Before closing, search the repository for "inside the whole row", "drawn inside the row", "covers the bar", "cut by the neighbor", "focus border whole", the same phrases in the pt-BR and es files, and `tree/focus`, to catch any text this list missed. Leave `docs/operacao/evidencias/` as it is (evidence is history).
 
 ## Order with DSA-91 and DSA-92
 DSA-91 (`nph-rich-option`) also moves the focus of the rich option to the border and halo of the list items. DSA-92 changes the light `focus/border` color in `Sistemas`. Both touch `design.md` lines this task touches (`focus/border`, `focus/ring-width`, `core/focus-width/sm`); the one that lands later rebases its text on the other. Neither changes a `tree/*` token.

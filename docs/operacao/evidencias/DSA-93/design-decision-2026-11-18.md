@@ -26,7 +26,7 @@ On 2026-11-18 the design owner saw that the focus of the `nph-tree` item did not
 She asked to move the tree to the same focus. On a Figma preview in light and dark (draft page, frame `7306:25254`: today next to option A), she approved option A in the chat.
 
 ## Why
-The same kind of piece, an item in a list moved by the arrows, must show the same focus in every component. The 2 px border inside the row was the only exception among the list items.
+The same kind of piece, an item in a list moved by the arrows, must show the same focus in every component: the same widths and colors. The 2 px border inside the row was the only exception among the list items. The corners follow the corner of each item: the tree item has `radius/control` (6), so its focus takes 7 and 11, as the `nph-collapsible` trigger, while the dropdown item takes 9 and 13 around its own corner.
 
 ## What Figma has today
 ### The item
@@ -37,6 +37,7 @@ In the set `nph-tree / item` (`5485:350`), the six variants with focus: `5485:64
 - **Selected with focus:** the selection bar stays visible inside the border, clipped by the corner of the item, as before. The border no longer covers the bar.
 - **Disabled with focus:** the border and the halo draw on top of the faded item, at full opacity. Nothing changes from D-2 of DSA-75 except the shape of the focus.
 - **Rows next to the focused row:** the rows stack with no gap, so the border and the halo pass over the next and the previous rows.
+- **Scroll to the edge:** the documentation keeps the rule that the row that scrolls to the edge of the container shows the focus border whole.
 
 ### The tokens
 | Figma variable | Before | After |
