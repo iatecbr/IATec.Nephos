@@ -82,6 +82,8 @@ export const NPH_CAROUSEL_FLICK_DISTANCE = 10;
 /** Past the ends, the strip follows the pointer by this fraction only. */
 const RESISTANCE = 0.3;
 
+/* The default names are Portuguese and Spanish on purpose (P127): the spelling proof reads English only. */
+/* cspell:disable */
 /** The default names, by language: the `lang` nearest to the carousel decides (P127). */
 const NAMES = {
   pt: {
@@ -109,6 +111,7 @@ const NAMES = {
     position: '{position} de {total}',
   },
 } as const;
+/* cspell:enable */
 type NameKey = keyof (typeof NAMES)['en'];
 
 /** The elements a drag must leave to themselves: text fields and anything editable. */
@@ -528,11 +531,6 @@ export class NphCarousel extends LitElement {
 
   /* ----- focus -------------------------------------------------------------------------------- */
 
-  /** Controls the focus can sit on, in the order of the controls bar. */
-  private controlsInOrder(): Control[] {
-    return [...this.renderRoot.querySelectorAll<Control>('.arrow-previous, .tab, .arrow-next')];
-  }
-
   /** The control that takes the focus when the one that had it stops being focusable: the current indicator, or the other arrow. */
   private fallback(from: Control): Control | null {
     const current = this.renderRoot.querySelector<Control>('.tab[tabindex="0"]');
@@ -594,7 +592,7 @@ export class NphCarousel extends LitElement {
      * by its own update). A frame later the control is still there, enabled and not focused only in the first case.
      */
     requestAnimationFrame(() => {
-      if (this.focused === control && control.isConnected && control.disabled !== true && this.renderRoot.activeElement !== control) {
+      if (this.focused === control && control.isConnected && control.disabled !== true && (this.renderRoot as ShadowRoot).activeElement !== control) {
         this.focused = null;
       }
     });

@@ -803,12 +803,14 @@ describe('the focus is not lost', () => {
   });
 });
 
+/* The default names of the Portuguese and Spanish tests are in those languages on purpose (P127). */
+/* cspell:disable */
 describe('names and language', () => {
   it('the default names follow the language nearest the carousel: Portuguese, English, Spanish', async () => {
     document.documentElement.removeAttribute('lang');
     const names = async (lang?: string) => {
       document.body.replaceChildren();
-      const carousel = await mount({ lang, count: 3 });
+      const carousel = await mount({ ...(lang === undefined ? {} : { lang }), count: 3 });
       return {
         previous: arrow(carousel, 'previous')!.getAttribute('label'),
         next: arrow(carousel, 'next')!.getAttribute('label'),
@@ -880,6 +882,7 @@ describe('names and language', () => {
   });
 });
 
+/* cspell:enable */
 describe('the arrow icon color', () => {
   const resolved = (value: string): string => {
     const probe = document.createElement('span');
@@ -952,7 +955,9 @@ describe('drag and swipe', () => {
     const carousel = await mount({ count: 4 });
     const element = track(carousel);
     pointer(element, 'pointerdown', 200, 20);
+    await new Promise((resolve) => setTimeout(resolve, 5));
     pointer(element, 'pointermove', 180, 20);
+    await new Promise((resolve) => setTimeout(resolve, 5));
     pointer(element, 'pointermove', 150, 20);
     pointer(element, 'pointerup', 150, 20);
     await settle(carousel);
