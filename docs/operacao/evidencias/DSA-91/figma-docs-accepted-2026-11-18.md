@@ -155,7 +155,7 @@ The outline does not change when checked: the choice reads by the control (items
 Common to every state:
 
 - **Root**: gap `select/option-gap`, padding `select/option-padding`, corner `select/option-radius`. In the list, the width of the list. Parts left to right, all centered on the vertical axis.
-- **Box** (only with `marker=checkbox`, 1st part): an `nph-checkbox` instance, checked on the selected option, `state=hover` on hover and active, `state=disabled` on disabled.
+- **Box** (only with `marker=checkbox`, 1st part): an `nph-checkbox` instance, checked on the selected option, `state=hover` on hover and active, `state=default` on disabled (D-3: only the option opacity applies).
 - **Start** (optional, after the box): `nph-icon` (`globe` in the example, `light`) in a `select/option-icon-size` box; or `nph-avatar` `sm` (photo); or a dot of `select/option-dot-size` centered in a `select/option-icon-size` box.
 - **Texts** (take the remaining space, aligned to the start), gap `select/option-text-gap`:
   - **label line**, gap `select/option-label-gap`: the **label**, `text/label-md` (14 Medium), cut with an ellipsis (DSA-29 D3); the **secondary text** (optional, off by default), `text/label-md`, on the same line.
@@ -180,7 +180,7 @@ Absolute layers:
 Notes:
 
 - The selected option has no background of its own. In the composition the label of the selected option in hover or active stays `select/option-foreground`, the same value as `select/option-foreground-hover` in both themes. Selected with hover and selected with the keyboard have no variant: the selected variant carries the hover layer and the ring at opacity 0, and the composition raises the layer to 0.5 and the ring to 1 (Figma example "selected and active by the keyboard": instances `7265:7807` light and `7265:7827` dark). In code: the selected option in hover or active takes the same layer, and the ring when active by the keyboard, and keeps its check or checked box.
-- On the disabled option the secondary text and the description take `select/option-foreground`, the label color, under the opacity of the whole option (T11, rule 1, approved drawing). With `marker=checkbox`, the box is the disabled `nph-checkbox`, which has its own `state/disabled-opacity` (the two opacities add up; decision D-3 of the task, open with the design owner).
+- On the disabled option the secondary text and the description take `select/option-foreground`, the label color, under the opacity of the whole option (T11, rule 1, approved drawing). With `marker=checkbox`, the box is the `nph-checkbox` at its default state, so only the opacity of the whole option applies, as on the disabled card (D-3, answered on 2026-11-18; Figma variants `6910:7210`, `6910:7272`, `6910:7281`, `6910:7356`).
 - The start dot follows the label color. Its size goes straight to `core/space/200` by decision.
 - With `marker=checkbox`, the choice is the checked box and no check shows.
 
