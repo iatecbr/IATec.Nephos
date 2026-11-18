@@ -262,6 +262,15 @@ stages:
           # with its attempt number and reason, is written to the log as a
           # warning.
           #
+          # Each shard runs in a private network namespace with only the
+          # loopback (`scripts/in-private-netns.mjs`, P131). The agents run
+          # Docker for other jobs, and every container creates and removes
+          # interfaces on the host; Chromium only watches the network of its
+          # own namespace, so these changes no longer reach it. The reruns
+          # above stay for a failure the namespace does not prevent. The
+          # changes of the host are recorded with `ip monitor` and printed at
+          # the end of the step.
+          #
           # The core count, memory and load of the agent are logged to read
           # timing failures: a loaded agent fails timing tests on its own. The
           # Vite request log (`vitest.config.ts`) tells whether a failing

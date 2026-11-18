@@ -84,6 +84,7 @@ P62.4 subsection for the detail).
 | **P126** | API and semantics of `nph-menubar`; the focus border and the submenu gap of the dropdown item (amends P92 and P113) | 16/11/2026 | Low now. No piece consumes the bar yet; the header of an application will, and changing `menus`, `open-menu`, `open-submenu`, `label`, `more-label`, `narrow`, `menu-label`, the event `nph-item-select` (with `menu`), the overflow rule or the invalid-input rule later requires redoing every consumer. The focus border of the dropdown and context-menu item changes color only, and the submenu of the context menu moves 4 px. The open top item in focus (D-1), Enter and Space on a choice and the click on a multiple choice (D-2), the click that opens with no item shown (D-3) and the panel that is not an instance in code (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P127** | The answers of 2026-11-16 applied in the code: the technical choices (amends P68, P77 and P83) | 17/11/2026 | Low now. The changes only add or loosen: a balloon on an element with an explicit `tabindex`, a `description` on `nph-button`, a flag a control may declare to `nph-field`, a default name for the scroll arrows of `nph-tabs`, a role on a cut pending step, and the groups of the panel menu that open for a new current page. Changing the role of the step, the default names or the rule of the panel menu later requires redoing every consumer that reads them | The answers come from Indiane, recorded in the tasks (four of them decided by Claude by her delegation, DSA-71 D-1, DSA-73 D-4, DSA-74 D-2 and DSA-76 D-3). The technical choices are reviewed in the pull request that brings them |
 | **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P131** | Browser tests of the Azure pipeline in a private network namespace (extends P106) | 18/11/2026 | Low. Only the pipeline and one script change; going back is removing the `node scripts/in-private-netns.mjs` prefix from two steps. Where the namespace is not available the tests run as before, with a warning | Not a component decision. Reviewed in the pull request that brings it; the merge is the approval |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9249,9 +9250,54 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P131 — Browser tests of the Azure pipeline in a private network namespace
+
+**Technical conflict.** The Test stage failed on most pull requests from 16/11/2026, in agents of both
+families (`myagent*` and `ic-lv-az-*`), and P106 did not stop it. In the builds 632342, 630749 and
+624535 the shard failed in all three attempts. Each failed log holds hundreds to thousands of
+`net::ERR_NETWORK_CHANGED` (11 040 in build 632546), in bursts every 15 to 60 seconds, while Vite
+logged `200 OK` for the same files; a shard takes one to two and a half minutes, so a rerun meets the next
+burst. The agents are not containers, but they run Docker for other jobs: on the host, `docker0`, a
+dozen `br-*` bridges and dozens of `veth*` interfaces appear and disappear (probe of build 632787).
+Chromium on Linux drops every request in flight, localhost included, when an address or an interface of
+its network namespace changes (P106), and no switch turns that off.
+
+**Decision.**
+
+- The browser tests run in a private network namespace with only the loopback interface:
+  `node scripts/in-private-netns.mjs <command>` runs the command under
+  `unshare --user --map-root-user --net`, brings `lo` up and runs it. It wraps `npm test` in each shard of
+  the `Component tests (Chromium)` step and `npm run test:package` in the Build stage. The browser
+  installation stays outside.
+- Where the namespace cannot be created (macOS, an agent without unprivileged user namespaces) the command
+  runs as it is and the log carries an Azure warning. Nothing locally changes: the script is only called by the
+  pipeline.
+- P106 stays as it is, for a failure the namespace does not prevent. The step also records the link and
+  address changes of the host with `ip monitor` and prints them at the end, to show what the
+  namespace kept away from Chromium.
+
+**Reason.** Chromium only watches the network of its own namespace, and the tests talk to Vite through
+`localhost` only. The change attacks the cause, the host network, instead of the window in which it hurts:
+the exposed requests (`optimizeDeps`), the number of shards or workers (P102, #142), the server host or the
+timeouts do not change what the host does, and the code of Chromium has no switch for it. The probe of build
+632787 showed that an agent allows the namespace and serves `localhost` inside it; build 632866 ran green
+with 866 host network events recorded during the run and no `net::ERR_NETWORK_CHANGED`.
+
+**Impact.** Only `azure-pipelines.yml` and `scripts/in-private-netns.mjs`. No component, token or test changes.
+A test that needs the network beyond the loopback would fail in the namespace; none does today (the URLs in the
+tests are strings checked by the code, not requests).
+
+**Out of scope.** The 15-second timeouts of the documentation stories on a host with load above 20 (build
+629910), a second cause that the namespace does not touch; the load of the shared host is an infrastructure
+decision (a dedicated pool or fewer agents per host). Raising the timeouts is not part of this decision.
+
+**Status.** Not a component decision. Reviewed in the pull request that brings it; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127 or P128 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128 or P131 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
