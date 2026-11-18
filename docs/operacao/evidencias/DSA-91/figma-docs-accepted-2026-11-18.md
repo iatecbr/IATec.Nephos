@@ -179,8 +179,8 @@ Absolute layers:
 
 Notes:
 
-- The selected option has no background of its own. Selected with hover and selected with the keyboard have no variant: the selected variant carries the hover layer and the ring at opacity 0, and the composition raises the layer to 0.5 and the ring to 1 (Figma example "selected and active by the keyboard": instances `7265:7807` light and `7265:7827` dark). In code: the selected option in hover or active takes the same layer, and the ring when active by the keyboard, and keeps its check or checked box.
-- On the disabled option the secondary text and the description take `select/option-foreground`, the label color, under the opacity of the whole option (T11, rule 1, approved drawing). With `marker=checkbox`, the box is the disabled `nph-checkbox`, which has its own `state/disabled-opacity`.
+- The selected option has no background of its own. In the composition the label of the selected option in hover or active stays `select/option-foreground`, the same value as `select/option-foreground-hover` in both themes. Selected with hover and selected with the keyboard have no variant: the selected variant carries the hover layer and the ring at opacity 0, and the composition raises the layer to 0.5 and the ring to 1 (Figma example "selected and active by the keyboard": instances `7265:7807` light and `7265:7827` dark). In code: the selected option in hover or active takes the same layer, and the ring when active by the keyboard, and keeps its check or checked box.
+- On the disabled option the secondary text and the description take `select/option-foreground`, the label color, under the opacity of the whole option (T11, rule 1, approved drawing). With `marker=checkbox`, the box is the disabled `nph-checkbox`, which has its own `state/disabled-opacity` (the two opacities add up; decision D-3 of the task, open with the design owner).
 - The start dot follows the label color. Its size goes straight to `core/space/200` by decision.
 - With `marker=checkbox`, the choice is the checked box and no check shows.
 
@@ -192,7 +192,7 @@ Card: title `Título da opção` ("Option title"), second line `Explicação cur
 
 | Criterion | Rule |
 |---|---|
-| Contrast | Card: title `rich-option/foreground` over `rich-option/background` measures 19.56:1 light and 12.45:1 dark; second line `rich-option/description-foreground` 6.69:1 and 8.28:1. Over the hover layer (`#F8F8F8` and `#262B32`) the title measures 18.42:1 and 11.10:1, and the second line 6.30:1 and 7.39:1. The resting outline `rich-option/border` is decorative (1.13:1 and 1.35:1): the boundary that meets 3:1 is the control inside the card, box and radio border and off switch track, all in `color/input`, 3.23:1 and 5.56:1. Checked, the control in `color/primary` shows the choice: 5.37:1 and 5.75:1 over `rich-option/background`. Rich option: label 19.56:1 light and 9.93:1 dark over `color/popover`; description (12 Regular) 6.69:1 and 6.61:1; over the hover layer (`#F6F7F7` and `#353C45`) label 18.17:1 and 8.75:1, description 6.21:1 and 5.82:1. The check measures 5.37:1 and 4.59:1 over `color/popover`, 4.99:1 and 4.04:1 over the hover layer. |
+| Contrast | Card: title `rich-option/foreground` over `rich-option/background` measures 19.56:1 light and 12.45:1 dark; second line `rich-option/description-foreground` 6.69:1 and 8.28:1. Over the hover layer (`#F8F8F8` and `#262B32`) the title measures 18.42:1 and 11.10:1, and the second line 6.30:1 and 7.39:1. The resting outline `rich-option/border` is decorative (1.13:1 and 1.35:1): the boundary that meets 3:1 is the control inside the card, box and radio border and off switch track, all in `color/input`, 3.23:1 and 5.56:1. Checked, the control in `color/primary` shows the choice: 5.37:1 and 5.75:1 over `rich-option/background`. Rich option: label 19.56:1 light and 9.93:1 dark over `color/popover`; description (12 Regular) 6.69:1 and 6.61:1; over the hover layer (`#F6F7F7` and `#353C45`) label 18.17:1 and 8.75:1, description 6.21:1 and 5.82:1. The check measures 5.37:1 and 4.59:1 over `color/popover`, 4.99:1 and 4.04:1 over the hover layer. Origin: the card values are in the documentation and in the appendix notes (H, `6935:12627`); the rich option values that the documentation does not carry (label in dark, description, check) were measured in Figma by script and are in the appendix, table B (`6935:12409`). |
 | Visible focus | Card: the outline turns `rich-option/focus-border` with the halo `rich-option/focus-halo` in `rich-option/focus-radius` around the whole card; the inner control takes no ring of its own. The border meets 3:1 (5.37:1 light, 9.88:1 dark); the halo is decoration. Rich option: it takes no focus. Focus stays on the field, and the active option (`aria-activedescendant`) takes the hover layer at 50% and the 2 px ring inside, `select/option-focus-border`. The layer alone stays below 3:1 (1.08:1 light, 1.13:1 dark); the ring meets it: 5.37:1 light and 7.88:1 dark over `color/popover`. |
 | Color is not the only cue | Checked reads by the control (check, dot or knob position); the card outline does not change. In the list, the selected option shows the check or the checked box, with no background. Error: the outline turns `rich-option/border-error` and the control stays at default; the written sign is the message of the `nph-field` of the group. |
 | Target size | The whole card is the click area. The whole option is the click area, with the list width. |
@@ -221,6 +221,11 @@ Card: title `Título da opção` ("Option title"), second line `Explicação cur
 | Not a property | Width: the card uses `layout/rich-option-width`; the option takes the list width. Height: follows the content. Error message and group label: `nph-field`. Stacking: `space/stack`. |
 
 In code the rich option is the existing `nph-option`, which already has `secondary`, `start`, `icon`, `src`, `status` and `marker`; what is new is the description and the rich look (see the task).
+
+## Usage (as in Figma)
+
+- Code: `<nph-rich-option></nph-rich-option>`; import: `import 'nephos/nph-rich-option';`.
+- The rich option has no tag of its own: it is the option of the `nph-select` and `nph-combobox` list.
 
 ## Relations and context
 
@@ -272,7 +277,7 @@ Base: the WAI-ARIA APG pattern of each piece. The card follows the control it ho
 | Focus on open and close | Does not apply: the card opens nothing. | It belongs to the list: on open, the active option is the selected one (or the first); on close, focus stays on the field. |
 | Esc | Does not apply. | It belongs to the list: closes without changing the choice; focus stays on the field. |
 | Click outside | Does not apply. | It belongs to the list: closes. |
-| Pointer and focus | The hover only paints (hover layer `color/accent-subtle` at 50%); it does not move the focus. | The hover paints the option with the same layer as the active one (`color/accent` at 50%), without moving the focus off the field (DSA-29 D5). The 2 px ring is only for the option active by the keyboard (item 9). |
+| Pointer and focus | The hover only paints (hover layer `rich-option/background-hover` at `rich-option/background-hover-opacity`); it does not move the focus. | The hover paints the option with the same layer as the active one (`select/option-background-hover` at `select/option-background-hover-opacity`), without moving the focus off the field (DSA-29 D5). The 2 px ring is only for the option active by the keyboard (item 9). |
 | Window edge | Does not apply: the card stays in the page flow. | It belongs to the list: it flips or shrinks and scrolls (`layout/max-list-height`, DSA-29 D9). |
 | Code | Event, aria, slot, property and console warning stay with the code owner, following the APG and the Custom Elements Manifest. | The same. |
 
@@ -280,17 +285,17 @@ Sources: https://www.w3.org/WAI/ARIA/apg/patterns/radio/ · https://www.w3.org/W
 
 ## Combined states (T11)
 
-- Rule 1, checked or selected + disabled: the piece keeps its chosen mark, under `state/disabled-opacity`. Card: resting outline `color/border-subtle` and checked control, at opacity 0.5. Option with `marker=check`: only the check, no background; option with `marker=checkbox`: the checked box, no background; both at opacity 0.5. The rich option does not follow DSA-29 D-3, which keeps `color/primary-surface`; the plain option gets the same rule in a task of its own (item 10).
-- Rule 2, error + disabled: disabled wins (DSA-18 D7). The error border goes away and the card looks like the disabled variant: resting outline, checked or not, under `state/disabled-opacity`.
+- Rule 1, checked or selected + disabled: the piece keeps its chosen mark, under its disabled opacity. Card: resting outline `rich-option/border` and checked control, under `rich-option/disabled-opacity` (0.5). Option with `marker=check`: only the check, no background; option with `marker=checkbox`: the checked box, no background; both under `select/option-disabled-opacity` (0.5). The rich option does not follow DSA-29 D-3, which keeps the selected background; the plain option gets the same rule in a task of its own (item 10).
+- Rule 2, error + disabled: disabled wins (DSA-18 D7). The error border goes away and the card looks like the disabled variant: resting outline `rich-option/border`, checked or not, under `rich-option/disabled-opacity`.
 - The rules need no new token.
 
 ## Icon and image
 
 | Piece | Size | Weight and color | When it changes |
 |---|---|---|---|
-| Card icon (`nph-icon`) | `icon/size-md` (20) | `light`; `color/card-foreground`, as the title | It does not change by state: `light` on every variant. On with "show icon" (off by default). |
-| Start icon of the option (`nph-icon`) | `icon/size-md` (20) | `light`; the label color | It does not change by state. The "icon" property swaps only the drawing (examples: `globe`, `bell`). |
-| Check of the selected option (`nph-icon check`) | `icon/size-sm` (16) | `light`; `color/primary` | Only on `state=selecionada` with `marker=check`. |
+| Card icon (`nph-icon`) | `rich-option/icon-size` (20) | `light`; `rich-option/foreground`, as the title | It does not change by state: `light` on every variant. On with "show icon" (off by default). |
+| Start icon of the option (`nph-icon`) | `select/option-icon-size` (20) | `light`; the label color (`select/option-foreground`, in hover and active `select/option-foreground-hover`) | It does not change by state. The "icon" property swaps only the drawing (examples: `globe`, `bell`). |
+| Check of the selected option (`nph-icon check`) | `select/option-marker-size` (16) | `light`; `select/option-marker` | Only on `state=selecionada` with `marker=check`. |
 | Image: avatar start of the option | `nph-avatar` `sm` (`avatar/size-sm`, 24) | — | The component has no image of its own. The photo comes only through the `nph-avatar`; export size and crop follow the `nph-avatar` rule (DSA-24). |
 
 ## Limits (the "Limites" row of the Figma matrix)
@@ -309,12 +314,12 @@ Sources: https://www.w3.org/WAI/ARIA/apg/patterns/radio/ · https://www.w3.org/W
 Family: select → dropdown menu → combobox → context menu (the rich option is an option of the select and of the combobox). Other family: the controls (checkbox, radio, switch) inside the card.
 
 - Follows DSA-29 D3: label, value and secondary text of the option on one line, with an ellipsis.
-- Follows DSA-29 D5: the option active by the keyboard has the hover look (hover layer, `select/option-background-hover` at 50%), plus the 2 px ring inside (item 9). The selected option in hover or active takes the same layer and keeps its check.
-- Does not follow DSA-29 D8 (declared deviation, requested by the design owner): the selected rich option has only the check in `color/primary`, no `color/primary-surface`. The same rule goes to the plain option in a task of its own (item 10).
+- Follows DSA-29 D5, adapted by the deviation from D8: the option active by the keyboard has the hover look (hover layer, `select/option-background-hover` at 50%), plus the 2 px ring inside (item 9). D5 lets the selected background win over hover; with no selected background (D8 below), the selected option in hover or active takes the same layer and keeps its check or checked box.
+- Does not follow DSA-29 D8 (declared deviation, requested by the design owner): the selected rich option has only the check (`select/option-marker`) or the checked box, with no selected background. The same rule goes to the plain option in a task of its own (item 10).
 - Follows DSA-29 D9: `layout/max-list-height` (296) inside the list; above, it scrolls.
 - Follows DSA-29 D1: the list opens `space/inline-tight` (4) below the trigger (the list, not the option).
 - Follows DSA-29 D2: the list enters and leaves with `motion/enter-*` and `motion/exit-*`; with reduced motion, opacity only.
-- Does not follow DSA-29 D-3 on the rich option (declared deviation): selected and disabled keeps only the check or the checked box, no background, under `state/disabled-opacity` (T11, rule 1; item 10).
+- Does not follow DSA-29 D-3 on the rich option (declared deviation): selected and disabled keeps only the check or the checked box, no background, under `select/option-disabled-opacity` (T11, rule 1; item 10).
 - Follows DSA-46 D-1: the "create" row of the combobox is a plain option, not a rich option.
 - Follows DSA-46 D-2: the shortcuts sit in the combobox list footer, as `nph-kbd`.
 - Follows DSA-45 D-4: the small `nph-switch` belongs to the 20 px slot of the menu item. Inference, not a D-N: the card has no 20 px slot and uses the default switch.

@@ -1445,7 +1445,7 @@ tokens_space:
     css: '--nph-space-container-padding'
     alias: core/space/400
     valor: 16
-    use: "Inner padding of panel, popover and dialog, and of a card in the compact density - what contains; a card in the default density is space/surface-padding (24). DO NOT USE on a control. Also the side padding of the nph-file-upload-item and of the compact nph-file-upload drop zone (file-upload-item/padding-inline, file-upload/padding-compact-inline): the item and the zone are containers of controls, not controls. Also the padding of the nph-scheduler container and of its side panel (scheduler/padding). Also the inner padding of the nph-collapsible card appearance (collapsible/card-padding). Also the compact padding of the nph-card body and action footer and the padding of its tonal section (card/padding-compact, card/footer-padding-compact, card/section-padding). Also the inner padding of the nph-rich-option choice card (rich-option/padding): a choice card, not a content card, so not space/surface-padding."
+    use: "Inner padding of panel, popover and dialog, and of a card in the compact density - what contains; a card in the default density is space/surface-padding (24). DO NOT USE on a control. Also the side padding of the nph-file-upload-item and of the compact nph-file-upload drop zone (file-upload-item/padding-inline, file-upload/padding-compact-inline): the item and the zone are containers of controls, not controls. Also the padding of the nph-scheduler container and of its side panel (scheduler/padding). Also the inner padding of the nph-collapsible card appearance (collapsible/card-padding). Also the compact padding of the nph-card body and action footer and the padding of its tonal section (card/padding-compact, card/footer-padding-compact, card/section-padding). Also the inner padding of the nph-rich-option choice card (rich-option/padding): the card is the choice surface that holds a control, not the control, even when it carries the role and the focus of the choice; and it is a choice card, not a content card, so not space/surface-padding."
   space/surface-padding:
     css: '--nph-space-surface-padding'
     alias: core/space/600
@@ -2167,7 +2167,7 @@ tokens_layout:
     css: '--nph-layout-input-width'
     alias: core/layout-width/input
     valor: 280
-    use: "Width of a form field (280): the nph-select and nph-combobox field. In the list, the option and the rich option take the list width."
+    use: "Width of a form field (280)."
   layout/multi-combobox-width:
     css: '--nph-layout-multi-combobox-width'
     alias: core/layout-width/multi-combobox
