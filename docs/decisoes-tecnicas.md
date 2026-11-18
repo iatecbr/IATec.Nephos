@@ -83,6 +83,7 @@ P62.4 subsection for the detail).
 | **P124** | The panel menu navigation of `nph-sidebar`: the `navigation` property, the open state, the third level in place (extends P116) | 15/11/2026 | Low now. No piece consumes the sidebar yet; the application shell will, and changing the name or the values of `navigation`, the shape of `items` (the child with `options` and its `expanded`), the way the open groups are kept or the event `nph-group-toggle` later requires redoing every consumer. D-1 to D-3 are answered (16/11/2026); a new current page opens its parent groups since DSA-82 (P127) | Anatomy and behavior: documentation accepted by Indiane on 11/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P126** | API and semantics of `nph-menubar`; the focus border and the submenu gap of the dropdown item (amends P92 and P113) | 16/11/2026 | Low now. No piece consumes the bar yet; the header of an application will, and changing `menus`, `open-menu`, `open-submenu`, `label`, `more-label`, `narrow`, `menu-label`, the event `nph-item-select` (with `menu`), the overflow rule or the invalid-input rule later requires redoing every consumer. The focus border of the dropdown and context-menu item changes color only, and the submenu of the context menu moves 4 px. The open top item in focus (D-1), Enter and Space on a choice and the click on a multiple choice (D-2), the click that opens with no item shown (D-3) and the panel that is not an instance in code (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P127** | The answers of 2026-11-16 applied in the code: the technical choices (amends P68, P77 and P83) | 17/11/2026 | Low now. The changes only add or loosen: a balloon on an element with an explicit `tabindex`, a `description` on `nph-button`, a flag a control may declare to `nph-field`, a default name for the scroll arrows of `nph-tabs`, a role on a cut pending step, and the groups of the panel menu that open for a new current page. Changing the role of the step, the default names or the rule of the panel menu later requires redoing every consumer that reads them | The answers come from Indiane, recorded in the tasks (four of them decided by Claude by her delegation, DSA-71 D-1, DSA-73 D-4, DSA-74 D-2 and DSA-76 D-3). The technical choices are reviewed in the pull request that brings them |
+| **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9108,9 +9109,149 @@ The technical choices above are reviewed in the pull request that brings them; t
 
 ---
 
+## P128 — `nph-resizable`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5123:2641`, page `1626:34`, sets `5112:1849` and
+`5099:172`) draws a group of two or three panels with a handle between them, and leaves to the code how the panels
+are given, how each one declares its sizes, how a size change is reported, the scale of the ARIA values, the steps
+of the keys, the keys that are optional, the look while the arrows move the handle, the disabled group, the
+persistence, who swaps the layout below the tablet breakpoint, the hit area, the names, the state of the collapse
+button for assistive technology, the space a collapsed panel frees, the right-to-left text and the motion. Three
+limits of the platform shape the answer:
+
+- an `id` reference does not cross a shadow root, and the handle, the panel and its name live in different roots;
+- the Figma has no panel component, so a second tag would invent a piece the design does not draw;
+- a flex item cannot have its share exact if the padding sits on it, and a pixel limit changes with the length of
+  the group.
+
+**Decision.** `nph-resizable` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic
+tokens: the ten `resizable/*` ones for the handle, `focus/border`, `state/disabled-opacity`, `space/container-padding`
+for the panel and `control/height-compact` and `control/height-large` for the handle column and the hit area;
+**no token is created or changed**. It has no `::part` and no color property. What it rejects renders nothing and
+emits `console.error` only in development, once per cause: the rule of P21. The names follow P64.
+
+1. **One tag, the panels are the children (Q1).** The Figma has two component sets, the group and the handle, and
+   no panel: the panels are the direct element children of the group, with free content. The handle is drawn by the
+   group, in its shadow root. There is no `nph-resizable-panel`. The group puts each child in its panel by **manual
+   slot assignment** (`slotAssignment: 'manual'` and `slot.assign()`), so it writes no attribute on a child that a
+   framework could fight. Text and comments between the panels are not panels. Two or three panels is the contract;
+   a different number renders and warns once in development, and more than three is solved by nesting groups, the
+   panel of one group taking another in the other direction.
+
+2. **Sizes by attributes on each panel (Q2).** A panel declares `default-size`, `min-size`, `max-size` and
+   `collapsed-size`, each a number in percent or a number with `px`, as the `value` attribute of a button is read by
+   `nph-toggle-group` (P76). A panel may also carry `collapse-label` and `expand-label`, which replace the ones of
+   the group on its button. The group observes the attributes and settles again. The panels that declare no
+   `default-size` share the rest equally. A value that is not a number is ignored, with a warning in development; a
+   minimum above the maximum raises the maximum.
+
+3. **The group API (Q3).** `direction` (`horizontal` default, `vertical`, reflecting: the CSS selects the handle by
+   it), `disabled` (reflecting), `hide-collapse-button`, `collapse-label`, `expand-label` and `sizes`. The Figma
+   `botão recolher` is on by default and an HTML boolean cannot default to true, so the property turns it off, as
+   `hide-close` of `nph-dialog` and `hide-collapse-button` of `nph-sidebar`. Without a name for both states the
+   button is not drawn and `console.error` says so in development, as `close-label` of `nph-dialog`. The texts come
+   already localized.
+
+4. **Measures and the event (Q4).** A size is a percent of the length the group has on its axis without the
+   handles, so the sizes of a group add up to 100. The panel is a flex item with the size as its weight and a zero
+   basis; the padding lives in an inner box, or it would shift every share. `sizes` is the current sizes, an
+   attribute of numbers separated by spaces and a property of numbers; the product stores it and gives it back, and
+   writing it from code never fires the event. The own event `nph-resize` bubbles, is composed and is not
+   cancelable, with `detail: { sizes }`, fired once per change by drag, keyboard, collapse button or double click. A
+   pixel limit is turned into a percent by a `ResizeObserver` on the group, which settles the sizes again with no
+   event. **Persistence belongs to the product** (Q5): the component stores nothing.
+
+5. **The main panel and what a collapse frees (Q6).** Each handle controls the panel at its start: the left one, the
+   top one, the right one in right-to-left text. With three panels the first handle controls the first and the
+   second handle the second. A collapsed panel has its collapsed size (0 by default), and the space it frees goes to
+   the panel across the same handle, and **the maximum of that panel yields while the collapse lasts**, so a collapse
+   is kept whatever that maximum says and restoring brings it back. What `nph-resize` reports is what the group
+   keeps: every change is settled inside the limits before it is stored and told. A panel is collapsed when its size equals its collapsed size: there is no
+   collapsed property and no variant (the Figma shows it as an example). A handle moves the pair it separates and
+   keeps their sum, inside the limits of both, or where the other panel already was when it was outside them.
+   Restoring takes the size before the collapse, or the default size, never less than the minimum. Dragging from a
+   collapsed panel restores it as the handle moves; a pointer that lands between the collapsed size and the minimum
+   settles on the nearer, and an arrow key collapses a panel it pushes under the minimum.
+
+6. **ARIA (Q7).** The handle is a `separator` that receives focus, with `aria-orientation` of its line and
+   `aria-valuenow`, `aria-valuemin` and `aria-valuemax` as the **percent of the main panel on the scale of the
+   group**, an integer from 0 to 100: the minimum is the collapsed size and the maximum is what the limits of the two
+   panels leave. `aria-controls` and the name use the **reflection of elements** (`ariaControlsElements`,
+   `ariaLabelledByElements`), the same answer as P116 for `nph-button`, because an `id` does not cross the shadow
+   root. The handle takes the name of the panel it controls: its `aria-label`, or the elements its `aria-labelledby`
+   names, never the whole text of the panel. The panel needs a role that takes a name, such as `region` through
+   `section`, or `group`; an `aria-label` on a generic element is invalid ARIA, which the accessibility gate showed.
+   A panel with no name warns in development. The collapse button is the `nph-button` icon only, secondary, ghost,
+   compact and square, beside the separator and not inside it (ARIA 1.2: its children are presentational), named by
+   `collapse-label` while the panel is open and `expand-label` while it is collapsed, with `aria-expanded` and
+   `controls` to the panel (P121), as the collapse button of `nph-sidebar` does.
+
+7. **Keys and look (Q8).** The arrows on the axis move the handle 1 percent and Shift with an arrow 10 percent; the
+   arrows of the other axis do nothing. Home and End take the main panel to its minimum and maximum. Enter collapses
+   and restores it, also with the collapse button off. **F6 is not used**: the browser circulates its own panes
+   with it. A double click restores the default size. While the arrows move the handle it shows only the **focus
+   look**; the dragging look, the grip box with a background, is of the pointer. Tab keeps the handle and the button
+   as separate stops. A pointer press focuses the handle and the border shows only by keyboard.
+
+8. **The disabled group (Q9).** `disabled` is a property of the group, not of each handle: it disables every handle
+   and its button, leaves the Tab order and wins over hover, dragging and focus. There is no per-handle disabled in
+   v1, because no handle is exposed.
+
+9. **The handle in the flow and the hit area (Q10).** The handle is a column in the flow, as wide as the compact
+   button (`control/height-compact`, 28), with the line of `resizable/handle-width` at its center, as Figma draws it.
+   The separator element covers the whole handle and is the drag area, above 24 px (WCAG 2.5.8); the segments and the
+   grip let the pointer through. On a coarse pointer an invisible extension takes the area to `control/height-large`
+   (44), with no literal. The focus line grows from 1 to 2 px inside that fixed column, so no panel shifts. With the
+   collapse button off the column keeps the same width, because the handle has one size (D-2).
+
+10. **Motion, mobile and right-to-left (Q11).** There is no animation: the panels change size at once, which is a
+    valid choice, so there is nothing to reduce under `prefers-reduced-motion`. There is no mobile layout and no
+    breakpoint in the component: **below the tablet breakpoint the product swaps the layout**, stacking the panels or
+    turning them into tabs. Right-to-left text mirrors the horizontal group: the start panel is on the right, the
+    chevron mirrors, the arrows follow the visual side and a drag to the left grows the main panel; the vertical group
+    does not mirror.
+
+11. **Forced colors.** The line keeps `CanvasText` and the focus `Highlight` with forced colors, as the stepper does;
+    the user's palette decides, so no token.
+
+**Known limits.**
+
+- The group has no length of its own: its container gives it a width, or a height when it is vertical. A group with
+  no length warns in development.
+- With a panel that has no role, the handle name is still taken from its `aria-label`, but a screen reader may not
+  announce the panel itself.
+- A panel collapsed to 0 leaves the screen and the accessibility tree; its content keeps its state.
+- The component test drives the pointer with synthetic events, which carry no capture; one test moves a real
+  pointer over the handle to prove the drag end to end.
+
+**Source.** Documentation frame `5123:2641` (page `1626:34`), root `5112:1850` and sets `5112:1849` and `5099:172`
+of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/11/2026, with the Figma UX QA and the textual audit
+approved, and the nine points of its approval round, all answered as recommended; the evidence of the
+`figma-docs-accepted` gate of DSA-86. The names and values of the API, the scale of the ARIA values, the steps, the
+snap rule, the manual slot assignment and the way the hit area is built are a technical proposal of this
+implementation.
+
+**Effects on other pieces.** None. `nph-button` and `nph-icon` do not change; the group only uses them.
+
+**Out of scope.** A collapsed variant. A mobile layout. A second handle size. The dotted `grip` icon of
+`nph-icon`, which later replaces the rotated `grip-vertical`. A token, new or changed. A per-handle disabled. An
+animation. F6. Persistence inside the component.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the collapse button on a touch screen.** It stays compact (28 px) by the T4 exception of the handle. She
+  decides whether it grows to default on touch, as the footer of `nph-popover` does.
+- **D-2 — the handle with the collapse button off.** The evidence gives no width for it; the column keeps the
+  compact width. She confirms it or draws it narrower.
+
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 and D-2 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126 or P127 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127 or P128 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

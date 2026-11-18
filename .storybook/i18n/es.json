@@ -292,6 +292,17 @@
     "components-nph-menubar-validation--interactive": "Interactivo",
     "components-nph-menubar-validation--examples": "Ejemplos",
     "components-nph-menubar-validation--brands": "Marcas",
+    "components-nph-resizable-docs": "Docs",
+    "components-nph-resizable-docs--documentation": "Documentación",
+    "components-nph-resizable-validation": "Validación",
+    "components-nph-resizable-validation--matrix": "Matriz",
+    "components-nph-resizable-validation--handle-states": "Estados del tirador",
+    "components-nph-resizable-validation--collapsed": "Colapsado",
+    "components-nph-resizable-validation--nested": "Anidado",
+    "components-nph-resizable-validation--limits": "Límites",
+    "components-nph-resizable-validation--interactive": "Interactivo",
+    "components-nph-resizable-validation--examples": "Ejemplos",
+    "components-nph-resizable-validation--brands": "Marcas",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentación",
     "components-nph-table-validation": "Validación",
@@ -8675,7 +8686,15 @@
       "components-nph-command-validation--disabled-command": "Un comando deshabilitado se atenúa, las teclas y el puntero lo saltan y no se ejecuta.",
       "components-nph-command-validation--destructive-command": "El comando destructivo mantiene sus propios colores en reposo y activo, en modo claro y oscuro.",
       "components-nph-command-validation--focus-and-escape": "Abrir mueve el foco al campo; Esc cierra la paleta y el foco vuelve al botón que la abrió.",
-      "components-nph-command-validation--brands": "Las siete marcas en claro y oscuro: abierta con el botón de su marco, la paleta sigue la marca de ese marco."
+      "components-nph-command-validation--brands": "Las siete marcas en claro y oscuro: abierta con el botón de su marco, la paleta sigue la marca de ese marco.",
+      "components-nph-resizable-validation--matrix": "Dos y tres paneles, lado a lado y apilados, cada par de paneles separado por un tirador con la línea, el grip y el botón de colapsar; los paneles no tienen fondo y el grupo no tiene contorno.",
+      "components-nph-resizable-validation--handle-states": "El tirador en reposo y deshabilitado, con el botón de colapsar activado y desactivado, en las dos direcciones; hover, arrastrando y foco aparecen cuando usas el tirador, y la prueba del componente mide cada uno.",
+      "components-nph-resizable-validation--collapsed": "Un panel colapsado es un tamaño, no un aspecto del tirador: colapsado a cero, o a un tamaño propio, la flecha se invierte y el botón restaura el panel.",
+      "components-nph-resizable-validation--nested": "Más de tres paneles por anidamiento: el panel de la derecha de un grupo horizontal recibe un grupo vertical, cada uno con sus tiradores.",
+      "components-nph-resizable-validation--limits": "El tirador se detiene en el mínimo y en el máximo de cada panel, dados en porcentaje o en píxeles, y el panel principal del tirador es el que los informa.",
+      "components-nph-resizable-validation--interactive": "Un arrastre, una tecla o un clic dispara nph-resize con detail.sizes, mostrado debajo del grupo; el producto guarda los tamaños y los devuelve por sizes, y definir sizes por código no dispara el evento.",
+      "components-nph-resizable-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Lista y panel de lectura, Anidado y Colapsado.",
+      "components-nph-resizable-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el botón de colapsar siguen la marca del marco."
     }
   },
   "multiComboboxDocs": {
@@ -15746,5 +15765,278 @@
     "sourceFigma": "Marco de documentación de nph-command 6076:4910 (DS-IA-NEPHOS 5.0) y la ficha de nph-command.",
     "sourceApi": "P123 y la ficha de nph-command.",
     "sourceAccessibility": "Accesibilidad del marco 6076:4910 y P123."
+  },
+  "resizableValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "list": "Lista",
+    "reading": "Panel de lectura",
+    "navigation": "Navegación",
+    "editor": "Editor",
+    "console": "Consola",
+    "preview": "Vista previa",
+    "details": "Detalles",
+    "collapse": "Colapsar panel",
+    "expand": "Expandir panel",
+    "collapseList": "Colapsar la lista",
+    "expandList": "Expandir la lista",
+    "exampleListReading": "Lista y panel de lectura",
+    "exampleNested": "Anidado",
+    "exampleCollapsed": "Colapsado",
+    "statusIdle": "Esperando un arrastre, una tecla o un clic.",
+    "statusChanged": "nph-resize disparado con detail.sizes = {sizes}."
+  },
+  "resizableDocs": {
+    "summary": "Un grupo de dos o tres paneles, lado a lado o apilados, separados por un tirador que se arrastra, o se mueve con el teclado, para dar más espacio a uno de ellos. Sigue el patrón Window Splitter de las WAI-ARIA Authoring Practices y es para un área de trabajo de escritorio; no tiene diseño móvil en la v1.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-resizable, design.md para los tokens y docs/decisoes-tecnicas.md para la P128. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "En un área de trabajo de escritorio, en sesiones largas, cuando la persona necesita ajustar el espacio entre contenidos vecinos, como un editor junto a una vista previa o una lista junto a un panel de lectura.",
+      "Horizontal para contenidos lado a lado; vertical para contenido sobre detalle, como un editor sobre una consola.",
+      "Tres paneles cuando navegación, lista y panel de lectura comparten la pantalla; para más paneles, anida grupos.",
+      "Mantén activado el botón de colapsar cuando un panel puede apartarse; desactívalo solo cuando la pantalla ya ofrece otra forma de redimensionar con un toque.",
+      "Dale a cada panel un mínimo y un máximo a partir del ancho de su contenido, para que el tirador se detenga ahí y el contenido no se rompa.",
+      "Guarda los tamaños elegidos a partir del evento nph-resize y devuélvelos por sizes.",
+      "Ofrece una salida de un toque, como tamaños en un menú, un campo de tamaño o botones de paso, cuando el tirador es la única forma de redimensionar."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para mostrar u ocultar un área lateral sin redimensionar: usa nph-sidebar.",
+      "Para separar dos contenidos sin arrastrar: usa nph-separator.",
+      "En una pantalla móvil, bajo el breakpoint de tablet: apila los paneles o conviértelos en pestañas; la v1 no dibuja el tirador ahí.",
+      "En una página de lectura o en un formulario.",
+      "Para más de tres paneles en un grupo: anida grupos, el panel de un grupo recibe otro grupo en la otra dirección.",
+      "Ocultar el grip y dejar solo la línea, poner un contorno alrededor del grupo o darle un fondo propio al panel."
+    ],
+    "relationsText": "El botón de colapsar es el nph-button y el grip es el nph-icon; los paneles guardan contenido libre, y los ejemplos de esta página usan nph-skeleton. El nph-sidebar muestra u oculta un área lateral sin redimensionar, y el nph-separator separa sin arrastrarse: el grupo no reemplaza a ninguno de los dos. Apilar o cambiar los paneles bajo el breakpoint de tablet es tarea del producto.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "direction",
+        "horizontal (por defecto) o vertical, la propiedad direcao de Figma. horizontal pone los paneles lado a lado con el tirador vertical; vertical los apila con el tirador horizontal. Reflejada en el atributo."
+      ],
+      [
+        "disabled",
+        "Apaga el grupo entero: cada tirador recibe state/disabled-opacity y el cursor por defecto, sale del orden del Tab y no responde a nada, y su botón de colapsar queda deshabilitado con él. Pertenece al grupo, no a cada tirador."
+      ],
+      [
+        "hide-collapse-button",
+        "El botón de colapsar viene activado por defecto, como en Figma; este atributo lo apaga. El Enter en el tirador sigue colapsando y restaurando el panel."
+      ],
+      [
+        "collapse-label y expand-label",
+        "El nombre del botón de colapsar mientras el panel está abierto y mientras está colapsado, ya localizado, como Colapsar panel y Expandir panel. Sin los dos, el botón no se dibuja y el grupo emite console.error en desarrollo."
+      ],
+      [
+        "sizes",
+        "El tamaño de cada panel en porcentaje de la longitud que el grupo tiene sin los tiradores, sumando 100. El atributo lee sizes=\"30 70\"; la propiedad es una lista de números y guarda siempre los tamaños actuales. El producto los guarda y los devuelve. Definirla por código nunca dispara el evento."
+      ],
+      [
+        "default-size, min-size, max-size, collapsed-size (en cada panel)",
+        "Un número en porcentaje, o un número con px, como 30 o 240px. Los paneles sin default-size comparten el resto en partes iguales. Home y End van al mínimo y al máximo; un panel colapsado a collapsed-size, 0 por defecto, sale de la pantalla."
+      ],
+      [
+        "collapse-label y expand-label (en un panel)",
+        "Los nombres del botón de colapsar de ese panel, que reemplazan los del grupo. Dicen qué panel colapsa un botón cuando el grupo tiene dos tiradores."
+      ],
+      [
+        "slot por defecto",
+        "Los paneles: dos o tres hijos elemento directos con contenido libre. El grupo no escribe atributos en ellos. El panel que controla un tirador necesita un rol que acepte nombre, como section, y un aria-label o aria-labelledby: el tirador toma ese nombre. El grupo necesita un ancho de su contenedor, o una altura cuando es vertical."
+      ],
+      [
+        "nph-resize",
+        "El evento disparado cuando la persona cambia los tamaños, por arrastre, tecla, botón o doble clic. Burbujea, cruza el shadow root y no es cancelable. detail.sizes es la lista de tamaños en porcentaje. Definir sizes por código nunca lo dispara."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-resizable collapse-label=\"Colapsar panel\" expand-label=\"Expandir panel\">\n  <section aria-label=\"Lista\" default-size=\"35\" min-size=\"20\">Contenido de la lista</section>\n  <section aria-label=\"Panel de lectura\">Contenido del panel de lectura</section>\n</nph-resizable>",
+    "usageTag": "El grupo con sus dos paneles como hijos; cada panel que controla un tirador recibe un nombre con aria-label. El grupo toma el ancho de su contenedor, y una altura cuando es vertical.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "ficha nph-resizable; docs/decisoes-tecnicas.md › P70",
+    "handleTitle": "Tirador",
+    "handleText": "El tirador es una línea con el grip y el botón de colapsar encima. El grip aparece en todos los estados, porque la línea en reposo no llega a 3:1 en el esquema claro: es él quien muestra que el tirador se puede arrastrar. Hover, arrastrando y foco aparecen cuando usas el tirador. Deshabilitado, el tirador entero recibe state/disabled-opacity y el botón queda deshabilitado.",
+    "handleCaption": "El tirador en reposo, deshabilitado y con el botón de colapsar apagado, en las dos direcciones.",
+    "handleHeader": [
+      "Estado",
+      "Lo que ve la persona"
+    ],
+    "handleStates": [
+      [
+        "default",
+        "Una línea de resizable/handle-width en resizable/handle-color, con el grip en resizable/grip-foreground y el botón de colapsar."
+      ],
+      [
+        "hover",
+        "La línea recibe resizable/handle-color-hover y el cursor es el de redimensionar del eje. El hover no mueve el foco."
+      ],
+      [
+        "arrastrando",
+        "Mientras el puntero arrastra, la línea queda como en el hover y la caja del grip recibe resizable/grip-background-active con el icono en resizable/grip-foreground-active."
+      ],
+      [
+        "foco",
+        "Solo con el teclado, la línea se vuelve un borde de resizable/focus-border-width en focus/border, sin halo, y ningún panel se desplaza."
+      ],
+      [
+        "disabled",
+        "El tirador entero recibe state/disabled-opacity y el cursor por defecto, y sale del orden del Tab."
+      ]
+    ],
+    "sizesTitle": "Tamaños y límites",
+    "sizesText": "Cada panel declara sus tamaños con atributos: default-size, min-size y max-size, en porcentaje o en píxeles. El tirador se detiene en el mínimo y en el máximo de cada panel, para que el contenido no se rompa. El producto guarda detail.sizes de nph-resize y lo devuelve por sizes; el componente no guarda nada.",
+    "sizesCaption": "Un grupo en el mínimo y en el máximo de su primer panel, en porcentaje y en píxeles.",
+    "collapseTitle": "Colapsar",
+    "collapseText": "Un panel colapsado es un tamaño, no un aspecto del tirador: tiene su tamaño colapsado, la flecha se invierte y el panel del otro lado del tirador toma el espacio. El botón, el Enter en el tirador o un arrastre lo restauran. El botón y el doble clic no llegan a un tamaño elegido, así que el producto ofrece una salida de un toque, como tamaños en un menú, un campo de tamaño o botones de paso, cuando el tirador es la única forma de redimensionar.",
+    "collapseCaption": "El primer panel colapsado a cero y el segundo colapsado a un tamaño propio.",
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Tecla o acción",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Flechas en el eje",
+        "Izquierda y derecha en el tirador vertical, arriba y abajo en el horizontal: mueven el tirador 1 por ciento. Las flechas del otro eje no hacen nada. En texto de derecha a izquierda siguen el lado visual."
+      ],
+      [
+        "Shift + flecha",
+        "Mueve el tirador 10 por ciento."
+      ],
+      [
+        "Enter",
+        "Colapsa el panel principal y, de nuevo, lo restaura, también con el botón de colapsar apagado."
+      ],
+      [
+        "Home y End",
+        "Llevan el panel principal al mínimo y al máximo."
+      ],
+      [
+        "F6",
+        "No se usa: el navegador circula sus propios paneles con ella."
+      ],
+      [
+        "Tab",
+        "El tirador y el botón de colapsar son paradas separadas, en orden; un tirador deshabilitado sale del orden del Tab."
+      ],
+      [
+        "Doble clic",
+        "Restaura el tamaño por defecto del panel principal."
+      ],
+      [
+        "Arrastre",
+        "Mueve el tirador con el puntero, dentro de los límites de los dos paneles; una pulsación enfoca el tirador sin mostrar el borde de foco."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Grupo",
+        "Una fila, o una columna cuando es vertical, sin fondo y sin contorno. Los paneles ocupan lo que dejan los tiradores."
+      ],
+      [
+        "Panel",
+        "Sin fondo propio; padding de space/container-padding; contenido libre alineado arriba. Se desplaza cuando el contenido no cabe."
+      ],
+      [
+        "Tirador",
+        "Una columna tan ancha como el botón compacto, control/height-compact, en el flujo entre los paneles, con los segmentos, el grip y el botón centrados en su eje, espacio resizable/handle-gap. La columna entera es el área de arrastre, por encima de 24 px; en puntero grueso una extensión invisible la lleva a control/height-large."
+      ],
+      [
+        "Segmentos de la línea",
+        "Dos, antes y después del grip y del botón, de resizable/handle-width; llenan el espacio que dejan las otras partes."
+      ],
+      [
+        "Caja del grip",
+        "Cuadrada de resizable/grip-size con la esquina de resizable/grip-radius, con el grip-vertical light, girado un cuarto en el tirador horizontal."
+      ],
+      [
+        "Botón de colapsar",
+        "El nph-button solo con icono, secondary, ghost, compact y cuadrado, junto al separador y no dentro de él, con la flecha apuntando al panel principal e invirtiéndose mientras está colapsado."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Cada tirador es un separator que recibe foco, con aria-orientation, aria-valuenow, aria-valuemin y aria-valuemax como el porcentaje del panel principal, y aria-controls apuntando a él. El grip es aria-hidden. El grupo no tiene rol propio."
+      ],
+      [
+        "Nombre accesible",
+        "El tirador toma el nombre del panel que controla: su aria-label, o los elementos que nombra su aria-labelledby. El botón de colapsar toma collapse-label o expand-label, con aria-expanded y aria-controls."
+      ],
+      [
+        "Teclado",
+        "El Window Splitter del APG: flechas, Shift + flecha, Enter, Home y End. El tirador y el botón son paradas de Tab separadas."
+      ],
+      [
+        "Foco visible",
+        "La línea se vuelve un borde de resizable/focus-border-width en focus/border, sin halo, y pasa 3:1 en los dos esquemas y en todas las marcas."
+      ],
+      [
+        "Contraste",
+        "El grip pasa 3:1 en los dos esquemas; la línea en reposo no pasa en claro, por eso el grip aparece en todos los estados; hover y arrastrando pasan 3:1."
+      ],
+      [
+        "Alternativa al arrastre",
+        "El botón de colapsar y el doble clic; el producto ofrece una salida de un toque para un tamaño elegido."
+      ],
+      [
+        "Tamaño del objetivo",
+        "El área de arrastre es la columna del tirador, por encima de 24 px, y mayor en puntero grueso; el botón de colapsar mide 28 px, una excepción de este tirador."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleListReading": "Lista y panel de lectura: horizontal, dos paneles.",
+    "exampleNested": "Anidado: el panel de la derecha se divide en vertical.",
+    "exampleCollapsed": "Colapsado: el panel de la izquierda está colapsado y el botón lo restaura.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "ficha nph-resizable — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P128 (API y semántica), P01, P02, P03 y P116.",
+      "design.md — los tokens resizable/*, color/border-strong, focus/border y state/disabled-opacity.",
+      "WAI-ARIA Authoring Practices — patrón Window Splitter.",
+      "Figma DS-IA-NEPHOS 5.0 — cuadro de documentación del nph-resizable (5123:2641) y conjuntos 5112:1849 y 5099:172.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "ficha nph-resizable; Figma, cuadro nph-resizable (5123:2641)",
+    "sourceApi": "ficha nph-resizable; docs/decisoes-tecnicas.md › P128",
+    "sourceHandle": "ficha nph-resizable; Figma, conjunto nph-resizable handle (5099:172)",
+    "sourceSizes": "ficha nph-resizable; docs/decisoes-tecnicas.md › P128",
+    "sourceKeyboard": "ficha nph-resizable; WAI-ARIA Authoring Practices, Window Splitter",
+    "sourceAnatomy": "Figma, conjuntos 5112:1849 y 5099:172; design.md",
+    "sourceAccessibility": "ficha nph-resizable; nph-resizable.test.ts",
+    "matrixLabel": "Matriz del componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "list": "Lista",
+    "reading": "Panel de lectura",
+    "navigation": "Navegación",
+    "editor": "Editor",
+    "console": "Consola",
+    "preview": "Vista previa",
+    "details": "Detalles",
+    "collapse": "Colapsar panel",
+    "expand": "Expandir panel",
+    "collapseList": "Colapsar la lista",
+    "expandList": "Expandir la lista"
   }
 }
