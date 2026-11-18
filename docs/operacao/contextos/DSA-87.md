@@ -26,7 +26,7 @@ Implement the `nph-carousel`, a strip of slides where one part shows at a time a
 - The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-In progress.
+Pull request #182 is open against `v/5.0.0`, waiting for the review and the merge by Elvys. The Copilot review was requested and did not register (out of quota); none is recorded.
 
 ## Blocker
 None.
