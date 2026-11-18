@@ -82,7 +82,7 @@ export const Types: Story = {
           label,
           (['elevated', 'outlined'] as const).flatMap((surface) => [
             { label: `type: base · surface: ${surface}`, content: sample(v, { surface, status: true, content: true, action: true }) },
-            { label: `type: clickable · surface: ${surface}`, content: sample(v, { type: 'clickable', surface }) },
+            { label: `type: clickable · surface: ${surface}`, content: sample(v, { type: 'clickable', surface, footer: true }) },
             { label: `type: section · surface: ${surface}`, content: sample(v, { type: 'section', surface, action: true, footer: false, description: false }) },
           ]),
         ),

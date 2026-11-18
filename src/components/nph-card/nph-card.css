@@ -26,8 +26,8 @@
 
 /*
  * The card takes the width of its container and is the container of its own width: the side media moves to the
- * top when the card is narrow (the query cannot style the box it measures, so the surface is inside the host).
- * The host is the surface: background, outline, corner and shadow are its own, so the background is the one that
+ * top when the card is narrow (the query cannot style the box it measures, so the layout box `.surface` is
+ * inside the host, which is the container). The host is the surface: background, outline, corner and shadow are its own, so the background is the one that
  * the page and an accessibility check see behind the text and the slotted pieces.
  */
 :host([data-nph-rendered]) {
@@ -109,7 +109,7 @@
  * consumer gives `src` and `alt` only. The image crops to cover.
  */
 .media ::slotted([slot='media']) {
-  display: block;
+  display: flex;
   flex: 1 1 auto;
   inline-size: 100%;
   min-inline-size: 0;

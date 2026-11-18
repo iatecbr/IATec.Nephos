@@ -575,6 +575,22 @@ describe('the media', () => {
     expect(has(section, '.media')).toBe(false);
   });
 
+  it('an image that is loading, has no src or fails keeps its own placeholder inside the frame', async () => {
+    for (const src of ['', 'data:image/png;base64,this-is-not-an-image']) {
+      const card = await mount({
+        props: { media: 'top' },
+        children: `<nph-image slot="media" src="${src}" alt="Invoice preview"></nph-image>`,
+        width: '20rem',
+      });
+      const image = card.querySelector('nph-image') as HTMLElement;
+      expect(rect(image).width, src).toBeCloseTo(rect(part(card, '.media')).width, 0);
+      expect(rect(image).width / rect(image).height, src).toBeCloseTo(16 / 9, 1);
+      expect(style(image).display, src).toBe('flex');
+      expect(style(image).alignItems, src).toBe('center');
+      expect(style(image).justifyContent, src).toBe('center');
+    }
+  });
+
   it('the card gives the frame: whatever size the image has, it fills the media box', async () => {
     const card = await mount({
       props: { media: 'top' },
@@ -874,14 +890,14 @@ describe('loading', () => {
   });
 
   it('keeps the surface, its outline and its padding, and the compact density takes the compact avatar', async () => {
-    const card = await mount({ props: { loading: true, loadingLabel: 'Loading', density: 'compact' } });
+    const card = await mount({ props: { loading: true, loadingLabel: 'Loading', density: 'compact', icon: 'folder' } });
     expect(style(card).borderTopColor).toBe(resolved(card, 'color', '--nph-card-border'));
     expect(style(part(card, '.body')).paddingTop).toBe(resolved(card, 'padding-top', '--nph-card-padding-compact'));
     expect(root(card).querySelector('nph-skeleton')?.getAttribute('shape')).toBe('avatar-md');
   });
 
   it('the skeleton pieces take their size from the card: the lines follow its width, the action is a control high', async () => {
-    const card = await mount({ props: { loading: true, loadingLabel: 'Loading' }, width: '24rem' });
+    const card = await mount({ props: { loading: true, loadingLabel: 'Loading', icon: 'folder' }, children: FOOTER, width: '24rem' });
     const content = rect(part(card, '.body'));
     const room = content.width - 2 * px(style(part(card, '.body')).paddingLeft);
     expect(rect(part(card, '.sk-line')).width).toBeCloseTo(room, 0);
@@ -891,6 +907,18 @@ describe('loading', () => {
     expect(rect(part(card, '.sk-action')).height).toBe(px(resolved(card, 'height', '--nph-control-height-default')));
     expect(rect(part(card, '.sk-title')).height).toBe(px(resolved(card, 'height', '--nph-skeleton-line-height')));
     expect(rect(root(card).querySelector('nph-skeleton') as Element).width).toBe(px(resolved(card, 'width', '--nph-avatar-size-lg')));
+  });
+
+  it('the start, the divider and the action skeleton stay only when the card has a start and a footer', async () => {
+    const bare = await mount({ props: { loading: true, loadingLabel: 'Loading' } });
+    expect(root(bare).querySelectorAll('nph-skeleton')).toHaveLength(4);
+    expect(has(bare, '.divider')).toBe(false);
+    expect(has(bare, '.sk-action')).toBe(false);
+    const withAvatar = await mount({
+      props: { loading: true, loadingLabel: 'Loading' },
+      children: '<nph-avatar slot="leading" label="Ana"></nph-avatar>',
+    });
+    expect(root(withAvatar).querySelector('nph-skeleton')?.getAttribute('shape')).toBe('avatar-lg');
   });
 
   it('the clickable card has no footer while it loads and is not a link', async () => {
@@ -954,6 +982,15 @@ describe('what the card does to the pieces it draws, from outside', () => {
   it('does not change the pieces: the source of the card writes no style or class on them', () => {
     expect(componentSource).not.toMatch(/\.style\.|style\.setProperty|classList|\.className/);
     expect(cssWithoutComments).not.toMatch(/::part\(/);
+  });
+
+  it('the height the button reads is raised on a coarse pointer: 36 px instead of 28 px, once the rule applies', async () => {
+    const card = await mount({ children: ACTION });
+    const action = card.querySelector('[slot="action"]') as HTMLElement;
+    expect(action.getBoundingClientRect().height).toBe(px(resolved(card, 'height', '--nph-control-height-compact')));
+    /* The rule of the card writes this property on the slotted button; the button reads it on its own host. */
+    action.style.setProperty('--nph-control-height-compact', 'var(--nph-control-height-default)');
+    expect(action.getBoundingClientRect().height).toBe(px(resolved(card, 'height', '--nph-control-height-default')));
   });
 
   it('the touch rule raises the menu action to control/height-default, only on the base type', () => {

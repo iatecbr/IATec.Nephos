@@ -9315,9 +9315,10 @@ footer buttons and the menu action keep their own focus and events. What it reje
    title and needs none.
 
 5. **Loading (Q5).** `loading` keeps the surface, its outline and its padding and puts `nph-skeleton` in the place of
-   the content, `aria-hidden`: the start, a title line, a description line and two content lines, and, on the base and
-   section types, the divider (unless `hide-divider`) and one action skeleton; the clickable card has no footer while it
-   loads and is not a link. `aria-busy="true"` is set on the surface, and the word the screen reader hears is
+   the content, `aria-hidden`: the start (when the card has one), a title line, a description line and two content lines,
+   and, on the base and section types with a footer, the divider (unless `hide-divider`) and one action skeleton: the
+   skeleton does not invent a part the card does not have; the clickable card has no footer while it loads and is not a
+   link. `aria-busy="true"` is set on the surface, and the word the screen reader hears is
    `loading-label`, **already localized: the card writes no word of its own**, as `nph-collapsible` (P121), written
    outside the hidden node, because only one screen reader honors `aria-busy` (item 19c). An empty `loading-label`
    warns once in development. **No media is drawn while loading**: Figma draws the loading state without media, and
@@ -9432,8 +9433,11 @@ card only places the trigger.
   whether the media place shows the `nph-image` in its own loading state or stays out.
 - **D-3 — the width of the narrow container.** The side media moves to the top under `30rem` in the code, because Figma
   shows the wide case only. The design owner confirms the width or draws it.
+- **D-4 — the focus contrast reading.** The accepted evidence measures the focus border over `color/background`;
+  `design.md` now measures the 3:1 against the halo, with a known limit in the Sistemas brand in light. The code draws the
+  border and the halo as the evidence says and changes no token; the design owner confirms the reading.
 
-**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 wait for the design owner and do not block
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-4 wait for the design owner and do not block
 the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---

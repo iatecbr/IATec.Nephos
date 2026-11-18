@@ -438,6 +438,9 @@ export class NphCard extends LitElement {
   private renderLoading(): TemplateResult {
     const dense = this.density === 'compact';
     const clickable = this.type === 'clickable';
+    /* The start and the footer stay while loading only when the card has them: the skeleton does not invent a part. */
+    const hasStart = this.present.leading || text(this.icon) !== '';
+    const hasFooter = !clickable && this.present.footer;
     const region = this.regionAttributes();
     return html`<div
       class="surface"
@@ -450,7 +453,7 @@ export class NphCard extends LitElement {
       <div class="main">
         <div class="body" aria-hidden="true">
           <div class="header">
-            <nph-skeleton shape=${dense ? 'avatar-md' : 'avatar-lg'}></nph-skeleton>
+            ${hasStart ? html`<nph-skeleton shape=${dense ? 'avatar-md' : 'avatar-lg'}></nph-skeleton>` : nothing}
             <div class="titles">
               <nph-skeleton class="sk-title" shape="line"></nph-skeleton>
               <nph-skeleton class="sk-description" shape="line"></nph-skeleton>
@@ -461,7 +464,7 @@ export class NphCard extends LitElement {
             <nph-skeleton class="sk-line-short" shape="line"></nph-skeleton>
           </div>
         </div>
-        ${clickable
+        ${!hasFooter
           ? nothing
           : html`${this.hideDivider ? nothing : html`<nph-separator class="divider" data-slot="divider" orientation="horizontal" aria-hidden="true"></nph-separator>`}
               <div class="footer" aria-hidden="true"><nph-skeleton class="sk-action" shape="block"></nph-skeleton></div>`}

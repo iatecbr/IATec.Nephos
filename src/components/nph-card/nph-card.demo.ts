@@ -82,7 +82,7 @@ export interface CardText {
 export function inScheme(scheme: Scheme, caption: string, content: TemplateResult): TemplateResult {
   return html`<figure
     data-nph-color-scheme=${scheme}
-    style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-inline); padding: var(--nph-space-section); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); inline-size: fit-content; max-inline-size: 100%; box-sizing: border-box;"
+    style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-inline); padding: var(--nph-space-section); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); flex: 1 1 var(--nph-layout-dialog-sm); min-inline-size: 0; box-sizing: border-box;"
   >
     ${content}
     <figcaption style="color: var(--nph-color-muted-foreground);">${caption}</figcaption>
@@ -100,7 +100,7 @@ const WIDTHS: Record<Width, string> = {
 
 /** A block of a given width around a card, so a card in a grid cell has a width to take; it shrinks to the room. */
 export function inBlock(content: TemplateResult, width: Width = 'default'): TemplateResult {
-  return html`<div style="inline-size: min(100%, ${WIDTHS[width]}); text-align: start;">${content}</div>`;
+  return html`<div style="inline-size: ${WIDTHS[width]}; max-inline-size: 100%; text-align: start;">${content}</div>`;
 }
 
 /** One labelled entry of a grid: the label names the combination, in the technical names of the attributes. */

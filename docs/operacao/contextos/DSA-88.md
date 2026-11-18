@@ -18,19 +18,22 @@ Implement the `nph-card` in the contract accepted in Figma: component, CSS, test
 - `design.md`: the `use` of the card tokens and the focus and elevation rules
 
 ## Changes
-- `src/components/nph-card/`: the component, its CSS and its test in a real browser.
+- `src/components/nph-card/`: the component, its CSS, the browser test, the demonstration frame, the Validation stories, the Docs page and its test.
+- `fichas/nph-card.md` and its generated Metadata; P130 in `docs/decisoes-tecnicas.md`; the dictionary keys `cardValidation` and `cardDocs`.
+- Pending decisions D-1 to D-4 in the task, for the design owner.
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-88-card origin/v/5.0.0`
+- The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-In progress: the component and its test are in; stories, sheet, dictionary and P130 follow.
+Pull request open, in review. No token created or changed.
 
 ## Evidence
-None yet: the `review-and-merge` gate opens with the pull request.
+None yet: the `review-and-merge` gate opens after the merge.
 
 ## Blocker
 None.
 
 ## Next command
-`npx vitest run --project unit src/components/nph-card/nph-card.test.ts`
+`gh pr checks <number> --watch`

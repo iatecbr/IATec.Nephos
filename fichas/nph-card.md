@@ -99,8 +99,10 @@ api:
       pieces hidden from assistive technology, aria-busy is true and the hidden word
       of loading-label is written outside the hidden node. The title, the description, the start, the
       media, the status, the action, the content and the footer are not drawn; no heading is
-      required. The base and section types keep the divider, unless hide-divider is set, and one
-      action skeleton; the clickable type has no footer and is not a link while it loads. Reflects
+      required. The start skeleton stays when the card has a start, and, on the base and section
+      types, the divider (unless hide-divider is set) and one action skeleton stay when the card has
+      a footer: the skeleton does not invent a part. The clickable type has no footer and is not a
+      link while it loads. Reflects
       because the internal CSS selects the look by it.
   heading:
     type: string
