@@ -300,6 +300,7 @@
   --nph-core-image-size-500: 6rem;
   --nph-core-image-size-600: 8rem;
   --nph-core-opacity-16: 0.16;
+  --nph-core-opacity-50: 0.5;
   --nph-core-tracking-normal: 0;
   --nph-core-target-size-minimum: 1.5rem;
 }
@@ -765,6 +766,13 @@
   --nph-timeline-dot-size: var(--nph-core-space-200);
   --nph-timeline-connector-gap: var(--nph-core-space-100);
   --nph-timeline-content-gap: var(--nph-core-space-300);
+  --nph-rich-option-background-hover-opacity: var(--nph-core-opacity-50);
+  --nph-rich-option-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-select-option-padding: var(--nph-core-space-200);
+  --nph-select-option-background-hover-opacity: var(--nph-core-opacity-50);
+  --nph-select-option-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-select-option-dot-size: var(--nph-core-space-200);
+  --nph-select-option-focus-border-width: var(--nph-core-focus-width-sm);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1082,6 +1090,22 @@
   --nph-timeline-text-gap: var(--nph-space-stack-tight);
   --nph-timeline-action-gap: var(--nph-space-stack);
   --nph-timeline-marker-border-width: var(--nph-border-width);
+  --nph-rich-option-border-width: var(--nph-border-width);
+  --nph-rich-option-padding: var(--nph-space-container-padding);
+  --nph-rich-option-gap: var(--nph-space-inline);
+  --nph-rich-option-text-gap: var(--nph-space-stack-tight);
+  --nph-rich-option-radius: var(--nph-radius-surface);
+  --nph-rich-option-icon-size: var(--nph-icon-size-md);
+  --nph-rich-option-focus-radius: var(--nph-focus-radius-surface);
+  --nph-rich-option-focus-ring-width: var(--nph-focus-ring-width);
+  --nph-select-option-gap: var(--nph-space-inline);
+  --nph-select-option-label-gap: var(--nph-space-inline-tight);
+  --nph-select-option-text-gap: var(--nph-space-stack-tight);
+  --nph-select-option-radius: var(--nph-radius-inner);
+  --nph-select-option-icon-size: var(--nph-icon-size-md);
+  --nph-select-option-marker-size: var(--nph-icon-size-sm);
+  --nph-select-option-focus-border-radius: var(--nph-radius-inner);
+  --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1402,6 +1426,17 @@
   --nph-timeline-marker-background-warning: var(--nph-status-warning-surface);
   --nph-timeline-marker-foreground-warning: var(--nph-status-warning-foreground);
   --nph-timeline-marker-border-warning: var(--nph-status-warning-border);
+  --nph-rich-option-background: var(--nph-color-card);
+  --nph-rich-option-background-hover: var(--nph-color-accent-subtle);
+  --nph-rich-option-border: var(--nph-color-border-subtle);
+  --nph-rich-option-border-error: var(--nph-status-error);
+  --nph-rich-option-foreground: var(--nph-color-card-foreground);
+  --nph-rich-option-description-foreground: var(--nph-color-muted-foreground);
+  --nph-select-option-background-hover: var(--nph-color-accent);
+  --nph-select-option-foreground: var(--nph-color-popover-foreground);
+  --nph-select-option-foreground-hover: var(--nph-color-accent-foreground);
+  --nph-select-option-description-foreground: var(--nph-color-muted-foreground);
+  --nph-select-option-secondary-foreground: var(--nph-color-muted-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
   --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
@@ -1508,6 +1543,10 @@
   --nph-timeline-marker-foreground: var(--nph-color-primary-on-surface);
   --nph-timeline-marker-background-primary: var(--nph-color-primary-surface);
   --nph-timeline-marker-foreground-primary: var(--nph-color-primary-on-surface);
+  --nph-rich-option-focus-border: var(--nph-focus-border);
+  --nph-rich-option-focus-halo: var(--nph-focus-halo);
+  --nph-select-option-marker: var(--nph-color-primary);
+  --nph-select-option-focus-border: var(--nph-focus-border);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
