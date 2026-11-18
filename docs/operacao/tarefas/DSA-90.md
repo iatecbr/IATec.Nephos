@@ -110,6 +110,24 @@
       "question": "[Pending decision, recommended: pick the date; one Tab stop per grid; arrows cross between the grids] Days outside the month and the two grids of the range: Figma draws the days of the previous and next month with hover, and the range has two grids, with no rule for them. Recommended: picking a day outside the month chooses that date; in the single date the shown month changes to the month of that date, and in the range the two months stay where they are (Mantine Month and MUI X DayCalendar let the person pick it; React Aria disables it; the month change in the single date has no source read). In the range, each grid is one Tab stop, in the order header 1, grid 1, header 2, grid 2, and the arrow keys cross from the last day of the left month to the first day of the right month and back (Mantine get-date-in-tab-order and MonthLevelGroup; React Aria keeps one Tab stop for both grids). Opening the range with only the End filled: the month of End on the right, the month before on the left, focus on the End day (no market source read; by analogy with opening on the Start). Alternative: one Tab stop for both grids, as React Aria, or days outside the month that cannot be picked. Until the design owner answers, the code follows the recommendation. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-12",
+      "question": "Three measures drawn in Figma have no token: the shortcut column is 192 wide, the grid header is 40 high and the month and year cell is 84 wide. The code derives them from tokens, with no literal value: the column is 12 steps of date-picker/panel-padding, the header is control/height-default plus space/inline-tight, and the cell is 3 of 7 of the default week row. If these measures should be tokens, she decides in Figma, through Claude. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-13",
+      "question": "The evidence says how typing works with the panel open and what Apply does, and says nothing about a Start or End typed with the panel closed. Until she answers, the code commits each field when the person leaves it, so a Start without an End can stay, and change fires for each one. Alternative: a range commits only when both fields are valid. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-14",
+      "question": "D-7 asks for the panel width plus the page margin, and no page margin is drawn. Until she answers, the code uses space/container-padding on each side of the viewport, and reads the viewport width when the panel opens. If the margin or the width it is measured against should be another, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
     }
   ],
   "evidence": [
@@ -157,7 +175,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **Images**: none.
 
 ## Decisions open with the design owner
-The reviews of 17-11 and 18-11 found these questions with no drawing or rule in Figma. Each one has a recommendation from market research with sources and says what the code does until the design owner answers (last column): the recommendation, or the accepted drawing where the recommendation would change it (D-2, D-5 and the year title icon of D-9); D-1 follows the recommendation, six rows, because the five drawn rows cannot hold a six-week month. None blocks the pull request. The ones marked preview need a Figma preview, in light and dark, before the design owner decides.
+The reviews of 17-11 and 18-11 found the first eleven of these questions; the code added D-12 to D-14. They are questions with no drawing or rule in Figma. Each of the first eleven has a recommendation from market research with sources, and each says what the code does until the design owner answers (last column): the recommendation, or the accepted drawing where the recommendation would change it (D-2, D-5 and the year title icon of D-9); D-1 follows the recommendation, six rows, because the five drawn rows cannot hold a six-week month. None blocks the pull request. The ones marked preview need a Figma preview, in light and dark, before the design owner decides.
 
 | ID | Question | Recommended | Preview | Until the design owner answers, the code |
 |---|---|---|---|---|
@@ -172,6 +190,9 @@ The reviews of 17-11 and 18-11 found these questions with no drawing or rule in 
 | D-9 | What the arrows, the titles and the keys do in the month and year views | A ladder: month title → months → years; arrows by one year and by twelve years; focus on the chosen item | yes (year title icon) | The recommendation, with the year title icon as drawn |
 | D-10 | A third pick, a one-day period and Apply with nothing or only the Start | A third pick starts over; one day is valid; Apply stays enabled | no | The recommendation |
 | D-11 | Days outside the month and the two grids of the range | Picking it chooses the date; one Tab stop per grid; arrows cross between the grids | no | The recommendation |
+| D-12 | Measures with no token: shortcut column 192, header 40, month and year cell 84 | Tokens for them, if she wants | no | Derived from tokens: 12 steps of `date-picker/panel-padding`, `control/height-default` plus `space/inline-tight`, 3 of 7 of the default week row |
+| D-13 | A typed Start or End with the panel closed | Not covered by the evidence | no | Each field commits when the person leaves it; a Start without an End can stay |
+| D-14 | The page margin of D-7 | Not drawn | no | `space/container-padding` on each side of the viewport |
 
 Sources: https://raw.githubusercontent.com/react-component/picker/master/src/PickerPanel/DatePanel/index.tsx ; https://mui.com/x/api/date-pickers/date-calendar/ ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Calendar/Calendar.tsx ; https://raw.githubusercontent.com/react-component/picker/master/src/PickerPanel/index.tsx ; https://react-spectrum.adobe.com/react-spectrum/DateRangePicker.html ; https://design-system.service.gov.uk/components/date-input/ ; https://mui.com/x/react-date-pickers/validation/ ; https://react-aria.adobe.com/DateRangePicker ; https://ant.design/components/date-picker ; https://mantine.dev/dates/date-picker/ ; https://mui.com/x/react-date-pickers/shortcuts/ ; https://mui.com/x/react-date-pickers/custom-components/ ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/hooks/use-dates-state/use-dates-state.ts ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers-pro/src/internals/utils/date-range-manager.ts ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/YearCalendar/YearCalendar.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Month/Month.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Month/get-date-in-tab-order/get-date-in-tab-order.ts ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/MonthLevelGroup/MonthLevelGroup.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/DateCalendar/DayCalendar.tsx ; https://raw.githubusercontent.com/adobe/react-spectrum/main/packages/react-aria/src/calendar/useCalendarCell.ts
 

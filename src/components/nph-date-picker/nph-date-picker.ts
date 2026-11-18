@@ -47,7 +47,8 @@
  * D-13 (a typed Start or End with the panel closed commits when the field is left) and D-14 (the page margin of D-7).
  *
  * Invalid input does not render and emits `console.error` only in development, one per cause while it lasts (the rule of P21): a `mode`,
- * a `size` or a `week-start` outside the lists, and a date that does not exist. A missing label renders anyway and says which keys, once.
+ * a `size` or a `week-start` outside the lists, a date that does not exist, and `labels` with no key at all. A label missing from a
+ * `labels` that has others renders anyway and says which keys, once.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -432,8 +433,9 @@ export class NphDatePicker extends LitElement {
     }
   }
 
+  /** A typed text that is not a date, or that the rules refuse: the form sees bad input. An empty required field is `valueMissing`. */
   private get hasError(): boolean {
-    return this.errors.single !== null || this.errors.start !== null || this.errors.end !== null;
+    return [this.errors.single, this.errors.start, this.errors.end].some((error) => error !== null && error.key !== 'required');
   }
 
   private syncForm(): void {
@@ -1006,6 +1008,10 @@ export class NphDatePicker extends LitElement {
     for (const name of ['value', 'start', 'end', 'min', 'max', 'now'] as const) {
       const text = trimmed(this[name]);
       if (text !== '' && parseDay(text) === null) causes.push(`${name} "${text}" is not a date written as YYYY-MM-DD.`);
+    }
+    /* No label at all: the data comes by the property `labels`, and the markup alone draws an empty piece that says so. */
+    if (Object.keys(this.labels ?? {}).length === 0) {
+      causes.push('labels is required: every text the piece writes comes from it, already localized.');
     }
     this.valid = causes.length === 0;
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);

@@ -16778,5 +16778,271 @@
       "errorUnavailable": "Esta fecha no está disponible, elige otro día.",
       "errorEndBeforeStart": "El fin debe ser igual o posterior al inicio ({start})."
     }
+  },
+  "datePickerDocs": {
+    "summary": "Un campo de fecha con calendario, en dos modos: fecha única, donde elegir el día aplica y cierra, y rango, con campos de inicio y fin, siete atajos, dos meses y un pie con Aplicar. Sigue el nph-date-picker aceptado en Figma, con la cuadrícula de fechas nph-calendar, que el scheduler reutilizará.",
+    "onThisPage": "En esta página",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las preguntas que la diseñadora aún no respondió están en la tarea y en la P133; el código sigue la regla provisional de cada una.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Cuando un formulario pide una fecha que la persona escribe o revisa en el calendario: una fecha de vencimiento, una fecha de agenda, la fecha de emisión de un documento.",
+      "Cuando un periodo cuyo inicio y fin van juntos necesita confirmación, como el periodo de un informe, una vigencia o unas vacaciones: usa el modo rango, con Aplicar.",
+      "Para una fecha que la persona sabe de memoria y que está lejos de hoy, como una fecha de nacimiento: el campo acepta escritura, y el calendario está solo en el botón.",
+      "default en un formulario común; compact en una pantalla densa con puntero; large en una pantalla táctil, para todos los campos del formulario.",
+      "Define min y max cuando las fechas fuera de una ventana no se permiten, y unavailable para fechas cerradas por una regla, como un festivo."
+    ],
+    "whenNotToUse": [
+      "Para dos campos de fecha única en el inicio y el fin de un periodo: usa el modo rango, que aplica las dos fechas juntas.",
+      "Para compact en una pantalla táctil: 28 es pequeño para un dedo; usa large.",
+      "Para el calendario como único camino a una fecha que la persona sabe de memoria: el campo debe aceptar escritura, y la acepta.",
+      "Para elegir solo un mes, solo un año, una semana, un trimestre o una hora: esos tipos están fuera del componente.",
+      "Para una cuadrícula de fechas que queda en la página sin campo y sin panel: usa el nph-calendar.",
+      "Para eventos dispuestos sobre los días: usa el nph-scheduler."
+    ],
+    "relationsText": "El campo es el nph-field con el nph-input, el botón de calendario es un nph-button solo de icono con su tooltip, la cuadrícula es el nph-calendar, los atajos son nph-option y el pie es nph-button y nph-separator. El selector de fecha los coloca y no cambia ninguno. Elegir un mes, un año, una semana o una hora queda fuera del componente.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "mode",
+        "single (por defecto) o range, la propiedad de Figma para el modo. Se refleja. Un valor fuera de la lista no dibuja nada y emite console.error en desarrollo."
+      ],
+      [
+        "size",
+        "compact (28), default (36, el por defecto) o large (44), la altura del campo y del botón de calendario. Se refleja. El campo compact abre el panel por defecto."
+      ],
+      [
+        "value, start, end",
+        "La fecha de un selector único, o el inicio y el fin de un rango, escritos como AAAA-MM-DD. Las escribe la persona; asignarlas por código no dispara nada."
+      ],
+      [
+        "min, max",
+        "El primer y el último día que se pueden elegir. Un día fuera de ellos se atenúa, el foco lo salta y no se puede elegir."
+      ],
+      [
+        "unavailable",
+        "Una lista de AAAA-MM-DD, o una función que lo dice para una fecha, para una fecha no disponible por regla, como un festivo. Recibe foco y nunca se elige. Solo propiedad."
+      ],
+      [
+        "label, start-label, end-label",
+        "La etiqueta visible de cada campo, ya localizada. Es también el nombre accesible del texto."
+      ],
+      [
+        "error, start-error, end-error",
+        "Un error que controla la pantalla, mostrado en su campo cuando la pieza no tiene uno propio. Deshabilitado gana."
+      ],
+      [
+        "required, disabled",
+        "Van a todos los campos. Un campo obligatorio vacío es error y valueMissing; deshabilitado atenúa el campo y el botón de calendario y no abre el panel."
+      ],
+      [
+        "name, start-name, end-name",
+        "Los nombres de las entradas en los datos del formulario: name para fecha única, start-name y end-name para rango."
+      ],
+      [
+        "open",
+        "El panel está abierto. Se refleja. La pieza abre y cierra; el consumidor puede asignar. Abrir y cerrar no disparan evento."
+      ],
+      [
+        "week-start, now",
+        "sunday (por defecto) o monday. now es la fecha de hoy, para pruebas e historias; ausente, el reloj de la máquina."
+      ],
+      [
+        "labels",
+        "Todo texto que la pieza escribe, ya localizado, como un objeto. La pieza no escribe palabra propia; una clave que falta dibuja igual y emite console.error una vez."
+      ],
+      [
+        "change",
+        "Evento en el host, cuando una fecha se aplica o se escribe, o se aplica el periodo. Lee el valor en el host. Los eventos del texto interno nunca salen de la pieza."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-date-picker label=\"Due date\" name=\"due\" value=\"2026-10-20\"></nph-date-picker>\n<script type=\"module\">\n  const picker = document.querySelector('nph-date-picker');\n  picker.labels = { hint: 'mm/dd/yyyy', openCalendar: 'Open calendar' /* …every key */ };\n</script>",
+    "usageTag": "El selector trae su propio campo: la etiqueta es la propiedad label, la pista es la línea de apoyo, y todo otro texto va en labels, ya localizado.",
+    "usageImport": "Registra el componente con sus estilos, el nph-calendar y las piezas que dibuja. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "ficha del nph-date-picker; docs/decisoes-tecnicas.md › P133",
+    "modesTitle": "Modos y tamaños",
+    "modesText": "La fecha única tiene un campo y un mes; elegir el día aplica y cierra. El rango tiene los campos Inicio y Fin, lado a lado, con un botón de calendario, en Fin; su panel tiene los atajos, dos meses y un pie, y el periodo solo vale al Aplicar. El tamaño es la altura del campo: compact para pantalla densa con puntero, default en el formulario común, large en la pantalla táctil.",
+    "modesCaption": "Una fecha única y un rango.",
+    "modesHeader": [
+      "Modo o tamaño",
+      "Regla"
+    ],
+    "modes": [
+      [
+        "single",
+        "Un campo, un mes. Elegir un día escribe la fecha, dispara change y cierra; el foco vuelve al botón de calendario."
+      ],
+      [
+        "range",
+        "Inicio y Fin, dos meses, siete atajos y el pie. Las elecciones quedan en el panel hasta Aplicar; Cancelar, Esc y un clic fuera las descartan."
+      ],
+      [
+        "range, estrecho",
+        "Cuando la viewport no cabe el panel del tamaño en uso más el margen de la página, el rango muestra un mes, con los atajos arriba."
+      ],
+      [
+        "compact, default, large",
+        "28, 36 y 44 px de alto. El campo compact abre el panel por defecto; el large abre el grande, con el día de 44 y los botones del pie en el tamaño por defecto."
+      ]
+    ],
+    "sourceModes": "ficha del nph-date-picker; Figma, conjunto nph-date-picker (6666:32)",
+    "panelTitle": "El panel",
+    "panelText": "El panel es una superficie propia en la capa superior, 4 px debajo del campo y alineada con su inicio. Se voltea hacia arriba cuando no cabe abajo y se encoge con scroll interno cuando no cabe por ningún lado. No es modal: el Tab no queda atrapado.",
+    "panelCaption": "El panel de un rango, abierto.",
+    "panelHeader": [
+      "Parte o comportamiento",
+      "Regla"
+    ],
+    "panel": [
+      [
+        "Apertura",
+        "Enter o Espacio en el botón de calendario. El foco va a la fecha del campo, a hoy, o al día permitido más cercano cuando hoy está fuera del límite. Un panel abierto por el marcado no recibe foco."
+      ],
+      [
+        "Cierre",
+        "Esc cierra sin cambiar y el foco vuelve al botón. Un clic fuera cierra como Cancelar. El Tab después del último elemento cierra como Cancelar y el foco vuelve al botón."
+      ],
+      [
+        "Atajos",
+        "Hoy, Ayer, Últimos 7 días, Últimos 30 días, Este mes, Mes pasado y Personalizado, en una lista que es una parada de Tab. Elegir uno rellena la franja y espera el Aplicar; Personalizado no cambia nada."
+      ],
+      [
+        "Selección",
+        "La primera elección es el inicio, la segunda el fin; un fin antes del inicio reordena; una tercera elección recomienza; un día es un periodo válido; Aplicar sin nada elegido aplica un periodo vacío."
+      ],
+      [
+        "Pie",
+        "Borrar vacía la selección en el panel y sigue abierto; Cancelar cierra sin aplicar; Aplicar escribe los dos campos, dispara change y cierra."
+      ],
+      [
+        "Cuadrícula",
+        "Seis filas de semana, los días fuera del mes mostrados, una parada de Tab por mes, las flechas pasando de un mes al otro. El título de un mes abre los meses del año, y el título del año abre doce años."
+      ]
+    ],
+    "sourcePanel": "fichas del nph-date-picker y del nph-calendar; P133",
+    "typingTitle": "Escribir una fecha",
+    "typingText": "La persona puede escribir la fecha en vez de elegirla. No hay máscara: el texto se lee cuando la persona sale del campo, y el mensaje llega por el campo, diciendo qué corregir.",
+    "typingHeader": [
+      "Situación",
+      "Qué ocurre"
+    ],
+    "typing": [
+      [
+        "Formato",
+        "Día y mes con o sin cero a la izquierda, año de cuatro dígitos y la barra, en el orden de la lengua de la página. La pista lo dice en palabras, en la línea de apoyo."
+      ],
+      [
+        "Una fecha válida",
+        "Se confirma, se reescribe normalizada, y change dispara una vez. En un rango con el panel abierto, va al panel hasta Aplicar."
+      ],
+      [
+        "Una fecha no válida",
+        "El campo muestra el error y conserva el valor que tenía. El texto escrito queda para que la persona lo corrija."
+      ],
+      [
+        "Fuera del límite",
+        "El mensaje cita el límite: igual o posterior al mínimo, igual o anterior al máximo, o entre los dos."
+      ],
+      [
+        "No disponible por regla",
+        "El mensaje dice que la fecha no está disponible y pide otro día."
+      ],
+      [
+        "Fin antes del inicio",
+        "El mensaje dice que el fin debe ser igual o posterior al inicio. Un valor escrito nunca se reordena."
+      ]
+    ],
+    "sourceTyping": "ficha del nph-date-picker; P133 › D-4",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Campo",
+        "Un nph-field por fecha: etiqueta, la línea de control y la línea de apoyo con la pista, o el error. 320 de ancho. En el rango, Inicio y Fin quedan a 8 px, alineados arriba."
+      ],
+      [
+        "Línea de control",
+        "El texto, que se estira, y el botón de calendario, 8 px después, de la altura del campo. El botón de borrar es el icono final del texto y solo aparece con valor."
+      ],
+      [
+        "Botón de calendario",
+        "Un botón solo de icono, secundario y ghost, con el tooltip como nombre; el icono calendar en color/muted-foreground, sólido en su propio hover y mientras el panel está abierto."
+      ],
+      [
+        "Panel",
+        "color/popover, contorno de 1 px en date-picker/panel-border, la esquina date-picker/panel-radius y la sombra elevation/dropdown solo en claro. La carcasa no tiene padding."
+      ],
+      [
+        "Atajos",
+        "Una columna de 192 de ancho con date-picker/panel-padding alrededor: siete opciones de 36 sin espacio entre ellas."
+      ],
+      [
+        "Pie",
+        "Un divisor de borde a borde en date-picker/divider, luego Borrar al inicio y Cancelar y Aplicar al final, separados por date-picker/footer-gap."
+      ]
+    ],
+    "sourceAnatomy": "Figma, conjuntos nph-date-picker (6666:32) y panel (6662:56378); design.md",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Nombre y descripción",
+        "La etiqueta del campo es el nombre del texto; la pista es su descripción, enlazada por el campo. El botón de calendario y las flechas se nombran por su tooltip."
+      ],
+      [
+        "Panel",
+        "Un diálogo no modal llamado Elegir fecha o Elegir periodo. Esc cierra y el foco vuelve al botón; el Tab no queda atrapado."
+      ],
+      [
+        "Cuadrícula",
+        "Una cuadrícula nombrada por el mes; cada día es un botón nombrado por la fecha completa, con hoy, seleccionado y no disponible dichos en palabras. Una parada de Tab por mes; las flechas, Page Up, Page Down, Home y End mueven."
+      ],
+      [
+        "No disponible",
+        "Una fecha fuera de los límites se atenúa y el foco la salta. Una fecha no disponible por regla atenúa solo el número, recibe foco con aria-disabled, y Enter no la elige."
+      ],
+      [
+        "Anuncio",
+        "El mes, y el periodo elegido, se anuncian por regiones vivas aparte del botón del título."
+      ],
+      [
+        "Táctil",
+        "Campo y botón miden 28, 36 y 44 px de alto; el día y las flechas, 36 en el panel por defecto y 44 en el grande. En pantalla táctil usa large."
+      ]
+    ],
+    "sourceAccessibility": "ficha del nph-date-picker; nph-date-picker.test.ts",
+    "examplesTitle": "Ejemplos",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "sourceFrame": "ficha del nph-date-picker; Figma, marco nph-date-picker (6673:62837)",
+    "sourceSpec": "ficha del nph-date-picker; Figma, marco nph-date-picker (6673:62837)",
+    "sourceApi": "ficha del nph-date-picker; docs/decisoes-tecnicas.md › P133",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Fichas del nph-date-picker y del nph-calendar — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P133 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens de la cuadrícula y del panel, el foco y la elevación.",
+      "WAI-ARIA APG, Date Picker Dialog — https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/",
+      "React Aria, RangeCalendar — https://react-aria.adobe.com/RangeCalendar",
+      "MUI X, Date Range Picker — https://mui.com/x/react-date-pickers/date-range-picker/"
+    ]
   }
 }

@@ -216,6 +216,16 @@ describe('the API and the invalid input', () => {
     for (const key of NPH_DATE_PICKER_LABEL_KEYS.filter((name) => name !== 'hint')) expect(missing[0]).toContain(key);
   });
 
+  it('draws nothing and says so when labels has no key at all: the data comes by the property', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const picker = document.createElement('nph-date-picker') as NphDatePicker;
+    picker.label = 'Due date';
+    document.body.append(picker);
+    await picker.updateComplete;
+    expect(q(picker, '.trigger')).toBeNull();
+    expect(error.mock.calls.map((call) => String(call[0])).filter((message) => message.includes('[nph-date-picker] labels is required'))).toHaveLength(1);
+  });
+
   it('is one of the elements the manifest drops: the control row is internal, with no folder of its own', async () => {
     const { picker } = await mount();
     expect(customElements.get('nph-date-picker-control')).toBeDefined();
