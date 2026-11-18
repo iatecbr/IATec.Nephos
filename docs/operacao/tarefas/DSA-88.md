@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 870,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-card",
   "dependencies": [
     "DSA-03",
@@ -81,7 +81,7 @@
     "excerpt": null,
     "converted_decision": "The nph-card documentation frame (6516:13647, page 1626:28) was accepted as the API and behavior specification of nph-card, with the visual acceptance of the root (6478:6670). COMPONENT_SET nph-card (6478:6673), 36 variants; COMPONENT_SET nph-card start (6478:7282), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-88-card", "commit": null, "pr": 183 },
   "context": "docs/operacao/contextos/DSA-88.md",
   "updated_at": "2026-11-18"
 }
