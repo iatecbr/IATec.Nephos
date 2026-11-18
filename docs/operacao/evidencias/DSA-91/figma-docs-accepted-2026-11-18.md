@@ -55,7 +55,7 @@ Root `6910:6824`, documentation `6935:11785`, appendix `6935:12295`.
 
 ## Tokens
 
-Light and dark values are read in the `Sistemas` brand. `color/primary`, `focus/border` and `focus/halo` follow the active brand.
+Light and dark values are read in the `Sistemas` brand. `color/primary`, `focus/border` and `focus/halo` follow the active brand. One existing difference, outside this task: in the code `focus/border` light is `theme/brand-focus`, tone 500 in `Sistemas` (`#3B82F6`, as `design.md` records); Figma resolves the same token to tone 600 (`#2F68C5`). The tables give the code value; the contrasts below give both.
 
 ### Card: `rich-option/*`
 
@@ -75,7 +75,7 @@ Light and dark values are read in the `Sistemas` brand. `color/primary`, `focus/
 | `rich-option/description-foreground` | `color/muted-foreground` | `#5C5C5C` | `#B7BBC1` | Second line |
 | `rich-option/icon-size` | `icon/size-md` | 20 | 20 | Box of the optional icon |
 | `rich-option/disabled-opacity` | `state/disabled-opacity` | 0.5 | 0.5 | The whole disabled card |
-| `rich-option/focus-border` | `focus/border` | `#2F68C5` | `#B1CDFB` | Outline with keyboard focus; it meets 3:1 |
+| `rich-option/focus-border` | `focus/border` | `#3B82F6` (Figma reads `#2F68C5`) | `#B1CDFB` | Outline with keyboard focus; it meets 3:1 |
 | `rich-option/focus-halo` | `focus/halo` | `#D8E6FD` | `#234E94` | Focus halo around the card; decorative |
 | `rich-option/focus-halo-error` | `focus/halo-error` | `#F1A8A8` | `#F1A8A8` | Focus halo around the card in error; decorative |
 | `rich-option/focus-radius` | `focus/radius-surface` | 18 | 18 | Corner of the focus halo |
@@ -103,7 +103,7 @@ Width: `layout/rich-option-width` (320), an existing token.
 | `select/option-icon-size` | `icon/size-md` | 20 | 20 | Box of the start icon and of the start dot |
 | `select/option-marker-size` | `icon/size-sm` | 16 | 16 | Box of the check |
 | `select/option-dot-size` | `core/space/200` (by decision) | 8 | 8 | Side of the start dot |
-| `select/option-focus-border` | `focus/border` | `#2F68C5` | `#B1CDFB` | 2 px ring inside the option active by the keyboard; it meets 3:1 |
+| `select/option-focus-border` | `focus/border` | `#3B82F6` (Figma reads `#2F68C5`) | `#B1CDFB` | 2 px ring inside the option active by the keyboard; it meets 3:1 |
 | `select/option-focus-border-width` | `core/focus-width/sm` (by decision) | 2 | 2 | Thickness of that ring |
 | `select/option-focus-border-radius` | `radius/inner` | 4 | 4 | Corner of that ring, the same as the option |
 
@@ -193,7 +193,7 @@ Card: title `Título da opção` ("Option title"), second line `Explicação cur
 | Criterion | Rule |
 |---|---|
 | Contrast | Card: title `rich-option/foreground` over `rich-option/background` measures 19.56:1 light and 12.45:1 dark; second line `rich-option/description-foreground` 6.69:1 and 8.28:1. Over the hover layer (`#F8F8F8` and `#262B32`) the title measures 18.42:1 and 11.10:1, and the second line 6.30:1 and 7.39:1. The resting outline `rich-option/border` is decorative (1.13:1 and 1.35:1): the boundary that meets 3:1 is the control inside the card, box and radio border and off switch track, all in `color/input`, 3.23:1 and 5.56:1. Checked, the control in `color/primary` shows the choice: 5.37:1 and 5.75:1 over `rich-option/background`. Rich option: label 19.56:1 light and 9.93:1 dark over `color/popover`; description (12 Regular) 6.69:1 and 6.61:1; over the hover layer (`#F6F7F7` and `#353C45`) label 18.17:1 and 8.75:1, description 6.21:1 and 5.82:1. The check measures 5.37:1 and 4.59:1 over `color/popover`, 4.99:1 and 4.04:1 over the hover layer. Origin: the card values are in the documentation and in the appendix notes (H, `6935:12627`); the rich option values that the documentation does not carry (label in dark, description, check) were measured in Figma by script and are in the appendix, table B (`6935:12409`). |
-| Visible focus | Card: the outline turns `rich-option/focus-border` with the halo `rich-option/focus-halo` in `rich-option/focus-radius` around the whole card; the inner control takes no ring of its own. The border meets 3:1 (5.37:1 light, 9.88:1 dark); the halo is decoration. Rich option: it takes no focus. Focus stays on the field, and the active option (`aria-activedescendant`) takes the hover layer at 50% and the 2 px ring inside, `select/option-focus-border`. The layer alone stays below 3:1 (1.08:1 light, 1.13:1 dark); the ring meets it: 5.37:1 light and 7.88:1 dark over `color/popover`. |
+| Visible focus | Card: the outline turns `rich-option/focus-border` with the halo `rich-option/focus-halo` in `rich-option/focus-radius` around the whole card; the inner control takes no ring of its own. The border meets 3:1: 3.68:1 light with the code value (`#3B82F6`; 5.37:1 with the `#2F68C5` that Figma reads) and 9.88:1 dark; the halo is decoration. Rich option: it takes no focus. Focus stays on the field, and the active option (`aria-activedescendant`) takes the hover layer at 50% and the 2 px ring inside, `select/option-focus-border`. The layer alone stays below 3:1 (1.08:1 light, 1.13:1 dark); the ring meets it: 3.68:1 light with the code value (5.37:1 with the value Figma reads) and 7.88:1 dark over `color/popover`. |
 | Color is not the only cue | Checked reads by the control (check, dot or knob position); the card outline does not change. In the list, the selected option shows the check or the checked box, with no background. Error: the outline turns `rich-option/border-error` and the control stays at default; the written sign is the message of the `nph-field` of the group. |
 | Target size | The whole card is the click area. The whole option is the click area, with the list width. |
 | Accessible name | Card: the title is the name of the control (`aria-labelledby`) and the second line is its description (`aria-describedby`). Rich option: role `option`, with the label as the name and the description in `aria-describedby`. Icon, avatar and dot are decorative (`aria-hidden`) when the label already says the same. |
@@ -224,7 +224,7 @@ In code the rich option is the existing `nph-option`, which already has `seconda
 
 ## Usage (as in Figma)
 
-- Code: `<nph-rich-option></nph-rich-option>`; import: `import 'nephos/nph-rich-option';`.
+- Code: `<nph-rich-option></nph-rich-option>`; import, as Figma writes it: `import 'nephos/nph-rich-option';`. The package path is `@iatec/nephos/nph-rich-option`, as `docs/consuming` and the README say.
 - The rich option has no tag of its own: it is the option of the `nph-select` and `nph-combobox` list.
 
 ## Relations and context
