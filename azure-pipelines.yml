@@ -285,7 +285,7 @@ stages:
               IPMON_LOG="$(Agent.TempDirectory)/ip-monitor.log"
               IPMON_PID=""
               if command -v ip >/dev/null 2>&1; then
-                { ip monitor link address | while IFS= read -r l; do echo "$(date -u +%FT%T.%3NZ) $l"; done; } >"${IPMON_LOG}" 2>&1 &
+                ip -timestamp monitor link address >"${IPMON_LOG}" 2>&1 &
                 IPMON_PID=$!
               fi
               ip_monitor_summary() {
