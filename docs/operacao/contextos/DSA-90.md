@@ -23,9 +23,10 @@ Implement the `nph-date-picker` and its date grid `nph-calendar` in the contract
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-90-date-picker origin/v/5.0.0`
+- The proofs of the wave, in sequence, on the head of the pull request.
 
 ## Result
-In progress. No token created or changed.
+Pull request 186 open, in review. No token created or changed.
 
 ## Evidence
 None yet: the `review-and-merge` gate opens after the merge.
@@ -34,4 +35,4 @@ None yet: the `review-and-merge` gate opens after the merge.
 None.
 
 ## Next command
-`npm test`
+`gh pr checks 186 --watch`
