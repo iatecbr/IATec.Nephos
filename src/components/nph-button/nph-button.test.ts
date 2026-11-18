@@ -22,7 +22,7 @@ import type { NphIcon } from '../nph-icon/nph-icon';
 import type { NphTooltip } from '../nph-tooltip/nph-tooltip';
 
 type Props = Partial<
-  Pick<NphButton, 'severity' | 'emphasis' | 'size' | 'text' | 'iconStart' | 'iconEnd' | 'label' | 'disabled' | 'loading' | 'shape'>
+  Pick<NphButton, 'severity' | 'emphasis' | 'size' | 'text' | 'iconStart' | 'iconEnd' | 'label' | 'disabled' | 'loading' | 'shape' | 'description'>
 >;
 
 /** Tokens of each pair, read variant by variant in `461:13009`. */
@@ -239,9 +239,9 @@ describe('registration and API', () => {
     expect(customElements.get('nph-button')).toBe(NphButton);
   });
 
-  it('the public API is exactly the one in P68 and P86, plus `controls` of P121', () => {
+  it('the public API is exactly the one in P68 and P86, plus `controls` of P121 and `description` of P127', () => {
     const declared = [...(NphButton as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading', 'shape', 'controls']);
+    expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading', 'shape', 'controls', 'description']);
   });
 
   it('the defaults are primary, solid and default (size default by decision of 05-10-2026)', async () => {
@@ -1395,6 +1395,73 @@ describe('the trigger of a disclosure (P121, amends P68 after P111 and P116; DSA
   it('a button with no `controls` writes no aria-controls', async () => {
     const element = await mount(TRIGGER);
     expect(control(element).hasAttribute('aria-controls')).toBe(false);
+  });
+});
+
+describe('the description of the button (DSA-74 D-2, P127, amends P68)', () => {
+  const RULE = 'PDF or PNG, up to 10 MB.';
+
+  it('is empty by default and a button without it draws and exposes exactly what it did', async () => {
+    const element = await mount({ text: 'Choose files' });
+    expect(element.description).toBe('');
+    expect(control(element).hasAttribute('aria-describedby')).toBe(false);
+    expect(element.shadowRoot?.querySelector('#description')).toBeNull();
+    expect(await axDescription(control(element))).toBe('');
+  });
+
+  it('draws the text hidden inside its own shadow root and points the native button at it', async () => {
+    const element = await mount({ text: 'Choose files', description: RULE });
+    const native = control(element);
+    expect(native.getAttribute('aria-describedby')).toBe('description');
+    const text = element.shadowRoot?.querySelector<HTMLElement>('#description');
+    expect(text?.textContent).toBe(RULE);
+    expect(text?.hidden).toBe(true);
+    expect(text?.getBoundingClientRect().width).toBe(0);
+    /* The reference and the text are in the same root, so the browser resolves it. */
+    expect(await axDescription(native)).toBe(RULE);
+    expect(await axName(native)).toBe('Choose files');
+  });
+
+  it('is a property and an attribute, trimmed, and follows a change and the clearing', async () => {
+    const element = await mount({ text: 'Choose files' });
+    element.setAttribute('description', `  ${RULE}  `);
+    await element.updateComplete;
+    expect(element.description).toBe(`  ${RULE}  `);
+    expect(await axDescription(control(element))).toBe(RULE);
+    element.description = 'Another rule.';
+    await element.updateComplete;
+    expect(await axDescription(control(element))).toBe('Another rule.');
+    element.description = '   ';
+    await element.updateComplete;
+    expect(control(element).hasAttribute('aria-describedby')).toBe(false);
+    expect(element.shadowRoot?.querySelector('#description')).toBeNull();
+  });
+
+  it('describes the icon-only button next to the name its balloon gives, and does not touch the balloon', async () => {
+    const element = await mount({ iconStart: 'plus', label: 'Add', description: RULE });
+    expect(await axName(control(element))).toBe('Add');
+    expect(await axDescription(control(element))).toBe(RULE);
+    expect(element.shadowRoot?.querySelector('nph-tooltip')?.getAttribute('relation')).toBe('name');
+  });
+
+  it('adds nothing to the layout, the focus or the click', async () => {
+    const plain = await mount({ text: 'Choose files' });
+    const described = await mount({ text: 'Choose files', description: RULE });
+    expect(described.getBoundingClientRect().width).toBe(plain.getBoundingClientRect().width);
+    expect(described.getBoundingClientRect().height).toBe(plain.getBoundingClientRect().height);
+    const clicks = vi.fn();
+    described.addEventListener('click', clicks);
+    await userEvent.click(described);
+    expect(clicks).toHaveBeenCalledTimes(1);
+    described.focus();
+    expect(described.shadowRoot?.activeElement).toBe(control(described));
+  });
+
+  it('stays valid with a disabled or a loading button, and is not an `aria-label`', async () => {
+    const element = await mount({ text: 'Choose files', description: RULE, disabled: true });
+    expect(control(element).disabled).toBe(true);
+    expect(control(element).getAttribute('aria-describedby')).toBe('description');
+    expect(control(element).hasAttribute('aria-label')).toBe(false);
   });
 });
 

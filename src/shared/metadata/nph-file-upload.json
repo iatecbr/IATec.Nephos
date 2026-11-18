@@ -104,7 +104,7 @@
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "Written by nph-field. With a reason to say, the message of the field in description, the zone goes to the error state and says it; without one it stays as it is: the zone never turns red without a reason."
+      "constraint": "Written by nph-field. With a reason to say, the message of the field in description, the zone goes to the error state and says it; without one it stays as it is: the zone never turns red without a reason. The reason shows once, in the zone: nph-field draws no error line under the zone (the static nphFieldShowsError of the class, P127), and the message keeps describing the group."
     },
     "required": {
       "type": "boolean",
@@ -369,7 +369,7 @@
     "Give the zone the rule in one line (formats, size and limit) so the person knows what is accepted before choosing; set accept, max-size and max-files to match it.",
     "On nph-file-upload-add, add the files in files as ready or uploading; for each rejected file say the reason: a size as an item in error, a type or a count as the error of the zone.",
     "Say the reason of an error of the upload in the entry and offer Try again; do not show an error only by color.",
-    "Put the zone inside nph-field to get the label, the asterisk and the help text; the reason of the error stays in the zone.",
+    "Put the zone inside nph-field to get the label, the asterisk and the help text; the reason of the error stays in the zone and shows once: the field draws no error line under it.",
     "Give every text the zone owes, already localized, including the four messages of the live region.",
     "Use the default or large size of the form for the buttons, never compact."
   ],

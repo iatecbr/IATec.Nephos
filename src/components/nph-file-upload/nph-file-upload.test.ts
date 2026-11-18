@@ -1200,6 +1200,94 @@ describe('semantics and the field–control contract', () => {
     expect(root(zone).activeElement).toBe(choose(zone));
   });
 
+  it('shows the reason once when the field is invalid: the zone says it, the field draws no error line of its own (DSA-74 D-4)', async () => {
+    const field = document.createElement('nph-field') as NphField;
+    field.label = 'Documents';
+    field.help = 'PDF only.';
+    const zone = document.createElement('nph-file-upload') as NphFileUpload;
+    Object.assign(zone, { ...TEXTS, label: '' });
+    field.append(zone);
+    document.body.append(field);
+    await field.updateComplete;
+    await settle(zone);
+    expect(field.shadowRoot?.querySelector('.message__text')?.textContent).toBe('PDF only.');
+    field.error = 'Attach at least one file.';
+    await field.updateComplete;
+    await settle(zone);
+    expect(field.shadowRoot?.querySelector('.message__text')).toBeNull();
+    expect(textOf(part(zone, '.rule'))).toBe('Attach at least one file.');
+    /* The button carries the reason only as a hidden description; the one drawn text is the zone's. */
+    const button = choose(zone) as HTMLElement & { shadowRoot: ShadowRoot };
+    expect(button.shadowRoot.getElementById('description')?.hidden).toBe(true);
+  });
+
+  it('a zone the page disables while the field is invalid shows no reason, so the field keeps its error line', async () => {
+    const field = document.createElement('nph-field') as NphField;
+    field.label = 'Documents';
+    field.error = 'Attach at least one file.';
+    const zone = document.createElement('nph-file-upload') as NphFileUpload;
+    Object.assign(zone, { ...TEXTS, label: '' });
+    field.append(zone);
+    document.body.append(field);
+    await field.updateComplete;
+    await settle(zone);
+    expect(field.shadowRoot?.querySelector('.message__text')).toBeNull();
+    zone.disabled = true;
+    await settle(zone);
+    field.requestUpdate();
+    await field.updateComplete;
+    expect(area(zone).dataset.state).toBe('disabled');
+    expect(field.shadowRoot?.querySelector('.message__text')?.textContent).toBe('Attach at least one file.');
+  });
+
+  it('a reason of the zone of its own next to a different message of the field: the message is not lost, it describes the group', async () => {
+    const field = document.createElement('nph-field') as NphField;
+    field.label = 'Documents';
+    field.error = 'Attach at least one file.';
+    const zone = document.createElement('nph-file-upload') as NphFileUpload;
+    Object.assign(zone, { ...TEXTS, label: '', error: 'File type not accepted.' });
+    field.append(zone);
+    document.body.append(field);
+    await field.updateComplete;
+    await settle(zone);
+    expect(textOf(part(zone, '.rule'))).toBe('File type not accepted.');
+    expect(field.shadowRoot?.querySelector('.message__text')).toBeNull();
+    expect(area(zone).getAttribute('aria-describedby')).toBe('rule description');
+    expect(textOf(root(zone).getElementById('description'))).toBe('Attach at least one file.');
+  });
+
+  it('describes the Choose files button by the rule, the limit rule or the reason, through the description of nph-button (DSA-74 D-2)', async () => {
+    const zone = await mount({ description: 'Send the signed contract.' });
+    const button = choose(zone) as HTMLElement & { description: string; shadowRoot: ShadowRoot };
+    const rule = 'PDF, PNG or JPG · up to 5 MB · up to 5 files';
+    expect(button.description).toBe(rule);
+    const inner = button.shadowRoot.querySelector('button') as HTMLButtonElement;
+    expect(inner.getAttribute('aria-describedby')).toBe('description');
+    expect(textOf(button.shadowRoot.getElementById('description'))).toBe(rule);
+    /* The description of the field stays on the group; the button has the rule only. */
+    expect(textOf(button.shadowRoot.getElementById('description'))).not.toContain('Send the signed contract.');
+
+    zone.error = 'File type not accepted.';
+    await settle(zone);
+    await (button as unknown as { updateComplete: Promise<unknown> }).updateComplete;
+    expect(button.description).toBe('File type not accepted.');
+    expect(textOf(button.shadowRoot.getElementById('description'))).toBe('File type not accepted.');
+
+    zone.error = '';
+    zone.maxFiles = 1;
+    zone.files = [{ id: 'a', name: 'a.pdf', size: 10 }];
+    await settle(zone);
+    await (button as unknown as { updateComplete: Promise<unknown> }).updateComplete;
+    expect(button.description).toBe(zone.limitRule);
+  });
+
+  it('a zone with no rule leaves the button with no description', async () => {
+    const zone = await mount({ rule: '' });
+    const button = choose(zone) as HTMLElement & { description: string; shadowRoot: ShadowRoot };
+    expect(button.description).toBe('');
+    expect(button.shadowRoot.querySelector('button')?.hasAttribute('aria-describedby')).toBe(false);
+  });
+
   it('keeps the error of the zone out of the line of the field: the reason is in the zone', async () => {
     const zone = await mount({ error: 'File type not accepted.' });
     expect(textOf(part(zone, '.rule'))).toBe('File type not accepted.');

@@ -1082,6 +1082,10 @@
       [
         "controls",
         "The element this button opens or closes, for the aria-controls of a disclosure trigger such as nph-collapsible. Property only: the native button takes it as ariaControlsElements."
+      ],
+      [
+        "description",
+        "A text that describes the action, such as the rule and the reason of a drop zone, already localized. The button draws it hidden in its own shadow root and points its native button at it with aria-describedby. Empty by default: without it the button is the same."
       ]
     ],
     "usageTitle": "Usage",
@@ -1554,7 +1558,7 @@
     "hoverCaption": "Put the pointer on each element and wait a moment, or focus it with Tab: the balloon opens after the wait on hover, at once on focus, on any element that receives focus. It stays open while the pointer is over it.",
     "disabledTarget": "Disabled element",
     "nameCaption": "The icon-only button has no text: the balloon text is its accessible name, and a screen reader announces it once, as the name.",
-    "focusableCaption": "Both elements ask for an open balloon. The enabled button gets it; the disabled one gets none, because without focus a keyboard user would never see it."
+    "focusableCaption": "All three elements ask for an open balloon. The button in the Tab order gets it, and so does the button out of it by tabindex -1, which the arrows can focus; the disabled one gets none, because without focus a keyboard user would never see it."
   },
   "tooltipDocs": {
     "summary": "A floating text balloon attached to any element of the interface. It shows complementary information, an explanation or context data when the pointer rests on the element and when the element receives keyboard focus.",
@@ -1590,7 +1594,7 @@
       ],
       [
         "for",
-        "The id of the element that opens the balloon, in the same root as the tooltip, as in the native label. The element must receive focus: a disabled element or loose text gets no balloon. The tooltip listens on that element and adds its own id to its aria-describedby, or to its aria-labelledby with relation=\"name\". Without a matching element, nothing is drawn."
+        "The id of the element that opens the balloon, in the same root as the tooltip, as in the native label. The element must receive focus: a disabled element or loose text gets no balloon. An element out of the Tab order by tabindex=\"-1\", such as a tab of a list moved by the arrows, does get it: the pointer opens it on hover and the arrows on focus. The tooltip listens on that element and adds its own id to its aria-describedby, or to its aria-labelledby with relation=\"name\". Without a matching element, nothing is drawn."
       ],
       [
         "side",
@@ -3723,7 +3727,7 @@
       ],
       [
         "error",
-        "The error message, in text/body-md and status/error-text, with no icon. Filled in, the field is invalid and the control is in error; the message replaces the help."
+        "The error message, in text/body-md and status/error-text, with no icon. Filled in, the field is invalid and the control is in error; the message replaces the help. A control that shows the reason itself, such as nph-file-upload, keeps the single message: the field draws no line under it."
       ],
       [
         "counter",
@@ -8377,7 +8381,7 @@
       "components-nph-tooltip-validation--focus-and-escape": "Keyboard focus opens the balloon and Esc closes it, with the focus staying on the element.",
       "components-nph-tooltip-validation--hover-and-focus": "Hover after a short wait and keyboard focus at once open the balloon on any element that receives focus: a button, a link and a field.",
       "components-nph-tooltip-validation--accessible-name": "On an icon-only button the balloon text is the accessible name of the action, announced once.",
-      "components-nph-tooltip-validation--focusable-only": "The balloon goes only on an element that receives focus: a disabled button gets none.",
+      "components-nph-tooltip-validation--focusable-only": "The balloon goes only on an element that can receive focus: a button in the Tab order and one out of it by tabindex -1 get it, a disabled button gets none.",
       "components-nph-input-validation--matrix": "size × state of the set, in compact, default and large: placeholder, value, value with the clear button, error, disabled and disabled with error. Move the mouse over a field for hover, click it for focus and press Tab to the clear button for its focus.",
       "components-nph-input-validation--types": "The five types of D1, each with a value it accepts. Password, number and mask are out of v1.",
       "components-nph-input-validation--icons": "Start and end icons, light, at icon/size-sm: none, start, end and both. The end icon only swaps the art; the action is always to clear.",
@@ -8605,7 +8609,7 @@
       "components-nph-tabs-validation--variants": "The five styles, each with the second tab active: the segmented rail with a card on the active tab, the underline with a line under it, and the solid, light and outline tab buttons with a background on the active tab.",
       "components-nph-tabs-validation--content": "What a tab turns on, in every style: the start icon, the counter after the label and the tag after the counter, always in this order, and the three tones of the counter: inactive outside the rail, inactive inside the rail and active.",
       "components-nph-tabs-validation--states": "Active, rest and disabled in every style, and the active tab disabled as well, which keeps its active look under the disabled opacity. Hover and focus show up with the pointer and the keyboard, and the tests prove them.",
-      "components-nph-tabs-validation--scroll": "The underline list that does not fit: each tab keeps the width of its content and an arrow sits at each end, disabled at the end the list has reached; when the tabs fit, they share the width and no arrow shows.",
+      "components-nph-tabs-validation--scroll": "The underline list that does not fit: each tab keeps the width of its content and an arrow sits at each end, disabled at the end the list has reached; when the tabs fit, they share the width and no arrow shows. Without the two labels the arrows take a default name that follows the language.",
       "components-nph-tabs-validation--cut-label": "In the segmented and the tab button styles the tabs share the width, and a label that does not fit ends in an ellipsis; its whole text shows in a balloon on hover and on focus.",
       "components-nph-tabs-validation--panels": "The panel is the consumer content, slotted by the value of each tab: only the panel of the active tab shows, and the list stays on top of it.",
       "components-nph-tabs-validation--direction": "Right-to-left writing: the list reads from the right and the arrows follow the ends of the line.",
@@ -8648,7 +8652,7 @@
       "components-nph-file-upload-validation--kinds": "The image kind, with the thumbnail in nph-image, in every status; the last image has no thumbnail yet and shows the file-image icon. The file kind shows file-lines.",
       "components-nph-file-upload-validation--limit": "The limit reached, with the button disabled and the rule that says how to free space; a file above the maximum size, which comes in as an item in error with its reason; and a passed limit, said by the zone in error.",
       "components-nph-file-upload-validation--width": "A name that does not fit is cut on one line with an ellipsis and its whole text reaches the screen reader; a long reason wraps and the item grows.",
-      "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason in the zone; and the compact zone in a form with another field.",
+      "components-nph-file-upload-validation--field": "The zone as the control of nph-field, with the label, the asterisk and the help text of the field and the reason once, in the zone, with no error line of the field under it, also when the message comes from the field; and the compact zone in a form with another field.",
       "components-nph-file-upload-validation--examples": "The three required examples, each in light and dark mode: the empty zone with its rule, the list in use with an upload in progress, an error and a done file, and the limit reached.",
       "components-nph-file-upload-validation--brands": "The seven brands in light and dark mode: the dragging colors, the box of the item and the focus ring follow the brand.",
       "components-nph-collapsible-validation--types": "The three types, closed and open: the line, whose trigger is the whole row with the title and the chevron; the button, an nph-button with the chevron at the end; and the preview, a text cut at three lines with the button below it. When the text fits in the three lines nothing is cut and there is no button.",
@@ -12929,7 +12933,7 @@
       ],
       [
         "scroll-previous-label and scroll-next-label",
-        "The names of the two scroll arrows of the underline style. Without them the arrows are not drawn. Already localized."
+        "The names of the two scroll arrows of the underline style. They override a default name that follows the language of the page (by default, Rolar para a esquerda and Rolar para a direita; English and Spanish too), so the arrows are never drawn without a name. Already localized."
       ],
       [
         "nph-tab-change",
@@ -13469,7 +13473,7 @@
     "panelMenu": [
       [
         "Open groups",
-        "Several stay open at once; opening one does not close the others. The group of the current page and its parent are born open. If the person closes one, it stays closed, with no new mark, even when the product sends a new list."
+        "Several stay open at once; opening one does not close the others. The group of the current page and its parent are born open. If the person closes one, it stays closed, with no new mark, even when the product sends a new list, as long as the current page is the same. When the product sends a new current page, its parent groups open."
       ],
       [
         "Control",
@@ -13760,7 +13764,7 @@
     "keyboard": [
       [
         "Tab and Shift+Tab",
-        "Move the focus through the clickable steps, in list order. The current step and a disabled step take no Tab. A pending step of the linear stepper with a cut label takes Tab only to open the balloon: it is not a link."
+        "Move the focus through the clickable steps, in list order. The current step and a disabled step take no Tab. A pending step of the linear stepper with a cut label takes Tab only to open the balloon: it is not a link, it has a role and aria-disabled, and Enter does nothing."
       ],
       [
         "Enter",
@@ -14484,7 +14488,7 @@
     ],
     "relationsTitle": "Relations and context",
     "relations": [
-      "The zone takes the place of the control of nph-field, which brings the label, the asterisk and the help text. The reason of the error stays in the zone, in the place of the rule.",
+      "The zone takes the place of the control of nph-field, which brings the label, the asterisk and the help text. The reason of the error stays in the zone, in the place of the rule, and shows once: the field draws no error line under the zone.",
       "It works with nph-button (Choose files, Try again and the remove button), nph-icon, nph-spinner (the upload in progress) and nph-image (the thumbnail).",
       "For one file only, use the single file field (nph-input-file). The files of a record outside the form, in table columns, are a composition with nph-data-table."
     ],
@@ -14539,7 +14543,7 @@
       ],
       [
         "Description",
-        "The rule and the reason describe the group of the zone. nph-button forwards no aria-describedby into its own shadow root, so the description is not on the button itself."
+        "The rule and the reason describe the group of the zone, and the Choose files button itself: nph-button draws the same text in its own shadow root, through its description, and points the native button at it."
       ],
       [
         "Contrast and color",

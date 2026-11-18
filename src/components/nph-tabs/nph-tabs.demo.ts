@@ -11,7 +11,7 @@
  * both ends when the tabs do not fit. Every visible text comes from the dictionary, passed in by the
  * page that calls this file.
  */
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import { format } from '../../../.storybook/i18n/index.js';
@@ -106,11 +106,13 @@ export interface ListOptions extends ContentOptions {
   /** The width of the frame, to force the scroll or the cut label. */
   width?: string;
   tabs?: NphTab[];
+  /** Gives the list no `scroll-previous-label` and no `scroll-next-label`: the arrows take their default names. */
+  defaultNames?: boolean;
 }
 
 /** A list of the requests, in a style, with the content and the width asked for. */
 export function list(texts: ExampleTexts, options: ListOptions = {}): TemplateResult {
-  const { variant = 'segmented', value, activation = 'automatic', panels = false, width, tabs } = options;
+  const { variant = 'segmented', value, activation = 'automatic', panels = false, width, tabs, defaultNames = false } = options;
   const own = tabs ?? requestTabs(texts, options);
   const tag = html`<nph-tabs
     .tabs=${own}
@@ -118,8 +120,8 @@ export function list(texts: ExampleTexts, options: ListOptions = {}): TemplateRe
     activation=${activation}
     value=${value ?? own[1]?.value ?? ''}
     label=${texts.navLabel}
-    scroll-previous-label=${texts.scrollPreviousLabel}
-    scroll-next-label=${texts.scrollNextLabel}
+    scroll-previous-label=${defaultNames ? nothing : texts.scrollPreviousLabel}
+    scroll-next-label=${defaultNames ? nothing : texts.scrollNextLabel}
     >${panels ? requestPanels(texts, own) : ''}</nph-tabs
   >`;
   return width === undefined ? tag : html`<div style="inline-size: ${width}; max-inline-size: 100%;">${tag}</div>`;

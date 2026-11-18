@@ -232,12 +232,12 @@ describe('nph-tooltip Validation: text only from the dictionary', () => {
     target.remove();
   });
 
-  it('FocusableOnly: the enabled button shows its balloon and the disabled one shows none', async () => {
+  it('FocusableOnly: the button in the Tab order and the one with tabindex -1 show their balloon, the disabled one shows none', async () => {
     const target = draw(validation.FocusableOnly as Renderable, 'en');
     const tooltips = await ready(target);
     const shownOf = (tooltip: Element): boolean =>
       tooltip.shadowRoot?.querySelector('.bubble')?.matches(':popover-open') ?? false;
-    expect(tooltips.map(shownOf)).toEqual([true, false]);
+    expect(tooltips.map(shownOf)).toEqual([true, true, false]);
     target.remove();
   });
 

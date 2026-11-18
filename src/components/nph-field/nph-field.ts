@@ -37,6 +37,11 @@
  *   The field wraps the slot in a `group` (or `radiogroup`) named by `label` and
  *   described by the message line, in the same root, and writes only `invalid` and
  *   `disabled` on each option;
+ * - a control that draws the error reason itself (`static nphFieldShowsError = true`, as the zone of
+ *   `nph-file-upload` does: the reason takes the place of its rule) keeps the single message: while the field is
+ *   invalid the field draws no error line of its own under it, and still passes the message as `description`,
+ *   which the control says (DSA-74 D-4, WCAG 3.3.1; P127, extends P83). While that control is disabled by the page the
+ *   field draws the line, since a disabled control shows no reason. The help and the counter are the field's;
  * - inside a field, the field is the source of `label`, `description`, `invalid` and
  *   `required`. `disabled` adds up: the field turns it on while it is disabled and
  *   gives back only what it turned on, even when the control moves to another field;
@@ -119,6 +124,12 @@ function roleOf(element: Element): NphFieldRole | undefined {
   }
   const role = definition.nphFieldRole;
   return (NPH_FIELD_ROLES as readonly unknown[]).includes(role) ? (role as NphFieldRole) : 'control';
+}
+
+/** Whether the class of the control draws the reason of the error itself: the field then draws no error line (P127). */
+function showsErrorItself(element: Element): boolean {
+  const definition = customElements.get(element.localName) as { nphFieldShowsError?: unknown } | undefined;
+  return definition?.nphFieldShowsError === true;
 }
 
 /**
@@ -458,13 +469,24 @@ export class NphField extends LitElement {
     this.shownWarnings = warnings;
   }
 
+  /**
+   * The control says the reason of the error itself: the field draws only the help, never the error, on its line.
+   * Not while the control is disabled by the page: a disabled zone shows no reason (disabled wins), so the field says it.
+   */
+  private get errorShownByControl(): boolean {
+    const control = this.control;
+    return (
+      this.invalid && control !== undefined && showsErrorItself(control) && (control as unknown as { disabled?: unknown }).disabled !== true
+    );
+  }
+
   private renderMessage(): TemplateResult | typeof nothing {
-    const text = this.messageText;
+    const text = this.errorShownByControl ? '' : this.messageText;
     const counter = this.counterText;
     if (text === '' && counter === '') {
       return nothing;
     }
-    const kind = this.invalid ? 'error' : 'help';
+    const kind = this.invalid && !this.errorShownByControl ? 'error' : 'help';
     return html`<div class="message message--${kind}">
       ${text === '' ? nothing : html`<span class="message__text message__text--${kind}" id=${MESSAGE_ID}>${text}</span>`}
       ${counter === '' ? nothing : html`<span class="message__counter">${counter}</span>`}

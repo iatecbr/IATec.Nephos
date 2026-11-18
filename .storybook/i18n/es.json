@@ -1082,6 +1082,10 @@
       [
         "controls",
         "El elemento que este botón abre o cierra, para el aria-controls del disparador de un disclosure, como el nph-collapsible. Solo como propiedad: el botón nativo lo recibe como ariaControlsElements."
+      ],
+      [
+        "description",
+        "Un texto que describe la acción, como la regla y el motivo de una zona de soltar, ya localizado. El botón lo dibuja oculto en su propia sombra y apunta su botón nativo hacia él con aria-describedby. Vacío por defecto: sin él el botón es el mismo."
       ]
     ],
     "usageTitle": "Uso",
@@ -1554,7 +1558,7 @@
     "hoverCaption": "Ponga el puntero sobre cada elemento y espere un momento, o enfóquelo con Tab: el globo se abre tras la espera con el hover, al instante con el foco, en cualquier elemento que recibe foco. Se queda abierto mientras el puntero está sobre él.",
     "disabledTarget": "Elemento deshabilitado",
     "nameCaption": "El botón solo de icono no tiene texto: el texto del globo es su nombre accesible, y el lector de pantalla lo anuncia una vez, como nombre.",
-    "focusableCaption": "Los dos elementos piden el globo abierto. El botón habilitado lo recibe; el deshabilitado no, porque sin foco quien usa el teclado nunca lo vería."
+    "focusableCaption": "Los tres elementos piden el globo abierto. El botón en el orden del Tab lo recibe, y también el botón fuera de él por tabindex -1, que las flechas pueden enfocar; el deshabilitado no, porque sin foco quien usa el teclado nunca lo vería."
   },
   "tooltipDocs": {
     "summary": "Un globo de texto flotante unido a cualquier elemento de la interfaz. Muestra información complementaria, una explicación o un dato de contexto cuando el puntero descansa sobre el elemento y cuando el elemento recibe el foco del teclado.",
@@ -1590,7 +1594,7 @@
       ],
       [
         "for",
-        "El id del elemento que abre el globo, en la misma raíz del tooltip, como en el label nativo. El elemento debe recibir foco: un elemento deshabilitado o un texto suelto no recibe globo. El tooltip escucha ese elemento y añade su propio id a su aria-describedby, o a su aria-labelledby con relation=\"name\". Sin un elemento correspondiente, no se dibuja nada."
+        "El id del elemento que abre el globo, en la misma raíz del tooltip, como en el label nativo. El elemento debe recibir foco: un elemento deshabilitado o un texto suelto no recibe globo. Un elemento fuera del orden del Tab por tabindex=\"-1\", como una pestaña de una lista movida con las flechas, sí lo recibe: el puntero lo abre al pasar por encima y las flechas con el foco. El tooltip escucha ese elemento y añade su propio id a su aria-describedby, o a su aria-labelledby con relation=\"name\". Sin un elemento correspondiente, no se dibuja nada."
       ],
       [
         "side",
@@ -3723,7 +3727,7 @@
       ],
       [
         "error",
-        "El mensaje de error, en text/body-md y status/error-text, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda."
+        "El mensaje de error, en text/body-md y status/error-text, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda. Un control que muestra el motivo él mismo, como nph-file-upload, conserva un solo mensaje: el campo no dibuja línea bajo él."
       ],
       [
         "counter",
@@ -8377,7 +8381,7 @@
       "components-nph-tooltip-validation--focus-and-escape": "El foco del teclado abre el globo y Esc lo cierra, con el foco quedándose en el elemento.",
       "components-nph-tooltip-validation--hover-and-focus": "El hover tras una espera corta y el foco del teclado al instante abren el globo en cualquier elemento que recibe foco: un botón, un enlace y un campo.",
       "components-nph-tooltip-validation--accessible-name": "En el botón solo de icono el texto del globo es el nombre accesible de la acción, anunciado una vez.",
-      "components-nph-tooltip-validation--focusable-only": "El globo solo va en un elemento que recibe foco: el botón deshabilitado no recibe ninguno.",
+      "components-nph-tooltip-validation--focusable-only": "El globo solo va en un elemento que puede recibir foco: un botón en el orden del Tab y uno fuera de él por tabindex -1 lo reciben, un botón deshabilitado no recibe ninguno.",
       "components-nph-input-validation--matrix": "size × state del set, en compact, default y large: placeholder, valor, valor con el botón de borrar, error, deshabilitado y deshabilitado con error. Pase el mouse sobre un campo para el hover, haga clic para el foco y pulse Tab hasta el botón de borrar para su foco.",
       "components-nph-input-validation--types": "Los cinco tipos de la D1, cada uno con un valor que acepta. Contraseña, número y máscara están fuera de la v1.",
       "components-nph-input-validation--icons": "Íconos de inicio y de fin, light, en icon/size-sm: ninguno, inicio, fin y los dos. El ícono de fin solo cambia el arte; la acción es siempre borrar.",
@@ -8605,7 +8609,7 @@
       "components-nph-tabs-validation--variants": "Los cinco estilos, cada uno con la segunda pestaña activa: el riel segmentado con una tarjeta en la pestaña activa, el subrayado con una línea debajo de ella, y los botones solid, light y outline con un fondo en la pestaña activa.",
       "components-nph-tabs-validation--content": "Lo que una pestaña activa, en todos los estilos: el icono de inicio, el contador después de la etiqueta y la tag después del contador, siempre en ese orden, y los tres tonos del contador: inactivo fuera del riel, inactivo dentro del riel y activo.",
       "components-nph-tabs-validation--states": "Activa, en reposo y deshabilitada en todos los estilos, y la pestaña activa también deshabilitada, que mantiene el aspecto de activa bajo la opacidad de deshabilitado. El hover y el foco aparecen con el puntero y el teclado, y las pruebas los comprueban.",
-      "components-nph-tabs-validation--scroll": "La lista subrayada que no cabe: cada pestaña guarda el ancho de su contenido y una flecha queda en cada extremo, deshabilitada en el extremo que la lista alcanzó; cuando las pestañas caben, se reparten el ancho y ninguna flecha aparece.",
+      "components-nph-tabs-validation--scroll": "La lista subrayada que no cabe: cada pestaña guarda el ancho de su contenido y una flecha queda en cada extremo, deshabilitada en el extremo que la lista alcanzó; cuando las pestañas caben, se reparten el ancho y ninguna flecha aparece. Sin las dos etiquetas las flechas toman un nombre por defecto que sigue el idioma.",
       "components-nph-tabs-validation--cut-label": "En los estilos segmentado y botón las pestañas se reparten el ancho, y una etiqueta que no cabe termina en puntos suspensivos; el texto completo aparece en un globo al pasar el puntero y con el foco.",
       "components-nph-tabs-validation--panels": "El panel es contenido del consumidor, encajado por el valor de cada pestaña: solo aparece el panel de la pestaña activa, y la lista queda encima de él.",
       "components-nph-tabs-validation--direction": "Escritura de derecha a izquierda: la lista se lee desde la derecha y las flechas siguen los extremos de la línea.",
@@ -8648,7 +8652,7 @@
       "components-nph-file-upload-validation--kinds": "El tipo imagen, con la miniatura en nph-image, en todos los estados; la última imagen aún no tiene miniatura y muestra el icono file-image. El tipo archivo muestra file-lines.",
       "components-nph-file-upload-validation--limit": "El límite alcanzado, con el botón deshabilitado y la regla que dice cómo liberar espacio; un archivo por encima del tamaño máximo, que entra como elemento en error con el motivo; y un límite superado, dicho por la zona en error.",
       "components-nph-file-upload-validation--width": "Un nombre que no cabe se corta en una línea con puntos suspensivos y el nombre completo llega al lector de pantalla; un motivo largo se parte en líneas y el elemento crece.",
-      "components-nph-file-upload-validation--field": "La zona como el control de nph-field, con la etiqueta, el asterisco y el texto de apoyo del campo y el motivo en la zona; y la zona compacta en un formulario con otro campo.",
+      "components-nph-file-upload-validation--field": "La zona como el control de nph-field, con la etiqueta, el asterisco y el texto de apoyo del campo y el motivo en la zona; y la zona compacta en un formulario con otro campo. Cuando el mensaje viene del campo, el motivo aparece una vez, en la zona, sin línea de error del campo debajo.",
       "components-nph-file-upload-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: la zona vacía con su regla, la lista en uso con un envío en curso, un error y un archivo concluido, y el límite alcanzado.",
       "components-nph-file-upload-validation--brands": "Las siete marcas en modo claro y oscuro: los colores de arrastrando, la caja del elemento y el anillo de foco siguen la marca.",
       "components-nph-collapsible-validation--types": "Los tres tipos, cerrados y abiertos: la línea, cuyo disparador es la fila entera con el título y la flecha; el botón, un nph-button con la flecha al final; y la vista previa, un texto cortado en tres líneas con el botón justo debajo. Cuando el texto cabe en las tres líneas, no se corta nada y no hay botón.",
@@ -12929,7 +12933,7 @@
       ],
       [
         "scroll-previous-label y scroll-next-label",
-        "Los nombres de las dos flechas de desplazamiento del estilo subrayado. Sin ellos las flechas no se dibujan. Ya localizados."
+        "Los nombres de las dos flechas de desplazamiento del estilo subrayado. Reemplazan un nombre por defecto que sigue el idioma de la página (por defecto, Rolar para a esquerda y Rolar para a direita; también en inglés y español), así que las flechas nunca se dibujan sin nombre. Ya localizados."
       ],
       [
         "nph-tab-change",
@@ -13469,7 +13473,7 @@
     "panelMenu": [
       [
         "Grupos abiertos",
-        "Varios quedan abiertos a la vez; abrir uno no cierra los otros. El grupo de la página actual y su padre nacen abiertos. Si la persona cierra uno, queda cerrado, sin marca nueva, incluso cuando el producto envía una lista nueva."
+        "Varios quedan abiertos a la vez; abrir uno no cierra los otros. El grupo de la página actual y su padre nacen abiertos. Si la persona cierra uno, queda cerrado, sin marca nueva, incluso cuando el producto envía una lista nueva, mientras la página actual sea la misma. Cuando el producto envía una página actual nueva, sus grupos padres se abren."
       ],
       [
         "Control",
@@ -13760,7 +13764,7 @@
     "keyboard": [
       [
         "Tab y Shift+Tab",
-        "Mueven el foco por los pasos pulsables, en el orden de la lista. El paso actual y un paso deshabilitado no reciben Tab. Un paso pendiente del stepper lineal con etiqueta cortada recibe Tab solo para abrir el globo: no es un enlace."
+        "Mueven el foco por los pasos pulsables, en el orden de la lista. El paso actual y un paso deshabilitado no reciben Tab. Un paso pendiente del stepper lineal con etiqueta cortada recibe Tab solo para abrir el globo: no es un enlace, tiene un rol y aria-disabled, y Enter no hace nada."
       ],
       [
         "Enter",
@@ -14484,7 +14488,7 @@
     ],
     "relationsTitle": "Relaciones y contexto",
     "relations": [
-      "La zona ocupa el lugar del control de nph-field, que trae la etiqueta, el asterisco y el texto de apoyo. El motivo del error se queda en la zona, en el lugar de la regla.",
+      "La zona ocupa el lugar del control de nph-field, que trae la etiqueta, el asterisco y el texto de apoyo. El motivo del error se queda en la zona, en el lugar de la regla, y se muestra una sola vez: el campo no dibuja línea de error bajo la zona.",
       "Funciona con nph-button (Elegir archivos, Reintentar y el botón de quitar), nph-icon, nph-spinner (el envío en curso) y nph-image (la miniatura).",
       "Para un solo archivo, usa el campo de archivo único (nph-input-file). Los archivos de un registro fuera del formulario, en columnas de tabla, son una composición con nph-data-table."
     ],
@@ -14539,7 +14543,7 @@
       ],
       [
         "Descripción",
-        "La regla y el motivo describen el grupo de la zona. nph-button no reenvía aria-describedby a su propia sombra, así que la descripción no está en el botón mismo."
+        "La regla y el motivo describen el grupo de la zona y el propio botón Elegir archivos: nph-button dibuja el mismo texto en su propia sombra, mediante su descripción, y apunta el botón nativo hacia él."
       ],
       [
         "Contraste y color",

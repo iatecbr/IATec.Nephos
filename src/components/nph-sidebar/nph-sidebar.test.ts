@@ -1415,21 +1415,92 @@ describe('the panel menu: the groups that are open', () => {
     expect(item(sidebar, 2).hasAttribute('active')).toBe(false);
   });
 
-  it('the choice survives the new list the product sends at each navigation: closed stays closed, opened stays open, the new current group is born open, the one left behind stays', async () => {
+  it('the choice survives the new list the product sends at each navigation: closed stays closed while the page is the same, opened stays open, the group of a new current page opens', async () => {
     const sidebar = await mountMenu();
     await userEvent.click(innerControl(item(sidebar, 2)));
     await userEvent.click(innerControl(item(sidebar, 4)));
     await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(false);
+    /* The same page in a new list, as the product sends at every render: the closed group stays closed. */
+    sidebar.items = navigated('hospitals');
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(false);
+    expect(item(sidebar, 4).expanded).toBe(true);
     /* The product moves the current page into a group that is already open. */
     sidebar.items = navigated('profile');
     await steady(sidebar);
     expect(item(sidebar, 2).expanded).toBe(false);
     expect(item(sidebar, 4).expanded).toBe(true);
-    /* And back to the first one, which the person had closed: it stays closed. */
+    /* And back to the first one, which the person had closed: a new current page opens its parents (DSA-76 D-3). */
+    sidebar.items = navigated('hospitals');
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    expect(subgroup(sidebar, '2/1').getAttribute('aria-expanded')).toBe('true');
+    expect(item(sidebar, 4).expanded).toBe(true);
+  });
+
+  it('a new current page opens its parents and fires no nph-group-toggle: it is not a choice of the person', async () => {
+    const sidebar = await mountMenu();
+    await userEvent.click(innerControl(item(sidebar, 2)));
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(false);
+    const events: unknown[] = [];
+    sidebar.addEventListener('nph-group-toggle', (event) => events.push(event.detail));
+    sidebar.items = navigated('profile');
+    await steady(sidebar);
+    sidebar.items = navigated('hospitals');
+    await steady(sidebar);
+    expect(item(sidebar, 2).expanded).toBe(true);
+    expect(events).toEqual([]);
+  });
+
+  it('the current page that goes away for a moment and comes back is the same page: a closed group stays closed', async () => {
+    const sidebar = await mountMenu();
+    const none = structuredClone(PM_ITEMS) as NphSidebarEntry[];
+    const registries = none[2] as unknown as { children: Array<{ options?: Array<{ active?: boolean }> }> };
+    delete (registries.children[1]?.options?.[1] as { active?: boolean }).active;
+    await userEvent.click(innerControl(item(sidebar, 2)));
+    await steady(sidebar);
+    sidebar.items = none;
+    await steady(sidebar);
     sidebar.items = navigated('hospitals');
     await steady(sidebar);
     expect(item(sidebar, 2).expanded).toBe(false);
-    expect(item(sidebar, 4).expanded).toBe(true);
+  });
+
+  it('a page named by its value is the same page when the product reorders the options', async () => {
+    const list = (order: 'a' | 'b'): NphSidebarEntry[] => [
+      {
+        type: 'group',
+        value: 'docs',
+        label: 'Docs',
+        icon: 'folder',
+        children: [
+          {
+            value: 'kinds',
+            label: 'Kinds',
+            options:
+              order === 'a'
+                ? [
+                    { value: 'one', label: 'One', href: '#one', active: true },
+                    { value: 'two', label: 'Two', href: '#two' },
+                  ]
+                : [
+                    { value: 'two', label: 'Two', href: '#two' },
+                    { value: 'one', label: 'One', href: '#one', active: true },
+                  ],
+          },
+        ],
+      } as unknown as NphSidebarEntry,
+    ];
+    const sidebar = await mountMenu({ items: list('a') });
+    expect(item(sidebar, 0).expanded).toBe(true);
+    await userEvent.click(innerControl(item(sidebar, 0)));
+    await steady(sidebar);
+    expect(item(sidebar, 0).expanded).toBe(false);
+    sidebar.items = list('b');
+    await steady(sidebar);
+    expect(item(sidebar, 0).expanded).toBe(false);
   });
 
   it('the group the page was born open in is not closed when the current page moves to another group, and the other is born open', async () => {

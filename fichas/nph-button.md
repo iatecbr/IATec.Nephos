@@ -136,6 +136,18 @@ api:
       disclosure, such as nph-collapsible (P121, amends P68 after P111 and P116). Property only: an
       id cannot cross the shadow root, so the native button takes it as ariaControlsElements.
       A button with no controls writes no aria-controls.
+  description:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      A text that describes the action, already localized, such as the rule and the reason of the
+      drop zone of nph-file-upload (DSA-74 D-2, DSA-82; P127, amends P68). An id reference cannot
+      cross the shadow root, so the button draws the text itself, hidden, in its own root and gives
+      the native button an aria-describedby to it. Empty or only spaces: nothing is drawn and the
+      button is exactly as without the property. With the icon only it describes the button next to
+      the name the balloon gives.
 variants:
   severity:
     axis: appearance
@@ -251,7 +263,7 @@ anti_patterns:
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-solid-*, button/secondary-outline-*, button/secondary-ghost-background-hover and their icon-button/* twins are in src/tokens/source/semantic.tokens.json"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64); P111 — the trigger of an open popover draws hover-active and hands aria-haspopup and aria-expanded to the native button; P121 — the trigger of a disclosure hands aria-expanded to the native button with no new look, and controls gives it aria-controls"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64); P111 — the trigger of an open popover draws hover-active and hands aria-haspopup and aria-expanded to the native button; P121 — the trigger of a disclosure hands aria-expanded to the native button with no new look, and controls gives it aria-controls; P127 — description, a text drawn hidden in its own root and pointed to by aria-describedby of the native button, strictly additive (DSA-82)"
   tests: "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -347,6 +359,7 @@ target on a touch screen; a size different from the field beside it.
 | `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
 | Open trigger | the same tokens as `hover-active`, the icons included | A button that carries `aria-haspopup` dialog or menu and `aria-expanded` true on the host, the trigger of an open `nph-popover` or `nph-dropdown-menu`, keeps the look of `hover-active` while it is open and hands the two attributes, with the same `aria-haspopup` value, to its native button. It is a state read from the attributes, not a variant; any other `aria-haspopup` changes nothing (P111, amends P68; DSA-67 D-2) |
 | Disclosure trigger | none | A button whose host carries `aria-expanded` `true` or `false` and **no `aria-haspopup` at all**, the trigger of an `nph-collapsible`, hands that value to its native button and draws nothing new: no `hover-active`, no solid icon, no color. A host without `aria-expanded`, and any `aria-haspopup`, behave as before. `controls`, an element, is given to the native button as `ariaControlsElements`, and a button with none writes no `aria-controls` (P121, amends P68 after P111 and P116; DSA-78) |
+| Description | none | `description`, a text, is drawn hidden inside the shadow root and the native button carries an `aria-describedby` to it, because an id of the page cannot reach it. Empty by default; without it the button draws and behaves exactly as before. It adds no size, no focus stop and no event (P127, amends P68; DSA-74 D-2, DSA-82) |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 border is the indicator; the halo is the second layer. Known limit: in dark mode,

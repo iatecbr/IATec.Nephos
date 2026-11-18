@@ -27,7 +27,9 @@
  *   disclosure (the subgroup) instead of in a flyout panel. It changes how the expanded and the
  *   mobile list are drawn; the collapsed menu is the rail and its flyout panels in both. No new
  *   tag, no slot. The open groups and subgroups are the person's: they open and close by click,
- *   Enter or Space, several at once, and the group that holds the current page is born open;
+ *   Enter or Space, several at once, and the group that holds the current page is born open. When the
+ *   product sends a NEW current page its parent groups open again, even one the person closed; a group the
+ *   person closed stays closed only while the current page is the same (DSA-76 D-3, P127);
  * - `open`: the mobile menu opened, only in `mobile`. The product opens it with a button of
  *   its own. Reflects; the menu sets it to `false` itself when the person closes it, after the
  *   cancelable event `nph-close` (bubbles, composed), `detail: { source }`, `source` being
@@ -337,6 +339,8 @@ export class NphSidebar extends LitElement {
    */
   private openRecord = new Map<string, boolean>();
   private lastData = new Map<string, boolean | undefined>();
+  /** The identity of the current page the menu saw last: a different one is a new page (DSA-76 D-3). */
+  private lastCurrent: string | null = null;
   /* The blocks that grow in place: what each one showed, the phase while it moves, and the end of the move. */
   private shownOpen = new Map<string, boolean>();
   private phases = new Map<string, Phase>();
@@ -792,6 +796,40 @@ export class NphSidebar extends LitElement {
     return child.options === null ? child.child.active === true : child.options.some((option) => option.active === true);
   }
 
+  /** What names a leaf of the list across a new `items`: its `value`, else its `href`, else its position. */
+  private static leafId(value: string | undefined, href: string | undefined, index: number): string {
+    const named = trimmed(value);
+    if (named !== '') return `v:${named}`;
+    const link = trimmed(href);
+    return link !== '' ? `h:${link}` : `i:${index}`;
+  }
+
+  /**
+   * The current page inside a group, as an identity that survives a new `items` (the product sends one at every
+   * navigation), or `null` when no page of a group is current. The first one wins.
+   */
+  private currentPage(): string | null {
+    for (const section of this.sections) {
+      for (const row of section.rows) {
+        if (row.kind !== 'group') {
+          continue;
+        }
+        const group = NphSidebar.groupKey(row);
+        for (const child of row.children) {
+          const at = NphSidebar.leafId(child.child.value, child.child.href, child.index);
+          if (child.options === null) {
+            if (child.child.active === true) return `${group}/${at}`;
+          } else {
+            for (const [position, option] of child.options.entries()) {
+              if (option.active === true) return `${group}/${at}/${NphSidebar.leafId(option.value, option.href, position)}`;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   private panelBlocks(): Block[] {
     const blocks: Block[] = [];
     const written = (value: unknown): boolean | undefined => (typeof value === 'boolean' ? value : undefined);
@@ -814,17 +852,25 @@ export class NphSidebar extends LitElement {
 
   /**
    * The open state of the panel menu survives a new `items`: the product sends one at every navigation to
-   * move `active`. The order, for each group and subgroup: what the person did stays; an `expanded` the
-   * product writes (and changes) seeds it; with neither, the block that holds the current page is born open,
-   * once, and stays as the person leaves it.
+   * move `active`. The order, for each group and subgroup: an `expanded` the product writes (and changes) seeds
+   * it; a NEW current page opens the blocks that hold it, even the ones the person closed (DSA-76 D-3: a group
+   * the person closed stays closed only while the current page is the same); with neither, what the person did
+   * stays, and a block that holds the current page is born open. The opening is not a choice of the person: it
+   * fires no `nph-group-toggle`.
    */
   private syncPanelMenu(): void {
     const live = new Set<string>();
+    const current = this.currentPage();
+    /* A moment with no current page (the product is loading) is not a new page when the same one comes back. */
+    const arrived = current !== null && current !== this.lastCurrent;
+    if (current !== null) {
+      this.lastCurrent = current;
+    }
     for (const block of this.panelBlocks()) {
       live.add(block.key);
       if (block.data !== undefined && block.data !== this.lastData.get(block.key)) {
         this.openRecord.set(block.key, block.data);
-      } else if (!this.openRecord.has(block.key) && block.holdsCurrent) {
+      } else if (block.holdsCurrent && (arrived || !this.openRecord.has(block.key))) {
         this.openRecord.set(block.key, true);
       }
       this.lastData.set(block.key, block.data);

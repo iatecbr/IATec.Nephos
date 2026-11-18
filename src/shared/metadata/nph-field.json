@@ -80,7 +80,7 @@
       "required": true,
       "default": "none",
       "reflects": false,
-      "constraint": "The Figma `⮑ controle`. One control, such as nph-input, or the options of a group of checkboxes, radios or switches. An option declares itself with the static nphFieldRole of its class, option or radio; anything else is a control."
+      "constraint": "The Figma `⮑ controle`. One control, such as nph-input, or the options of a group of checkboxes, radios or switches. An option declares itself with the static nphFieldRole of its class, option or radio; anything else is a control. A control that draws the reason of the error itself, such as the zone of nph-file-upload, declares static nphFieldShowsError = true: while the field is invalid the field draws no error line under it, and still passes the message as description (DSA-74 D-4, P127)."
     }
   },
   "variants": {
