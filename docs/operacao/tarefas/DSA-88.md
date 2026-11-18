@@ -39,7 +39,26 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "A long key or a long value in the key-value list of the section type is not drawn in Figma. The code wraps the text (overflow-wrap: anywhere), key at the start and value at the end of the row, so nothing leaves the card. If Figma should truncate with an ellipsis instead, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-2",
+      "question": "Figma draws the loading state without media. The code draws no media while a card with media loads, and the card keeps the body and footer skeleton. If the media place should show a skeleton of its own while loading, she decides in Figma. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-3",
+      "question": "Figma shows the side media in the wide case only. The code moves it to the top when the card is narrower than 30rem (480 px), a length in a container query. If another width should apply, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-88/figma-docs-accepted-2026-11-17.md"
   ],

@@ -14965,6 +14965,282 @@
     "exampleFile": "Arquivo",
     "exampleNested": "Contornado dentro de outra superfície"
   },
+  "cardDocs": {
+    "summary": "Uma superfície que reúne o conteúdo e as ações de um assunto, para a pessoa ler, comparar ou abrir esse assunto. Segue o nph-card aceito no Figma, com três tipos, duas superfícies, duas densidades e quatro opções de mídia.",
+    "onThisPage": "Nesta página",
+    "matrixLabel": "Matriz do componente",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-card, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P130. O Figma DS-IA-NEPHOS 5.0 guarda as decisões visuais.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "whenToUse": [
+      "Um assunto se sustenta sozinho e tem ações próprias, como abrir ou aprovar: o tipo base, escolhendo entre ações dentro do card ou o card inteiro clicável.",
+      "Um item de uma coleção leva a outra página e não tem nada interativo dentro: o tipo clicável.",
+      "Um bloco de dados de uma página de detalhe, com uma ação como editar no cabeçalho: o tipo seção.",
+      "O card fica sobre o fundo da página: a superfície elevada. O card fica dentro de outra superfície ou em uma lista densa: a superfície contornada.",
+      "Uma lista densa ou um painel estreito: a densidade compacta; a densidade padrão nos demais casos.",
+      "A imagem identifica o item: mídia no topo. O texto é o principal e a imagem apoia: mídia na lateral.",
+      "O início diz o que o card é: um ícone para o tipo de assunto, um avatar para uma pessoa, uma imagem para um objeto ou um arquivo.",
+      "O rodapé tem ações: mantenha a divisória antes delas. O rodapé de meta do card clicável não tem divisória."
+    ],
+    "whenNotToUse": [
+      "Para itens em sequência sem contêiner próprio: use uma lista.",
+      "Para comparar dados em colunas: use nph-table.",
+      "Para escolher um entre vários: use nph-rich-option, que é o card selecionável.",
+      "Para conteúdo que abre e fecha: use nph-collapsible, que é o card expansível.",
+      "Para uma camada que flutua sobre a página: use nph-popover, nph-hover-card ou nph-dialog.",
+      "Para uma coleção ou uma galeria: o layout é do produto, uma lista ou uma grade de cards.",
+      "Dentro de outro card: um card nunca guarda um card."
+    ],
+    "relationsText": "As ações do cabeçalho e do rodapé são nph-button, o status é nph-badge, o início é nph-icon, nph-avatar ou nph-image, a divisória é nph-separator e o estado de carregamento é nph-skeleton. O card os posiciona e não muda nenhum deles. Escolher um entre vários é o nph-rich-option, e conteúdo que abre e fecha é o nph-collapsible.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "base (padrão), clickable ou section, a propriedade do Figma para o tipo. Reflete. Um valor fora da lista não desenha nada e emite console.error em desenvolvimento."
+      ],
+      [
+        "surface",
+        "elevated (padrão) ou outlined. As duas têm o contorno suave; só a elevada tem a sombra."
+      ],
+      [
+        "media",
+        "none (padrão), top, inset-top ou side, com uma peça no slot media. Nos tipos base e clickable; o tipo section a ignora, com um aviso."
+      ],
+      [
+        "density",
+        "default (padrão) ou compact. O espaçamento, o estilo do título, o início e o espaçamento do rodapé seguem a densidade."
+      ],
+      [
+        "heading",
+        "O título, obrigatório a menos que o card esteja carregando. É um título de seção, com o link dentro dele no tipo clickable."
+      ],
+      [
+        "heading-level",
+        "2 a 6, padrão 3: o nível do título na estrutura da página."
+      ],
+      [
+        "description",
+        "O texto de apoio abaixo do título. Vazio o desliga."
+      ],
+      [
+        "icon",
+        "Um nome do núcleo do nph-icon para o início, desenhado na caixa tonal. Um avatar ou uma imagem vai no slot leading: uma peça por vez."
+      ],
+      [
+        "href",
+        "O destino do link do título, obrigatório no tipo clickable: http, https, mailto, tel ou um endereço relativo."
+      ],
+      [
+        "disabled",
+        "Só no tipo clickable: sem href, role link, aria-disabled e fora da ordem de foco, com card/disabled-opacity."
+      ],
+      [
+        "loading",
+        "Mostra nph-skeleton no lugar do conteúdo, com aria-busy. loading-label é a palavra oculta, já localizada."
+      ],
+      [
+        "hide-divider",
+        "Desliga a divisória antes das ações do rodapé, que fica ligada quando o rodapé tem conteúdo."
+      ],
+      [
+        "items",
+        "A lista de chave e valor do tipo section, uma lista de pares de chave e valor. Só por propriedade."
+      ],
+      [
+        "slots",
+        "media, leading, status, action, o slot padrão (o conteúdo), section e footer. O título, a descrição, a divisória e a seta do card clicável são desenhados pelo card."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-card heading=\"Pedido 1042\" description=\"Feito em 12 de março\" icon=\"folder\">\n  <p>Três itens, enviados para o armazém em Recife.</p>\n  <nph-button slot=\"footer\" severity=\"secondary\" text=\"Cancelar\"></nph-button>\n  <nph-button slot=\"footer\" text=\"Aprovar\"></nph-button>\n</nph-card>",
+    "usageTag": "O card com o título, a descrição e o ícone de início, o conteúdo livre no slot padrão e as ações do rodapé no slot footer, a secundária antes da principal. O card toma a largura do seu contêiner.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Ficha do nph-card; docs/decisoes-tecnicas.md › P70",
+    "typesTitle": "Tipos e superfícies",
+    "typesText": "O tipo diz o que o card faz. A superfície diz onde ele fica: elevada sobre o fundo da página, contornada dentro de outra superfície ou em uma lista densa. As duas têm o contorno suave de card/border, e só a elevada tem a sombra de elevation/raised.",
+    "typesCaption": "Os tipos base, clickable e section.",
+    "typesHeader": [
+      "Tipo ou superfície",
+      "Regra"
+    ],
+    "types": [
+      [
+        "base",
+        "Um card com conteúdo e ações próprios. Não recebe foco e não tem papel: o Tab passa pelos controles dentro dele. A ação do cabeçalho é um botão de menu no slot action, e o rodapé tem no máximo uma ação principal."
+      ],
+      [
+        "clickable",
+        "O card inteiro leva a um destino. O título é o link, esticado sobre o card só com CSS, e é a única parada do Tab. Tem a seta e um rodapé de meta, e não tem botões, ação no cabeçalho, seção tonal nem divisória."
+      ],
+      [
+        "section",
+        "Um bloco de dados de uma página de detalhe: uma região nomeada pelo título, com a lista de chave e valor de items e, quando ligada, uma ação com texto no cabeçalho."
+      ],
+      [
+        "elevated",
+        "O padrão. O contorno e a sombra; no modo escuro a sombra some e o fundo do card, um degrau acima da página, o separa."
+      ],
+      [
+        "outlined",
+        "O mesmo contorno sem sombra. Use dentro de outra superfície ou em uma lista densa."
+      ]
+    ],
+    "sourceTypes": "Ficha do nph-card; Figma, conjunto nph-card (6478:6673)",
+    "mediaTitle": "Mídia e início",
+    "mediaText": "A mídia é um nph-image no slot media, nos tipos base e clickable, e o card dá a ele o quadro. O início guarda uma peça por vez, com o tamanho da densidade: a caixa tonal do ícone, ou um nph-avatar ou um nph-image no slot leading.",
+    "mediaCaption": "Mídia no topo, recuada e na lateral.",
+    "mediaHeader": [
+      "Opção",
+      "Regra"
+    ],
+    "media": [
+      [
+        "top",
+        "A largura do card, em 16:9, cortada pelo canto do card no topo."
+      ],
+      [
+        "inset-top",
+        "Dentro do espaçamento do corpo, em 16:9, com o canto de image/radius-lg."
+      ],
+      [
+        "side",
+        "No início, com a altura do card e cerca de 40% da largura do card, 33% na densidade compacta, cortada para cobrir. Em um contêiner mais estreito que 30rem ela vai para o topo."
+      ],
+      [
+        "start",
+        "Um ícone na caixa tonal (24 px, 16 px compacto), um avatar (lg, md compacto) ou uma imagem (md, sm compacto). É decorativo no card clicável."
+      ]
+    ],
+    "sourceMedia": "Ficha do nph-card; Figma, conjuntos nph-card (6478:6673) e nph-card start (6478:7282)",
+    "statesTitle": "Estados",
+    "statesText": "Padrão e carregando existem em todos os tipos; hover, foco e desabilitado só no card clicável. Nenhum atributo força um estado: o hover e o foco aparecem quando você usa o card.",
+    "statesCaption": "O card clicável, o desabilitado e um card carregando.",
+    "statesHeader": [
+      "Estado",
+      "O que a pessoa vê"
+    ],
+    "states": [
+      [
+        "default",
+        "O contorno suave em card/border, com a sombra na superfície elevada."
+      ],
+      [
+        "hover",
+        "Só o contorno sobe para card/border-hover. O fundo, a sombra e o tamanho ficam, e a seta aparece sempre."
+      ],
+      [
+        "focus",
+        "Para quem usa teclado, a borda focus/border e o halo focus/halo em volta do card inteiro, por fora."
+      ],
+      [
+        "disabled",
+        "O card inteiro em card/disabled-opacity, sem href, com role link e aria-disabled, fora da ordem de foco."
+      ],
+      [
+        "loading",
+        "nph-skeleton no lugar do conteúdo, aria-busy no card e uma palavra oculta para o leitor de tela. Nenhuma mídia é desenhada."
+      ]
+    ],
+    "sourceStates": "Ficha do nph-card; nph-card.test.ts",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Superfície",
+        "card/background, um contorno de 1 px em card/border e o canto card/radius, desenhado uma vez. A sombra é elevation/raised, só na superfície elevada."
+      ],
+      [
+        "Corpo",
+        "Espaçamento card/padding, card/padding-compact quando compacto. Empilha o cabeçalho, o conteúdo e a seção tonal, separados por card/gap."
+      ],
+      [
+        "Cabeçalho",
+        "O início, o título com o status, a descrição e a ação, separados por card/header-item-gap. O título é text/heading-md, text/heading-xs quando compacto, em uma linha com reticências antes do status."
+      ],
+      [
+        "Conteúdo",
+        "Conteúdo livre em text/body-md. No tipo section, a lista de chave e valor em text/body-sm, separada por card/list-gap."
+      ],
+      [
+        "Seção tonal",
+        "card/section-background com o canto card/section-radius e o espaçamento card/section-padding. Sem borda e sem sombra. Não existe no card clicável."
+      ],
+      [
+        "Rodapé",
+        "Ações no fim, a secundária antes da principal, separadas por card/footer-gap, com card/footer-padding em volta, depois de uma divisória de card/divider. O texto de meta do card clicável fica no corpo, sem divisória."
+      ]
+    ],
+    "sourceAnatomy": "Figma, conjunto nph-card (6478:6673); design.md",
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "O título é um título de seção, nível 3 por padrão e configurável. O card clicável é um link nativo no título. O card de seção é uma região nomeada pelo título. O card base não tem papel."
+      ],
+      [
+        "Teclado",
+        "Uma parada do Tab no card clicável, o link do título: Enter o abre e Espaço não faz nada. No card base o Tab passa pelos controles dentro dele, na ordem da página."
+      ],
+      [
+        "Nome",
+        "O nome do card clicável é o seu título. A ação só com ícone do card base precisa de um label com o verbo e o título do card, como Mais opções para Pedido 1042."
+      ],
+      [
+        "Contraste",
+        "O título e a descrição passam 4,5:1 sobre o card nos dois temas. O ícone do início passa 3:1 sobre a sua caixa. O contorno é decorativo: o fundo e a sombra separam o card."
+      ],
+      [
+        "Foco",
+        "A borda de foco carrega o contraste e o halo é um reforço, em volta do card inteiro."
+      ],
+      [
+        "Carregamento",
+        "aria-busy no card, o esqueleto oculto para a tecnologia assistiva e uma palavra oculta, já localizada, fora do nó oculto."
+      ],
+      [
+        "Tamanho do alvo",
+        "O card clicável inteiro é a área do link. A ação do menu tem 28 px, e 36 px em tela de toque."
+      ]
+    ],
+    "sourceAccessibility": "Ficha do nph-card; nph-card.test.ts",
+    "examplesTitle": "Exemplos",
+    "exampleSummary": "Resumo com ações: base, elevado, com status, seção tonal, divisória e uma ação principal.",
+    "exampleCollection": "Coleção navegável: cards clicáveis com mídia no topo.",
+    "exampleDetail": "Bloco de detalhe em um painel: seção, contornado, com uma ação no cabeçalho.",
+    "exampleProfile": "Perfil: base com um avatar com foto no início.",
+    "exampleFile": "Arquivo: base, contornado, com uma miniatura no início e a ação de menu, sem rodapé.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-card — função, variantes, estados, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P130 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens do card, o foco e a elevação.",
+      "Inclusive Components, Cards — https://inclusive-components.design/cards/",
+      "Block Links, Cards, Clickable Regions, Etc. — https://adrianroselli.com/2020/02/block-links-cards-clickable-regions-etc.html",
+      "More Accessible Skeletons — https://adrianroselli.com/2020/11/more-accessible-skeletons.html",
+      "WAI-ARIA APG, Link — https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+    ],
+    "sourceSpec": "Ficha do nph-card; Figma, quadro nph-card (6516:13647)",
+    "sourceApi": "Ficha do nph-card; docs/decisoes-tecnicas.md › P130"
+  },
   "schedulerDocs": {
     "summary": "O calendário de eventos: as vistas de semana útil, semana, dia, mês e lista, no desktop e no celular, com um painel lateral opcional, uma barra de ferramentas e o evento que abre o seu detalhe ao lado.",
     "onThisPage": "Nesta página",

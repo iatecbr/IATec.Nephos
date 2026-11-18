@@ -84,6 +84,7 @@ P62.4 subsection for the detail).
 | **P126** | API and semantics of `nph-menubar`; the focus border and the submenu gap of the dropdown item (amends P92 and P113) | 16/11/2026 | Low now. No piece consumes the bar yet; the header of an application will, and changing `menus`, `open-menu`, `open-submenu`, `label`, `more-label`, `narrow`, `menu-label`, the event `nph-item-select` (with `menu`), the overflow rule or the invalid-input rule later requires redoing every consumer. The focus border of the dropdown and context-menu item changes color only, and the submenu of the context menu moves 4 px. The open top item in focus (D-1), Enter and Space on a choice and the click on a multiple choice (D-2), the click that opens with no item shown (D-3) and the panel that is not an instance in code (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P127** | The answers of 2026-11-16 applied in the code: the technical choices (amends P68, P77 and P83) | 17/11/2026 | Low now. The changes only add or loosen: a balloon on an element with an explicit `tabindex`, a `description` on `nph-button`, a flag a control may declare to `nph-field`, a default name for the scroll arrows of `nph-tabs`, a role on a cut pending step, and the groups of the panel menu that open for a new current page. Changing the role of the step, the default names or the rule of the panel menu later requires redoing every consumer that reads them | The answers come from Indiane, recorded in the tasks (four of them decided by Claude by her delegation, DSA-71 D-1, DSA-73 D-4, DSA-74 D-2 and DSA-76 D-3). The technical choices are reviewed in the pull request that brings them |
 | **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9249,9 +9250,197 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P130 — `nph-card`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `6516:13647`, page `1626:28`, root `6478:6670`, sets
+`6478:6673` and `6478:7282`) draws a surface with a media, a body (header with start, title, status, description
+and action; content; tonal section) and a footer with a divider, in three types, two surfaces, four media options and
+two densities, and leaves to the code how the card is given its parts, how the clickable card becomes a single Tab
+stop with a link that covers it, the level of the title, the word the screen reader hears while it loads, how a
+touch screen gets a larger menu action, the width at which the side media moves to the top, how the key-value list is
+given, how the card changes the pieces it draws and places without changing them, and who sizes the start piece and
+the media. Four limits of the platform and of the system shape the answer:
+
+- a light-DOM list slotted into the card cannot be given two colors, one for the key and one for the value, from
+  outside the list, and the card owns the type of both;
+- a link that covers its card by itself, with no script, has to be a pseudo-element of the link, so the link has to
+  sit in the shadow root, in the place of the title;
+- a length in a container query cannot be a custom property, and the card needs the query on its own width;
+- the pieces the card uses size themselves on their own host (`nph-image`), read one height of their own
+  (`nph-button`), or draw their line with a semantic token (`nph-separator`), and none of them may change.
+
+**Decision.** `nph-card` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic tokens:
+the `card/*` ones of the accepted frame for every part, `focus/border`, `border/width`, `focus/halo`,
+`focus/ring-width`, `focus/border-radius-surface` and `focus/radius-surface-with-border` for the focus,
+`elevation/raised`, `image/radius-lg`, `control/height-default`, and the text styles `text/heading-md`,
+`text/heading-xs`, `text/body-md` and `text/body-sm`; **no token is created or changed**. It has no `::part`, no event,
+no color property and no form association: the card is a surface, the clickable card is a native link, and the
+footer buttons and the menu action keep their own focus and events. What it rejects renders nothing and emits
+`console.error` only in development, once per cause: the rule of P21. The names follow P64.
+
+1. **One tag, slots by zone name (Q1).** The card is one tag. The zones of the accepted assembly model are the slots,
+   with the names of the model: `media`, `leading`, `status`, `action`, the default slot for the free `content`,
+   `section` and `footer`. The title, the description, the divider and the arrow of the clickable card are drawn by
+   the card, from `heading`, `description`, `hide-divider` and the type. The parts that turn on and off are
+   **derived from the content, never boolean properties**: the start is on with an `icon` or a piece in `leading`,
+   the description with text, the status, the action, the section and the footer with something in their slot, the
+   content with something in the default slot or rows in `items`. Whitespace is not content, and the card watches its
+   children, so a part comes and goes at run time. The one exception is the divider: it is on by default when the
+   footer is, and an HTML boolean cannot default to true, so the property turns it off, `hide-divider`, as
+   `hide-collapse-button` of `nph-resizable` (P128).
+
+2. **The key-value list is `items`, a property (Q2).** The section type takes `items`, a list of `{ key, value }`,
+   both texts already localized, drawn as a description list (`dl`, one `div` with `dt` and `dd` per row) after the
+   default slot. It is a property and not slotted markup because a `dl` in the light DOM cannot be given two colors
+   from outside, and the card owns them: the key in `card/description-foreground` at the start of the row and the
+   value in `card/foreground` at its end, in `text/body-sm`, rows `card/list-gap` apart. The precedent is the `levels`
+   of `nph-breadcrumb` (P109), a list of rows that is a property only. A row with an empty key, or a value that is not
+   a text, draws nothing and emits `console.error` in development; the value may be empty.
+
+3. **The stretched link (Q3).** The title of the clickable card is a `div` with `role="heading"` and `aria-level`
+   that holds an `a class="link"` with the `href`. The link is stretched over the whole card by its own `::after`,
+   `position: absolute` and inset to the outline, **with CSS only and no script**: a click anywhere reaches the link,
+   there is one Tab stop, the title link, Enter opens it and **Space does nothing**, because it is a link and not a
+   button (item 19a). The start and the arrow are `aria-hidden`, and nothing interactive sits
+   inside the card, so the link area does not hide a control. The `href` takes `http`, `https`, `mailto`, `tel` or a
+   relative address, parsed as the browser reads it, so an address with a tab or a line break inside the scheme is
+   caught as `javascript:` and refused; the rule is the one of the link of `nph-breadcrumb` (P109). **The text selection is not kept** (item 19b): there is no
+   selection script in v1.
+
+4. **The heading (Q4).** The title is `heading`, required unless the card is loading, and its level is
+   `heading-level`, 2 to 6, **3 by default**, because the title is a heading of a collection or of a page (item 19d).
+   It is drawn as `role="heading"` with `aria-level` on a `div`, so the card does not write an `h3` of its own into a
+   page that may need an `h2`. A level outside the list, or a text that is not a number, draws nothing and emits
+   `console.error` in development. An empty heading is an error, with one exception: a card that is loading draws no
+   title and needs none.
+
+5. **Loading (Q5).** `loading` keeps the surface, its outline and its padding and puts `nph-skeleton` in the place of
+   the content, `aria-hidden`: the start, a title line, a description line and two content lines, and, on the base and
+   section types, the divider (unless `hide-divider`) and one action skeleton; the clickable card has no footer while it
+   loads and is not a link. `aria-busy="true"` is set on the surface, and the word the screen reader hears is
+   `loading-label`, **already localized: the card writes no word of its own**, as `nph-collapsible` (P121), written
+   outside the hidden node, because only one screen reader honors `aria-busy` (item 19c). An empty `loading-label`
+   warns once in development. **No media is drawn while loading**: Figma draws the loading state without media, and
+   whether the media place shows the image in its own loading state is a pending decision (D-2). The skeleton widths
+   of the Figma example, which is 360 px wide, become shares of the card width, so the lines follow the card.
+
+6. **Focus (Q6).** The clickable card draws the look of focus for keyboard users only, on the link's
+   `:focus-visible`: the border `focus/border` (thickness `border/width`, corner `focus/border-radius-surface`) and,
+   beyond it, the halo `focus/halo` (`focus/ring-width`, corner `focus/radius-surface-with-border`), as two
+   pseudo-elements, **outside the card**, around the whole of it. **The card never clips**: `overflow` belongs to the
+   media box alone, so the border and the halo are not cut, and the media takes the corner of the card by its own
+   radius. A pointer press draws no look. The base card takes no focus; the controls inside it keep their own. With
+   forced colors the outline is `CanvasText` and the focus `Highlight`, as the stepper does (P117): the user's palette
+   decides, so no token.
+
+7. **Hover, with no motion (Q7).** The hover of the clickable card changes only the color of the outline, to
+   `card/border-hover`; the background and the shadow stay and **the width never changes**, so the card does not move
+   between states. Figma draws no transition, so the card has no transition and no animation, and **there is nothing to
+   reduce under reduced motion**. The base and section cards have no hover. The disabled and the loading card have none.
+
+8. **The side media and the narrow container (Q8).** The side media sits at the start, the card height and **40 percent**
+   of the card width, **33 percent** in the compact density, with a cover crop; the top media is the card width in 16:9
+   (the proportion is the one of the accepted frame, a box relation and not a token). The card is the container of its
+   own width, `container-type: inline-size` on the host, and under **`@container (width < 30rem)`** the side media moves
+   to the top. The `30rem` is a length in an at-rule, which a custom property cannot hold, as in `nph-file-upload`
+   (P119); the value is the code's, because Figma shows the wide case only: pending decision D-3. Because the host is the
+   container, the card takes the width of its block and, in a flex row, needs a basis.
+
+9. **Touch (Q9).** Under `@media (pointer: coarse)` the card raises the slotted `action` of the **base type only** from
+   `control/height-compact` to `control/height-default` (28 to 36 px), by writing `--nph-control-height-compact` on it
+   from outside with the value of `--nph-control-height-default`. `nph-button` reads that property on its own host, so
+   the button does not change. The text button of the section type keeps its size: the rule is for the icon-only menu action,
+   which is the target that is 28 px.
+
+10. **Overrides by instance, from outside (Q10).** The card changes no piece. What it sets, it sets in its own CSS, with
+    the rule of the cascade that an outer style wins over the `:host` style of a piece: the line of the divider, by
+    writing `--nph-color-border` as `card/divider` on the `nph-separator` that draws it; the color of the arrow, which is
+    `currentColor` in the icon; the sizes of the icons, in the tonal box and in the arrow; the frame of the media, by
+    `::slotted([slot='media'])`, whose outer rule wins over the `:host` size rule of `nph-image`, so the consumer gives
+    **only `src` and `alt`**; and the shares of the card width of the skeleton pieces. The test reads the source of the
+    card and proves that it writes no class or style on a piece.
+
+11. **The start (Q11).** The start is one piece at a time: the tonal box of `icon`, or an `nph-avatar` or an `nph-image`
+    in the `leading` slot. The card writes `size` on the start piece of the density: the avatar `lg`, `md` when compact,
+    and the image `md`, `sm` when compact (40 and 48 px, 32 px), **as `nph-avatar-stack` gives its avatars theirs**
+    (P78): a `MutationObserver` on the children writes the size again if the piece changes its own, and writes the
+    attribute only when it differs, so it does not loop. A piece of another tag in `leading` is left alone. With both an
+    `icon` and a piece in `leading`, the icon is ignored and a warning says so once in development. The start is
+    decorative, `aria-hidden`, on the clickable card.
+
+12. **Semantics by type (Q12).** There is no card pattern in the WAI-ARIA APG. The **base** card has no role and takes no
+    focus: Tab goes through the controls inside it, and the title is a heading and not a landmark. The **clickable** card
+    is the link pattern of the item above. The **section** card is a `region` named by its title, `aria-labelledby` to the
+    heading; while it loads the title is not drawn, so the region takes `aria-label` from `heading`, or has no role
+    when there is none. A disabled clickable card draws the title as an `a` with `role="link"` and `aria-disabled="true"`
+    and no `href`, so it leaves the focus order, takes `card/disabled-opacity`, and needs no `href`; the inner surface box of the card
+    also carries `aria-disabled="true"`. **A collection is the consumer's `ul` with one `li` per card** and a name on the
+    list, not the card's: the card is neither a list item nor a landmark by itself.
+
+13. **Invalid input (Q13, the rule of P21).** Draws nothing and emits `console.error` in development, once per cause: a
+    `type`, `surface`, `media`, `density` or `heading-level` outside its list, an `icon` that is not a core name of
+    `nph-icon`, an empty `heading` on a card that is not loading, a clickable card that is not disabled and not
+    loading with no `href` or an unsafe one, and a malformed `items`, in any type. Ignored with `console.warn`, once
+    per cause, and the card still draws: an `href` or a `disabled` outside the clickable type, a `media` in the section
+    type, `items` outside the section type, the `action` and `section` slots on the clickable card (not drawn),
+    `hide-divider` on the clickable card, a piece in the `media` slot while `media` is `none` or the type is section
+    (not drawn), an `icon` beside a `leading` piece, and a loading card with no `loading-label`. The card does not
+    police a link or a button put in the default, `status` or `footer` slot of the clickable card.
+
+14. **What the card leaves out and what this task does not change (Q14).** Out of v1 by the accepted decision (item 16 of the contract): shadow
+    only, filled or tonal, subtle, primary and secondary emphasis, a collection or a gallery (it is layout), a card with
+    tabs, a nested card, a card in a grid, sizes (the width comes from the layout), draggable and pressed, selectable and
+    selected (they are `nph-rich-option`) and expandable (it is `nph-collapsible`). The task does not change
+    `nph-collapsible`: aligning its card appearance with `color/border-subtle` is that component's next adjustment. It
+    creates no token and changes no token value; it changes no piece it uses.
+
+**Known limits.**
+
+- The stretched link does not keep the text selection: with the link covering the card, the text under it cannot be
+  selected by dragging, and v1 has no selection script (item 19b).
+- The host is the container of its own width (`container-type: inline-size`), so the card has no width of its own: it
+  fills a block, and in a flex row it needs a basis, or it collapses.
+- The media box is drawn whenever `media` is not `none`: a card with no piece in the slot leaves an empty box, and on
+  `side` an empty column, with no warning.
+- The clickable card drops the `action` and `section` slots with a warning but does not police interactive content in
+  the other slots: a link or a button there is a link inside a link.
+- The `30rem` of the narrow rule is the code's value: Figma shows the wide case only.
+- The measure of the focus border against the halo, the neighbor outside it, is pending for the card: the accepted
+  evidence measures it over `color/background`, and the rule of `focus/border` in `design.md` measures it against the
+  halo, with a known limit in the light `Sistemas` brand.
+
+**Source.** Documentation frame `6516:13647` (page `1626:28`), root `6478:6670` and sets `6478:6673` and `6478:7282` of
+the Figma file `DS-IA-NEPHOS 5.0`, accepted by the design owner on 17/11/2026, with the Figma UX QA and the textual audit
+approved, and the 21 items of its test round, all answered as recommended; the evidence of the `figma-docs-accepted` gate
+of DSA-88, which carries the contract converted to text. The names and values of the API, the stretched link, the
+derived parts, the property `items`, the touch rule, the writing of the size of the start and the way the pieces are
+overridden from outside are a technical proposal of this implementation.
+
+**Effects on other pieces.** None. `nph-button`, `nph-icon`, `nph-image`, `nph-avatar`, `nph-badge`, `nph-separator`,
+`nph-skeleton` and `nph-collapsible` do not change; the card only uses them and places what the consumer slots.
+
+**Out of scope.** The types left out of v1 (Q14). A selection script for the stretched link. A transition or an
+animation of the outline. The media in the loading card. A token, new or changed. A boolean property per part. A color
+property. The `ul` and `li` of a collection. The menu of the menu action, which is the product's `nph-dropdown-menu`: the
+card only places the trigger.
+
+**Pending decisions for the design owner.**
+
+- **D-1 — a long key or value in the section list.** Figma does not draw it. The text wraps with `overflow-wrap: anywhere`
+  for now; the design owner decides whether it wraps or truncates.
+- **D-2 — loading with media.** Figma draws the loading state without media, so no media is drawn while loading. The design owner decides
+  whether the media place shows the `nph-image` in its own loading state or stays out.
+- **D-3 — the width of the narrow container.** The side media moves to the top under `30rem` in the code, because Figma
+  shows the wide case only. The design owner confirms the width or draws it.
+
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 wait for the design owner and do not block
+the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127 or P128 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128 or P130 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

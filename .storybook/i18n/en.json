@@ -14965,6 +14965,282 @@
     "exampleFile": "File",
     "exampleNested": "Outlined inside another surface"
   },
+  "cardDocs": {
+    "summary": "A surface that groups the content and the actions of one subject, for the person to read, compare or open that subject. It follows the nph-card accepted in Figma, with three types, two surfaces, two densities and four media options.",
+    "onThisPage": "On this page",
+    "matrixLabel": "Component matrix",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-card spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P130. The DS-IA-NEPHOS 5.0 Figma holds the visual decisions.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "whenToUse": [
+      "A subject stands on its own and has its own actions, such as open or approve: the base type, choosing between actions inside the card or the whole card clickable.",
+      "An item of a collection leads to another page and holds nothing interactive inside: the clickable type.",
+      "A block of data of a detail page, with one action such as edit in the header: the section type.",
+      "The card sits on the page background: the elevated surface. The card sits inside another surface or in a dense list: the outlined surface.",
+      "A dense list or a narrow panel: the compact density; the default density elsewhere.",
+      "The image identifies the item: media at the top. The text is the main thing and the image supports it: media at the side.",
+      "The start says what the card is: an icon for the kind of subject, an avatar for a person, an image for an object or a file.",
+      "The footer has actions: keep the divider before them. The meta footer of the clickable card has no divider."
+    ],
+    "whenNotToUse": [
+      "For items in sequence with no container of their own: use a list.",
+      "For comparing data in columns: use nph-table.",
+      "To choose one among several: use nph-rich-option, which is the selectable card.",
+      "For content that opens and closes: use nph-collapsible, which is the expandable card.",
+      "For a layer that floats over the page: use nph-popover, nph-hover-card or nph-dialog.",
+      "For a collection or a gallery: the layout is the product's, a list or a grid of cards.",
+      "Inside another card: a card never holds a card."
+    ],
+    "relationsText": "The actions of the header and of the footer are nph-button, the status is nph-badge, the start is nph-icon, nph-avatar or nph-image, the divider is nph-separator and the loading state is nph-skeleton. The card places them and changes none of them. Choosing one among several is the nph-rich-option, and content that opens and closes is the nph-collapsible.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "type",
+        "base (default), clickable or section, the Figma property for the type. Reflects. A value outside the list draws nothing and emits console.error in development."
+      ],
+      [
+        "surface",
+        "elevated (default) or outlined. Both have the soft outline; only the elevated one has the shadow."
+      ],
+      [
+        "media",
+        "none (default), top, inset-top or side, with a piece in the media slot. On the base and clickable types; the section type ignores it, with a warning."
+      ],
+      [
+        "density",
+        "default (default) or compact. The padding, the title style, the start and the footer padding follow it."
+      ],
+      [
+        "heading",
+        "The title, required unless the card is loading. It is a heading, with the link inside it on the clickable type."
+      ],
+      [
+        "heading-level",
+        "2 to 6, default 3: the level of the title in the outline of the page."
+      ],
+      [
+        "description",
+        "The support text below the title. Empty turns it off."
+      ],
+      [
+        "icon",
+        "A core name of nph-icon for the start, drawn in the tonal box. An avatar or an image goes in the leading slot: one piece at a time."
+      ],
+      [
+        "href",
+        "The destination of the title link, required on the clickable type: http, https, mailto, tel or a relative address."
+      ],
+      [
+        "disabled",
+        "Clickable type only: no href, role link, aria-disabled and out of the focus order, at card/disabled-opacity."
+      ],
+      [
+        "loading",
+        "Shows nph-skeleton in place of the content, with aria-busy. loading-label is the hidden word, already localized."
+      ],
+      [
+        "hide-divider",
+        "Turns off the divider before the footer actions, which is on when the footer has content."
+      ],
+      [
+        "items",
+        "The key-value list of the section type, a list of key and value pairs. Property only."
+      ],
+      [
+        "slots",
+        "media, leading, status, action, the default slot (the content), section and footer. The title, the description, the divider and the arrow of the clickable card are drawn by the card."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-card heading=\"Order 1042\" description=\"Placed on 12 March\" icon=\"folder\">\n  <p>Three items, shipped to the warehouse in Recife.</p>\n  <nph-button slot=\"footer\" severity=\"secondary\" text=\"Cancel\"></nph-button>\n  <nph-button slot=\"footer\" text=\"Approve\"></nph-button>\n</nph-card>",
+    "usageTag": "The card with its title, description and start icon, the free content in the default slot and the footer actions in the footer slot, the secondary before the main one. The card takes the width of its container.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "nph-card spec sheet; docs/decisoes-tecnicas.md › P70",
+    "typesTitle": "Types and surfaces",
+    "typesText": "The type says what the card does. The surface says where it sits: elevated on the page background, outlined inside another surface or in a dense list. Both carry the soft outline of card/border, and only the elevated one has the shadow of elevation/raised.",
+    "typesCaption": "The base, clickable and section types.",
+    "typesHeader": [
+      "Type or surface",
+      "Rule"
+    ],
+    "types": [
+      [
+        "base",
+        "A card with its own content and actions. It takes no focus and has no role: Tab goes through the controls inside it. The header action is a menu button in the action slot, and the footer takes at most one main action."
+      ],
+      [
+        "clickable",
+        "The whole card leads to a destination. The title is the link, stretched over the card with CSS only, and it is the only Tab stop. It has the arrow and a meta footer, and no buttons, no header action, no tonal section and no divider."
+      ],
+      [
+        "section",
+        "A block of data of a detail page: a region named by its title, with the key-value list of items and, when on, a header action with text."
+      ],
+      [
+        "elevated",
+        "The default. The outline and the shadow; in dark mode the shadow goes away and the card background, one step above the page, separates it."
+      ],
+      [
+        "outlined",
+        "The same outline with no shadow. Use it inside another surface or in a dense list."
+      ]
+    ],
+    "sourceTypes": "nph-card spec sheet; Figma, set nph-card (6478:6673)",
+    "mediaTitle": "Media and start",
+    "mediaText": "The media is an nph-image in the media slot, on the base and clickable types, and the card gives it the frame. The start holds one piece at a time, sized by the density: the tonal icon box, or an nph-avatar or an nph-image in the leading slot.",
+    "mediaCaption": "Media at the top, inset and at the side.",
+    "mediaHeader": [
+      "Option",
+      "Rule"
+    ],
+    "media": [
+      [
+        "top",
+        "The card width, in 16:9, clipped by the card corner at the top."
+      ],
+      [
+        "inset-top",
+        "Inside the body padding, in 16:9, with the corner of image/radius-lg."
+      ],
+      [
+        "side",
+        "At the start, the card height and about 40% of the card width, 33% in the compact density, cropped to cover. On a container narrower than 30rem it moves to the top."
+      ],
+      [
+        "start",
+        "An icon in the tonal box (24 px, 16 px compact), an avatar (lg, md compact) or an image (md, sm compact). It is decorative on the clickable card."
+      ]
+    ],
+    "sourceMedia": "nph-card spec sheet; Figma, sets nph-card (6478:6673) and nph-card start (6478:7282)",
+    "statesTitle": "States",
+    "statesText": "Default and loading exist on every type; hover, focus and disabled only on the clickable card. No attribute forces a state: hover and focus show up when you use the card.",
+    "statesCaption": "The clickable card, the disabled one and a card that is loading.",
+    "statesHeader": [
+      "State",
+      "What the person sees"
+    ],
+    "states": [
+      [
+        "default",
+        "The soft outline in card/border, with the shadow on the elevated surface."
+      ],
+      [
+        "hover",
+        "Only the outline rises to card/border-hover. The background, the shadow and the size stay, and the arrow is always shown."
+      ],
+      [
+        "focus",
+        "For keyboard users, the border focus/border and the halo focus/halo around the whole card, outside it."
+      ],
+      [
+        "disabled",
+        "The whole card at card/disabled-opacity, with no href, role link and aria-disabled, out of the focus order."
+      ],
+      [
+        "loading",
+        "nph-skeleton in place of the content, aria-busy on the card and a hidden word for the screen reader. No media is drawn."
+      ]
+    ],
+    "sourceStates": "nph-card spec sheet; nph-card.test.ts",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Surface",
+        "card/background, a 1 px outline in card/border and the corner card/radius, drawn once. The shadow is elevation/raised, on the elevated surface only."
+      ],
+      [
+        "Body",
+        "Padding card/padding, card/padding-compact when compact. It stacks the header, the content and the tonal section, card/gap apart."
+      ],
+      [
+        "Header",
+        "The start, the title with the status, the description and the action, card/header-item-gap apart. The title is text/heading-md, text/heading-xs when compact, on one line with an ellipsis before the status."
+      ],
+      [
+        "Content",
+        "Free content in text/body-md. On the section type, the key-value list in text/body-sm, card/list-gap apart."
+      ],
+      [
+        "Tonal section",
+        "card/section-background with the corner card/section-radius and the padding card/section-padding. No border and no shadow. Not on the clickable card."
+      ],
+      [
+        "Footer",
+        "Actions at the end, secondary before primary, card/footer-gap apart, with card/footer-padding around, after a divider of card/divider. The meta text of the clickable card sits in the body, with no divider."
+      ]
+    ],
+    "sourceAnatomy": "Figma, set nph-card (6478:6673); design.md",
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The title is a heading, level 3 by default and configurable. The clickable card is a native link on the title. The section card is a region named by its title. The base card has no role."
+      ],
+      [
+        "Keyboard",
+        "One Tab stop on the clickable card, the title link: Enter opens it and Space does nothing. On the base card Tab goes through the controls inside it, in the order of the page."
+      ],
+      [
+        "Name",
+        "The name of the clickable card is its title. The icon-only action of the base card needs a label with the verb and the card title, such as More options for Order 1042."
+      ],
+      [
+        "Contrast",
+        "The title and the description pass 4.5:1 over the card in both themes. The start icon passes 3:1 over its box. The outline is decorative: the background and the shadow separate the card."
+      ],
+      [
+        "Focus",
+        "The focus border carries the contrast and the halo is a reinforcement, around the whole card."
+      ],
+      [
+        "Loading",
+        "aria-busy on the card, the skeleton hidden from assistive technology and a hidden word, already localized, outside the hidden node."
+      ],
+      [
+        "Target size",
+        "The whole clickable card is the link area. The menu action is 28 px, and 36 px on a touch screen."
+      ]
+    ],
+    "sourceAccessibility": "nph-card spec sheet; nph-card.test.ts",
+    "examplesTitle": "Examples",
+    "exampleSummary": "Summary with actions: base, elevated, with status, tonal section, divider and one main action.",
+    "exampleCollection": "Navigable collection: clickable cards with top media.",
+    "exampleDetail": "Detail block in a panel: section, outlined, with a header action.",
+    "exampleProfile": "Profile: base with an avatar with a photo at the start.",
+    "exampleFile": "File: base, outlined, with a thumbnail at the start and the menu action, no footer.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-card spec sheet — function, variants, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P130 (API and semantics), P01, P02 and P03.",
+      "design.md — the tokens of the card, the focus and the elevation.",
+      "Inclusive Components, Cards — https://inclusive-components.design/cards/",
+      "Block Links, Cards, Clickable Regions, Etc. — https://adrianroselli.com/2020/02/block-links-cards-clickable-regions-etc.html",
+      "More Accessible Skeletons — https://adrianroselli.com/2020/11/more-accessible-skeletons.html",
+      "WAI-ARIA APG, Link — https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+    ],
+    "sourceSpec": "nph-card spec sheet; Figma, frame nph-card (6516:13647)",
+    "sourceApi": "nph-card spec sheet; docs/decisoes-tecnicas.md › P130"
+  },
   "schedulerDocs": {
     "summary": "The calendar of events: the work week, week, day, month and list views, on desktop and on a phone, with an optional side panel, a toolbar and the event that opens its detail beside it.",
     "onThisPage": "On this page",
