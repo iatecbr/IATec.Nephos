@@ -130,7 +130,7 @@ stages:
               set -euo pipefail
               npm run build:lib
               npx playwright install chromium
-              bash scripts/in-private-netns.sh npm run test:package
+              node scripts/in-private-netns.mjs npm run test:package
               npm run pack:check
             displayName: Build library and check the package
             workingDirectory: $(Build.SourcesDirectory)
@@ -295,7 +295,7 @@ stages:
                 while true; do
                   log="$(Agent.TempDirectory)/vitest-shard-${shard%/*}-${attempt}.log"
                   report="$(Agent.TempDirectory)/vitest-shard-${shard%/*}-${attempt}.json"
-                  if bash scripts/in-private-netns.sh npm test -- --shard="${shard}" --reporter=default \
+                  if node scripts/in-private-netns.mjs npm test -- --shard="${shard}" --reporter=default \
                     --reporter=json --outputFile.json="${report}" 2>&1 | tee "${log}"; then
                     return 0
                   fi
