@@ -176,7 +176,10 @@ describe('the month (D-1)', () => {
     const calendar = await mount({ month: '2026-10', lang: 'pt-BR' });
     expect(titles(calendar)[0]).toBe('outubro de 2026');
     expect(root(calendar).querySelector('.weekday')?.getAttribute('abbr')).toBe('domingo');
-    expect(day(calendar, '2026-10-14').getAttribute('aria-label')).toContain('quarta-feira, 14 de outubro de 2026');
+    const full = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+      new Date(Date.UTC(2026, 9, 14)),
+    );
+    expect(day(calendar, '2026-10-14').getAttribute('aria-label')).toContain(full);
   });
 
   it('opens on the month of the chosen date, or on the month of today', async () => {
