@@ -155,7 +155,7 @@ The outline does not change when checked: the choice reads by the control (items
 Common to every state:
 
 - **Root**: gap `select/option-gap`, padding `select/option-padding`, corner `select/option-radius`. In the list, the width of the list. Parts left to right, all centered on the vertical axis.
-- **Box** (only with `marker=checkbox`, 1st part): an `nph-checkbox` instance, checked on the selected option, `state=hover` on hover and active, `state=disabled` on disabled.
+- **Box** (only with `marker=checkbox`, 1st part): an `nph-checkbox` instance, checked on the selected option, `state=hover` on hover and active, `state=default` on disabled (D-3: only the option opacity applies).
 - **Start** (optional, after the box): `nph-icon` (`globe` in the example, `light`) in a `select/option-icon-size` box; or `nph-avatar` `sm` (photo); or a dot of `select/option-dot-size` centered in a `select/option-icon-size` box.
 - **Texts** (take the remaining space, aligned to the start), gap `select/option-text-gap`:
   - **label line**, gap `select/option-label-gap`: the **label**, `text/label-md` (14 Medium), cut with an ellipsis (DSA-29 D3); the **secondary text** (optional, off by default), `text/label-md`, on the same line.
