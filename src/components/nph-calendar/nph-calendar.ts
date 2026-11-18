@@ -486,14 +486,17 @@ export class NphCalendar extends LitElement {
   private readonly onDayFocus = (event: FocusEvent): void => {
     const day = parseDate((event.currentTarget as HTMLElement).dataset.date ?? '');
     if (day === null) return;
+    const moved = this.active !== day;
     this.active = day;
     this.focused = day;
-    this.requestUpdate();
+    /* Only the roving tab stop and the preview of a period change with the focus. */
+    if (moved || (this.isRange && this.period.start !== null && this.period.end === null)) this.requestUpdate();
   };
 
   private readonly onDayBlur = (): void => {
+    if (this.focused === null) return;
     this.focused = null;
-    this.requestUpdate();
+    if (this.isRange && this.period.start !== null && this.period.end === null) this.requestUpdate();
   };
 
   private readonly onDayPointerEnter = (event: PointerEvent): void => {
@@ -818,7 +821,8 @@ export class NphCalendar extends LitElement {
     const action = this.pendingFocus;
     if (action !== null) {
       this.pendingFocus = null;
-      action();
+      /* After the update: the focus event of a day asks for another one, which must not start inside this one. */
+      queueMicrotask(() => void action());
     }
   }
 

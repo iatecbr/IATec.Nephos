@@ -834,7 +834,6 @@ export class NphDatePicker extends LitElement {
     await this.updateComplete;
     const calendar = this.calendar;
     if (calendar === null) return;
-    calendar.month = '';
     await calendar.updateComplete;
     this.place(this.surface as HTMLElement);
     calendar.focusDate();

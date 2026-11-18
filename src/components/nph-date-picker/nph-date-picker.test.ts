@@ -131,6 +131,19 @@ async function until(condition: () => boolean, ms = 2000): Promise<void> {
   }
 }
 
+/** A harmless element far from the picker and from its panel, to click on "outside". */
+function away(): HTMLElement {
+  let element = document.querySelector<HTMLElement>('#away');
+  if (element === null) {
+    element = document.createElement('button');
+    element.id = 'away';
+    element.textContent = 'outside';
+    element.style.cssText = 'position: fixed; right: 4px; bottom: 4px;';
+    document.body.append(element);
+  }
+  return element;
+}
+
 async function open(picker: NphDatePicker): Promise<void> {
   await userEvent.click(innerButton(buttonEl(picker)));
   await until(() => shown(picker));
@@ -523,5 +536,438 @@ describe('the panel of a single date', () => {
     const style = getComputedStyle(surface(picker));
     expect(style.transitionProperty).toContain('opacity');
     expect(style.transitionProperty).toContain('translate');
+  });
+});
+
+describe('the range: the fields', () => {
+  it('puts Start and End side by side, 8 px apart, aligned at the top, each in its own field, with one calendar button, in End', async () => {
+    const { picker } = await mount({ mode: 'range', start: '2026-10-10', end: '2026-10-14' });
+    const fields = all<HTMLElement & { label: string }>(picker, 'nph-field');
+    expect(fields.map((field) => field.label)).toEqual(['Start', 'End']);
+    const [start, end] = fields.map((field) => field.getBoundingClientRect());
+    expect(Math.round((end as DOMRect).left - (start as DOMRect).right)).toBe(8);
+    expect((start as DOMRect).top).toBe((end as DOMRect).top);
+    expect(all(picker, 'nph-button.calendar-button')).toHaveLength(1);
+    expect(fields[1]?.querySelector('nph-button.calendar-button')).not.toBeNull();
+    expect(fields[0]?.querySelector('nph-button.calendar-button')).toBeNull();
+    expect(textOf(picker, 'start')).toBe('10/10/2026');
+    expect(textOf(picker, 'end')).toBe('10/14/2026');
+  });
+
+  it('keeps the error only on the field with the problem', async () => {
+    const { picker } = await mount({ mode: 'range', startError: 'Enter the start date.' });
+    const [start, end] = all<HTMLElement & { error: string }>(picker, 'nph-field');
+    expect(start?.error).toBe('Enter the start date.');
+    expect(end?.error).toBe('');
+  });
+});
+
+describe('the panel of a range', () => {
+  const period = { mode: 'range', start: '2026-10-10', end: '2026-10-14' } as const;
+
+  it('opens 762 × 395: the shortcuts, two months, a divider and the footer', async () => {
+    const { picker } = await mount({ ...period });
+    await open(picker);
+    const box = surface(picker).getBoundingClientRect();
+    expect(surface(picker).getAttribute('data-mode')).toBe('range');
+    expect(box.width).toBe(762);
+    expect(box.height).toBe(395);
+    expect(calendar(picker).months).toBe(2);
+    expect(calendar(picker).mode).toBe('range');
+  });
+
+  it('opens 874 × 459 on large, with the footer buttons in the default size', async () => {
+    const { picker } = await mount({ ...period, size: 'large' });
+    await open(picker);
+    const box = surface(picker).getBoundingClientRect();
+    expect(box.width).toBe(874);
+    expect(box.height).toBe(459);
+    expect((q(picker, '.apply') as HTMLElement).getBoundingClientRect().height).toBe(36);
+  });
+
+  it('has the footer buttons compact in the default panel: Clear at the start, Cancel and Apply at the end, 12 px apart, padding 16', async () => {
+    const { picker } = await mount({ ...period });
+    await open(picker);
+    const clear = (q(picker, '.clear') as HTMLElement).getBoundingClientRect();
+    const cancel = (q(picker, '.cancel') as HTMLElement).getBoundingClientRect();
+    const apply = (q(picker, '.apply') as HTMLElement).getBoundingClientRect();
+    const box = surface(picker).getBoundingClientRect();
+    expect(clear.height).toBe(28);
+    expect(Math.round(apply.left - cancel.right)).toBe(12);
+    expect(Math.round(clear.left - box.left)).toBe(17);
+    expect(Math.round(box.right - apply.right)).toBe(17);
+    const footer = (q(picker, '.footer') as HTMLElement).getBoundingClientRect();
+    expect(footer.height).toBe(60);
+  });
+
+  it('draws the footer divider edge to edge in date-picker/divider', async () => {
+    const { picker } = await mount({ ...period });
+    await open(picker);
+    const divider = q(picker, '.divider') as HTMLElement;
+    const box = surface(picker).getBoundingClientRect();
+    expect(Math.round(divider.getBoundingClientRect().width)).toBe(box.width - 2);
+    const probe = document.createElement('span');
+    probe.style.borderColor = 'var(--nph-date-picker-divider)';
+    probe.style.borderStyle = 'solid';
+    document.body.append(probe);
+    const line = (divider.shadowRoot?.querySelector('.line, div, hr') ?? divider) as HTMLElement;
+    const inside = getComputedStyle(line);
+    expect([inside.backgroundColor, inside.borderTopColor, inside.borderBottomColor]).toContain(getComputedStyle(probe).borderTopColor);
+    probe.remove();
+  });
+
+  it('has seven shortcuts of 36, no space between them, in a column 192 wide with padding 16, top aligned', async () => {
+    const { picker } = await mount({ ...period });
+    await open(picker);
+    const list = q(picker, '.shortcuts') as HTMLElement;
+    const options = all<HTMLElement>(picker, 'nph-option');
+    expect(options.map((option) => option.textContent?.trim())).toEqual([
+      'Today', 'Yesterday', 'Last 7 days', 'Last 30 days', 'This month', 'Last month', 'Custom',
+    ]);
+    expect(options.every((option) => option.getBoundingClientRect().height === 36)).toBe(true);
+    expect(list.getBoundingClientRect().width).toBe(192);
+    expect(Math.round((options[0] as HTMLElement).getBoundingClientRect().left - list.getBoundingClientRect().left)).toBe(16);
+    for (let index = 1; index < options.length; index += 1) {
+      expect(Math.round((options[index] as HTMLElement).getBoundingClientRect().top)).toBe(
+        Math.round((options[index - 1] as HTMLElement).getBoundingClientRect().bottom),
+      );
+    }
+    expect(Math.round(list.getBoundingClientRect().top - surface(picker).getBoundingClientRect().top)).toBe(1);
+  });
+
+  it('opens on the month of the Start, on the left, with the focus on the Start day (D-5)', async () => {
+    const { picker } = await mount({ mode: 'range', start: '2027-01-05', end: '2027-03-09' });
+    await open(picker);
+    const titles = [...calendarRoot(picker).querySelectorAll('.title')].map((title) => (title as HTMLElement & { text: string }).text);
+    expect(titles).toEqual(['January 2027', 'February 2027']);
+    expect(calendarRoot(picker).activeElement).toBe(day(picker, '2027-01-05'));
+  });
+
+  it('opens an empty range on the current month, on the left, with the focus on today (D-5)', async () => {
+    const { picker } = await mount({ mode: 'range' });
+    await open(picker);
+    const titles = [...calendarRoot(picker).querySelectorAll('.title')].map((title) => (title as HTMLElement & { text: string }).text);
+    expect(titles).toEqual(['October 2026', 'November 2026']);
+    expect(calendarRoot(picker).activeElement).toBe(day(picker, '2026-10-14'));
+  });
+
+  it('opens with only the End filled on the month of the End, on the right, with the focus on the End day (D-11)', async () => {
+    const { picker } = await mount({ mode: 'range', end: '2027-05-05' });
+    await open(picker);
+    const titles = [...calendarRoot(picker).querySelectorAll('.title')].map((title) => (title as HTMLElement & { text: string }).text);
+    expect(titles).toEqual(['April 2027', 'May 2027']);
+    expect(calendarRoot(picker).activeElement).toBe(day(picker, '2027-05-05'));
+  });
+
+  it('keeps both arrows on each month and moves the two months together (D-5)', async () => {
+    const { picker } = await mount({ ...period });
+    await open(picker);
+    expect(calendarRoot(picker).querySelectorAll('nph-button.arrow')).toHaveLength(4);
+  });
+
+  it('switches to one month with the shortcuts on top, 286 wide, when the width does not fit the panel plus the margin (D-7)', async () => {
+    await page.viewport(700, 1000);
+    const { picker } = await mount({ ...period });
+    await open(picker);
+    expect(surface(picker).getAttribute('data-mode')).toBe('narrow');
+    expect(calendar(picker).months).toBe(1);
+    const box = surface(picker).getBoundingClientRect();
+    expect(box.width).toBe(286);
+    expect(box.height).toBe(679);
+    const list = (q(picker, '.shortcuts') as HTMLElement).getBoundingClientRect();
+    const month = calendar(picker).getBoundingClientRect();
+    expect(list.bottom).toBeLessThanOrEqual(month.top);
+    await page.viewport(1100, 800);
+  });
+
+  it('does not switch at a fixed breakpoint: 794 px fits the default panel, 793 does not (D-7)', async () => {
+    await page.viewport(794, 1000);
+    const wide = (await mount({ ...period })).picker;
+    await open(wide);
+    expect(surface(wide).getAttribute('data-mode')).toBe('range');
+    wide.remove();
+    await page.viewport(793, 1000);
+    const narrow = (await mount({ ...period })).picker;
+    await open(narrow);
+    expect(surface(narrow).getAttribute('data-mode')).toBe('narrow');
+    await page.viewport(1100, 800);
+  });
+
+  it('measures the large panel against its own width: 906 px fits it, 905 does not (D-7)', async () => {
+    await page.viewport(906, 1000);
+    const wide = (await mount({ ...period, size: 'large' })).picker;
+    await open(wide);
+    expect(surface(wide).getAttribute('data-mode')).toBe('range');
+    wide.remove();
+    await page.viewport(905, 1000);
+    const narrow = (await mount({ ...period, size: 'large' })).picker;
+    await open(narrow);
+    expect(surface(narrow).getAttribute('data-mode')).toBe('narrow');
+    await page.viewport(1100, 800);
+  });
+});
+
+describe('D-6 and the shortcuts', () => {
+  const option = (picker: NphDatePicker, label: string): HTMLElement =>
+    all<HTMLElement>(picker, 'nph-option').find((item) => item.textContent?.trim() === label) as HTMLElement;
+  const range = (picker: NphDatePicker): [string, string] => [calendar(picker).start, calendar(picker).end];
+
+  async function openRange(props: Partial<NphDatePicker> = {}): Promise<NphDatePicker> {
+    const { picker } = await mount({ mode: 'range', ...props });
+    await open(picker);
+    return picker;
+  }
+
+  it('makes Today and Yesterday one day, and fills the band at once without closing', async () => {
+    const picker = await openRange();
+    await userEvent.click(option(picker, 'Today'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-10-14', '2026-10-14']);
+    expect(picker.open).toBe(true);
+    await userEvent.click(option(picker, 'Yesterday'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-10-13', '2026-10-13']);
+  });
+
+  it('ends Last 7 days and Last 30 days today and includes it', async () => {
+    const picker = await openRange();
+    await userEvent.click(option(picker, 'Last 7 days'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-10-08', '2026-10-14']);
+    await userEvent.click(option(picker, 'Last 30 days'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-09-15', '2026-10-14']);
+  });
+
+  it('runs This month from day 1 to the last day, and Last month is the whole previous month', async () => {
+    const picker = await openRange();
+    await userEvent.click(option(picker, 'This month'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-10-01', '2026-10-31']);
+    await userEvent.click(option(picker, 'Last month'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-09-01', '2026-09-30']);
+  });
+
+  it('marks the chosen shortcut as selected, and waits for Apply: the fields do not change yet', async () => {
+    const picker = await openRange();
+    await userEvent.click(option(picker, 'Last 7 days'));
+    await settle(picker);
+    expect(all<HTMLElement & { selected: boolean }>(picker, 'nph-option').map((item) => item.selected)).toEqual([false, false, true, false, false, false, false]);
+    expect(picker.start).toBe('');
+    expect(textOf(picker, 'start')).toBe('10/08/2026');
+  });
+
+  it('brings the months to the range the shortcut chose', async () => {
+    const picker = await openRange();
+    await userEvent.click(option(picker, 'Last month'));
+    await settle(picker);
+    const titles = [...calendarRoot(picker).querySelectorAll('.title')].map((title) => (title as HTMLElement & { text: string }).text);
+    expect(titles).toEqual(['September 2026', 'October 2026']);
+  });
+
+  it('does not change the dates on Custom, and moves the focus to the grid', async () => {
+    const picker = await openRange({ start: '2026-10-02', end: '2026-10-05' });
+    await userEvent.click(option(picker, 'Custom'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-10-02', '2026-10-05']);
+    expect(calendarRoot(picker).activeElement?.classList.contains('day')).toBe(true);
+  });
+
+  it('marks Custom, or the shortcut whose period matches, when the person picks the days by hand', async () => {
+    const picker = await openRange();
+    const selected = (): string | undefined =>
+      all<HTMLElement & { selected: boolean }>(picker, 'nph-option').find((item) => item.selected)?.textContent?.trim();
+    expect(selected()).toBeUndefined();
+    await userEvent.click(day(picker, '2026-10-02'));
+    await userEvent.click(day(picker, '2026-10-05'));
+    await settle(picker);
+    expect(selected()).toBe('Custom');
+    await userEvent.click(day(picker, '2026-10-14'));
+    await userEvent.click(day(picker, '2026-10-14'));
+    await settle(picker);
+    expect(selected()).toBe('Today');
+  });
+
+  it('marks the matching shortcut on opening with a period, or Custom, and none when empty', async () => {
+    const week = await openRange({ start: '2026-10-08', end: '2026-10-14' });
+    expect(all<HTMLElement & { selected: boolean }>(week, 'nph-option').find((item) => item.selected)?.textContent?.trim()).toBe('Last 7 days');
+    week.remove();
+    const custom = await openRange({ start: '2026-10-02', end: '2026-10-05' });
+    expect(all<HTMLElement & { selected: boolean }>(custom, 'nph-option').find((item) => item.selected)?.textContent?.trim()).toBe('Custom');
+    custom.remove();
+    const empty = await openRange();
+    expect(all<HTMLElement & { selected: boolean }>(empty, 'nph-option').some((item) => item.selected)).toBe(false);
+  });
+
+  it('disables a shortcut only when none of its days is allowed, and cuts a partly outside one by the limit', async () => {
+    const picker = await openRange({ min: '2026-10-01', max: '2026-10-20' });
+    const disabled = all<HTMLElement & { disabled: boolean }>(picker, 'nph-option').map((item) => item.disabled);
+    expect(disabled).toEqual([false, false, false, false, false, true, false]);
+    await userEvent.click(option(picker, 'This month'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-10-01', '2026-10-20']);
+    await userEvent.click(option(picker, 'Last 30 days'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['2026-10-01', '2026-10-14']);
+  });
+
+  it('is one Tab stop with the up and down arrows, Enter and Space; the active option has the hover look', async () => {
+    const picker = await openRange();
+    const list = q(picker, '.shortcuts') as HTMLElement;
+    expect(list.getAttribute('role')).toBe('listbox');
+    expect(list.tabIndex).toBe(0);
+    expect(all<HTMLElement>(picker, 'nph-option').some((item) => item.tabIndex >= 0 && item.getAttribute('tabindex') !== null)).toBe(false);
+    list.focus();
+    await settle(picker);
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-today');
+    await press(picker, '{ArrowDown}{ArrowDown}');
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-last-7-days');
+    expect((q(picker, '#shortcut-last-7-days') as HTMLElement & { active: boolean }).active).toBe(true);
+    await press(picker, '{Enter}');
+    expect(range(picker)).toEqual(['2026-10-08', '2026-10-14']);
+    await press(picker, '{End}');
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-custom');
+    await press(picker, '{Home}{ArrowDown} ');
+    expect(range(picker)).toEqual(['2026-10-13', '2026-10-13']);
+  });
+
+  it('keeps a chosen and disabled shortcut with its fill under the opacity (T11)', async () => {
+    const picker = await openRange({ start: '2026-09-01', end: '2026-09-30', min: '2026-09-01', max: '2026-09-30' });
+    const last = option(picker, 'Last month') as HTMLElement & { disabled: boolean; selected: boolean };
+    expect(last.disabled).toBe(false);
+  });
+});
+
+describe('the footer: Clear, Cancel and Apply (D-8, D-10)', () => {
+  async function openRange(props: Partial<NphDatePicker> = {}): Promise<NphDatePicker> {
+    const { picker } = await mount({ mode: 'range', ...props });
+    await open(picker);
+    return picker;
+  }
+  const click = async (picker: NphDatePicker, selector: string): Promise<void> => {
+    await userEvent.click(innerButton(q(picker, selector) as HTMLElement));
+    await settle(picker);
+  };
+
+  it('counts the period only on Apply: it writes both fields, fires change once, closes and gives the focus to the End button', async () => {
+    const picker = await openRange();
+    const changed = vi.fn();
+    picker.addEventListener('change', changed);
+    await userEvent.click(day(picker, '2026-10-05'));
+    await userEvent.click(day(picker, '2026-10-12'));
+    await settle(picker);
+    expect(picker.start).toBe('');
+    expect(changed).not.toHaveBeenCalled();
+    await click(picker, '.apply');
+    expect([picker.start, picker.end]).toEqual(['2026-10-05', '2026-10-12']);
+    expect(textOf(picker, 'start')).toBe('10/05/2026');
+    expect(textOf(picker, 'end')).toBe('10/12/2026');
+    expect(changed).toHaveBeenCalledTimes(1);
+    expect(picker.open).toBe(false);
+    await until(() => !shown(picker));
+    expect(deepActive()).toBe(innerButton(buttonEl(picker)));
+  });
+
+  it('reorders an End picked before the Start (D-10)', async () => {
+    const picker = await openRange();
+    await userEvent.click(day(picker, '2026-10-12'));
+    await userEvent.click(day(picker, '2026-10-05'));
+    await click(picker, '.apply');
+    expect([picker.start, picker.end]).toEqual(['2026-10-05', '2026-10-12']);
+  });
+
+  it('applies one day, with the End field showing the same date, when only the Start was picked (D-10)', async () => {
+    const picker = await openRange();
+    await userEvent.click(day(picker, '2026-10-05'));
+    await click(picker, '.apply');
+    expect([picker.start, picker.end]).toEqual(['2026-10-05', '2026-10-05']);
+    expect(textOf(picker, 'end')).toBe('10/05/2026');
+  });
+
+  it('applies an empty period when nothing is chosen, and Apply stays enabled (D-10)', async () => {
+    const picker = await openRange({ start: '2026-10-05', end: '2026-10-12' });
+    const apply = q(picker, '.apply') as HTMLElement & { disabled: boolean };
+    expect(apply.disabled).toBe(false);
+    await click(picker, '.clear');
+    expect(apply.disabled).toBe(false);
+    await click(picker, '.apply');
+    expect([picker.start, picker.end]).toEqual(['', '']);
+    expect(textOf(picker, 'start')).toBe('');
+  });
+
+  it('starts over on a third pick: the day is the new Start and the End is cleared (D-10)', async () => {
+    const picker = await openRange();
+    await userEvent.click(day(picker, '2026-10-05'));
+    await userEvent.click(day(picker, '2026-10-12'));
+    await userEvent.click(day(picker, '2026-10-20'));
+    await settle(picker);
+    expect([calendar(picker).start, calendar(picker).end]).toEqual(['2026-10-20', '']);
+  });
+
+  it('accepts a one-day period: Start and End on the same day (D-10)', async () => {
+    const picker = await openRange();
+    await userEvent.click(day(picker, '2026-10-05'));
+    await userEvent.click(day(picker, '2026-10-05'));
+    await click(picker, '.apply');
+    expect([picker.start, picker.end]).toEqual(['2026-10-05', '2026-10-05']);
+  });
+
+  it('empties the selection in the panel with Clear, at once, without closing, and clears the shortcut mark (D-8)', async () => {
+    const picker = await openRange({ start: '2026-10-08', end: '2026-10-14' });
+    await click(picker, '.clear');
+    expect(picker.open).toBe(true);
+    expect([calendar(picker).start, calendar(picker).end]).toEqual(['', '']);
+    expect(all<HTMLElement & { selected: boolean }>(picker, 'nph-option').some((item) => item.selected)).toBe(false);
+  });
+
+  it('empties the Start and End fields only on Apply, and Cancel brings the previous period back (D-8)', async () => {
+    const picker = await openRange({ start: '2026-10-08', end: '2026-10-14' });
+    await click(picker, '.clear');
+    expect(picker.start).toBe('2026-10-08');
+    expect(textOf(picker, 'start')).toBe('10/08/2026');
+    await click(picker, '.cancel');
+    await until(() => !shown(picker));
+    expect([picker.start, picker.end]).toEqual(['2026-10-08', '2026-10-14']);
+    expect(textOf(picker, 'end')).toBe('10/14/2026');
+  });
+
+  it('closes on Cancel, Esc and a press outside without applying, and discards what was not applied', async () => {
+    for (const how of ['cancel', 'escape', 'outside']) {
+      const picker = await openRange({ start: '2026-10-08', end: '2026-10-14' });
+      const changed = vi.fn();
+      picker.addEventListener('change', changed);
+      await userEvent.click(day(picker, '2026-10-20'));
+      await userEvent.click(day(picker, '2026-10-25'));
+      if (how === 'cancel') await click(picker, '.cancel');
+      else if (how === 'escape') await press(picker, '{Escape}');
+      else await userEvent.click(away());
+      await until(() => !shown(picker)).catch(() => {
+        throw new Error(`still open after ${how}`);
+      });
+      expect([picker.start, picker.end], how).toEqual(['2026-10-08', '2026-10-14']);
+      expect(changed, how).not.toHaveBeenCalled();
+      picker.remove();
+    }
+  });
+
+  it('closes on Tab after the last item (Apply), discarding what was not applied, with the focus on the End button', async () => {
+    const picker = await openRange({ start: '2026-10-08', end: '2026-10-14' });
+    await userEvent.click(day(picker, '2026-10-20'));
+    innerButton(q(picker, '.apply') as HTMLElement).focus();
+    await press(picker, '{Tab}');
+    await until(() => !shown(picker));
+    expect([picker.start, picker.end]).toEqual(['2026-10-08', '2026-10-14']);
+    expect(deepActive()).toBe(innerButton(buttonEl(picker)));
+  });
+
+  it('announces the chosen period in a live region, such as 5 to 12 October 2026', async () => {
+    const picker = await openRange();
+    const status = q(picker, '.status') as HTMLElement;
+    expect(status.getAttribute('aria-live')).toBe('polite');
+    await userEvent.click(day(picker, '2026-10-05'));
+    await userEvent.click(day(picker, '2026-10-12'));
+    await settle(picker);
+    expect(status.textContent).toBe('October 5, 2026 to October 12, 2026');
   });
 });
