@@ -563,7 +563,7 @@ export class NphTimeline extends LitElement {
 
   private renderLoading(): TemplateResult {
     const label = text(this.loadingLabel);
-    return html`<ol class="list" aria-busy="true" aria-label=${this.name() ?? nothing}>
+    return html`<ol class="list" aria-busy="true" aria-label=${this.name() ?? nothing} .ariaLabelledByElements=${this.labelledBy === null ? null : [this.labelledBy]}>
       <li class="loading">
         ${label === '' ? nothing : html`<span class="hidden">${label}</span>`}
         <div class="rows" aria-hidden="true">

@@ -1095,6 +1095,14 @@ describe('loading and empty', () => {
     expect(ol.querySelectorAll('.item')).toHaveLength(0);
   });
 
+  it('a list named only by labelledBy keeps its name while it loads', async () => {
+    const heading = document.createElement('h2');
+    heading.textContent = 'Order 4812';
+    document.body.append(heading);
+    const timeline = await mount({ items: [], loading: true, label: null, labelledBy: heading });
+    expect(await axNode(list(timeline))).toEqual({ role: 'list', name: 'Order 4812' });
+  });
+
   it('loading replaces the items, even when there are some', async () => {
     const timeline = await mount({ loading: true });
     expect(items(timeline)).toHaveLength(0);
