@@ -372,6 +372,14 @@ describe('semantics', () => {
     expect(await axNode(list(timeline))).toEqual({ role: 'list', name: 'Order 4812' });
   });
 
+  it('labelledBy wins over label when both are given, as aria-labelledby does over aria-label', async () => {
+    const heading = document.createElement('h2');
+    heading.textContent = 'Order 4812';
+    document.body.append(heading);
+    const timeline = await mount({ label: 'Request history', labelledBy: heading });
+    expect(await axNode(list(timeline))).toEqual({ role: 'list', name: 'Order 4812' });
+  });
+
   it('only the current item of the process type has aria-current="step"', async () => {
     const timeline = await mount();
     const current = [...root(timeline).querySelectorAll('[aria-current]')];
@@ -880,6 +888,11 @@ describe('the action', () => {
     expect(getComputedStyle(marker(timeline, 1)).backgroundColor).toBe(background('--nph-timeline-marker-background-primary'));
     expect(getComputedStyle(title(timeline, 1)).opacity).toBe('1');
     expect(getComputedStyle(item(timeline, 1)).opacity).toBe('1');
+    /* Only the button goes under the disabled opacity (T11): it is the one the browser draws dimmed. */
+    const opacity = (element: Element): number => Number.parseFloat(getComputedStyle(element).opacity);
+    const native = button.shadowRoot?.querySelector('button') as HTMLElement;
+    const dimmed = opacity(button) * opacity(native);
+    expect(dimmed).toBeCloseTo(Number.parseFloat(resolved('opacity', '--nph-state-disabled-opacity')), 5);
   });
 
   it('the item has no hover, pressed or selected look', async () => {

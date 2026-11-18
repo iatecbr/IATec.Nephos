@@ -9668,8 +9668,9 @@ cause: the rule of P21. The names follow P64.
 8. **The name of the list (Q8).** `label` wins over the `aria-label` of the host, which is read by a property whose
    attribute is `aria-label`, since a property called `ariaLabel` is the native reflection. `labelledBy`, an **element and
    property only**, names the list by a visible title: it becomes the `ariaLabelledByElements` of the `ol`, because an id
-   does not cross the shadow root, as the `controls` of `nph-button` is given (P121). A list with
-   none of the three draws and warns once.
+   does not cross the shadow root, as the `controls` of `nph-button` is given (P121). Given with a
+   `label`, the `labelledBy` wins, as the native `aria-labelledby` does over `aria-label`, and it names the list while
+   it loads. A list with none of the three draws and warns once.
 
 9. **Loading and empty (Q9).** `loading` sets `aria-busy="true"` on the `ol`, which holds one `li` with the hidden text of
    `loading-label`, written **outside** the hidden node, and the skeleton rows in a node with `aria-hidden`: an `nph-skeleton`
