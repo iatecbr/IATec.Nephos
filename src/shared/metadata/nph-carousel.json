@@ -40,7 +40,7 @@
       "required": false,
       "default": "0",
       "reflects": true,
-      "constraint": "The first slide in view, counted from zero. In single and peek it is the current slide. In several the current page is derived from it, and a resize never rewrites it nor fires the event. A number out of range is brought into range. Setting it from code never fires nph-slide-change."
+      "constraint": "The first slide in view, counted from zero. In single and peek it is the current slide. In several the current page is derived from it, and a resize never rewrites it nor fires the event. A number out of range shows the nearest slide, and the property keeps what was written. Setting it from code never fires nph-slide-change."
     },
     "hide-arrows": {
       "type": "boolean",

@@ -15,7 +15,7 @@
  *   internal CSS selects the slide width by it;
  * - `index`: the first slide in view, from zero. In `single` and `peek` it is the current slide; in
  *   `several` the current page is derived from it, so a resize never rewrites it and never fires an
- *   event. Reflects. A value out of range is brought into range;
+ *   event. Reflects. A value out of range shows the nearest slide and the property keeps what was written;
  * - own event `nph-slide-change` (bubbles, composed), `detail: { index }`, fired only when the person
  *   changes the slide by arrow, indicator, key or drag, never when code writes `index`;
  * - no wrap-around: the arrow on the side with no slide is disabled (native `disabled`, out of the

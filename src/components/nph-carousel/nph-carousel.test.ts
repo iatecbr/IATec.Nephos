@@ -142,10 +142,11 @@ function press(element: HTMLElement, key: string, options: KeyboardEventInit = {
   return event;
 }
 
-function pointer(element: HTMLElement, type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel', x: number, y = 0): void {
-  element.dispatchEvent(
-    new PointerEvent(type, { bubbles: true, composed: true, button: 0, pointerId: 1, isPrimary: true, clientX: x, clientY: y }),
-  );
+function pointer(element: HTMLElement, type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel', x: number, y = 0, time?: number): void {
+  const event = new PointerEvent(type, { bubbles: true, composed: true, button: 0, pointerId: 1, isPrimary: true, clientX: x, clientY: y });
+  /* A fixed time stamp makes the velocity of a flick the same on a slow machine. */
+  if (time !== undefined) Object.defineProperty(event, 'timeStamp', { value: time });
+  element.dispatchEvent(event);
 }
 
 /** Drags the track by `distance` pixels along the line, with a pause long enough to keep it from being a flick. */
@@ -724,7 +725,7 @@ describe('the own event', () => {
     expect(indexes(carousel)).toEqual([0]);
   });
 
-  it('an index out of range is brought into range, and the arrows follow it', async () => {
+  it('an index out of range shows the nearest slide, keeps what was written, and the arrows follow it', async () => {
     const carousel = await mount({ count: 3 });
     carousel.index = 10;
     await settle(carousel);
@@ -803,9 +804,9 @@ describe('the focus is not lost', () => {
   });
 });
 
-/* The default names of the Portuguese and Spanish tests are in those languages on purpose (P127). */
-/* cspell:disable */
 describe('names and language', () => {
+  /* The default names are Portuguese and Spanish on purpose (P127): the spelling proof reads English only. */
+  /* cspell:disable */
   it('the default names follow the language nearest the carousel: Portuguese, English, Spanish', async () => {
     document.documentElement.removeAttribute('lang');
     const names = async (lang?: string) => {
@@ -842,6 +843,7 @@ describe('names and language', () => {
     });
   });
 
+  /* cspell:enable */
   it('the names the product gives replace the defaults, and the templates take position and total', async () => {
     const carousel = await mount({
       lang: 'en',
@@ -882,7 +884,6 @@ describe('names and language', () => {
   });
 });
 
-/* cspell:enable */
 describe('the arrow icon color', () => {
   const resolved = (value: string): string => {
     const probe = document.createElement('span');
@@ -954,12 +955,10 @@ describe('drag and swipe', () => {
   it('a quick flick moves one slide even when it is short', async () => {
     const carousel = await mount({ count: 4 });
     const element = track(carousel);
-    pointer(element, 'pointerdown', 200, 20);
-    await new Promise((resolve) => setTimeout(resolve, 5));
-    pointer(element, 'pointermove', 180, 20);
-    await new Promise((resolve) => setTimeout(resolve, 5));
-    pointer(element, 'pointermove', 150, 20);
-    pointer(element, 'pointerup', 150, 20);
+    pointer(element, 'pointerdown', 200, 20, 1000);
+    pointer(element, 'pointermove', 180, 20, 1005);
+    pointer(element, 'pointermove', 150, 20, 1010);
+    pointer(element, 'pointerup', 150, 20, 1010);
     await settle(carousel);
     expect(carousel.index).toBe(1);
   });

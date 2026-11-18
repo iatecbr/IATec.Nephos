@@ -9279,7 +9279,7 @@ per cause: the rule of P21. The names follow P64.
 2. **The position and the event (Q2).** `index` is the **first slide in view**, a number from zero that reflects. In
    `single` and `peek` it is the current slide; in `several` the current page is derived from it (`floor(index /
    slides per page)`, and the last page holds every slide from its own start). A resize changes the number of
-   pages but **never rewrites `index` and never fires an event**. A number out of range is brought into range. The
+   pages but **never rewrites `index` and never fires an event**. A number out of range shows the nearest slide and the property keeps what was written. The
    own event `nph-slide-change` (bubbles, composed, not cancelable) has `detail: { index }`, the first slide of the
    new page, and is fired only when the person changes the slide by arrow, indicator, key or drag, **never when code
    writes `index`**. The name is not `nph-value-change`, which is typed with a list by `nph-toggle-group` (P76), and

@@ -13,7 +13,7 @@ Implement the `nph-carousel`, a strip of slides where one part shows at a time a
 ## Sources opened
 - `docs/operacao/tarefas/DSA-87.md` and `docs/operacao/evidencias/DSA-87/figma-docs-accepted-2026-11-16.md`
 - `AGENTS.md`, `CLAUDE.md`, `GOVERNANCA.md` and `docs/operacao/component-handoff.md`
-- The sheets `fichas/_modelo.md` and `fichas/nph-resizable.md`, and the code of `nph-button`, `nph-image`, `nph-skeleton`, `nph-tabs` and `nph-resizable`
+- The sheets `fichas/_modelo.md`, `fichas/nph-button.md`, `fichas/nph-icon.md`, `fichas/nph-image.md`, `fichas/nph-skeleton.md` and `fichas/nph-resizable.md`, and the code of `nph-button`, `nph-image`, `nph-skeleton`, `nph-tabs` and `nph-resizable`
 - `src/tokens/generated/tokens.css`: the fourteen `carousel/*` tokens are present
 
 ## Changes
