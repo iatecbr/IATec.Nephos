@@ -818,7 +818,7 @@ describe('the section type', () => {
 
   it('a long key or a long value wraps and keeps the row inside the card', async () => {
     const card = await mount({
-      props: { type: 'section', items: [{ key: 'A key that is long enough to wrap onto more lines than one in the card', value: 'Averyveryveryveryverylongvaluewithoutanyspaceatalltoseehowitbreaks' }] },
+      props: { type: 'section', items: [{ key: 'A key that is long enough to wrap onto more lines than one in the card', value: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' }] },
       width: '18rem',
     });
     const row = part(card, '.row');
