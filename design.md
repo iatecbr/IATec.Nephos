@@ -303,7 +303,13 @@ tokens_semantic:
     claro: core/surface/50
     escuro: core/surface/700
     use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the rail of the segmented nph-tabs (tabs/list-background). Also the background of the pending nph-stepper step marker (stepper/marker-background), decorative: the number carries the status. Also the tonal section of the nph-card (card/section-background): it separates by background, with no border."
-    nao_use: "Hover: there it is color/accent, including the ghost secondary nph-button (button/secondary-ghost-background-hover, DSA-60)."
+    nao_use: "Hover: there it is color/accent, including the ghost secondary nph-button (button/secondary-ghost-background-hover, DSA-60). The nph-skeleton shape: there it is color/skeleton (skeleton/background, DSA-94); in dark, color/muted is the same as color/popover and the shape would vanish on a floating panel."
+  color/skeleton:
+    css: '--nph-color-skeleton'
+    claro: core/surface/50
+    escuro: core/surface/600
+    use: "Background of the loading block (nph-skeleton) on a page, a card or a floating layer, only through skeleton/background. Same as color/muted in light; in dark one step above color/muted and color/popover, so the block does not vanish on a panel: 1.16:1 over color/popover, color/background and color/card in light; 1.29:1 over color/popover, 1.62:1 over color/card and 1.92:1 over color/background in dark. Decorative: the block carries no state and no text; the busy state of the region is told by aria-busy."
+    nao_use: "Permanent background (color/muted). Interaction highlight (color/accent), which has the same two values with another function. Any piece other than the nph-skeleton shape."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
@@ -344,7 +350,7 @@ tokens_semantic:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
     escuro: core/alpha/white-10
-    use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border). Also the outline of the nph-rich-option choice card at rest, checked and in hover (rich-option/border): 1.13:1 light and 1.35:1 dark, decorative; the control inside the card is the boundary that meets 3:1. Also the outline of the nph-date-picker panel and the divider above its range footer (date-picker/panel-border, date-picker/divider)."
+    use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border). Also the outline of the nph-rich-option choice card at rest, checked and in hover (rich-option/border): 1.13:1 light and 1.35:1 dark, decorative; the control inside the card is the boundary that meets 3:1. Also the outline of the nph-date-picker panel and the divider above its range footer (date-picker/panel-border, date-picker/divider). Also the outline of the option list of nph-select, nph-combobox and nph-multi-combobox (DSA-95; until it merges, the code draws color/input) and the outline of the nph-tree-select panel (tree-select/panel-border, DSA-94): decorative, the elevation/dropdown shadow and the background separate the layer, and each item carries its own contrast."
     nao_use: "nph-dialog (color/dialog-separator); field (color/input)."
   color/border-strong:
     css: '--nph-color-border-strong'
@@ -357,13 +363,13 @@ tokens_semantic:
     claro: core/neutral/400
     escuro: core/surface/300
     use: "Field border: input, select, textarea, checkbox. Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link. Also an outline that needs 3:1 outside a field, such as the hollow marker of the pending nph-timeline item (timeline/marker-border-pending): 3.23:1 light and 6.58:1 dark against the background, the only sign of the state besides the text."
-    nao_use: "The line of the nph-resizable handle in hover and dragging: there it is color/border-strong."
+    nao_use: "The line of the nph-resizable handle in hover and dragging: there it is color/border-strong. The outline of the option list of nph-select, nph-combobox and nph-multi-combobox and of the nph-tree-select panel: there it is color/border-subtle (DSA-95; tree-select/panel-border, DSA-94)."
   color/dropdown-border:
     css: '--nph-color-dropdown-border'
     claro: color/border-subtle
     escuro: color/border-subtle
     use: "Outline of a floating list and panel: nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading variant of nph-notification. Same outline as nph-popover; the elevation/dropdown shadow completes the separation from the background. Decorative: the items are read by their text."
-    nao_use: "The field of select, combobox or date-picker (color/input); the nph-date-picker panel, which has its own outline (date-picker/panel-border, on color/border-subtle); the other variants of nph-notification (status/*-border; in neutral, color/border); the divider between groups (dropdown/separator, color/border-subtle)."
+    nao_use: "The field of select, combobox, tree-select or date-picker (color/input); the option list of nph-select, nph-combobox and nph-multi-combobox, which takes color/border-subtle straight (DSA-95); the nph-date-picker and nph-tree-select panels, which have their own outline (date-picker/panel-border and tree-select/panel-border, DSA-94, on color/border-subtle); the other variants of nph-notification (status/*-border; in neutral, color/border); the divider between groups (dropdown/separator, color/border-subtle)."
   dropdown/item-hover-icon-foreground:
     css: '--nph-dropdown-item-hover-icon-foreground'
     claro: color/primary
@@ -429,7 +435,7 @@ tokens_semantic:
     css: '--nph-color-popover'
     claro: core/base/white
     escuro: core/surface/700
-    use: "Floating layer attached to a trigger, which does NOT block the page: popover, dropdown, context menu."
+    use: "Floating layer attached to a trigger, which does NOT block the page: popover, dropdown, context menu. Also the background of the nph-tree-select panel (tree-select/panel-background, DSA-94)."
     nao_use: "Fixed page content. Dialog, modal or side panel - those are color/dialog."
   color/popover-foreground:
     css: '--nph-color-popover-foreground'
@@ -1408,7 +1414,7 @@ tokens_core_space:
   '1100': { valor: 80, rem: '5rem',     css: '--nph-core-space-1100' }
   '1200': { valor: 96, rem: '6rem',     css: '--nph-core-space-1200' }
   '1500': { valor: 144, rem: '9rem',    css: '--nph-core-space-1500' }
-  direto_por_decisao: 'A component token aliases a core space straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. In the nph-timeline: 100 above and below the connector line (timeline/connector-gap), 200 on the history dot and the center dot (timeline/dot-size, as carousel/indicator-size) and 300 between the marker column and the text (timeline/content-gap). In the rich option: 200 on its padding and its start dot (select/option-padding, select/option-dot-size): space/inline and space/stack-snug are gaps, radius/container, radius/inset and focus/radius-inner are radii. In the nph-date-picker: 100 between the field and the open panel, below or above (date-picker/panel-offset, as popover/offset).'
+  direto_por_decisao: 'A component token aliases a core space straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. In the nph-timeline: 100 above and below the connector line (timeline/connector-gap), 200 on the history dot and the center dot (timeline/dot-size, as carousel/indicator-size) and 300 between the marker column and the text (timeline/content-gap). In the rich option: 200 on its padding and its start dot (select/option-padding, select/option-dot-size): space/inline and space/stack-snug are gaps, radius/container, radius/inset and focus/radius-inner are radii. In the nph-date-picker: 100 between the field and the open panel, below or above (date-picker/panel-offset, as popover/offset). In the nph-tree-select: 100 between the field and the panel (tree-select/panel-offset, DSA-94), as popover/offset: space/inline-tight and space/stack-tight are the gap of a unit and of a dense line, radius/inner is a radius and focus/ring-width the width of the halo; none names the distance from the anchor.'
 
 tokens_space:
   space/inline-tight:
@@ -1574,6 +1580,10 @@ tokens_skeleton:
     alias: core/line-height/100
     valor: 16
     use: "Height of the nph-skeleton line: 16. USE only on the line shape of nph-skeleton. DO NOT USE on another piece."
+  skeleton/background:
+    css: '--nph-skeleton-background'
+    alias: color/skeleton
+    use: "Background of the nph-skeleton shape: line, block and circle (DSA-94). USE only on nph-skeleton. DO NOT USE on another piece."
 
 tokens_scheme:
   scheme/is-light:
@@ -1659,7 +1669,7 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface; a box fitted inside a card is radius/inset. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
+    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel, the option list of nph-select and nph-combobox, the nph-tree-select panel (tree-select/panel-radius, DSA-94) and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface; a box fitted inside a card is radius/inset. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
@@ -1968,7 +1978,7 @@ tokens_alpha:
     css: '--nph-border-width'
     alias: core/border-width/default
     valor: 1
-    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width). Also the thickness of the nph-scheduler container border, event border and focus border (scheduler/border-width, scheduler/event-border-width, scheduler/focus-border-width). Also the card outline and the focus border of the nph-collapsible (collapsible/card-border-width, collapsible/focus-border-width). Also the line of the nph-resizable handle (resizable/handle-width). Also the outline and the divider of the nph-card (card/border-width). Also the outline of the pending, error and warning nph-timeline markers (timeline/marker-border-width); the nph-timeline connector line takes its thickness from the nph-separator. Also the outline of the nph-rich-option choice card, in every state (rich-option/border-width). Also the focus border of the rich option active by the keyboard (select/option-focus-border-width)."
+    use: "Thickness of border and of control, box and line outline. Also the focus border of the nph-panel-menu subgroup and the group line of its nested levels (panel-menu/focus-border-width, panel-menu/guide-width). Also the thickness of the nph-scheduler container border, event border and focus border (scheduler/border-width, scheduler/event-border-width, scheduler/focus-border-width). Also the card outline and the focus border of the nph-collapsible (collapsible/card-border-width, collapsible/focus-border-width). Also the line of the nph-resizable handle (resizable/handle-width). Also the outline and the divider of the nph-card (card/border-width). Also the outline of the pending, error and warning nph-timeline markers (timeline/marker-border-width); the nph-timeline connector line takes its thickness from the nph-separator. Also the outline of the nph-rich-option choice card, in every state (rich-option/border-width). Also the focus border of the rich option active by the keyboard (select/option-focus-border-width). Also the outline of the nph-tree-select panel (tree-select/panel-border-width, DSA-94)."
   focus/border-radius-control:
     css: '--nph-focus-border-radius-control'
     alias: core/radius/off-scale/7
@@ -2109,7 +2119,7 @@ tokens_layout:
     css: '--nph-layout-max-list-height'
     alias: core/layout-height/list
     valor: 296
-    use: "Maximum height of the option list of nph-select, nph-combobox and nph-command (command/list-max-height): it shows up to 8 options; above it, the list scrolls. DO NOT USE outside an option list."
+    use: "Maximum height of the option list of nph-select, nph-combobox and nph-command (command/list-max-height) and of the nph-tree-select panel (tree-select/panel-max-height, DSA-94): it shows up to 8 options or tree rows; above it, the list or the tree scrolls inside the panel. DO NOT USE outside an option list or the nph-tree-select panel."
   layout/textarea-min-height:
     css: '--nph-layout-textarea-min-height'
     alias: core/layout-height/textarea-min
@@ -2168,12 +2178,12 @@ tokens_layout:
     css: '--nph-layout-input-width'
     alias: core/layout-width/input
     valor: 280
-    use: "Width of a form field (280)."
+    use: "Width of a form field (280). Also the width of the panel the field opens: the nph-tree-select panel in single selection, the same as its field (tree-select/panel-width, DSA-94)."
   layout/multi-combobox-width:
     css: '--nph-layout-multi-combobox-width'
     alias: core/layout-width/multi-combobox
     valor: 420
-    use: "Width of the nph-multi-combobox field. DO NOT USE on nph-select or nph-combobox: they use layout/input-width."
+    use: "Width of the nph-multi-combobox field and of the panel a multiple-choice field opens: the nph-tree-select field and panel in multiple selection (tree-select/panel-width-multiple, DSA-94). DO NOT USE on nph-select or nph-combobox: they use layout/input-width."
   layout/rich-option-width:
     css: '--nph-layout-rich-option-width'
     alias: core/layout-width/rich-option
@@ -2745,7 +2755,7 @@ The curve says what the piece is. The question is not how much to round.
 | The piece… | Token |
 |---|---|
 | is **operated** | `radius/control` (6) — system default; the day of the nph-calendar grid has its own radius (`calendar/day-radius`, 10) |
-| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card, menus, the nph-sidebar flyout panel and the nph-date-picker panel have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`, `sidebar/flyout-radius`, `date-picker/panel-radius`) |
+| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, option list of nph-select and nph-combobox, nph-tree-select panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card, menus, the nph-sidebar flyout panel and the nph-date-picker panel have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`, `sidebar/flyout-radius`, `date-picker/panel-radius`) |
 | **floats large** | `radius/overlay` (10) |
 | **carries content** without floating | `radius/surface` (14) |
 | is a **marker** | `radius/subtle` (2) for a bar indicator, or `radius/full` for a dot, a pill or a circular target |
@@ -2892,7 +2902,7 @@ It is not an inversion. Three rules:
 2. **No pure black or white.** The background is `surface/900`, not `#000000`. Text is `neutral/100`, not white. Absolute black with white text causes halation.
 3. **The border lightens much more than symmetry suggests.** `color/border` in light is `neutral/200`; in dark it is **not** `neutral/700` (it would give 2,04:1 and fail) — it is `surface/400`.
 
-**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card, the nph-date-picker panel (`date-picker/panel-border`, `date-picker/divider`) and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`; there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background. The nph-card also uses `color/border-subtle` (`card/border`, `card/divider`), decorative: in dark the card background, one step above the page, or the space between blocks separates it.
+**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card, the nph-date-picker panel (`date-picker/panel-border`, `date-picker/divider`) and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`, and so do the option list of nph-select, nph-combobox and nph-multi-combobox (DSA-95) and the nph-tree-select panel (`tree-select/panel-border`, DSA-94); there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background. The nph-card also uses `color/border-subtle` (`card/border`, `card/divider`), decorative: in dark the card background, one step above the page, or the space between blocks separates it.
 
 ---
 
