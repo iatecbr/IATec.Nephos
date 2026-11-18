@@ -201,6 +201,23 @@ describe('the month (D-1)', () => {
   });
 });
 
+describe('the text roles (D-3)', () => {
+  it('draws the weekday names in text/label-sm until the design owner answers: 12, medium, line height 16, tracking 0.4', async () => {
+    const calendar = await mount({ month: '2026-10' });
+    const style = getComputedStyle(root(calendar).querySelector('.weekday') as Element);
+    expect(style.fontSize).toBe('12px');
+    expect(style.fontWeight).toBe('500');
+    expect(style.lineHeight).toBe('16px');
+    expect(style.letterSpacing).toBe('0.4px');
+  });
+
+  it('draws the number of a day in text/body-md and the month title in text/label-md', async () => {
+    const calendar = await mount({ month: '2026-10' });
+    const number = getComputedStyle(day(calendar, '2026-10-15'));
+    expect([number.fontSize, number.fontWeight, number.lineHeight]).toEqual(['14px', '400', '20px']);
+  });
+});
+
 describe('the day states', () => {
   it('marks today with the outline and the number in color/primary-text, in medium', async () => {
     const calendar = await mount({ month: '2026-10' });

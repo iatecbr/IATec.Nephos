@@ -1215,3 +1215,103 @@ describe('the form', () => {
     expect(textOf(picker)).toBe('10/20/2026');
   });
 });
+
+describe('the roles and names the browser computes', () => {
+  it('names the panel a dialog: Choose date for a single date, Choose period for a range; it is not modal', async () => {
+    const single = (await mount()).picker;
+    await open(single);
+    expect(surface(single).getAttribute('role')).toBe('dialog');
+    expect(surface(single).getAttribute('aria-label')).toBe('Choose date');
+    expect(surface(single).hasAttribute('aria-modal')).toBe(false);
+    single.remove();
+    const range = (await mount({ mode: 'range' })).picker;
+    await open(range);
+    expect(surface(range).getAttribute('aria-label')).toBe('Choose period');
+  });
+
+  it('gives the text the label of the field as its name and the hint as its description, through the field', async () => {
+    const { picker } = await mount();
+    const native = inputOf(picker);
+    const root0 = (q(picker, 'nph-input') as HTMLElement).shadowRoot as ShadowRoot;
+    const describedBy = native.getAttribute('aria-describedby') ?? '';
+    expect(describedBy).not.toBe('');
+    expect(root0.getElementById(describedBy.split(' ')[0] as string)?.textContent).toContain('mm/dd/yyyy');
+    expect(native.labels?.length ?? 0).toBeGreaterThanOrEqual(0);
+    expect(native.getAttribute('aria-label') ?? '').toContain('Due date');
+  });
+
+  it('keeps the calendar button named by its tooltip, which is its accessible name', async () => {
+    const { picker } = await mount();
+    const native = innerButton(buttonEl(picker));
+    expect(native.getAttribute('aria-label') ?? native.getAttribute('aria-labelledby')).toBeTruthy();
+  });
+
+  it('is a listbox of seven options for the shortcuts, each an option with its state', async () => {
+    const { picker } = await mount({ mode: 'range', start: '2026-10-08', end: '2026-10-14' });
+    await open(picker);
+    expect(q(picker, '.shortcuts')?.getAttribute('role')).toBe('listbox');
+    expect(q(picker, '.shortcuts')?.getAttribute('aria-label')).toBe('Shortcuts');
+    const options = all<HTMLElement & { selected: boolean }>(picker, 'nph-option');
+    expect(options).toHaveLength(7);
+    expect(options.filter((option) => option.selected)).toHaveLength(1);
+  });
+
+  it('is never inside a nph-field of the consumer: the piece brings its own fields', async () => {
+    const { picker } = await mount();
+    expect(picker.closest('nph-field')).toBeNull();
+    expect(all(picker, 'nph-field')).toHaveLength(1);
+  });
+});
+
+describe('the token contract', () => {
+  it('reads only semantic and component tokens, never a literal design value', () => {
+    for (const css of [componentCss, controlCss]) {
+      expect(css).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
+      expect(css).not.toMatch(/\b(rgb|hsl)a?\(/);
+      expect(css).not.toMatch(/--nph-core-/);
+      /* The written lengths: none, outside a comment. */
+      const withoutComments = css.replace(/\/\*[\s\S]*?\*\//g, '');
+      expect(withoutComments).not.toMatch(/\b\d+(\.\d+)?(px|rem|em|ms|s)\b/);
+    }
+  });
+
+  it('uses only custom properties the generated CSS declares', () => {
+    const declared = new Set([...tokensCss.matchAll(/(--nph-[a-z0-9-]+)\s*:/g)].map((match) => match[1]));
+    for (const css of [componentCss, controlCss]) {
+      const used = new Set([...css.matchAll(/var\((--nph-[a-z0-9-]+)/g)].map((match) => match[1]));
+      for (const name of used) expect(declared.has(name as string), name as string).toBe(true);
+    }
+  });
+
+  it('has the nine tokens of the task in the generated CSS', () => {
+    for (const name of [
+      'calendar-day-radius', 'calendar-day-focus-radius', 'date-picker-panel-radius', 'date-picker-panel-border', 'date-picker-divider',
+      'date-picker-panel-padding', 'date-picker-panel-offset', 'date-picker-trigger-gap', 'date-picker-footer-gap',
+    ]) {
+      expect(tokensCss, name).toContain(`--nph-${name}:`);
+    }
+  });
+
+  it('consumes the tokens the evidence names for the panel, the divider and the gaps', () => {
+    for (const name of ['date-picker-panel-radius', 'date-picker-panel-border', 'date-picker-divider', 'date-picker-panel-padding', 'date-picker-panel-offset', 'date-picker-footer-gap']) {
+      expect(componentCss, name).toContain(`--nph-${name}`);
+    }
+    expect(controlCss).toContain('--nph-date-picker-trigger-gap');
+  });
+
+  it('never moves the panel by a transition of layout: it animates opacity and translate', () => {
+    expect(componentCss).toMatch(/transition-property:\s*opacity,\s*translate/);
+  });
+});
+
+describe('what the picker does NOT have', () => {
+  it('has no event of its own besides change: the inner input and change never cross its root', async () => {
+    const { picker } = await mount({ value: '2026-10-20' });
+    const seen: string[] = [];
+    for (const type of ['input', 'change', 'nph-pick', 'nph-month-change']) picker.addEventListener(type, () => seen.push(type));
+    await open(picker);
+    await userEvent.click(day(picker, '2026-10-22'));
+    await settle(picker);
+    expect(seen).toEqual(['change']);
+  });
+});

@@ -288,6 +288,8 @@ export class NphDatePicker extends LitElement {
   private readonly scrollTargets: EventTarget[] = [];
   private returnsFocus = false;
   private tabbing = false;
+  /** Opened by the markup, not by the person: nothing asked for the focus. */
+  private openedByMarkup = false;
 
   constructor() {
     super();
@@ -826,17 +828,22 @@ export class NphDatePicker extends LitElement {
       this.place(surface);
     }
     surface.setAttribute('data-open', '');
-    void this.focusIn();
+    void this.focusIn(this.openedByMarkup);
+    this.openedByMarkup = false;
   }
 
-  /** Opening: the focus goes to a day (the date of the field, or today, or the nearest allowed day). */
-  private async focusIn(): Promise<void> {
+  /**
+   * Opening: the focus goes to a day (the date of the field, or today, or the nearest allowed day). A panel the markup opened
+   * is drawn and placed, and takes no focus: the person did not ask for it.
+   */
+  private async focusIn(quiet: boolean): Promise<void> {
     await this.updateComplete;
     const calendar = this.calendar;
     if (calendar === null) return;
     await calendar.updateComplete;
-    this.place(this.surface as HTMLElement);
-    calendar.focusDate();
+    const surface = this.surface;
+    if (surface !== null) this.place(surface);
+    if (!quiet) calendar.focusDate();
   }
 
   private hide(surface: HTMLElement): void {
@@ -1029,6 +1036,7 @@ export class NphDatePicker extends LitElement {
       if (this.open && (this.disabled || !this.isConnected)) {
         this.open = false;
       } else if (this.open) {
+        this.openedByMarkup = !this.hasUpdated;
         this.surfaceDrawn = true;
         this.beforeOpen();
       }
