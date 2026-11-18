@@ -953,7 +953,9 @@ export class NphCalendar extends LitElement {
       const month = index + 1;
       const current = todayParts.year === this.viewYear && todayParts.month === month;
       const selected = chosenMonths.has(`${this.viewYear}-${month}`);
-      return this.item(index, this.monthShort(this.viewYear, month), this.monthLong(this.viewYear, month), current, selected);
+      /* The name starts with the visible text (WCAG 2.5.3): `Jan` is not a word of `January 2026`, so it is said first. */
+      const short = this.monthShort(this.viewYear, month);
+      return this.item(index, short, `${short}, ${this.monthLong(this.viewYear, month)}`, current, selected);
     });
   }
 

@@ -664,6 +664,20 @@ describe('the month and year views (D-2, D-9)', () => {
     expect(root(calendar).querySelector('.status')?.textContent).toBe('2026');
   });
 
+  it('names every month and year cell with its visible text first, so the name holds the label (WCAG 2.5.3)', async () => {
+    const calendar = await openMonths();
+    for (const item of items(calendar)) {
+      const visible = item.textContent?.trim() ?? '';
+      expect(item.getAttribute('aria-label')?.startsWith(visible), `${visible}: ${item.getAttribute('aria-label')}`).toBe(true);
+    }
+    expect(items(calendar)[0]?.getAttribute('aria-label')).toBe('Jan, January 2026');
+    (root(calendar).querySelector('.title') as HTMLElement).click();
+    await settle(calendar);
+    for (const item of items(calendar)) {
+      expect(item.getAttribute('aria-label')).toBe(item.textContent?.trim());
+    }
+  });
+
   it('keeps the icons as drawn: chevron-down on the month title, chevron-up on the year title (D-9)', async () => {
     const calendar = await mount({ month: '2026-10' });
     expect((root(calendar).querySelector('.title') as HTMLElement & { iconEnd: string }).iconEnd).toBe('chevron-down');
