@@ -519,6 +519,19 @@
     "components-nph-collapsible-validation--interactive": "Interactivo",
     "components-nph-collapsible-validation--examples": "Ejemplos",
     "components-nph-collapsible-validation--brands": "Marcas",
+    "components-nph-card-docs": "Docs",
+    "components-nph-card-docs--documentation": "Documentación",
+    "components-nph-card-validation": "Validación",
+    "components-nph-card-validation--types": "Tipos",
+    "components-nph-card-validation--densities": "Densidades",
+    "components-nph-card-validation--media": "Medios",
+    "components-nph-card-validation--start": "Inicio",
+    "components-nph-card-validation--states": "Estados",
+    "components-nph-card-validation--section": "Sección",
+    "components-nph-card-validation--parts": "Partes",
+    "components-nph-card-validation--collection": "Colección",
+    "components-nph-card-validation--examples": "Ejemplos",
+    "components-nph-card-validation--brands": "Marcas",
     "components-nph-scheduler-docs": "Docs",
     "components-nph-scheduler-docs--documentation": "Documentación",
     "components-nph-scheduler-validation": "Validación",
@@ -8675,6 +8688,16 @@
       "components-nph-collapsible-validation--interactive": "El evento: nph-toggle se dispara cuando la persona abre o cierra el contenido y dice en qué estado está el contenido ahora.",
       "components-nph-collapsible-validation--examples": "Los tres ejemplos obligatorios, en modo claro y oscuro: los ajustes avanzados de un formulario, abiertos; los pasos de un registro, con el indicador al inicio; y el registro de una importación en el tipo vista previa, cerrado.",
       "components-nph-collapsible-validation--brands": "Las siete marcas en modo claro y oscuro: el hover, el foco y la tarjeta siguen la marca.",
+      "components-nph-card-validation--types": "Los tres tipos en las superficies elevada y contorneada: la tarjeta base con contenido y acciones propios, la tarjeta clicable como un enlace sobre toda la tarjeta y la tarjeta de sección como una región con nombre; las dos superficies llevan el contorno suave, y solo la elevada tiene la sombra.",
+      "components-nph-card-validation--densities": "La densidad estándar y la compacta en los tres tipos: el relleno del cuerpo, el estilo del título, el tamaño del inicio y el relleno del pie siguen la densidad.",
+      "components-nph-card-validation--media": "Las cuatro opciones de medios: arriba en 16:9, recortada por la esquina de la tarjeta, retranqueada dentro del relleno y al costado con cerca del 40% del ancho; en un contenedor estrecho, el medio lateral pasa arriba.",
+      "components-nph-card-validation--start": "El inicio guarda una pieza a la vez, con el tamaño de la densidad: la caja tonal con ícono, el avatar con foto o la imagen.",
+      "components-nph-card-validation--states": "Estándar y cargando en todos los tipos, y el estado deshabilitado solo en la tarjeta clicable; el hover y el foco aparecen cuando usas la tarjeta clicable, y la prueba del componente mide cada uno.",
+      "components-nph-card-validation--section": "La tarjeta de sección: una lista de clave y valor con la clave al inicio y el valor al final de la fila, una acción con texto en el encabezado y una sección tonal.",
+      "components-nph-card-validation--parts": "Las partes que se activan y desactivan: el mínimo solo con el título, el estándar con inicio y descripción, el máximo con todas las partes activas y un pie sin divisor.",
+      "components-nph-card-validation--collection": "Una colección es una lista con nombre y una tarjeta por elemento, y el título de cada tarjeta es un encabezado con el enlace dentro.",
+      "components-nph-card-validation--examples": "Los cinco ejemplos obligatorios del marco aceptado, cada uno en modo claro y oscuro: Resumen con acciones, Colección navegable, Bloque de detalle en un panel, Perfil y Archivo; y una tarjeta contorneada dentro de otra superficie.",
+      "components-nph-card-validation--brands": "Las siete marcas en modo claro y oscuro: la caja tonal del ícono y los botones siguen la marca del marco.",
       "components-nph-scheduler-validation--work-week": "La semana laboral, la vista por defecto, con el panel lateral, la línea de ahora, la franja de todo el día y eventos superpuestos.",
       "components-nph-scheduler-validation--views": "Las vistas de semana, día, mes y lista, y la semana que empieza el lunes.",
       "components-nph-scheduler-validation--side-panel": "El panel lateral en toda vista del escritorio, mostrado y oculto por el mismo botón.",
@@ -14910,6 +14933,328 @@
     "stackThree": "Facturación",
     "eventOpen": "nph-toggle: el contenido está abierto.",
     "eventClosed": "nph-toggle: el contenido está cerrado."
+  },
+  "cardValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "heading": "Pedido 1042",
+    "description": "Realizado el 12 de marzo por Ana Souza",
+    "content": "Tres artículos, enviados al almacén en Recife.",
+    "status": "Pagado",
+    "sectionLabel": "Nota de entrega",
+    "sectionText": "Deje las cajas en el muelle de carga.",
+    "cancel": "Cancelar",
+    "approve": "Aprobar",
+    "menuLabel": "Más opciones para Pedido 1042",
+    "imageAlt": "Vista previa del pedido",
+    "linkHeading": "Pedidos de marzo",
+    "linkDescription": "27 pedidos pendientes de revisión",
+    "linkMeta": "Actualizado hace 2 horas",
+    "sectionHeading": "Datos de facturación",
+    "sectionDescription": "Modificado por última vez el 3 de marzo",
+    "keyCustomer": "Cliente",
+    "valueCustomer": "Ana Souza",
+    "keyPlan": "Plan",
+    "valuePlan": "Equipo",
+    "keyTotal": "Total",
+    "valueTotal": "$ 1.200,00",
+    "edit": "Editar",
+    "personHeading": "Ana Souza",
+    "personDescription": "Diseñadora de producto",
+    "personMessage": "Enviar mensaje",
+    "personProfile": "Ver perfil",
+    "fileHeading": "contrato-2026.pdf",
+    "fileDescription": "2,4 MB · Editado ayer",
+    "fileImageAlt": "Vista previa del contrato",
+    "fileMenuLabel": "Más opciones para contrato-2026.pdf",
+    "loadingLabel": "Cargando",
+    "collectionLabel": "Pedidos por mes",
+    "collectionHeadingA": "Pedidos de marzo",
+    "collectionHeadingB": "Pedidos de abril",
+    "collectionHeadingC": "Pedidos de mayo",
+    "collectionMediaCaption": "Con medio arriba",
+    "exampleSummary": "Resumen con acciones",
+    "exampleCollection": "Colección navegable",
+    "exampleDetail": "Bloque de detalle en un panel",
+    "exampleProfile": "Perfil",
+    "exampleFile": "Archivo",
+    "exampleNested": "Contorneada dentro de otra superficie"
+  },
+  "cardDocs": {
+    "summary": "Una superficie que reúne el contenido y las acciones de un asunto, para que la persona lea, compare o abra ese asunto. Sigue el nph-card aceptado en Figma, con tres tipos, dos superficies, dos densidades y cuatro opciones de medios.",
+    "onThisPage": "En esta página",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-card, design.md para los tokens y docs/decisoes-tecnicas.md para la P130. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Un asunto se sostiene solo y tiene acciones propias, como abrir o aprobar: el tipo base, eligiendo entre acciones dentro de la tarjeta o la tarjeta entera clicable.",
+      "Un elemento de una colección lleva a otra página y no tiene nada interactivo dentro: el tipo clicable.",
+      "Un bloque de datos de una página de detalle, con una acción como editar en el encabezado: el tipo sección.",
+      "La tarjeta está sobre el fondo de la página: la superficie elevada. La tarjeta está dentro de otra superficie o en una lista densa: la superficie contorneada.",
+      "Una lista densa o un panel estrecho: la densidad compacta; la densidad estándar en los demás casos.",
+      "La imagen identifica el elemento: medio arriba. El texto es lo principal y la imagen apoya: medio al costado.",
+      "El inicio dice qué es la tarjeta: un ícono para el tipo de asunto, un avatar para una persona, una imagen para un objeto o un archivo.",
+      "El pie tiene acciones: mantén el divisor antes de ellas. El pie de meta de la tarjeta clicable no tiene divisor."
+    ],
+    "whenNotToUse": [
+      "Para elementos en secuencia sin contenedor propio: usa una lista.",
+      "Para comparar datos en columnas: usa nph-table.",
+      "Para elegir uno entre varios: usa nph-rich-option, que es la tarjeta seleccionable.",
+      "Para contenido que se abre y se cierra: usa nph-collapsible, que es la tarjeta expandible.",
+      "Para una capa que flota sobre la página: usa nph-popover, nph-hover-card o nph-dialog.",
+      "Para una colección o una galería: el diseño es del producto, una lista o una cuadrícula de tarjetas.",
+      "Dentro de otra tarjeta: una tarjeta nunca guarda una tarjeta."
+    ],
+    "relationsText": "Las acciones del encabezado y del pie son nph-button, el estado es nph-badge, el inicio es nph-icon, nph-avatar o nph-image, el divisor es nph-separator y el estado de carga es nph-skeleton. La tarjeta los coloca y no cambia ninguno. Elegir uno entre varios es el nph-rich-option, y el contenido que se abre y se cierra es el nph-collapsible.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "type",
+        "base (estándar), clickable o section, la propiedad de Figma para el tipo. Se refleja. Un valor fuera de la lista no dibuja nada y emite console.error en desarrollo."
+      ],
+      [
+        "surface",
+        "elevated (estándar) o outlined. Las dos tienen el contorno suave; solo la elevada tiene la sombra."
+      ],
+      [
+        "media",
+        "none (estándar), top, inset-top o side, con una pieza en el slot media. En los tipos base y clickable; el tipo section la ignora, con un aviso."
+      ],
+      [
+        "density",
+        "default (estándar) o compact. El relleno, el estilo del título, el inicio y el relleno del pie siguen la densidad."
+      ],
+      [
+        "heading",
+        "El título, obligatorio salvo que la tarjeta esté cargando. Es un encabezado, con el enlace dentro en el tipo clickable."
+      ],
+      [
+        "heading-level",
+        "2 a 6, estándar 3: el nivel del título en la estructura de la página."
+      ],
+      [
+        "description",
+        "El texto de apoyo debajo del título. Vacío lo desactiva."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon para el inicio, dibujado en la caja tonal. Un avatar o una imagen va en el slot leading: una pieza a la vez."
+      ],
+      [
+        "href",
+        "El destino del enlace del título, obligatorio en el tipo clickable: http, https, mailto, tel o una dirección relativa."
+      ],
+      [
+        "disabled",
+        "Solo en el tipo clickable: sin href, role link, aria-disabled y fuera del orden de foco, con card/disabled-opacity."
+      ],
+      [
+        "loading",
+        "Muestra nph-skeleton en lugar del contenido, con aria-busy. loading-label es la palabra oculta, ya localizada."
+      ],
+      [
+        "hide-divider",
+        "Desactiva el divisor antes de las acciones del pie, que está activo cuando el pie tiene contenido."
+      ],
+      [
+        "items",
+        "La lista de clave y valor del tipo section, una lista de pares de clave y valor. Solo por propiedad."
+      ],
+      [
+        "slots",
+        "media, leading, status, action, el slot estándar (el contenido), section y footer. El título, la descripción, el divisor y la flecha de la tarjeta clicable los dibuja la tarjeta."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-card heading=\"Pedido 1042\" description=\"Realizado el 12 de marzo\" icon=\"folder\">\n  <p>Tres artículos, enviados al almacén en Recife.</p>\n  <nph-button slot=\"footer\" severity=\"secondary\" text=\"Cancelar\"></nph-button>\n  <nph-button slot=\"footer\" text=\"Aprobar\"></nph-button>\n</nph-card>",
+    "usageTag": "La tarjeta con el título, la descripción y el ícono de inicio, el contenido libre en el slot estándar y las acciones del pie en el slot footer, la secundaria antes de la principal. La tarjeta toma el ancho de su contenedor.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Ficha del nph-card; docs/decisoes-tecnicas.md › P70",
+    "typesTitle": "Tipos y superficies",
+    "typesText": "El tipo dice qué hace la tarjeta. La superficie dice dónde está: elevada sobre el fondo de la página, contorneada dentro de otra superficie o en una lista densa. Las dos llevan el contorno suave de card/border, y solo la elevada tiene la sombra de elevation/raised.",
+    "typesCaption": "Los tipos base, clickable y section.",
+    "typesHeader": [
+      "Tipo o superficie",
+      "Regla"
+    ],
+    "types": [
+      [
+        "base",
+        "Una tarjeta con contenido y acciones propios. No recibe foco y no tiene rol: el Tab pasa por los controles dentro de ella. La acción del encabezado es un botón de menú en el slot action, y el pie tiene como máximo una acción principal."
+      ],
+      [
+        "clickable",
+        "Toda la tarjeta lleva a un destino. El título es el enlace, estirado sobre la tarjeta solo con CSS, y es la única parada del Tab. Tiene la flecha y un pie de meta, y no tiene botones, acción en el encabezado, sección tonal ni divisor."
+      ],
+      [
+        "section",
+        "Un bloque de datos de una página de detalle: una región nombrada por el título, con la lista de clave y valor de items y, cuando está activa, una acción con texto en el encabezado."
+      ],
+      [
+        "elevated",
+        "La estándar. El contorno y la sombra; en modo oscuro la sombra desaparece y el fondo de la tarjeta, un escalón sobre la página, la separa."
+      ],
+      [
+        "outlined",
+        "El mismo contorno sin sombra. Úsala dentro de otra superficie o en una lista densa."
+      ]
+    ],
+    "sourceTypes": "Ficha del nph-card; Figma, conjunto nph-card (6478:6673)",
+    "mediaTitle": "Medios e inicio",
+    "mediaText": "El medio es un nph-image en el slot media, en los tipos base y clickable, y la tarjeta le da el marco. El inicio guarda una pieza a la vez, con el tamaño de la densidad: la caja tonal del ícono, o un nph-avatar o un nph-image en el slot leading.",
+    "mediaCaption": "Medio arriba, retranqueado y al costado.",
+    "mediaHeader": [
+      "Opción",
+      "Regla"
+    ],
+    "media": [
+      [
+        "top",
+        "El ancho de la tarjeta, en 16:9, recortada por la esquina de la tarjeta arriba."
+      ],
+      [
+        "inset-top",
+        "Dentro del relleno del cuerpo, en 16:9, con la esquina de image/radius-lg."
+      ],
+      [
+        "side",
+        "Al inicio, con la altura de la tarjeta y cerca del 40% del ancho de la tarjeta, 33% en la densidad compacta, recortada para cubrir. En un contenedor más estrecho que 30rem pasa arriba."
+      ],
+      [
+        "start",
+        "Un ícono en la caja tonal (24 px, 16 px compacto), un avatar (lg, md compacto) o una imagen (md, sm compacto). Es decorativo en la tarjeta clicable."
+      ]
+    ],
+    "sourceMedia": "Ficha del nph-card; Figma, conjuntos nph-card (6478:6673) y nph-card start (6478:7282)",
+    "statesTitle": "Estados",
+    "statesText": "Estándar y cargando existen en todos los tipos; hover, foco y deshabilitado solo en la tarjeta clicable. Ningún atributo fuerza un estado: el hover y el foco aparecen cuando usas la tarjeta.",
+    "statesCaption": "La tarjeta clicable, la deshabilitada y una tarjeta cargando.",
+    "statesHeader": [
+      "Estado",
+      "Qué ve la persona"
+    ],
+    "states": [
+      [
+        "default",
+        "El contorno suave en card/border, con la sombra en la superficie elevada."
+      ],
+      [
+        "hover",
+        "Solo el contorno sube a card/border-hover. El fondo, la sombra y el tamaño se quedan, y la flecha se muestra siempre."
+      ],
+      [
+        "focus",
+        "Para quien usa teclado, el borde focus/border y el halo focus/halo alrededor de toda la tarjeta, por fuera."
+      ],
+      [
+        "disabled",
+        "Toda la tarjeta en card/disabled-opacity, sin href, con role link y aria-disabled, fuera del orden de foco."
+      ],
+      [
+        "loading",
+        "nph-skeleton en lugar del contenido, aria-busy en la tarjeta y una palabra oculta para el lector de pantalla. No se dibuja ningún medio."
+      ]
+    ],
+    "sourceStates": "Ficha del nph-card; nph-card.test.ts",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Superficie",
+        "card/background, un contorno de 1 px en card/border y la esquina card/radius, dibujado una vez. La sombra es elevation/raised, solo en la superficie elevada."
+      ],
+      [
+        "Cuerpo",
+        "Relleno card/padding, card/padding-compact cuando es compacto. Apila el encabezado, el contenido y la sección tonal, separados por card/gap."
+      ],
+      [
+        "Encabezado",
+        "El inicio, el título con el estado, la descripción y la acción, separados por card/header-item-gap. El título es text/heading-md, text/heading-xs cuando es compacto, en una línea con puntos suspensivos antes del estado."
+      ],
+      [
+        "Contenido",
+        "Contenido libre en text/body-md. En el tipo section, la lista de clave y valor en text/body-sm, separada por card/list-gap."
+      ],
+      [
+        "Sección tonal",
+        "card/section-background con la esquina card/section-radius y el relleno card/section-padding. Sin borde y sin sombra. No existe en la tarjeta clicable."
+      ],
+      [
+        "Pie",
+        "Acciones al final, la secundaria antes de la principal, separadas por card/footer-gap, con card/footer-padding alrededor, después de un divisor de card/divider. El texto de meta de la tarjeta clicable queda en el cuerpo, sin divisor."
+      ]
+    ],
+    "sourceAnatomy": "Figma, conjunto nph-card (6478:6673); design.md",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El título es un encabezado, nivel 3 por defecto y configurable. La tarjeta clicable es un enlace nativo en el título. La tarjeta de sección es una región nombrada por el título. La tarjeta base no tiene rol."
+      ],
+      [
+        "Teclado",
+        "Una parada del Tab en la tarjeta clicable, el enlace del título: Enter lo abre y Espacio no hace nada. En la tarjeta base el Tab pasa por los controles dentro de ella, en el orden de la página."
+      ],
+      [
+        "Nombre",
+        "El nombre de la tarjeta clicable es su título. La acción solo con ícono de la tarjeta base necesita un label con el verbo y el título de la tarjeta, como Más opciones para Pedido 1042."
+      ],
+      [
+        "Contraste",
+        "El título y la descripción pasan 4,5:1 sobre la tarjeta en los dos temas. El ícono del inicio pasa 3:1 sobre su caja. El contorno es decorativo: el fondo y la sombra separan la tarjeta."
+      ],
+      [
+        "Foco",
+        "El borde de foco lleva el contraste y el halo es un refuerzo, alrededor de toda la tarjeta."
+      ],
+      [
+        "Carga",
+        "aria-busy en la tarjeta, el esqueleto oculto para la tecnología de asistencia y una palabra oculta, ya localizada, fuera del nodo oculto."
+      ],
+      [
+        "Tamaño del objetivo",
+        "Toda la tarjeta clicable es el área del enlace. La acción del menú mide 28 px, y 36 px en pantalla táctil."
+      ]
+    ],
+    "sourceAccessibility": "Ficha del nph-card; nph-card.test.ts",
+    "examplesTitle": "Ejemplos",
+    "exampleSummary": "Resumen con acciones: base, elevada, con estado, sección tonal, divisor y una acción principal.",
+    "exampleCollection": "Colección navegable: tarjetas clicables con medio arriba.",
+    "exampleDetail": "Bloque de detalle en un panel: sección, contorneada, con una acción en el encabezado.",
+    "exampleProfile": "Perfil: base con un avatar con foto al inicio.",
+    "exampleFile": "Archivo: base, contorneada, con una miniatura al inicio y la acción de menú, sin pie.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-card — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P130 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens de la tarjeta, el foco y la elevación.",
+      "Inclusive Components, Cards — https://inclusive-components.design/cards/",
+      "Block Links, Cards, Clickable Regions, Etc. — https://adrianroselli.com/2020/02/block-links-cards-clickable-regions-etc.html",
+      "More Accessible Skeletons — https://adrianroselli.com/2020/11/more-accessible-skeletons.html",
+      "WAI-ARIA APG, Link — https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+    ],
+    "sourceSpec": "Ficha del nph-card; Figma, marco nph-card (6516:13647)",
+    "sourceApi": "Ficha del nph-card; docs/decisoes-tecnicas.md › P130"
   },
   "schedulerDocs": {
     "summary": "El calendario de eventos: las vistas de semana laboral, semana, día, mes y lista, en el escritorio y en el celular, con un panel lateral opcional, una barra de herramientas y el evento que abre su detalle al lado.",

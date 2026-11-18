@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 870,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-card",
   "dependencies": [
     "DSA-03",
@@ -39,7 +39,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "A long key or a long value in the key-value list of the section type is not drawn in Figma. The code wraps the text (overflow-wrap: anywhere), key at the start and value at the end of the row, so nothing leaves the card. If Figma should truncate with an ellipsis instead, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-2",
+      "question": "Figma draws the loading state without media. The code draws no media while a card with media loads, and the card keeps the body and footer skeleton. If the media place should show a skeleton of its own while loading, she decides in Figma. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-3",
+      "question": "Figma shows the side media in the wide case only. The code moves it to the top when the card is narrower than 30rem (480 px), a length in a container query. If another width should apply, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence measures the focus border of the clickable card over color/background (5.37:1 in light in the default brand). design.md, after DSA-91, measures the 3:1 of the focus border against the halo, with a known limit in the `Sistemas` brand in light (2.92:1 with the code value). The code draws focus/border and focus/halo as the evidence says and changes no token. If the card contrast needs another reading or value, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-88/figma-docs-accepted-2026-11-17.md"
   ],
@@ -56,9 +81,9 @@
     "excerpt": null,
     "converted_decision": "The nph-card documentation frame (6516:13647, page 1626:28) was accepted as the API and behavior specification of nph-card, with the visual acceptance of the root (6478:6670). COMPONENT_SET nph-card (6478:6673), 36 variants; COMPONENT_SET nph-card start (6478:7282), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-17"
+  "git_review": { "branch": "feat/dsa-88-card", "commit": null, "pr": 183 },
+  "context": "docs/operacao/contextos/DSA-88.md",
+  "updated_at": "2026-11-18"
 }
 ```
 
