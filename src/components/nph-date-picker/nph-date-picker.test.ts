@@ -971,3 +971,247 @@ describe('the footer: Clear, Cancel and Apply (D-8, D-10)', () => {
     expect(status.textContent).toBe('October 5, 2026 to October 12, 2026');
   });
 });
+
+describe('typing a date (D-4, D-13)', () => {
+  const fieldOf = (picker: NphDatePicker, index = 0): HTMLElement & { error: string } => all<HTMLElement & { error: string }>(picker, 'nph-field')[index] as HTMLElement & { error: string };
+
+  it('commits a date typed in the order of the language when the person leaves the field, and writes it back normalized', async () => {
+    const { picker } = await mount();
+    const changed = vi.fn();
+    picker.addEventListener('change', changed);
+    await typeInto(picker, 'single', '3/5/2026');
+    expect(picker.value).toBe('2026-03-05');
+    expect(textOf(picker)).toBe('03/05/2026');
+    expect(changed).toHaveBeenCalledTimes(1);
+    expect(fieldOf(picker).error).toBe('');
+  });
+
+  it('reads day first in pt-BR', async () => {
+    const { picker } = await mount({ lang: 'pt-BR' });
+    await typeInto(picker, 'single', '5/3/2026');
+    expect(picker.value).toBe('2026-03-05');
+    expect(textOf(picker)).toBe('05/03/2026');
+  });
+
+  it('never lets the inner input and change events leave the piece: only its own change, once', async () => {
+    const { picker } = await mount();
+    const seen: string[] = [];
+    document.addEventListener('input', (event) => seen.push(`input:${(event.target as Element).localName}`));
+    document.addEventListener('change', (event) => seen.push(`change:${(event.target as Element).localName}`));
+    await typeInto(picker, 'single', '03/05/2026');
+    expect(seen.filter((entry) => entry.startsWith('input'))).toEqual([]);
+    expect(seen.filter((entry) => entry.startsWith('change'))).toEqual(['change:nph-date-picker']);
+  });
+
+  it('says an impossible date is invalid, on the field, and keeps the value it had (D-4)', async () => {
+    const { picker } = await mount({ value: '2026-10-20' });
+    const changed = vi.fn();
+    picker.addEventListener('change', changed);
+    await typeInto(picker, 'single', '02/31/2026');
+    expect(fieldOf(picker).error).toBe('Invalid date: check the day and the month.');
+    expect(picker.value).toBe('2026-10-20');
+    expect(textOf(picker)).toBe('02/31/2026');
+    expect(changed).not.toHaveBeenCalled();
+    expect((q(picker, 'nph-input') as HTMLElement & { invalid: boolean }).invalid).toBe(true);
+    expect((picker as unknown as { internals: ElementInternals }).internals.validity.badInput).toBe(true);
+  });
+
+  it('cites the limit: on or after the min, on or before the max, between both (D-4)', async () => {
+    const min = await mount({ min: '2026-03-01' });
+    await typeInto(min.picker, 'single', '01/05/2026');
+    expect(fieldOf(min.picker).error).toBe('The date must be on or after 03/01/2026.');
+    min.picker.remove();
+    const max = await mount({ max: '2026-12-31' });
+    await typeInto(max.picker, 'single', '01/05/2027');
+    expect(fieldOf(max.picker).error).toBe('The date must be on or before 12/31/2026.');
+    max.picker.remove();
+    const both = await mount({ min: '2026-03-01', max: '2026-12-31' });
+    await typeInto(both.picker, 'single', '01/05/2027');
+    expect(fieldOf(both.picker).error).toBe('Choose a date between 03/01/2026 and 12/31/2026.');
+  });
+
+  it('says a date unavailable by rule cannot be chosen, and says one message at a time, in order (D-4)', async () => {
+    const { picker } = await mount({ unavailable: ['2026-10-15'], min: '2026-10-01', max: '2026-10-31' });
+    await typeInto(picker, 'single', '10/15/2026');
+    expect(fieldOf(picker).error).toBe('This date is not available, choose another day.');
+    await typeInto(picker, 'single', '11/15/2026');
+    expect(fieldOf(picker).error).toBe('Choose a date between 10/01/2026 and 10/31/2026.');
+    await typeInto(picker, 'single', '10/16/2026');
+    expect(fieldOf(picker).error).toBe('');
+    expect(picker.value).toBe('2026-10-16');
+  });
+
+  it('treats an empty field as an error only when the field is required', async () => {
+    const free = await mount({ value: '2026-10-20' });
+    const changed = vi.fn();
+    free.picker.addEventListener('change', changed);
+    await typeInto(free.picker, 'single', '');
+    expect(fieldOf(free.picker).error).toBe('');
+    expect(free.picker.value).toBe('');
+    expect(changed).toHaveBeenCalledTimes(1);
+    free.picker.remove();
+    const required = await mount({ value: '2026-10-20', required: true });
+    await typeInto(required.picker, 'single', '');
+    expect(fieldOf(required.picker).error).toBe('Enter the date.');
+  });
+
+  it('says End before Start is an error and never reorders what was typed (D-4)', async () => {
+    const { picker } = await mount({ mode: 'range', start: '2026-10-10', end: '2026-10-14' });
+    await typeInto(picker, 'end', '10/05/2026');
+    expect(fieldOf(picker, 1).error).toBe('The end must be on or after the start (10/10/2026).');
+    expect([picker.start, picker.end]).toEqual(['2026-10-10', '2026-10-14']);
+    expect(fieldOf(picker, 0).error).toBe('');
+  });
+
+  it('asks for the start and the end date with their own messages when required', async () => {
+    const { picker } = await mount({ mode: 'range', required: true, start: '2026-10-10', end: '2026-10-14' });
+    await typeInto(picker, 'start', '');
+    expect(fieldOf(picker, 0).error).toBe('Enter the start date.');
+    await typeInto(picker, 'end', '');
+    expect(fieldOf(picker, 1).error).toBe('Enter the end date.');
+  });
+
+  it('commits each field of a range typed with the panel closed when the person leaves it, even an incomplete period (D-13)', async () => {
+    const { picker } = await mount({ mode: 'range' });
+    const changed = vi.fn();
+    picker.addEventListener('change', changed);
+    await typeInto(picker, 'start', '10/05/2026');
+    expect([picker.start, picker.end]).toEqual(['2026-10-05', '']);
+    expect(changed).toHaveBeenCalledTimes(1);
+    await typeInto(picker, 'end', '10/12/2026');
+    expect([picker.start, picker.end]).toEqual(['2026-10-05', '2026-10-12']);
+    expect(changed).toHaveBeenCalledTimes(2);
+  });
+
+  it('moves the panel to the typed date once it is valid, and marks it, with the panel open (D-4)', async () => {
+    const { picker } = await mount({ value: '2026-10-20' });
+    await open(picker);
+    inputOf(picker).focus();
+    await userEvent.clear(inputOf(picker));
+    await userEvent.type(inputOf(picker), '03/05/2027');
+    await userEvent.tab();
+    await settle(picker);
+    await until(() => calendarRoot(picker).querySelector('.title') !== null);
+    expect((calendarRoot(picker).querySelector('.title') as HTMLElement & { text: string }).text).toBe('March 2027');
+    expect(day(picker, '2027-03-05').hasAttribute('data-selected')).toBe(true);
+    expect(picker.open).toBe(true);
+  });
+
+  it('keeps a range typed with the panel open in the panel until Apply (nothing counts before it)', async () => {
+    const { picker } = await mount({ mode: 'range' });
+    await open(picker);
+    inputOf(picker, 'start').focus();
+    await userEvent.type(inputOf(picker, 'start'), '10/05/2026');
+    await userEvent.tab();
+    await settle(picker);
+    expect(picker.start).toBe('');
+    expect(calendar(picker).start).toBe('2026-10-05');
+    await userEvent.click(innerButton(q(picker, '.apply') as HTMLElement));
+    await settle(picker);
+    expect([picker.start, picker.end]).toEqual(['2026-10-05', '2026-10-05']);
+  });
+
+  it('clears the field with its clear button, and commits the empty date', async () => {
+    const { picker } = await mount({ value: '2026-10-20' });
+    const changed = vi.fn();
+    picker.addEventListener('change', changed);
+    const input = q(picker, 'nph-input') as HTMLElement;
+    await (input as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+    const clear = input.shadowRoot?.querySelector('.clear') as HTMLElement;
+    await userEvent.click(clear);
+    await settle(picker);
+    expect(picker.value).toBe('');
+    expect(textOf(picker)).toBe('');
+    expect(changed).toHaveBeenCalledTimes(1);
+  });
+
+  it('clears the error of a typed date when the panel closes without applying', async () => {
+    const { picker } = await mount({ mode: 'range', start: '2026-10-10', end: '2026-10-14' });
+    await typeInto(picker, 'end', '10/05/2026');
+    expect(fieldOf(picker, 1).error).not.toBe('');
+    await open(picker);
+    await press(picker, '{Escape}');
+    await until(() => !shown(picker));
+    expect(fieldOf(picker, 1).error).toBe('');
+    expect(textOf(picker, 'end')).toBe('10/14/2026');
+  });
+});
+
+describe('the form', () => {
+  it('puts the date of a single picker in the form data under name', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const picker = document.createElement('nph-date-picker') as NphDatePicker;
+    picker.labels = LABELS;
+    picker.label = 'Due date';
+    picker.name = 'due';
+    picker.value = '2026-10-20';
+    form.append(picker);
+    await settle(picker);
+    expect(new FormData(form).get('due')).toBe('2026-10-20');
+    picker.value = '';
+    await settle(picker);
+    expect(new FormData(form).has('due')).toBe(false);
+  });
+
+  it('puts the two dates of a range in the form data under start-name and end-name', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const picker = document.createElement('nph-date-picker') as NphDatePicker;
+    picker.labels = LABELS;
+    picker.mode = 'range';
+    picker.startLabel = 'Start';
+    picker.endLabel = 'End';
+    picker.startName = 'from';
+    picker.endName = 'to';
+    picker.start = '2026-10-05';
+    picker.end = '2026-10-12';
+    form.append(picker);
+    await settle(picker);
+    expect(new FormData(form).get('from')).toBe('2026-10-05');
+    expect(new FormData(form).get('to')).toBe('2026-10-12');
+  });
+
+  it('is valueMissing while required and empty, and valid once it has a date', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const picker = document.createElement('nph-date-picker') as NphDatePicker;
+    picker.labels = LABELS;
+    picker.label = 'Due date';
+    picker.required = true;
+    form.append(picker);
+    await settle(picker);
+    expect(form.checkValidity()).toBe(false);
+    picker.value = '2026-10-20';
+    await settle(picker);
+    expect(form.checkValidity()).toBe(true);
+  });
+
+  it('goes back to its value, start and end attributes on form.reset()', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const picker = document.createElement('nph-date-picker') as NphDatePicker;
+    picker.labels = LABELS;
+    picker.label = 'Due date';
+    picker.name = 'due';
+    picker.setAttribute('value', '2026-10-20');
+    form.append(picker);
+    await settle(picker);
+    picker.value = '2026-11-01';
+    await settle(picker);
+    form.reset();
+    await settle(picker);
+    expect(picker.value).toBe('2026-10-20');
+    expect(textOf(picker)).toBe('10/20/2026');
+  });
+
+  it('fires nothing when code sets the value', async () => {
+    const { picker } = await mount();
+    const changed = vi.fn();
+    picker.addEventListener('change', changed);
+    picker.value = '2026-10-20';
+    await settle(picker);
+    expect(changed).not.toHaveBeenCalled();
+    expect(textOf(picker)).toBe('10/20/2026');
+  });
+});
