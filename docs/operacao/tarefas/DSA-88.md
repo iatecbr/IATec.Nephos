@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 870,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-card",
   "dependencies": [
     "DSA-03",
@@ -31,11 +31,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 986bac75dcaa83e1b43354e5dd3fa93a253bc4ce origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-88/review-and-merge-2026-11-18.md",
+      "result": "passed",
+      "verified_at": "2026-11-18",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -66,7 +66,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-88/figma-docs-accepted-2026-11-17.md"
+    "docs/operacao/evidencias/DSA-88/figma-docs-accepted-2026-11-17.md",
+    "docs/operacao/evidencias/DSA-88/review-and-merge-2026-11-18.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -81,8 +82,12 @@
     "excerpt": null,
     "converted_decision": "The nph-card documentation frame (6516:13647, page 1626:28) was accepted as the API and behavior specification of nph-card, with the visual acceptance of the root (6478:6670). COMPONENT_SET nph-card (6478:6673), 36 variants; COMPONENT_SET nph-card start (6478:7282), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-88-card", "commit": null, "pr": 183 },
-  "context": "docs/operacao/contextos/DSA-88.md",
+  "git_review": {
+    "branch": "feat/dsa-88-card",
+    "commit": "986bac75dcaa83e1b43354e5dd3fa93a253bc4ce",
+    "pr": 183
+  },
+  "context": null,
   "updated_at": "2026-11-18"
 }
 ```
