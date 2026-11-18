@@ -1,0 +1,342 @@
+/**
+ * Internal style of `nph-calendar`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties consumed
+ * here. The `--_*` variables are internal to the shadow root and are not API. The component exposes no `::part`.
+ *
+ * No literal design value goes in here. Written box relations and resets (P133): `0`, `1`, `auto`, `none`, `100%`
+ * and `50%` (box and flex relations, the half of a cell where the band behind the Start and the End begins),
+ * `calc(-1 * ...)` (the focus halo, outside the cell), `column`, `collapse`, `fixed`, `separate`, `transparent`, and
+ * `inset` with zeros in `box-shadow` (the outline of today is a stroke on the inside, as in `nph-kbd`). The day is
+ * `control/height-default` (36) or `control/height-large` (44); the header is the default control height plus
+ * `space/inline-tight` (40, the same in both sizes, the arrows of the large size go past it); the month and year cell
+ * is 3 of 7 of the default week row (84, as drawn: the views keep that size on both sizes, decision D-2).
+ */
+
+/* With invalid input it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  inline-size: fit-content;
+  color: var(--nph-color-foreground);
+  --_cell: var(--nph-control-height-default);
+}
+
+:host([size='large']) {
+  --_cell: var(--nph-control-height-large);
+}
+
+/* The measures of the month and year cell: height of the default control, three columns across the default week row. */
+:host {
+  --_item-height: var(--nph-control-height-default);
+  --_item-width: calc(7 * var(--nph-control-height-default) / 3);
+}
+
+/* One month, or two side by side, top aligned, no divider between them. */
+.months {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* The grid: padding `space/container-padding`, `space/inline` between the header and the weeks. */
+.month {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-inline);
+  padding: var(--nph-space-container-padding);
+}
+
+/* ----- header -------------------------------------------------------------------- */
+
+/* 40 high on both sizes; the 44 arrows of the large size go past it, centered. */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  block-size: calc(var(--nph-control-height-default) + var(--nph-space-inline-tight));
+}
+
+.arrow {
+  flex: none;
+}
+
+/* The title sits in a frame between the arrows, its content centered. */
+.frame {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 0;
+}
+
+/* The twelve-year span of the year view is plain text, not a button. */
+.title-text {
+  color: var(--nph-color-secondary-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* ----- the weeks -------------------------------------------------------------------- */
+
+.grid {
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  inline-size: calc(7 * var(--_cell));
+  margin: 0;
+}
+
+.weekday {
+  box-sizing: border-box;
+  block-size: var(--_cell);
+  padding: 0;
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+  text-align: center;
+}
+
+/* The cell holds the band behind the day; the day sits above it. */
+.cell {
+  position: relative;
+  box-sizing: border-box;
+  block-size: var(--_cell);
+  padding: 0;
+  text-align: center;
+}
+
+/* The band behind the Start and the End, and the middle: it runs straight across the turn of the week. */
+.cell[data-band]::before,
+.cell[data-preview]::before,
+.cell[data-edge]::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  background-color: var(--nph-color-primary-surface);
+}
+
+.cell[data-band='after']::before {
+  inset-inline-start: 50%;
+}
+
+.cell[data-band='before']::before {
+  inset-inline-end: 50%;
+}
+
+/* The preview from the Start to the pointer or the arrows: `color/accent`, square. */
+.cell[data-preview]::before {
+  background-color: var(--nph-color-accent);
+}
+
+.cell[data-edge]::before {
+  background-color: var(--nph-color-accent);
+}
+
+.cell[data-edge='after']::before {
+  inset-inline-start: 50%;
+}
+
+.cell[data-edge='before']::before {
+  inset-inline-end: 50%;
+}
+
+/* ----- the day ------------------------------------------------------------------------ */
+
+.day,
+.item {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: var(--_cell);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--nph-calendar-day-radius);
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+
+/* A day outside the month: the number in `color/muted-foreground`. */
+.day[data-outside] {
+  color: var(--nph-color-muted-foreground);
+}
+
+/* Hover: `color/accent`. It does not move the focus. */
+.day:hover:not(:disabled),
+.item:hover:not(:disabled) {
+  background-color: var(--nph-color-accent);
+  color: var(--nph-color-accent-foreground);
+}
+
+/* Today: the number and a 1 px outline in `color/primary-text`, the number in medium. */
+.day[data-today],
+.item[data-current] {
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-color-primary-text);
+  color: var(--nph-color-primary-text);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* The chosen day, the Start and the End: `color/primary`; the fill wins over the outline of today. */
+.day[data-selected]:not([data-role='middle']),
+.item[data-selected] {
+  background-color: var(--nph-color-primary);
+  box-shadow: none;
+  color: var(--nph-color-primary-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.day[data-selected]:not([data-role='middle']):hover:not(:disabled),
+.item[data-selected]:hover:not(:disabled) {
+  background-color: var(--nph-color-primary);
+  color: var(--nph-color-primary-foreground);
+}
+
+/* The middle of the period: square, `color/primary-surface`, the number in `color/primary-on-surface`. */
+.day[data-role='middle'] {
+  border-radius: var(--nph-radius-none);
+  background-color: var(--nph-color-primary-surface);
+  color: var(--nph-color-primary-on-surface);
+}
+
+.day[data-role='middle'][data-outside] {
+  color: var(--nph-color-muted-foreground);
+}
+
+.day[data-role='middle'][data-today] {
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-color-primary-text);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.day[data-role='middle']:hover:not(:disabled) {
+  background-color: var(--nph-color-accent);
+  color: var(--nph-color-accent-foreground);
+}
+
+/* The preview: square, `color/accent`, the number in `color/foreground`. */
+.day[data-preview] {
+  border-radius: var(--nph-radius-none);
+  background-color: var(--nph-color-accent);
+  color: var(--nph-color-foreground);
+}
+
+/* Disabled by the min or the max: the whole day under `state/disabled-opacity`, and out of the focus. */
+.day:disabled,
+.item:disabled {
+  opacity: var(--nph-state-disabled-opacity);
+  color: var(--nph-color-muted-foreground);
+  cursor: default;
+}
+
+/* Unavailable by rule: the number faded, no opacity on the cell; it takes focus and cannot be chosen (item 9). */
+.day[data-unavailable] {
+  color: var(--nph-color-muted-foreground);
+  cursor: default;
+}
+
+.day[data-unavailable]:hover {
+  background-color: transparent;
+  color: var(--nph-color-muted-foreground);
+}
+
+/*
+ * Focus: a border of `border/width` in `focus/border` flush inside the cell and a halo of `focus/ring-width` outside
+ * it, at `calendar/day-focus-radius` (the cell radius plus the ring). On a chosen day the inside ring is
+ * `color/primary-foreground`, over the fill.
+ */
+.day:focus-visible,
+.item:focus-visible {
+  z-index: 2;
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-focus-border);
+}
+
+.day:focus-visible::after,
+.item:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--nph-focus-ring-width));
+  box-sizing: border-box;
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-calendar-day-focus-radius);
+  pointer-events: none;
+}
+
+.day[data-selected]:not([data-role='middle']):focus-visible,
+.item[data-selected]:focus-visible {
+  box-shadow: inset 0 0 0 var(--nph-focus-ring-width) var(--nph-color-primary-foreground);
+}
+
+/* ----- the month and year views -------------------------------------------------------------- */
+
+/*
+ * The view keeps its own drawn size, centered in the panel (D-2); its header is the grid's. The month keeps the
+ * width of the days, so the panel does not narrow when the view opens.
+ */
+.view {
+  align-items: stretch;
+  inline-size: calc(7 * var(--_cell) + 2 * var(--nph-space-container-padding));
+}
+
+.view-grid {
+  align-self: center;
+  inline-size: calc(3 * var(--_item-width));
+}
+
+.view-grid .cell {
+  block-size: var(--_item-height);
+}
+
+.item {
+  block-size: var(--_item-height);
+}
+
+/* ----- the live region -------------------------------------------------------------------------- */
+
+/* Never visible, in the accessibility tree: clipped, not `display: none`, which the browser does not read. */
+.status {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+:host([data-nph-rendered]) {
+  position: relative;
+}
+
+/* Nothing here animates: there is no motion to reduce. */
