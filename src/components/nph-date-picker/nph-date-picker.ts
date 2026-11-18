@@ -287,6 +287,7 @@ export class NphDatePicker extends LitElement {
   private resizeObserver: ResizeObserver | undefined;
   private readonly scrollTargets: EventTarget[] = [];
   private returnsFocus = false;
+  private tabbing = false;
 
   constructor() {
     super();
@@ -782,9 +783,19 @@ export class NphDatePicker extends LitElement {
   private readonly onSurfaceFocusout = (event: FocusEvent): void => {
     if (!this.open) return;
     const next = event.relatedTarget;
-    if (!(next instanceof Node)) return;
-    if (this.shadowRoot?.contains(next) === true) return;
+    /* No target and no Tab: the window lost the focus, or the element left the page; nothing moved to somewhere else. */
+    if (!(next instanceof Node) && !this.tabbing) return;
+    if (next instanceof Node && this.shadowRoot?.contains(next) === true) return;
     this.closePanel('tab');
+  };
+
+  /** A Tab forward is on its way: a focus that leaves the panel with no target is the page's end, and the panel closes. */
+  private readonly onSurfaceKeydown = (event: KeyboardEvent): void => {
+    if (event.key !== 'Tab' || event.shiftKey) return;
+    this.tabbing = true;
+    window.setTimeout(() => {
+      this.tabbing = false;
+    }, 0);
   };
 
   private show(surface: HTMLElement): void {
@@ -1185,6 +1196,7 @@ export class NphDatePicker extends LitElement {
       data-mode=${range ? (this.narrow ? 'narrow' : 'range') : 'single'}
       data-size=${this.panelSize}
       @focusout=${this.onSurfaceFocusout}
+      @keydown=${this.onSurfaceKeydown}
     >
       ${range
         ? html`<div class="body">${this.renderShortcuts()}${this.renderCalendar()}</div>${this.renderFooter()}`
