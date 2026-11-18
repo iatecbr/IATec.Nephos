@@ -35,7 +35,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The disabled arrow at the ends stays natively disabled, out of the Tab order, and the focus moves to the current indicator or the other arrow, as the task recommends. Keeping it focusable, as the appendix and the APG say, needs a focusable disabled mode in the nph-icon-button, a change to that component in its own task. She decides it in the next approval round. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-87/figma-docs-accepted-2026-11-16.md"
   ],
