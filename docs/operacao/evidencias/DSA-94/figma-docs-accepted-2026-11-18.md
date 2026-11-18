@@ -224,7 +224,7 @@ In the examples the field shows without the `nph-field`, to show the panel; on a
 - Do not make the panel narrower: the labels and the indent of the levels do not fit. Use the panel with the field width.
 - Do not use multiple when the field takes one item only. Use single choice.
 
-## Default behavior (appendix, accepted with the documentation)
+## Default behavior (appendix, accepted with the documentation, except the D-1 row)
 
 Base: the WAI-ARIA APG combobox with a tree popup and the tree view; the decisions already answered for the family (DSA-29, DSA-46, DSA-31) and for the `nph-tree` (DSA-75 and its approval of 2026-11-11). Each line names its source.
 
@@ -246,7 +246,7 @@ Base: the WAI-ARIA APG combobox with a tree popup and the tree view; the decisio
 | Pointer and focus | Hover only paints the item; it does not move the active item. With both on the same item, the focus wins over the hover. | `nph-tree`, approval of 2026-11-11 (items 4 and 10) |
 | Near the window edge | With no room below, the panel opens above, at the same distance. Above `layout/max-list-height`, it scrolls inside; the width does not shrink. | DSA-29 D-2 and D9; https://floating-ui.com/docs/flip |
 | Loading branch and error | The spinner takes the place of the chevron of the branch that opens; the first load shows the skeleton. On a branch error, the row says the error and Try again; Enter tries again. The row takes the panel width; when it does not fit, Try again drops below the message, at the same indent (item 5). | `nph-tree`, approval of 2026-11-11 (items 5 and 6); approval of 2026-11-18, item 5 |
-| A letter in single (field not editable) | Not in the accepted documentation nor in the appendix. Open with the design owner as D-1 of the task, with the recommendation: closed, the letter opens the panel on the first visible item that starts with it; open, it moves the active item to the next one; the value does not change. | Review of 2026-11-18; APG combobox (select-only) and tree view; `fichas/nph-select.md` line 229; `fichas/nph-tree.md` line 290 |
+| A letter in single (field not editable) | Not in the accepted documentation nor in the appendix. Open with the design owner as D-1 of the task, with the recommendation: closed, the letter opens the panel on the next visible item after the chosen one that starts with it (from the first item with no value); open, it moves the active item to the next one; the search wraps around and a Space inside a quick typed search is part of it, as the nph-select; the value does not change. Until she answers, the code follows the recommendation. | Review of 2026-11-18; APG combobox (select-only) and tree view; `fichas/nph-select.md` line 229; `fichas/nph-tree.md` line 290; `src/components/nph-select/nph-select.ts` lines 524 to 527 and 565 to 567 |
 | Clear (single with search) | The clear target erases the text and gives the focus back to the field. | `nph-combobox` |
 | Motion | The panel enters with a fade and a 4 px slide (`motion/enter-*`) and leaves with `motion/exit-*`. With reduced motion, opacity only. | DSA-29 D2 |
 | Code | Event, aria, slot, property and console warning stay with the code owner, following the APG and the Custom Elements Manifest. | — |
@@ -372,7 +372,7 @@ Points of the appendix that were not approval items follow the recommendation, a
 - Pending 11: the tree select follows what the code of the `nph-multi-combobox` adopts for DSA-31 D-2, D-3 and D-4, with no decision of its own; in D-3, the chip repeats the icon of the item when the tree has icons, and has no icon when it does not.
 - Pending 15: the 80 gap of the presentation frame of the root stays loose (the same case as the `nph-popover`).
 
-Pending 2 (one chip for a whole branch, the parent's), 4 (focus on the disabled item), 8 (box hover in the item) and 17 (the panel stays open when an item is checked in multiple) were resolved before the page, by the accepted root or by the `nph-tree` and `nph-multi-combobox` decisions. The default behavior, the combined states, the icon and image rules, the order of the parts and the inherited decisions above were accepted with the documentation (item 1).
+Pending 2 (one chip for a whole branch, the parent's), 4 (focus on the disabled item), 8 (box hover in the item) and 17 (the panel stays open when an item is checked in multiple) were resolved before the page, by the accepted root or by the `nph-tree` and `nph-multi-combobox` decisions. The default behavior, the combined states, the icon and image rules, the order of the parts and the inherited decisions above were accepted with the documentation (item 1), except the D-1 row of the default behavior, which is open with the design owner.
 
 ## Hidden on purpose in Figma
 

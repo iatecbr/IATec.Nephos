@@ -85,7 +85,7 @@ In the evidence of the `design-decision` gate: `docs/operacao/evidencias/DSA-95/
 - `fichas/nph-multi-combobox.md`: lines 274 and 485, the same.
 - `src/shared/metadata/nph-select.json`, `nph-combobox.json` and `nph-multi-combobox.json`: generated from the specs; regenerate them with `node scripts/verificar-operacao.mjs --gerar-metadata`, do not edit them by hand.
 - `.storybook/i18n/en.json`, `es.json` and `pt-BR.json`: the anatomy text "6. List" of the `nph-select` and of the `nph-combobox` ("color/popover, border color/input, …", today lines 4772 and 7470 of `en.json`, the same lines in the other two files).
-- `design.md` already says it: `color/border-subtle` names the list of the three pieces, marked "DSA-95" (until this task lands, the code draws `color/input`), and `color/input` and `color/dropdown-border` send the list to `color/border-subtle`. When this task lands, drop the mark "DSA-95" from those lines.
+- `design.md` already says it: `color/border-subtle` names the list of the three pieces, marked "DSA-95" (until this task lands, the code draws `color/input`), and `color/input` and `color/dropdown-border` send the list to `color/border-subtle`. When this task lands, drop the mark "DSA-95" from those lines and from the known limitation of section 3 (the dark mode notes).
 
 Before closing, search the repository for "border color/input", "in color/input" next to "list", and `--nph-color-input` in the list rules, in the specs, stories, tests and the three translation files, to catch any text this list missed. Leave `docs/operacao/evidencias/` and the other tasks, such as DSA-29 and DSA-46, as they are (history).
 
