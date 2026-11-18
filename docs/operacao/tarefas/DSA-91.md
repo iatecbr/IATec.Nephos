@@ -40,33 +40,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "Card states combined with hover have no drawing: hover with error, hover with focus and hover on the disabled card. Recommended: hover only adds the hover layer and never changes the outline, so hover with error keeps the error outline and adds the layer, hover with focus keeps the focus outline and the halo and adds the layer, and the disabled card takes no hover (Radix radio cards and checkbox cards, Carbon tile, Primer ActionList; no source read has a card with an error, so hover with error is a deduction). Sources: https://raw.githubusercontent.com/radix-ui/themes/main/packages/radix-ui-themes/src/components/radio-cards.css, https://raw.githubusercontent.com/radix-ui/themes/main/packages/radix-ui-themes/src/components/checkbox-cards.css, https://raw.githubusercontent.com/carbon-design-system/carbon/main/packages/styles/scss/components/tile/_tile.scss, https://raw.githubusercontent.com/primer/react/main/packages/react/src/ActionList/ActionList.module.css. Until she answers, the code follows the recommendation, which is also the outline precedence of the nph-checkbox it holds (error, then focus, then hover, then rest; disabled always wins, fichas/nph-checkbox.md). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-2",
-      "question": "The shortcut of the card (nph-kbd) has no rule for the key itself. Recommended: it is only a visual hint; the product binds the key, and the card sets aria-keyshortcuts only when the product tells it the key; a key with no modifier works only with the focus in the group (shadcn dropdown menu shortcut, React Aria Menu keyboard shortcuts, MDN aria-keyshortcuts; the single-key rule is a deduction). Sources: https://raw.githubusercontent.com/shadcn-ui/ui/main/apps/v4/registry/new-york-v4/ui/dropdown-menu.tsx, https://react-aria.adobe.com/Menu, https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-keyshortcuts. Until she answers, the code draws the nph-kbd as a hint and binds no key. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-3",
-      "question": "On the disabled rich option with marker=checkbox the opacities add up: the box is the disabled nph-checkbox (0.5) inside the disabled option (0.5), 0.25 on screen, while the disabled card keeps its control at default under the card opacity only. Recommended: unify with the card, the box at default inside the disabled option, so only the option opacity applies (shadcn dropdown checkbox item; no system read adds two reductions). Alternative: the Primer and Carbon way, no opacity on the item and disabled colors on the box and the text, which changes the accepted look. Sources: https://raw.githubusercontent.com/shadcn-ui/ui/main/apps/v4/registry/new-york-v4/ui/dropdown-menu.tsx, https://raw.githubusercontent.com/radix-ui/themes/main/packages/radix-ui-themes/src/components/checkbox-cards.css, https://raw.githubusercontent.com/primer/react/main/packages/react/src/ActionList/ActionList.module.css, https://raw.githubusercontent.com/carbon-design-system/carbon/main/packages/styles/scss/components/tile/_tile.scss, https://raw.githubusercontent.com/material-components/material-web/main/checkbox/internal/_checkbox.scss. Until she answers, the code follows the accepted Figma: the disabled box inside the option at 0.5. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-91/figma-docs-accepted-2026-11-18.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md and 2026-11-18.md, nph-rich-option: adjustment rounds with the corrections of the design owner (soft outline, no brand border on the checked card, hover layer at 50 percent, selected option with no background)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-rich-option: green light (visual acceptance) and the 17 approval items answered by the design owner in three rounds, all as recommended: documentation accepted, core/opacity/50, the rich option as an extension of the nph-select option with select/option-* tokens, description in 12 Regular, a 2 px keyboard ring on the active option, selected option with no background, radius 4, disabled option skipped, descriptions of four semantics, a task of its own for the plain select option and a foundation task for the dark error halo"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-rich-option: green light (visual acceptance) and the 17 approval items answered by the design owner in three rounds, all as recommended: documentation accepted, core/opacity/50, the rich option as an extension of the nph-select option with select/option-* tokens, description in 12 Regular, a 2 px keyboard ring on the active option, selected option with no background, radius 4, disabled option skipped, descriptions of four semantics, a task of its own for the plain select option and a foundation task for the dark error halo",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-rich-option: D-1 to D-3 answered by the design owner, all as recommended (Figma preview 7297:18398, light and dark); D-3 applied to the four disabled rich option variants with marker=checkbox"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -115,7 +97,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **Hover and active**: a layer under the content, corner `select/option-radius`, background `select/option-background-hover` at the layer opacity `select/option-background-hover-opacity` (0.5) (DSA-29 D5, softer than the plain option).
 - **Keyboard ring** (item 9): only on the option active by the keyboard, a 2 px ring drawn inside the option, `select/option-focus-border`, thickness `select/option-focus-border-width`, corner `select/option-focus-border-radius`. The pointer hover has no ring. The layer alone measures 1.08:1 and 1.13:1; the ring is what meets 3:1, with no halo (3.68:1 light over `color/popover` and 3.43:1 over the hover layer with the code value of `focus/border`, 7.88:1 and 6.90:1 dark; see the note on `focus/border` in the evidence).
 - **Selected**: no background (a declared deviation from DSA-29 D8). With `marker=check`, the check; with `marker=checkbox`, the checked box (as P96 already does). Selected in hover or active takes the same layer, the ring when active by the keyboard, and keeps the check or the box; its label stays `select/option-foreground`, as the Figma composition (the same value as `select/option-foreground-hover`).
-- **Disabled**: the whole option at `select/option-disabled-opacity`, `aria-disabled`; selected + disabled keeps only the check or the checked box, no background (a declared deviation from DSA-29 D-3). The list skips the disabled option (DSA-29, item 12).
+- **Disabled**: the whole option at `select/option-disabled-opacity`, `aria-disabled`; selected + disabled keeps only the check or the checked box, no background (a declared deviation from DSA-29 D-3). With `marker=checkbox`, the box stays at its default state inside the option, so only the option opacity applies (D-3). The list skips the disabled option (DSA-29, item 12).
 - **Accessibility**: role `option` with the label as the name; the description is announced as the description of the option. Start icon, avatar and dot are decorative.
 
 ### Both
@@ -124,8 +106,16 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **Icons**: `nph-icon` `light`; the weight never swaps. Decorative.
 - **Images**: none of their own; the photo comes only through the `nph-avatar` (DSA-24).
 
+## Decisions answered on 2026-11-18
+The design owner answered D-1 to D-3 in chat, all as recommended, after a Figma preview in light and dark (draft page, frame `7297:18398`). Sources: D-1, https://raw.githubusercontent.com/radix-ui/themes/main/packages/radix-ui-themes/src/components/radio-cards.css, https://raw.githubusercontent.com/radix-ui/themes/main/packages/radix-ui-themes/src/components/checkbox-cards.css, https://raw.githubusercontent.com/carbon-design-system/carbon/main/packages/styles/scss/components/tile/_tile.scss and https://raw.githubusercontent.com/primer/react/main/packages/react/src/ActionList/ActionList.module.css (no source read has a card with an error; hover + error is a deduction); D-2, https://raw.githubusercontent.com/shadcn-ui/ui/main/apps/v4/registry/new-york-v4/ui/dropdown-menu.tsx, https://react-aria.adobe.com/Menu and https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-keyshortcuts; D-3, https://raw.githubusercontent.com/shadcn-ui/ui/main/apps/v4/registry/new-york-v4/ui/dropdown-menu.tsx (no system read adds two reductions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | On the card, hover only adds the hover layer and never changes the outline. Hover + error keeps the error outline and adds the layer; hover + focus keeps the focus outline and the halo and adds the layer; the disabled card takes no hover. No new variant in Figma. | Hover as `:hover:not([disabled])` inside `@media (hover: hover)`; outline and halo follow error (with `rich-option/focus-halo-error` when focused), then focus, then rest; disabled always wins. |
+| D-2 | The card shortcut (`nph-kbd`) is only a visual hint. The product binds the key and calls the same action as the click. | Draws the `nph-kbd` and binds no key. Sets `aria-keyshortcuts` only when the product says the key is bound; a disabled card announces no shortcut. When the key works (a key with no modifier only with the focus in the group, a page-wide key with a modifier that no browser or screen reader uses) is the product's call. |
+| D-3 | On the disabled rich option with `marker=checkbox`, the box stays at its default state and only the option opacity applies (0.5 on screen, as on the disabled card). Applied in Figma to the four variants `state=disabled, marcador=checkbox` (`6910:7210`, `6910:7272`, `6910:7281`, `6910:7356`). | The box inside a disabled option renders at default, with no disabled opacity of its own; the option opacity dims both. |
+
 ## Open points for the code
-- Three decisions are open with the design owner (`pending_decisions`, D-1 to D-3): card states combined with hover, the card shortcut key and the box opacity on the disabled rich option. The code follows the interim of each; none blocks the pull request.
 - Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.
 - **Card API**: how the card gets its control type, checked state, name and value for the form, title, second line, icon and shortcut (properties, attributes or slots), and how a group of radio cards forms one group (as `nph-radio` does by `name`). The spec names them.
 - **Who holds the role and the focus on the card**: Figma draws the control as a visual indicator and the focus around the whole card, with no ring on the control. One path: the card holds the role, the state and the focus, and the control is `inert` and hidden from the screen reader, as the box of the `nph-option` (P92); the other: the real control inside holds the focus and the card draws the focus with `:focus-within`, which needs a way to hide the ring of the control. The look does not change. The spec names the path.
