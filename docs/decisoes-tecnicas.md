@@ -9434,7 +9434,7 @@ card only places the trigger.
 - **D-3 — the width of the narrow container.** The side media moves to the top under `30rem` in the code, because Figma
   shows the wide case only. The design owner confirms the width or draws it.
 - **D-4 — the focus contrast reading.** The accepted evidence measures the focus border over `color/background`;
-  `design.md` now measures the 3:1 against the halo, with a known limit in the Sistemas brand in light. The code draws the
+  `design.md` now measures the 3:1 against the halo, with a known limit in the `Sistemas` brand in light. The code draws the
   border and the halo as the evidence says and changes no token; the design owner confirms the reading.
 
 **Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-4 wait for the design owner and do not block

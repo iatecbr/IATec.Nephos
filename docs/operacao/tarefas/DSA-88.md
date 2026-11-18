@@ -60,7 +60,7 @@
     },
     {
       "id": "D-4",
-      "question": "The evidence measures the focus border of the clickable card over color/background (5.37:1 in light in the default brand). design.md, after DSA-91, measures the 3:1 of the focus border against the halo, with a known limit in the Sistemas brand in light (2.92:1 with the code value). The code draws focus/border and focus/halo as the evidence says and changes no token. If the card contrast needs another reading or value, she decides. It does not block the pull request.",
+      "question": "The evidence measures the focus border of the clickable card over color/background (5.37:1 in light in the default brand). design.md, after DSA-91, measures the 3:1 of the focus border against the halo, with a known limit in the `Sistemas` brand in light (2.92:1 with the code value). The code draws focus/border and focus/halo as the evidence says and changes no token. If the card contrast needs another reading or value, she decides. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-18"
     }
