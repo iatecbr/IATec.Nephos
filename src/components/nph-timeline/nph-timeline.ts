@@ -375,6 +375,10 @@ export class NphTimeline extends LitElement {
         this.moreRequested = false;
       }
     }
+    /* A request that ended with no more events to load is over: a later growth is not the answer to it. */
+    if (!this.hasMore) {
+      this.moreRequested = false;
+    }
   }
 
   /** Whether anything is drawn: items, the loading rows or the empty state. */
@@ -401,10 +405,8 @@ export class NphTimeline extends LitElement {
         target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
       }
     }
-    /* A batch that came with more still to load keeps the focus where it was: forget where it started. */
-    if (this.hasMore) {
-      this.batchStart = -1;
-    }
+    /* The start of the batch is only for the focus above: a batch with more still to load keeps the focus where it was. */
+    this.batchStart = -1;
   }
 
   /** The texts the consumer owes: drawn without them, and said once, since they may arrive later. */

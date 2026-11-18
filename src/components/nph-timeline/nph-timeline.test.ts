@@ -1011,6 +1011,16 @@ describe('"Show more"', () => {
     expect(root(timeline).activeElement).toBe(item(timeline, 2));
   });
 
+  it('a request that ended with no event is not the answer to a later growth', async () => {
+    const timeline = await mount({ type: 'history', items: HISTORY, hasMore: true, live: true });
+    (more(timeline) as HTMLElement).click();
+    timeline.hasMore = false;
+    await settle(timeline);
+    timeline.items = [{ title: 'New' }, ...HISTORY];
+    await settle(timeline);
+    expect(live(timeline).textContent?.trim()).toBe('1 new events');
+  });
+
   it('the focus is not moved when it was not on the button', async () => {
     const timeline = await mount({ type: 'history', items: HISTORY, hasMore: true });
     const outside = document.createElement('button');
