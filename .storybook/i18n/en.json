@@ -560,7 +560,16 @@
     "components-nph-command-validation--focus-and-escape": "Focus and Esc",
     "components-nph-command-validation--brands": "Brands",
     "components-nph-command-fixtures": "Fixtures",
-    "components-nph-command-fixtures--example": "Example"
+    "components-nph-command-fixtures--example": "Example",
+    "components-nph-carousel-docs": "Docs",
+    "components-nph-carousel-docs--documentation": "Documentation",
+    "components-nph-carousel-validation": "Validation",
+    "components-nph-carousel-validation--matrix": "Matrix",
+    "components-nph-carousel-validation--controls": "Controls",
+    "components-nph-carousel-validation--many-slides": "Many slides",
+    "components-nph-carousel-validation--interactive": "Interactive",
+    "components-nph-carousel-validation--examples": "Examples",
+    "components-nph-carousel-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -8717,7 +8726,13 @@
       "components-nph-resizable-validation--limits": "The handle stops at the minimum and at the maximum of each panel, set in percent or in pixels, and the main panel of the handle is the one that reports them.",
       "components-nph-resizable-validation--interactive": "A drag, a key or a click fires nph-resize with detail.sizes, shown below the group; the product keeps the sizes and gives them back through sizes, and setting sizes from code does not fire the event.",
       "components-nph-resizable-validation--examples": "The three required examples, each in light and dark mode: List and reading pane, Nested and Collapsed.",
-      "components-nph-resizable-validation--brands": "The seven brands in light and dark mode: the focus border and the collapse button follow the brand of the frame."
+      "components-nph-resizable-validation--brands": "The seven brands in light and dark mode: the focus border and the collapse button follow the brand of the frame.",
+      "components-nph-carousel-validation--matrix": "The three layouts at the start, in the middle and at the end of the sequence: one whole slide, as many whole slides as fit, and the current slide with the edge of the neighbor; the arrows and the current indicator follow the position.",
+      "components-nph-carousel-validation--controls": "The controls bar with the arrows, the indicators and the counter turned on and off; at least one of the arrows and the indicators stays on, and the counter replaces the indicators when they are off.",
+      "components-nph-carousel-validation--many-slides": "A sequence with more slides than the indicators hold: above five pages the indicators go off and the counter comes on, and in the several layout it counts pages.",
+      "components-nph-carousel-validation--interactive": "An arrow, an indicator, a key or a drag fires nph-slide-change, and detail.index is the first slide in view that the product keeps and gives back through index.",
+      "components-nph-carousel-validation--examples": "The three required examples of the accepted frame: an image gallery in peek, featured cards in several, and a sequence with more slides than the indicators hold.",
+      "components-nph-carousel-validation--brands": "The seven brands in light and dark: the current indicator, the focus border and the arrows follow the brand."
     }
   },
   "multiComboboxDocs": {
@@ -16383,5 +16398,277 @@
     "expand": "Expand panel",
     "collapseList": "Collapse the list",
     "expandList": "Expand the list"
+  },
+  "carouselValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleGallery": "Image gallery",
+    "exampleFeatured": "Featured cards",
+    "exampleMany": "Many slides",
+    "statusIdle": "Waiting for an arrow, an indicator, a key or a drag.",
+    "statusChanged": "nph-slide-change fired with detail.index = {index}.",
+    "gallery": "Photo gallery",
+    "previousLabel": "Previous slide",
+    "nextLabel": "Next slide",
+    "indicatorsLabel": "Choose a slide",
+    "slideLabel": "Slide {position} of {total}",
+    "pageLabel": "Go to page {position}",
+    "positionLabel": "{position} of {total}",
+    "featuredLabel": "Featured cards",
+    "manyLabel": "Steps of the tour"
+  },
+  "carouselDocs": {
+    "summary": "A strip of slides where one part shows at a time. The person moves on with the arrows, the indicators or by dragging. It does not rotate by itself and it does not hide important content.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-carousel spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P129. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "For a short sequence of similar content where seeing one slide at a time is enough, such as an image gallery, featured cards or welcome steps.",
+      "Peek when you want to make clear there are more slides: the edge of the neighbor invites the person to move on. It is the recommended layout.",
+      "One slide when one at a time is enough; several when seeing some slides at once helps to choose.",
+      "With three to five slides, keep the indicators; with more than five, the indicators go off and the counter comes on.",
+      "Keep slides of the same kind and the same height, so the strip does not jump when the slide changes.",
+      "Put the text below the image, not over it: the contrast over a photo is not guaranteed.",
+      "Store the slide from the nph-slide-change event and give it back through index when the position has to be kept."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For a list or grid where the person needs to see or compare everything: show the items together.",
+      "To split a long list into pages: use nph-pagination.",
+      "To switch between named sections of a page: use nph-tabs.",
+      "To show the progress of a task: use nph-progress.",
+      "For two slides: show both together, side by side or in a list; only without room use arrows and indicators with two items.",
+      "For important content: a slide out of view is rarely seen.",
+      "For automatic rotation, a vertical carousel, thumbnails or wrap-around: they do not exist in v1.",
+      "Turning arrows and indicators off together, or leaving the sequence with no indicators and no counter."
+    ],
+    "relationsText": "The slide takes any approved content and has no background, outline or radius of its own: the content brings them. The example slide is an nph-image of the media size and two nph-skeleton lines. The arrows are nph-button instances, so they bring from it the background, the hover, the focus and the disabled look.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "layout",
+        "single (default), several or peek, the layout property of Figma. single is one whole slide at a time; several shows as many whole slides as fit the width, at least one; peek shows the current slide and the edge of the neighbor. Reflected to the attribute."
+      ],
+      [
+        "index",
+        "The first slide in view, counted from zero. In several the current page is derived from it. Reflected. Setting it from code never fires the event."
+      ],
+      [
+        "hide-arrows",
+        "Turns both arrows off. They are on by default in Figma, so the property turns them off."
+      ],
+      [
+        "hide-indicators",
+        "Turns the indicators off. Turn counter on when they are off."
+      ],
+      [
+        "counter",
+        "Shows the position of the total after the next arrow. Off by default; above five pages it comes on by itself."
+      ],
+      [
+        "label",
+        "The accessible name of the region, already localized. Without it, the host aria-label is used."
+      ],
+      [
+        "previous-label and next-label",
+        "The names of the arrows, which are also their tooltip text. Without them, the default of the page language."
+      ],
+      [
+        "indicators-label, slide-label, page-label and position-label",
+        "The name of the group of indicators and the templates of the indicator, of the indicator of a page and of the counter and the slide, with the placeholders position and total in curly braces."
+      ],
+      [
+        "slot",
+        "The slides: the direct element children, two or more, with free content. The carousel writes no attribute on them."
+      ],
+      [
+        "nph-slide-change",
+        "Event, fired when the person changes the slide, once per change. It bubbles and is not cancelable. detail.index is the first slide in view."
+      ],
+      [
+        "wrap-around, rotation, vertical and thumbnails",
+        "Do not exist in v1."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-carousel layout=\"peek\" label=\"Photo gallery\">\n  <div>Slide 1</div>\n  <div>Slide 2</div>\n  <div>Slide 3</div>\n</nph-carousel>",
+    "usageTag": "The tag of the piece. The slides are its direct children; the carousel takes the width of its container. Give it a label, already localized.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-carousel (5173:1429); docs/decisoes-tecnicas.md › P129",
+    "layoutsTitle": "Layouts",
+    "layoutsText": "One slide shows one whole slide at a time. Several shows as many whole slides as fit the width of the carousel; a slide never shrinks nor gets cut, and below one slide width the single slide follows the container. Peek shows the whole current slide and the edge of the neighbor, which tells the person there is more.",
+    "layoutsCaption": "The three layouts at the start of the sequence.",
+    "layoutsHeader": [
+      "Layout",
+      "When to use"
+    ],
+    "layoutsList": [
+      [
+        "single",
+        "One at a time is enough. The slide is as wide as the carousel."
+      ],
+      [
+        "several",
+        "Seeing some slides at once helps to choose. In this layout each indicator stands for a page and the counter counts pages."
+      ],
+      [
+        "peek",
+        "The recommended layout: the edge of the neighbor invites to move on. At the end, the edge of the previous slide shows."
+      ]
+    ],
+    "controlsTitle": "Controls",
+    "controlsText": "The controls bar sits below the track, never over the photo. It holds the previous arrow, the indicators, the next arrow and the counter. There is no wrap-around, so the arrow on the side with no slide is disabled. Above five pages the indicators go off and the counter comes on by itself. Keep at least one of the arrows and the indicators on.",
+    "controlsCaption": "Arrows and indicators; indicators only; the counter in place of the indicators.",
+    "sourceLayouts": "nph-carousel spec sheet; Figma, frame nph-carousel (5173:1429)",
+    "sourceControls": "nph-carousel spec sheet; docs/decisoes-tecnicas.md › P129",
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Key or action",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Goes through the previous arrow, the indicators (one stop only, on the current one) and the next arrow. The links and buttons of the slide in view follow the content order."
+      ],
+      [
+        "Enter or Space on an arrow",
+        "Goes to the previous or the next position. A disabled arrow leaves the Tab order; when the focused arrow becomes disabled, the focus moves to the current indicator."
+      ],
+      [
+        "Left and Right on an indicator",
+        "Move the focus and show the slide. In right-to-left text they mirror."
+      ],
+      [
+        "Home and End",
+        "Go to the first and to the last indicator and show that slide."
+      ],
+      [
+        "Click or tap on an indicator",
+        "Shows the slide of that indicator."
+      ],
+      [
+        "Drag or swipe on the track",
+        "Changes the slide by one step. It is never the only way: arrows and indicators do the same."
+      ],
+      [
+        "Focus on slide change",
+        "Stays on the control used. The new slide is announced politely."
+      ],
+      [
+        "Reduced motion",
+        "The slide change is instant."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Track",
+        "Shows the slides side by side and clips what goes past its width, with carousel/slide-gap between them."
+      ],
+      [
+        "Slide",
+        "Takes the content. No background, outline or radius of its own."
+      ],
+      [
+        "Peek",
+        "The edge of the neighbor, carousel/peek-size wide, in the peek layout only."
+      ],
+      [
+        "Controls bar",
+        "A centered row below the track, carousel/control-gap between its parts and carousel/controls-offset from the track."
+      ],
+      [
+        "Arrow",
+        "The nph-button secondary, solid and circular, with a chevron in carousel/control-foreground."
+      ],
+      [
+        "Indicator",
+        "A dot of carousel/indicator-size in a target of carousel/indicator-target-size; the current one is a wider pill in the brand color. The targets touch."
+      ],
+      [
+        "Counter",
+        "The text position of total, in text/label-md and carousel/counter-foreground."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A region with aria-roledescription carousel. The track is aria-live polite. The indicators are a tablist of tab buttons with aria-selected and aria-controls; each slide is a tabpanel with aria-roledescription slide, named position of total. A slide out of view is inert."
+      ],
+      [
+        "Accessible name",
+        "The region takes label. The arrows take previous-label and next-label. Each indicator is named Slide N of total, and in the several layout Go to page N."
+      ],
+      [
+        "Visible focus",
+        "The indicator shows a focus/border border outside its target and a halo beyond it, with no hover background. The arrow shows the focus of nph-button."
+      ],
+      [
+        "Contrast",
+        "The indicators and the arrow icon pass 3:1; the counter passes 4.5:1. The current indicator has no hover, because it would fail over the hover background."
+      ],
+      [
+        "Color is not the only signal",
+        "The current indicator is wider; the disabled arrow shows the end; the counter says the position in text."
+      ],
+      [
+        "Touch target",
+        "The indicator target is 24 by 24; the arrow has the default control height."
+      ],
+      [
+        "Alternative to dragging",
+        "Arrows and indicators move the slide with one tap, so at least one of the two stays on (WCAG 2.5.7)."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleGallery": "Image gallery: peek, in the middle of the sequence, with arrows and indicators.",
+    "exampleFeatured": "Featured cards: several, at the start; the disabled previous arrow shows there is nothing before.",
+    "exampleMany": "A sequence with more slides than the indicators hold: the counter says the total.",
+    "referencesTitle": "References",
+    "references": [
+      "nph-carousel spec sheet — function, layouts, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P129 (API and semantics), P01, P02, P03, P116 and P127.",
+      "design.md — the carousel/* tokens, focus/border, focus/halo, motion/state-duration and text/label-md.",
+      "WAI-ARIA Authoring Practices — Carousel and Tabs patterns.",
+      "Figma DS-IA-NEPHOS 5.0 — nph-carousel documentation frame (5173:1429) and sets 5165:1094, 5164:771 and 5164:687.",
+      "Storybook — Validation, in the folder beside this one."
+    ],
+    "sourceSpec": "nph-carousel spec sheet; Figma, frame nph-carousel (5173:1429)",
+    "sourceApi": "nph-carousel spec sheet; docs/decisoes-tecnicas.md › P129",
+    "sourceKeyboard": "nph-carousel spec sheet; WAI-ARIA APG, Carousel and Tabs",
+    "sourceAnatomy": "nph-carousel spec sheet; Figma, frame nph-carousel (5173:1429)",
+    "sourceAccessibility": "nph-carousel spec sheet; WCAG 2.2",
+    "matrixLabel": "nph-carousel by layout and position",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "gallery": "Photo gallery",
+    "previousLabel": "Previous slide",
+    "nextLabel": "Next slide",
+    "indicatorsLabel": "Choose a slide",
+    "slideLabel": "Slide {position} of {total}",
+    "pageLabel": "Go to page {position}",
+    "positionLabel": "{position} of {total}",
+    "featuredLabel": "Featured cards",
+    "manyLabel": "Steps of the tour"
   }
 }

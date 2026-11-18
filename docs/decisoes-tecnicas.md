@@ -84,6 +84,7 @@ P62.4 subsection for the detail).
 | **P126** | API and semantics of `nph-menubar`; the focus border and the submenu gap of the dropdown item (amends P92 and P113) | 16/11/2026 | Low now. No piece consumes the bar yet; the header of an application will, and changing `menus`, `open-menu`, `open-submenu`, `label`, `more-label`, `narrow`, `menu-label`, the event `nph-item-select` (with `menu`), the overflow rule or the invalid-input rule later requires redoing every consumer. The focus border of the dropdown and context-menu item changes color only, and the submenu of the context menu moves 4 px. The open top item in focus (D-1), Enter and Space on a choice and the click on a multiple choice (D-2), the click that opens with no item shown (D-3) and the panel that is not an instance in code (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P127** | The answers of 2026-11-16 applied in the code: the technical choices (amends P68, P77 and P83) | 17/11/2026 | Low now. The changes only add or loosen: a balloon on an element with an explicit `tabindex`, a `description` on `nph-button`, a flag a control may declare to `nph-field`, a default name for the scroll arrows of `nph-tabs`, a role on a cut pending step, and the groups of the panel menu that open for a new current page. Changing the role of the step, the default names or the rule of the panel menu later requires redoing every consumer that reads them | The answers come from Indiane, recorded in the tasks (four of them decided by Claude by her delegation, DSA-71 D-1, DSA-73 D-4, DSA-74 D-2 and DSA-76 D-3). The technical choices are reviewed in the pull request that brings them |
 | **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P129** | API and semantics of `nph-carousel` | 18/11/2026 | Low now. No piece consumes the carousel yet; a gallery, a featured list or a welcome tour will, and changing `layout`, `index`, `hide-arrows`, `hide-indicators`, `counter`, the six names, the event `nph-slide-change`, the meaning of `index` in the several layout, the roles, the keys or the invalid-input rule later requires redoing every consumer. The arrow that is not focusable at the ends (D-1) waits for Indiane; the color of the arrow icon through an internal variable of `nph-button` is for Elvys to confirm in the pull request | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -9250,6 +9251,143 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P129 — `nph-carousel`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5173:1429`, page `1626:32`, sets `5165:1094`, `5164:771`
+and `5164:687`) draws a strip of slides with a controls bar, and leaves to the code how the slides are given, how the
+position is set and told, what the position means when several slides share a page, the roles and keys of the
+APG tabbed carousel, how the pages are counted when the width changes, the names of the controls in three
+languages, the drag and swipe, the focus when a disabled arrow had it, the right-to-left text and the color of the
+arrow icon. Four limits of the platform shape the answer:
+
+- the Figma has no slide component, so a second tag would invent a piece the design does not draw;
+- a tab, its slide and the track live in the same shadow root, but the slide content lives in the light DOM, and
+  `inert` on an element of the consumer would write an attribute a framework could fight;
+- a native button that becomes `disabled` drops the focus, and `nph-button` has no focusable disabled mode;
+- `nph-button` has no public hook for the color of its icon, only `--nph-button-focus-border`.
+
+**Decision.** `nph-carousel` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic tokens:
+the fourteen `carousel/*` ones, `focus/border`, `border/width`, `focus/halo`, `focus/ring-width`,
+`motion/state-duration`, `motion/state-easing` and `text/label-md`; **no token is created or changed**. It has no
+`::part` and no color property. What it rejects renders nothing and emits `console.error` only in development, once
+per cause: the rule of P21. The names follow P64.
+
+1. **One tag, the slides are the children (Q1).** The slides are the direct element children of the carousel, with
+   free content. The carousel puts each one in its own box by **manual slot assignment** (`slotAssignment: 'manual'`
+   and `slot.assign()`), so it writes no attribute on a child, as `nph-resizable` does (P128). Text and comments
+   between the slides are not slides. There is no `nph-carousel-slide`.
+
+2. **The position and the event (Q2).** `index` is the **first slide in view**, a number from zero that reflects. In
+   `single` and `peek` it is the current slide; in `several` the current page is derived from it (`floor(index /
+   slides per page)`, and the last page holds every slide from its own start). A resize changes the number of
+   pages but **never rewrites `index` and never fires an event**. A number out of range shows the nearest slide and the property keeps what was written. The
+   own event `nph-slide-change` (bubbles, composed, not cancelable) has `detail: { index }`, the first slide of the
+   new page, and is fired only when the person changes the slide by arrow, indicator, key or drag, **never when code
+   writes `index`**. The name is not `nph-value-change`, which is typed with a list by `nph-toggle-group` (P76), and
+   follows `nph-tab-change` (P115). **Persistence is the product's**: the component stores nothing.
+
+3. **Wrap-around (Q3).** There is no wrap-around property in v1: the Figma draws only the ending, with the disabled
+   arrow, and a loop is a second state that nobody accepted. The spec names it as out of scope, with automatic
+   rotation, the vertical carousel and thumbnails.
+
+4. **Layouts and measures (Q4).** `layout` is `single` (default), `several` or `peek` and reflects. The track is a
+   query container: in `single` a slide is as wide as the track; in `peek` it is the track minus
+   `carousel/peek-size` and one `carousel/slide-gap`, so the edge of the neighbor is exactly the peek; in `several` a
+   slide keeps the width of its content, never wider than the track. How many fit is `floor((track + gap) / (widest
+   slide + gap))`, at least one, measured by a `ResizeObserver` on the track and on every slide, so a slide whose
+   image loads late changes the pages. Pages are `ceil(slides / per page)`. The strip is moved by a measured
+   transform; the offset is the distance of the first slide in view from the start edge, kept inside the strip,
+   which shows the previous neighbor at the end of `peek` and aligns the last page of `several` to the end with no
+   special case.
+
+5. **Controls (Q5).** `hide-arrows` and `hide-indicators` turn off what is on by default in Figma (an HTML boolean
+   cannot default to true: the precedent is `hide-collapse-button`, P128); `counter` shows "position of total" and is
+   off. Above five pages the indicators go off and the counter comes on by itself, in the several layout counting
+   pages (item 10 of the approval round). With a single page there is nothing to go through, so no controls bar is
+   drawn. Fewer than two slides, a region with no name, arrows and indicators both off, and indicators off with no
+   counter warn once in development and still render.
+
+6. **The names (Q6).** The product gives them already localized, or the carousel takes the default of the `lang`
+   nearest to it (Portuguese, English, Spanish), as `nph-tabs` does (P127): `label` or the host `aria-label` names the
+   region; `previous-label`, `next-label` and `indicators-label` name the arrows and the group; `slide-label`,
+   `page-label` and `position-label` are templates with the placeholders `{position}` and `{total}`, for the
+   indicator ("Slide 2 of 5"), for the indicator of a page ("Go to page 2") and for the counter and the slide ("2 of
+   5").
+
+7. **Roles (Q7).** A `region` with `aria-roledescription="carousel"` and a name; the track is `aria-live="polite"`;
+   the indicators are a `tablist` of native buttons with `role="tab"`, `aria-selected` and `aria-controls`; each slide
+   is a `tabpanel` with `aria-roledescription="slide"` named "position of total". With no indicators a slide is a
+   `group`, as in the basic carousel of the APG, because a tab panel needs a tab. In `several` every slide is named
+   by its own position, and a tab controls every slide of its page. The tabs and the slide boxes live in the same
+   shadow root, so `aria-controls` uses plain ids (P91). A slide out of view is **`inert` on the box in the shadow
+   root**, never on the child of the consumer; in `several` every whole slide in view counts as in view, and the
+   neighbor at the edge of `peek` is out of view, so a click on it changes nothing.
+
+8. **Keys (Q8).** Tab goes from the previous arrow to the indicators, one stop on the current one (roving
+   `tabindex`), and to the next arrow. Left and Right on an indicator move the focus and show the slide (automatic
+   activation), Home and End go to the first and the last; in right-to-left text the arrows mirror. Enter or Space
+   on an arrow goes one position. The focus stays on the control used.
+
+9. **The disabled arrow (Q9).** The arrow keeps the native `disabled` of `nph-button`, out of the Tab order, as the
+   task asks; nothing changes in `nph-button`. The carousel remembers which control has the focus, and when that
+   control becomes disabled or leaves, the focus goes to the current indicator, or to the other arrow when the
+   indicators are off. It holds for an indicator that goes away on a resize too.
+
+10. **The color of the arrow icon (Q10).** `nph-button` draws its icon in `currentColor` of its own `--_fg` and exposes
+    no hook for it. The carousel sets `--_fg` to `carousel/control-foreground` on the arrow instance: a rule from
+    outside the shadow root beats the `:host` rule inside it, and the hover reads the same variable. It is a coupling to
+    an internal name, so a test reads the computed color of the icon at rest and in hover; a rename in the button
+    fails it. It is a point for Elvys in this pull request, not a change to `nph-button`.
+
+11. **Drag and swipe (Q11).** Pointer events on the track, with `touch-action: pan-y` so the vertical scroll stays
+    with the browser. A move under 6 px is a click. Past it the pointer is captured, the strip follows with a
+    resistance past the ends, and on release one step is taken when the drag passes a quarter of a step or the flick
+    is faster than 0.4 px per millisecond over at least 10 px; otherwise the strip goes back. The click that follows
+    a drag is swallowed, and a drag that starts in a text field is left to it. The pointer is captured only after the
+    slop, so a click on a link in the slide is not broken. Dragging is never the only way (WCAG 2.5.7).
+
+12. **Motion and right-to-left (Q12).** The strip moves on `motion/state-duration` and `motion/state-easing`, not on
+    the first placement and not while the pointer drags, and not at all under `prefers-reduced-motion` (DSA-62
+    D-3). Right-to-left text mirrors the order of the slides, the controls bar, the chevrons, the keys and the drag.
+
+13. **Forced colors.** The dot keeps `ButtonText`, the current pill and the focus border `Highlight`, as the
+    stepper does; the user's palette decides, so no token.
+
+**Known limits.**
+
+- The arrow is not focusable at the ends (the APG would keep it): that needs a change to `nph-button`, which is not in
+  this task (D-1).
+- The track clips the slides along the line only, so the focus ring of a control in a slide is never cut above or
+  below it; a control flush against the left or right edge of a slide has its ring clipped there, and the content
+  brings its own padding.
+- The polite announcement depends on the screen reader reading the change when a slide box stops being `inert`, since
+  the slides move by a transform and no node is added.
+- The component test drives the pointer with synthetic events, which carry no capture; one test moves a real
+  pointer to prove the drag end to end.
+
+**Source.** Documentation frame `5173:1429` (page `1626:32`), root `5164:663` and sets `5165:1094`, `5164:771` and
+`5164:687` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/11/2026, with the Figma UX QA and the
+textual audit approved, and the fifteen points of its approval round, all answered as recommended; the evidence of
+the `figma-docs-accepted` gate of DSA-87. The names and values of the API, the meaning of `index`, the measure of the
+pages, the drag thresholds, the manual slot assignment, the hand-over of the focus and the override of the arrow color
+are a technical proposal of this implementation.
+
+**Effects on other pieces.** None. `nph-button` and `nph-icon` do not change; the carousel only uses them.
+
+**Out of scope.** Automatic rotation, a vertical carousel, thumbnails and wrap-around. A focusable disabled arrow. A
+token, new or changed. A slide component. Persistence inside the component.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the disabled arrow at the ends.** The appendix keeps it focusable (APG, focusability of disabled controls),
+  and that needs a focusable disabled mode in `nph-button`, a change to that component in its own task. Until she
+  decides, the arrow is natively disabled and the focus moves as item 9 says.
+
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 waits for Indiane. API and semantics are
+reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## P130 — `nph-card`: API and semantics
 
 **Technical conflict.** The accepted documentation (frame `6516:13647`, page `1626:28`, root `6478:6670`, sets
@@ -9444,7 +9582,7 @@ the pull request. API and semantics are reviewed in the pull request that brings
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128 or P130 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129 or P130 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
