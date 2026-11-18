@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 880,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-timeline",
   "dependencies": [
     "DSA-03",
@@ -55,8 +55,8 @@
     "converted_decision": "The nph-timeline documentation frame (5237:3423, page 1626:37) was accepted as the API and behavior specification of nph-timeline, with the visual acceptance of the root (5226:2261). COMPONENT_SET nph-timeline item (5216:304), 8 variants; COMPONENT_SET nph-timeline (5216:701), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-17"
+  "context": "docs/operacao/contextos/DSA-89.md",
+  "updated_at": "2026-11-18"
 }
 ```
 
