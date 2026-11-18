@@ -570,6 +570,17 @@
     "components-nph-carousel-validation--interactive": "Interactivo",
     "components-nph-carousel-validation--examples": "Ejemplos",
     "components-nph-carousel-validation--brands": "Marcas",
+    "components-nph-timeline-docs": "Docs",
+    "components-nph-timeline-docs--documentation": "Documentación",
+    "components-nph-timeline-validation": "Validación",
+    "components-nph-timeline-validation--types": "Tipos",
+    "components-nph-timeline-validation--short": "Cortas",
+    "components-nph-timeline-validation--markers": "Marcadores",
+    "components-nph-timeline-validation--content": "Contenido",
+    "components-nph-timeline-validation--states": "Estados",
+    "components-nph-timeline-validation--width": "Ancho",
+    "components-nph-timeline-validation--examples": "Ejemplos",
+    "components-nph-timeline-validation--brands": "Marcas",
     "components-nph-calendar-validation": "Validación",
     "components-nph-calendar-validation--single": "Única",
     "components-nph-calendar-validation--range": "Rango",
@@ -8755,6 +8766,14 @@
       "components-nph-carousel-validation--interactive": "Una flecha, un indicador, una tecla o un arrastre dispara nph-slide-change, y detail.index es la primera diapositiva a la vista que el producto guarda y devuelve por index.",
       "components-nph-carousel-validation--examples": "Los tres ejemplos obligatorios del frame aceptado: una galería de imágenes en peek, tarjetas destacadas en varias y una secuencia con más diapositivas de las que caben los indicadores.",
       "components-nph-carousel-validation--brands": "Las siete marcas en claro y oscuro: el indicador actual, el borde de foco y las flechas siguen la marca.",
+      "components-nph-timeline-validation--types": "Los dos tipos con tres, cuatro y cinco elementos: el process dibuja el estado de cada paso en un círculo, con la línea conectora en el color de la marca hasta el paso pendiente, y el history dibuja un punto neutro para cada evento.",
+      "components-nph-timeline-validation--short": "Las listas cortas: dos elementos, y un evento único, que es un elemento con la línea conectora apagada. El último elemento de una lista nunca tiene línea.",
+      "components-nph-timeline-validation--markers": "Los tres marcadores: el punto, el círculo en sus seis estados, con el icono del evento en el neutro, y el avatar con foto y sin ella, que muestra el icono user. Solo el círculo tiene estado.",
+      "components-nph-timeline-validation--content": "Lo que activa un elemento: un título largo que se parte, la descripción, la línea de meta con quién y cuándo y la palabra de espera del elemento pendiente, la acción activada y deshabilitada, y un nph-card base y section en el slot de un elemento.",
+      "components-nph-timeline-validation--states": "Mostrar más después de la lista, alineado con la columna del marcador; el estado de carga con filas de skeleton en lugar de los elementos; y el estado vacío con nph-empty.",
+      "components-nph-timeline-validation--width": "La lista toma el ancho de su contenedor: un panel estrecho de 22 rem y una columna ancha de 40 rem, con el título y la descripción partiéndose y la línea conectora siguiendo la altura del elemento.",
+      "components-nph-timeline-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: un proceso de aprobación rechazado, un historial por persona con una acción y un historial por tipo de evento.",
+      "components-nph-timeline-validation--brands": "Las siete marcas en modo claro y oscuro: la línea conectora, el punto, el círculo neutro y su icono siguen la marca del marco.",
       "components-nph-calendar-validation--single": "La fecha única en los dos tamaños: siempre seis filas de semana, hoy con su contorno, el día elegido relleno y los días del mes anterior y del siguiente en tono suave.",
       "components-nph-calendar-validation--range": "El rango: un periodo que cruza el cambio de semana con la franja recta, un periodo de un día, solo el inicio elegido y dos meses consecutivos lado a lado.",
       "components-nph-calendar-validation--limits": "Los días fuera del mínimo y del máximo se atenúan y el foco los salta; una fecha no disponible por regla conserva la celda, atenúa solo el número, recibe foco y nunca se elige.",
@@ -16710,6 +16729,439 @@
     "positionLabel": "{position} de {total}",
     "featuredLabel": "Tarjetas destacadas",
     "manyLabel": "Pasos del recorrido"
+  },
+  "timelineValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "processLabel": "Pasos de la solicitud de compra",
+    "historyLabel": "Actividad de la solicitud de compra",
+    "declinedLabel": "Aprobación de la solicitud de compra",
+    "personLabel": "Actividad por persona",
+    "typeLabel": "Actividad por tipo de evento",
+    "completedLabel": "Completado",
+    "currentLabel": "Paso actual",
+    "errorLabel": "Error",
+    "warningLabel": "Advertencia",
+    "pendingLabel": "En espera",
+    "loadingLabel": "Cargando eventos",
+    "moreLabel": "Mostrar más",
+    "newLabel": "{count} eventos nuevos",
+    "loadedLabel": "{count} eventos anteriores cargados",
+    "emptyHeading": "Aún no hay eventos",
+    "emptyDescription": "Los eventos de esta solicitud aparecen aquí.",
+    "action": "Ver detalles",
+    "steps": [
+      "Solicitud enviada",
+      "Revisión del gerente",
+      "Verificación del presupuesto",
+      "Orden de compra",
+      "Entrega"
+    ],
+    "events": [
+      "Solicitud creada",
+      "Cantidad editada",
+      "Estado cambiado a En revisión",
+      "Comentario agregado",
+      "Archivo adjunto"
+    ],
+    "eventTypes": [
+      "Creación",
+      "Edición",
+      "Cambio de estado",
+      "Comentario",
+      "Archivo"
+    ],
+    "whens": [
+      "8 nov, 09:12",
+      "8 nov, 10:05",
+      "9 nov, 14:30",
+      "10 nov, 08:40",
+      "11 nov, 16:20"
+    ],
+    "whoAna": "Ana Souza",
+    "whoBruno": "Bruno Lima",
+    "whoCarla": "Carla Dias",
+    "whoFinance": "Finanzas",
+    "whoProcurement": "Compras",
+    "longTitle": "Solicitud de renovación anual de la licencia del software de diseño para todo el equipo de producto, con la nueva tabla de precios adjunta",
+    "description": "Dos portátiles para el equipo de diseño, que se entregarán en la oficina de Recife.",
+    "declinedTitle": "Solicitud rechazada",
+    "declinedReason": "El importe supera el límite trimestral del departamento. Envíe una nueva solicitud con una cantidad menor.",
+    "noteHeading": "Nota de entrega",
+    "noteDescription": "Deje las cajas en el muelle de carga.",
+    "summaryHeading": "Resumen del pedido",
+    "summaryKeyItem": "Artículo",
+    "summaryValueItem": "2 portátiles",
+    "summaryKeyTotal": "Total",
+    "summaryValueTotal": "USD 2.400",
+    "summaryAction": "Editar"
+  },
+  "timelineDocs": {
+    "summary": "Una lista vertical de eventos en orden, unidos por una línea conectora, cada uno con un marcador, un título y una línea de meta. Muestra en qué punto está un proceso o qué le pasó a un registro. Registra y no navega.",
+    "onThisPage": "En esta página",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-timeline, design.md para los tokens y docs/decisoes-tecnicas.md para la P132. El archivo DS-IA-NEPHOS 5.0 en Figma es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Los pasos de un proceso en orden, como una solicitud y su aprobación, con el estado de cada paso: use el tipo process.",
+      "El historial de actividad de un registro, del más reciente al más antiguo, con quién lo hizo y cuándo: use el tipo history, con el punto.",
+      "Cuando importa quién lo hizo: use el marcador avatar. Cuando importa el tipo del evento: use el círculo con un icono.",
+      "Un historial largo: muestre los eventos más recientes y termine la lista con el botón Mostrar más.",
+      "Un evento que pide un siguiente paso: active la acción debajo de su texto, como Ver detalles.",
+      "Mientras los eventos cargan, muestre el estado de carga; sin eventos, muestre el estado vacío."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para guiar a la persona por pasos en los que hace clic: use nph-stepper.",
+      "Para un historial leído en columnas (fecha, quién, qué): use nph-table.",
+      "Para las pestañas de una vista o el lugar en una jerarquía: use nph-tabs o nph-breadcrumb.",
+      "Para mostrar cuánto de una tarea está hecho, sin eventos con nombre: use nph-progress.",
+      "Para un feed que carga al desplazarse: la timeline carga con el botón Mostrar más y no asume el rol de feed.",
+      "Para contenido enriquecido como evento completo: ponga un nph-card, base o section, en el slot debajo del texto; nunca una tarjeta pulsable en un elemento que tiene acción."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "items",
+        "Los eventos, en orden, como una lista de { id, title, description, who, when, datetime, status, marker, icon, avatar, typeLabel, action, actionDisabled }. Solo propiedad: se define desde JavaScript. title es obligatorio y ya viene localizado; description es la línea debajo de él. who y when forman la línea de meta, quién primero, con un punto medio entre ambos; when es la fecha ya formateada por el producto, absoluta o relativa, y datetime es el valor de máquina de su elemento time. typeLabel es el texto oculto que dice el tipo del evento cuando el título no lo dice. action es la etiqueta del botón debajo del texto, y actionDisabled pone solo ese botón bajo la opacidad de deshabilitado. Una lista vacía es el estado vacío, no un error."
+      ],
+      [
+        "type",
+        "process (por defecto) o history. Process son los pasos de un flujo con el estado de cada uno; history son los eventos de un registro. Define el marcador que toma un elemento cuando no nombra ninguno, el círculo en el proceso y el punto en el historial, y nada más: los dos tipos comparten un solo diseño. Se refleja en el atributo."
+      ],
+      [
+        "marker",
+        "Campo de un elemento: dot, circle o avatar. El círculo lleva el estado y, cuando es neutro, el icono del evento; el avatar es un nph-avatar sm con la foto y sin círculo alrededor."
+      ],
+      [
+        "status",
+        "Campo de un elemento: neutral (por defecto), completed, current, pending, error o warning. Solo el círculo tiene estado: en un punto o en un avatar se ignora, con un aviso en desarrollo."
+      ],
+      [
+        "icon",
+        "Campo de un elemento: el icono del tipo de evento del círculo neutro, un nombre del núcleo de nph-icon. El icono de cada otro estado es fijo, así que icon solo se lee en el círculo neutro."
+      ],
+      [
+        "avatar",
+        "Campo de un elemento: la dirección de la foto del marcador avatar. Sin ella, mientras carga y si falla, el avatar muestra el icono user."
+      ],
+      [
+        "label",
+        "El nombre accesible de la lista. Ya viene localizado."
+      ],
+      [
+        "aria-label",
+        "El nombre accesible de la lista cuando no hay label."
+      ],
+      [
+        "labelledBy",
+        "Un título visible que da nombre a la lista, dado como elemento. Solo propiedad: aria-labelledby no atraviesa el shadow root."
+      ],
+      [
+        "has-more",
+        "Muestra el botón Mostrar más después de la lista. La timeline no carga nada: el botón dispara nph-timeline-more, y el producto agrega los eventos anteriores al final de items y apaga has-more en el último lote. Se refleja en el atributo."
+      ],
+      [
+        "loading",
+        "Dibuja filas de skeleton en lugar de los elementos, con aria-busy y el loading-label oculto. Se refleja en el atributo."
+      ],
+      [
+        "live",
+        "La lista recibe eventos sin que la persona actúe, los nuevos al inicio. Activada, el crecimiento de la lista lo anuncia new-label. Se refleja en el atributo."
+      ],
+      [
+        "completed-label, current-label, error-label y warning-label",
+        "El texto oculto que abre un elemento y dice su estado, como Completado y Paso actual. Ya vienen localizados."
+      ],
+      [
+        "pending-label",
+        "La palabra visible que dice que el paso está en espera, al inicio de la línea de meta de un elemento pendiente. Ya viene localizada."
+      ],
+      [
+        "loading-label y more-label",
+        "El texto oculto del estado de carga y la etiqueta del botón Mostrar más. Ya vienen localizados."
+      ],
+      [
+        "new-label y loaded-label",
+        "Los anuncios de eventos nuevos y de los eventos que trajo Mostrar más, ambos con {count}, como {count} eventos nuevos. Ya vienen localizados."
+      ],
+      [
+        "empty-heading y empty-description",
+        "El título y la descripción del estado vacío, que se dibujan cuando la lista no tiene elementos y no está cargando. Ya vienen localizados."
+      ],
+      [
+        "nph-timeline-action",
+        "El evento que dispara la acción de un elemento cuando la persona la activa, con detail { index, id }: la posición desde cero y el id del elemento, o null. Burbujea y es compuesto. Una acción deshabilitada no dispara nada."
+      ],
+      [
+        "nph-timeline-more",
+        "El evento que dispara el botón Mostrar más cuando la persona lo activa, sin detail. Burbujea y es compuesto."
+      ],
+      [
+        "slot con el nombre del id de un elemento",
+        "Contenido enriquecido que se dibuja debajo del texto y de la acción del elemento con ese id, como un nph-card, base o section. La timeline no lo estiliza. Un elemento sin id no tiene slot."
+      ],
+      [
+        "size, orientation y color",
+        "No son propiedades: un solo tamaño, solo vertical, y la lista toma el ancho de donde está. El color viene del estado del elemento y de la marca."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-timeline id=\"request\" label=\"Pasos de la solicitud\" completed-label=\"Completado\" current-label=\"Paso actual\" error-label=\"Error\" warning-label=\"Advertencia\" pending-label=\"En espera\" loading-label=\"Cargando eventos\" more-label=\"Mostrar más\" new-label=\"{count} eventos nuevos\" loaded-label=\"{count} eventos anteriores cargados\" empty-heading=\"Aún no hay eventos\" empty-description=\"Los eventos de esta solicitud aparecen aquí.\"></nph-timeline>\n<script>\n  request.items = [\n    { title: 'Solicitud enviada', who: 'Ana Souza', when: '8 nov, 09:12', datetime: '2026-11-08T09:12', status: 'completed' },\n    { title: 'Revisión del gerente', who: 'Bruno Lima', when: '8 nov, 10:05', datetime: '2026-11-08T10:05', status: 'current' },\n    { title: 'Verificación del presupuesto', who: 'Finanzas', status: 'pending' },\n  ];\n</script>",
+    "usageTag": "La etiqueta de la pieza. Los eventos llegan como datos en la propiedad items, definida desde JavaScript, y cada palabra que muestra la lista llega ya localizada por atributo. El contenido enriquecido va en un slot con el nombre del id de su elemento.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, frame nph-timeline (5237:3423); docs/decisoes-tecnicas.md › P132",
+    "typesTitle": "Tipos",
+    "typesCaption": "El tipo process con cuatro pasos y el tipo history con cuatro eventos.",
+    "typesUseHeader": [
+      "Tipo",
+      "Qué muestra"
+    ],
+    "typesUse": [
+      {
+        "value": "process",
+        "label": "Los pasos de un flujo, como una solicitud y su aprobación, cada uno con su estado: elementos de círculo con los pasos completados, el actual y los pendientes. Es el valor por defecto."
+      },
+      {
+        "value": "history",
+        "label": "Los eventos de un registro, del más reciente al más antiguo, con quién lo hizo y cuándo: elementos de punto, neutros. Para el avatar o para un círculo con icono, indique el marcador en el elemento."
+      }
+    ],
+    "types": [
+      "Los dos tipos comparten un solo diseño. El tipo solo define el marcador que toma un elemento cuando no nombra ninguno.",
+      "La línea conectora une un marcador con el siguiente y llega hasta el final del elemento. El último elemento no la tiene, para que no apunte a un evento que no existe; un evento único es un elemento, sin línea.",
+      "La lista toma el ancho de donde está y no tiene desplazamiento propio. El título y la descripción se parten en líneas y el elemento crece, sin corte y sin puntos suspensivos.",
+      "La lista más pequeña es un evento único, y no hay tope: una lista larga termina con el botón Mostrar más. Un historial leído en columnas (fecha, quién, qué) no es una timeline: use nph-table."
+    ],
+    "markersTitle": "Marcadores y estados",
+    "markersCaption": "Los seis estados del círculo, el punto y el avatar con y sin foto.",
+    "markersUseHeader": [
+      "Marcador o estado",
+      "Qué muestra"
+    ],
+    "markersUse": [
+      {
+        "value": "dot",
+        "label": "La forma densa del historial: un pequeño punto decorativo en el color de la marca. No tiene estado."
+      },
+      {
+        "value": "circle",
+        "label": "Un círculo tonal que lleva el estado del elemento y, cuando es neutro, el icono del tipo de evento. Es el valor por defecto del tipo process."
+      },
+      {
+        "value": "avatar",
+        "label": "El nph-avatar sm de quien lo hizo, con la foto en avatar y el icono user cuando no la hay. Sin círculo alrededor y sin estado."
+      },
+      {
+        "value": "neutral",
+        "label": "El círculo con el icono del tipo de evento en icon, como un comentario. Es el estado por defecto."
+      },
+      {
+        "value": "completed",
+        "label": "Un check en el círculo tonal. El paso está hecho."
+      },
+      {
+        "value": "current",
+        "label": "Un punto en el centro del círculo tonal y un título más fuerte. Es donde está el proceso, y aria-current lo marca en el tipo process."
+      },
+      {
+        "value": "pending",
+        "label": "Un círculo hueco con un contorno fino y la palabra de espera en la línea de meta. El paso no ha empezado, y su línea conectora queda neutra."
+      },
+      {
+        "value": "error",
+        "label": "Un círculo con una cruz sobre el fondo de error y un contorno discreto. El paso falló, y el motivo va en la descripción."
+      },
+      {
+        "value": "warning",
+        "label": "Un triángulo sobre el fondo de advertencia y un contorno discreto. El paso necesita atención."
+      }
+    ],
+    "markers": [
+      "Solo el círculo tiene estado. En un punto o en un avatar el status se ignora, con un aviso en desarrollo, para que el estado nunca dependa de un marcador que no puede mostrarlo.",
+      "Cada estado tiene una señal además del color: el check, el punto central con el título fuerte, el círculo hueco con la palabra de espera, la cruz y el triángulo. El marcador está oculto para la tecnología de asistencia, así que el estado también está escrito en el texto del elemento.",
+      "El icono de un estado es fijo. El icono del tipo de evento solo se lee en el círculo neutro, en el peso light, y el typeLabel oculto dice el tipo cuando el título no lo dice.",
+      "La línea conectora toma el color de la marca en los elementos neutro, completado, actual, con error, con advertencia y avatar; la línea de un elemento pendiente queda neutra."
+    ],
+    "contentTitle": "Contenido de un elemento",
+    "contentCaption": "Una descripción, una acción deshabilitada, y un nph-card base y un nph-card section en el slot de un elemento.",
+    "content": [
+      "El título es obligatorio y se parte en tantas líneas como necesite, sin corte y sin puntos suspensivos. La fila del título tiene al menos la altura del marcador, así que el título queda en el medio de ella.",
+      "La descripción es la línea debajo del título. Apáguela cuando el título baste.",
+      "La línea de meta muestra quién y cuándo, quién primero, con un punto medio entre ambos. La fecha es un elemento time con su valor de máquina en datetime, y su texto es la fecha absoluta y, si el producto lo quiere, la relativa. El elemento pendiente abre la línea con la palabra de espera y luego la persona a la que se espera.",
+      "La acción es un nph-button secondary ghost debajo del texto, con una etiqueta que viene del contexto, como Ver detalles. Deshabilitada, solo atenúa el botón, y el elemento conserva el marcador, la línea conectora y los colores. El elemento en sí nunca es pulsable.",
+      "El contenido enriquecido va en el slot con el nombre del id del elemento, debajo del texto y de la acción. Use un nph-card, base o section; nunca la tarjeta pulsable en un elemento que tiene acción, ya que nada interactivo va dentro de una tarjeta pulsable. La timeline no estiliza el slot."
+    ],
+    "loadingTitle": "Carga, Mostrar más y vacío",
+    "loadingCaption": "Mostrar más después de la lista, el estado de carga y el estado vacío.",
+    "loading": [
+      "Una lista larga muestra los eventos más recientes y termina con el botón ghost Mostrar más, fuera de la lista y alineado con la columna del marcador. La timeline no carga nada: el botón dispara nph-timeline-more, y el producto agrega los eventos anteriores al final de items y apaga has-more en el último lote.",
+      "Mostrar más siempre lo anuncia loaded-label, con el número de eventos que llegaron. El foco se queda en el botón mientras hay más eventos. En el último lote el botón desaparece y el foco pasa al primer elemento nuevo, para que no caiga en el body.",
+      "Con live activada, una lista que recibe eventos sin que la persona actúe anuncia el crecimiento con new-label, en una región cortés corta fuera de la lista. La lista entera nunca se vuelve una región viva.",
+      "Mientras los eventos cargan, loading dibuja filas de skeleton en lugar de los elementos, con aria-busy en la lista y un loading-label oculto.",
+      "Una lista sin elementos que no está cargando dibuja el nph-empty, con un título y una descripción del contexto. No queda ninguna lista vacía.",
+      "La timeline no carga al desplazarse y no tiene rol de feed. No anima, así que no hay nada que quitar con movimiento reducido."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab y Shift+Tab",
+        "Mueven el foco por las acciones de los elementos, en el orden de la lista, y después por Mostrar más. El elemento, el marcador, la línea conectora, el texto y la fecha no reciben foco."
+      ],
+      [
+        "Enter y Espacio",
+        "Los del nph-button de la acción o de Mostrar más. El elemento no responde a ninguna tecla."
+      ],
+      [
+        "Flechas",
+        "No hacen nada: la lista no es un widget compuesto."
+      ],
+      [
+        "Esc",
+        "No se aplica: nada se abre."
+      ],
+      [
+        "Puntero",
+        "El elemento no tiene estado de hover, pulsado o foco y no es pulsable. Hover y foco son solo de los botones, y el texto del elemento sigue siendo seleccionable."
+      ],
+      [
+        "Foco después de Mostrar más",
+        "El foco se queda en Mostrar más mientras hay más eventos. En el último lote el foco pasa al primer elemento nuevo, que recibe tabindex -1 solo mientras guarda el foco."
+      ]
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "La timeline va sobre el fondo de la página o dentro de una tarjeta, con los mismos tokens, y no tiene fondo, borde ni margen propios.",
+      "Está hecha de nph-icon (los iconos del marcador), nph-avatar (el marcador avatar), nph-separator (la línea conectora), nph-button (la acción y Mostrar más), nph-skeleton (carga) y nph-empty (vacío).",
+      "El marcador avatar es el nph-avatar sm, con la esquina del avatar y sin círculo alrededor. La línea conectora es el nph-separator vertical, con el grosor del separador y el color del elemento.",
+      "No sustituye al nph-stepper, que guía a la persona por pasos en los que hace clic y numera cada uno: la timeline registra y no navega. Un historial leído en columnas es nph-table.",
+      "El contenido enriquecido debajo del texto es un nph-card, base o section."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Elemento",
+        "Horizontal, alineado al inicio, a todo el ancho y con la altura de su contenido: primero la columna del marcador y después el contenido, con un espacio entre ambos."
+      ],
+      [
+        "Columna del marcador",
+        "24 de ancho, con el marcador arriba y centrado, y la línea conectora debajo."
+      ],
+      [
+        "Marcador",
+        "El punto (8), el círculo (24) o el avatar (sm), con el glifo en el centro. Oculto para la tecnología de asistencia."
+      ],
+      [
+        "Línea conectora",
+        "Un nph-separator vertical, de 1 px en un píxel entero en el centro de la columna del marcador, con un pequeño espacio debajo del marcador y encima del siguiente, hasta el final del elemento. El último elemento no la tiene."
+      ],
+      [
+        "Fila del título",
+        "El título, en una fila con al menos la altura del marcador. El título actual es fuerte y el pendiente es atenuado."
+      ],
+      [
+        "Descripción",
+        "La línea debajo del título. Opcional."
+      ],
+      [
+        "Línea de meta",
+        "La palabra de espera de un elemento pendiente, luego quién y cuándo, en el rol caption."
+      ],
+      [
+        "Acción",
+        "Un nph-button secondary ghost debajo del texto. Opcional."
+      ],
+      [
+        "Slot",
+        "El contenido enriquecido del elemento, debajo del texto y de la acción."
+      ],
+      [
+        "Mostrar más",
+        "Un nph-button ghost después de la lista, alineado con la columna del marcador."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Una lista ordenada (ol y li) con nombre y sin rol propio. El APG no tiene un patrón de timeline, y el patrón Feed no se aplica, porque la timeline carga con Mostrar más y no al desplazarse. Mostrar más queda fuera de la lista, después de ella."
+      ],
+      [
+        "Nombre accesible",
+        "La lista recibe nombre por label, por aria-label o por un título visible mediante labelledBy. La fecha es un elemento time con datetime."
+      ],
+      [
+        "Estado",
+        "El marcador y la línea conectora están ocultos para la tecnología de asistencia, así que el estado va en el texto del elemento: un texto oculto al inicio dice Completado, Paso actual, Error o Advertencia, y el elemento pendiente ya dice que está en espera. El tipo del evento va en typeLabel cuando el título no lo dice."
+      ],
+      [
+        "Paso actual",
+        "aria-current es step en el li del elemento actual, solo en el tipo process y en un solo elemento. El historial nunca lo tiene."
+      ],
+      [
+        "Región viva",
+        "Una región cortés corta fuera de la lista anuncia la llegada de eventos. La lista entera nunca se vuelve una región viva."
+      ],
+      [
+        "Contraste",
+        "El título, la descripción y la línea de meta alcanzan 4,5:1 en los dos modos y en todas las marcas. El glifo del marcador alcanza 3:1 sobre su superficie, y el contorno del círculo pendiente alcanza 3:1 sobre el fondo. La superficie del marcador y la línea conectora son decorativas."
+      ],
+      [
+        "El color no es la única señal",
+        "Cada estado tiene una señal además del color: el check, el punto central con el título fuerte, el círculo hueco con la palabra de espera, la cruz y el triángulo."
+      ],
+      [
+        "Foco visible y objetivo",
+        "La timeline no recibe foco. El foco y el tamaño del objetivo son los del nph-button de la acción y de Mostrar más."
+      ],
+      [
+        "Carga y vacío",
+        "La carga pone aria-busy en la lista, oculta el skeleton para la tecnología de asistencia y escribe un texto oculto de carga fuera del nodo oculto. El estado vacío es el nph-empty en lugar de la lista."
+      ],
+      [
+        "Movimiento",
+        "La pieza no anima."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: una aprobación rechazada, un historial por persona con una acción y un historial por tipo de evento.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-timeline — propósito, tipos, marcadores, comportamiento, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P132 (API y semántica).",
+      "design.md — los tokens timeline/*.",
+      "DS-IA-NEPHOS 5.0 Figma — página 1626:37, frame de documentación nph-timeline (5237:3423).",
+      "WAI-ARIA APG — patrones, y el patrón Feed, que no se aplica.",
+      "MDN — aria-current y el elemento time."
+    ],
+    "sourceSpec": "Ficha del nph-timeline; Figma, frame nph-timeline (5237:3423)",
+    "sourceApi": "Ficha del nph-timeline; docs/decisoes-tecnicas.md › P132",
+    "sourceAnatomy": "Figma, conjuntos 5216:304 y 5216:701; design.md",
+    "sourceBehavior": "Ficha del nph-timeline; Figma, apéndice (5240:5360)"
   },
   "calendarValidation": {
     "lightCaption": "Modo claro",
