@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 900,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-rich-option",
   "dependencies": [
     "DSA-03",
@@ -32,11 +32,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor beefc26cab597869a985fa4bfc5ec7b3e88f0d7d origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-91/review-and-merge-2026-11-19.md",
+      "result": "passed",
+      "verified_at": "2026-11-19",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -49,7 +49,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-91/figma-docs-accepted-2026-11-18.md"
+    "docs/operacao/evidencias/DSA-91/figma-docs-accepted-2026-11-18.md",
+    "docs/operacao/evidencias/DSA-91/review-and-merge-2026-11-19.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -68,11 +69,11 @@
   },
   "git_review": {
     "branch": "feat/dsa-91-rich-option",
-    "commit": null,
+    "commit": "beefc26",
     "pr": 187
   },
-  "context": "docs/operacao/contextos/DSA-91.md",
-  "updated_at": "2026-11-18"
+  "context": null,
+  "updated_at": "2026-11-19"
 }
 ```
 
