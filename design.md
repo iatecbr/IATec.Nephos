@@ -2218,7 +2218,7 @@ movimento_regras:
   linear_so_em: [progresso, girador]
   anime_apenas: [opacidade, transformacao]
   nao_anime: "Width, height and layout position - it stutters in large lists and tables."
-  excecao: "The nph-collapsible content, a disclosure that grows in place, animates its grid rows in motion/expand-*; with reduced motion it opens at once, with no transition. Only this piece: the rest of the expand role keeps the rule (DSA-78 D-3)."
+  excecao: "Disclosure content that grows in place: the content of the nph-collapsible, the panel of the nph-accordion item and the block of a group and of a subgroup of the nph-panel-menu animate their grid rows in motion/expand-*; with reduced motion they open at once, with no transition. The rest of the expand role keeps the rule (DSA-78 D-3, widened by DSA-98)."
   movimento_nunca_e_unico_sinal: true
 
 movimento_reduzido:
@@ -2835,7 +2835,7 @@ The curve says what the piece is. The question is not how much to round.
 
 **The curve declares the direction:** what appears brakes, what disappears accelerates, what changes in place does both.
 
-**Animate opacity and transform.** Width, height and layout position stutter in large lists and tables. **The exception is the nph-collapsible content**, a disclosure that grows in place (`expand` role): it animates its grid rows in `motion/expand-*` (DSA-78 D-3). With reduced motion it does not move: it opens at once, with no transition, instead of dropping to 100. The rest of the `expand` role keeps the rule.
+**Animate opacity and transform.** Width, height and layout position stutter in large lists and tables. **The exception is disclosure content that grows in place** (`expand` role): the content of the nph-collapsible, the panel of the nph-accordion item and the block of a group and of a subgroup of the nph-panel-menu animate their grid rows in `motion/expand-*` (DSA-78 D-3, widened by DSA-98). With reduced motion they do not move: they open at once, with no transition, instead of dropping to 100. The rest of the `expand` role keeps the rule.
 
 **Reduced motion is mandatory.** Slide and scale become opacity; rotation stops; duration drops to 100. State color and visible focus do **not** change — reducing motion is not removing feedback.
 
