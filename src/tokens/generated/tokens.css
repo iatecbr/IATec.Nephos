@@ -776,6 +776,9 @@
   --nph-calendar-day-focus-radius: var(--nph-core-radius-600);
   --nph-date-picker-panel-radius: var(--nph-core-radius-600);
   --nph-date-picker-panel-offset: var(--nph-core-space-100);
+  --nph-accordion-title-gap: var(--nph-core-space-50);
+  --nph-accordion-tile-padding: var(--nph-core-space-200);
+  --nph-accordion-tile-padding-compact: var(--nph-core-space-100);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1114,6 +1117,17 @@
   --nph-date-picker-panel-padding: var(--nph-space-container-padding);
   --nph-date-picker-trigger-gap: var(--nph-space-inline);
   --nph-date-picker-footer-gap: var(--nph-space-inline-loose);
+  --nph-accordion-border-width: var(--nph-border-width);
+  --nph-accordion-radius: var(--nph-radius-surface);
+  --nph-accordion-padding: var(--nph-space-container-padding);
+  --nph-accordion-divider-spacing: var(--nph-space-inline-tight);
+  --nph-accordion-item-gap: var(--nph-space-stack);
+  --nph-accordion-media-gap: var(--nph-space-inline);
+  --nph-accordion-tag-gap: var(--nph-space-inline);
+  --nph-accordion-end-gap: var(--nph-space-inline);
+  --nph-accordion-tile-radius: var(--nph-radius-inset);
+  --nph-accordion-tile-icon-size: var(--nph-icon-size-sm);
+  --nph-accordion-tile-icon-size-large: var(--nph-icon-size-lg);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
 }
 
@@ -1449,6 +1463,13 @@
   --nph-select-option-secondary-foreground: var(--nph-color-muted-foreground);
   --nph-date-picker-panel-border: var(--nph-color-border-subtle);
   --nph-date-picker-divider: var(--nph-color-border-subtle);
+  --nph-accordion-background: var(--nph-color-card);
+  --nph-accordion-border: var(--nph-color-border-subtle);
+  --nph-accordion-divider: var(--nph-color-border-subtle);
+  --nph-accordion-status-success-icon: var(--nph-status-success);
+  --nph-accordion-status-warning-icon: var(--nph-status-warning);
+  --nph-accordion-status-error-icon: var(--nph-status-error);
+  --nph-accordion-status-pending-icon: var(--nph-color-muted-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-menubar-trigger-background-hover: var(--nph-color-primary-surface-hover);
   --nph-menubar-trigger-foreground-hover: var(--nph-color-primary-on-surface-hover);
@@ -1560,6 +1581,8 @@
   --nph-select-option-marker: var(--nph-color-primary);
   --nph-select-option-focus-border: var(--nph-focus-border);
   --nph-select-option-focus-halo: var(--nph-focus-halo);
+  --nph-accordion-tile-background: var(--nph-color-primary-surface);
+  --nph-accordion-tile-foreground: var(--nph-color-primary-on-surface);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
