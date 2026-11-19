@@ -90,6 +90,8 @@
 }
 
 :host([rich]) .check {
+  inline-size: var(--nph-select-option-marker-size);
+  block-size: var(--nph-select-option-marker-size);
   color: var(--nph-select-option-marker);
 }
 

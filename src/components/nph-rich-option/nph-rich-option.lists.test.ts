@@ -239,7 +239,7 @@ describe('nph-combobox with rich options', () => {
   const ENTRIES: NphComboboxEntry[] = [
     { value: 'ana', text: 'Ana Souza', start: 'avatar', rich: true, description: 'Design lead' },
     { value: 'bruno', text: 'Bruno Lima', start: 'avatar', rich: true },
-    { value: 'caio', text: 'Caio Rocha', rich: true, description: 'Engineering', disabled: true },
+    { value: 'carla', text: 'Carla Rocha', rich: true, description: 'Engineering', disabled: true },
     { value: 'diana', text: 'Diana Alves' },
   ];
 

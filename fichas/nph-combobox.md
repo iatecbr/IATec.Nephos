@@ -27,8 +27,9 @@ api:
     reflects: false
     constraint: >-
       Property only. The entries of the list, in order: an option (type absent or option)
-      with value and text, and optionally secondary, start, icon, src, status and
-      disabled, which the combobox draws as an nph-option; a label (type label, with
+      with value and text, and optionally secondary, start, icon, src, status, rich,
+      description and disabled, which the combobox draws as an nph-option (rich turns on
+      the rich look with the description below the label, as in nph-option); a label (type label, with
       text) that names the group after it; and a separator (type separator) that closes
       a group. An invalid entry is left out, with one console.error per cause in
       development.

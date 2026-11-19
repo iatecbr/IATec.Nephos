@@ -496,6 +496,7 @@ describe('token contract of the rich look', () => {
         '--nph-select-option-description-foreground',
         '--nph-select-option-secondary-foreground',
         '--nph-select-option-marker',
+        '--nph-select-option-marker-size',
         '--nph-select-option-icon-size',
         '--nph-select-option-dot-size',
         '--nph-select-option-focus-border',

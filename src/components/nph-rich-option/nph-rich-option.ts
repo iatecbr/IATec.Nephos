@@ -44,7 +44,7 @@
  *   control. Empty (default) turns it off;
  * - `shortcut`: the keys drawn at the end, separated by spaces, each in an `nph-kbd`. Empty
  *   (default) turns it off. Never with the `switch`. It is only a visual hint (D-2): the card
- *   binds no key. `keyshortcuts` is the `aria-keyshortcuts` value (`Meta+K`), written only when
+ *   binds no key. `keyShortcuts` is the `aria-keyshortcuts` value (`Meta+K`), written only when
  *   the product says the key is bound; a disabled card announces none;
  * - `invalid`: the error outline. Visual only: `aria-invalid` is not supported on the `radio`
  *   and `switch` roles, and the written message belongs to the `nph-field` of the group (P83);
@@ -144,7 +144,7 @@ export class NphRichOption extends LitElement {
     description: { type: String },
     icon: { type: String },
     shortcut: { type: String },
-    keyshortcuts: { type: String },
+    keyShortcuts: { type: String, attribute: 'key-shortcuts' },
   };
 
   /** `checkbox` (default), `radio` or `switch`. */
@@ -164,7 +164,7 @@ export class NphRichOption extends LitElement {
   /** The keys of the shortcut hint, separated by spaces. Empty turns it off. */
   declare shortcut: string;
   /** The `aria-keyshortcuts` value, only when the product binds the key. */
-  declare keyshortcuts: string;
+  declare keyShortcuts: string;
 
   private readonly internals: ElementInternals;
   private checkedState = false;
@@ -192,7 +192,7 @@ export class NphRichOption extends LitElement {
     this.description = '';
     this.icon = '';
     this.shortcut = '';
-    this.keyshortcuts = '';
+    this.keyShortcuts = '';
     /* `click()` called on the host itself also stops when the card does not respond. */
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
     this.addEventListener('click', () => this.activate());
@@ -359,7 +359,7 @@ export class NphRichOption extends LitElement {
     this.internals.role = control;
     this.internals.ariaChecked = this.checkedState ? 'true' : 'false';
     this.internals.ariaDisabled = this.disabled || this.formDisabled ? 'true' : null;
-    const keys = (this.keyshortcuts ?? '').trim();
+    const keys = (this.keyShortcuts ?? '').trim();
     this.internals.ariaKeyShortcuts = keys === '' || this.inactive ? null : keys;
     const description = (this.description ?? '').trim();
     this.internals.ariaDescription = description === '' ? null : description;

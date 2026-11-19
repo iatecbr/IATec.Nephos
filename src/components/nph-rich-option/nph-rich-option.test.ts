@@ -153,13 +153,13 @@ describe('registration and API', () => {
     expect(element.value).toBe('on');
     expect(element.icon).toBe('');
     expect(element.shortcut).toBe('');
-    expect(element.keyshortcuts).toBe('');
+    expect(element.keyShortcuts).toBe('');
     expect(element.hasAttribute('data-nph-rendered')).toBe(true);
   });
 
   it('the reactive API is exactly the one of the contract', () => {
     const declared = [...(NphRichOption as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()].sort();
-    expect(declared).toEqual(['checked', 'control', 'description', 'disabled', 'icon', 'invalid', 'keyshortcuts', 'name', 'shortcut', 'text', 'value'].sort());
+    expect(declared).toEqual(['checked', 'control', 'description', 'disabled', 'icon', 'invalid', 'keyShortcuts', 'name', 'shortcut', 'text', 'value'].sort());
   });
 
   it('control, disabled, invalid, name and value reflect; checked, text and the rest do not', async () => {
@@ -271,7 +271,7 @@ describe('what the card holds: role, state, name and focus', () => {
   it('aria-keyshortcuts only when the product says the key is bound, and never on a disabled card', async () => {
     const element = await one('shortcut="⌘ K"');
     expect(element.matches('[aria-keyshortcuts]')).toBe(false);
-    element.keyshortcuts = 'Meta+K';
+    element.keyShortcuts = 'Meta+K';
     await element.updateComplete;
     const internals = (element as unknown as { internals: ElementInternals }).internals;
     expect(internals.ariaKeyShortcuts).toBe('Meta+K');
