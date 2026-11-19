@@ -224,6 +224,13 @@ for (const file of distFiles) {
   check(!/\.(test|stories|demo)\./.test(where), `${where}: a story, test or demo reached the package`);
   check(statSync(file).size > 0, `${where}: empty file`);
 }
+/*
+ * Elements a component defines for its own use (P133, item 3). They are not published: no folder, no `exports` entry, no sheet,
+ * and the manifest drops them. Each one is named here by its tag, so a second `customElements.define` that is not on this list
+ * still fails the count below. `nph-date-picker-control` is the control row of the date picker: the `nph-field` names one control,
+ * and the row hands the contract to the text beside the calendar button.
+ */
+const INTERNAL_ELEMENTS = ['nph-date-picker-control'];
 const definitions = new Map();
 for (const file of javascript) {
   const where = relative(root, file);
@@ -243,7 +250,16 @@ for (const file of javascript) {
     definitions.set(`${where}:${match[1]}`, (definitions.get(`${where}:${match[1]}`) ?? 0) + 1);
   }
 }
-check(definitions.size === components.length, `expected ${components.length} customElements.define calls in dist, found ${definitions.size}`);
+check(
+  definitions.size === components.length + INTERNAL_ELEMENTS.length,
+  `expected ${components.length} customElements.define calls in dist, plus the ${INTERNAL_ELEMENTS.length} internal element(s) ${INTERNAL_ELEMENTS.join(', ')}, found ${definitions.size}`,
+);
+for (const tag of INTERNAL_ELEMENTS) {
+  check(
+    javascript.some((file) => readFileSync(file, 'utf8').includes(`"${tag}"`) || readFileSync(file, 'utf8').includes(`'${tag}'`)),
+    `${tag}: the internal element is on the list, but no file of dist defines it`,
+  );
+}
 for (const [key, count] of definitions) {
   check(count === 1, `${key}: defined ${count} times`);
 }

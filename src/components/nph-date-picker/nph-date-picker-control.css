@@ -1,0 +1,22 @@
+/**
+ * Internal style of the control row of `nph-date-picker` (`date-picker / controle`, `6618:52542`).
+ *
+ * Classes and selectors here are NOT public API (P02). No literal design value goes in here: the row is a flex line,
+ * the text stretches in what is left, and the calendar button keeps its own size, `date-picker/trigger-gap` after it.
+ */
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-date-picker-trigger-gap);
+  min-inline-size: 0;
+}
+
+/* The text takes what the calendar button leaves. */
+::slotted(nph-input) {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+::slotted(nph-button) {
+  flex: none;
+}

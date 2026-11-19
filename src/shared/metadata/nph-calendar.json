@@ -1,0 +1,402 @@
+{
+  "piece": "nph-calendar",
+  "level": "component",
+  "status": "active",
+  "solves": "Draws the days of a month, or of two consecutive months, with a header, the weekdays and the month and year views, so the person picks one date or one period. It is the owner piece of the date grid.",
+  "use_when": [
+    "As the date grid of nph-date-picker, which opens it in its panel: single for one date, range with two months for a period.",
+    "As the date grid of another piece, such as the mini month of nph-scheduler, once an adjustment task of that piece replaces its own grid (DSA-77 D-1).",
+    "On its own in the page, when the person picks a day or a period in a grid that stays visible and there is no text field to type in: the piece fires nph-pick and takes no part in a form.",
+    "Choose range with months 2 for a period and single with months 1 for one date.",
+    "Choose size large on a touch screen.",
+    "Set min and max when days outside a window are not allowed, and unavailable for days that are not available by a rule, such as a holiday."
+  ],
+  "do_not_use_when": [
+    "For a date field the person types in, in a form: use nph-date-picker, which composes this grid with the field, the panel and the form.",
+    "To choose only a month, only a year, a week, a quarter or a time: those types are outside the component.",
+    "For events laid over days: use nph-scheduler.",
+    "For a form value, a name or validation: the grid is not form-associated; use nph-date-picker.",
+    "Two grids with two single dates for the start and the end of a period: use range, which applies both dates together."
+  ],
+  "api": {
+    "mode": {
+      "type": "enum",
+      "values": [
+        "single",
+        "range"
+      ],
+      "required": false,
+      "default": "single",
+      "reflects": true,
+      "constraint": "The Figma `modo`: `data única` is single, `intervalo` is range. Single chooses one date in value; range chooses a period in start and end. Reflects so a selector or the layout of the consumer can read the mode from the host. A value outside the list draws nothing and emits console.error in development."
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "default",
+        "large"
+      ],
+      "required": false,
+      "default": "default",
+      "reflects": true,
+      "constraint": "The Figma `tamanho`. The day, the weekday cell and the arrows are control/height-default (36) on default and control/height-large (44) on large, for a touch screen. The month and year cell keeps its drawn size on both (D-2). Reflects because the internal CSS selects the measures by it. A value outside the list draws nothing and emits console.error in development."
+    },
+    "months": {
+      "type": "number",
+      "values": [
+        1,
+        2
+      ],
+      "required": false,
+      "default": 1,
+      "reflects": true,
+      "constraint": "How many consecutive months are drawn side by side: 1, or 2 for the period of a range. The two months move together and stay consecutive (D-5). The piece does not tie it to mode; the date picker uses 2 only in range, on a screen wide enough. Reflects because the layout of the consumer reads how many grids it holds. A value outside the list draws nothing and emits console.error in development."
+    },
+    "value": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "Single mode: the chosen date, written YYYY-MM-DD. An instant that starts with a date is read as its day. The piece writes it when the person picks; setting it from code fires no event. Range ignores it. A text that is not a date that exists draws nothing and emits console.error in development."
+    },
+    "start": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "Range mode: the first day of the period, written YYYY-MM-DD. The piece writes it when the person picks, and the pick cycle decides which pick writes it (D-10). Setting it from code fires no event. Single ignores it. An invalid date draws nothing and emits console.error in development."
+    },
+    "end": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "Range mode: the last day of the period, written YYYY-MM-DD. Empty while only the start is chosen. The same day as the start is a valid period of one day. Setting it from code fires no event. Single ignores it. An invalid date draws nothing and emits console.error in development."
+    },
+    "min": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The first day that can be chosen, written YYYY-MM-DD. A day before it is disabled under state/disabled-opacity and the focus skips it. The arrow that leads to a month with no allowed day is disabled, and a month or a year is disabled only when none of its days is allowed. With today outside the limit, the focus opens on the nearest allowed day."
+    },
+    "max": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The last day that can be chosen, written YYYY-MM-DD. The same rules as min, on the other side."
+    },
+    "month": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The first month shown, written YYYY-MM or as any day of it. Empty, the grid follows the date. With one month, the month of the chosen date, else today. With two months, the month of the start on the left; with only the end, the month of the end on the right and the month before on the left; with nothing, the current month on the left (D-5, D-11). The piece writes it back as the first day of the month, YYYY-MM-DD, when the person changes the months, and fires nph-month-change; setting it from code fires nothing. Setting it back to empty makes the grid follow the date again. A text that is not a month draws nothing and emits console.error in development."
+    },
+    "week-start": {
+      "type": "enum",
+      "values": [
+        "sunday",
+        "monday"
+      ],
+      "required": false,
+      "default": "sunday",
+      "reflects": false,
+      "constraint": "The property is weekStart. The first column of the week, and where Home and End go. Sunday is the default and Monday is available (DSA-77 decision 8). A value outside the list draws nothing and emits console.error in development."
+    },
+    "now": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The date of today, written YYYY-MM-DD, for tests and stories. Absent, the clock of the machine. An invalid date draws nothing and emits console.error in development."
+    },
+    "unavailable": {
+      "type": "array or function",
+      "required": false,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. A date unavailable by rule, such as a holiday: a list of YYYY-MM-DD, or a function that gets one date and says whether it is unavailable. The day fades its number with no opacity on the cell, takes focus, carries aria-disabled true and is never chosen. A function that throws counts as available. A day outside min and max is disabled, not unavailable."
+    },
+    "labels": {
+      "type": "object",
+      "required": true,
+      "default": "empty object",
+      "reflects": false,
+      "constraint": "Property only. Every text the piece writes, already localized, as one object with the keys listed below as labels.<key>. The piece writes no word of its own. The names of the months and of the weekdays are not labels: they come from Intl, in the language of the nearest lang, crossing shadow roots, with en when there is none. A missing label renders anyway and emits console.error in development, once, saying which keys are missing."
+    },
+    "labels.previousMonth": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The accessible name and the tooltip of the Previous month arrow in the day view."
+    },
+    "labels.nextMonth": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The accessible name and the tooltip of the Next month arrow in the day view."
+    },
+    "labels.previousYear": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The accessible name and the tooltip of the previous arrow in the month view, which moves one year."
+    },
+    "labels.nextYear": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The accessible name and the tooltip of the next arrow in the month view, which moves one year."
+    },
+    "labels.previousYears": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The accessible name and the tooltip of the previous arrow in the year view, which moves twelve years."
+    },
+    "labels.nextYears": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The accessible name and the tooltip of the next arrow in the year view, which moves twelve years."
+    },
+    "labels.today": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The word added to the accessible name of today, such as today."
+    },
+    "labels.selected": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The word added to the accessible name of the chosen day, and of every day of the chosen period, such as selected."
+    },
+    "labels.unavailable": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The word added to the accessible name of a day unavailable by rule, such as unavailable."
+    },
+    "focusDate": {
+      "type": "method",
+      "required": false,
+      "default": "not_applicable",
+      "reflects": false,
+      "constraint": "focusDate(date) puts the focus on a day and shows its month first. date is written YYYY-MM-DD and is optional; absent, or not a date, it is the default day: the chosen date (the start, else the end), else today. A day outside min and max goes to the nearest allowed day. It goes back to the day view when the month or the year view is open. It is for the panel that holds the grid; showing a month by it fires nph-month-change."
+    },
+    "nph-pick": {
+      "type": "event",
+      "required": false,
+      "default": "not_applicable",
+      "reflects": false,
+      "constraint": "Fires when the person picks a day, by click, Enter or Space, with detail { date, start, end }. date is the day picked. In single, start is the chosen date and end is empty. In range, start and end are the period after the pick, with end empty while only the start is chosen. The piece has already written value, or start and end. It bubbles and is composed. It never fires for a day outside min and max or for a day unavailable by rule, and never when code sets the properties."
+    },
+    "nph-month-change": {
+      "type": "event",
+      "required": false,
+      "default": "not_applicable",
+      "reflects": false,
+      "constraint": "Fires when the person changes the first month shown, with detail { month }, the first day of that month, YYYY-MM-DD. The arrows, Page Up and Page Down, an arrow key that crosses past the months shown and picking a month in the month view fire it. It bubbles and is composed. It never fires when code sets month."
+    }
+  },
+  "variants": {
+    "mode": {
+      "axis": "behavior",
+      "choose_when": "single for one date, a due date or a schedule date; range for a period whose start and end go together.",
+      "do_not_combine_with": [
+        "a mode outside the list"
+      ]
+    },
+    "size": {
+      "axis": "size",
+      "choose_when": "default in general use; large on a touch screen, where the day, the weekday cell and the arrows are 44.",
+      "do_not_combine_with": [
+        "a size outside the list",
+        "compact: the date picker field has it, the grid does not"
+      ]
+    },
+    "months": {
+      "axis": "content",
+      "choose_when": "1 for one date and for a range on a narrow screen; 2 for a range on a screen wide enough, the two months side by side.",
+      "do_not_combine_with": [
+        "a number of months outside 1 and 2"
+      ]
+    },
+    "week-start": {
+      "axis": "behavior",
+      "choose_when": "sunday by default; monday when the product starts the week there.",
+      "do_not_combine_with": [
+        "a value outside the list"
+      ]
+    }
+  },
+  "states": {
+    "day-default": {
+      "token": "color/foreground",
+      "changes_for_user": "The number of a day of the month, no background."
+    },
+    "day-hover": {
+      "token": "color/accent, color/accent-foreground",
+      "changes_for_user": "The day takes the accent background under the pointer; the hover does not move the focus."
+    },
+    "day-focus": {
+      "token": "focus/border, focus/halo, focus/ring-width, calendar/day-focus-radius, border/width",
+      "changes_for_user": "A border of border/width in focus/border inside the cell and a halo of focus/ring-width in focus/halo outside it, at the focus radius."
+    },
+    "day-disabled": {
+      "token": "state/disabled-opacity, color/muted-foreground",
+      "changes_for_user": "A day outside min or max fades, accepts no choice and the focus skips it."
+    },
+    "day-unavailable": {
+      "token": "color/muted-foreground, focus/border, focus/halo",
+      "changes_for_user": "A date unavailable by rule fades only its number, with no opacity on the cell. It takes the keyboard focus, with the focus border and halo, and Enter does not choose it."
+    },
+    "day-outside-month": {
+      "token": "color/muted-foreground",
+      "changes_for_user": "A day of the previous or next month shows, with its number muted, and picking it chooses that date (D-11)."
+    },
+    "day-today": {
+      "token": "color/primary-text, border/width, text/label-md",
+      "changes_for_user": "A 1 px outline and the number in color/primary-text, in medium weight."
+    },
+    "day-selected": {
+      "token": "color/primary, color/primary-foreground, text/label-md",
+      "changes_for_user": "The chosen day, or the start or the end of the period, takes the primary fill with the number in medium weight; the fill wins over the outline of today."
+    },
+    "day-selected-focus": {
+      "token": "color/primary, color/primary-foreground, focus/ring-width, focus/halo",
+      "changes_for_user": "The ring inside the cell is color/primary-foreground over the fill, and the halo marks the focus."
+    },
+    "range-band": {
+      "token": "color/primary-surface",
+      "changes_for_user": "A band behind the start and the end joins the middle of the period, straight across the turn of the week; a day outside the month has no band behind it."
+    },
+    "range-middle": {
+      "token": "color/primary-surface, color/primary-on-surface, radius/none",
+      "changes_for_user": "A day between the start and the end is square, in the surface fill; today in it keeps the outline and the medium number, and a middle day outside the month keeps the fill with the number in color/muted-foreground."
+    },
+    "range-preview": {
+      "token": "color/accent, color/foreground, radius/none",
+      "changes_for_user": "With the start chosen and no end, the pointer or the arrow keys on a day draw a square band in the accent fill from the start to that day, in either direction. There is no preview on touch."
+    },
+    "view-cell": {
+      "token": "color/foreground, color/accent, color/accent-foreground, color/primary, color/primary-foreground, color/primary-text, focus/border, focus/halo, calendar/day-radius, calendar/day-focus-radius",
+      "changes_for_user": "The month or year cell follows the day: hover in the accent fill, the current month or year with the outline and the number in color/primary-text, the chosen one in the primary fill, and the focus border and halo."
+    },
+    "view-cell-disabled": {
+      "token": "state/disabled-opacity, color/muted-foreground",
+      "changes_for_user": "A month or a year with no allowed day fades, accepts no choice and the focus skips it."
+    }
+  },
+  "business_rules": [
+    "The piece owns the date grid: nph-date-picker uses it in its panel, and the mini month of nph-scheduler will use it when an adjustment task of the scheduler replaces its own grid (DSA-77 D-1). That replacement is not done with this piece.",
+    "The piece is its own exported element, not an inner part of nph-date-picker. It is not form-associated: it writes value, or start and end, on itself and fires nph-pick.",
+    "Dates are written YYYY-MM-DD. An instant that starts with a date is read as its day.",
+    "Each grid is one Tab stop, in the order header, grid, header, grid. Inside a grid the arrows change the day, up and down move a week, Page Up and Page Down change the month and Shift with them the year, Home and End go to the start and the end of the week.",
+    "A day outside min and max is disabled and skipped by the arrows; Home, End and the pages go to the nearest allowed day. A date unavailable by rule takes focus and cannot be chosen.",
+    "The arrow keys cross the edge of a month, and in a range cross between the two grids, from the last day of the left month to the first day of the right month and back. A key that leaves the months shown moves them.",
+    "Range pick cycle: the first pick is the start; with only the start, the next pick is the end, and an end before the start reorders so the earlier day becomes the start; the same day twice is a valid period of one day; a pick after a complete period starts over, the day becomes the new start and the end is emptied (D-10, provisional).",
+    "The month title opens the month view in place of that month; the year title of the month view opens the year view; the span of twelve years in the year view is plain text. Picking a year opens the months of that year, and picking a month opens the days of that month (D-2 and D-9, provisional).",
+    "Esc in the month or the year view goes back to the days, with the focus on the title, and takes the key: the second Esc is for the piece that holds the grid.",
+    "Provisional (D-1): a month always draws six week rows, filled with days of the previous and the next month, so the height does not jump. The accepted drawing has five rows and cannot hold a six-week month; the rule holds until the design owner answers.",
+    "Provisional (D-2): the month and year views keep their drawn size, on both sizes, centered; the view takes the height of the open view, so the panel shrinks while it is open.",
+    "Provisional (D-3): the weekday names use text/label-sm, the closest role, until the design owner answers; the Figma binding is a size and weight with no text role.",
+    "Provisional (D-5): each month of a range keeps both arrows, as drawn; the two months move together and stay consecutive; the month of the start opens on the left, the current month when empty, and the focus on the start day, or on today when empty.",
+    "Provisional (D-9): in the month view the arrows move one year and in the year view twelve years; the year view opens on the block of twelve years that starts at the decade of the shown year, and the arrows then move by whole blocks; the keys inside the 4 by 3 grid are the arrows, Home and End by row, and Page Up and Page Down as the arrows; on opening a view the focus goes to the chosen item, else to the item of the title, else to the nearest enabled item; in a range the view opens in place of the month whose title was chosen while the other month stays.",
+    "Provisional (D-11): picking a day outside the month chooses that date; in single the shown month moves to it, in range the two months stay. Each grid is one Tab stop, and with only the end filled the month of the end is on the right and the focus on the end day.",
+    "Provisional (D-12): the header is 40 high on both sizes (control/height-default plus space/inline-tight) and the month and year cell is 84 by 36 (three sevenths of the default week row), measures the evidence draws and no token holds.",
+    "Every text comes from the consumer, already localized, except the names of the months and the weekdays, which come from Intl."
+  ],
+  "domain_errors": [
+    "A mode, a size, a months or a week-start outside the lists draws nothing and emits console.error in development, one per cause while it lasts.",
+    "A value, start, end, min, max or now that is not a date written YYYY-MM-DD, or a date that does not exist such as 2026-02-30, draws nothing and emits console.error in development.",
+    "A month that is not YYYY-MM or a day draws nothing and emits console.error in development.",
+    "A missing label renders anyway and emits console.error in development, once, saying which keys are missing."
+  ],
+  "tokens": {
+    "day": "calendar/day-radius, control/height-default, control/height-large, text/body-md, text/label-md, color/foreground",
+    "day_focus": "calendar/day-focus-radius, focus/border, focus/halo, focus/ring-width, border/width",
+    "day_states": "color/accent, color/accent-foreground, color/muted-foreground, color/primary, color/primary-foreground, color/primary-surface, color/primary-on-surface, color/primary-text, radius/none, state/disabled-opacity",
+    "weekday": "text/label-sm, color/muted-foreground",
+    "header": "control/height-default, space/inline-tight, space/inline, color/secondary-foreground, text/label-md",
+    "grid": "space/container-padding, space/inline"
+  },
+  "ai_hints": [
+    "Use nph-calendar when a date or a period is picked in a grid; for a field the person types in and a panel that opens, use nph-date-picker, which already holds this grid.",
+    "Give mode single with value for one date, or mode range with months 2, start and end for a period.",
+    "Read the pick from nph-pick, with detail date, start and end, or read value, start and end from the host; setting them from code fires no event.",
+    "Pass every text in labels, already localized: the arrows, the words today, selected and unavailable. The names of months and weekdays come from the lang of the page.",
+    "Use min and max for days outside a window and unavailable for a holiday or a day closed by a rule; the first is skipped by the focus and the second takes it.",
+    "Call focusDate when a panel opens around the grid, so the focus lands on the chosen date or on today.",
+    "Do not replace the grid of nph-scheduler with it yet: that is a later adjustment task of the scheduler (DSA-77 D-1)."
+  ],
+  "accessibility": {
+    "semantics": "Each month is a grid named by its month title: a table with role grid, the weekdays as column headers with the long name as abbr, each day a gridcell with aria-selected and a button inside. Today carries aria-current date. A day unavailable by rule carries aria-disabled true and a day outside min and max is a disabled button. The month and year views are grids of twelve buttons. The arrows and the titles are nph-button. A live region with role status and aria-live polite is apart from the title button.",
+    "accessible_name": "A day: the long date in the language of the page, then the words today, selected and unavailable when they apply, each from labels. The arrows: the labels previousMonth, nextMonth, previousYear, nextYear, previousYears and nextYears, which are also their tooltip. The title button: its own text. A month cell: the long month with the year; a year cell: the year.",
+    "keyboard": [
+      "Tab reaches the arrows, the title and then the grid; the grid is one Tab stop, the day that holds the roving focus.",
+      "Left and Right change the day, reversed in right-to-left writing; Up and Down go to the same weekday in the previous or next week.",
+      "Page Up and Page Down go to the previous or next month, on the same day or on the last day of the month; with Shift, the same month in the previous or next year.",
+      "Home and End go to the first and the last day of the week, by week-start.",
+      "Enter and Space on a day pick it; they do nothing on a day unavailable by rule.",
+      "In the month and year views the arrows move one cell or one row, Home and End go to the start and the end of the row, Page Up and Page Down do what the header arrows do, and Enter or Space chooses. A disabled cell is skipped.",
+      "Esc in the month or the year view goes back to the days; with the days shown, Esc is not taken."
+    ],
+    "focus": "Each day shows a border in focus/border and a halo in focus/halo; a chosen day takes the ring in color/primary-foreground. The focus lands on the chosen date or today, on the nearest allowed day when that one is outside the limit, and on opening a view on the chosen item. Hover paints a day and never moves the focus.",
+    "contrast": "The day number in color/foreground over the surface passes 4.5:1 in both themes. The weekday names and a day outside the month in color/muted-foreground measure 6.69:1 and 6.61:1. The chosen day, the start and the end measure 5.37:1 and 7.05:1. The middle of a range measures 4.78:1 and 13.79:1. The outline and the number of today and of the current month in color/primary-text measure 8.11:1 and 6.05:1 on the default brand, and at least 5.98:1 in dark in every brand. The focus border carries the 3:1.",
+    "color_alternative": "Today has an outline; the chosen day, the start and the end have a fill; the middle of a range has a band; a day unavailable by rule says unavailable in its name; a disabled day fades and takes no choice."
+  },
+  "invalid_combinations": [
+    "A mode, a size, a months or a week-start outside the lists — the grid draws nothing.",
+    "A date that is not written YYYY-MM-DD, or that does not exist — the grid draws nothing.",
+    "A month that is not YYYY-MM or a day — the grid draws nothing.",
+    "Labels missing — the grid renders without those texts and says which keys.",
+    "Wrapping the grid in a form to read it as a field: it is not form-associated; use nph-date-picker."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-button",
+      "nph-tooltip",
+      "nph-date-picker",
+      "nph-scheduler"
+    ],
+    "parents": [
+      "the panel of nph-date-picker",
+      "a page, next to or inside a surface the screen draws"
+    ],
+    "children": [
+      "nph-button",
+      "nph-tooltip"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Using it as the date field of a form instead of nph-date-picker.",
+    "Using it to choose only a month, only a year, a week, a quarter or a time.",
+    "Passing a color, a radius or a size of day: everything comes from a token.",
+    "Replacing the grid of nph-scheduler with it before the adjustment task of the scheduler.",
+    "Writing the labels without translating them, or leaving the arrows without a name.",
+    "Marking a holiday with min and max: a day outside them is skipped by the focus; use unavailable."
+  ],
+  "sources": {
+    "design_md": "design.md, the calendar/* tokens, color/foreground, color/muted-foreground, color/accent, color/accent-foreground, color/primary, color/primary-foreground, color/primary-surface, color/primary-on-surface, color/primary-text, focus/*, state/disabled-opacity, control/height-*, space/container-padding, space/inline, text/body-md, text/label-md and text/label-sm",
+    "decision": "P133 — nph-date-picker and nph-calendar: API and semantics",
+    "tests": "src/components/nph-calendar/nph-calendar.test.ts and nph-calendar.logic.test.ts",
+    "usage_evidence": "the panel of nph-date-picker uses it; no other screen consumes it yet",
+    "storybook": "src/components/nph-calendar/nph-calendar.stories.ts and nph-calendar.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, documentation frame 6673:62837, root 6662:55010, sets 6666:32 and 6662:56378, grid 4015:28204 and day 4015:28020"
+  }
+}
