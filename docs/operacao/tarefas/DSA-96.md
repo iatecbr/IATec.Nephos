@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 950,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-date-picker",
   "dependencies": [
     "DSA-90"
@@ -72,7 +72,7 @@
     "excerpt": null,
     "converted_decision": "Eleven answers and one measure, all as recommended by the market research of 2026-11-18. Six of them change what the code of DSA-90 does today: the month and year views (D-2), the arrows of the range (D-5), the shortcuts (D-6), the year title icon and the views in the range (D-9), a period across an unavailable day (D-10) and the header of the large grid. The answers, what the code does today and the Figma nodes are in the evidence of the design-decision gate, with a correction to the D-5 row of DSA-90."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-96-date-picker", "commit": "44bda3e", "pr": 188 },
   "context": null,
   "updated_at": "2026-11-19"
 }

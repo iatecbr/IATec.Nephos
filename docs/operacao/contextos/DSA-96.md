@@ -23,6 +23,8 @@ Bring `nph-date-picker` and `nph-calendar` to the six answers the design owner g
 
 ## Commands run
 - `git fetch origin && git checkout -B feat/dsa-96-date-picker origin/v/5.0.0`
+- The 12 proofs of the wave, in sequence, on the head of the pull request (PR 188).
+- `git merge origin/v/5.0.0` to bring PR 187 (DSA-91): the dictionaries and the decision note were joined as a union.
 
 ## Result
-In progress.
+PR 188 is open and in review. Copilot did not register as reviewer (out of quota). The new open decisions D-15 to D-18 are in the task.
