@@ -94,7 +94,7 @@ async function shown(element: NphTooltip): Promise<void> {
 
 /** The tooltip turned itself on: hover waits `motion/hover-delay` first. */
 async function opened(element: NphTooltip): Promise<void> {
-  await vi.waitFor(() => expect(element.open).toBe(true), { timeout: 2000 });
+  await vi.waitFor(() => expect(element.open).toBe(true), { timeout: 5000 });
   await element.updateComplete;
   expect(isShown(element)).toBe(true);
 }
@@ -109,11 +109,11 @@ const pause = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 
 /** The balloon has left the top layer: the exit ended. */
 async function gone(element: NphTooltip): Promise<void> {
-  await vi.waitFor(() => expect(isShown(element)).toBe(false), { timeout: 2000 });
+  await vi.waitFor(() => expect(isShown(element)).toBe(false), { timeout: 5000 });
 }
 
 /** An exit long enough for the next action to land inside it, however slow the runner. */
-const WIDE_EXIT = 1000;
+const WIDE_EXIT = 3000;
 
 /**
  * Tests that act during the exit get a wide window: `motion/exit-duration` alone (150 ms)
@@ -470,13 +470,17 @@ describe('opening on hover and on keyboard focus', () => {
 
   it('a mouse hover opens it after motion/hover-delay, not before', async () => {
     const { button, tooltip } = await mount();
+    /* The wait is widened so the check "not yet open" lands inside it on a loaded runner. The lower
+       bound below is the widened wait itself, so it still proves the wait is honored; that the
+       token is 300 ms is checked in "the wait on hover". */
+    widenWait(tooltip);
     const started = performance.now();
     await userEvent.hover(button);
     await pause(100);
     expect(tooltip.open).toBe(false);
     expect(isShown(tooltip)).toBe(false);
     await opened(tooltip);
-    expect(performance.now() - started).toBeGreaterThanOrEqual(290);
+    expect(performance.now() - started).toBeGreaterThanOrEqual(WIDE_WAIT - 10);
     expect(tooltip.hasAttribute('open')).toBe(true);
   });
 

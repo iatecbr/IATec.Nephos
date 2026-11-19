@@ -124,12 +124,13 @@ stages:
 
           # `test:package` ends by importing each component through the
           # package in Chromium (DSA-35), so the browser is installed first,
-          # the same way as in the Test stage.
+          # the same way as in the Test stage. Chromium runs in a private
+          # network namespace, as in the Test stage (P131).
           - bash: |
               set -euo pipefail
               npm run build:lib
               npx playwright install chromium
-              npm run test:package
+              node scripts/in-private-netns.mjs npm run test:package
               npm run pack:check
             displayName: Build library and check the package
             workingDirectory: $(Build.SourcesDirectory)
@@ -261,6 +262,15 @@ stages:
           # with its attempt number and reason, is written to the log as a
           # warning.
           #
+          # Each shard runs in a private network namespace with only the
+          # loopback (`scripts/in-private-netns.mjs`, P131). The agents run
+          # Docker for other jobs, and every container creates and removes
+          # interfaces on the host; Chromium only watches the network of its
+          # own namespace, so these changes no longer reach it. The reruns
+          # above stay for a failure the namespace does not prevent. The
+          # changes of the host are recorded with `ip monitor` and printed at
+          # the end of the step.
+          #
           # The core count, memory and load of the agent are logged to read
           # timing failures: a loaded agent fails timing tests on its own. The
           # Vite request log (`vitest.config.ts`) tells whether a failing
@@ -270,8 +280,22 @@ stages:
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
               free -m
               cat /proc/loadavg
+              # Record the link and address changes of the host while the tests run: they are what
+              # the private network namespace (P131) keeps away from Chromium.
+              IPMON_LOG="$(Agent.TempDirectory)/ip-monitor.log"
+              IPMON_PID=""
+              if command -v ip >/dev/null 2>&1; then
+                ip -timestamp monitor link address >"${IPMON_LOG}" 2>&1 &
+                IPMON_PID=$!
+              fi
+              ip_monitor_summary() {
+                [ -s "${IPMON_LOG}" ] || { echo "ip monitor: no host link/address event recorded"; return 0; }
+                echo "ip monitor: $(wc -l <"${IPMON_LOG}") host event line(s); by interface:"
+                grep -oE '(Deleted )?[0-9]+: [A-Za-z0-9_.-]+' "${IPMON_LOG}" | sed -E 's/^(Deleted )?[0-9]+: /\1/' | sort | uniq -c | sort -rn | head -15
+                echo 'first and last event lines:'; head -5 "${IPMON_LOG}" | cut -c1-200; tail -3 "${IPMON_LOG}" | cut -c1-200
+              }
               # Runs on failure too; the step keeps the exit code of the tests.
-              trap 'cat /proc/loadavg' EXIT
+              trap 'cat /proc/loadavg; [ -n "${IPMON_PID}" ] && kill "${IPMON_PID}" 2>/dev/null; ip_monitor_summary || true' EXIT
               npx playwright install chromium
               run_shard() {
                 local shard="$1"
@@ -280,8 +304,8 @@ stages:
                 while true; do
                   log="$(Agent.TempDirectory)/vitest-shard-${shard%/*}-${attempt}.log"
                   report="$(Agent.TempDirectory)/vitest-shard-${shard%/*}-${attempt}.json"
-                  if npm test -- --shard="${shard}" --reporter=default --reporter=json \
-                    --outputFile.json="${report}" 2>&1 | tee "${log}"; then
+                  if node scripts/in-private-netns.mjs npm test -- --shard="${shard}" --reporter=default \
+                    --reporter=json --outputFile.json="${report}" 2>&1 | tee "${log}"; then
                     return 0
                   fi
                   if ! reason="$(node scripts/shard-rerun.mjs "${report}" "${log}" "$((attempt - 1))")"; then

@@ -86,6 +86,7 @@ P62.4 subsection for the detail).
 | **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P129** | API and semantics of `nph-carousel` | 18/11/2026 | Low now. No piece consumes the carousel yet; a gallery, a featured list or a welcome tour will, and changing `layout`, `index`, `hide-arrows`, `hide-indicators`, `counter`, the six names, the event `nph-slide-change`, the meaning of `index` in the several layout, the roles, the keys or the invalid-input rule later requires redoing every consumer. The arrow that is not focusable at the ends (D-1) waits for Indiane; the color of the arrow icon through an internal variable of `nph-button` is for Elvys to confirm in the pull request | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P131** | Browser tests of the Azure pipeline in a private network namespace (extends P106) | 18/11/2026 | Low. Only the pipeline and one script change; going back is removing the `node scripts/in-private-netns.mjs` prefix from two steps. Where the namespace is not available the tests run as before, with a warning | Not a component decision. Reviewed in the pull request that brings it; the merge is the approval |
 | **P132** | API and semantics of `nph-timeline` | 18/11/2026 | Low now. No piece consumes the timeline yet; the history of a record and the progress of a request and its approval will, and changing `items`, `type`, `label`, `labelledBy`, `has-more`, `loading`, `live`, the texts of the host, the events `nph-timeline-action` and `nph-timeline-more`, the slot named as the `id` of an item, the paint of the connector line, the focus of the last batch of Show more, the announcements or the invalid-input rule later requires redoing every consumer. The number of skeleton rows (D-1), the look of the item that takes the focus (D-2) and the current status on the history (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P133** | API and semantics of `nph-date-picker` and `nph-calendar` | 18/11/2026 | Low now. No piece consumes the date picker yet; the filters of a report, a due date in a form and the scheduler adjustment (the `nph-calendar` grid replaces its own) will, and changing `mode`, `size`, `value`, `start`, `end`, `min`, `max`, `unavailable`, `month`, `months`, `week-start`, `now`, `labels`, `name`, `start-name`, `end-name`, `open`, the event `change`, the events `nph-pick` and `nph-month-change`, the date text `YYYY-MM-DD`, the internal control row, the seven shortcuts, the typed date rules, the keys or the invalid-input rule later requires redoing every consumer. D-1 to D-11 were answered on 18/11/2026 (P135 changes D-2, D-5, D-6, D-9 and D-10); the measures with no token (D-12), a typed Start or End with the panel closed (D-13) and the page margin of the narrow switch (D-14) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P134** | API and semantics of `nph-rich-option` and of the rich option of `nph-option` | 18/11/2026 | Low now. No form consumes the card yet; a plan or delivery choice, a list of settings and the people list of a combobox will, and changing `control`, `checked`, `name`, `value`, `text`, `description`, `icon`, `shortcut`, `keyShortcuts`, `invalid`, `disabled`, the events `input` and `change`, the role held by the card, the radio group by `name`, `rich` and `description` on `nph-option`, the `keyboard` property the lists write, the `rich` and `description` of the combobox entries or the invalid-input rule later requires redoing every consumer. D-4 follows the provisional rule of the task and waits for Indiane | Anatomy and behavior: documentation accepted by Indiane on 18/11/2026. API and semantics reviewed in the pull request that brings them |
@@ -10063,6 +10064,71 @@ request. API and semantics are reviewed in the pull request that brings them; th
 
 ---
 
+## P131 — Browser tests of the Azure pipeline in a private network namespace
+
+**Technical conflict.** The Test stage failed on most pull requests from 16/11/2026, in agents of both
+families (`myagent*` and `ic-lv-az-*`), and P106 did not stop it. In the builds 632342, 630749 and
+624535 the shard failed in all three attempts. Each failed log holds hundreds to thousands of
+`net::ERR_NETWORK_CHANGED` (11 040 in build 632546), in bursts every 15 to 60 seconds, while Vite
+logged `200 OK` for the same files; a shard takes one to two and a half minutes, so a rerun meets the next
+burst. The agents are not containers, but they run Docker for other jobs: on the host, `docker0`, a
+dozen `br-*` bridges and dozens of `veth*` interfaces appear and disappear (probe of build 632787).
+Chromium on Linux drops every request in flight, localhost included, when an address or an interface of
+its network namespace changes (P106), and no switch turns that off.
+
+**Decision.**
+
+- The browser tests run in a private network namespace with only the loopback interface:
+  `node scripts/in-private-netns.mjs <command>` runs the command under
+  `unshare --user --map-root-user --net`, brings `lo` up and runs it. It wraps `npm test` in each shard of
+  the `Component tests (Chromium)` step and `npm run test:package` in the Build stage. The browser
+  installation stays outside.
+- Where the namespace cannot be created (macOS, an agent without unprivileged user namespaces) the command
+  runs as it is and the log carries an Azure warning. Nothing locally changes: the script is only called by the
+  pipeline.
+- The browser tests get 30 s per test (`testTimeout` in the two projects of `vitest.config.ts`) instead of the
+  15 s that browser mode gives by default. The sleeps of `nph-tooltip.test.ts` that must outlast a few
+  round trips to the browser (`WIDE_EXIT`, the `vi.waitFor` windows, and the hover wait of "a mouse hover
+  opens it after motion/hover-delay, not before") are widened the same way. No test is skipped or
+  loosened in what it asserts: the lower bound of that test is now the widened wait.
+- P106 stays as it is, for a failure the namespace does not prevent. The step also records the link and
+  address changes of the host with `ip monitor` and prints them at the end, to show what the
+  namespace kept away from Chromium.
+
+**Reason.** Chromium only watches the network of its own namespace, and the tests talk to Vite through
+`localhost` only. The change attacks the cause, the host network, instead of the window in which it hurts:
+the exposed requests (`optimizeDeps`), the number of shards or workers (P102, #142), the server host or the
+timeouts do not change what the host does, and the code of Chromium has no switch for it. The probe of build
+632787 showed that an agent allows the namespace and serves `localhost` inside it; build 632866 ran green
+with 866 host network events recorded during the run and no `net::ERR_NETWORK_CHANGED`.
+
+**Impact.** Only `azure-pipelines.yml` and `scripts/in-private-netns.mjs`. No component, token or test changes.
+A test that needs the network beyond the loopback would fail in the namespace; none does today (the URLs in the
+tests are strings checked by the code, not requests).
+
+**Second cause.** With the network fixed, the runs that still failed (builds 632933, 632987 and 633071,
+agents `myagent-11`, `-13` and `-19`) had no `net::ERR_NETWORK_CHANGED` and failed on the load of the shared
+host, 13 to 35 on 8 cores before the job began: documentation stories of `nph-scheduler`, `nph-data-table` and
+`nph-multi-combobox` over the 15 s budget (`nph-data-table.docs.stories` takes 5 s at load 1 and 11 s at
+load 15), a `click` of `nph-sidebar.test.ts` that waited the whole 15 s, and two sleeps of `nph-tooltip.test.ts`
+shorter than a few browser round trips. That is why the budgets above are raised. The load itself stays an
+infrastructure decision (a dedicated pool or fewer agents per host), and fewer workers or shards are not
+changed: they only shrink our own share of a load that comes from other jobs (#142).
+
+**Declared risk.** The fix is for the network. A documentation story can still exceed its budget when the
+shared host passes a load of 20 on 8 cores, and the Test stage then fails on a timeout and not on the code. The
+two runs on the final head show it: build 633808 (agent `myagent-20`, load 20 to 12) was green with the
+shard in 231 s, and build 633823 (agent `ic-lv-az-ag03-lv`, load 21 to 33) failed only because
+`nph-data-table.docs.stories` timed out at 30 s, with the shard in 791 s and no `net::ERR_NETWORK_CHANGED` in
+either. The merge was authorized as the network fix; a rerun of the stage is the answer for such a failure
+until the load of the pool is treated.
+
+**Out of scope.** The load of the shared host.
+
+**Status.** Not a component decision. Reviewed in the pull request that brings it; the merge is the approval.
+
+---
+
 ## P135 — `nph-date-picker` and `nph-calendar`: the answers of 18/11/2026
 
 **Technical conflict.** P133 shipped the date picker with a provisional rule for the eleven questions the documentation left open
@@ -10139,7 +10205,7 @@ merge is the approval. D-12 to D-18 wait for the design owner and do not block t
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P132, P133, P134 or P135 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134 or P135 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
