@@ -48,9 +48,10 @@ Who does each step is in
 6. **What Claude writes in the repository comes out in English**; commits,
    pull requests and comments to reviewers come out in Portuguese (P64,
    amendment of 06/10/2026; full rule in `AGENTS.md`).
-7. **Claude does not accept a component's Figma work — Indiane does.**
-   Reading the frame, seeing the design or hearing "go ahead" does not replace
-   her approval of each step.
+7. **Claude does not accept Figma work — a person does.** Indiane accepts a
+   component's; Thassila or Indiane accepts a block's (the list by level is in
+   `docs/operacao/README.md`, §5b). Reading the frame, seeing the design or
+   hearing "go ahead" does not replace that person's approval of each step.
 
 ## When to stop
 

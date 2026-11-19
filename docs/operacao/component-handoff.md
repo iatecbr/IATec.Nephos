@@ -10,7 +10,8 @@ step is done, `AGENTS.md` and [`../stories.md`](../stories.md) win.
 
 | Who | Does | Does not |
 |---|---|---|
-| Indiane | Decides the visual of components, blocks and templates; accepts each step in Figma; sends the component to code | — |
+| Indiane | Decides the visual of components and templates; accepts each step in Figma; sends the component to code; is the reserve for the visual and the documentation of blocks | — |
+| Thassila (and her agent) | Decides the visual of the blocks and builds them and their documentation in Figma; Thassila accepts each block's documentation (`piece` `blocos/<name>`); after the end-to-end approval, her agent takes only the block's tokens to `v/5.0.0` and opens the block's task with the Figma documentation as text in the evidence | Accepting a component's documentation; block code, story, test or sheet |
 | Claude | Builds the component and its documentation in the Figma `DS-IA-NEPHOS 5.0`; after the end-to-end approval, takes **only the component's tokens** to `v/5.0.0`; when Indiane sends the component, opens its task and writes the Figma documentation as text in the evidence | Component code, story, test or sheet |
 | Elvys (and his agent) | Component code, CSS, stories, test and Storybook dictionary; the sheet `fichas/<piece>.md`; merges the pull requests, his own and the ones Claude opens, after the Copilot review | New tokens or token values |
 | Copilot | Reviews every pull request, again on each new head | Merges no pull request |

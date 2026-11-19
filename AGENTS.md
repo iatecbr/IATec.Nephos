@@ -150,13 +150,17 @@ A **component task** is one that declares `owner: "elvys"` and a filled-in
 `piece` in `docs/operacao/tarefas/<ID>.md`.
 
 1. **Before any component code**, the documentation of the piece in the Figma
-   `DS-IA-NEPHOS 5.0` must be **accepted by Indiane** and recorded in the
+   `DS-IA-NEPHOS 5.0` must be **accepted by whoever accepts its level** —
+   a component (`piece` `nph-<name>`) by Indiane; a block (`piece`
+   `blocos/<name>`) by Thassila or Indiane — and recorded in the
    `figma-docs-accepted` gate, with `result: "passed"` and evidence in
    `docs/operacao/evidencias/<ID>/`. While the gate has not passed, the task
    stays `blocked` — it is not `ready` or `in-progress`, and no code
    starts.
 2. **The evidence proves provenance**, not the taste of whoever accepted:
-   `owner` `indiane`, `external_origin` `internal-allowed` with the URL
+   `owner` in the list of the piece's level (the list is in
+   `docs/operacao/README.md`, §5b; a `piece` with no known level fails),
+   `external_origin` `internal-allowed` with the URL
    or the frame ID in Figma, `date`, `author` and `converted_decision` naming
    the **frame** and the **`COMPONENT_SET`**. Restricted Figma content is
    **not** copied into the evidence: what goes in is the converted decision.
@@ -164,10 +168,12 @@ A **component task** is one that declares `owner: "elvys"` and a filled-in
    is allowed.** A sheet required in the first commit becomes a form filled in
    blind; the contract of the piece comes out of practice.
 4. **Before `in-review` and `done`**, the canonical sheet at
-   `fichas/<piece>.md` must exist, built from `fichas/_modelo.md`.
+   `fichas/<piece>.md` must exist, built from `fichas/_modelo.md` — for a
+   block, `fichas/blocos/<name>.md`.
 
 The verifier enforces the three moments — `V30` the gate, `V31` the provenance
-of the evidence, `V28` the sheet — on tasks with `owner: "claude-code"`. Full contract in
+of the evidence, `V28` the sheet — `V28` and `V31` on every task, `V30` only on
+tasks with `owner: "claude-code"`. Full contract in
 [`docs/operacao/README.md`](docs/operacao/README.md), §2b and §5b.
 
 ## Prohibitions
