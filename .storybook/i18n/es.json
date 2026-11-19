@@ -602,7 +602,19 @@
     "components-nph-date-picker-validation--form": "Formulario",
     "components-nph-date-picker-validation--examples": "Ejemplos",
     "components-nph-date-picker-validation--brands": "Marcas",
-    "components-nph-calendar-validation--views": "Vistas"
+    "components-nph-calendar-validation--views": "Vistas",
+    "components-nph-rich-option-docs": "Docs",
+    "components-nph-rich-option-docs--documentation": "Documentación",
+    "components-nph-rich-option-validation": "Validación",
+    "components-nph-rich-option-validation--matrix": "Matriz",
+    "components-nph-rich-option-validation--content": "Contenido",
+    "components-nph-rich-option-validation--interactive": "Interactivo",
+    "components-nph-rich-option-validation--form": "Formulario",
+    "components-nph-rich-option-validation--group": "Grupo",
+    "components-nph-rich-option-validation--rich-option": "Opción rica",
+    "components-nph-rich-option-validation--lists": "Listas",
+    "components-nph-rich-option-validation--examples": "Ejemplos",
+    "components-nph-rich-option-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -4733,8 +4745,12 @@
         "check (predeterminado) o checkbox, reflejado. El nph-select usa siempre check; checkbox es la elección múltiple del nph-multi-combobox (P96)."
       ],
       [
-        "selected, active",
-        "Escritas por la lista, nunca por el consumidor. No se reflejan."
+        "rich, description",
+        "Activa el aspecto rico: una descripción debajo de la etiqueta, una capa de hover más suave, ningún fondo de seleccionada y el borde de foco y el halo de los elementos de lista en la opción activa por el teclado. Una opción simple al lado no cambia. description es el texto debajo de la etiqueta, dibujado solo con rich."
+      ],
+      [
+        "selected, active, keyboard",
+        "Escritas por la lista, nunca por el consumidor. No se reflejan. keyboard dice que la opción activa llegó por el teclado."
       ]
     ],
     "optionStatesHeader": [
@@ -8791,7 +8807,16 @@
       "components-nph-date-picker-validation--form": "Un selector en un formulario: el nombre pone la fecha en los datos del formulario y el reset trae el valor por defecto.",
       "components-nph-date-picker-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: una fecha de vencimiento, un periodo de informe con Personalizado elegido y Aplicar en el pie, y una fecha no válida con el mensaje.",
       "components-nph-date-picker-validation--brands": "Las siete marcas en modo claro y oscuro: el foco, el día elegido, el periodo y el botón Aplicar siguen la marca del marco.",
-      "components-nph-calendar-validation--views": "La vista de meses y la de años, abiertas desde el título, a la altura de la vista de días y con celdas de la altura del día, en los dos tamaños; en el rango los dos meses cambian juntos a dos años o a dos bloques de doce años; una celda queda deshabilitada solo cuando ninguno de sus días está permitido."
+      "components-nph-calendar-validation--views": "La vista de meses y la de años, abiertas desde el título, a la altura de la vista de días y con celdas de la altura del día, en los dos tamaños; en el rango los dos meses cambian juntos a dos años o a dos bloques de doce años; una celda queda deshabilitada solo cuando ninguno de sus días está permitido.",
+      "components-nph-rich-option-validation--matrix": "La tarjeta con cada control, marcada y desmarcada, en los estados predeterminado, error y deshabilitado.",
+      "components-nph-rich-option-validation--content": "Las partes de la tarjeta: la segunda línea, el icono, el atajo y un título que se parte.",
+      "components-nph-rich-option-validation--interactive": "Un grupo de cada control: el grupo radio tiene una parada de Tab y las flechas marcan; las tarjetas checkbox y switch son una parada cada una.",
+      "components-nph-rich-option-validation--form": "El formulario recibe solo las tarjetas checkbox y radio marcadas; el switch no es miembro; el reset vuelve al estado inicial.",
+      "components-nph-rich-option-validation--group": "El grupo dentro de nph-field: el mensaje de error marca todas las tarjetas, y un campo deshabilitado las deshabilita.",
+      "components-nph-rich-option-validation--rich-option": "La opción rica de la lista en cada estado, inicio y marcador; el borde de foco y el halo solo en la opción activa por el teclado.",
+      "components-nph-rich-option-validation--lists": "La opción rica dentro de las listas abiertas del select, del combobox y del combobox múltiple, junto a una opción simple.",
+      "components-nph-rich-option-validation--examples": "Los tres ejemplos obligatorios del marco: el plan, los avisos y las personas en el combobox.",
+      "components-nph-rich-option-validation--brands": "Las siete marcas en claro y oscuro: el control marcado sigue el primary del marco."
     }
   },
   "multiComboboxDocs": {
@@ -17502,5 +17527,371 @@
       "React Aria, RangeCalendar — https://react-aria.adobe.com/RangeCalendar",
       "MUI X, Date Range Picker — https://mui.com/x/react-date-pickers/date-range-picker/"
     ]
+  },
+  "richOptionValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "cardTitle": "Título de la opción",
+    "cardText": "Explicación breve de lo que hace esta opción.",
+    "longTitle": "Un título muy largo para la elección, que no cabe en una línea de la tarjeta",
+    "longText": "Una segunda línea muy larga que explica la consecuencia de la elección con más palabras de las que caben en una línea.",
+    "planGroup": "Plan",
+    "planMonthlyTitle": "Plan mensual",
+    "planMonthlyText": "Se cobra cada mes. Cancele cuando quiera.",
+    "planAnnualTitle": "Plan anual",
+    "planAnnualText": "Se cobra una vez al año, con dos meses gratis.",
+    "planTeamTitle": "Plan de equipo",
+    "planTeamText": "Para diez personas o más, con facturación compartida.",
+    "planError": "Elija un plan para continuar.",
+    "planHelp": "Puede cambiar el plan más adelante.",
+    "noticesGroup": "Avisos",
+    "noticeMentionsTitle": "Menciones",
+    "noticeMentionsText": "Cuando alguien lo menciona en un comentario.",
+    "noticeDigestTitle": "Resumen semanal",
+    "noticeDigestText": "Un resumen de la semana, todos los lunes.",
+    "noticeSecurityTitle": "Alertas de seguridad",
+    "noticeSecurityText": "Cuando detectamos un inicio de sesión desde un dispositivo nuevo.",
+    "extrasGroup": "Extras",
+    "extraBackupTitle": "Copia de seguridad diaria",
+    "extraBackupText": "Guarda los últimos treinta días de cada proyecto.",
+    "extraSupportTitle": "Soporte prioritario",
+    "extraSupportText": "Respuestas en menos de una hora.",
+    "extraEditorTitle": "Abrir el editor",
+    "extraEditorText": "Inicia un documento nuevo en el editor.",
+    "statusIdle": "Cambie una tarjeta para ver el evento.",
+    "statusChanged": "Cambió: {control}, valor {value}, marcado {checked}.",
+    "formSubmit": "Enviar",
+    "formReset": "Restablecer",
+    "formIdle": "Envíe el formulario para ver qué manda.",
+    "formSent": "El formulario envió: {data}",
+    "formEmpty": "nada",
+    "optionLabel": "Opción",
+    "optionDescription": "Explicación breve de la opción.",
+    "optionSecondary": "@usuario",
+    "selectLabel": "Plan",
+    "selectPlaceholder": "Elija un plan",
+    "selectFreeTitle": "Gratis",
+    "selectFreeText": "Para una persona y un proyecto.",
+    "selectTeamTitle": "Equipo",
+    "selectTeamText": "Para un equipo que comparte proyectos.",
+    "selectCompanyTitle": "Empresa",
+    "selectCompanyText": "Se factura por contrato.",
+    "selectPlainTitle": "Opción simple",
+    "peopleLabel": "Responsables",
+    "peoplePlaceholder": "Elija personas",
+    "peopleAnaName": "Ana Souza",
+    "peopleAnaRole": "Líder de diseño",
+    "peopleBrunoName": "Bruno Lima",
+    "peopleCarlaName": "Carla Rocha",
+    "peopleCarlaRole": "Ingeniería",
+    "peopleDianaName": "Diana Alves",
+    "peopleDianaRole": "Producto",
+    "peopleCreate": "Agregar persona",
+    "peopleRemoveLabel": "Quitar",
+    "examplePlan": "Elección del plan",
+    "exampleNotices": "Activación de avisos",
+    "examplePeople": "Asignación de personas en el combobox"
+  },
+  "richOptionDocs": {
+    "summary": "La tarjeta de una elección de formulario, con un título y una descripción, en la que la tarjeta entera marca la opción. Una casilla, un radio o un switch queda al inicio. El grupo son varias tarjetas de un mismo control, dentro de un nph-field que lo nombra. En una lista, el mismo aspecto rico es el nph-option con rich.",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-rich-option, design.md para los tokens y docs/decisoes-tecnicas.md para la P134. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "onThisPage": "En esta página",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando cada elección de un formulario necesita una frase que explique la consecuencia, como un plan o una forma de entrega.",
+      "Con control radio, para una elección entre dos y cinco que se excluyen.",
+      "Con control checkbox, para varias elecciones independientes, cada una con su explicación.",
+      "Con control switch, para activar o desactivar una función con efecto inmediato.",
+      "Como opción rica de una lista, con rich en nph-option, cuando solo el rótulo no basta para elegir."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para una lista simple de opciones sin explicación: use nph-radio o nph-checkbox.",
+      "Para mezclar controles en el mismo grupo: use solo radios, solo casillas o solo switches.",
+      "Con atajo en una tarjeta con switch: el switch ya actúa al hacer clic.",
+      "Para más de cinco elecciones exclusivas: use nph-select, o nph-combobox por encima de quince.",
+      "Para una acción que necesita un botón: la tarjeta elige, nunca ejecuta un comando."
+    ],
+    "relationsText": "Arriba, el nph-field nombra el grupo, como Plan, dice que es obligatorio y lleva el mensaje de error: la tarjeta nunca muestra una frase propia. Dentro, el control se dibuja como indicador, con el icono y el atajo. En una lista, la opción rica es el nph-option con rich, en nph-select, nph-combobox y nph-multi-combobox.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "control",
+        "checkbox (predeterminado), radio o switch. Se refleja. Cualquier otro valor no dibuja nada y registra un error en desarrollo."
+      ],
+      [
+        "checked",
+        "El estado actual. No se refleja. El atributo checked es el estado inicial y al que vuelve form.reset(). Definirlo por código desmarca las otras tarjetas de un grupo radio y no dispara ningún evento."
+      ],
+      [
+        "name",
+        "El grupo de una tarjeta radio y la clave en el formulario. Se refleja. Las tarjetas radio con el mismo name, en la misma raíz y el mismo formulario, son un grupo."
+      ],
+      [
+        "value",
+        "Lo que envía una tarjeta checkbox o radio marcada; on por defecto. Se refleja. Una tarjeta con switch no envía nada."
+      ],
+      [
+        "text",
+        "El título, ya localizado, y el nombre accesible del control. Se ajusta. Obligatorio."
+      ],
+      [
+        "description",
+        "La segunda línea, ya localizada, y la descripción accesible del control. Vacío la apaga."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon, dibujado en light después del control. Vacío lo apaga."
+      ],
+      [
+        "shortcut",
+        "Las teclas de la indicación, separadas por espacios, cada una en un nph-kbd. Vacío lo apaga. Nunca con el switch. No asigna ninguna tecla."
+      ],
+      [
+        "keyShortcuts",
+        "El valor de aria-keyshortcuts (el atributo es key-shortcuts), solo cuando el producto asigna la tecla. Una tarjeta deshabilitada no anuncia ninguno."
+      ],
+      [
+        "invalid",
+        "El contorno de error. Solo visual: el mensaje es del nph-field. disabled gana sobre él. Se refleja."
+      ],
+      [
+        "disabled",
+        "Toda la tarjeta en rich-option/disabled-opacity, fuera del orden de Tab y sin clic. Se refleja."
+      ],
+      [
+        "input, change",
+        "Disparados en el host, en este orden, cuando la persona marca o alterna la tarjeta. Un cambio por código no dispara ninguno."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-rich-option control=\"radio\" name=\"plan\" value=\"annual\" text=\"Plan anual\" description=\"Se cobra una vez al año.\"></nph-rich-option>",
+    "usageTag": "Una tarjeta de un grupo radio: las tarjetas del grupo comparten el name y cada una tiene su propio value. No tiene slot: el título y la segunda línea llegan por atributo.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "ficha de nph-rich-option; docs/decisoes-tecnicas.md › P70 y P134",
+    "statesTitle": "Estados",
+    "statesText": "El contorno es decorativo; el control dice la elección. Hover y foco son interacción: pase el mouse sobre una tarjeta, o llegue a ella con Tab.",
+    "statesCaption": "Desmarcado y marcado, en reposo, con error y deshabilitado.",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "El contorno de reposo, dentro de la tarjeta, y el control en su valor predeterminado."
+      ],
+      [
+        "marcado",
+        "Solo cambia el control. El contorno sigue siendo el de reposo."
+      ],
+      [
+        "hover",
+        "Una capa bajo el contenido, a media opacidad. El contorno no cambia, y el control no toma hover propio."
+      ],
+      [
+        "foco",
+        "Solo con el teclado: el contorno pasa al borde de foco y aparece un halo fuera de la tarjeta. El control no toma anillo."
+      ],
+      [
+        "error",
+        "El contorno pasa al de error, marcado o no. Con foco, el contorno sigue siendo el de error y el halo es el halo de error."
+      ],
+      [
+        "disabled",
+        "Toda la tarjeta pierde opacidad y deja de responder. Marcado mantiene el control marcado; el error no se muestra."
+      ]
+    ],
+    "groupTitle": "Grupo y teclado",
+    "groupText": "El grupo no es un elemento: las tarjetas radio con el mismo name, en la misma raíz y el mismo formulario, son un grupo. El nph-field le da el nombre y el error; la tarjeta es dueña de la elección, las flechas y su propia parada de Tab, como el nph-radio.",
+    "groupHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "groupRules": [
+      [
+        "clic, Espacio",
+        "Marca una tarjeta radio, o alterna una tarjeta checkbox o switch, y dispara input y change una vez. Un clic en cualquier punto de la tarjeta cuenta."
+      ],
+      [
+        "Enter",
+        "No marca nada en una tarjeta con checkbox o radio y alterna una tarjeta con switch, como los controles que sigue. No envía el formulario."
+      ],
+      [
+        "Tab",
+        "Un grupo radio es una parada, en la tarjeta marcada o en la primera. Una tarjeta checkbox o switch es una parada cada una."
+      ],
+      [
+        "flechas",
+        "En un grupo radio, mueven el foco a la tarjeta siguiente o anterior que responde, la marcan y dan la vuelta. En una tarjeta checkbox o switch, no hacen nada."
+      ],
+      [
+        "tarjeta radio marcada",
+        "Un clic en ella no cambia nada y no dispara ningún evento; el clic sigue burbujeando."
+      ],
+      [
+        "tarjeta deshabilitada",
+        "Fuera del orden de Tab, saltada por las flechas, y un clic no hace nada."
+      ]
+    ],
+    "formTitle": "Formulario",
+    "formText": "La tarjeta está asociada a formulario, como nph-radio y nph-checkbox: participa en el formulario que la rodea sin un input nativo propio.",
+    "formHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "formRules": [
+      [
+        "envío",
+        "Una tarjeta checkbox o radio marcada entra en el formulario como name=value. Una desmarcada no envía nada."
+      ],
+      [
+        "switch",
+        "Una tarjeta con switch no es miembro del formulario, como tampoco lo es nph-switch."
+      ],
+      [
+        "reset",
+        "Cada tarjeta vuelve a su atributo checked."
+      ],
+      [
+        "fieldset deshabilitado",
+        "Deshabilita la tarjeta y la saca de los datos del formulario."
+      ]
+    ],
+    "richOptionTitle": "Opción rica",
+    "richOptionText": "En la lista de nph-select y nph-combobox, el mismo aspecto rico es el nph-option con rich y una descripción debajo del rótulo. No tiene etiqueta propia, y una lista puede tenerla junto a una opción simple.",
+    "richOptionCaption": "La opción rica con cada inicio, en predeterminado, activa por el teclado y seleccionada; el check, o la casilla marcada.",
+    "richOptionHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "richOptionRules": [
+      [
+        "rich, description",
+        "rich activa el aspecto; description es el texto debajo del rótulo, dibujado solo con rich. La opción simple no cambia."
+      ],
+      [
+        "hover",
+        "Una capa bajo el contenido a media opacidad, más suave que la de la opción simple."
+      ],
+      [
+        "activa por el teclado",
+        "La capa, un borde de foco fuera de la opción y un halo fuera de ese borde. El hover del puntero no tiene borde."
+      ],
+      [
+        "seleccionada",
+        "Sin fondo: el check, o la casilla marcada con marker checkbox."
+      ],
+      [
+        "deshabilitada",
+        "Toda la opción se atenúa y la lista la salta. La casilla queda en su valor predeterminado."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Tarjeta",
+        "rich-option/padding, rich-option/gap y rich-option/radius, fondo rich-option/background, ancho layout/rich-option-width, encogiéndose con su contenedor."
+      ],
+      [
+        "Contorno",
+        "rich-option/border-width dentro de la tarjeta en rich-option/border; error rich-option/border-error; foco rich-option/focus-border."
+      ],
+      [
+        "Control",
+        "nph-checkbox, nph-radio o nph-switch en el tamaño predeterminado, como indicador inerte, alineado con la primera línea del título."
+      ],
+      [
+        "Icono",
+        "nph-icon light en una caja rich-option/icon-size, del color del título. Apagado por defecto."
+      ],
+      [
+        "Título",
+        "text/label-md en rich-option/foreground. Se ajusta."
+      ],
+      [
+        "Segunda línea",
+        "text/caption en rich-option/description-foreground, rich-option/text-gap debajo del título."
+      ],
+      [
+        "Atajo",
+        "nph-kbd al final de la tarjeta. Apagado por defecto; nunca con el switch."
+      ],
+      [
+        "Capa de hover",
+        "rich-option/background-hover en rich-option/background-hover-opacity, bajo el contenido."
+      ],
+      [
+        "Halo de foco",
+        "rich-option/focus-halo de rich-option/focus-ring-width fuera de la tarjeta; rich-option/focus-halo-error con error."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El host es el control: role checkbox, radio o switch, con aria-checked y aria-disabled, por ElementInternals. El control dibujado dentro es inerte y queda oculto para el lector de pantalla."
+      ],
+      [
+        "Nombre accesible",
+        "El título es el nombre y la segunda línea es la descripción, ambos por los internals. El icono, la segunda línea y el atajo quedan ocultos para el lector de pantalla."
+      ],
+      [
+        "Teclado",
+        "Radio: una parada de Tab, flechas que marcan y dan la vuelta, Espacio marca. Checkbox y switch: una parada cada uno, Espacio alterna. Enter no marca nada en una tarjeta con checkbox o radio y alterna una tarjeta con switch."
+      ],
+      [
+        "Foco",
+        "Solo con el teclado: el borde de foco y el halo alrededor de la tarjeta. El control de dentro no toma anillo."
+      ],
+      [
+        "Contraste",
+        "El título y la segunda línea superan 4,5:1 en claro y oscuro. El límite que alcanza 3:1 es el control dentro de la tarjeta. En el modo claro de la marca predeterminada, focus/border mide 2,92:1 contra el halo."
+      ],
+      [
+        "Alternativa al color",
+        "El control dice la elección; el error tiene su frase en el nph-field."
+      ],
+      [
+        "Límite conocido",
+        "Dentro del nph-field, un grupo de tarjetas radio se lee como grupo, no como radiogroup."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha nph-rich-option — propósito, anatomía, grupo, formulario, accesibilidad, tokens y antipatrones.",
+      "Ficha nph-option — la opción rica de la lista.",
+      "docs/decisoes-tecnicas.md — P134 (API y semántica), P81, P82 y P79 (los controles), P83 (el contrato del field), P01, P02 y P03.",
+      "design.md — los tokens rich-option/* y select/option-*.",
+      "WAI-ARIA APG — patrones radio group, checkbox, switch, listbox y combobox."
+    ],
+    "sourceSpec": "ficha nph-rich-option; Figma, frame nph-rich-option (6935:11785)",
+    "sourceApi": "ficha nph-rich-option; docs/decisoes-tecnicas.md › P134",
+    "sourceStates": "Figma, set 6910:6828; DSA-91, D-1",
+    "sourceGroup": "ficha nph-rich-option; docs/decisoes-tecnicas.md › P134; WAI-ARIA APG, radio group",
+    "sourceForm": "docs/decisoes-tecnicas.md › P134, P81 y P82",
+    "sourceRichOption": "ficha nph-option; Figma, set 6910:7093; docs/decisoes-tecnicas.md › P134",
+    "sourceAnatomy": "Figma, set 6910:6828; design.md",
+    "sourceAccessibility": "ficha nph-rich-option; nph-rich-option.test.ts"
   }
 }

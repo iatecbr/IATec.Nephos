@@ -11,6 +11,9 @@
  *
  * The order of the state rules is the precedence of D5: active (the hover look),
  * then selected, which wins over it. Disabled only adds the opacity.
+ *
+ * The rich option (`rich`, DSA-91 and P134) has its own file, `nph-option.rich.css`: a plain
+ * option never reads a rule of it, so the look of the plain option does not move.
  */
 
 /* With invalid input, it takes no space: no visual fallback. */

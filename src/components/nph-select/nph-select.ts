@@ -64,7 +64,7 @@ import type { PropertyValues, TemplateResult } from 'lit';
 import '../nph-avatar/nph-avatar';
 import '../nph-icon/nph-icon';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
-import { NPH_OPTION_CHANGED, NPH_OPTION_DEFAULT_ICON, NphOption, collapsedText } from '../nph-option/nph-option';
+import { NPH_OPTION_CHANGED, NPH_OPTION_DEFAULT_ICON, NphOption, collapsedText, pointerMoved } from '../nph-option/nph-option';
 import type { NphOptionOwner } from '../nph-option/nph-option';
 import selectCss from './nph-select.css?inline';
 
@@ -194,6 +194,9 @@ export class NphSelect extends LitElement implements NphOptionOwner {
   private valid = false;
   /** The option the pointer or the keyboard is on, while the list is open. */
   private activeOption: NphOption | null = null;
+  /* The last input was the keyboard: only then the active rich option draws the focus border and the halo. */
+  private byKeyboard = false;
+  private pointerAt: [number, number] | null = null;
   /** The list is in the top layer: from `showPopover()` until the exit transition ends. */
   private shown = false;
   private closeTimer: number | undefined;
@@ -529,7 +532,16 @@ export class NphSelect extends LitElement implements NphOptionOwner {
     return ordered.find((option) => collapsedText(option).toLocaleLowerCase().startsWith(search)) ?? null;
   }
 
+  /** Tells the active option whether it got there by the keyboard or by the pointer. */
+  private setModality(keyboard: boolean): void {
+    if (this.byKeyboard !== keyboard) {
+      this.byKeyboard = keyboard;
+      this.requestUpdate();
+    }
+  }
+
   private onTriggerClick(): void {
+    this.setModality(false);
     if (this.open) {
       this.closeList();
     } else {
@@ -542,6 +554,7 @@ export class NphSelect extends LitElement implements NphOptionOwner {
       return;
     }
     const { key, altKey, ctrlKey, metaKey } = event;
+    this.setModality(true);
     let handled = true;
     /* A key that is not a character ends the typed search: a Space after it chooses again. */
     if (key.length !== 1) {
@@ -623,6 +636,10 @@ export class NphSelect extends LitElement implements NphOptionOwner {
   }
 
   private onListPointer(event: PointerEvent): void {
+    if (pointerMoved(this.pointerAt, event)) {
+      this.pointerAt = [event.clientX, event.clientY];
+      this.setModality(false);
+    }
     const option = this.optionOf(event);
     if (option !== null && available(option)) {
       this.setActive(option);
@@ -818,6 +835,7 @@ export class NphSelect extends LitElement implements NphOptionOwner {
     for (const option of this.options) {
       option.selected = option === selected;
       option.active = this.open && option === this.activeOption;
+      option.keyboard = option.active && this.byKeyboard;
     }
     const trigger = this.trigger;
     if (trigger !== null) {

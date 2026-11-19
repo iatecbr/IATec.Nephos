@@ -2,17 +2,19 @@
   "piece": "nph-option",
   "level": "component",
   "status": "active",
-  "solves": "Gives a list the person picks from one option with its label and, when needed, a start, a helper text and the selected look, shared by the lists of nph-select, nph-combobox and nph-multi-combobox.",
+  "solves": "Gives a list the person picks from one option with its label and, when needed, a start, a helper text, a description and the selected look, shared by the lists of nph-select, nph-combobox and nph-multi-combobox.",
   "use_when": [
     "As a child of nph-select, one per option of the list.",
     "With start=dot when each option has a state, written in the label.",
-    "With secondary when a helper text tells options with similar labels apart."
+    "With secondary when a helper text tells options with similar labels apart.",
+    "With rich and description when the label alone is not enough to choose: the rich option."
   ],
   "do_not_use_when": [
     "On its own, outside the list that owns it: it has no role there.",
     "With marker=checkbox outside nph-multi-combobox: the box is its multiple choice.",
     "Mixing options with and without a start in the same list: use one start.",
-    "With the status dot and no state written in the label."
+    "With the status dot and no state written in the label.",
+    "With a long description: the list scrolls more; use a short sentence that changes the choice."
   ],
   "api": {
     "slot": {
@@ -89,12 +91,26 @@
       "reflects": true,
       "constraint": "check is the single choice: the selected option takes the selected background and the check. checkbox is the multiple choice of nph-multi-combobox: an inert nph-checkbox at the start, checked while selected, with no selected background and no check (P96). Any other value draws nothing and emits console.error in development."
     },
+    "rich": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "Turns on the rich look of the option: a description below the label, a softer hover that is a layer at select/option-background-hover-opacity, no selected background, and the focus border and halo of the list items on the option active by the keyboard. It reflects because the internal CSS selects the look by it. The plain option is the default and does not change; a list may hold both, such as the create row of nph-combobox, which is plain."
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The text below the label of a rich option, already localized; it wraps and is the accessible description of the option. Empty turns it off. It is drawn only with rich."
+    },
     "disabled": {
       "type": "boolean",
       "required": false,
       "default": "false",
       "reflects": true,
-      "constraint": "The option cannot be chosen and the keyboard skips it; the whole option at state/disabled-opacity."
+      "constraint": "The option cannot be chosen and the keyboard skips it; the whole option at state/disabled-opacity (select/option-disabled-opacity on the rich option)."
     },
     "selected": {
       "type": "boolean",
@@ -109,6 +125,13 @@
       "default": "false",
       "reflects": false,
       "constraint": "Written by the list that owns the option, never by the consumer: the option the pointer or the keyboard is on."
+    },
+    "keyboard": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": false,
+      "constraint": "Written by the list that owns the option, never by the consumer: the active option got there by the keyboard, not by the pointer. Only then the rich option draws the focus border and the halo. The list sets it from the last input: a key is the keyboard, a real pointer move is the pointer, and a pointer position the browser repeats after the list scrolled is not a move."
     }
   },
   "variants": {
@@ -117,6 +140,13 @@
       "choose_when": "icon when a symbol helps recognize the option; avatar when the options are people; dot when each option has a state; none in every other case.",
       "do_not_combine_with": [
         "Options with and without a start in the same list."
+      ]
+    },
+    "rich": {
+      "axis": "appearance",
+      "choose_when": "rich when the label alone is not enough to choose and a short description tells the options apart; plain in every other case.",
+      "do_not_combine_with": [
+        "A long description: the list scrolls more."
       ]
     },
     "marker": {
@@ -143,13 +173,32 @@
     "disabled": {
       "token": "state/disabled-opacity",
       "changes_for_user": "The whole option at state/disabled-opacity; it cannot be chosen."
+    },
+    "rich_hover_and_active": {
+      "token": "select/option-background-hover at select/option-background-hover-opacity",
+      "changes_for_user": "The rich option: a layer under the content, softer than the plain option; the label stays select/option-foreground-hover."
+    },
+    "rich_keyboard_active": {
+      "token": "select/option-focus-border and select/option-focus-halo",
+      "changes_for_user": "The rich option active by the keyboard: the layer, a focus border outside the option and a halo outside it. The pointer hover has no border."
+    },
+    "rich_selected": {
+      "token": "select/option-marker",
+      "changes_for_user": "The chosen rich option has no background: the check, or the checked box with marker=checkbox. In hover or active it takes the same layer and keeps the check."
+    },
+    "rich_disabled": {
+      "token": "select/option-disabled-opacity",
+      "changes_for_user": "The whole rich option fades; the secondary text and the description take select/option-foreground; with marker=checkbox the box stays at its default and only the option opacity applies."
     }
   },
   "business_rules": [
     "The option never chooses itself: the list that owns it writes selected and active.",
     "Without the value attribute, the value is the label text.",
     "The selected background wins over the active one.",
-    "With marker=checkbox, the checked box says the choice, without the selected background."
+    "With marker=checkbox, the checked box says the choice, without the selected background.",
+    "The rich look is a choice of the option, not of the list: rich turns it on, and the plain option next to it does not change.",
+    "The rich option has no selected background, whatever the marker.",
+    "Only the rich option active by the keyboard draws the focus border and the halo; the list tells the option with keyboard."
   ],
   "domain_errors": [],
   "tokens": {
@@ -164,31 +213,43 @@
     "active": "color/accent with color/accent-foreground",
     "selected": "color/primary-surface with the check, icon/size-sm in color/primary",
     "checkbox": "nph-checkbox, inert, at the start of the option (marker=checkbox)",
-    "disabled": "state/disabled-opacity"
+    "disabled": "state/disabled-opacity",
+    "rich_padding_gap_radius": "select/option-padding, select/option-gap, select/option-radius",
+    "rich_label": "text/label-md in select/option-foreground; select/option-foreground-hover when active",
+    "rich_secondary": "text/label-md in select/option-secondary-foreground, select/option-label-gap after the label",
+    "rich_description": "text/caption in select/option-description-foreground, select/option-text-gap below the label line; it wraps",
+    "rich_hover": "select/option-background-hover at select/option-background-hover-opacity, a layer under the content",
+    "rich_focus": "select/option-focus-border of select/option-focus-border-width, then select/option-focus-halo of select/option-focus-halo-width, both outside the option",
+    "rich_marker": "select/option-marker, select/option-marker-size",
+    "rich_start": "select/option-icon-size; the dot select/option-dot-size",
+    "rich_disabled": "select/option-disabled-opacity"
   },
   "ai_hints": [
     "Write nph-option only as a child of the list that owns it, such as nph-select.",
     "Give every option of a list the same start.",
     "With start=dot, write the state in the label: the color only reinforces it.",
     "Set value when the label is translated or may change; the form reads the value.",
-    "Never set selected or active by hand: set the value of the list."
+    "Never set selected, active or keyboard by hand: set the value of the list.",
+    "Write rich and description on the option for the rich option; give a short description that changes the choice.",
+    "Do not write nph-rich-option inside a list: the card is the form choice, the rich option is nph-option with rich."
   ],
   "accessibility": {
     "semantics": "Role option through ElementInternals, with aria-selected and aria-disabled; it writes no ARIA attribute on its own host.",
-    "accessible_name": "The label text and the secondary text. The start, the dot, the check and the box of marker=checkbox are hidden from the screen reader.",
+    "accessible_name": "The label text and the secondary text. The start, the dot, the check and the box of marker=checkbox are hidden from the screen reader. On a rich option the description is the accessible description of the option (aria-description through ElementInternals) and its line is hidden from the screen reader.",
     "keyboard": [
       "not_applicable: the option never takes the focus; the list that owns it handles the keyboard."
     ],
-    "focus": "not_applicable: the focus stays on the trigger of the list, which points to the active option with aria-activedescendant.",
+    "focus": "not_applicable: the focus stays on the trigger of the list, which points to the active option with aria-activedescendant. The rich option active by the keyboard draws the focus border and the halo of the list items.",
     "contrast": "The label meets 4.5:1 on color/popover, color/accent and color/primary-surface, in light and dark mode; the check on color/primary-surface measures 4.78:1 and 6.26:1 (D8).",
-    "color_alternative": "The selected option has the check besides the background; the dot goes with the written state."
+    "color_alternative": "The selected option has the check besides the background; the dot goes with the written state. The selected rich option has no background: the check or the checked box says it."
   },
   "invalid_combinations": [
     "A start outside none, icon, avatar and dot — the option draws nothing.",
     "A status outside the six — the option draws nothing.",
     "An icon outside the core names — the option draws nothing.",
     "A marker outside check and checkbox — the option draws nothing.",
-    "An option on its own, outside a list — it has no role there."
+    "An option on its own, outside a list — it has no role there.",
+    "A description without rich — it is not drawn."
   ],
   "relations": {
     "combines_with": [
@@ -217,12 +278,14 @@
     "Putting marker=checkbox on the option of a list of one choice.",
     "Mixing options with and without a start in the same list.",
     "Using the status dot without a written state.",
-    "Setting selected or active by hand."
+    "Setting selected, active or keyboard by hand.",
+    "A long description on the rich option.",
+    "Writing nph-rich-option inside a list."
   ],
   "sources": {
     "design_md": "design.md, color/popover-foreground, color/accent, color/accent-foreground, color/primary-surface, color/primary, color/muted-foreground, status/*, text/label-md, radius/inner, radius/full, icon/size-md and state/disabled-opacity",
-    "decision": "P91 — API and semantics of nph-select and nph-option; P96 amends it with marker",
-    "tests": "src/components/nph-option/nph-option.test.ts and src/components/nph-select/nph-select.test.ts",
+    "decision": "P91 — API and semantics of nph-select and nph-option; P96 amends it with marker; P134 adds the rich look",
+    "tests": "src/components/nph-option/nph-option.test.ts, nph-option.rich.test.ts, src/components/nph-rich-option/nph-rich-option.lists.test.ts and src/components/nph-select/nph-select.test.ts",
     "usage_evidence": "the Option section of the nph-select Docs page",
     "storybook": "src/components/nph-select/nph-select.stories.ts (the Option story) and nph-select.docs.stories.ts",
     "figma": "DS-IA-NEPHOS 5.0, option 1357:136 of the nph-select set, in the nph-select frame 1357:160"
