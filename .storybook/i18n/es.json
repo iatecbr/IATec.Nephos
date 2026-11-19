@@ -519,6 +519,19 @@
     "components-nph-collapsible-validation--interactive": "Interactivo",
     "components-nph-collapsible-validation--examples": "Ejemplos",
     "components-nph-collapsible-validation--brands": "Marcas",
+    "components-nph-card-docs": "Docs",
+    "components-nph-card-docs--documentation": "Documentación",
+    "components-nph-card-validation": "Validación",
+    "components-nph-card-validation--types": "Tipos",
+    "components-nph-card-validation--densities": "Densidades",
+    "components-nph-card-validation--media": "Medios",
+    "components-nph-card-validation--start": "Inicio",
+    "components-nph-card-validation--states": "Estados",
+    "components-nph-card-validation--section": "Sección",
+    "components-nph-card-validation--parts": "Partes",
+    "components-nph-card-validation--collection": "Colección",
+    "components-nph-card-validation--examples": "Ejemplos",
+    "components-nph-card-validation--brands": "Marcas",
     "components-nph-scheduler-docs": "Docs",
     "components-nph-scheduler-docs--documentation": "Documentación",
     "components-nph-scheduler-validation": "Validación",
@@ -547,7 +560,61 @@
     "components-nph-command-validation--focus-and-escape": "Foco y Esc",
     "components-nph-command-validation--brands": "Marcas",
     "components-nph-command-fixtures": "Ejemplos aislados",
-    "components-nph-command-fixtures--example": "Ejemplo"
+    "components-nph-command-fixtures--example": "Ejemplo",
+    "components-nph-carousel-docs": "Docs",
+    "components-nph-carousel-docs--documentation": "Documentación",
+    "components-nph-carousel-validation": "Validación",
+    "components-nph-carousel-validation--matrix": "Matriz",
+    "components-nph-carousel-validation--controls": "Controles",
+    "components-nph-carousel-validation--many-slides": "Muchas diapositivas",
+    "components-nph-carousel-validation--interactive": "Interactivo",
+    "components-nph-carousel-validation--examples": "Ejemplos",
+    "components-nph-carousel-validation--brands": "Marcas",
+    "components-nph-timeline-docs": "Docs",
+    "components-nph-timeline-docs--documentation": "Documentación",
+    "components-nph-timeline-validation": "Validación",
+    "components-nph-timeline-validation--types": "Tipos",
+    "components-nph-timeline-validation--short": "Cortas",
+    "components-nph-timeline-validation--markers": "Marcadores",
+    "components-nph-timeline-validation--content": "Contenido",
+    "components-nph-timeline-validation--states": "Estados",
+    "components-nph-timeline-validation--width": "Ancho",
+    "components-nph-timeline-validation--examples": "Ejemplos",
+    "components-nph-timeline-validation--brands": "Marcas",
+    "components-nph-calendar-validation": "Validación",
+    "components-nph-calendar-validation--single": "Única",
+    "components-nph-calendar-validation--range": "Rango",
+    "components-nph-calendar-validation--limits": "Límites",
+    "components-nph-calendar-validation--week": "Semana",
+    "components-nph-calendar-validation--interactive": "Interactivo",
+    "components-nph-calendar-validation--brands": "Marcas",
+    "components-nph-date-picker-docs": "Docs",
+    "components-nph-date-picker-docs--documentation": "Documentación",
+    "components-nph-date-picker-validation": "Validación",
+    "components-nph-date-picker-validation--field": "Campo",
+    "components-nph-date-picker-validation--states": "Estados",
+    "components-nph-date-picker-validation--range": "Rango",
+    "components-nph-date-picker-validation--panel-single": "Panel único",
+    "components-nph-date-picker-validation--panel-range": "Panel de rango",
+    "components-nph-date-picker-validation--panel-large": "Panel grande",
+    "components-nph-date-picker-validation--limits": "Límites",
+    "components-nph-date-picker-validation--interactive": "Interactivo",
+    "components-nph-date-picker-validation--form": "Formulario",
+    "components-nph-date-picker-validation--examples": "Ejemplos",
+    "components-nph-date-picker-validation--brands": "Marcas",
+    "components-nph-calendar-validation--views": "Vistas",
+    "components-nph-rich-option-docs": "Docs",
+    "components-nph-rich-option-docs--documentation": "Documentación",
+    "components-nph-rich-option-validation": "Validación",
+    "components-nph-rich-option-validation--matrix": "Matriz",
+    "components-nph-rich-option-validation--content": "Contenido",
+    "components-nph-rich-option-validation--interactive": "Interactivo",
+    "components-nph-rich-option-validation--form": "Formulario",
+    "components-nph-rich-option-validation--group": "Grupo",
+    "components-nph-rich-option-validation--rich-option": "Opción rica",
+    "components-nph-rich-option-validation--lists": "Listas",
+    "components-nph-rich-option-validation--examples": "Ejemplos",
+    "components-nph-rich-option-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -4678,8 +4745,12 @@
         "check (predeterminado) o checkbox, reflejado. El nph-select usa siempre check; checkbox es la elección múltiple del nph-multi-combobox (P96)."
       ],
       [
-        "selected, active",
-        "Escritas por la lista, nunca por el consumidor. No se reflejan."
+        "rich, description",
+        "Activa el aspecto rico: una descripción debajo de la etiqueta, una capa de hover más suave, ningún fondo de seleccionada y el borde de foco y el halo de los elementos de lista en la opción activa por el teclado. Una opción simple al lado no cambia. description es el texto debajo de la etiqueta, dibujado solo con rich."
+      ],
+      [
+        "selected, active, keyboard",
+        "Escritas por la lista, nunca por el consumidor. No se reflejan. keyboard dice que la opción activa llegó por el teclado."
       ]
     ],
     "optionStatesHeader": [
@@ -8666,6 +8737,16 @@
       "components-nph-collapsible-validation--interactive": "El evento: nph-toggle se dispara cuando la persona abre o cierra el contenido y dice en qué estado está el contenido ahora.",
       "components-nph-collapsible-validation--examples": "Los tres ejemplos obligatorios, en modo claro y oscuro: los ajustes avanzados de un formulario, abiertos; los pasos de un registro, con el indicador al inicio; y el registro de una importación en el tipo vista previa, cerrado.",
       "components-nph-collapsible-validation--brands": "Las siete marcas en modo claro y oscuro: el hover, el foco y la tarjeta siguen la marca.",
+      "components-nph-card-validation--types": "Los tres tipos en las superficies elevada y contorneada: la tarjeta base con contenido y acciones propios, la tarjeta clicable como un enlace sobre toda la tarjeta y la tarjeta de sección como una región con nombre; las dos superficies llevan el contorno suave, y solo la elevada tiene la sombra.",
+      "components-nph-card-validation--densities": "La densidad estándar y la compacta en los tres tipos: el relleno del cuerpo, el estilo del título, el tamaño del inicio y el relleno del pie siguen la densidad.",
+      "components-nph-card-validation--media": "Las cuatro opciones de medios: arriba en 16:9, recortada por la esquina de la tarjeta, retranqueada dentro del relleno y al costado con cerca del 40% del ancho; en un contenedor estrecho, el medio lateral pasa arriba.",
+      "components-nph-card-validation--start": "El inicio guarda una pieza a la vez, con el tamaño de la densidad: la caja tonal con ícono, el avatar con foto o la imagen.",
+      "components-nph-card-validation--states": "Estándar y cargando en todos los tipos, y el estado deshabilitado solo en la tarjeta clicable; el hover y el foco aparecen cuando usas la tarjeta clicable, y la prueba del componente mide cada uno.",
+      "components-nph-card-validation--section": "La tarjeta de sección: una lista de clave y valor con la clave al inicio y el valor al final de la fila, una acción con texto en el encabezado y una sección tonal.",
+      "components-nph-card-validation--parts": "Las partes que se activan y desactivan: el mínimo solo con el título, el estándar con inicio y descripción, el máximo con todas las partes activas y un pie sin divisor.",
+      "components-nph-card-validation--collection": "Una colección es una lista con nombre y una tarjeta por elemento, y el título de cada tarjeta es un encabezado con el enlace dentro.",
+      "components-nph-card-validation--examples": "Los cinco ejemplos obligatorios del marco aceptado, cada uno en modo claro y oscuro: Resumen con acciones, Colección navegable, Bloque de detalle en un panel, Perfil y Archivo; y una tarjeta contorneada dentro de otra superficie.",
+      "components-nph-card-validation--brands": "Las siete marcas en modo claro y oscuro: la caja tonal del ícono y los botones siguen la marca del marco.",
       "components-nph-scheduler-validation--work-week": "La semana laboral, la vista por defecto, con el panel lateral, la línea de ahora, la franja de todo el día y eventos superpuestos.",
       "components-nph-scheduler-validation--views": "Las vistas de semana, día, mes y lista, y la semana que empieza el lunes.",
       "components-nph-scheduler-validation--side-panel": "El panel lateral en toda vista del escritorio, mostrado y oculto por el mismo botón.",
@@ -8694,7 +8775,48 @@
       "components-nph-resizable-validation--limits": "El tirador se detiene en el mínimo y en el máximo de cada panel, dados en porcentaje o en píxeles, y el panel principal del tirador es el que los informa.",
       "components-nph-resizable-validation--interactive": "Un arrastre, una tecla o un clic dispara nph-resize con detail.sizes, mostrado debajo del grupo; el producto guarda los tamaños y los devuelve por sizes, y definir sizes por código no dispara el evento.",
       "components-nph-resizable-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Lista y panel de lectura, Anidado y Colapsado.",
-      "components-nph-resizable-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el botón de colapsar siguen la marca del marco."
+      "components-nph-resizable-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el botón de colapsar siguen la marca del marco.",
+      "components-nph-carousel-validation--matrix": "Los tres layouts al inicio, en el medio y al final de la secuencia: una diapositiva entera, tantas diapositivas enteras como quepan y la diapositiva actual con el borde de la vecina; las flechas y el indicador actual siguen la posición.",
+      "components-nph-carousel-validation--controls": "La barra de controles con las flechas, los indicadores y el contador encendidos y apagados; al menos uno entre flechas e indicadores queda encendido, y el contador sustituye a los indicadores cuando están apagados.",
+      "components-nph-carousel-validation--many-slides": "Una secuencia con más diapositivas de las que caben los indicadores: por encima de cinco páginas los indicadores salen y entra el contador, y en el layout varias cuenta páginas.",
+      "components-nph-carousel-validation--interactive": "Una flecha, un indicador, una tecla o un arrastre dispara nph-slide-change, y detail.index es la primera diapositiva a la vista que el producto guarda y devuelve por index.",
+      "components-nph-carousel-validation--examples": "Los tres ejemplos obligatorios del frame aceptado: una galería de imágenes en peek, tarjetas destacadas en varias y una secuencia con más diapositivas de las que caben los indicadores.",
+      "components-nph-carousel-validation--brands": "Las siete marcas en claro y oscuro: el indicador actual, el borde de foco y las flechas siguen la marca.",
+      "components-nph-timeline-validation--types": "Los dos tipos con tres, cuatro y cinco elementos: el process dibuja el estado de cada paso en un círculo, con la línea conectora en el color de la marca hasta el paso pendiente, y el history dibuja un punto neutro para cada evento.",
+      "components-nph-timeline-validation--short": "Las listas cortas: dos elementos, y un evento único, que es un elemento con la línea conectora apagada. El último elemento de una lista nunca tiene línea.",
+      "components-nph-timeline-validation--markers": "Los tres marcadores: el punto, el círculo en sus seis estados, con el icono del evento en el neutro, y el avatar con foto y sin ella, que muestra el icono user. Solo el círculo tiene estado.",
+      "components-nph-timeline-validation--content": "Lo que activa un elemento: un título largo que se parte, la descripción, la línea de meta con quién y cuándo y la palabra de espera del elemento pendiente, la acción activada y deshabilitada, y un nph-card base y section en el slot de un elemento.",
+      "components-nph-timeline-validation--states": "Mostrar más después de la lista, alineado con la columna del marcador; el estado de carga con filas de skeleton en lugar de los elementos; y el estado vacío con nph-empty.",
+      "components-nph-timeline-validation--width": "La lista toma el ancho de su contenedor: un panel estrecho de 22 rem y una columna ancha de 40 rem, con el título y la descripción partiéndose y la línea conectora siguiendo la altura del elemento.",
+      "components-nph-timeline-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: un proceso de aprobación rechazado, un historial por persona con una acción y un historial por tipo de evento.",
+      "components-nph-timeline-validation--brands": "Las siete marcas en modo claro y oscuro: la línea conectora, el punto, el círculo neutro y su icono siguen la marca del marco.",
+      "components-nph-calendar-validation--single": "La fecha única en los dos tamaños: siempre seis filas de semana, hoy con su contorno, el día elegido relleno y los días del mes anterior y del siguiente en tono suave.",
+      "components-nph-calendar-validation--range": "El rango: un periodo que cruza el cambio de semana con la franja recta, un periodo de un día, solo el inicio elegido y dos meses consecutivos lado a lado.",
+      "components-nph-calendar-validation--limits": "Los días fuera del mínimo y del máximo se atenúan y el foco los salta; una fecha no disponible por regla conserva la celda, atenúa solo el número, recibe foco y nunca se elige.",
+      "components-nph-calendar-validation--week": "La semana que empieza en domingo y en lunes: solo la fila de los días de la semana y la primera semana del mes cambian.",
+      "components-nph-calendar-validation--interactive": "Una cuadrícula para probar: el título de un mes abre la vista de meses y luego la de años, las flechas, Page Up y Page Down mueven, y la línea de estado dice lo que disparó la cuadrícula.",
+      "components-nph-calendar-validation--brands": "Las siete marcas en modo claro y oscuro: el día elegido, el periodo, hoy y el foco siguen la marca del marco.",
+      "components-nph-date-picker-validation--field": "El campo en los tres tamaños, vacío y relleno: el texto de la fecha, el botón de borrar solo con valor y el botón de calendario al lado.",
+      "components-nph-date-picker-validation--states": "Los estados de error y deshabilitado: el mensaje dice qué corregir y deshabilitado gana al error; el campo obligatorio se marca.",
+      "components-nph-date-picker-validation--range": "El campo de rango: Inicio y Fin lado a lado, cada uno en su campo, un botón de calendario en Fin y el error solo en el campo con el problema.",
+      "components-nph-date-picker-validation--panel-single": "El panel de una fecha única abierto bajo el campo: solo la cuadrícula con seis filas de semana; elegir un día aplica y cierra.",
+      "components-nph-date-picker-validation--panel-range": "El panel de un rango abierto: los siete atajos, dos meses, el divisor y el pie con Borrar, Cancelar y Aplicar.",
+      "components-nph-date-picker-validation--panel-large": "El panel del tamaño grande, para pantalla táctil: el día de 44 y los botones del pie en el tamaño por defecto.",
+      "components-nph-date-picker-validation--limits": "El panel con mínimo, máximo y fechas no disponibles por regla: los días fuera de los límites se atenúan y el foco los salta, los otros reciben foco y nunca se eligen.",
+      "components-nph-date-picker-validation--interactive": "Un selector para probar, único y rango: el botón abre el panel, Esc, un clic fuera o Cancelar lo cierra y el foco vuelve al botón.",
+      "components-nph-date-picker-validation--form": "Un selector en un formulario: el nombre pone la fecha en los datos del formulario y el reset trae el valor por defecto.",
+      "components-nph-date-picker-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: una fecha de vencimiento, un periodo de informe con Personalizado elegido y Aplicar en el pie, y una fecha no válida con el mensaje.",
+      "components-nph-date-picker-validation--brands": "Las siete marcas en modo claro y oscuro: el foco, el día elegido, el periodo y el botón Aplicar siguen la marca del marco.",
+      "components-nph-calendar-validation--views": "La vista de meses y la de años, abiertas desde el título: cuatro filas por tres columnas en el tamaño dibujado, un año o doce años a la vez, y una celda deshabilitada solo cuando ninguno de sus días está permitido.",
+      "components-nph-rich-option-validation--matrix": "La tarjeta con cada control, marcada y desmarcada, en los estados predeterminado, error y deshabilitado.",
+      "components-nph-rich-option-validation--content": "Las partes de la tarjeta: la segunda línea, el icono, el atajo y un título que se parte.",
+      "components-nph-rich-option-validation--interactive": "Un grupo de cada control: el grupo radio tiene una parada de Tab y las flechas marcan; las tarjetas checkbox y switch son una parada cada una.",
+      "components-nph-rich-option-validation--form": "El formulario recibe solo las tarjetas checkbox y radio marcadas; el switch no es miembro; el reset vuelve al estado inicial.",
+      "components-nph-rich-option-validation--group": "El grupo dentro de nph-field: el mensaje de error marca todas las tarjetas, y un campo deshabilitado las deshabilita.",
+      "components-nph-rich-option-validation--rich-option": "La opción rica de la lista en cada estado, inicio y marcador; el borde de foco y el halo solo en la opción activa por el teclado.",
+      "components-nph-rich-option-validation--lists": "La opción rica dentro de las listas abiertas del select, del combobox y del combobox múltiple, junto a una opción simple.",
+      "components-nph-rich-option-validation--examples": "Los tres ejemplos obligatorios del marco: el plan, los avisos y las personas en el combobox.",
+      "components-nph-rich-option-validation--brands": "Las siete marcas en claro y oscuro: el control marcado sigue el primary del marco."
     }
   },
   "multiComboboxDocs": {
@@ -14896,6 +15018,328 @@
     "eventOpen": "nph-toggle: el contenido está abierto.",
     "eventClosed": "nph-toggle: el contenido está cerrado."
   },
+  "cardValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "heading": "Pedido 1042",
+    "description": "Realizado el 12 de marzo por Ana Souza",
+    "content": "Tres artículos, enviados al almacén en Recife.",
+    "status": "Pagado",
+    "sectionLabel": "Nota de entrega",
+    "sectionText": "Deje las cajas en el muelle de carga.",
+    "cancel": "Cancelar",
+    "approve": "Aprobar",
+    "menuLabel": "Más opciones para Pedido 1042",
+    "imageAlt": "Vista previa del pedido",
+    "linkHeading": "Pedidos de marzo",
+    "linkDescription": "27 pedidos pendientes de revisión",
+    "linkMeta": "Actualizado hace 2 horas",
+    "sectionHeading": "Datos de facturación",
+    "sectionDescription": "Modificado por última vez el 3 de marzo",
+    "keyCustomer": "Cliente",
+    "valueCustomer": "Ana Souza",
+    "keyPlan": "Plan",
+    "valuePlan": "Equipo",
+    "keyTotal": "Total",
+    "valueTotal": "$ 1.200,00",
+    "edit": "Editar",
+    "personHeading": "Ana Souza",
+    "personDescription": "Diseñadora de producto",
+    "personMessage": "Enviar mensaje",
+    "personProfile": "Ver perfil",
+    "fileHeading": "contrato-2026.pdf",
+    "fileDescription": "2,4 MB · Editado ayer",
+    "fileImageAlt": "Vista previa del contrato",
+    "fileMenuLabel": "Más opciones para contrato-2026.pdf",
+    "loadingLabel": "Cargando",
+    "collectionLabel": "Pedidos por mes",
+    "collectionHeadingA": "Pedidos de marzo",
+    "collectionHeadingB": "Pedidos de abril",
+    "collectionHeadingC": "Pedidos de mayo",
+    "collectionMediaCaption": "Con medio arriba",
+    "exampleSummary": "Resumen con acciones",
+    "exampleCollection": "Colección navegable",
+    "exampleDetail": "Bloque de detalle en un panel",
+    "exampleProfile": "Perfil",
+    "exampleFile": "Archivo",
+    "exampleNested": "Contorneada dentro de otra superficie"
+  },
+  "cardDocs": {
+    "summary": "Una superficie que reúne el contenido y las acciones de un asunto, para que la persona lea, compare o abra ese asunto. Sigue el nph-card aceptado en Figma, con tres tipos, dos superficies, dos densidades y cuatro opciones de medios.",
+    "onThisPage": "En esta página",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-card, design.md para los tokens y docs/decisoes-tecnicas.md para la P130. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Un asunto se sostiene solo y tiene acciones propias, como abrir o aprobar: el tipo base, eligiendo entre acciones dentro de la tarjeta o la tarjeta entera clicable.",
+      "Un elemento de una colección lleva a otra página y no tiene nada interactivo dentro: el tipo clicable.",
+      "Un bloque de datos de una página de detalle, con una acción como editar en el encabezado: el tipo sección.",
+      "La tarjeta está sobre el fondo de la página: la superficie elevada. La tarjeta está dentro de otra superficie o en una lista densa: la superficie contorneada.",
+      "Una lista densa o un panel estrecho: la densidad compacta; la densidad estándar en los demás casos.",
+      "La imagen identifica el elemento: medio arriba. El texto es lo principal y la imagen apoya: medio al costado.",
+      "El inicio dice qué es la tarjeta: un ícono para el tipo de asunto, un avatar para una persona, una imagen para un objeto o un archivo.",
+      "El pie tiene acciones: mantén el divisor antes de ellas. El pie de meta de la tarjeta clicable no tiene divisor."
+    ],
+    "whenNotToUse": [
+      "Para elementos en secuencia sin contenedor propio: usa una lista.",
+      "Para comparar datos en columnas: usa nph-table.",
+      "Para elegir uno entre varios: usa nph-rich-option, que es la tarjeta seleccionable.",
+      "Para contenido que se abre y se cierra: usa nph-collapsible, que es la tarjeta expandible.",
+      "Para una capa que flota sobre la página: usa nph-popover, nph-hover-card o nph-dialog.",
+      "Para una colección o una galería: el diseño es del producto, una lista o una cuadrícula de tarjetas.",
+      "Dentro de otra tarjeta: una tarjeta nunca guarda una tarjeta."
+    ],
+    "relationsText": "Las acciones del encabezado y del pie son nph-button, el estado es nph-badge, el inicio es nph-icon, nph-avatar o nph-image, el divisor es nph-separator y el estado de carga es nph-skeleton. La tarjeta los coloca y no cambia ninguno. Elegir uno entre varios es el nph-rich-option, y el contenido que se abre y se cierra es el nph-collapsible.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "type",
+        "base (estándar), clickable o section, la propiedad de Figma para el tipo. Se refleja. Un valor fuera de la lista no dibuja nada y emite console.error en desarrollo."
+      ],
+      [
+        "surface",
+        "elevated (estándar) o outlined. Las dos tienen el contorno suave; solo la elevada tiene la sombra."
+      ],
+      [
+        "media",
+        "none (estándar), top, inset-top o side, con una pieza en el slot media. En los tipos base y clickable; el tipo section la ignora, con un aviso."
+      ],
+      [
+        "density",
+        "default (estándar) o compact. El relleno, el estilo del título, el inicio y el relleno del pie siguen la densidad."
+      ],
+      [
+        "heading",
+        "El título, obligatorio salvo que la tarjeta esté cargando. Es un encabezado, con el enlace dentro en el tipo clickable."
+      ],
+      [
+        "heading-level",
+        "2 a 6, estándar 3: el nivel del título en la estructura de la página."
+      ],
+      [
+        "description",
+        "El texto de apoyo debajo del título. Vacío lo desactiva."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon para el inicio, dibujado en la caja tonal. Un avatar o una imagen va en el slot leading: una pieza a la vez."
+      ],
+      [
+        "href",
+        "El destino del enlace del título, obligatorio en el tipo clickable: http, https, mailto, tel o una dirección relativa."
+      ],
+      [
+        "disabled",
+        "Solo en el tipo clickable: sin href, role link, aria-disabled y fuera del orden de foco, con card/disabled-opacity."
+      ],
+      [
+        "loading",
+        "Muestra nph-skeleton en lugar del contenido, con aria-busy. loading-label es la palabra oculta, ya localizada."
+      ],
+      [
+        "hide-divider",
+        "Desactiva el divisor antes de las acciones del pie, que está activo cuando el pie tiene contenido."
+      ],
+      [
+        "items",
+        "La lista de clave y valor del tipo section, una lista de pares de clave y valor. Solo por propiedad."
+      ],
+      [
+        "slots",
+        "media, leading, status, action, el slot estándar (el contenido), section y footer. El título, la descripción, el divisor y la flecha de la tarjeta clicable los dibuja la tarjeta."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-card heading=\"Pedido 1042\" description=\"Realizado el 12 de marzo\" icon=\"folder\">\n  <p>Tres artículos, enviados al almacén en Recife.</p>\n  <nph-button slot=\"footer\" severity=\"secondary\" text=\"Cancelar\"></nph-button>\n  <nph-button slot=\"footer\" text=\"Aprobar\"></nph-button>\n</nph-card>",
+    "usageTag": "La tarjeta con el título, la descripción y el ícono de inicio, el contenido libre en el slot estándar y las acciones del pie en el slot footer, la secundaria antes de la principal. La tarjeta toma el ancho de su contenedor.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Ficha del nph-card; docs/decisoes-tecnicas.md › P70",
+    "typesTitle": "Tipos y superficies",
+    "typesText": "El tipo dice qué hace la tarjeta. La superficie dice dónde está: elevada sobre el fondo de la página, contorneada dentro de otra superficie o en una lista densa. Las dos llevan el contorno suave de card/border, y solo la elevada tiene la sombra de elevation/raised.",
+    "typesCaption": "Los tipos base, clickable y section.",
+    "typesHeader": [
+      "Tipo o superficie",
+      "Regla"
+    ],
+    "types": [
+      [
+        "base",
+        "Una tarjeta con contenido y acciones propios. No recibe foco y no tiene rol: el Tab pasa por los controles dentro de ella. La acción del encabezado es un botón de menú en el slot action, y el pie tiene como máximo una acción principal."
+      ],
+      [
+        "clickable",
+        "Toda la tarjeta lleva a un destino. El título es el enlace, estirado sobre la tarjeta solo con CSS, y es la única parada del Tab. Tiene la flecha y un pie de meta, y no tiene botones, acción en el encabezado, sección tonal ni divisor."
+      ],
+      [
+        "section",
+        "Un bloque de datos de una página de detalle: una región nombrada por el título, con la lista de clave y valor de items y, cuando está activa, una acción con texto en el encabezado."
+      ],
+      [
+        "elevated",
+        "La estándar. El contorno y la sombra; en modo oscuro la sombra desaparece y el fondo de la tarjeta, un escalón sobre la página, la separa."
+      ],
+      [
+        "outlined",
+        "El mismo contorno sin sombra. Úsala dentro de otra superficie o en una lista densa."
+      ]
+    ],
+    "sourceTypes": "Ficha del nph-card; Figma, conjunto nph-card (6478:6673)",
+    "mediaTitle": "Medios e inicio",
+    "mediaText": "El medio es un nph-image en el slot media, en los tipos base y clickable, y la tarjeta le da el marco. El inicio guarda una pieza a la vez, con el tamaño de la densidad: la caja tonal del ícono, o un nph-avatar o un nph-image en el slot leading.",
+    "mediaCaption": "Medio arriba, retranqueado y al costado.",
+    "mediaHeader": [
+      "Opción",
+      "Regla"
+    ],
+    "media": [
+      [
+        "top",
+        "El ancho de la tarjeta, en 16:9, recortada por la esquina de la tarjeta arriba."
+      ],
+      [
+        "inset-top",
+        "Dentro del relleno del cuerpo, en 16:9, con la esquina de image/radius-lg."
+      ],
+      [
+        "side",
+        "Al inicio, con la altura de la tarjeta y cerca del 40% del ancho de la tarjeta, 33% en la densidad compacta, recortada para cubrir. En un contenedor más estrecho que 30rem pasa arriba."
+      ],
+      [
+        "start",
+        "Un ícono en la caja tonal (24 px, 16 px compacto), un avatar (lg, md compacto) o una imagen (md, sm compacto). Es decorativo en la tarjeta clicable."
+      ]
+    ],
+    "sourceMedia": "Ficha del nph-card; Figma, conjuntos nph-card (6478:6673) y nph-card start (6478:7282)",
+    "statesTitle": "Estados",
+    "statesText": "Estándar y cargando existen en todos los tipos; hover, foco y deshabilitado solo en la tarjeta clicable. Ningún atributo fuerza un estado: el hover y el foco aparecen cuando usas la tarjeta.",
+    "statesCaption": "La tarjeta clicable, la deshabilitada y una tarjeta cargando.",
+    "statesHeader": [
+      "Estado",
+      "Qué ve la persona"
+    ],
+    "states": [
+      [
+        "default",
+        "El contorno suave en card/border, con la sombra en la superficie elevada."
+      ],
+      [
+        "hover",
+        "Solo el contorno sube a card/border-hover. El fondo, la sombra y el tamaño se quedan, y la flecha se muestra siempre."
+      ],
+      [
+        "focus",
+        "Para quien usa teclado, el borde focus/border y el halo focus/halo alrededor de toda la tarjeta, por fuera."
+      ],
+      [
+        "disabled",
+        "Toda la tarjeta en card/disabled-opacity, sin href, con role link y aria-disabled, fuera del orden de foco."
+      ],
+      [
+        "loading",
+        "nph-skeleton en lugar del contenido, aria-busy en la tarjeta y una palabra oculta para el lector de pantalla. No se dibuja ningún medio."
+      ]
+    ],
+    "sourceStates": "Ficha del nph-card; nph-card.test.ts",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Superficie",
+        "card/background, un contorno de 1 px en card/border y la esquina card/radius, dibujado una vez. La sombra es elevation/raised, solo en la superficie elevada."
+      ],
+      [
+        "Cuerpo",
+        "Relleno card/padding, card/padding-compact cuando es compacto. Apila el encabezado, el contenido y la sección tonal, separados por card/gap."
+      ],
+      [
+        "Encabezado",
+        "El inicio, el título con el estado, la descripción y la acción, separados por card/header-item-gap. El título es text/heading-md, text/heading-xs cuando es compacto, en una línea con puntos suspensivos antes del estado."
+      ],
+      [
+        "Contenido",
+        "Contenido libre en text/body-md. En el tipo section, la lista de clave y valor en text/body-sm, separada por card/list-gap."
+      ],
+      [
+        "Sección tonal",
+        "card/section-background con la esquina card/section-radius y el relleno card/section-padding. Sin borde y sin sombra. No existe en la tarjeta clicable."
+      ],
+      [
+        "Pie",
+        "Acciones al final, la secundaria antes de la principal, separadas por card/footer-gap, con card/footer-padding alrededor, después de un divisor de card/divider. El texto de meta de la tarjeta clicable queda en el cuerpo, sin divisor."
+      ]
+    ],
+    "sourceAnatomy": "Figma, conjunto nph-card (6478:6673); design.md",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El título es un encabezado, nivel 3 por defecto y configurable. La tarjeta clicable es un enlace nativo en el título. La tarjeta de sección es una región nombrada por el título. La tarjeta base no tiene rol."
+      ],
+      [
+        "Teclado",
+        "Una parada del Tab en la tarjeta clicable, el enlace del título: Enter lo abre y Espacio no hace nada. En la tarjeta base el Tab pasa por los controles dentro de ella, en el orden de la página."
+      ],
+      [
+        "Nombre",
+        "El nombre de la tarjeta clicable es su título. La acción solo con ícono de la tarjeta base necesita un label con el verbo y el título de la tarjeta, como Más opciones para Pedido 1042."
+      ],
+      [
+        "Contraste",
+        "El título y la descripción pasan 4,5:1 sobre la tarjeta en los dos temas. El ícono del inicio pasa 3:1 sobre su caja. El contorno es decorativo: el fondo y la sombra separan la tarjeta."
+      ],
+      [
+        "Foco",
+        "El borde de foco lleva el contraste y el halo es un refuerzo, alrededor de toda la tarjeta."
+      ],
+      [
+        "Carga",
+        "aria-busy en la tarjeta, el esqueleto oculto para la tecnología de asistencia y una palabra oculta, ya localizada, fuera del nodo oculto."
+      ],
+      [
+        "Tamaño del objetivo",
+        "Toda la tarjeta clicable es el área del enlace. La acción del menú mide 28 px, y 36 px en pantalla táctil."
+      ]
+    ],
+    "sourceAccessibility": "Ficha del nph-card; nph-card.test.ts",
+    "examplesTitle": "Ejemplos",
+    "exampleSummary": "Resumen con acciones: base, elevada, con estado, sección tonal, divisor y una acción principal.",
+    "exampleCollection": "Colección navegable: tarjetas clicables con medio arriba.",
+    "exampleDetail": "Bloque de detalle en un panel: sección, contorneada, con una acción en el encabezado.",
+    "exampleProfile": "Perfil: base con un avatar con foto al inicio.",
+    "exampleFile": "Archivo: base, contorneada, con una miniatura al inicio y la acción de menú, sin pie.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-card — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P130 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens de la tarjeta, el foco y la elevación.",
+      "Inclusive Components, Cards — https://inclusive-components.design/cards/",
+      "Block Links, Cards, Clickable Regions, Etc. — https://adrianroselli.com/2020/02/block-links-cards-clickable-regions-etc.html",
+      "More Accessible Skeletons — https://adrianroselli.com/2020/11/more-accessible-skeletons.html",
+      "WAI-ARIA APG, Link — https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+    ],
+    "sourceSpec": "Ficha del nph-card; Figma, marco nph-card (6516:13647)",
+    "sourceApi": "Ficha del nph-card; docs/decisoes-tecnicas.md › P130"
+  },
   "schedulerDocs": {
     "summary": "El calendario de eventos: las vistas de semana laboral, semana, día, mes y lista, en el escritorio y en el celular, con un panel lateral opcional, una barra de herramientas y el evento que abre su detalle al lado.",
     "onThisPage": "En esta página",
@@ -16038,5 +16482,1412 @@
     "expand": "Expandir panel",
     "collapseList": "Colapsar la lista",
     "expandList": "Expandir la lista"
+  },
+  "carouselValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleGallery": "Galería de imágenes",
+    "exampleFeatured": "Tarjetas destacadas",
+    "exampleMany": "Muchas diapositivas",
+    "statusIdle": "Esperando una flecha, un indicador, una tecla o un arrastre.",
+    "statusChanged": "nph-slide-change se disparó con detail.index = {index}.",
+    "gallery": "Galería de fotos",
+    "previousLabel": "Diapositiva anterior",
+    "nextLabel": "Diapositiva siguiente",
+    "indicatorsLabel": "Elegir una diapositiva",
+    "slideLabel": "Diapositiva {position} de {total}",
+    "pageLabel": "Ir a la página {position}",
+    "positionLabel": "{position} de {total}",
+    "featuredLabel": "Tarjetas destacadas",
+    "manyLabel": "Pasos del recorrido"
+  },
+  "carouselDocs": {
+    "summary": "Una franja de diapositivas en la que aparece una parte a la vez. La persona avanza con las flechas, con los indicadores o arrastrando. No gira sola y no esconde contenido importante.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-carousel, design.md para los tokens y docs/decisoes-tecnicas.md para la P129. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para una secuencia corta de contenido parecido en la que ver una diapositiva a la vez basta, como una galería de imágenes, tarjetas destacadas o pasos de bienvenida.",
+      "Peek cuando quieres dejar claro que hay más diapositivas: el borde de la vecina invita a seguir. Es el layout recomendado.",
+      "Una sola cuando una a la vez basta; varias cuando ver algunas diapositivas al mismo tiempo ayuda a elegir.",
+      "Con tres a cinco diapositivas, mantén los indicadores; con más de cinco, los indicadores salen y entra el contador.",
+      "Mantén diapositivas del mismo tipo y de la misma altura, para que la franja no salte cuando cambia la diapositiva.",
+      "Pon el texto debajo de la imagen, no encima: el contraste sobre una foto no está garantizado.",
+      "Guarda la diapositiva con el evento nph-slide-change y devuélvela por index cuando la posición deba mantenerse."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para una lista o cuadrícula en la que la persona necesita ver o comparar todo: muestra los elementos juntos.",
+      "Para dividir una lista larga en páginas: usa nph-pagination.",
+      "Para alternar entre secciones con nombre de una página: usa nph-tabs.",
+      "Para mostrar el progreso de una tarea: usa nph-progress.",
+      "Para dos diapositivas: muéstralas juntas, lado a lado o en lista; solo sin espacio usa flechas e indicadores con dos elementos.",
+      "Para contenido importante: una diapositiva fuera de la vista rara vez se ve.",
+      "Para rotación automática, carrusel vertical, miniaturas o vuelta al inicio: no existen en la v1.",
+      "Apagar flechas e indicadores juntos, o dejar la secuencia sin indicadores y sin contador."
+    ],
+    "relationsText": "La diapositiva recibe cualquier contenido aprobado y no tiene fondo, contorno ni radio propios: el contenido trae los suyos. La diapositiva del ejemplo es un nph-image del tamaño media y dos líneas de nph-skeleton. Las flechas son instancias del nph-button, así que traen de él el fondo, el hover, el foco y el aspecto deshabilitado.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "layout",
+        "single (por defecto), several o peek, la propiedad layout de Figma. single es una diapositiva entera a la vez; several muestra tantas diapositivas enteras como quepan en el ancho, como mínimo una; peek muestra la diapositiva actual y el borde de la vecina. Reflejada en el atributo."
+      ],
+      [
+        "index",
+        "La primera diapositiva a la vista, contada desde cero. En several la página actual se deriva de ella. Reflejada. Escribirla por código nunca dispara el evento."
+      ],
+      [
+        "hide-arrows",
+        "Apaga las dos flechas. En Figma vienen encendidas, así que la propiedad las apaga."
+      ],
+      [
+        "hide-indicators",
+        "Apaga los indicadores. Enciende counter cuando estén apagados."
+      ],
+      [
+        "counter",
+        "Muestra la posición del total después de la flecha siguiente. Apagado por defecto; por encima de cinco páginas se enciende solo."
+      ],
+      [
+        "label",
+        "El nombre accesible de la región, ya localizado. Sin él vale el aria-label del host."
+      ],
+      [
+        "previous-label y next-label",
+        "Los nombres de las flechas, que también son el texto del tooltip. Sin ellos vale el valor por defecto del idioma de la página."
+      ],
+      [
+        "indicators-label, slide-label, page-label y position-label",
+        "El nombre del grupo de indicadores y las plantillas del indicador, del indicador de una página y del contador y la diapositiva, con los marcadores position y total entre llaves."
+      ],
+      [
+        "slot",
+        "Las diapositivas: los hijos elemento directos, dos o más, con contenido libre. El carrusel no escribe atributos en ellos."
+      ],
+      [
+        "nph-slide-change",
+        "Evento, disparado cuando la persona cambia la diapositiva, una vez por cambio. Sube por el árbol y no es cancelable. detail.index es la primera diapositiva a la vista."
+      ],
+      [
+        "vuelta al inicio, rotación, vertical y miniaturas",
+        "No existen en la v1."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-carousel layout=\"peek\" label=\"Galería de fotos\">\n  <div>Diapositiva 1</div>\n  <div>Diapositiva 2</div>\n  <div>Diapositiva 3</div>\n</nph-carousel>",
+    "usageTag": "La etiqueta de la pieza. Las diapositivas son sus hijos directos; el carrusel toma el ancho de su contenedor. Dale un label, ya localizado.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, frame nph-carousel (5173:1429); docs/decisoes-tecnicas.md › P129",
+    "layoutsTitle": "Layouts",
+    "layoutsText": "Single muestra una diapositiva entera a la vez. Several muestra tantas diapositivas enteras como quepan en el ancho del carrusel; la diapositiva nunca se encoge ni se corta, y por debajo del ancho de una diapositiva la única sigue al contenedor. Peek muestra la diapositiva actual entera y el borde de la vecina, lo que avisa a la persona de que hay más.",
+    "layoutsCaption": "Los tres layouts al inicio de la secuencia.",
+    "layoutsHeader": [
+      "Layout",
+      "Cuándo usar"
+    ],
+    "layoutsList": [
+      [
+        "single",
+        "Una a la vez basta. La diapositiva tiene el ancho del carrusel."
+      ],
+      [
+        "several",
+        "Ver algunas diapositivas al mismo tiempo ayuda a elegir. En este layout cada indicador es una página y el contador cuenta páginas."
+      ],
+      [
+        "peek",
+        "El layout recomendado: el borde de la vecina invita a seguir. Al final aparece el borde de la diapositiva anterior."
+      ]
+    ],
+    "controlsTitle": "Controles",
+    "controlsText": "La barra de controles queda debajo de la franja, nunca sobre la foto. Trae la flecha anterior, los indicadores, la flecha siguiente y el contador. No hay vuelta al inicio, así que la flecha del lado sin diapositiva queda deshabilitada. Por encima de cinco páginas los indicadores salen y entra el contador solo. Mantén al menos uno entre flechas e indicadores encendido.",
+    "controlsCaption": "Flechas e indicadores; solo indicadores; el contador en lugar de los indicadores.",
+    "sourceLayouts": "Ficha del nph-carousel; Figma, frame nph-carousel (5173:1429)",
+    "sourceControls": "Ficha del nph-carousel; docs/decisoes-tecnicas.md › P129",
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Tecla o acción",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Recorre la flecha anterior, los indicadores (una sola parada, en el actual) y la flecha siguiente. Los enlaces y botones de la diapositiva a la vista siguen el orden del contenido."
+      ],
+      [
+        "Enter o Espacio en una flecha",
+        "Va a la posición anterior o siguiente. Una flecha deshabilitada sale del orden del Tab; cuando la flecha con foco se deshabilita, el foco pasa al indicador actual."
+      ],
+      [
+        "Izquierda y Derecha en un indicador",
+        "Mueven el foco y muestran la diapositiva. En texto de derecha a izquierda se espejan."
+      ],
+      [
+        "Home y End",
+        "Van al primer y al último indicador y muestran esa diapositiva."
+      ],
+      [
+        "Clic o toque en un indicador",
+        "Muestra la diapositiva de ese indicador."
+      ],
+      [
+        "Arrastrar o deslizar en la franja",
+        "Cambia la diapositiva un paso. Nunca es la única vía: flechas e indicadores hacen lo mismo."
+      ],
+      [
+        "Foco al cambiar de diapositiva",
+        "Se queda en el control usado. La nueva diapositiva se anuncia con cortesía."
+      ],
+      [
+        "Movimiento reducido",
+        "El cambio de diapositiva es instantáneo."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Franja",
+        "Muestra las diapositivas lado a lado y corta lo que pasa de su ancho, con carousel/slide-gap entre ellas."
+      ],
+      [
+        "Diapositiva",
+        "Recibe el contenido. Sin fondo, contorno ni radio propios."
+      ],
+      [
+        "Peek",
+        "El borde de la vecina, con carousel/peek-size de ancho, solo en el layout peek."
+      ],
+      [
+        "Barra de controles",
+        "Una fila centrada debajo de la franja, con carousel/control-gap entre las partes y carousel/controls-offset de la franja."
+      ],
+      [
+        "Flecha",
+        "El nph-button secundario, sólido y circular, con un chevron en carousel/control-foreground."
+      ],
+      [
+        "Indicador",
+        "Un punto de carousel/indicator-size en un objetivo de carousel/indicator-target-size; el actual es una píldora más ancha en el color de la marca. Los objetivos se tocan."
+      ],
+      [
+        "Contador",
+        "El texto posición de total, en text/label-md y carousel/counter-foreground."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Una región con aria-roledescription carousel. La franja es aria-live polite. Los indicadores son un tablist de botones tab con aria-selected y aria-controls; cada diapositiva es un tabpanel con aria-roledescription slide, nombrado posición de total. Una diapositiva fuera de la vista es inert."
+      ],
+      [
+        "Nombre accesible",
+        "La región usa label. Las flechas usan previous-label y next-label. Cada indicador se llama Diapositiva N de total, y en el layout varias Ir a la página N."
+      ],
+      [
+        "Foco visible",
+        "El indicador muestra un borde focus/border fuera del objetivo y un halo más allá, sin fondo de hover. La flecha muestra el foco del nph-button."
+      ],
+      [
+        "Contraste",
+        "Los indicadores y el icono de la flecha pasan 3:1; el contador pasa 4,5:1. El indicador actual no tiene hover, porque fallaría sobre el fondo del hover."
+      ],
+      [
+        "El color no es la única señal",
+        "El indicador actual es más ancho; la flecha deshabilitada muestra el final; el contador dice la posición en texto."
+      ],
+      [
+        "Objetivo táctil",
+        "El objetivo del indicador es 24 por 24; la flecha tiene la altura de control por defecto."
+      ],
+      [
+        "Alternativa al arrastre",
+        "Flechas e indicadores cambian la diapositiva con un toque, así que al menos uno de los dos queda encendido (WCAG 2.5.7)."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleGallery": "Galería de imágenes: peek, en el medio de la secuencia, con flechas e indicadores.",
+    "exampleFeatured": "Tarjetas destacadas: varias, al inicio; la flecha anterior deshabilitada muestra que no hay nada antes.",
+    "exampleMany": "Una secuencia con más diapositivas de las que caben los indicadores: el contador dice el total.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-carousel — función, layouts, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P129 (API y semántica), P01, P02, P03, P116 y P127.",
+      "design.md — los tokens carousel/*, focus/border, focus/halo, motion/state-duration y text/label-md.",
+      "WAI-ARIA Authoring Practices — patrones Carousel y Tabs.",
+      "Figma DS-IA-NEPHOS 5.0 — frame de documentación del nph-carousel (5173:1429) y conjuntos 5165:1094, 5164:771 y 5164:687.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-carousel; Figma, frame nph-carousel (5173:1429)",
+    "sourceApi": "Ficha del nph-carousel; docs/decisoes-tecnicas.md › P129",
+    "sourceKeyboard": "Ficha del nph-carousel; WAI-ARIA APG, Carousel y Tabs",
+    "sourceAnatomy": "Ficha del nph-carousel; Figma, frame nph-carousel (5173:1429)",
+    "sourceAccessibility": "Ficha del nph-carousel; WCAG 2.2",
+    "matrixLabel": "nph-carousel por layout y posición",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "gallery": "Galería de fotos",
+    "previousLabel": "Diapositiva anterior",
+    "nextLabel": "Diapositiva siguiente",
+    "indicatorsLabel": "Elegir una diapositiva",
+    "slideLabel": "Diapositiva {position} de {total}",
+    "pageLabel": "Ir a la página {position}",
+    "positionLabel": "{position} de {total}",
+    "featuredLabel": "Tarjetas destacadas",
+    "manyLabel": "Pasos del recorrido"
+  },
+  "timelineValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "processLabel": "Pasos de la solicitud de compra",
+    "historyLabel": "Actividad de la solicitud de compra",
+    "declinedLabel": "Aprobación de la solicitud de compra",
+    "personLabel": "Actividad por persona",
+    "typeLabel": "Actividad por tipo de evento",
+    "completedLabel": "Completado",
+    "currentLabel": "Paso actual",
+    "errorLabel": "Error",
+    "warningLabel": "Advertencia",
+    "pendingLabel": "En espera",
+    "loadingLabel": "Cargando eventos",
+    "moreLabel": "Mostrar más",
+    "newLabel": "{count} eventos nuevos",
+    "loadedLabel": "{count} eventos anteriores cargados",
+    "emptyHeading": "Aún no hay eventos",
+    "emptyDescription": "Los eventos de esta solicitud aparecen aquí.",
+    "action": "Ver detalles",
+    "steps": [
+      "Solicitud enviada",
+      "Revisión del gerente",
+      "Verificación del presupuesto",
+      "Orden de compra",
+      "Entrega"
+    ],
+    "events": [
+      "Solicitud creada",
+      "Cantidad editada",
+      "Estado cambiado a En revisión",
+      "Comentario agregado",
+      "Archivo adjunto"
+    ],
+    "eventTypes": [
+      "Creación",
+      "Edición",
+      "Cambio de estado",
+      "Comentario",
+      "Archivo"
+    ],
+    "whens": [
+      "8 nov, 09:12",
+      "8 nov, 10:05",
+      "9 nov, 14:30",
+      "10 nov, 08:40",
+      "11 nov, 16:20"
+    ],
+    "whoAna": "Ana Souza",
+    "whoBruno": "Bruno Lima",
+    "whoCarla": "Carla Dias",
+    "whoFinance": "Finanzas",
+    "whoProcurement": "Compras",
+    "longTitle": "Solicitud de renovación anual de la licencia del software de diseño para todo el equipo de producto, con la nueva tabla de precios adjunta",
+    "description": "Dos portátiles para el equipo de diseño, que se entregarán en la oficina de Recife.",
+    "declinedTitle": "Solicitud rechazada",
+    "declinedReason": "El importe supera el límite trimestral del departamento. Envíe una nueva solicitud con una cantidad menor.",
+    "noteHeading": "Nota de entrega",
+    "noteDescription": "Deje las cajas en el muelle de carga.",
+    "summaryHeading": "Resumen del pedido",
+    "summaryKeyItem": "Artículo",
+    "summaryValueItem": "2 portátiles",
+    "summaryKeyTotal": "Total",
+    "summaryValueTotal": "USD 2.400",
+    "summaryAction": "Editar"
+  },
+  "timelineDocs": {
+    "summary": "Una lista vertical de eventos en orden, unidos por una línea conectora, cada uno con un marcador, un título y una línea de meta. Muestra en qué punto está un proceso o qué le pasó a un registro. Registra y no navega.",
+    "onThisPage": "En esta página",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-timeline, design.md para los tokens y docs/decisoes-tecnicas.md para la P132. El archivo DS-IA-NEPHOS 5.0 en Figma es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Los pasos de un proceso en orden, como una solicitud y su aprobación, con el estado de cada paso: use el tipo process.",
+      "El historial de actividad de un registro, del más reciente al más antiguo, con quién lo hizo y cuándo: use el tipo history, con el punto.",
+      "Cuando importa quién lo hizo: use el marcador avatar. Cuando importa el tipo del evento: use el círculo con un icono.",
+      "Un historial largo: muestre los eventos más recientes y termine la lista con el botón Mostrar más.",
+      "Un evento que pide un siguiente paso: active la acción debajo de su texto, como Ver detalles.",
+      "Mientras los eventos cargan, muestre el estado de carga; sin eventos, muestre el estado vacío."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para guiar a la persona por pasos en los que hace clic: use nph-stepper.",
+      "Para un historial leído en columnas (fecha, quién, qué): use nph-table.",
+      "Para las pestañas de una vista o el lugar en una jerarquía: use nph-tabs o nph-breadcrumb.",
+      "Para mostrar cuánto de una tarea está hecho, sin eventos con nombre: use nph-progress.",
+      "Para un feed que carga al desplazarse: la timeline carga con el botón Mostrar más y no asume el rol de feed.",
+      "Para contenido enriquecido como evento completo: ponga un nph-card, base o section, en el slot debajo del texto; nunca una tarjeta pulsable en un elemento que tiene acción."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "items",
+        "Los eventos, en orden, como una lista de { id, title, description, who, when, datetime, status, marker, icon, avatar, typeLabel, action, actionDisabled }. Solo propiedad: se define desde JavaScript. title es obligatorio y ya viene localizado; description es la línea debajo de él. who y when forman la línea de meta, quién primero, con un punto medio entre ambos; when es la fecha ya formateada por el producto, absoluta o relativa, y datetime es el valor de máquina de su elemento time. typeLabel es el texto oculto que dice el tipo del evento cuando el título no lo dice. action es la etiqueta del botón debajo del texto, y actionDisabled pone solo ese botón bajo la opacidad de deshabilitado. Una lista vacía es el estado vacío, no un error."
+      ],
+      [
+        "type",
+        "process (por defecto) o history. Process son los pasos de un flujo con el estado de cada uno; history son los eventos de un registro. Define el marcador que toma un elemento cuando no nombra ninguno, el círculo en el proceso y el punto en el historial, y nada más: los dos tipos comparten un solo diseño. Se refleja en el atributo."
+      ],
+      [
+        "marker",
+        "Campo de un elemento: dot, circle o avatar. El círculo lleva el estado y, cuando es neutro, el icono del evento; el avatar es un nph-avatar sm con la foto y sin círculo alrededor."
+      ],
+      [
+        "status",
+        "Campo de un elemento: neutral (por defecto), completed, current, pending, error o warning. Solo el círculo tiene estado: en un punto o en un avatar se ignora, con un aviso en desarrollo."
+      ],
+      [
+        "icon",
+        "Campo de un elemento: el icono del tipo de evento del círculo neutro, un nombre del núcleo de nph-icon. El icono de cada otro estado es fijo, así que icon solo se lee en el círculo neutro."
+      ],
+      [
+        "avatar",
+        "Campo de un elemento: la dirección de la foto del marcador avatar. Sin ella, mientras carga y si falla, el avatar muestra el icono user."
+      ],
+      [
+        "label",
+        "El nombre accesible de la lista. Ya viene localizado."
+      ],
+      [
+        "aria-label",
+        "El nombre accesible de la lista cuando no hay label."
+      ],
+      [
+        "labelledBy",
+        "Un título visible que da nombre a la lista, dado como elemento. Solo propiedad: aria-labelledby no atraviesa el shadow root."
+      ],
+      [
+        "has-more",
+        "Muestra el botón Mostrar más después de la lista. La timeline no carga nada: el botón dispara nph-timeline-more, y el producto agrega los eventos anteriores al final de items y apaga has-more en el último lote. Se refleja en el atributo."
+      ],
+      [
+        "loading",
+        "Dibuja filas de skeleton en lugar de los elementos, con aria-busy y el loading-label oculto. Se refleja en el atributo."
+      ],
+      [
+        "live",
+        "La lista recibe eventos sin que la persona actúe, los nuevos al inicio. Activada, el crecimiento de la lista lo anuncia new-label. Se refleja en el atributo."
+      ],
+      [
+        "completed-label, current-label, error-label y warning-label",
+        "El texto oculto que abre un elemento y dice su estado, como Completado y Paso actual. Ya vienen localizados."
+      ],
+      [
+        "pending-label",
+        "La palabra visible que dice que el paso está en espera, al inicio de la línea de meta de un elemento pendiente. Ya viene localizada."
+      ],
+      [
+        "loading-label y more-label",
+        "El texto oculto del estado de carga y la etiqueta del botón Mostrar más. Ya vienen localizados."
+      ],
+      [
+        "new-label y loaded-label",
+        "Los anuncios de eventos nuevos y de los eventos que trajo Mostrar más, ambos con {count}, como {count} eventos nuevos. Ya vienen localizados."
+      ],
+      [
+        "empty-heading y empty-description",
+        "El título y la descripción del estado vacío, que se dibujan cuando la lista no tiene elementos y no está cargando. Ya vienen localizados."
+      ],
+      [
+        "nph-timeline-action",
+        "El evento que dispara la acción de un elemento cuando la persona la activa, con detail { index, id }: la posición desde cero y el id del elemento, o null. Burbujea y es compuesto. Una acción deshabilitada no dispara nada."
+      ],
+      [
+        "nph-timeline-more",
+        "El evento que dispara el botón Mostrar más cuando la persona lo activa, sin detail. Burbujea y es compuesto."
+      ],
+      [
+        "slot con el nombre del id de un elemento",
+        "Contenido enriquecido que se dibuja debajo del texto y de la acción del elemento con ese id, como un nph-card, base o section. La timeline no lo estiliza. Un elemento sin id no tiene slot."
+      ],
+      [
+        "size, orientation y color",
+        "No son propiedades: un solo tamaño, solo vertical, y la lista toma el ancho de donde está. El color viene del estado del elemento y de la marca."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-timeline id=\"request\" label=\"Pasos de la solicitud\" completed-label=\"Completado\" current-label=\"Paso actual\" error-label=\"Error\" warning-label=\"Advertencia\" pending-label=\"En espera\" loading-label=\"Cargando eventos\" more-label=\"Mostrar más\" new-label=\"{count} eventos nuevos\" loaded-label=\"{count} eventos anteriores cargados\" empty-heading=\"Aún no hay eventos\" empty-description=\"Los eventos de esta solicitud aparecen aquí.\"></nph-timeline>\n<script>\n  request.items = [\n    { title: 'Solicitud enviada', who: 'Ana Souza', when: '8 nov, 09:12', datetime: '2026-11-08T09:12', status: 'completed' },\n    { title: 'Revisión del gerente', who: 'Bruno Lima', when: '8 nov, 10:05', datetime: '2026-11-08T10:05', status: 'current' },\n    { title: 'Verificación del presupuesto', who: 'Finanzas', status: 'pending' },\n  ];\n</script>",
+    "usageTag": "La etiqueta de la pieza. Los eventos llegan como datos en la propiedad items, definida desde JavaScript, y cada palabra que muestra la lista llega ya localizada por atributo. El contenido enriquecido va en un slot con el nombre del id de su elemento.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, frame nph-timeline (5237:3423); docs/decisoes-tecnicas.md › P132",
+    "typesTitle": "Tipos",
+    "typesCaption": "El tipo process con cuatro pasos y el tipo history con cuatro eventos.",
+    "typesUseHeader": [
+      "Tipo",
+      "Qué muestra"
+    ],
+    "typesUse": [
+      {
+        "value": "process",
+        "label": "Los pasos de un flujo, como una solicitud y su aprobación, cada uno con su estado: elementos de círculo con los pasos completados, el actual y los pendientes. Es el valor por defecto."
+      },
+      {
+        "value": "history",
+        "label": "Los eventos de un registro, del más reciente al más antiguo, con quién lo hizo y cuándo: elementos de punto, neutros. Para el avatar o para un círculo con icono, indique el marcador en el elemento."
+      }
+    ],
+    "types": [
+      "Los dos tipos comparten un solo diseño. El tipo solo define el marcador que toma un elemento cuando no nombra ninguno.",
+      "La línea conectora une un marcador con el siguiente y llega hasta el final del elemento. El último elemento no la tiene, para que no apunte a un evento que no existe; un evento único es un elemento, sin línea.",
+      "La lista toma el ancho de donde está y no tiene desplazamiento propio. El título y la descripción se parten en líneas y el elemento crece, sin corte y sin puntos suspensivos.",
+      "La lista más pequeña es un evento único, y no hay tope: una lista larga termina con el botón Mostrar más. Un historial leído en columnas (fecha, quién, qué) no es una timeline: use nph-table."
+    ],
+    "markersTitle": "Marcadores y estados",
+    "markersCaption": "Los seis estados del círculo, el punto y el avatar con y sin foto.",
+    "markersUseHeader": [
+      "Marcador o estado",
+      "Qué muestra"
+    ],
+    "markersUse": [
+      {
+        "value": "dot",
+        "label": "La forma densa del historial: un pequeño punto decorativo en el color de la marca. No tiene estado."
+      },
+      {
+        "value": "circle",
+        "label": "Un círculo tonal que lleva el estado del elemento y, cuando es neutro, el icono del tipo de evento. Es el valor por defecto del tipo process."
+      },
+      {
+        "value": "avatar",
+        "label": "El nph-avatar sm de quien lo hizo, con la foto en avatar y el icono user cuando no la hay. Sin círculo alrededor y sin estado."
+      },
+      {
+        "value": "neutral",
+        "label": "El círculo con el icono del tipo de evento en icon, como un comentario. Es el estado por defecto."
+      },
+      {
+        "value": "completed",
+        "label": "Un check en el círculo tonal. El paso está hecho."
+      },
+      {
+        "value": "current",
+        "label": "Un punto en el centro del círculo tonal y un título más fuerte. Es donde está el proceso, y aria-current lo marca en el tipo process."
+      },
+      {
+        "value": "pending",
+        "label": "Un círculo hueco con un contorno fino y la palabra de espera en la línea de meta. El paso no ha empezado, y su línea conectora queda neutra."
+      },
+      {
+        "value": "error",
+        "label": "Un círculo con una cruz sobre el fondo de error y un contorno discreto. El paso falló, y el motivo va en la descripción."
+      },
+      {
+        "value": "warning",
+        "label": "Un triángulo sobre el fondo de advertencia y un contorno discreto. El paso necesita atención."
+      }
+    ],
+    "markers": [
+      "Solo el círculo tiene estado. En un punto o en un avatar el status se ignora, con un aviso en desarrollo, para que el estado nunca dependa de un marcador que no puede mostrarlo.",
+      "Cada estado tiene una señal además del color: el check, el punto central con el título fuerte, el círculo hueco con la palabra de espera, la cruz y el triángulo. El marcador está oculto para la tecnología de asistencia, así que el estado también está escrito en el texto del elemento.",
+      "El icono de un estado es fijo. El icono del tipo de evento solo se lee en el círculo neutro, en el peso light, y el typeLabel oculto dice el tipo cuando el título no lo dice.",
+      "La línea conectora toma el color de la marca en los elementos neutro, completado, actual, con error, con advertencia y avatar; la línea de un elemento pendiente queda neutra."
+    ],
+    "contentTitle": "Contenido de un elemento",
+    "contentCaption": "Una descripción, una acción deshabilitada, y un nph-card base y un nph-card section en el slot de un elemento.",
+    "content": [
+      "El título es obligatorio y se parte en tantas líneas como necesite, sin corte y sin puntos suspensivos. La fila del título tiene al menos la altura del marcador, así que el título queda en el medio de ella.",
+      "La descripción es la línea debajo del título. Apáguela cuando el título baste.",
+      "La línea de meta muestra quién y cuándo, quién primero, con un punto medio entre ambos. La fecha es un elemento time con su valor de máquina en datetime, y su texto es la fecha absoluta y, si el producto lo quiere, la relativa. El elemento pendiente abre la línea con la palabra de espera y luego la persona a la que se espera.",
+      "La acción es un nph-button secondary ghost debajo del texto, con una etiqueta que viene del contexto, como Ver detalles. Deshabilitada, solo atenúa el botón, y el elemento conserva el marcador, la línea conectora y los colores. El elemento en sí nunca es pulsable.",
+      "El contenido enriquecido va en el slot con el nombre del id del elemento, debajo del texto y de la acción. Use un nph-card, base o section; nunca la tarjeta pulsable en un elemento que tiene acción, ya que nada interactivo va dentro de una tarjeta pulsable. La timeline no estiliza el slot."
+    ],
+    "loadingTitle": "Carga, Mostrar más y vacío",
+    "loadingCaption": "Mostrar más después de la lista, el estado de carga y el estado vacío.",
+    "loading": [
+      "Una lista larga muestra los eventos más recientes y termina con el botón ghost Mostrar más, fuera de la lista y alineado con la columna del marcador. La timeline no carga nada: el botón dispara nph-timeline-more, y el producto agrega los eventos anteriores al final de items y apaga has-more en el último lote.",
+      "Mostrar más siempre lo anuncia loaded-label, con el número de eventos que llegaron. El foco se queda en el botón mientras hay más eventos. En el último lote el botón desaparece y el foco pasa al primer elemento nuevo, para que no caiga en el body.",
+      "Con live activada, una lista que recibe eventos sin que la persona actúe anuncia el crecimiento con new-label, en una región cortés corta fuera de la lista. La lista entera nunca se vuelve una región viva.",
+      "Mientras los eventos cargan, loading dibuja filas de skeleton en lugar de los elementos, con aria-busy en la lista y un loading-label oculto.",
+      "Una lista sin elementos que no está cargando dibuja el nph-empty, con un título y una descripción del contexto. No queda ninguna lista vacía.",
+      "La timeline no carga al desplazarse y no tiene rol de feed. No anima, así que no hay nada que quitar con movimiento reducido."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab y Shift+Tab",
+        "Mueven el foco por las acciones de los elementos, en el orden de la lista, y después por Mostrar más. El elemento, el marcador, la línea conectora, el texto y la fecha no reciben foco."
+      ],
+      [
+        "Enter y Espacio",
+        "Los del nph-button de la acción o de Mostrar más. El elemento no responde a ninguna tecla."
+      ],
+      [
+        "Flechas",
+        "No hacen nada: la lista no es un widget compuesto."
+      ],
+      [
+        "Esc",
+        "No se aplica: nada se abre."
+      ],
+      [
+        "Puntero",
+        "El elemento no tiene estado de hover, pulsado o foco y no es pulsable. Hover y foco son solo de los botones, y el texto del elemento sigue siendo seleccionable."
+      ],
+      [
+        "Foco después de Mostrar más",
+        "El foco se queda en Mostrar más mientras hay más eventos. En el último lote el foco pasa al primer elemento nuevo, que recibe tabindex -1 solo mientras guarda el foco."
+      ]
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "La timeline va sobre el fondo de la página o dentro de una tarjeta, con los mismos tokens, y no tiene fondo, borde ni margen propios.",
+      "Está hecha de nph-icon (los iconos del marcador), nph-avatar (el marcador avatar), nph-separator (la línea conectora), nph-button (la acción y Mostrar más), nph-skeleton (carga) y nph-empty (vacío).",
+      "El marcador avatar es el nph-avatar sm, con la esquina del avatar y sin círculo alrededor. La línea conectora es el nph-separator vertical, con el grosor del separador y el color del elemento.",
+      "No sustituye al nph-stepper, que guía a la persona por pasos en los que hace clic y numera cada uno: la timeline registra y no navega. Un historial leído en columnas es nph-table.",
+      "El contenido enriquecido debajo del texto es un nph-card, base o section."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Elemento",
+        "Horizontal, alineado al inicio, a todo el ancho y con la altura de su contenido: primero la columna del marcador y después el contenido, con un espacio entre ambos."
+      ],
+      [
+        "Columna del marcador",
+        "24 de ancho, con el marcador arriba y centrado, y la línea conectora debajo."
+      ],
+      [
+        "Marcador",
+        "El punto (8), el círculo (24) o el avatar (sm), con el glifo en el centro. Oculto para la tecnología de asistencia."
+      ],
+      [
+        "Línea conectora",
+        "Un nph-separator vertical, de 1 px en un píxel entero en el centro de la columna del marcador, con un pequeño espacio debajo del marcador y encima del siguiente, hasta el final del elemento. El último elemento no la tiene."
+      ],
+      [
+        "Fila del título",
+        "El título, en una fila con al menos la altura del marcador. El título actual es fuerte y el pendiente es atenuado."
+      ],
+      [
+        "Descripción",
+        "La línea debajo del título. Opcional."
+      ],
+      [
+        "Línea de meta",
+        "La palabra de espera de un elemento pendiente, luego quién y cuándo, en el rol caption."
+      ],
+      [
+        "Acción",
+        "Un nph-button secondary ghost debajo del texto. Opcional."
+      ],
+      [
+        "Slot",
+        "El contenido enriquecido del elemento, debajo del texto y de la acción."
+      ],
+      [
+        "Mostrar más",
+        "Un nph-button ghost después de la lista, alineado con la columna del marcador."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Una lista ordenada (ol y li) con nombre y sin rol propio. El APG no tiene un patrón de timeline, y el patrón Feed no se aplica, porque la timeline carga con Mostrar más y no al desplazarse. Mostrar más queda fuera de la lista, después de ella."
+      ],
+      [
+        "Nombre accesible",
+        "La lista recibe nombre por label, por aria-label o por un título visible mediante labelledBy. La fecha es un elemento time con datetime."
+      ],
+      [
+        "Estado",
+        "El marcador y la línea conectora están ocultos para la tecnología de asistencia, así que el estado va en el texto del elemento: un texto oculto al inicio dice Completado, Paso actual, Error o Advertencia, y el elemento pendiente ya dice que está en espera. El tipo del evento va en typeLabel cuando el título no lo dice."
+      ],
+      [
+        "Paso actual",
+        "aria-current es step en el li del elemento actual, solo en el tipo process y en un solo elemento. El historial nunca lo tiene."
+      ],
+      [
+        "Región viva",
+        "Una región cortés corta fuera de la lista anuncia la llegada de eventos. La lista entera nunca se vuelve una región viva."
+      ],
+      [
+        "Contraste",
+        "El título, la descripción y la línea de meta alcanzan 4,5:1 en los dos modos y en todas las marcas. El glifo del marcador alcanza 3:1 sobre su superficie, y el contorno del círculo pendiente alcanza 3:1 sobre el fondo. La superficie del marcador y la línea conectora son decorativas."
+      ],
+      [
+        "El color no es la única señal",
+        "Cada estado tiene una señal además del color: el check, el punto central con el título fuerte, el círculo hueco con la palabra de espera, la cruz y el triángulo."
+      ],
+      [
+        "Foco visible y objetivo",
+        "La timeline no recibe foco. El foco y el tamaño del objetivo son los del nph-button de la acción y de Mostrar más."
+      ],
+      [
+        "Carga y vacío",
+        "La carga pone aria-busy en la lista, oculta el skeleton para la tecnología de asistencia y escribe un texto oculto de carga fuera del nodo oculto. El estado vacío es el nph-empty en lugar de la lista."
+      ],
+      [
+        "Movimiento",
+        "La pieza no anima."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: una aprobación rechazada, un historial por persona con una acción y un historial por tipo de evento.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-timeline — propósito, tipos, marcadores, comportamiento, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P132 (API y semántica).",
+      "design.md — los tokens timeline/*.",
+      "DS-IA-NEPHOS 5.0 Figma — página 1626:37, frame de documentación nph-timeline (5237:3423).",
+      "WAI-ARIA APG — patrones, y el patrón Feed, que no se aplica.",
+      "MDN — aria-current y el elemento time."
+    ],
+    "sourceSpec": "Ficha del nph-timeline; Figma, frame nph-timeline (5237:3423)",
+    "sourceApi": "Ficha del nph-timeline; docs/decisoes-tecnicas.md › P132",
+    "sourceAnatomy": "Figma, conjuntos 5216:304 y 5216:701; design.md",
+    "sourceBehavior": "Ficha del nph-timeline; Figma, apéndice (5240:5360)"
+  },
+  "calendarValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "statusIdle": "Elige un día para ver lo que dispara la cuadrícula.",
+    "statusPick": "nph-pick: {date} · inicio {start} · fin {end}",
+    "labels": {
+      "previousMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "previousYear": "Año anterior",
+      "nextYear": "Año siguiente",
+      "previousYears": "12 años anteriores",
+      "nextYears": "Próximos 12 años",
+      "today": "hoy",
+      "selected": "seleccionado",
+      "unavailable": "no disponible"
+    }
+  },
+  "datePickerValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "dueLabel": "Fecha de vencimiento",
+    "startLabel": "Inicio",
+    "endLabel": "Fin",
+    "externalError": "Elige un día hábil.",
+    "statusIdle": "Aún no se envió nada.",
+    "statusChange": "Datos del formulario: {data}",
+    "statusReset": "El formulario volvió a sus valores por defecto.",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "exampleDue": "Fecha de vencimiento: fecha única, rellenada.",
+    "exampleReport": "Periodo del informe: rango abierto, Personalizado elegido, Aplicar en el pie.",
+    "exampleInvalid": "Fecha no válida: 31/02/2026 y el mensaje que dice qué corregir.",
+    "labels": {
+      "previousMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "previousYear": "Año anterior",
+      "nextYear": "Año siguiente",
+      "previousYears": "12 años anteriores",
+      "nextYears": "Próximos 12 años",
+      "today": "hoy",
+      "selected": "seleccionado",
+      "unavailable": "no disponible",
+      "hint": "dd/mm/aaaa",
+      "openCalendar": "Abrir calendario",
+      "clearDate": "Borrar fecha",
+      "dialogDate": "Elegir fecha",
+      "dialogPeriod": "Elegir periodo",
+      "shortcuts": "Atajos",
+      "shortcutToday": "Hoy",
+      "shortcutYesterday": "Ayer",
+      "shortcutLast7Days": "Últimos 7 días",
+      "shortcutLast30Days": "Últimos 30 días",
+      "shortcutThisMonth": "Este mes",
+      "shortcutLastMonth": "Mes pasado",
+      "shortcutCustom": "Personalizado",
+      "clear": "Borrar",
+      "cancel": "Cancelar",
+      "apply": "Aplicar",
+      "period": "{start} al {end}",
+      "errorRequired": "Indica la fecha.",
+      "errorRequiredStart": "Indica la fecha de inicio.",
+      "errorRequiredEnd": "Indica la fecha de fin.",
+      "errorInvalid": "Fecha no válida: revisa el día y el mes.",
+      "errorMin": "La fecha debe ser igual o posterior a {min}.",
+      "errorMax": "La fecha debe ser igual o anterior a {max}.",
+      "errorBetween": "Elige una fecha entre {min} y {max}.",
+      "errorUnavailable": "Esta fecha no está disponible, elige otro día.",
+      "errorEndBeforeStart": "El fin debe ser igual o posterior al inicio ({start})."
+    }
+  },
+  "datePickerDocs": {
+    "summary": "Un campo de fecha con calendario, en dos modos: fecha única, donde elegir el día aplica y cierra, y rango, con campos de inicio y fin, siete atajos, dos meses y un pie con Aplicar. Sigue el nph-date-picker aceptado en Figma, con la cuadrícula de fechas nph-calendar, que el scheduler reutilizará.",
+    "onThisPage": "En esta página",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las preguntas que la diseñadora aún no respondió están en la tarea y en la P133; el código sigue la regla provisional de cada una.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Cuando un formulario pide una fecha que la persona escribe o revisa en el calendario: una fecha de vencimiento, una fecha de agenda, la fecha de emisión de un documento.",
+      "Cuando un periodo cuyo inicio y fin van juntos necesita confirmación, como el periodo de un informe, una vigencia o unas vacaciones: usa el modo rango, con Aplicar.",
+      "Para una fecha que la persona sabe de memoria y que está lejos de hoy, como una fecha de nacimiento: el campo acepta escritura, y el calendario está solo en el botón.",
+      "default en un formulario común; compact en una pantalla densa con puntero; large en una pantalla táctil, para todos los campos del formulario.",
+      "Define min y max cuando las fechas fuera de una ventana no se permiten, y unavailable para fechas cerradas por una regla, como un festivo."
+    ],
+    "whenNotToUse": [
+      "Para dos campos de fecha única en el inicio y el fin de un periodo: usa el modo rango, que aplica las dos fechas juntas.",
+      "Para compact en una pantalla táctil: 28 es pequeño para un dedo; usa large.",
+      "Para el calendario como único camino a una fecha que la persona sabe de memoria: el campo debe aceptar escritura, y la acepta.",
+      "Para elegir solo un mes, solo un año, una semana, un trimestre o una hora: esos tipos están fuera del componente.",
+      "Para una cuadrícula de fechas que queda en la página sin campo y sin panel: usa el nph-calendar.",
+      "Para eventos dispuestos sobre los días: usa el nph-scheduler."
+    ],
+    "relationsText": "El campo es el nph-field con el nph-input, el botón de calendario es un nph-button solo de icono con su tooltip, la cuadrícula es el nph-calendar, los atajos son nph-option y el pie es nph-button y nph-separator. El selector de fecha los coloca y no cambia ninguno. Elegir un mes, un año, una semana o una hora queda fuera del componente.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "mode",
+        "single (por defecto) o range, la propiedad de Figma para el modo. Se refleja. Un valor fuera de la lista no dibuja nada y emite console.error en desarrollo."
+      ],
+      [
+        "size",
+        "compact (28), default (36, el por defecto) o large (44), la altura del campo y del botón de calendario. Se refleja. El campo compact abre el panel por defecto."
+      ],
+      [
+        "value, start, end",
+        "La fecha de un selector único, o el inicio y el fin de un rango, escritos como AAAA-MM-DD. Las escribe la persona; asignarlas por código no dispara nada."
+      ],
+      [
+        "min, max",
+        "El primer y el último día que se pueden elegir. Un día fuera de ellos se atenúa, el foco lo salta y no se puede elegir."
+      ],
+      [
+        "unavailable",
+        "Una lista de AAAA-MM-DD, o una función que lo dice para una fecha, para una fecha no disponible por regla, como un festivo. Recibe foco y nunca se elige. Solo propiedad."
+      ],
+      [
+        "label, start-label, end-label",
+        "La etiqueta visible de cada campo, ya localizada. Es también el nombre accesible del texto."
+      ],
+      [
+        "error, start-error, end-error",
+        "Un error que controla la pantalla, mostrado en su campo cuando la pieza no tiene uno propio. Deshabilitado gana."
+      ],
+      [
+        "required, disabled",
+        "Van a todos los campos. Un campo obligatorio vacío es error y valueMissing; deshabilitado atenúa el campo y el botón de calendario y no abre el panel."
+      ],
+      [
+        "name, start-name, end-name",
+        "Los nombres de las entradas en los datos del formulario: name para fecha única, start-name y end-name para rango."
+      ],
+      [
+        "open",
+        "El panel está abierto. Se refleja. La pieza abre y cierra; el consumidor puede asignar. Abrir y cerrar no disparan evento."
+      ],
+      [
+        "week-start, now",
+        "sunday (por defecto) o monday. now es la fecha de hoy, para pruebas e historias; ausente, el reloj de la máquina."
+      ],
+      [
+        "labels",
+        "Todo texto que la pieza escribe, ya localizado, como un objeto. La pieza no escribe palabra propia: un objeto sin ninguna clave no dibuja nada y emite console.error, y una clave que falta en un objeto que tiene otras dibuja igual y emite console.error una vez."
+      ],
+      [
+        "change",
+        "Evento en el host, cuando una fecha se aplica o se escribe, o se aplica el periodo. Lee el valor en el host. Los eventos del texto interno nunca salen de la pieza."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-date-picker label=\"Due date\" name=\"due\" value=\"2026-10-20\"></nph-date-picker>\n<script type=\"module\">\n  const picker = document.querySelector('nph-date-picker');\n  picker.labels = { hint: 'mm/dd/yyyy', openCalendar: 'Open calendar' /* …every key */ };\n</script>",
+    "usageTag": "El selector trae su propio campo: la etiqueta es la propiedad label, la pista es la línea de apoyo, y todo otro texto va en labels, ya localizado.",
+    "usageImport": "Registra el componente con sus estilos, el nph-calendar y las piezas que dibuja. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "ficha del nph-date-picker; docs/decisoes-tecnicas.md › P133",
+    "modesTitle": "Modos y tamaños",
+    "modesText": "La fecha única tiene un campo y un mes; elegir el día aplica y cierra. El rango tiene los campos Inicio y Fin, lado a lado, con un botón de calendario, en Fin; su panel tiene los atajos, dos meses y un pie, y el periodo solo vale al Aplicar. El tamaño es la altura del campo: compact para pantalla densa con puntero, default en el formulario común, large en la pantalla táctil.",
+    "modesCaption": "Una fecha única y un rango.",
+    "modesHeader": [
+      "Modo o tamaño",
+      "Regla"
+    ],
+    "modes": [
+      [
+        "single",
+        "Un campo, un mes. Elegir un día escribe la fecha, dispara change y cierra; el foco vuelve al botón de calendario."
+      ],
+      [
+        "range",
+        "Inicio y Fin, dos meses, siete atajos y el pie. Las elecciones quedan en el panel hasta Aplicar; Cancelar, Esc y un clic fuera las descartan."
+      ],
+      [
+        "range, estrecho",
+        "Cuando la viewport no cabe el panel del tamaño en uso más el margen de la página, el rango muestra un mes, con los atajos arriba."
+      ],
+      [
+        "compact, default, large",
+        "28, 36 y 44 px de alto. El campo compact abre el panel por defecto; el large abre el grande, con el día de 44 y los botones del pie en el tamaño por defecto."
+      ]
+    ],
+    "sourceModes": "ficha del nph-date-picker; Figma, conjunto nph-date-picker (6666:32)",
+    "panelTitle": "El panel",
+    "panelText": "El panel es una superficie propia en la capa superior, 4 px debajo del campo y alineada con su inicio. Se voltea hacia arriba cuando no cabe abajo y se encoge con scroll interno cuando no cabe por ningún lado. No es modal: el Tab no queda atrapado.",
+    "panelCaption": "El panel de un rango, abierto.",
+    "panelHeader": [
+      "Parte o comportamiento",
+      "Regla"
+    ],
+    "panel": [
+      [
+        "Apertura",
+        "Enter o Espacio en el botón de calendario. El foco va a la fecha del campo, a hoy, o al día permitido más cercano cuando hoy está fuera del límite. Un panel abierto por el marcado no recibe foco."
+      ],
+      [
+        "Cierre",
+        "Esc cierra sin cambiar y el foco vuelve al botón. Un clic fuera cierra como Cancelar. El Tab después del último elemento cierra como Cancelar y el foco vuelve al botón."
+      ],
+      [
+        "Atajos",
+        "Hoy, Ayer, Últimos 7 días, Últimos 30 días, Este mes, Mes pasado y Personalizado, en una lista que es una parada de Tab. Elegir uno rellena la franja y espera el Aplicar; Personalizado no cambia nada."
+      ],
+      [
+        "Selección",
+        "La primera elección es el inicio, la segunda el fin; un fin antes del inicio reordena; una tercera elección recomienza; un día es un periodo válido; Aplicar sin nada elegido aplica un periodo vacío."
+      ],
+      [
+        "Pie",
+        "Borrar vacía la selección en el panel y sigue abierto; Cancelar cierra sin aplicar; Aplicar escribe los dos campos, dispara change y cierra."
+      ],
+      [
+        "Cuadrícula",
+        "Seis filas de semana, los días fuera del mes mostrados, una parada de Tab por mes, las flechas pasando de un mes al otro. El título de un mes abre los meses del año, y el título del año abre doce años."
+      ]
+    ],
+    "sourcePanel": "fichas del nph-date-picker y del nph-calendar; P133",
+    "typingTitle": "Escribir una fecha",
+    "typingText": "La persona puede escribir la fecha en vez de elegirla. No hay máscara: el texto se lee cuando la persona sale del campo, y el mensaje llega por el campo, diciendo qué corregir.",
+    "typingHeader": [
+      "Situación",
+      "Qué ocurre"
+    ],
+    "typing": [
+      [
+        "Formato",
+        "Día y mes con o sin cero a la izquierda, año de cuatro dígitos y la barra, en el orden de la lengua de la página. La pista lo dice en palabras, en la línea de apoyo."
+      ],
+      [
+        "Una fecha válida",
+        "Se confirma, se reescribe normalizada, y change dispara una vez. En un rango con el panel abierto, va al panel hasta Aplicar."
+      ],
+      [
+        "Una fecha no válida",
+        "El campo muestra el error y conserva el valor que tenía. El texto escrito queda para que la persona lo corrija."
+      ],
+      [
+        "Fuera del límite",
+        "El mensaje cita el límite: igual o posterior al mínimo, igual o anterior al máximo, o entre los dos."
+      ],
+      [
+        "No disponible por regla",
+        "El mensaje dice que la fecha no está disponible y pide otro día."
+      ],
+      [
+        "Fin antes del inicio",
+        "El mensaje dice que el fin debe ser igual o posterior al inicio; un inicio escrito después del fin recibe el mismo. Un valor escrito nunca se reordena."
+      ]
+    ],
+    "sourceTyping": "ficha del nph-date-picker; P133 › D-4",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Campo",
+        "Un nph-field por fecha: etiqueta, la línea de control y la línea de apoyo con la pista, o el error. 320 de ancho. En el rango, Inicio y Fin quedan a 8 px, alineados arriba."
+      ],
+      [
+        "Línea de control",
+        "El texto, que se estira, y el botón de calendario, 8 px después, de la altura del campo. El botón de borrar es el icono final del texto y solo aparece con valor."
+      ],
+      [
+        "Botón de calendario",
+        "Un botón solo de icono, secundario y ghost, con el tooltip como nombre; el icono calendar en color/muted-foreground, sólido en su propio hover y mientras el panel está abierto."
+      ],
+      [
+        "Panel",
+        "color/popover, contorno de 1 px en date-picker/panel-border, la esquina date-picker/panel-radius y la sombra elevation/dropdown solo en claro. La carcasa no tiene padding."
+      ],
+      [
+        "Atajos",
+        "Una columna de 192 de ancho con date-picker/panel-padding alrededor: siete opciones de 36 sin espacio entre ellas."
+      ],
+      [
+        "Pie",
+        "Un divisor de borde a borde en date-picker/divider, luego Borrar al inicio y Cancelar y Aplicar al final, separados por date-picker/footer-gap."
+      ]
+    ],
+    "sourceAnatomy": "Figma, conjuntos nph-date-picker (6666:32) y panel (6662:56378); design.md",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Nombre y descripción",
+        "La etiqueta del campo es el nombre del texto; la pista es su descripción, enlazada por el campo. El botón de calendario y las flechas se nombran por su tooltip."
+      ],
+      [
+        "Panel",
+        "Un diálogo no modal llamado Elegir fecha o Elegir periodo. Esc cierra y el foco vuelve al botón; el Tab no queda atrapado."
+      ],
+      [
+        "Cuadrícula",
+        "Una cuadrícula nombrada por el mes; cada día es un botón nombrado por la fecha completa, con hoy, seleccionado y no disponible dichos en palabras. Una parada de Tab por mes; las flechas, Page Up, Page Down, Home y End mueven."
+      ],
+      [
+        "No disponible",
+        "Una fecha fuera de los límites se atenúa y el foco la salta. Una fecha no disponible por regla atenúa solo el número, recibe foco con aria-disabled, y Enter no la elige."
+      ],
+      [
+        "Anuncio",
+        "El mes, y el periodo elegido, se anuncian por regiones vivas aparte del botón del título."
+      ],
+      [
+        "Táctil",
+        "Campo y botón miden 28, 36 y 44 px de alto; el día y las flechas, 36 en el panel por defecto y 44 en el grande. En pantalla táctil usa large."
+      ]
+    ],
+    "sourceAccessibility": "ficha del nph-date-picker; nph-date-picker.test.ts",
+    "examplesTitle": "Ejemplos",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "sourceFrame": "ficha del nph-date-picker; Figma, marco nph-date-picker (6673:62837)",
+    "sourceSpec": "ficha del nph-date-picker; Figma, marco nph-date-picker (6673:62837)",
+    "sourceApi": "ficha del nph-date-picker; docs/decisoes-tecnicas.md › P133",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Fichas del nph-date-picker y del nph-calendar — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P133 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens de la cuadrícula y del panel, el foco y la elevación.",
+      "WAI-ARIA APG, Date Picker Dialog — https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/",
+      "React Aria, RangeCalendar — https://react-aria.adobe.com/RangeCalendar",
+      "MUI X, Date Range Picker — https://mui.com/x/react-date-pickers/date-range-picker/"
+    ]
+  },
+  "richOptionValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "cardTitle": "Título de la opción",
+    "cardText": "Explicación breve de lo que hace esta opción.",
+    "longTitle": "Un título muy largo para la elección, que no cabe en una línea de la tarjeta",
+    "longText": "Una segunda línea muy larga que explica la consecuencia de la elección con más palabras de las que caben en una línea.",
+    "planGroup": "Plan",
+    "planMonthlyTitle": "Plan mensual",
+    "planMonthlyText": "Se cobra cada mes. Cancele cuando quiera.",
+    "planAnnualTitle": "Plan anual",
+    "planAnnualText": "Se cobra una vez al año, con dos meses gratis.",
+    "planTeamTitle": "Plan de equipo",
+    "planTeamText": "Para diez personas o más, con facturación compartida.",
+    "planError": "Elija un plan para continuar.",
+    "planHelp": "Puede cambiar el plan más adelante.",
+    "noticesGroup": "Avisos",
+    "noticeMentionsTitle": "Menciones",
+    "noticeMentionsText": "Cuando alguien lo menciona en un comentario.",
+    "noticeDigestTitle": "Resumen semanal",
+    "noticeDigestText": "Un resumen de la semana, todos los lunes.",
+    "noticeSecurityTitle": "Alertas de seguridad",
+    "noticeSecurityText": "Cuando detectamos un inicio de sesión desde un dispositivo nuevo.",
+    "extrasGroup": "Extras",
+    "extraBackupTitle": "Copia de seguridad diaria",
+    "extraBackupText": "Guarda los últimos treinta días de cada proyecto.",
+    "extraSupportTitle": "Soporte prioritario",
+    "extraSupportText": "Respuestas en menos de una hora.",
+    "extraEditorTitle": "Abrir el editor",
+    "extraEditorText": "Inicia un documento nuevo en el editor.",
+    "statusIdle": "Cambie una tarjeta para ver el evento.",
+    "statusChanged": "Cambió: {control}, valor {value}, marcado {checked}.",
+    "formSubmit": "Enviar",
+    "formReset": "Restablecer",
+    "formIdle": "Envíe el formulario para ver qué manda.",
+    "formSent": "El formulario envió: {data}",
+    "formEmpty": "nada",
+    "optionLabel": "Opción",
+    "optionDescription": "Explicación breve de la opción.",
+    "optionSecondary": "@usuario",
+    "selectLabel": "Plan",
+    "selectPlaceholder": "Elija un plan",
+    "selectFreeTitle": "Gratis",
+    "selectFreeText": "Para una persona y un proyecto.",
+    "selectTeamTitle": "Equipo",
+    "selectTeamText": "Para un equipo que comparte proyectos.",
+    "selectCompanyTitle": "Empresa",
+    "selectCompanyText": "Se factura por contrato.",
+    "selectPlainTitle": "Opción simple",
+    "peopleLabel": "Responsables",
+    "peoplePlaceholder": "Elija personas",
+    "peopleAnaName": "Ana Souza",
+    "peopleAnaRole": "Líder de diseño",
+    "peopleBrunoName": "Bruno Lima",
+    "peopleCarlaName": "Carla Rocha",
+    "peopleCarlaRole": "Ingeniería",
+    "peopleDianaName": "Diana Alves",
+    "peopleDianaRole": "Producto",
+    "peopleCreate": "Agregar persona",
+    "peopleRemoveLabel": "Quitar",
+    "examplePlan": "Elección del plan",
+    "exampleNotices": "Activación de avisos",
+    "examplePeople": "Asignación de personas en el combobox"
+  },
+  "richOptionDocs": {
+    "summary": "La tarjeta de una elección de formulario, con un título y una descripción, en la que la tarjeta entera marca la opción. Una casilla, un radio o un switch queda al inicio. El grupo son varias tarjetas de un mismo control, dentro de un nph-field que lo nombra. En una lista, el mismo aspecto rico es el nph-option con rich.",
+    "matrixLabel": "Matriz del componente",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-rich-option, design.md para los tokens y docs/decisoes-tecnicas.md para la P134. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "onThisPage": "En esta página",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando cada elección de un formulario necesita una frase que explique la consecuencia, como un plan o una forma de entrega.",
+      "Con control radio, para una elección entre dos y cinco que se excluyen.",
+      "Con control checkbox, para varias elecciones independientes, cada una con su explicación.",
+      "Con control switch, para activar o desactivar una función con efecto inmediato.",
+      "Como opción rica de una lista, con rich en nph-option, cuando solo el rótulo no basta para elegir."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para una lista simple de opciones sin explicación: use nph-radio o nph-checkbox.",
+      "Para mezclar controles en el mismo grupo: use solo radios, solo casillas o solo switches.",
+      "Con atajo en una tarjeta con switch: el switch ya actúa al hacer clic.",
+      "Para más de cinco elecciones exclusivas: use nph-select, o nph-combobox por encima de quince.",
+      "Para una acción que necesita un botón: la tarjeta elige, nunca ejecuta un comando."
+    ],
+    "relationsText": "Arriba, el nph-field nombra el grupo, como Plan, dice que es obligatorio y lleva el mensaje de error: la tarjeta nunca muestra una frase propia. Dentro, el control se dibuja como indicador, con el icono y el atajo. En una lista, la opción rica es el nph-option con rich, en nph-select, nph-combobox y nph-multi-combobox.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "control",
+        "checkbox (predeterminado), radio o switch. Se refleja. Cualquier otro valor no dibuja nada y registra un error en desarrollo."
+      ],
+      [
+        "checked",
+        "El estado actual. No se refleja. El atributo checked es el estado inicial y al que vuelve form.reset(). Definirlo por código desmarca las otras tarjetas de un grupo radio y no dispara ningún evento."
+      ],
+      [
+        "name",
+        "El grupo de una tarjeta radio y la clave en el formulario. Se refleja. Las tarjetas radio con el mismo name, en la misma raíz y el mismo formulario, son un grupo."
+      ],
+      [
+        "value",
+        "Lo que envía una tarjeta checkbox o radio marcada; on por defecto. Se refleja. Una tarjeta con switch no envía nada."
+      ],
+      [
+        "text",
+        "El título, ya localizado, y el nombre accesible del control. Se ajusta. Obligatorio."
+      ],
+      [
+        "description",
+        "La segunda línea, ya localizada, y la descripción accesible del control. Vacío la apaga."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon, dibujado en light después del control. Vacío lo apaga."
+      ],
+      [
+        "shortcut",
+        "Las teclas de la indicación, separadas por espacios, cada una en un nph-kbd. Vacío lo apaga. Nunca con el switch. No asigna ninguna tecla."
+      ],
+      [
+        "keyShortcuts",
+        "El valor de aria-keyshortcuts (el atributo es key-shortcuts), solo cuando el producto asigna la tecla. Una tarjeta deshabilitada no anuncia ninguno."
+      ],
+      [
+        "invalid",
+        "El contorno de error. Solo visual: el mensaje es del nph-field. disabled gana sobre él. Se refleja."
+      ],
+      [
+        "disabled",
+        "Toda la tarjeta en rich-option/disabled-opacity, fuera del orden de Tab y sin clic. Se refleja."
+      ],
+      [
+        "input, change",
+        "Disparados en el host, en este orden, cuando la persona marca o alterna la tarjeta. Un cambio por código no dispara ninguno."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-rich-option control=\"radio\" name=\"plan\" value=\"annual\" text=\"Plan anual\" description=\"Se cobra una vez al año.\"></nph-rich-option>",
+    "usageTag": "Una tarjeta de un grupo radio: las tarjetas del grupo comparten el name y cada una tiene su propio value. No tiene slot: el título y la segunda línea llegan por atributo.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "ficha de nph-rich-option; docs/decisoes-tecnicas.md › P70 y P134",
+    "statesTitle": "Estados",
+    "statesText": "El contorno es decorativo; el control dice la elección. Hover y foco son interacción: pase el mouse sobre una tarjeta, o llegue a ella con Tab.",
+    "statesCaption": "Desmarcado y marcado, en reposo, con error y deshabilitado.",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "El contorno de reposo, dentro de la tarjeta, y el control en su valor predeterminado."
+      ],
+      [
+        "marcado",
+        "Solo cambia el control. El contorno sigue siendo el de reposo."
+      ],
+      [
+        "hover",
+        "Una capa bajo el contenido, a media opacidad. El contorno no cambia, y el control no toma hover propio."
+      ],
+      [
+        "foco",
+        "Solo con el teclado: el contorno pasa al borde de foco y aparece un halo fuera de la tarjeta. El control no toma anillo."
+      ],
+      [
+        "error",
+        "El contorno pasa al de error, marcado o no. Con foco, el contorno sigue siendo el de error y el halo es el halo de error."
+      ],
+      [
+        "disabled",
+        "Toda la tarjeta pierde opacidad y deja de responder. Marcado mantiene el control marcado; el error no se muestra."
+      ]
+    ],
+    "groupTitle": "Grupo y teclado",
+    "groupText": "El grupo no es un elemento: las tarjetas radio con el mismo name, en la misma raíz y el mismo formulario, son un grupo. El nph-field le da el nombre y el error; la tarjeta es dueña de la elección, las flechas y su propia parada de Tab, como el nph-radio.",
+    "groupHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "groupRules": [
+      [
+        "clic, Espacio",
+        "Marca una tarjeta radio, o alterna una tarjeta checkbox o switch, y dispara input y change una vez. Un clic en cualquier punto de la tarjeta cuenta."
+      ],
+      [
+        "Enter",
+        "No marca nada en una tarjeta con checkbox o radio y alterna una tarjeta con switch, como los controles que sigue. No envía el formulario."
+      ],
+      [
+        "Tab",
+        "Un grupo radio es una parada, en la tarjeta marcada o en la primera. Una tarjeta checkbox o switch es una parada cada una."
+      ],
+      [
+        "flechas",
+        "En un grupo radio, mueven el foco a la tarjeta siguiente o anterior que responde, la marcan y dan la vuelta. En una tarjeta checkbox o switch, no hacen nada."
+      ],
+      [
+        "tarjeta radio marcada",
+        "Un clic en ella no cambia nada y no dispara ningún evento; el clic sigue burbujeando."
+      ],
+      [
+        "tarjeta deshabilitada",
+        "Fuera del orden de Tab, saltada por las flechas, y un clic no hace nada."
+      ]
+    ],
+    "formTitle": "Formulario",
+    "formText": "La tarjeta está asociada a formulario, como nph-radio y nph-checkbox: participa en el formulario que la rodea sin un input nativo propio.",
+    "formHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "formRules": [
+      [
+        "envío",
+        "Una tarjeta checkbox o radio marcada entra en el formulario como name=value. Una desmarcada no envía nada."
+      ],
+      [
+        "switch",
+        "Una tarjeta con switch no es miembro del formulario, como tampoco lo es nph-switch."
+      ],
+      [
+        "reset",
+        "Cada tarjeta vuelve a su atributo checked."
+      ],
+      [
+        "fieldset deshabilitado",
+        "Deshabilita la tarjeta y la saca de los datos del formulario."
+      ]
+    ],
+    "richOptionTitle": "Opción rica",
+    "richOptionText": "En la lista de nph-select y nph-combobox, el mismo aspecto rico es el nph-option con rich y una descripción debajo del rótulo. No tiene etiqueta propia, y una lista puede tenerla junto a una opción simple.",
+    "richOptionCaption": "La opción rica con cada inicio, en predeterminado, activa por el teclado y seleccionada; el check, o la casilla marcada.",
+    "richOptionHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "richOptionRules": [
+      [
+        "rich, description",
+        "rich activa el aspecto; description es el texto debajo del rótulo, dibujado solo con rich. La opción simple no cambia."
+      ],
+      [
+        "hover",
+        "Una capa bajo el contenido a media opacidad, más suave que la de la opción simple."
+      ],
+      [
+        "activa por el teclado",
+        "La capa, un borde de foco fuera de la opción y un halo fuera de ese borde. El hover del puntero no tiene borde."
+      ],
+      [
+        "seleccionada",
+        "Sin fondo: el check, o la casilla marcada con marker checkbox."
+      ],
+      [
+        "deshabilitada",
+        "Toda la opción se atenúa y la lista la salta. La casilla queda en su valor predeterminado."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Tarjeta",
+        "rich-option/padding, rich-option/gap y rich-option/radius, fondo rich-option/background, ancho layout/rich-option-width, encogiéndose con su contenedor."
+      ],
+      [
+        "Contorno",
+        "rich-option/border-width dentro de la tarjeta en rich-option/border; error rich-option/border-error; foco rich-option/focus-border."
+      ],
+      [
+        "Control",
+        "nph-checkbox, nph-radio o nph-switch en el tamaño predeterminado, como indicador inerte, alineado con la primera línea del título."
+      ],
+      [
+        "Icono",
+        "nph-icon light en una caja rich-option/icon-size, del color del título. Apagado por defecto."
+      ],
+      [
+        "Título",
+        "text/label-md en rich-option/foreground. Se ajusta."
+      ],
+      [
+        "Segunda línea",
+        "text/caption en rich-option/description-foreground, rich-option/text-gap debajo del título."
+      ],
+      [
+        "Atajo",
+        "nph-kbd al final de la tarjeta. Apagado por defecto; nunca con el switch."
+      ],
+      [
+        "Capa de hover",
+        "rich-option/background-hover en rich-option/background-hover-opacity, bajo el contenido."
+      ],
+      [
+        "Halo de foco",
+        "rich-option/focus-halo de rich-option/focus-ring-width fuera de la tarjeta; rich-option/focus-halo-error con error."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El host es el control: role checkbox, radio o switch, con aria-checked y aria-disabled, por ElementInternals. El control dibujado dentro es inerte y queda oculto para el lector de pantalla."
+      ],
+      [
+        "Nombre accesible",
+        "El título es el nombre y la segunda línea es la descripción, ambos por los internals. El icono, la segunda línea y el atajo quedan ocultos para el lector de pantalla."
+      ],
+      [
+        "Teclado",
+        "Radio: una parada de Tab, flechas que marcan y dan la vuelta, Espacio marca. Checkbox y switch: una parada cada uno, Espacio alterna. Enter no marca nada en una tarjeta con checkbox o radio y alterna una tarjeta con switch."
+      ],
+      [
+        "Foco",
+        "Solo con el teclado: el borde de foco y el halo alrededor de la tarjeta. El control de dentro no toma anillo."
+      ],
+      [
+        "Contraste",
+        "El título y la segunda línea superan 4,5:1 en claro y oscuro. El límite que alcanza 3:1 es el control dentro de la tarjeta. En el modo claro de la marca predeterminada, focus/border mide 2,92:1 contra el halo."
+      ],
+      [
+        "Alternativa al color",
+        "El control dice la elección; el error tiene su frase en el nph-field."
+      ],
+      [
+        "Límite conocido",
+        "Dentro del nph-field, un grupo de tarjetas radio se lee como grupo, no como radiogroup."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha nph-rich-option — propósito, anatomía, grupo, formulario, accesibilidad, tokens y antipatrones.",
+      "Ficha nph-option — la opción rica de la lista.",
+      "docs/decisoes-tecnicas.md — P134 (API y semántica), P81, P82 y P79 (los controles), P83 (el contrato del field), P01, P02 y P03.",
+      "design.md — los tokens rich-option/* y select/option-*.",
+      "WAI-ARIA APG — patrones radio group, checkbox, switch, listbox y combobox."
+    ],
+    "sourceSpec": "ficha nph-rich-option; Figma, frame nph-rich-option (6935:11785)",
+    "sourceApi": "ficha nph-rich-option; docs/decisoes-tecnicas.md › P134",
+    "sourceStates": "Figma, set 6910:6828; DSA-91, D-1",
+    "sourceGroup": "ficha nph-rich-option; docs/decisoes-tecnicas.md › P134; WAI-ARIA APG, radio group",
+    "sourceForm": "docs/decisoes-tecnicas.md › P134, P81 y P82",
+    "sourceRichOption": "ficha nph-option; Figma, set 6910:7093; docs/decisoes-tecnicas.md › P134",
+    "sourceAnatomy": "Figma, set 6910:6828; design.md",
+    "sourceAccessibility": "ficha nph-rich-option; nph-rich-option.test.ts"
   }
 }

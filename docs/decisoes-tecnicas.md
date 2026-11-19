@@ -84,7 +84,12 @@ P62.4 subsection for the detail).
 | **P126** | API and semantics of `nph-menubar`; the focus border and the submenu gap of the dropdown item (amends P92 and P113) | 16/11/2026 | Low now. No piece consumes the bar yet; the header of an application will, and changing `menus`, `open-menu`, `open-submenu`, `label`, `more-label`, `narrow`, `menu-label`, the event `nph-item-select` (with `menu`), the overflow rule or the invalid-input rule later requires redoing every consumer. The focus border of the dropdown and context-menu item changes color only, and the submenu of the context menu moves 4 px. The open top item in focus (D-1), Enter and Space on a choice and the click on a multiple choice (D-2), the click that opens with no item shown (D-3) and the panel that is not an instance in code (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P127** | The answers of 2026-11-16 applied in the code: the technical choices (amends P68, P77 and P83) | 17/11/2026 | Low now. The changes only add or loosen: a balloon on an element with an explicit `tabindex`, a `description` on `nph-button`, a flag a control may declare to `nph-field`, a default name for the scroll arrows of `nph-tabs`, a role on a cut pending step, and the groups of the panel menu that open for a new current page. Changing the role of the step, the default names or the rule of the panel menu later requires redoing every consumer that reads them | The answers come from Indiane, recorded in the tasks (four of them decided by Claude by her delegation, DSA-71 D-1, DSA-73 D-4, DSA-74 D-2 and DSA-76 D-3). The technical choices are reviewed in the pull request that brings them |
 | **P128** | API and semantics of `nph-resizable` | 17/11/2026 | Low now. No piece consumes the group yet; a desktop work area will, and changing `direction`, `disabled`, `hide-collapse-button`, `collapse-label`, `expand-label`, `sizes`, the attributes `default-size`, `min-size`, `max-size` and `collapsed-size` of a panel, the event `nph-resize`, the scale of the ARIA values, the keys or the invalid-input rule later requires redoing every consumer. The collapse button on a touch screen (D-1) and the handle with the collapse button off (D-2) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P129** | API and semantics of `nph-carousel` | 18/11/2026 | Low now. No piece consumes the carousel yet; a gallery, a featured list or a welcome tour will, and changing `layout`, `index`, `hide-arrows`, `hide-indicators`, `counter`, the six names, the event `nph-slide-change`, the meaning of `index` in the several layout, the roles, the keys or the invalid-input rule later requires redoing every consumer. The arrow that is not focusable at the ends (D-1) waits for Indiane; the color of the arrow icon through an internal variable of `nph-button` is for Elvys to confirm in the pull request | Anatomy and behavior: documentation accepted by Indiane on 16/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P131** | Browser tests of the Azure pipeline in a private network namespace (extends P106) | 18/11/2026 | Low. Only the pipeline and one script change; going back is removing the `node scripts/in-private-netns.mjs` prefix from two steps. Where the namespace is not available the tests run as before, with a warning | Not a component decision. Reviewed in the pull request that brings it; the merge is the approval |
+| **P132** | API and semantics of `nph-timeline` | 18/11/2026 | Low now. No piece consumes the timeline yet; the history of a record and the progress of a request and its approval will, and changing `items`, `type`, `label`, `labelledBy`, `has-more`, `loading`, `live`, the texts of the host, the events `nph-timeline-action` and `nph-timeline-more`, the slot named as the `id` of an item, the paint of the connector line, the focus of the last batch of Show more, the announcements or the invalid-input rule later requires redoing every consumer. The number of skeleton rows (D-1), the look of the item that takes the focus (D-2) and the current status on the history (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P133** | API and semantics of `nph-date-picker` and `nph-calendar` | 18/11/2026 | Low now. No piece consumes the date picker yet; the filters of a report, a due date in a form and the scheduler adjustment (the `nph-calendar` grid replaces its own) will, and changing `mode`, `size`, `value`, `start`, `end`, `min`, `max`, `unavailable`, `month`, `months`, `week-start`, `now`, `labels`, `name`, `start-name`, `end-name`, `open`, the event `change`, the events `nph-pick` and `nph-month-change`, the date text `YYYY-MM-DD`, the internal control row, the seven shortcuts, the typed date rules, the keys or the invalid-input rule later requires redoing every consumer. D-1 to D-11 follow the provisional rule of the task; the measures with no token (D-12), a typed Start or End with the panel closed (D-13) and the page margin of the narrow switch (D-14) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P134** | API and semantics of `nph-rich-option` and of the rich option of `nph-option` | 18/11/2026 | Low now. No form consumes the card yet; a plan or delivery choice, a list of settings and the people list of a combobox will, and changing `control`, `checked`, `name`, `value`, `text`, `description`, `icon`, `shortcut`, `keyShortcuts`, `invalid`, `disabled`, the events `input` and `change`, the role held by the card, the radio group by `name`, `rich` and `description` on `nph-option`, the `keyboard` property the lists write, the `rich` and `description` of the combobox entries or the invalid-input rule later requires redoing every consumer. D-4 follows the provisional rule of the task and waits for Indiane | Anatomy and behavior: documentation accepted by Indiane on 18/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9250,6 +9255,807 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P129 — `nph-carousel`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5173:1429`, page `1626:32`, sets `5165:1094`, `5164:771`
+and `5164:687`) draws a strip of slides with a controls bar, and leaves to the code how the slides are given, how the
+position is set and told, what the position means when several slides share a page, the roles and keys of the
+APG tabbed carousel, how the pages are counted when the width changes, the names of the controls in three
+languages, the drag and swipe, the focus when a disabled arrow had it, the right-to-left text and the color of the
+arrow icon. Four limits of the platform shape the answer:
+
+- the Figma has no slide component, so a second tag would invent a piece the design does not draw;
+- a tab, its slide and the track live in the same shadow root, but the slide content lives in the light DOM, and
+  `inert` on an element of the consumer would write an attribute a framework could fight;
+- a native button that becomes `disabled` drops the focus, and `nph-button` has no focusable disabled mode;
+- `nph-button` has no public hook for the color of its icon, only `--nph-button-focus-border`.
+
+**Decision.** `nph-carousel` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic tokens:
+the fourteen `carousel/*` ones, `focus/border`, `border/width`, `focus/halo`, `focus/ring-width`,
+`motion/state-duration`, `motion/state-easing` and `text/label-md`; **no token is created or changed**. It has no
+`::part` and no color property. What it rejects renders nothing and emits `console.error` only in development, once
+per cause: the rule of P21. The names follow P64.
+
+1. **One tag, the slides are the children (Q1).** The slides are the direct element children of the carousel, with
+   free content. The carousel puts each one in its own box by **manual slot assignment** (`slotAssignment: 'manual'`
+   and `slot.assign()`), so it writes no attribute on a child, as `nph-resizable` does (P128). Text and comments
+   between the slides are not slides. There is no `nph-carousel-slide`.
+
+2. **The position and the event (Q2).** `index` is the **first slide in view**, a number from zero that reflects. In
+   `single` and `peek` it is the current slide; in `several` the current page is derived from it (`floor(index /
+   slides per page)`, and the last page holds every slide from its own start). A resize changes the number of
+   pages but **never rewrites `index` and never fires an event**. A number out of range shows the nearest slide and the property keeps what was written. The
+   own event `nph-slide-change` (bubbles, composed, not cancelable) has `detail: { index }`, the first slide of the
+   new page, and is fired only when the person changes the slide by arrow, indicator, key or drag, **never when code
+   writes `index`**. The name is not `nph-value-change`, which is typed with a list by `nph-toggle-group` (P76), and
+   follows `nph-tab-change` (P115). **Persistence is the product's**: the component stores nothing.
+
+3. **Wrap-around (Q3).** There is no wrap-around property in v1: the Figma draws only the ending, with the disabled
+   arrow, and a loop is a second state that nobody accepted. The spec names it as out of scope, with automatic
+   rotation, the vertical carousel and thumbnails.
+
+4. **Layouts and measures (Q4).** `layout` is `single` (default), `several` or `peek` and reflects. The track is a
+   query container: in `single` a slide is as wide as the track; in `peek` it is the track minus
+   `carousel/peek-size` and one `carousel/slide-gap`, so the edge of the neighbor is exactly the peek; in `several` a
+   slide keeps the width of its content, never wider than the track. How many fit is `floor((track + gap) / (widest
+   slide + gap))`, at least one, measured by a `ResizeObserver` on the track and on every slide, so a slide whose
+   image loads late changes the pages. Pages are `ceil(slides / per page)`. The strip is moved by a measured
+   transform; the offset is the distance of the first slide in view from the start edge, kept inside the strip,
+   which shows the previous neighbor at the end of `peek` and aligns the last page of `several` to the end with no
+   special case.
+
+5. **Controls (Q5).** `hide-arrows` and `hide-indicators` turn off what is on by default in Figma (an HTML boolean
+   cannot default to true: the precedent is `hide-collapse-button`, P128); `counter` shows "position of total" and is
+   off. Above five pages the indicators go off and the counter comes on by itself, in the several layout counting
+   pages (item 10 of the approval round). With a single page there is nothing to go through, so no controls bar is
+   drawn. Fewer than two slides, a region with no name, arrows and indicators both off, and indicators off with no
+   counter warn once in development and still render.
+
+6. **The names (Q6).** The product gives them already localized, or the carousel takes the default of the `lang`
+   nearest to it (Portuguese, English, Spanish), as `nph-tabs` does (P127): `label` or the host `aria-label` names the
+   region; `previous-label`, `next-label` and `indicators-label` name the arrows and the group; `slide-label`,
+   `page-label` and `position-label` are templates with the placeholders `{position}` and `{total}`, for the
+   indicator ("Slide 2 of 5"), for the indicator of a page ("Go to page 2") and for the counter and the slide ("2 of
+   5").
+
+7. **Roles (Q7).** A `region` with `aria-roledescription="carousel"` and a name; the track is `aria-live="polite"`;
+   the indicators are a `tablist` of native buttons with `role="tab"`, `aria-selected` and `aria-controls`; each slide
+   is a `tabpanel` with `aria-roledescription="slide"` named "position of total". With no indicators a slide is a
+   `group`, as in the basic carousel of the APG, because a tab panel needs a tab. In `several` every slide is named
+   by its own position, and a tab controls every slide of its page. The tabs and the slide boxes live in the same
+   shadow root, so `aria-controls` uses plain ids (P91). A slide out of view is **`inert` on the box in the shadow
+   root**, never on the child of the consumer; in `several` every whole slide in view counts as in view, and the
+   neighbor at the edge of `peek` is out of view, so a click on it changes nothing.
+
+8. **Keys (Q8).** Tab goes from the previous arrow to the indicators, one stop on the current one (roving
+   `tabindex`), and to the next arrow. Left and Right on an indicator move the focus and show the slide (automatic
+   activation), Home and End go to the first and the last; in right-to-left text the arrows mirror. Enter or Space
+   on an arrow goes one position. The focus stays on the control used.
+
+9. **The disabled arrow (Q9).** The arrow keeps the native `disabled` of `nph-button`, out of the Tab order, as the
+   task asks; nothing changes in `nph-button`. The carousel remembers which control has the focus, and when that
+   control becomes disabled or leaves, the focus goes to the current indicator, or to the other arrow when the
+   indicators are off. It holds for an indicator that goes away on a resize too.
+
+10. **The color of the arrow icon (Q10).** `nph-button` draws its icon in `currentColor` of its own `--_fg` and exposes
+    no hook for it. The carousel sets `--_fg` to `carousel/control-foreground` on the arrow instance: a rule from
+    outside the shadow root beats the `:host` rule inside it, and the hover reads the same variable. It is a coupling to
+    an internal name, so a test reads the computed color of the icon at rest and in hover; a rename in the button
+    fails it. It is a point for Elvys in this pull request, not a change to `nph-button`.
+
+11. **Drag and swipe (Q11).** Pointer events on the track, with `touch-action: pan-y` so the vertical scroll stays
+    with the browser. A move under 6 px is a click. Past it the pointer is captured, the strip follows with a
+    resistance past the ends, and on release one step is taken when the drag passes a quarter of a step or the flick
+    is faster than 0.4 px per millisecond over at least 10 px; otherwise the strip goes back. The click that follows
+    a drag is swallowed, and a drag that starts in a text field is left to it. The pointer is captured only after the
+    slop, so a click on a link in the slide is not broken. Dragging is never the only way (WCAG 2.5.7).
+
+12. **Motion and right-to-left (Q12).** The strip moves on `motion/state-duration` and `motion/state-easing`, not on
+    the first placement and not while the pointer drags, and not at all under `prefers-reduced-motion` (DSA-62
+    D-3). Right-to-left text mirrors the order of the slides, the controls bar, the chevrons, the keys and the drag.
+
+13. **Forced colors.** The dot keeps `ButtonText`, the current pill and the focus border `Highlight`, as the
+    stepper does; the user's palette decides, so no token.
+
+**Known limits.**
+
+- The arrow is not focusable at the ends (the APG would keep it): that needs a change to `nph-button`, which is not in
+  this task (D-1).
+- The track clips the slides along the line only, so the focus ring of a control in a slide is never cut above or
+  below it; a control flush against the left or right edge of a slide has its ring clipped there, and the content
+  brings its own padding.
+- The polite announcement depends on the screen reader reading the change when a slide box stops being `inert`, since
+  the slides move by a transform and no node is added.
+- The component test drives the pointer with synthetic events, which carry no capture; one test moves a real
+  pointer to prove the drag end to end.
+
+**Source.** Documentation frame `5173:1429` (page `1626:32`), root `5164:663` and sets `5165:1094`, `5164:771` and
+`5164:687` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/11/2026, with the Figma UX QA and the
+textual audit approved, and the fifteen points of its approval round, all answered as recommended; the evidence of
+the `figma-docs-accepted` gate of DSA-87. The names and values of the API, the meaning of `index`, the measure of the
+pages, the drag thresholds, the manual slot assignment, the hand-over of the focus and the override of the arrow color
+are a technical proposal of this implementation.
+
+**Effects on other pieces.** None. `nph-button` and `nph-icon` do not change; the carousel only uses them.
+
+**Out of scope.** Automatic rotation, a vertical carousel, thumbnails and wrap-around. A focusable disabled arrow. A
+token, new or changed. A slide component. Persistence inside the component.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the disabled arrow at the ends.** The appendix keeps it focusable (APG, focusability of disabled controls),
+  and that needs a focusable disabled mode in `nph-button`, a change to that component in its own task. Until she
+  decides, the arrow is natively disabled and the focus moves as item 9 says.
+
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 waits for Indiane. API and semantics are
+reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
+## P130 — `nph-card`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `6516:13647`, page `1626:28`, root `6478:6670`, sets
+`6478:6673` and `6478:7282`) draws a surface with a media, a body (header with start, title, status, description
+and action; content; tonal section) and a footer with a divider, in three types, two surfaces, four media options and
+two densities, and leaves to the code how the card is given its parts, how the clickable card becomes a single Tab
+stop with a link that covers it, the level of the title, the word the screen reader hears while it loads, how a
+touch screen gets a larger menu action, the width at which the side media moves to the top, how the key-value list is
+given, how the card changes the pieces it draws and places without changing them, and who sizes the start piece and
+the media. Four limits of the platform and of the system shape the answer:
+
+- a light-DOM list slotted into the card cannot be given two colors, one for the key and one for the value, from
+  outside the list, and the card owns the type of both;
+- a link that covers its card by itself, with no script, has to be a pseudo-element of the link, so the link has to
+  sit in the shadow root, in the place of the title;
+- a length in a container query cannot be a custom property, and the card needs the query on its own width;
+- the pieces the card uses size themselves on their own host (`nph-image`), read one height of their own
+  (`nph-button`), or draw their line with a semantic token (`nph-separator`), and none of them may change.
+
+**Decision.** `nph-card` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic tokens:
+the `card/*` ones of the accepted frame for every part, `focus/border`, `border/width`, `focus/halo`,
+`focus/ring-width`, `focus/border-radius-surface` and `focus/radius-surface-with-border` for the focus,
+`elevation/raised`, `image/radius-lg`, `control/height-default`, and the text styles `text/heading-md`,
+`text/heading-xs`, `text/body-md` and `text/body-sm`; **no token is created or changed**. It has no `::part`, no event,
+no color property and no form association: the card is a surface, the clickable card is a native link, and the
+footer buttons and the menu action keep their own focus and events. What it rejects renders nothing and emits
+`console.error` only in development, once per cause: the rule of P21. The names follow P64.
+
+1. **One tag, slots by zone name (Q1).** The card is one tag. The zones of the accepted assembly model are the slots,
+   with the names of the model: `media`, `leading`, `status`, `action`, the default slot for the free `content`,
+   `section` and `footer`. The title, the description, the divider and the arrow of the clickable card are drawn by
+   the card, from `heading`, `description`, `hide-divider` and the type. The parts that turn on and off are
+   **derived from the content, never boolean properties**: the start is on with an `icon` or a piece in `leading`,
+   the description with text, the status, the action, the section and the footer with something in their slot, the
+   content with something in the default slot or rows in `items`. Whitespace is not content, and the card watches its
+   children, so a part comes and goes at run time. The one exception is the divider: it is on by default when the
+   footer is, and an HTML boolean cannot default to true, so the property turns it off, `hide-divider`, as
+   `hide-collapse-button` of `nph-resizable` (P128).
+
+2. **The key-value list is `items`, a property (Q2).** The section type takes `items`, a list of `{ key, value }`,
+   both texts already localized, drawn as a description list (`dl`, one `div` with `dt` and `dd` per row) after the
+   default slot. It is a property and not slotted markup because a `dl` in the light DOM cannot be given two colors
+   from outside, and the card owns them: the key in `card/description-foreground` at the start of the row and the
+   value in `card/foreground` at its end, in `text/body-sm`, rows `card/list-gap` apart. The precedent is the `levels`
+   of `nph-breadcrumb` (P109), a list of rows that is a property only. A row with an empty key, or a value that is not
+   a text, draws nothing and emits `console.error` in development; the value may be empty.
+
+3. **The stretched link (Q3).** The title of the clickable card is a `div` with `role="heading"` and `aria-level`
+   that holds an `a class="link"` with the `href`. The link is stretched over the whole card by its own `::after`,
+   `position: absolute` and inset to the outline, **with CSS only and no script**: a click anywhere reaches the link,
+   there is one Tab stop, the title link, Enter opens it and **Space does nothing**, because it is a link and not a
+   button (item 19a). The start and the arrow are `aria-hidden`, and nothing interactive sits
+   inside the card, so the link area does not hide a control. The `href` takes `http`, `https`, `mailto`, `tel` or a
+   relative address, parsed as the browser reads it, so an address with a tab or a line break inside the scheme is
+   caught as `javascript:` and refused; the rule is the one of the link of `nph-breadcrumb` (P109). **The text selection is not kept** (item 19b): there is no
+   selection script in v1.
+
+4. **The heading (Q4).** The title is `heading`, required unless the card is loading, and its level is
+   `heading-level`, 2 to 6, **3 by default**, because the title is a heading of a collection or of a page (item 19d).
+   It is drawn as `role="heading"` with `aria-level` on a `div`, so the card does not write an `h3` of its own into a
+   page that may need an `h2`. A level outside the list, or a text that is not a number, draws nothing and emits
+   `console.error` in development. An empty heading is an error, with one exception: a card that is loading draws no
+   title and needs none.
+
+5. **Loading (Q5).** `loading` keeps the surface, its outline and its padding and puts `nph-skeleton` in the place of
+   the content, `aria-hidden`: the start (when the card has one), a title line, a description line and two content lines,
+   and, on the base and section types with a footer, the divider (unless `hide-divider`) and one action skeleton: the
+   skeleton does not invent a part the card does not have; the clickable card has no footer while it loads and is not a
+   link. `aria-busy="true"` is set on the surface, and the word the screen reader hears is
+   `loading-label`, **already localized: the card writes no word of its own**, as `nph-collapsible` (P121), written
+   outside the hidden node, because only one screen reader honors `aria-busy` (item 19c). An empty `loading-label`
+   warns once in development. **No media is drawn while loading**: Figma draws the loading state without media, and
+   whether the media place shows the image in its own loading state is a pending decision (D-2). The skeleton widths
+   of the Figma example, which is 360 px wide, become shares of the card width, so the lines follow the card.
+
+6. **Focus (Q6).** The clickable card draws the look of focus for keyboard users only, on the link's
+   `:focus-visible`: the border `focus/border` (thickness `border/width`, corner `focus/border-radius-surface`) and,
+   beyond it, the halo `focus/halo` (`focus/ring-width`, corner `focus/radius-surface-with-border`), as two
+   pseudo-elements, **outside the card**, around the whole of it. **The card never clips**: `overflow` belongs to the
+   media box alone, so the border and the halo are not cut, and the media takes the corner of the card by its own
+   radius. A pointer press draws no look. The base card takes no focus; the controls inside it keep their own. With
+   forced colors the outline is `CanvasText` and the focus `Highlight`, as the stepper does (P117): the user's palette
+   decides, so no token.
+
+7. **Hover, with no motion (Q7).** The hover of the clickable card changes only the color of the outline, to
+   `card/border-hover`; the background and the shadow stay and **the width never changes**, so the card does not move
+   between states. Figma draws no transition, so the card has no transition and no animation, and **there is nothing to
+   reduce under reduced motion**. The base and section cards have no hover. The disabled and the loading card have none.
+
+8. **The side media and the narrow container (Q8).** The side media sits at the start, the card height and **40 percent**
+   of the card width, **33 percent** in the compact density, with a cover crop; the top media is the card width in 16:9
+   (the proportion is the one of the accepted frame, a box relation and not a token). The card is the container of its
+   own width, `container-type: inline-size` on the host, and under **`@container (width < 30rem)`** the side media moves
+   to the top. The `30rem` is a length in an at-rule, which a custom property cannot hold, as in `nph-file-upload`
+   (P119); the value is the code's, because Figma shows the wide case only: pending decision D-3. Because the host is the
+   container, the card takes the width of its block and, in a flex row, needs a basis.
+
+9. **Touch (Q9).** Under `@media (pointer: coarse)` the card raises the slotted `action` of the **base type only** from
+   `control/height-compact` to `control/height-default` (28 to 36 px), by writing `--nph-control-height-compact` on it
+   from outside with the value of `--nph-control-height-default`. `nph-button` reads that property on its own host, so
+   the button does not change. The text button of the section type keeps its size: the rule is for the icon-only menu action,
+   which is the target that is 28 px.
+
+10. **Overrides by instance, from outside (Q10).** The card changes no piece. What it sets, it sets in its own CSS, with
+    the rule of the cascade that an outer style wins over the `:host` style of a piece: the line of the divider, by
+    writing `--nph-color-border` as `card/divider` on the `nph-separator` that draws it; the color of the arrow, which is
+    `currentColor` in the icon; the sizes of the icons, in the tonal box and in the arrow; the frame of the media, by
+    `::slotted([slot='media'])`, whose outer rule wins over the `:host` size rule of `nph-image`, so the consumer gives
+    **only `src` and `alt`**; and the shares of the card width of the skeleton pieces. The test reads the source of the
+    card and proves that it writes no class or style on a piece.
+
+11. **The start (Q11).** The start is one piece at a time: the tonal box of `icon`, or an `nph-avatar` or an `nph-image`
+    in the `leading` slot. The card writes `size` on the start piece of the density: the avatar `lg`, `md` when compact,
+    and the image `md`, `sm` when compact (40 and 48 px, 32 px), **as `nph-avatar-stack` gives its avatars theirs**
+    (P78): a `MutationObserver` on the children writes the size again if the piece changes its own, and writes the
+    attribute only when it differs, so it does not loop. A piece of another tag in `leading` is left alone. With both an
+    `icon` and a piece in `leading`, the icon is ignored and a warning says so once in development. The start is
+    decorative, `aria-hidden`, on the clickable card.
+
+12. **Semantics by type (Q12).** There is no card pattern in the WAI-ARIA APG. The **base** card has no role and takes no
+    focus: Tab goes through the controls inside it, and the title is a heading and not a landmark. The **clickable** card
+    is the link pattern of the item above. The **section** card is a `region` named by its title, `aria-labelledby` to the
+    heading; while it loads the title is not drawn, so the region takes `aria-label` from `heading`, or has no role
+    when there is none. A disabled clickable card draws the title as an `a` with `role="link"` and `aria-disabled="true"`
+    and no `href`, so it leaves the focus order, takes `card/disabled-opacity`, and needs no `href`; the inner surface box of the card
+    also carries `aria-disabled="true"`. **A collection is the consumer's `ul` with one `li` per card** and a name on the
+    list, not the card's: the card is neither a list item nor a landmark by itself.
+
+13. **Invalid input (Q13, the rule of P21).** Draws nothing and emits `console.error` in development, once per cause: a
+    `type`, `surface`, `media`, `density` or `heading-level` outside its list, an `icon` that is not a core name of
+    `nph-icon`, an empty `heading` on a card that is not loading, a clickable card that is not disabled and not
+    loading with no `href` or an unsafe one, and a malformed `items`, in any type. Ignored with `console.warn`, once
+    per cause, and the card still draws: an `href` or a `disabled` outside the clickable type, a `media` in the section
+    type, `items` outside the section type, the `action` and `section` slots on the clickable card (not drawn),
+    `hide-divider` on the clickable card, a piece in the `media` slot while `media` is `none` or the type is section
+    (not drawn), an `icon` beside a `leading` piece, and a loading card with no `loading-label`. The card does not
+    police a link or a button put in the default, `status` or `footer` slot of the clickable card.
+
+14. **What the card leaves out and what this task does not change (Q14).** Out of v1 by the accepted decision (item 16 of the contract): shadow
+    only, filled or tonal, subtle, primary and secondary emphasis, a collection or a gallery (it is layout), a card with
+    tabs, a nested card, a card in a grid, sizes (the width comes from the layout), draggable and pressed, selectable and
+    selected (they are `nph-rich-option`) and expandable (it is `nph-collapsible`). The task does not change
+    `nph-collapsible`: aligning its card appearance with `color/border-subtle` is that component's next adjustment. It
+    creates no token and changes no token value; it changes no piece it uses.
+
+**Known limits.**
+
+- The stretched link does not keep the text selection: with the link covering the card, the text under it cannot be
+  selected by dragging, and v1 has no selection script (item 19b).
+- The host is the container of its own width (`container-type: inline-size`), so the card has no width of its own: it
+  fills a block, and in a flex row it needs a basis, or it collapses.
+- The media box is drawn whenever `media` is not `none`: a card with no piece in the slot leaves an empty box, and on
+  `side` an empty column, with no warning.
+- The clickable card drops the `action` and `section` slots with a warning but does not police interactive content in
+  the other slots: a link or a button there is a link inside a link.
+- The `30rem` of the narrow rule is the code's value: Figma shows the wide case only.
+- The measure of the focus border against the halo, the neighbor outside it, is pending for the card: the accepted
+  evidence measures it over `color/background`, and the rule of `focus/border` in `design.md` measures it against the
+  halo, with a known limit in the light `Sistemas` brand.
+
+**Source.** Documentation frame `6516:13647` (page `1626:28`), root `6478:6670` and sets `6478:6673` and `6478:7282` of
+the Figma file `DS-IA-NEPHOS 5.0`, accepted by the design owner on 17/11/2026, with the Figma UX QA and the textual audit
+approved, and the 21 items of its test round, all answered as recommended; the evidence of the `figma-docs-accepted` gate
+of DSA-88, which carries the contract converted to text. The names and values of the API, the stretched link, the
+derived parts, the property `items`, the touch rule, the writing of the size of the start and the way the pieces are
+overridden from outside are a technical proposal of this implementation.
+
+**Effects on other pieces.** None. `nph-button`, `nph-icon`, `nph-image`, `nph-avatar`, `nph-badge`, `nph-separator`,
+`nph-skeleton` and `nph-collapsible` do not change; the card only uses them and places what the consumer slots.
+
+**Out of scope.** The types left out of v1 (Q14). A selection script for the stretched link. A transition or an
+animation of the outline. The media in the loading card. A token, new or changed. A boolean property per part. A color
+property. The `ul` and `li` of a collection. The menu of the menu action, which is the product's `nph-dropdown-menu`: the
+card only places the trigger.
+
+**Pending decisions for the design owner.**
+
+- **D-1 — a long key or value in the section list.** Figma does not draw it. The text wraps with `overflow-wrap: anywhere`
+  for now; the design owner decides whether it wraps or truncates.
+- **D-2 — loading with media.** Figma draws the loading state without media, so no media is drawn while loading. The design owner decides
+  whether the media place shows the `nph-image` in its own loading state or stays out.
+- **D-3 — the width of the narrow container.** The side media moves to the top under `30rem` in the code, because Figma
+  shows the wide case only. The design owner confirms the width or draws it.
+- **D-4 — the focus contrast reading.** The accepted evidence measures the focus border over `color/background`;
+  `design.md` now measures the 3:1 against the halo, with a known limit in the `Sistemas` brand in light. The code draws the
+  border and the halo as the evidence says and changes no token; the design owner confirms the reading.
+
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-4 wait for the design owner and do not block
+the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
+## P132 — `nph-timeline`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `5237:3423`, page `1626:37`, root `5226:2261`, sets
+`5216:304` and `5216:701`) draws a vertical list of events in order, each with a marker, a title, a meta line and an
+optional description and action, linked by a connector line, in two types, three markers and six states, and leaves to
+the code how the events are given, how the list gets its semantics and its name, who writes the words, how the connector
+line is painted from the item over a piece that fixes its own color, where the focus goes when "Show more" goes away,
+what is announced and when, how the list loads and shows nothing, and what happens with an input that does not fit. Four
+limits of the platform and of the system shape the answer:
+
+- the `ol`, its `li` and the `aria-current` of the current one have to live in one shadow root, so the events cannot be
+  child elements that the timeline reads from outside;
+- an `id` does not cross a shadow root, so a visible title that names the list cannot be pointed to by `aria-labelledby`
+  from inside;
+- `nph-separator` fixes its color at `color/border` on its own host and may not change, and the connector line of the
+  item has to be another color, except on the pending item;
+- the focus of the page has nowhere to go when the button it was on goes away, and the item has no focus in the contract.
+
+**Decision.** `nph-timeline` is a Web Component with **open Shadow DOM** (P01). Anatomy only through semantic tokens:
+the `timeline/*` ones of the accepted frame for every part, `border/width` for the thickness of the connector line, which
+the line takes from `nph-separator`, and the text styles `text/label-md`, `text/label-md-strong`, `text/body-md` and
+`text/caption`; **no token is created or changed**, and every `timeline/*` token is consumed. It has no `::part`, no color
+property and no form association; its events are `nph-timeline-action` and `nph-timeline-more`, and its one slot is the one
+named as the `id` of an item. What it rejects renders nothing and emits `console.error` only in development, once per
+cause: the rule of P21. The names follow P64.
+
+1. **One tag, `items` as a property (Q1).** The timeline is one tag. The events are `items`, a list of
+   `{ id, title, description, who, when, datetime, status, marker, icon, avatar, typeLabel, action, actionDisabled }`,
+   property only, in order. There is no child element `nph-timeline-item`: the list semantics need the `ol`, its `li`
+   and `aria-current` in one shadow root, as the `steps` of `nph-stepper` (P117) and the `levels` of `nph-breadcrumb`
+   (P109) are a property for the same reason. Rich content is a **slot named as the `id` of the item**, drawn below the
+   text and the action, the way the panel slot of `nph-tabs` is named as its `value`; the timeline does not style it,
+   and an item without `id` has no slot.
+
+2. **The fields and the values of an item (Q2).** `type` is `process` or `history`, `process` by default, and reflects;
+   it sets the marker an item takes when it names none, `circle` on the process and `dot` on the history, the
+   `aria-current` rule and nothing else: the two types share one layout. `marker` is `dot`, `circle` or `avatar`.
+   `status` is `neutral`, `completed`, `current`, `pending`, `error` or `warning`, `neutral` by default. **Only the circle
+   has a status**: on a dot or an avatar it is ignored, and a warning says so once in development. The icon of a status is
+   fixed, a `check` on completed, `circle-xmark` on error and `triangle-exclamation` on warning, `current` draws a center
+   dot and `pending` no glyph, so `icon` is read on the neutral circle only. The avatar marker is an `nph-avatar` `sm`
+   with the photo in `avatar` and no circle around it; with no photo it draws the person icon.
+
+3. **The words come from the consumer (Q3).** The hidden state texts, `completed-label`, `current-label`, `error-label`
+   and `warning-label`, the waiting word `pending-label`, which is visible, `loading-label`, `more-label`, `new-label`,
+   `loaded-label`, `empty-heading` and `empty-description` are attributes of the host, **already localized**, as the
+   texts of `nph-stepper` are: the piece writes no word of its own, and a text that is missing draws and warns once in
+   development, because it may arrive after the first render. The one thing the code writes is the **middle dot** of the
+   meta line, which is punctuation and not a string of translation. The order is who, then when; on a pending item the
+   waiting word comes first, then the middle dot and who. The date is formatted by the product: `when` is the visible
+   text, absolute and, if the product wants it, relative, and `datetime` is the value of its `time`; a `when` with no
+   `datetime` is plain text and warns once.
+
+4. **The connector line (Q4).** The line is an `nph-separator` vertical held by the item. Its thickness is `border/width`,
+   which is the separator's. The color is painted by the CSS of the timeline: the item writes `timeline/connector-border`
+   as the `background-color` of the separator it holds, and the **style of an outer tree wins over the `:host` of the
+   separator**, so the separator changes nothing and gains no hook, as the card paints its divider (P130, item 10). The
+   pending item writes nothing, so its line stays in `color/border`. The line sits at `inset-inline-start` of half the
+   marker size, 12 px of 24, **a whole pixel with no `transform`**, because a percentage translate makes a half pixel and
+   blurs a 1 px line (item 12 of the accepted decisions); it runs from the marker to the end of the item, a
+   `timeline/connector-gap` from each, and the last item has none.
+
+5. **"Show more" and the focus (Q5).** The timeline fetches nothing. `has-more` draws a ghost `nph-button` outside the
+   `ol`, after it, aligned to the marker column, with the text of `more-label`. Activating it fires `nph-timeline-more`,
+   with no detail, bubbling and composed. The product appends the earlier events at the end of `items` and sets
+   `has-more` off on the last batch. While there is more, the button keeps the focus. On the last batch the button goes
+   away and **the focus moves to the first new item**, a choice of Nephos, since without the button the focus has no
+   destination and would fall to the `body`: the `li` takes `tabindex="-1"` only while it holds the focus and the attribute
+   goes away on blur. The item has no focus in the contract and no focus token exists for it, so **no ring is drawn**
+   (D-2). If the focus was not on the button, nothing moves. With the last batch and no new event, the focus goes to the
+   last item.
+
+6. **What is announced (Q6).** One region, `aria-live="polite"` with `aria-atomic`, outside the `ol`; the list itself is
+   never a live region. `loaded-label`, with `{count}`, is announced when the list grows after the person activated "Show
+   more", whether or not `live` is on. `new-label`, with `{count}`, is announced when the list grows with `live` on and
+   the person asked for nothing. A non-breaking space alternates at the end, so the same text twice in a row still reads
+   again. The first load, a shrink and a growth with `live` off announce nothing.
+
+7. **Events (Q7).** `nph-timeline-action` fires when the person activates the action of an item, with
+   `detail { index, id }`, the position from zero and the `id`, or `null` when it has none; it bubbles and is composed.
+   `actionDisabled` puts only the button under the disabled opacity and fires nothing; the item keeps its marker, glyph,
+   line and colors. `nph-timeline-more` is item 5. The click is also the native click. **There is no animation and no
+   transition**, so there is nothing to reduce under `prefers-reduced-motion`.
+
+8. **The name of the list (Q8).** `label` wins over the `aria-label` of the host, which is read by a property whose
+   attribute is `aria-label`, since a property called `ariaLabel` is the native reflection. `labelledBy`, an **element and
+   property only**, names the list by a visible title: it becomes the `ariaLabelledByElements` of the `ol`, because an id
+   does not cross the shadow root, as the `controls` of `nph-button` is given (P121). Given with a
+   `label`, the `labelledBy` wins, as the native `aria-labelledby` does over `aria-label`, and it names the list while
+   it loads. A list with none of the three draws and warns once.
+
+9. **Loading and empty (Q9).** `loading` sets `aria-busy="true"` on the `ol`, which holds one `li` with the hidden text of
+   `loading-label`, written **outside** the hidden node, and the skeleton rows in a node with `aria-hidden`: an `nph-skeleton`
+   `avatar-sm` and two lines each. **Three rows**: the contract gives no number (D-1). Loading replaces the items, even when
+   there are some. With no items and not loading the timeline draws `nph-empty` with `empty-heading` and
+   `empty-description` in place of the `ol`; with no `empty-heading` nothing is drawn and a warning says so once.
+
+10. **`aria-current` (Q10).** `aria-current="step"` goes on the `li` of the current item of the **process type only**, and
+    on one item: with more than one current item the first takes it and a warning says so. On the history type an item
+    with the current status draws the current look, a center dot and a stronger title, with no `aria-current` (D-3). The
+    marker and the line are `aria-hidden`; the status goes in the text, as a hidden text at the start of the title; the
+    pending item says it is waiting by the visible word; the date is a `time`. The list has no role of its own: the APG has
+    no timeline pattern, and the Feed pattern does not apply, because the list loads by a button and not on scroll.
+
+11. **Invalid input (Q11, the rule of P21).** Draws nothing and emits `console.error` in development, once per cause: an
+    `items` that is not a list, an item that is not an object or has no `title`, and a `status`, `marker` or `type`
+    outside its list. Draws and emits `console.warn`, once per cause, because the texts may arrive after the first render:
+    a list with no accessible name, a status with no text for it, a `when` with no `datetime`, `has-more` with no
+    `more-label`, `live` with no `new-label`, a status on a dot or an avatar, more than one current item, a repeated `id`
+    (the slot of the second one gets no content), a list that loads with no `loading-label`, and a list with no items and
+    no `empty-heading`. An empty `items` is a mount.
+
+12. **What the task does not change (Q12).** No token is created or changed; every `timeline/*` token is consumed,
+    `border/width`, the pending color `color/border` and the thickness come from `nph-separator`, and the tokens that point
+    straight to the core keep the decision recorded with the tokens. `nph-separator`, `nph-icon`, `nph-avatar`,
+    `nph-button`, `nph-skeleton` and `nph-empty` change nothing: the timeline uses them and sets on them, from outside,
+    only the color of the line.
+
+**Known limits.**
+
+- The code draws three skeleton rows; Figma draws an avatar and a line with no number (D-1).
+- The first new item that takes the focus on the last batch of "Show more" draws no ring (D-2).
+- On the history an item with the current status draws the current look and no `aria-current` (D-3).
+- The line sits on a whole pixel, so its center falls half a pixel off the center of the marker column: the price of a
+  sharp 1 px line (item 12 of the accepted decisions).
+- The outline of the error and warning circles stays below 3:1 against the background in light; the icon carries the
+  meaning. The description of those two tokens in Figma is a foundation task.
+- Two items with the same `id` share one slot name, and the second one gets no content.
+- The list takes the width of where it lives and has no scroll of its own.
+
+**Source.** Documentation frame `5237:3423` (page `1626:37`), root `5226:2261`, appendix `5240:5360` and sets `5216:304` and
+`5216:701` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by the design owner on 17/11/2026, with the 16 items of its test
+round answered as recommended; the evidence of the `figma-docs-accepted` gate of DSA-89, which carries the contract
+converted to text. The names and values of the API, `items` as a property, the slot named as the `id`, the texts as
+attributes of the host, the paint of the line from the item, the focus of the last batch, the announcements, the number of
+skeleton rows and the way the list is named are a technical proposal of this implementation.
+
+**Effects on other pieces.** None. `nph-separator`, `nph-icon`, `nph-avatar`, `nph-button`, `nph-skeleton`, `nph-empty` and
+`nph-stepper` do not change; the timeline only uses the first six.
+
+**Out of scope.** A child element for the item. A hover, a click or a focus of the item. A role feed and a load on scroll.
+An animation of the arrival of events. A change of `nph-separator` or a hook of color on it. A token, new or changed. A color
+property. The fetch of the earlier events, which is the product's. The formatting of the date, which is the product's. A
+history in columns, which is `nph-table`. A vertical stepper, which is `nph-stepper`.
+
+**Pending decisions for the design owner.**
+
+- **D-1 — the number of rows of the loading state.** Figma shows an avatar `sm` and a line, with no number of rows. The code
+  draws three rows, an avatar and two lines each. The design owner decides whether Figma shows another number, or lines of
+  other widths.
+- **D-2 — the look of the item that takes the focus.** On the last batch of "Show more" the button goes away and the focus
+  moves to the first new item, as the accepted behavior asks. The contract gives the item no focus and no focus token
+  exists for it, so the code draws no ring on that `li`. The design owner decides whether a visible mark is wanted and
+  which one.
+- **D-3 — the current status on the history.** The contract denies `aria-current` on the history type but does not say how
+  an item with the current status looks there. The code draws the current look with no `aria-current`. The design owner
+  decides whether the history should take the current status at all.
+
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 wait for the design owner and do not
+block the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
+## P133 — `nph-date-picker` and `nph-calendar`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `6673:62837`, page `1364:2`, root `6662:55010`, sets `6666:32`,
+`6662:56378` and the grid `4015:28204`) draws a date field with a calendar in two modes, a single date and a range, and a date
+grid that the scheduler mini month will reuse. It leaves to the code how the date is given and read, how a field that holds the
+text and a button is named by the `nph-field`, how the two months of a range move, how the panel finds its place, how the
+shortcuts are written, how a typed date is checked and what the grid fires. Five limits of the platform and of the system shape
+the answer:
+
+- the `nph-field` names and describes **one** control (P83), and the control row of the date picker holds an `nph-input` and an
+  icon-only button, side by side;
+- the month names, the weekday names and the order of day, month and year belong to the language, and `Intl` knows them;
+  `Intl` does not know on which day the week starts;
+- a date is a calendar day, and a `Date` carries an instant and a time zone, so a day crosses a change of the clock or a time
+  zone wrong;
+- the `nph-option` is written only as a child of the list that owns it, and the shortcut list of the date picker is not an
+  `nph-select`;
+- `npm run test:package` counts one `customElements.define` per component folder, and the date picker needs a second element
+  that is not a component.
+
+**Decision.** Two Web Components with **open Shadow DOM** (P01): `nph-date-picker`, in `src/components/nph-date-picker/`,
+and `nph-calendar`, in `src/components/nph-calendar/`. Every measure and color comes from the semantic tokens and the nine
+component tokens of the task (`calendar/*` and `date-picker/*`); **no token is created or changed**. They have no `::part` and no
+color property. What they reject renders nothing and emits `console.error` only in development, once per cause: the rule of
+P21. The names follow P64.
+
+1. **Two elements (Q1).** `nph-calendar` is its own exported element, the owner of the date grid, with its sheet: the header
+   (arrows and title), the weekday row, six week rows, the month view and the year view. `mode` is `single` or `range`, `size`
+   `default` or `large`, and `months` is `1` or `2`: the two consecutive months of a range are one element, so the arrow keys
+   cross from the last day of the left month to the first day of the right month, the two months move together and the month
+   whose title was chosen is the one that gives way to the view. The `nph-scheduler` keeps its own grid; replacing it with this
+   one, its day radius and its day focus are an adjustment task of the scheduler after this one (DSA-77 D-1, item 7 of the
+   acceptance). `nph-date-picker` composes the field, the calendar button, the panel, the shortcuts and the footer.
+
+2. **A date is the text `YYYY-MM-DD` (Q2).** The properties `value` (single), `start` and `end` (range), `min`, `max`, `month`
+   (`YYYY-MM` or any day of it) and `now` (the date of today, for tests and stories; absent, the clock of the machine) are text,
+   the same format as the `nph-scheduler`, so no time zone and no `new Date(string)` is in the way. A date that does not exist
+   (`2026-02-30`) draws nothing and says so in development. The logic works on whole days counted in UTC (`nph-calendar.logic.ts`).
+   The date picker is **form-associated**: `name` puts the date of a single picker in the form data; `start-name` and `end-name`
+   put the two dates of a range; `required` makes an empty picker `valueMissing`, and a typed text that is not a date makes it
+   `badInput`; `form.reset()` brings back the `value`, `start` and `end` attributes.
+
+3. **The control row is an internal element (Q3).** The `nph-field` writes `label`, `description`, `invalid`, `required` and
+   `disabled` on ONE custom element that takes the contract. The row is `nph-date-picker-control`, defined in
+   `nph-date-picker-control.ts` and drawn by the date picker, which takes that contract in the place of its `nph-input` and hands
+   it on: the input gets the name (the label of the field), the description (the hint or the error sentence) and the state; the
+   calendar button keeps its own name, its tooltip, and fades with `disabled`. It is **not public**: no folder, no `exports`
+   entry, no sheet; the manifest drops it because its path is not `src/components/<tag>/<tag>.ts`, and `@internal` and `@ignore`
+   say it in the source. `scripts/test-package.mjs` lists it in `INTERNAL_ELEMENTS`, so the count of definitions still catches a
+   second element that is not on the list. Alternatives discarded: a second slot child in the field, which makes the field warn
+   about more than one control and stacks the two; placing the button over the field with a measured offset, which breaks when
+   the label wraps; writing a field of its own inside the date picker, which repeats the label, the message line and the error.
+
+4. **Every text comes from the consumer; the names come from `Intl` (Q4).** `labels` is one object with every text the piece
+   writes, already localized (the piece writes no word of its own). An object with no key at all draws nothing and says so, because the
+   data comes by the property; a key missing from an object that has others renders anyway and says which keys, once.
+   The names of the months and of the weekdays, the title of a month and the full name of a day come from `Intl.DateTimeFormat`
+   in the language of the nearest `lang`, as the scheduler reads it. The text of the field is written in the order of that
+   language, two digits for the day and the month, four for the year and the slash as the separator (`10/20/2026` in `en`,
+   `20/10/2026` in `pt-BR` and `es`); the hint in `labels` says the same in words. `week-start` is `sunday` (default) or
+   `monday` (DSA-77 decision 8).
+
+5. **A typed date (Q5, D-4).** No mask (DSA-16 D1). The text is read when the person leaves the field, or clears it: day and
+   month with or without a leading zero, a four-digit year, the slash. One message at a time, in this order: empty (an error
+   only when the field is `required`), invalid, outside the limit (it cites the min, the max or both), unavailable by rule, an
+   End before the Start. The message goes through the `nph-field` (`status/error-text`, the border `status/error`, no icon);
+   a date with a problem is not committed, the value it replaces stays, and the field keeps what was typed. A typed End before
+   the Start does not reorder; only a pick in the panel does. A Start typed after the End gets the same message on the Start field. A click in the field is not a click outside, and typing with the
+   panel open moves the panel to the date once it is valid. A message the screen owns (`error`, `start-error`, `end-error`) is
+   shown when the piece has none of its own.
+
+6. **The panel (Q6).** A surface of its own, not an `nph-popover`: its widths stop at 400 and the range is 762. It is a
+   `popover="manual"`, so it lives in the top layer, as the select list and the popover. It opens `date-picker/panel-offset`
+   below the control row, aligned to its start, flips above with the same gap when it does not fit and the room above is larger,
+   and, when neither fits, keeps the larger side and shrinks with an inner scroll. It follows the field on scroll and resize.
+   Esc closes it without change and gives the focus back to the calendar button (the End button of a range); a press outside
+   closes it like Cancel and leaves the focus where the person put it; the button again toggles it; **Tab after the last item
+   closes it like Cancel and gives the focus back to the button**, so the panel is not a trap and a period counts only on Apply.
+   In the month or year view the first Esc goes back to the days. A panel opened by the markup (`open` on the first render) draws
+   and takes no focus, because nothing the person did asked for it; opened later, the focus goes to the date of the field, or
+   to today, or to the nearest allowed day when today is outside the limit (item 9 of the acceptance). It enters with opacity and
+   a 4 px slide and leaves with the exit role; with reduced motion, opacity only (DSA-29 D2).
+
+7. **The range (Q7, D-5 to D-11).** The shortcuts are seven `nph-option` in a `listbox` that the date picker owns: one Tab stop,
+   the arrows move the active option (it takes the hover look), Enter and Space choose; the options keep their own roles (the
+   list needs no `NPH_OPTION_CHANGED`). The period of each one is the one of D-6, cut by the min and the max, and a shortcut
+   with no allowed day is disabled. Choosing one fills the band and waits for Apply; `Custom` changes nothing and moves the
+   focus to the grid; picking days by hand marks `Custom`, or the shortcut whose period is the same. Clear empties the selection
+   in the panel and the shortcut mark at once and stays open; the fields change only on Apply, a pick and a shortcut included, and
+   Cancel brings the previous period back (D-8). A third pick starts over; one day is a valid period; Apply stays enabled, applies an empty period when
+   nothing is chosen and one day when only the Start is (D-10). The period is announced in a live region (`labels.period`).
+   The panel switches to one month with the shortcuts on top when the viewport does not fit the panel of the size in use plus the
+   page margin (D-7): 12 steps of `date-picker/panel-padding` of shortcuts, two grids and the border, plus
+   `space/container-padding` on each side (D-14).
+
+8. **The grid (Q8, D-1 to D-3, D-9, D-11).** Six week rows always, filled with days of the previous and the next month; a day
+   outside the month can be picked, and in a single date the month moves to it. The weekday names use `text/label-sm`. A day
+   outside the min or the max is a disabled `button` under `state/disabled-opacity`, out of the Tab order; a date unavailable
+   by rule is a `button` with `aria-disabled`, no opacity, focusable, never chosen (item 9). Each grid is one Tab stop (the
+   chosen date, then today, then the first allowed day), the arrows cross between the two grids, Page Up and Page Down move
+   the months and Shift the year, Home and End the week. The title of a month opens the month view in its place, the year title
+   of that view opens a block of twelve years that starts at the decade, a year picked opens its months and a month picked opens
+   its days; the arrows move one year and twelve years; a month or a year is disabled only when none of its days is allowed. The
+   month and year views keep their drawn size, centered, and the panel keeps its width. The band behind the Start and the End
+   and the fill of the middle run straight across the turn of the week, as a pseudo-element of the cell. Events: `nph-pick`
+   (`detail: { date, start, end }`) when the person picks and `nph-month-change` (`detail: { month }`) when the person moves the
+   months; both bubble and are composed; code that sets a property fires nothing.
+
+9. **The events of the date picker (Q9).** One event, `change`, on the host: when a date is applied or a typed date is
+   committed (single), or the period is applied or a typed field is committed (range). The `input` and `change` of the inner text
+   and the `nph-pick` of the grid never leave the piece. `open` reflects, and opening and closing fire nothing.
+
+10. **No property to choose what the evidence fixes (Q10).** There is no property for the first day other than `week-start`, for
+    the format of the text, for the shortcuts (the seven are fixed in v1; the product cannot pass its own) or for the months
+    shown by the date picker (the range shows two, or one when narrow).
+
+**Provisional rules.** The design owner has not answered D-1 to D-11. The code follows, for each one, the column "Until the
+design owner answers" of the task, and names it here so it is easy to change: **D-1** six rows; **D-2** the month and year
+views at their drawn size, the panel shrinking with the open view, a year opens its months and a month opens its days; **D-3**
+`text/label-sm` on the weekday names; **D-4** the typed-date rules of item 5; **D-5** both arrows on each month, the two months
+move together, the Start month on the left, the focus on the Start day; **D-6** the periods of item 7; **D-7** the switch by the
+width available; **D-8** Clear; **D-9** the ladder of item 8, with the year title icon as drawn (`chevron-up`); **D-10** the
+selection cycle; **D-11** a day outside the month is picked, one Tab stop per grid, the arrows cross, only the End filled opens
+on the End.
+
+**Out of scope.** A month-only, year-only, week, quarter or time picker. Replacing the scheduler grid. A token, new or changed.
+A radius semantic for floating layers. Shortcuts of the product. A mask. A read-only state. Locale-aware parsing beyond the order
+of day, month and year and the slash.
+
+**Pending decisions for the design owner.** D-1 to D-11 stay as they are in the task. The code adds three:
+
+- **D-12 — measures with no token.** The shortcut column is 192 wide, the header 40 high and the month and year cell 84 wide in
+  Figma, and no token carries them. The code derives them from tokens, with no literal: 12 steps of `date-picker/panel-padding`,
+  the default control height plus `space/inline-tight`, and 3 of 7 of the default week row. The design owner decides whether
+  they get tokens, through Claude in Figma.
+- **D-13 — a typed Start or End with the panel closed.** The evidence says how typing works with the panel open and what Apply
+  does; it says nothing about the panel closed. The code commits each field when the person leaves it, so a Start without an End
+  can stay, and fires `change` for each. The design owner decides whether a range commits only when both fields are valid.
+- **D-14 — the page margin of D-7.** The narrow switch needs a margin around the panel; the code uses `space/container-padding` on
+  each side of the viewport. The design owner confirms or gives the margin.
+
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-14 wait for the design owner and do not
+block the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
+## P134 — `nph-rich-option` and the rich option: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `6935:11785`, page `4128:26259`, root `6910:6824`, sets `6910:6828` and
+`6910:7093`) draws two pieces of one idea: a form choice with a title and a description where the whole card checks the option,
+and the same rich look, with a description below the label, as the option of the `nph-select` and `nph-combobox` list. It leaves to
+the code who holds the role and the focus of the card, how the card gets its control, its state and its form value, how a group
+of radio cards forms one group, how the card learns it is invalid, whether the width is fixed or shrinks, what turns the rich look
+of the option on, how the list tells the option that the active option came from the keyboard, how the description reaches the
+screen reader while the focus stays on the field, and what happens with an input that does not fit. Five limits of the platform and
+of the system shape the answer:
+
+- the three controls of the card, `nph-checkbox`, `nph-radio` and `nph-switch`, have no `::part` and no property that hides their
+  own focus ring, and Figma draws the focus around the whole card and none on the control;
+- an `id` does not cross a shadow root, so a title and a second line cannot name and describe the card by `aria-labelledby` and
+  `aria-describedby` from inside;
+- the `nph-radio` forms its group by `name` in the same root, and the radio that the card draws is in the shadow root of each card,
+  so it cannot be the group of the cards;
+- the `nph-field` reads its role from the **class** of its children, and one class cannot be a `radiogroup` option and a `group`
+  option at once;
+- the list, not the option, knows whether the active option got there by the keyboard or by the pointer.
+
+**Decision.** `nph-rich-option` is a Web Component with **open Shadow DOM** (P01), form-associated, with the `rich-option/*`
+tokens, `layout/rich-option-width` and `text/label-md` and `text/caption`; **no token is created or changed**, and every
+`rich-option/*` token is consumed. The rich option is the `nph-option` (P91) with the
+`select/option-*` tokens, in a file of its own, `nph-option.rich.css`, so the plain option does not move; every `select/option-*`
+token is consumed. Neither has a `::part`, a color property or a slot. What they reject renders nothing and emits `console.error`
+only in development, once per cause: the rule of P21. The names follow P64.
+
+1. **Who holds the role and the focus: the card (Q1).** The host IS the control, as the host of `nph-radio` is (P82): its role is
+   `checkbox`, `radio` or `switch`, with `aria-checked` and `aria-disabled` set through `ElementInternals`, and it takes the focus
+   itself. The control drawn at its start is an `nph-checkbox`, `nph-radio` or `nph-switch` at the default size, `inert` and
+   `aria-hidden`, a visual indicator of the state of the card, as the box of `nph-option` is (P92, P96). The other path, the real
+   control inside holding the focus with the card drawing `:focus-within`, needs a way to hide the ring of the control, which the
+   three controls do not have; adding it would change three finished pieces for a look that does not change. A click on the card
+   reaches the host, because an `inert` element takes no pointer, so the whole card is the click area.
+
+2. **The API of the card (Q2).** `control` is `checkbox` (default), `radio` or `switch` and reflects. `checked` is the current
+   state and does not reflect; the `checked` attribute is the initial state and the one `form.reset()` returns to, and moves the
+   current state only while the card is not dirty, the rule of the native controls and of P81 and P82. `name` and `value` reflect,
+   `value` is `on` by default. `text` is the title, a property and not a slot, as the `text` of the three controls is, and it is
+   the accessible name; it wraps. `description` is the second line, empty turns it off. `icon` is a core name of `nph-icon`, drawn
+   `light` after the control, empty turns it off. `shortcut` is the keys separated by spaces, each in an `nph-kbd`, empty turns it
+   off. `keyShortcuts` is the `aria-keyshortcuts` value. `invalid` and `disabled` reflect. The events are the native `input`
+   (bubbles, composed) and then `change` (bubbles), only when the person checks or toggles the card.
+
+3. **The group of radio cards (Q3).** The group is not an element: cards with `control="radio"` and the same non-empty `name`, in
+   the same root and with the same form owner, are one group, as in `nph-radio`. Checking one unchecks the others, from the person or
+   from code; one Tab stop per group, on the checked card or, with none checked, on the first that responds; the arrow keys move
+   the focus to the next or previous card that responds, wrapping, and check it; Space checks the focused one. Enter follows the
+   control the card holds: it checks nothing on a checkbox or radio card, as `nph-checkbox` and `nph-radio` do, and toggles a
+   switch card, as `nph-switch` does. The accepted table also says Enter "submits the form, if there is one"; the two controls the
+   card follows do not submit, so the card does not either, and this is a declared difference from that table. The group settles when a card leaves, changes `name` or changes `control`. A checkbox card and a switch card are one Tab
+   stop each, Space toggles, the arrows do nothing. A radio card with no `name` is a group of one and warns nothing.
+
+4. **The form (Q4).** The card is form-associated. A checked checkbox or radio card enters the `FormData` as `name=value`; `reset`,
+   a disabled `<fieldset>` and the restoration of the history work as in the native controls. The card with a switch submits
+   nothing, as `nph-switch` is not a form member: a choice that goes with a submission is a checkbox.
+
+5. **The name and the description (Q5).** The title is the name of the control and the second line its description, both written
+   through `ElementInternals` (`ariaLabel` and `ariaDescription`), because an id does not cross the shadow root; the second line,
+   the icon and the shortcut are `aria-hidden`. The shortcut draws a hint and binds no key (D-2): `keyShortcuts` becomes
+   `ariaKeyShortcuts` only when it is filled in, and a disabled card announces none.
+
+6. **The states and the outline (Q6, D-1).** The outline is the stroke inside the card and takes no room: an `outline` of
+   `rich-option/border-width` with a negative offset of the same width, which follows the corner. The precedence is error, then
+   focus, then rest, and disabled wins over all (T11). Hover is a layer under the content, `rich-option/background-hover` at
+   `rich-option/background-hover-opacity`, and only the layer takes the opacity; it never changes the outline, so error with hover keeps
+   the error outline and focus with hover keeps the focus outline and the halo. The hover layer sits inside `@media (hover: hover)`,
+   and a disabled card takes none. The focus is the outline in `rich-option/focus-border` and a halo outside the card of
+   `rich-option/focus-ring-width` in `rich-option/focus-halo`, in `rich-option/focus-halo-error` when the card is invalid; it shows
+   only for the keyboard. The focused card sits over its neighbors. `invalid` is visual only: `aria-invalid` is not supported on the
+   `radio` and `switch` roles, and the written message belongs to the `nph-field` of the group.
+
+7. **The width (Q7).** `layout/rich-option-width` with `max-inline-size: 100%`: a maximum width that shrinks with its container, so
+   on a narrow screen a group stacks in one column.
+
+8. **The control hover (Q8, item 15).** The control inside is `inert`, so it takes no hover from outside and the card passes none:
+   the known limit of DSA-45 D-3, until the box, the circle and the track get an API.
+
+9. **The card in the field (Q9).** `static nphFieldRole = 'option'`: the field writes only `invalid` and `disabled`, and wraps the
+   cards in a `group`. A group of radio cards inside the field is read as a `group` and not as a `radiogroup`, a known limit
+   (see below); the cards still have the `radio` role, the arrow keys and the one Tab stop of the group.
+
+10. **What turns the rich look of the option on (Q10).** The boolean attribute `rich` on `nph-option`, which reflects, and `description`
+    for the text below the label. `rich` with no description is valid; a `description` without `rich` is not drawn. It is a choice of
+    the option and not of the list, so one list holds both looks: the create row of `nph-combobox` is a plain option (DSA-46 D-1) and
+    keeps today's look. In the `nph-combobox` and `nph-multi-combobox` data an entry may carry `rich` and `description`; an entry
+    whose `rich` is not a boolean or whose `description` is not text is left out with one `console.error`.
+
+11. **The rich option (Q11).** The hover and the active option are a layer under the content at `select/option-background-hover-opacity`;
+    the selected option has no background, whatever the marker, and keeps the check or the checked box (a declared deviation from
+    DSA-29 D8 and D-3, only for the rich option); the disabled option is the whole option at `select/option-disabled-opacity`, its
+    secondary text and description in `select/option-foreground`, and with `marker=checkbox` the box stays at its default; the
+    description is `text/caption` and wraps; the label is cut with an ellipsis on its line (DSA-29 D3).
+
+12. **Keyboard or pointer (Q12).** The option gets one more property written by the list, `keyboard`, as `selected` and `active`
+    are: it is not reflected and shows as the state `:state(keyboard)`. Only the rich option that is `active` and `keyboard` draws
+    the 1 px focus border outside it, `select/option-focus-border`, and the 4 px halo outside that border, `select/option-focus-halo`,
+    the pattern of the `nph-dropdown-menu` items, and it sits over its neighbors with `z-index`. The `nph-select`, the `nph-combobox` and the
+    `nph-multi-combobox` keep "the last input was the keyboard": a key press sets it, a real pointer move or a click clears it, and a
+    pointer position the browser repeats after the list scrolled under a parked pointer is not a move (`pointerMoved`, compared by
+    coordinates). The plain option ignores `keyboard`: no ring, and the full `color/accent` it has.
+
+13. **The description of the option for the screen reader (Q13).** The list points to the active option from the field with
+    `aria-activedescendant`, and the option is the host with its role through `ElementInternals`; the description is its `ariaDescription`,
+    and the line that draws it is `aria-hidden`, so the name stays the label and the secondary text.
+
+14. **The halo at the edge of the list (Q14).** The scroll box of the list keeps its `overflow-y: auto`, so it clips the outer pixel of
+    the halo at the edge, as Figma's list clips its content with the same padding. The clip stays.
+
+15. **Invalid input (Q15, the rule of P21).** The card draws nothing and emits `console.error` in development, once per cause and
+    accumulating: a `control` outside the three, an `icon` outside the core, a `shortcut` with the `switch`, and no `text`. The option
+    keeps the errors of P91; `rich` and `description` add none.
+
+16. **A change outside the piece (Q16).** `nph-radio` does not run its composition check on a radio that is `inert`: that radio is a
+    visual indicator inside another piece and not a group, so the card does not log the warning "without name" for the radio it draws.
+    It amends P82 in one line, with a regression test.
+
+17. **What the task does not change (Q17).** No token is created or changed, and `focus/halo-error` gets no dark value (item 13). The look of
+    the plain option of the `nph-select` and `nph-combobox` does not change: the selected background with `marker=check`, the full
+    hover, no focus border and the radius stay, and a test proves it with the keyboard state on. The option gets no shortcut: the shortcuts
+    stay in the combobox footer (DSA-46 D-2). `nph-field`, `nph-checkbox` and `nph-switch` change nothing.
+
+**Known limits.**
+
+- A group of radio cards inside `nph-field` is read as a `group` and not as a `radiogroup`, because the field reads `nphFieldRole`
+  from the class and the class is `option`; letting the field read the role of the instance is a follow-up, not part of this task.
+- Enter does not submit the form around a checkbox or radio card (see item 3); the accepted table lists a submit.
+- The description of the option and of the card reaches the screen reader through `aria-description` by `ElementInternals`, proved
+  in Chromium only.
+- The control inside the card shows no hover on card hover (DSA-45 D-3).
+- The card has no `forced-colors` or right-to-left treatment; the arrow keys are physical.
+- In light mode of the default brand, `focus/border` measures 2.92:1 against the halo, as `design.md` records.
+- The outer pixel of the halo of the rich option is clipped at the edge of the list.
+- The piece owns the `tabindex` of the host: a `tabindex` the consumer writes is replaced.
+
+**Source.** Documentation frame `6935:11785` (page `4128:26259`), root `6910:6824`, appendix `6935:12295` and sets `6910:6828` and `6910:7093`
+of the Figma file `DS-IA-NEPHOS 5.0`, accepted by the design owner on 18/11/2026, with the 17 items of its approval answered as recommended
+and D-1 to D-3 answered after a preview in light and dark; the evidence of the `figma-docs-accepted` gate of DSA-91, which carries the contract
+converted to text. The names and values of the API, the path of the card holding the role, the `rich` attribute, the `keyboard` property,
+the description through the internals and the width that shrinks are a technical proposal of this implementation.
+
+**Effects on other pieces.** `nph-option` gains `rich`, `description` and `keyboard`, and a CSS file for the rich look; `nph-select`,
+`nph-combobox` and `nph-multi-combobox` keep the last input and write `keyboard`, and the combobox data gain `rich` and `description`;
+`nph-radio` skips its composition check when inert. The sheets of `nph-option`, `nph-select`, `nph-combobox`, `nph-multi-combobox` and `nph-radio`, and the option API of the `nph-select` Docs page, say so. The
+other pieces do not change.
+
+**Out of scope.** The look of the plain option (a task of its own of the select, with the same focus pattern, items 9 to 11). A dark value of
+`focus/halo-error`. A shortcut on the option. A slot for the title. The bound shortcut key. A hover on the control from the card. The
+role of the instance in `nph-field`. A token, new or changed.
+
+**Pending decisions for the design owner.**
+
+- **D-4 — the alignment of the icon on the card.** The anatomy says the parts are aligned to the top and the control to the first line of
+  the title; it does not say where the 20 px icon sits. The provisional rule: the icon is centered on the first line of the title, with the
+  same lowering as the title (the touch area of the control is 24 and the line is 20). If the icon should sit flush at the top with the
+  control, the design owner decides. It does not block the pull request.
+
+**Status.** Anatomy and behavior accepted by the design owner on 18/11/2026. D-4 waits for the design owner and does not block the pull
+request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## P131 — Browser tests of the Azure pipeline in a private network namespace
 
 **Technical conflict.** The Test stage failed on most pull requests from 16/11/2026, in agents of both
@@ -9297,7 +10103,7 @@ decision (a dedicated pool or fewer agents per host). Raising the timeouts is no
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128 or P131 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133 or P134 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

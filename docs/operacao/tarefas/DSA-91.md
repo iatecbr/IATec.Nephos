@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 900,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": "nph-rich-option",
   "dependencies": [
     "DSA-03",
@@ -32,17 +32,25 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor beefc26cab597869a985fa4bfc5ec7b3e88f0d7d origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-91/review-and-merge-2026-11-19.md",
+      "result": "passed",
+      "verified_at": "2026-11-19",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-4",
+      "question": "The anatomy says the parts are aligned to the top and the control to the first line of the title, but not where the 20 px icon sits. The provisional rule: the icon is centered on the first line of the title, with the same lowering as the title (the touch area of the control is 24 and the line is 20). If the icon should sit flush at the top with the control, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    }
+  ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-91/figma-docs-accepted-2026-11-18.md"
+    "docs/operacao/evidencias/DSA-91/figma-docs-accepted-2026-11-18.md",
+    "docs/operacao/evidencias/DSA-91/review-and-merge-2026-11-19.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -59,9 +67,13 @@
     "excerpt": null,
     "converted_decision": "The nph-rich-option documentation frame (6935:11785, page 4128:26259) was accepted as the API and behavior specification of the nph-rich-option card and of the rich option of the nph-select and nph-combobox list, with the visual acceptance of the root (6910:6824). COMPONENT_SET nph-rich-option (6910:6828), 36 variants; COMPONENT_SET of the rich option (6910:7093), 40 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "feat/dsa-91-rich-option",
+    "commit": "beefc26",
+    "pr": 187
+  },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-19"
 }
 ```
 

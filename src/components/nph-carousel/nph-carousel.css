@@ -1,0 +1,211 @@
+/**
+ * Internal style of `nph-carousel`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `carousel/*` ones, `focus/border`, `border/width`, `focus/halo`,
+ * `focus/ring-width`, `text/label-md` and `motion/state-*`. The disabled arrow keeps the look of
+ * the `nph-button`. The `--_*` variables are internal to the shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `0`, `none`, `100cqw` (the width of
+ * the track, which is the query container of the slides: one whole slide, or one whole slide minus
+ * the peek), `max-content` (the strip is as long as its slides and a slide of the several layout has
+ * the width of its content), `100%`, `calc(-1 * ...)` (focus border and halo outside the target,
+ * without changing its size) and `translate3d` written by the component (the strip offset is a
+ * measure, not a design value).
+ *
+ * MOTION — the slide change runs on `motion/state-duration` and `motion/state-easing`, and is
+ * instant with reduced motion (DSA-62 D-3). It does not animate the first placement nor the drag.
+ */
+
+/* With invalid input it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid carousel. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-carousel-controls-offset);
+}
+
+/*
+ * The track clips the slides along the line and leaves the other axis free, so the focus ring of a
+ * control inside a slide is never cut above or below it. It is the query container of the slides:
+ * their width comes from its width, not from the screen.
+ */
+.track {
+  container-type: inline-size;
+  overflow-x: clip;
+  overflow-y: visible;
+  touch-action: pan-y;
+}
+
+.root[data-dragging] .track {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* The strip is as long as its slides; the component moves it with a transform. */
+.strip {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-carousel-slide-gap);
+  inline-size: max-content;
+  min-inline-size: 100%;
+  will-change: transform;
+}
+
+:host([data-nph-ready]) .strip {
+  transition: transform var(--nph-motion-state-duration) var(--nph-motion-state-easing);
+}
+
+.root[data-dragging] .strip {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([data-nph-ready]) .strip {
+    transition: none;
+  }
+}
+
+/* A slide has no background, outline or radius of its own: the content brings them. */
+.slide {
+  flex: none;
+  box-sizing: border-box;
+  min-inline-size: 0;
+}
+
+/* One whole slide at a time: the slide is as wide as the track. */
+:host([layout='single']) .slide {
+  inline-size: 100cqw;
+}
+
+/* The current slide and the edge of the neighbor: the slide leaves room for the peek and one gap. */
+:host([layout='peek']) .slide {
+  inline-size: calc(100cqw - var(--nph-carousel-peek-size) - var(--nph-carousel-slide-gap));
+}
+
+/* As many whole slides as fit: the slide keeps the width of its content, and never wider than the track. */
+:host([layout='several']) .slide {
+  inline-size: max-content;
+  max-inline-size: 100cqw;
+}
+
+/* The controls bar: a centered row below the track. */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nph-carousel-control-gap);
+}
+
+/*
+ * The arrow is the `nph-button` icon only, secondary, solid and circular. Only the color of its icon
+ * changes, to `carousel/control-foreground`: the button has no public hook for it, so the
+ * custom property that holds its foreground is set on the instance, and a rule from outside the
+ * shadow root wins over the `:host` rule inside it (P129).
+ */
+.arrow {
+  flex: none;
+  --_fg: var(--nph-carousel-control-foreground);
+}
+
+/* The indicators form one group; the targets touch. */
+.tabs {
+  display: flex;
+  align-items: center;
+}
+
+.tab {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: var(--nph-carousel-indicator-target-size);
+  block-size: var(--nph-carousel-indicator-target-size);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--nph-carousel-indicator-target-radius);
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.marker {
+  display: block;
+  inline-size: var(--nph-carousel-indicator-size);
+  block-size: var(--nph-carousel-indicator-size);
+  border-radius: var(--nph-carousel-indicator-radius);
+  background-color: var(--nph-carousel-indicator-background);
+}
+
+/* The current position is wider than the others, besides the color (WCAG 1.4.1). */
+.tab[aria-selected='true'] .marker {
+  inline-size: var(--nph-carousel-indicator-width-current);
+  background-color: var(--nph-carousel-indicator-background-current);
+}
+
+/* The current one leads nowhere new: it has no hover. With the keyboard focus the target has no hover background either. */
+.tab[aria-selected='false']:hover:not(:focus-visible) {
+  background-color: var(--nph-carousel-indicator-target-background-hover);
+}
+
+.tab[aria-selected='true'] {
+  cursor: default;
+}
+
+/* Focus: tight border and halo outside the target, keyboard only. */
+.tab:focus-visible::before,
+.tab:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.tab:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-carousel-indicator-target-radius);
+}
+
+.tab:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-carousel-indicator-target-radius);
+}
+
+.counter {
+  flex: none;
+  color: var(--nph-carousel-counter-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  white-space: nowrap;
+}
+
+/* With forced colors the user's palette decides: the dot and the pill keep a visible mark. */
+@media (forced-colors: active) {
+  .marker {
+    background-color: ButtonText;
+  }
+
+  .tab[aria-selected='true'] .marker {
+    background-color: Highlight;
+  }
+
+  .tab:focus-visible::before {
+    border-color: Highlight;
+  }
+}

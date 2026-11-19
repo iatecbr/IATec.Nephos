@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 860,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": "nph-carousel",
   "dependencies": [
     "DSA-03",
@@ -27,17 +27,25 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 52e9bd660b105baaa3e660abf2f8e47c6f9c10e9 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-87/review-and-merge-2026-11-18.md",
+      "result": "passed",
+      "verified_at": "2026-11-18",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The disabled arrow at the ends stays natively disabled, out of the Tab order, and the focus moves to the current indicator or the other arrow, as the task recommends. Keeping it focusable, as the appendix and the APG say, needs a focusable disabled mode in the nph-icon-button, a change to that component in its own task. She decides it in the next approval round. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    }
+  ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-87/figma-docs-accepted-2026-11-16.md"
+    "docs/operacao/evidencias/DSA-87/figma-docs-accepted-2026-11-16.md",
+    "docs/operacao/evidencias/DSA-87/review-and-merge-2026-11-18.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -52,9 +60,13 @@
     "excerpt": null,
     "converted_decision": "The nph-carousel documentation frame (5173:1429, page 1626:32) was accepted as the API and behavior specification of nph-carousel, with the visual acceptance of the root (5164:663). COMPONENT_SET nph-carousel (5165:1094), 9 variants; COMPONENT_SET nph-carousel indicators (5164:771), 11 variants; COMPONENT_SET nph-carousel indicator (5164:687), 5 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "feat/dsa-87-carousel",
+    "commit": "52e9bd660b105baaa3e660abf2f8e47c6f9c10e9",
+    "pr": 182
+  },
   "context": null,
-  "updated_at": "2026-11-16"
+  "updated_at": "2026-11-18"
 }
 ```
 
