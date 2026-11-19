@@ -95,7 +95,6 @@ The tile is 24, 32 and 40 px by size: 16 of icon plus 4 + 4 in compact, 16 plus 
 - **Grouped shadow:** the effect style `elevation/raised` straight (`shadow/color`, black 10% light and 0% dark). Shadow does not become a token; in dark the elevation comes from the `color/card` background. The separated blocks and the flush have no shadow.
 - **Width:** the variants are 560 wide (`layout/max-reading`), an example width (DSA-30 D5). In use the accordion stretches to its container; it has no width token.
 - **Dark patch:** the outline layers `borda` (light) and `borda (escuro)` (dark) show by `scheme/is-light` and `scheme/is-dark`; in code one outline in `accordion/border` serves both themes.
-- **Leave** (the `collapsible/*` replace them): `accordion/header-*`, `accordion/title-foreground`, `accordion/subtitle-foreground`, `accordion/chevron-*`, `accordion/icon-size`, `accordion/panel-*`, `accordion/disabled-opacity`, `accordion/expand-*`; `accordion/card-gap` became `accordion/item-gap`. None of them exists in the code.
 
 ## Anatomy, read part by part in Figma
 
@@ -113,17 +112,17 @@ Read by script, variant by variant, with the token and the text style of each la
 
 - **Trigger:** a horizontal row, minimum height `collapsible/trigger-height-compact` (28), `collapsible/trigger-height` (36) or `collapsible/trigger-height-large` (44) by size; padding `collapsible/trigger-padding-x` (12) on the sides and `collapsible/trigger-padding-y` (8) above and below, `collapsible/trigger-padding-y-compact` (4) in compact; corner `collapsible/trigger-radius`. Parts centered on the vertical axis, in this order: start, text block, end, indicator. With the indicator at the start: indicator, start, text block, end.
 - **Hover:** fill `collapsible/trigger-background-hover` on the trigger only (4 variants per size). The pill is inset by the container padding in grouped and separated, and takes the full width in flush. Open does not change the background.
-- **Start:** an instance of the start set; padding to its right `collapsible/trigger-gap` (4) with the icon and the status icon, `accordion/media-gap` (8) with the tile, the avatar and the image. It sits centered on the text block (with the description) or on the title line.
-- **Text block:** vertical, aligned to the start and to the top; the title line on top and the description below it, gap `accordion/title-gap` (2) in the three sizes. With the indicator at the start, the text block also has `collapsible/trigger-gap` before it.
+- **Start:** an instance of the start set; padding to its right `collapsible/trigger-gap` (4) with the icon and the status icon, `accordion/media-gap` (8) with the tile, the avatar and the image. It sits centered on the text block, as every part of the trigger is centered on the vertical axis.
+- **Text block:** vertical, aligned to the start and to the top; the title line on top and the description below it, gap `accordion/title-gap` (2) in the three sizes. With the indicator at the end, the text block has a right padding of `collapsible/trigger-gap` (4): it is the space before the end status, or before the indicator when there is no status. With the indicator at the start, the text block has no padding: the indicator box carries `collapsible/trigger-gap` to its right and the end carries `collapsible/trigger-gap` to its left (read by script on the 48 item variants).
 - **Title line:** horizontal, title and tag centered, gap `accordion/tag-gap` (8). The line becomes 24 px high with the tag (the height of the `nph-badge`); the end status does not change it.
 - **Title:** `text/label-md` in compact and default, `text/label-lg` in large; color `collapsible/title-foreground`. A long title wraps (20 px more of height; 24 in large) and the tag stays centered on the two lines.
 - **Tag:** `nph-badge` primary light, off by default; the sample text is "New".
 - **Description:** `text/body-sm`, color `collapsible/description-foreground`, off by default; sample text "Options few people need to change."
-- **End:** the status `nph-badge` light, off by default; the sample shows success with "Done". Padding to its right `accordion/end-gap` (8) before the indicator; with the indicator at the start, the end sits at the end of the trigger with `collapsible/trigger-gap` (4) before it.
+- **End:** the status `nph-badge` light, off by default; the sample shows success with "Done". With the indicator at the end, the end has a right padding of `accordion/end-gap` (8) before the indicator; with the indicator at the start, the end sits at the end of the trigger with a left padding of `collapsible/trigger-gap` (4).
 - **Indicator:** `nph-icon` `chevron-down` light at the end (24 variants) or `chevron-right` light at the start (24 variants), size `collapsible/indicator-size` (16), color `collapsible/indicator-foreground` by override; the start one has `collapsible/trigger-gap` after it.
 - **Focus** (12 variants, state=focus): two layers in absolute position on the trigger. `borda de foco` (focus border): stroke `collapsible/focus-border`, thickness `collapsible/focus-border-width`, corner `collapsible/focus-border-radius`. `halo de foco` (focus halo), outside it: stroke `collapsible/focus-halo`, thickness `collapsible/focus-halo-width`, corner `collapsible/focus-halo-radius`. The outline layers of the accordion are its container outline, not the focus ring.
-- **Disabled** (12 variants): the whole item at opacity `collapsible/disabled-opacity`.
-- **Content** (24 variants, open=yes): below the trigger, gap `collapsible/trigger-gap`; padding `collapsible/content-padding-top` (8) on top, `collapsible/content-padding-x` (12) on the sides, `collapsible/content-padding-bottom` (12) below; the body vertical with gap `collapsible/content-gap`, the sample text in `text/body-md`, `color/foreground` ("Panel content: text, fields or actions. It opens right below the trigger."). With the indicator at the start, a spacer of `collapsible/indicator-size` plus the gap (20) aligns the content to the part after the indicator: the title, or the start when there is one. There is no extra indent for the start media (a point that followed the recommendation, see "Decisions answered").
+- **Disabled** (12 variants): the whole item at opacity `collapsible/disabled-opacity`. The states are exclusive in Figma: a disabled item takes no hover and no focus.
+- **Content** (24 variants, open=yes): right below the trigger, with no gap (the item stacks the trigger and the content with 0, so the 8 between them is the top padding); padding `collapsible/content-padding-top` (8) on top, `collapsible/content-padding-x` (12) on the sides, `collapsible/content-padding-bottom` (12) below; the body vertical with gap `collapsible/content-gap`, the sample text in `text/body-md`, `color/foreground` ("Panel content: text, fields or actions. It opens right below the trigger."). The content is a horizontal row: with the indicator at the start, a spacer of `collapsible/indicator-size` (16) and the body, with `collapsible/trigger-gap` (4) between them (20 in all), align the content to the part after the indicator: the title, or the start when there is one. There is no extra indent for the start media (a point that followed the recommendation, see "Decisions answered").
 
 ### Start set (`7227:26993`)
 
@@ -171,7 +170,7 @@ The icons are `nph-icon`, the start media is `nph-avatar` or `nph-image`, the ta
 | start → title (in the trigger) | `accordion/media-gap` (8) with tile, avatar and image; `collapsible/trigger-gap` (4) with icon and status icon |
 | title → tag | `accordion/tag-gap` (8), on the title line |
 | title → description | `accordion/title-gap` (2) |
-| title → status → indicator | `collapsible/trigger-gap` (4) before the status and `accordion/end-gap` (8) after it |
+| title → status → indicator | `collapsible/trigger-gap` (4) before the status (the right padding of the text block) and `accordion/end-gap` (8) after it; with no status, the 4 is the space to the indicator |
 | trigger → content (in the item) | `collapsible/content-padding-top` (8), no divider; the content follows the side padding of the trigger |
 
 Partial radius (`regras_raio_parcial` in `design.md`): nothing inside the grouped container touches its edge (16 px padding); the hover pill keeps `collapsible/trigger-radius`, inset.
@@ -270,8 +269,8 @@ Single Nephos rule (decision register, T11): selected or checked + disabled keep
 
 - Minimum: one item.
 - Maximum: no ceiling in the piece, it takes the container; 560 (`layout/max-reading`) is the example and reading width, and wider the text loses its measure.
-- Long text: title and description wrap into lines.
-- Long text with start, tag and status: the title wraps (in Figma by an override of the fill width; in code it wraps by itself); title 40, trigger 90.
+- Long text: title and description wrap into lines (samples in Portuguese about contracts, amendments and invoices, and about the documents sent).
+- Long text with start, tag and status: the title wraps (in Figma by an override of the fill width; in code it wraps by itself); title 40, trigger 90 (the sample title lists the contract data, term and automatic renewal; the description says renewal opens one month before it expires).
 - Empty: does not apply. An accordion with no items does not show; with no content, the section leaves the page.
 - Many items: split into groups with a label, instead of a long list.
 - Short window: does not apply. The panel opens in the page flow, pushes the content and the page scrolls; there is no floating layer.
