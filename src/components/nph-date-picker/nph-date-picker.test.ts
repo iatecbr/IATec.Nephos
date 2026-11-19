@@ -3,9 +3,10 @@
  * only exist where there is layout.
  *
  * They prove the contract accepted in Figma (documentation frame `6673:62837`, set `6666:32`, panel `6662:56378`), recorded in the
- * evidence of the `figma-docs-accepted` gate of DSA-90, and the provisional rule of each decision still open with the design owner
- * (D-1 to D-11, one block each): the field, the calendar button, the panel in its three modes and two sizes, the keyboard, the
- * shortcuts, the footer, the typed date, the form, the roles and names the browser computes and the token contract.
+ * evidence of the `figma-docs-accepted` gate of DSA-90, and the answers of the design owner of 2026-11-18 (DSA-96: D-2, D-5, D-6, D-9,
+ * D-10 and the header of the large grid): the field, the calendar button, the panel in its three modes and two sizes, the views at the
+ * height of the day view, the keyboard, the shortcuts, a period that does not cross an unavailable day, the footer, the typed date,
+ * the form, the roles and names the browser computes and the token contract. The rules still open (D-12 to D-18) follow the task.
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
@@ -171,7 +172,7 @@ describe('the API and the invalid input', () => {
     expect([...NphDatePicker.elementProperties.keys()].sort()).toEqual(
       [
         'disabled', 'end', 'endError', 'endLabel', 'endName', 'error', 'label', 'labels', 'max', 'min', 'mode', 'name', 'now', 'open',
-        'required', 'size', 'start', 'startError', 'startLabel', 'startName', 'unavailable', 'value', 'weekStart',
+        'required', 'size', 'start', 'startError', 'startLabel', 'startName', 'unavailable', 'value', 'weekStart', 'allowsNonContiguousRanges',
       ].sort(),
     );
   });
@@ -549,7 +550,7 @@ describe('the panel of a single date', () => {
     const large = (await mount({ size: 'large' })).picker;
     await open(large);
     expect(surface(large).getBoundingClientRect().width).toBe(342);
-    expect(surface(large).getBoundingClientRect().height).toBe(390);
+    expect(surface(large).getBoundingClientRect().height).toBe(394);
   });
 
   it('enters with opacity and a short slide, and leaves with the exit role', async () => {
@@ -563,16 +564,35 @@ describe('the panel of a single date', () => {
 });
 
 describe('D-2: the views inside the panel', () => {
-  it('takes the height of the open view, 226 with its border, and keeps the width of the days on both sizes', async () => {
-    for (const [size, width] of [['default', 286], ['large', 342]] as const) {
+  it('keeps the height and the width of the panel when the month and the year view open, on both sizes', async () => {
+    for (const [size, width, height] of [['default', 286, 334], ['large', 342, 394]] as const) {
       const { picker } = await mount({ size, value: '2026-10-20' });
       await open(picker);
+      const before = surface(picker).getBoundingClientRect();
+      expect([before.width, before.height], size).toEqual([width, height]);
       ((calendarRoot(picker).querySelector('.title')) as HTMLElement).click();
       await settle(picker);
-      await until(() => surface(picker).getBoundingClientRect().height < 300);
+      const months = surface(picker).getBoundingClientRect();
+      expect([months.width, months.height], `${size} months`).toEqual([width, height]);
+      ((calendarRoot(picker).querySelector('.title')) as HTMLElement).click();
+      await settle(picker);
+      const years = surface(picker).getBoundingClientRect();
+      expect([years.width, years.height], `${size} years`).toEqual([width, height]);
+      picker.remove();
+    }
+  });
+
+  it('keeps the range panel of the size when both columns switch to the views', async () => {
+    for (const [size, width, height] of [['default', 762, 395], ['large', 874, 463]] as const) {
+      const { picker } = await mount({ mode: 'range', size, start: '2026-10-10', end: '2026-10-14' });
+      await open(picker);
+      ((calendarRoot(picker).querySelectorAll('.title')[1]) as HTMLElement).click();
+      await settle(picker);
+      expect(calendarRoot(picker).querySelectorAll('.month.view')).toHaveLength(2);
       const box = surface(picker).getBoundingClientRect();
-      expect(box.height, size).toBe(226);
-      expect(box.width, size).toBe(width);
+      expect([box.width, box.height], size).toEqual([width, height]);
+      await press(picker, '{Escape}');
+      expect(calendarRoot(picker).querySelector('.view')).toBeNull();
       picker.remove();
     }
   });
@@ -632,7 +652,7 @@ describe('the panel of a range', () => {
     await open(picker);
     const box = surface(picker).getBoundingClientRect();
     expect(box.width).toBe(874);
-    expect(box.height).toBe(459);
+    expect(box.height).toBe(463);
     expect((q(picker, '.apply') as HTMLElement).getBoundingClientRect().height).toBe(36);
   });
 
@@ -710,10 +730,20 @@ describe('the panel of a range', () => {
     expect(calendarRoot(picker).activeElement).toBe(day(picker, '2027-05-05'));
   });
 
-  it('keeps both arrows on each month and moves the two months together (D-5)', async () => {
+  it('draws one arrow on each outer edge and moves the two months together, one month per click (D-5)', async () => {
     const { picker } = await mount({ ...period });
     await open(picker);
-    expect(calendarRoot(picker).querySelectorAll('nph-button.arrow')).toHaveLength(4);
+    const arrows = [...calendarRoot(picker).querySelectorAll<HTMLElement & { label: string }>('nph-button.arrow')];
+    expect(arrows.map((arrow) => [arrow.label, arrow.hasAttribute('data-hidden')])).toEqual([
+      ['Previous month', false],
+      ['Next month', true],
+      ['Previous month', true],
+      ['Next month', false],
+    ]);
+    arrows[3]?.click();
+    await settle(picker);
+    const titles = [...calendarRoot(picker).querySelectorAll('.title')].map((title) => (title as HTMLElement & { text: string }).text);
+    expect(titles).toEqual(['November 2026', 'December 2026']);
   });
 
   it('switches to one month with the shortcuts on top, 286 wide, when the width does not fit the panel plus the margin (D-7)', async () => {
@@ -780,14 +810,14 @@ describe('D-6 and the shortcuts', () => {
     expect(range(picker)).toEqual(['2026-10-13', '2026-10-13']);
   });
 
-  it('ends Last 7 days and Last 30 days today and includes it', async () => {
+  it('makes Last 7 days and Last 30 days the whole days up to yesterday, without today (D-6)', async () => {
     const picker = await openRange();
     await userEvent.click(option(picker, 'Last 7 days'));
     await settle(picker);
-    expect(range(picker)).toEqual(['2026-10-08', '2026-10-14']);
+    expect(range(picker)).toEqual(['2026-10-07', '2026-10-13']);
     await userEvent.click(option(picker, 'Last 30 days'));
     await settle(picker);
-    expect(range(picker)).toEqual(['2026-09-15', '2026-10-14']);
+    expect(range(picker)).toEqual(['2026-09-14', '2026-10-13']);
   });
 
   it('runs This month from day 1 to the last day, and Last month is the whole previous month', async () => {
@@ -841,7 +871,7 @@ describe('D-6 and the shortcuts', () => {
   });
 
   it('marks the matching shortcut on opening with a period, or Custom, and none when empty', async () => {
-    const week = await openRange({ start: '2026-10-08', end: '2026-10-14' });
+    const week = await openRange({ start: '2026-10-07', end: '2026-10-13' });
     expect(all<HTMLElement & { selected: boolean }>(week, 'nph-option').find((item) => item.selected)?.textContent?.trim()).toBe('Last 7 days');
     week.remove();
     const custom = await openRange({ start: '2026-10-02', end: '2026-10-05' });
@@ -851,16 +881,45 @@ describe('D-6 and the shortcuts', () => {
     expect(all<HTMLElement & { selected: boolean }>(empty, 'nph-option').some((item) => item.selected)).toBe(false);
   });
 
-  it('disables a shortcut only when none of its days is allowed, and cuts a partly outside one by the limit', async () => {
+  it('disables a shortcut with any day outside the min or the max, with the disabled look of nph-option, except This month (D-6)', async () => {
     const picker = await openRange({ min: '2026-10-01', max: '2026-10-20' });
-    const disabled = all<HTMLElement & { disabled: boolean }>(picker, 'nph-option').map((item) => item.disabled);
-    expect(disabled).toEqual([false, false, false, false, false, true, false]);
+    const options = all<HTMLElement & { disabled: boolean }>(picker, 'nph-option');
+    expect(options.map((item) => item.disabled)).toEqual([false, false, false, true, false, true, false]);
+    /* The look is the one of nph-option as it is: its own disabled opacity, no color of the date picker. */
+    const look = getComputedStyle(options[3] as HTMLElement);
+    expect(look.opacity).toBe(getComputedStyle(options[5] as HTMLElement).opacity);
+    expect(Number(look.opacity)).toBeLessThan(1);
+    expect(Number(getComputedStyle(options[2] as HTMLElement).opacity)).toBe(1);
+    expect(options[3]?.getAttribute('aria-disabled') ?? (options[3] as HTMLElement & { disabled: boolean }).disabled).toBeTruthy();
+    await userEvent.click(option(picker, 'Last 30 days'));
+    await settle(picker);
+    expect(range(picker)).toEqual(['', '']);
     await userEvent.click(option(picker, 'This month'));
     await settle(picker);
     expect(range(picker)).toEqual(['2026-10-01', '2026-10-20']);
-    await userEvent.click(option(picker, 'Last 30 days'));
+  });
+
+  it('cuts This month by the max, so that with the max on today it is not always disabled', async () => {
+    const picker = await openRange({ max: '2026-10-14' });
+    const options = all<HTMLElement & { disabled: boolean }>(picker, 'nph-option');
+    expect(options.map((item) => item.disabled)).toEqual([false, false, false, false, false, false, false]);
+    await userEvent.click(option(picker, 'This month'));
     await settle(picker);
     expect(range(picker)).toEqual(['2026-10-01', '2026-10-14']);
+    expect(all<HTMLElement & { selected: boolean }>(picker, 'nph-option').find((item) => item.selected)?.textContent?.trim()).toBe('This month');
+  });
+
+  it('skips a disabled shortcut with the arrows and never chooses it with the keys', async () => {
+    const picker = await openRange({ min: '2026-10-01', max: '2026-10-20' });
+    const list = q(picker, '.shortcuts') as HTMLElement;
+    list.focus();
+    await settle(picker);
+    await press(picker, '{ArrowDown}{ArrowDown}{ArrowDown}');
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-this-month');
+    await press(picker, '{ArrowUp}');
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-last-7-days');
+    await press(picker, '{ArrowDown}{ArrowDown}{ArrowDown}');
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-custom');
   });
 
   it('is one Tab stop with the up and down arrows, Enter and Space; the active option has the hover look', async () => {
@@ -876,11 +935,81 @@ describe('D-6 and the shortcuts', () => {
     expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-last-7-days');
     expect((q(picker, '#shortcut-last-7-days') as HTMLElement & { active: boolean }).active).toBe(true);
     await press(picker, '{Enter}');
-    expect(range(picker)).toEqual(['2026-10-08', '2026-10-14']);
+    expect(range(picker)).toEqual(['2026-10-07', '2026-10-13']);
     await press(picker, '{End}');
     expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-custom');
     await press(picker, '{Home}{ArrowDown} ');
     expect(range(picker)).toEqual(['2026-10-13', '2026-10-13']);
+  });
+});
+
+describe('a period that does not cross an unavailable day (D-10)', () => {
+  const unavailable = ['2026-10-20'];
+  async function openRange(props: Partial<NphDatePicker> = {}): Promise<NphDatePicker> {
+    const { picker } = await mount({ mode: 'range', unavailable, ...props });
+    await open(picker);
+    return picker;
+  }
+  const closed = (picker: NphDatePicker, date: string): boolean => day(picker, date).disabled;
+
+  it('is off by default, is read from the attribute, and goes to the calendar of the panel', async () => {
+    const picker = await openRange();
+    expect(picker.allowsNonContiguousRanges).toBe(false);
+    expect(calendar(picker).allowsNonContiguousRanges).toBe(false);
+    picker.setAttribute('allows-non-contiguous-ranges', '');
+    await settle(picker);
+    expect(picker.allowsNonContiguousRanges).toBe(true);
+    expect(calendar(picker).allowsNonContiguousRanges).toBe(true);
+  });
+
+  it('stops the End at the day before the first unavailable day after the Start, and the pick cycle goes on to Apply', async () => {
+    const picker = await openRange({ start: '2026-10-14', end: '' });
+    expect(closed(picker, '2026-10-19')).toBe(false);
+    expect(closed(picker, '2026-10-21')).toBe(true);
+    await userEvent.click(day(picker, '2026-10-19'));
+    await settle(picker);
+    expect([calendar(picker).start, calendar(picker).end]).toEqual(['2026-10-14', '2026-10-19']);
+    expect(closed(picker, '2026-10-21')).toBe(false);
+    await userEvent.click(innerButton(q(picker, '.apply') as HTMLElement));
+    await settle(picker);
+    expect([picker.start, picker.end]).toEqual(['2026-10-14', '2026-10-19']);
+  });
+
+  it('closes the days after the first pick of a new period, and opens them again on Clear', async () => {
+    const picker = await openRange();
+    await userEvent.click(day(picker, '2026-10-14'));
+    await settle(picker);
+    expect(closed(picker, '2026-10-21')).toBe(true);
+    await userEvent.click(innerButton(q(picker, '.clear') as HTMLElement));
+    await settle(picker);
+    expect(closed(picker, '2026-10-21')).toBe(false);
+  });
+
+  it('lets a period cross the day when the property is on', async () => {
+    const picker = await openRange({ start: '2026-10-14', end: '', allowsNonContiguousRanges: true });
+    expect(closed(picker, '2026-10-21')).toBe(false);
+    await userEvent.click(day(picker, '2026-10-24'));
+    await settle(picker);
+    expect([calendar(picker).start, calendar(picker).end]).toEqual(['2026-10-14', '2026-10-24']);
+  });
+
+  it('leaves a shortcut that holds an unavailable day as it is: it fills the period (D-15, provisional)', async () => {
+    const picker = await openRange({ unavailable: ['2026-10-10'] });
+    const option = all<HTMLElement & { disabled: boolean }>(picker, 'nph-option').find((item) => item.textContent?.trim() === 'Last 7 days');
+    expect(option?.disabled).toBe(false);
+    await userEvent.click(option as HTMLElement);
+    await settle(picker);
+    expect([calendar(picker).start, calendar(picker).end]).toEqual(['2026-10-07', '2026-10-13']);
+  });
+
+  it('keeps the rule of today for a typed period: it commits across an unavailable day, and the day itself is still refused', async () => {
+    const { picker } = await mount({ mode: 'range', unavailable });
+    await typeInto(picker, 'start', '10/14/2026');
+    await typeInto(picker, 'end', '10/24/2026');
+    expect([picker.start, picker.end]).toEqual(['2026-10-14', '2026-10-24']);
+    await typeInto(picker, 'end', '10/20/2026');
+    expect(picker.end).toBe('2026-10-24');
+    expect((all<HTMLElement & { error: string }>(picker, 'nph-field')[1] as HTMLElement & { error: string }).error).toBe(LABELS.errorUnavailable);
   });
 });
 

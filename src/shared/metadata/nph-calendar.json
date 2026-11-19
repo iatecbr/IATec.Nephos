@@ -39,7 +39,7 @@
       "required": false,
       "default": "default",
       "reflects": true,
-      "constraint": "The Figma `tamanho`. The day, the weekday cell and the arrows are control/height-default (36) on default and control/height-large (44) on large, for a touch screen. The month and year cell keeps its drawn size on both (D-2). Reflects because the internal CSS selects the measures by it. A value outside the list draws nothing and emits console.error in development."
+      "constraint": "The Figma `tamanho`. The day, the weekday cell and the arrows are control/height-default (36) on default and control/height-large (44) on large, for a touch screen. The header is 40 on default and control/height-large (44) on large, the height of its arrows. The month and year cell is as high as the day and a third of the week row wide, and the view keeps the height of the day view (D-2). Reflects because the internal CSS selects the measures by it. A value outside the list draws nothing and emits console.error in development."
     },
     "months": {
       "type": "number",
@@ -50,7 +50,7 @@
       "required": false,
       "default": 1,
       "reflects": true,
-      "constraint": "How many consecutive months are drawn side by side: 1, or 2 for the period of a range. The two months move together and stay consecutive (D-5). The piece does not tie it to mode; the date picker uses 2 only in range, on a screen wide enough. Reflects because the layout of the consumer reads how many grids it holds. A value outside the list draws nothing and emits console.error in development."
+      "constraint": "How many consecutive months are drawn side by side: 1, or 2 for the period of a range. The two months move together, one month per click, and stay consecutive; Previous month is only on the first and Next month only on the last, and the other keeps its space, hidden (D-5). The month and year views draw one column per month, so both switch together (D-9). The piece does not tie it to mode; the date picker uses 2 only in range, on a screen wide enough. Reflects because the layout of the consumer reads how many grids it holds. A value outside the list draws nothing and emits console.error in development."
     },
     "value": {
       "type": "string",
@@ -118,6 +118,13 @@
       "default": "empty list",
       "reflects": false,
       "constraint": "Property only. A date unavailable by rule, such as a holiday: a list of YYYY-MM-DD, or a function that gets one date and says whether it is unavailable. The day fades its number with no opacity on the cell, takes focus, carries aria-disabled true and is never chosen. A function that throws counts as available. A day outside min and max is disabled, not unavailable."
+    },
+    "allows-non-contiguous-ranges": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": false,
+      "constraint": "The property is allowsNonContiguousRanges, as in React Stately. Off by default: a period does not cross a day unavailable by rule (D-10). While only the Start is chosen, a day past the first unavailable day after it, or before the first one before it, cannot be the End: it is disabled, the focus skips it, and a pick refuses it. The window is not a limit: the arrows of the months and the month and year cells ignore it. On, a period may hold unavailable days. Single ignores it. A period that is already complete, one typed, and a shortcut are not checked."
     },
     "labels": {
       "type": "object",
@@ -257,7 +264,7 @@
     },
     "day-disabled": {
       "token": "state/disabled-opacity, color/muted-foreground",
-      "changes_for_user": "A day outside min or max fades, accepts no choice and the focus skips it."
+      "changes_for_user": "A day outside min or max fades, accepts no choice and the focus skips it. While only the Start of a period is chosen, a day that cannot be the End, past an unavailable day, fades the same way (D-10)."
     },
     "day-unavailable": {
       "token": "color/muted-foreground, focus/border, focus/halo",
@@ -307,16 +314,21 @@
     "Each grid is one Tab stop, in the order header, grid, header, grid. Inside a grid the arrows change the day, up and down move a week, Page Up and Page Down change the month and Shift with them the year, Home and End go to the start and the end of the week.",
     "A day outside min and max is disabled and skipped by the arrows; Home, End and the pages go to the nearest allowed day. A date unavailable by rule takes focus and cannot be chosen.",
     "The arrow keys cross the edge of a month, and in a range cross between the two grids, from the last day of the left month to the first day of the right month and back. A key that leaves the months shown moves them.",
-    "Range pick cycle: the first pick is the start; with only the start, the next pick is the end, and an end before the start reorders so the earlier day becomes the start; the same day twice is a valid period of one day; a pick after a complete period starts over, the day becomes the new start and the end is emptied (D-10, provisional).",
-    "The month title opens the month view in place of that month; the year title of the month view opens the year view; the span of twelve years in the year view is plain text. Picking a year opens the months of that year, and picking a month opens the days of that month (D-2 and D-9, provisional).",
+    "Range pick cycle: the first pick is the start; with only the start, the next pick is the end, and an end before the start reorders so the earlier day becomes the start; the same day twice is a valid period of one day; a pick after a complete period starts over, the day becomes the new start and the end is emptied (D-10).",
+    "A period does not cross a day unavailable by rule unless allowsNonContiguousRanges is on (D-10). While only the start is chosen, the first unavailable day after it closes the days beyond on that side, and the first one before it closes the days before; a closed day is disabled, skipped by the arrows and refused by a pick. The window is looked for only as far as the months shown and the day asked about, so a function rule is called a bounded number of times. A complete period, a typed one and a shortcut are not checked.",
+    "The month title opens the month view in place of the days; the year title of the month view, with chevron-down as the month title, opens the year view; the span of twelve years in the year view is plain text. Picking a year opens the months of that year, and picking a month opens the days of that month (D-2 and D-9).",
+    "In a range the title of either month switches both columns together: the month view shows two consecutive years and the year view two consecutive spans of twelve years, anchored on the first month shown. A month or a year chosen in either column comes back on the left, with the next on the right. The two columns are one sequence for the keys, as the two grids of days are, and one Tab stop (D-9).",
+    "In a range Previous month is only on the first month and Next month only on the last; the other arrow keeps its space and is hidden from sight, from the Tab order and from the accessibility tree. The arrows of the views follow the same rule and move one year, or twelve years, per click (D-5).",
+    "The month and year cell is as high as the day (control/height-default or control/height-large) and a third of the week row wide. The view keeps the height of the day view: the first row is one cell high and the other three are two, with the cell at the bottom, so the gap between rows is one cell and the arrows stay where they are when the view changes (D-2).",
+    "The header is 40 high on default and control/height-large (44) on large, the height of its arrows; the day view is 284 by 332 on default and 340 by 392 on large.",
     "Esc in the month or the year view goes back to the days, with the focus on the title, and takes the key: the second Esc is for the piece that holds the grid.",
-    "Provisional (D-1): a month always draws six week rows, filled with days of the previous and the next month, so the height does not jump. The accepted drawing has five rows and cannot hold a six-week month; the rule holds until the design owner answers.",
-    "Provisional (D-2): the month and year views keep their drawn size, on both sizes, centered; the view takes the height of the open view, so the panel shrinks while it is open.",
-    "Provisional (D-3): the weekday names use text/label-sm, the closest role, until the design owner answers; the Figma binding is a size and weight with no text role.",
-    "Provisional (D-5): each month of a range keeps both arrows, as drawn; the two months move together and stay consecutive; the month of the start opens on the left, the current month when empty, and the focus on the start day, or on today when empty.",
-    "Provisional (D-9): in the month view the arrows move one year and in the year view twelve years; the year view opens on the block of twelve years that starts at the decade of the shown year, and the arrows then move by whole blocks; the keys inside the 4 by 3 grid are the arrows, Home and End by row, and Page Up and Page Down as the arrows; on opening a view the focus goes to the chosen item, else to the item of the title, else to the nearest enabled item; in a range the view opens in place of the month whose title was chosen while the other month stays.",
-    "Provisional (D-11): picking a day outside the month chooses that date; in single the shown month moves to it, in range the two months stay. Each grid is one Tab stop, and with only the end filled the month of the end is on the right and the focus on the end day.",
-    "Provisional (D-12): the header is 40 high on both sizes (control/height-default plus space/inline-tight) and the month and year cell is 84 by 36 (three sevenths of the default week row), measures the evidence draws and no token holds.",
+    "Decided (D-1): a month always draws six week rows, filled with days of the previous and the next month, so the height does not jump.",
+    "Decided (D-3): the weekday names use text/label-sm.",
+    "Decided (D-5): the two months of a range move together and stay consecutive, one month per click; the month of the start opens on the left, the current month when empty, and the focus on the start day, or on today when empty.",
+    "Decided (D-9): in the month view the arrows move one year and in the year view twelve years; the year view opens on the block of twelve years that starts at the decade of the shown year, and the arrows then move by whole blocks; the keys inside the 4 by 3 grid are the arrows, Home and End by row, and Page Up and Page Down as the arrows; on opening a view the focus goes to the chosen item, else to the item of the title, else to the nearest enabled item.",
+    "Decided (D-11): picking a day outside the month chooses that date; in single the shown month moves to it, in range the two months stay. Each grid is one Tab stop, and with only the end filled the month of the end is on the right and the focus on the end day.",
+    "Open (D-12): the default header is 40 high (control/height-default plus space/inline-tight) and the month and year cell is a third of the week row wide (7 of the default cell over 3): measures the evidence draws and no token holds. The large header and the cell height are control/height-large and the day, which have tokens.",
+    "Open (D-16, D-18): in the views of a range the first column is the year of the first month shown, the arrows are only on the outer edges and move one unit per click, and the 24 cells are one sequence for the keys; a day that cannot be the End looks like a day outside the limits. Neither is drawn in Figma; the design owner decides.",
     "Every text comes from the consumer, already localized, except the names of the months and the weekdays, which come from Intl."
   ],
   "domain_errors": [
@@ -330,7 +342,7 @@
     "day_focus": "calendar/day-focus-radius, focus/border, focus/halo, focus/ring-width, border/width",
     "day_states": "color/accent, color/accent-foreground, color/muted-foreground, color/primary, color/primary-foreground, color/primary-surface, color/primary-on-surface, color/primary-text, radius/none, state/disabled-opacity",
     "weekday": "text/label-sm, color/muted-foreground",
-    "header": "control/height-default, space/inline-tight, space/inline, color/secondary-foreground, text/label-md",
+    "header": "control/height-default, space/inline-tight, control/height-large, space/inline, color/secondary-foreground, text/label-md",
     "grid": "space/container-padding, space/inline"
   },
   "ai_hints": [

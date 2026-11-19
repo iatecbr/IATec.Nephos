@@ -9,8 +9,9 @@
  * `calc(-1 * ...)` (the focus halo, outside the cell), `column`, `collapse`, `fixed`, `separate`, `transparent`, and
  * `inset` with zeros in `box-shadow` (the outline of today is a stroke on the inside, as in `nph-kbd`). The day is
  * `control/height-default` (36) or `control/height-large` (44); the header is the default control height plus
- * `space/inline-tight` (40, the same in both sizes, the arrows of the large size go past it); the month and year cell
- * is 3 of 7 of the default week row (84, as drawn: the views keep that size on both sizes, decision D-2).
+ * `space/inline-tight` (40) on default and `control/height-large` (44) on large, the height of its arrows; the month and year
+ * cell is as high as the day and a third of the week row wide (7 days over 3 columns), and the view keeps the height of the day
+ * view with the four rows spread over it (decisions D-2 and the header of the large grid, answered on 2026-11-18).
  */
 
 /* With invalid input it takes no space: no visual fallback. */
@@ -27,12 +28,6 @@
 
 :host([size='large']) {
   --_cell: var(--nph-control-height-large);
-}
-
-/* The measures of the month and year cell: height of the default control, three columns across the default week row. */
-:host {
-  --_item-height: var(--nph-control-height-default);
-  --_item-width: calc(7 * var(--nph-control-height-default) / 3);
 }
 
 /* One month, or two side by side, top aligned, no divider between them. */
@@ -52,7 +47,7 @@
 
 /* ----- header -------------------------------------------------------------------- */
 
-/* 40 high on both sizes; the 44 arrows of the large size go past it, centered. */
+/* 40 high on default; on large it is the height of its 44 arrows. */
 .header {
   display: flex;
   align-items: center;
@@ -60,8 +55,17 @@
   block-size: calc(var(--nph-control-height-default) + var(--nph-space-inline-tight));
 }
 
+:host([size='large']) .header {
+  block-size: var(--nph-control-height-large);
+}
+
 .arrow {
   flex: none;
+}
+
+/* In a range only the outer arrows show: the other one keeps its space, so the title stays centered on its grid (D-5). */
+.arrow[data-hidden] {
+  visibility: hidden;
 }
 
 /* The title sits in a frame between the arrows, its content centered. */
@@ -302,25 +306,22 @@
 /* ----- the month and year views -------------------------------------------------------------- */
 
 /*
- * The view keeps its own drawn size, centered in the panel (D-2); its header is the grid's. The month keeps the
- * width of the days, so the panel does not narrow when the view opens.
+ * The view has the width and the height of the day view (D-2), so the panel and the arrows stay where they are when the view
+ * changes. A cell is as high as the day and a third of the week row wide. The weekday row and the six weeks are seven cells of
+ * height; the four rows are four cells, and the three spaces between them are one cell each, so they fill the same seven: the
+ * first row is one cell high and each of the other three is two, with its cell at the bottom.
  */
 .view {
   align-items: stretch;
   inline-size: calc(7 * var(--_cell) + 2 * var(--nph-space-container-padding));
 }
 
-.view-grid {
-  align-self: center;
-  inline-size: calc(3 * var(--_item-width));
+.view-grid tr + tr {
+  block-size: calc(2 * var(--_cell));
 }
 
-.view-grid .cell {
-  block-size: var(--_item-height);
-}
-
-.item {
-  block-size: var(--_item-height);
+.view-grid tr + tr .cell {
+  vertical-align: bottom;
 }
 
 /* ----- the live region -------------------------------------------------------------------------- */

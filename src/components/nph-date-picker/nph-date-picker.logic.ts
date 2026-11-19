@@ -105,7 +105,10 @@ export function checkTyped(parsed: ParsedText, context: TypedContext): TypedErro
 export const SHORTCUTS = ['today', 'yesterday', 'last-7-days', 'last-30-days', 'this-month', 'last-month', 'custom'] as const;
 export type Shortcut = (typeof SHORTCUTS)[number];
 
-/** The period each shortcut means before the limits cut it. `custom` has none: it does not change the dates. */
+/**
+ * The period each shortcut means before the limits are looked at (D-6). Last 7 days and Last 30 days are the whole days up to yesterday,
+ * without today. `custom` has none: it does not change the dates.
+ */
 export function shortcutPeriod(shortcut: Shortcut, today: Day): Range | null {
   switch (shortcut) {
     case 'today':
@@ -113,9 +116,9 @@ export function shortcutPeriod(shortcut: Shortcut, today: Day): Range | null {
     case 'yesterday':
       return { start: today - 1, end: today - 1 };
     case 'last-7-days':
-      return { start: today - 6, end: today };
+      return { start: today - 7, end: today - 1 };
     case 'last-30-days':
-      return { start: today - 29, end: today };
+      return { start: today - 30, end: today - 1 };
     case 'this-month':
       return { start: firstOfMonth(today), end: lastOfMonth(today) };
     case 'last-month': {
@@ -128,19 +131,24 @@ export function shortcutPeriod(shortcut: Shortcut, today: Day): Range | null {
 }
 
 /**
- * The period of a shortcut cut by the min and the max (D-6), or `null` when none of its days is allowed: the shortcut is then
- * disabled. `custom` is never disabled and has no period.
+ * The period of a shortcut inside the limits (D-6), or `null` when the shortcut is off. A shortcut with any day outside the min or the
+ * max is off, so it never fills a period the limits would cut. The one exception is This month, which stays cut by the max (with the max
+ * on today it would always be off); it is off only when no day of it is allowed or when the min falls inside it. `custom` is never off
+ * and has no period.
  */
 export function shortcutRange(shortcut: Shortcut, today: Day, limits: Limits): Range | null {
   const period = shortcutPeriod(shortcut, today);
   if (period === null || period.start === null || period.end === null) return null;
   if (spanDisabled(period.start, period.end, limits)) return null;
-  const start = limits.min !== null && period.start < limits.min ? limits.min : period.start;
-  const end = limits.max !== null && period.end > limits.max ? limits.max : period.end;
-  return { start, end };
+  if (limits.min !== null && period.start < limits.min) return null;
+  if (shortcut === 'this-month') {
+    return { start: period.start, end: limits.max !== null && period.end > limits.max ? limits.max : period.end };
+  }
+  if (limits.max !== null && period.end > limits.max) return null;
+  return period;
 }
 
-/** Whether a shortcut is off: it has a period and none of its days is allowed. */
+/** Whether a shortcut is off: it has a period and the limits do not hold it (D-6). */
 export function shortcutDisabled(shortcut: Shortcut, today: Day, limits: Limits): boolean {
   return shortcut !== 'custom' && shortcutRange(shortcut, today, limits) === null;
 }

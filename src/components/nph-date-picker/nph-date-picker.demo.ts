@@ -68,7 +68,7 @@ export function bothModes(captions: { light: string; dark: string }, content: ()
 }
 
 export type PickerProps = Partial<
-  Pick<NphDatePicker, 'mode' | 'size' | 'value' | 'start' | 'end' | 'min' | 'max' | 'unavailable' | 'error' | 'startError' | 'endError' | 'required' | 'disabled' | 'open' | 'weekStart' | 'name' | 'startName' | 'endName'>
+  Pick<NphDatePicker, 'mode' | 'size' | 'value' | 'start' | 'end' | 'min' | 'max' | 'unavailable' | 'error' | 'startError' | 'endError' | 'required' | 'disabled' | 'open' | 'weekStart' | 'name' | 'startName' | 'endName' | 'allowsNonContiguousRanges'>
 >;
 
 /** One picker, with today fixed, the labels of the dictionary and the field labels of its mode. */
@@ -95,6 +95,7 @@ export function picker(v: DatePickerText, props: PickerProps = {}): TemplateResu
     ?required=${props.required ?? false}
     ?disabled=${props.disabled ?? false}
     ?open=${props.open ?? false}
+    ?allows-non-contiguous-ranges=${props.allowsNonContiguousRanges ?? false}
     name=${props.name ?? ''}
     start-name=${props.startName ?? ''}
     end-name=${props.endName ?? ''}

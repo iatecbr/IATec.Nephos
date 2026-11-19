@@ -49,7 +49,7 @@ export function bothModes(captions: { light: string; dark: string }, content: ()
 }
 
 /** One grid, with today fixed and the labels of the dictionary. */
-export function grid(v: CalendarText, props: Partial<Pick<NphCalendar, 'mode' | 'size' | 'months' | 'value' | 'start' | 'end' | 'min' | 'max' | 'month' | 'weekStart' | 'unavailable'>> = {}): TemplateResult {
+export function grid(v: CalendarText, props: Partial<Pick<NphCalendar, 'mode' | 'size' | 'months' | 'value' | 'start' | 'end' | 'min' | 'max' | 'month' | 'weekStart' | 'unavailable' | 'allowsNonContiguousRanges'>> = {}): TemplateResult {
   return html`<nph-calendar
     .now=${TODAY}
     .labels=${v.labels}
@@ -64,6 +64,7 @@ export function grid(v: CalendarText, props: Partial<Pick<NphCalendar, 'mode' | 
     .min=${props.min ?? ''}
     .max=${props.max ?? ''}
     .unavailable=${props.unavailable ?? []}
+    ?allows-non-contiguous-ranges=${props.allowsNonContiguousRanges ?? false}
   ></nph-calendar>`;
 }
 
@@ -95,7 +96,7 @@ export function interactive(v: CalendarText): TemplateResult {
  * A grid with its month view or its year view open: the demo presses the title the way the person does, once for the months
  * of the year and twice for the twelve years. The views open from the title, and no attribute opens them.
  */
-export function inView(v: CalendarText, view: 'month' | 'year', props: Partial<Pick<NphCalendar, 'size' | 'value' | 'min' | 'max'>> = {}): TemplateResult {
+export function inView(v: CalendarText, view: 'month' | 'year', props: Partial<Pick<NphCalendar, 'mode' | 'months' | 'size' | 'value' | 'start' | 'end' | 'min' | 'max'>> = {}): TemplateResult {
   const open = (host?: Element): void => {
     if (host === undefined) return;
     void (async () => {
@@ -116,9 +117,13 @@ export function inView(v: CalendarText, view: 'month' | 'year', props: Partial<P
     ${ref(open)}
     .now=${TODAY}
     .labels=${v.labels}
+    mode=${props.mode ?? 'single'}
     size=${props.size ?? 'default'}
+    months=${props.months ?? 1}
     month="2026-10"
     .value=${props.value ?? ''}
+    .start=${props.start ?? ''}
+    .end=${props.end ?? ''}
     .min=${props.min ?? ''}
     .max=${props.max ?? ''}
   ></nph-calendar>`;

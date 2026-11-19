@@ -16,12 +16,14 @@ import {
   inPreview,
   isoDate,
   lastOfMonth,
+  mergeLimits,
   monthSpan,
   monthWeeks,
   outsideLimits,
   parseDate,
   parseDay,
   parseMonth,
+  periodReach,
   pickInRange,
   rangeRole,
   resolveFocus,
@@ -229,5 +231,48 @@ describe('the selection cycle of a range (D-10)', () => {
     expect(inPreview(start, start, null, day('2026-05-14'))).toBe(false);
     expect(inPreview(day('2026-05-12'), start, day('2026-05-14'), day('2026-05-14'))).toBe(false);
     expect(inPreview(day('2026-05-12'), null, null, day('2026-05-14'))).toBe(false);
+  });
+});
+
+describe('the window of the End across an unavailable day (D-10)', () => {
+  const unavailable = (...dates: string[]) => (value: number): boolean => dates.includes(isoDate(value));
+  const reach = (start: string, rule: (value: number) => boolean, low = '2026-05-01', high = '2026-05-31') => {
+    const found = periodReach(day(start), rule, day(low), day(high));
+    return [found.min === null ? null : isoDate(found.min), found.max === null ? null : isoDate(found.max)];
+  };
+
+  it('closes the window on the day before the first unavailable day after the Start, and on the day after the first one before it', () => {
+    expect(reach('2026-05-10', unavailable('2026-05-14', '2026-05-18', '2026-05-06', '2026-05-02'))).toEqual(['2026-05-07', '2026-05-13']);
+  });
+
+  it('leaves a side open when it finds no unavailable day within the days asked about', () => {
+    expect(reach('2026-05-10', unavailable('2026-05-14'))).toEqual([null, '2026-05-13']);
+    expect(reach('2026-05-10', unavailable('2026-05-02'))).toEqual(['2026-05-03', null]);
+    expect(reach('2026-05-10', unavailable('2026-06-02'))).toEqual([null, null]);
+    expect(reach('2026-05-10', () => false)).toEqual([null, null]);
+  });
+
+  it('looks only as far as the days asked about, so a rule given as a function is called a bounded number of times', () => {
+    let calls = 0;
+    periodReach(day('2026-05-10'), () => {
+      calls += 1;
+      return false;
+    }, day('2026-05-08'), day('2026-05-12'));
+    expect(calls).toBe(4);
+  });
+
+  it('does not count the Start itself, typed on an unavailable day, as the unavailable day that closes the window', () => {
+    expect(reach('2026-05-10', unavailable('2026-05-10', '2026-05-12'))).toEqual([null, '2026-05-11']);
+  });
+
+  it('closes the window at once when the day next to the Start is unavailable', () => {
+    expect(reach('2026-05-10', unavailable('2026-05-11', '2026-05-09'))).toEqual(['2026-05-10', '2026-05-10']);
+  });
+
+  it('merges two sets of limits: the later min and the earlier max win', () => {
+    const merged = mergeLimits({ min: day('2026-05-05'), max: day('2026-05-25') }, { min: day('2026-05-07'), max: null });
+    expect([isoDate(merged.min as number), isoDate(merged.max as number)]).toEqual(['2026-05-07', '2026-05-25']);
+    expect(mergeLimits({ min: null, max: null }, { min: null, max: null })).toEqual({ min: null, max: null });
+    expect(mergeLimits({ min: null, max: day('2026-05-25') }, { min: null, max: day('2026-05-20') }).max).toBe(day('2026-05-20'));
   });
 });

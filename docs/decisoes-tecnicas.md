@@ -88,8 +88,9 @@ P62.4 subsection for the detail).
 | **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P131** | Browser tests of the Azure pipeline in a private network namespace (extends P106) | 18/11/2026 | Low. Only the pipeline and one script change; going back is removing the `node scripts/in-private-netns.mjs` prefix from two steps. Where the namespace is not available the tests run as before, with a warning | Not a component decision. Reviewed in the pull request that brings it; the merge is the approval |
 | **P132** | API and semantics of `nph-timeline` | 18/11/2026 | Low now. No piece consumes the timeline yet; the history of a record and the progress of a request and its approval will, and changing `items`, `type`, `label`, `labelledBy`, `has-more`, `loading`, `live`, the texts of the host, the events `nph-timeline-action` and `nph-timeline-more`, the slot named as the `id` of an item, the paint of the connector line, the focus of the last batch of Show more, the announcements or the invalid-input rule later requires redoing every consumer. The number of skeleton rows (D-1), the look of the item that takes the focus (D-2) and the current status on the history (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
-| **P133** | API and semantics of `nph-date-picker` and `nph-calendar` | 18/11/2026 | Low now. No piece consumes the date picker yet; the filters of a report, a due date in a form and the scheduler adjustment (the `nph-calendar` grid replaces its own) will, and changing `mode`, `size`, `value`, `start`, `end`, `min`, `max`, `unavailable`, `month`, `months`, `week-start`, `now`, `labels`, `name`, `start-name`, `end-name`, `open`, the event `change`, the events `nph-pick` and `nph-month-change`, the date text `YYYY-MM-DD`, the internal control row, the seven shortcuts, the typed date rules, the keys or the invalid-input rule later requires redoing every consumer. D-1 to D-11 follow the provisional rule of the task; the measures with no token (D-12), a typed Start or End with the panel closed (D-13) and the page margin of the narrow switch (D-14) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P133** | API and semantics of `nph-date-picker` and `nph-calendar` | 18/11/2026 | Low now. No piece consumes the date picker yet; the filters of a report, a due date in a form and the scheduler adjustment (the `nph-calendar` grid replaces its own) will, and changing `mode`, `size`, `value`, `start`, `end`, `min`, `max`, `unavailable`, `month`, `months`, `week-start`, `now`, `labels`, `name`, `start-name`, `end-name`, `open`, the event `change`, the events `nph-pick` and `nph-month-change`, the date text `YYYY-MM-DD`, the internal control row, the seven shortcuts, the typed date rules, the keys or the invalid-input rule later requires redoing every consumer. D-1 to D-11 were answered on 18/11/2026 (P135 changes D-2, D-5, D-6, D-9 and D-10); the measures with no token (D-12), a typed Start or End with the panel closed (D-13) and the page margin of the narrow switch (D-14) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P134** | API and semantics of `nph-rich-option` and of the rich option of `nph-option` | 18/11/2026 | Low now. No form consumes the card yet; a plan or delivery choice, a list of settings and the people list of a combobox will, and changing `control`, `checked`, `name`, `value`, `text`, `description`, `icon`, `shortcut`, `keyShortcuts`, `invalid`, `disabled`, the events `input` and `change`, the role held by the card, the radio group by `name`, `rich` and `description` on `nph-option`, the `keyboard` property the lists write, the `rich` and `description` of the combobox entries or the invalid-input rule later requires redoing every consumer. D-4 follows the provisional rule of the task and waits for Indiane | Anatomy and behavior: documentation accepted by Indiane on 18/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P135** | `nph-date-picker` and `nph-calendar`: the answers of 18/11/2026 (D-2, D-5, D-6, D-9, D-10 and the header of the large grid) | 19/11/2026 | Low now, as P133: no piece consumes the date picker yet. Changing the property `allowsNonContiguousRanges`, the periods of the shortcuts and when one is disabled, the arrows on the outer edges of the range, the views in two columns, the height of the views or the header of the large grid later requires redoing every consumer. D-15 to D-18 wait for Indiane, with D-12 to D-14 | Answers of the design owner on 18/11/2026 (evidence of DSA-96). API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9776,8 +9777,9 @@ P21. The names follow P64.
 1. **Two elements (Q1).** `nph-calendar` is its own exported element, the owner of the date grid, with its sheet: the header
    (arrows and title), the weekday row, six week rows, the month view and the year view. `mode` is `single` or `range`, `size`
    `default` or `large`, and `months` is `1` or `2`: the two consecutive months of a range are one element, so the arrow keys
-   cross from the last day of the left month to the first day of the right month, the two months move together and the month
-   whose title was chosen is the one that gives way to the view. The `nph-scheduler` keeps its own grid; replacing it with this
+   cross from the last day of the left month to the first day of the right month, the two months move together and the title of
+   either month opens the month or the year view in both columns (P135, which replaces "the month whose title was chosen gives
+   way to the view"). The `nph-scheduler` keeps its own grid; replacing it with this
    one, its day radius and its day focus are an adjustment task of the scheduler after this one (DSA-77 D-1, item 7 of the
    acceptance). `nph-date-picker` composes the field, the calendar button, the panel, the shortcuts and the footer.
 
@@ -9840,7 +9842,9 @@ P21. The names follow P64.
    nothing is chosen and one day when only the Start is (D-10). The period is announced in a live region (`labels.period`).
    The panel switches to one month with the shortcuts on top when the viewport does not fit the panel of the size in use plus the
    page margin (D-7): 12 steps of `date-picker/panel-padding` of shortcuts, two grids and the border, plus
-   `space/container-padding` on each side (D-14).
+   `space/container-padding` on each side (D-14). The period of each shortcut and when one is disabled are the ones of P135
+   (D-6): Last 7 days and Last 30 days end yesterday, and a shortcut with a day outside the min or the max is disabled, except
+   This month. The text above that cuts a shortcut by the limit is superseded by it.
 
 8. **The grid (Q8, D-1 to D-3, D-9, D-11).** Six week rows always, filled with days of the previous and the next month; a day
    outside the month can be picked, and in a single date the month moves to it. The weekday names use `text/label-sm`. A day
@@ -9850,7 +9854,8 @@ P21. The names follow P64.
    the months and Shift the year, Home and End the week. The title of a month opens the month view in its place, the year title
    of that view opens a block of twelve years that starts at the decade, a year picked opens its months and a month picked opens
    its days; the arrows move one year and twelve years; a month or a year is disabled only when none of its days is allowed. The
-   month and year views keep their drawn size, centered, and the panel keeps its width. The band behind the Start and the End
+   month and year views are as high as the day view and keep the width of the panel (P135, D-2; "their drawn size, centered" is
+   superseded). The band behind the Start and the End
    and the fill of the middle run straight across the turn of the week, as a pseudo-element of the cell. Events: `nph-pick`
    (`detail: { date, start, end }`) when the person picks and `nph-month-change` (`detail: { month }`) when the person moves the
    months; both bubble and are composed; code that sets a property fires nothing.
@@ -9863,8 +9868,10 @@ P21. The names follow P64.
     the format of the text, for the shortcuts (the seven are fixed in v1; the product cannot pass its own) or for the months
     shown by the date picker (the range shows two, or one when narrow).
 
-**Provisional rules.** The design owner has not answered D-1 to D-11. The code follows, for each one, the column "Until the
-design owner answers" of the task, and names it here so it is easy to change: **D-1** six rows; **D-2** the month and year
+**Rules of the first version (superseded in part by P135).** The design owner answered D-1 to D-11 on 18/11/2026, as
+recommended. D-1, D-3, D-4, D-7, D-8 and D-11 stand as written below; D-2, D-5, D-6, D-9 and D-10 were changed by P135. The
+list is kept as the record of what the first version did, for each one, following the column "Until the design owner answers"
+of the task: **D-1** six rows; **D-2** the month and year
 views at their drawn size, the panel shrinking with the open view, a year opens its months and a month opens its days; **D-3**
 `text/label-sm` on the weekday names; **D-4** the typed-date rules of item 5; **D-5** both arrows on each month, the two months
 move together, the Start month on the left, the focus on the Start day; **D-6** the periods of item 7; **D-7** the switch by the
@@ -9876,11 +9883,11 @@ on the End.
 A radius semantic for floating layers. Shortcuts of the product. A mask. A read-only state. Locale-aware parsing beyond the order
 of day, month and year and the slash.
 
-**Pending decisions for the design owner.** D-1 to D-11 stay as they are in the task. The code adds three:
+**Pending decisions for the design owner.** D-1 to D-11 were answered on 18/11/2026 (P135). The code added three, which stay open:
 
 - **D-12 — measures with no token.** The shortcut column is 192 wide, the header 40 high and the month and year cell 84 wide in
   Figma, and no token carries them. The code derives them from tokens, with no literal: 12 steps of `date-picker/panel-padding`,
-  the default control height plus `space/inline-tight`, and 3 of 7 of the default week row. The design owner decides whether
+  the default control height plus `space/inline-tight` (the default header; P135 made the large one `control/height-large`), and a third of the week row for the width of the month and year cell (84 on default; the cell height follows the day since P135). The design owner decides whether
   they get tokens, through Claude in Figma.
 - **D-13 — a typed Start or End with the panel closed.** The evidence says how typing works with the panel open and what Apply
   does; it says nothing about the panel closed. The code commits each field when the person leaves it, so a Start without an End
@@ -9888,8 +9895,9 @@ of day, month and year and the slash.
 - **D-14 — the page margin of D-7.** The narrow switch needs a margin around the panel; the code uses `space/container-padding` on
   each side of the viewport. The design owner confirms or gives the margin.
 
-**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-14 wait for the design owner and do not
-block the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-11 were answered on 18/11/2026 (P135);
+D-12 to D-14 wait for the design owner and do not block the pull request. API and semantics are reviewed in the pull request that
+brings them; the merge is the approval.
 
 ---
 
@@ -10107,15 +10115,97 @@ shorter than a few browser round trips. That is why the budgets above are raised
 infrastructure decision (a dedicated pool or fewer agents per host), and fewer workers or shards are not
 changed: they only shrink our own share of a load that comes from other jobs (#142).
 
+**Declared risk.** The fix is for the network. A documentation story can still exceed its budget when the
+shared host passes a load of 20 on 8 cores, and the Test stage then fails on a timeout and not on the code. The
+two runs on the final head show it: build 633808 (agent `myagent-20`, load 20 to 12) was green with the
+shard in 231 s, and build 633823 (agent `ic-lv-az-ag03-lv`, load 21 to 33) failed only because
+`nph-data-table.docs.stories` timed out at 30 s, with the shard in 791 s and no `net::ERR_NETWORK_CHANGED` in
+either. The merge was authorized as the network fix; a rerun of the stage is the answer for such a failure
+until the load of the pool is treated.
+
 **Out of scope.** The load of the shared host.
 
 **Status.** Not a component decision. Reviewed in the pull request that brings it; the merge is the approval.
 
 ---
 
+## P135 — `nph-date-picker` and `nph-calendar`: the answers of 18/11/2026
+
+**Technical conflict.** P133 shipped the date picker with a provisional rule for the eleven questions the documentation left open
+(D-1 to D-11). The design owner answered them on 18/11/2026, all as recommended by the market research, and Figma draws the
+answers (page `1364:2`; the evidence of the `design-decision` gate of DSA-96). Five of the answers and one measure change what
+P133 does: the month and year views (D-2), the arrows of the range (D-5), the shortcuts (D-6), the year title icon and the views
+in the range (D-9), a period across an unavailable day (D-10) and the header of the large grid. A period across an unavailable day
+is the one that needs a new public property, and a limit of the grid that P133 never had to meet: the window of the End depends
+on the rule `unavailable`, which may be a function that is called for any date.
+
+**Decision.** The code of DSA-96 follows the answers. **No token is created or changed**: the large header and the cell height
+are `control/height-large` and `control/height-default`, which exist. The rules of P133 that these answers replace are named
+below; every other rule of P133 stands.
+
+1. **The month and year views at the height of the day view (D-2).** A cell is as high as the day of the size
+   (`control/height-default` or `control/height-large`) and a third of the week row wide. The view has the height and the width of
+   the day view: the first of the four rows is one cell high and each of the other three is two cells high with its cell at the
+   bottom, so the gap between rows is one cell, like the six week rows of the days. The panel keeps its size when the view
+   changes and the arrows stay where they are. It replaces "the month and year views keep their drawn size, centered" of item 8.
+2. **One arrow on each outer edge of the range (D-5).** With `months` 2, Previous month is only on the first month and Next month
+   only on the last. The other arrow keeps its space, so each title stays centered on its grid, and is hidden with `visibility`,
+   which takes it out of sight, of the Tab order and of the accessibility tree at once; the element count of the header does not
+   change. The two months move together, one month per click. The accepted range panels (`6662:55039` and `6662:55042`) already
+   draw it, and the D-5 row of DSA-90 described them wrongly.
+3. **Shortcuts without today, off outside the limits (D-6).** Last 7 days and Last 30 days are the whole days up to yesterday.
+   A shortcut with any day outside the min or the max is disabled, with the disabled look of `nph-option` as it is, and the
+   keys skip it; a disabled shortcut is never matched. This month is the exception: the max cuts it (with the max on today it
+   would always be disabled). It is disabled when no day of it is allowed. The shortcut list keeps the rest of P133 item 7.
+4. **`chevron-down` on the year title, and both columns together in a range (D-9).** The year title takes `chevron-down`, as the
+   month title. With `months` 2, the title of either month opens the month view in both columns, two consecutive years, or the
+   year view in both columns, two consecutive blocks of twelve years. The first column is anchored on the first month shown
+   (its year, or the block of twelve that starts at the decade of that year), so no month on screen is lost. A month chosen
+   in either column comes back on the left, with the next month on the right; a year chosen comes back as the first of two
+   years. The 24 cells are one sequence for the arrow keys, as the two grids of days are, and one Tab stop; the focus goes to the
+   chosen item, else to the item of the title. The arrows of the views are only on the outer edges too and move one year, or twelve
+   years, per click, both columns together.
+5. **A period does not cross an unavailable day (D-10).** The new boolean property `allowsNonContiguousRanges`
+   (attribute `allows-non-contiguous-ranges`), on `nph-calendar` and `nph-date-picker`, named as `allowsNonContiguousRanges` of
+   React Stately, is off by default. Off, while only the Start is chosen, a day past the first unavailable day after it, or
+   before the first one before it, cannot be the End: it is disabled like a day outside the limits, the arrows skip it and a pick
+   refuses it, also when the pick comes with no help from the `disabled` attribute. The window is **not** part of `min` and
+   `max`: the arrows of the months and the month and year cells ignore it, so the navigation is never locked. It is looked for in
+   `periodReach` (`nph-calendar.logic.ts`), only as far as the months shown, or the day the keyboard or the pick asks about, so
+   a rule given as a function is called a bounded number of times; the rule is not called for a day outside the limits. On, a
+   period may hold unavailable days. A complete period, a typed period and a shortcut are never checked (D-15).
+6. **The header of the large grid is 44.** 40 on default
+   (`control/height-default` plus `space/inline-tight`) as before, and `control/height-large` on large, the height of its arrows.
+   The large day view is 340 by 392, the large single panel 342 by 394 and the large range panel 874 by 463.
+
+**Alternatives discarded.** Putting the window of the End in `min` and `max`: the arrows and the cells would lock the navigation
+as soon as a Start is chosen. A `display: flex` on the view rows, or a negative margin on a table with `border-spacing`: the
+first changes the semantics of the table in some browsers, the second would lay a box of one cell over the header, over the
+clicks of the arrows. Removing the hidden arrow from the layout: the title would leave the center of its grid.
+
+**Pending decisions for the design owner.** D-12 to D-14 stay as in P133 and DSA-90. The code adds four, each with the rule it
+follows, recorded in DSA-96:
+
+- **D-15 — a period that is not picked day by day.** A typed period and a shortcut that hold an unavailable day keep the rule of
+  today: they commit and fill their period. The design owner decides whether they follow D-10, a shortcut being disabled and a
+  typed period an error, while `allowsNonContiguousRanges` is off.
+- **D-16 — the views in a range.** The first column is the year of the first month shown, the arrows are only on the outer
+  edges and move one unit per click, and the 24 cells are one sequence for the keys. The answer says only that both columns
+  switch together and where a chosen month comes back.
+- **D-17 — This month with a min inside the month.** It is disabled by the general rule of D-6; the exception of the answer is
+  only for the max.
+- **D-18 — the look of a day that cannot be the End.** It is the disabled look of a day outside the limits; Figma does not draw it.
+
+**Out of scope.** What P133 leaves out, and a token. The `nph-scheduler`, which keeps its own grid until DSA-77 D-1. D-12 to D-14.
+
+**Status.** The answers of the design owner on 18/11/2026. API and semantics are reviewed in the pull request that brings them; the
+merge is the approval. D-12 to D-18 wait for the design owner and do not block the pull request.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133 or P134 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134 or P135 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

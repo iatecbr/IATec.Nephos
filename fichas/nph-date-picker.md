@@ -96,6 +96,17 @@ api:
       gets one date and says whether it is unavailable. In the panel the day fades its number, takes focus
       and is never chosen; a typed date that is unavailable is an error (D-4). A function that throws counts
       as available.
+  allows-non-contiguous-ranges:
+    type: boolean
+    required: false
+    default: false
+    reflects: false
+    constraint: >-
+      The property is allowsNonContiguousRanges, as in React Stately. Range only. Off by default: a period
+      picked in the panel does not cross a day unavailable by rule (D-10). While only the Start is chosen, the
+      days past the first unavailable day after it, or before the first one before it, are disabled and cannot
+      be the End. On, a period may hold unavailable days. It goes to the calendar of the panel. A typed period,
+      which keeps the rule of today for typed dates, and a shortcut are not checked (D-15).
   label:
     type: string
     required: true
@@ -549,10 +560,10 @@ business_rules:
   - "Validity: while a field carries a message the piece wrote for a typed text that is not accepted (not a date, outside the limit, unavailable or an inverted period), the host is badInput, with the text of errorInvalid; with none of those, it is valueMissing while required and the date, or the start or the end, is empty, with the text of errorRequired. form.reset() brings value, start and end back to their attributes and clears the errors."
   - "Each date has its own nph-field. The nph-field names and describes one control, so the control row is the internal element nph-date-picker-control, which holds the nph-input and the calendar button and hands the field contract to the input. The calendar button keeps its own name."
   - "No input mask. The text is checked when the person leaves it, and the message comes through nph-field. The hint is the help line and the placeholder."
-  - "Typed date rules (D-4, provisional): the order of day, month and year comes from the language through Intl, with the slash as separator; day and month may have or lack a leading zero and the year has four digits; the text is written back as two digits for day and month and four for the year. One message at a time, in this order: empty, invalid, outside the limit, unavailable, end before start. Empty is an error only when required. A date with a problem is not committed and the value it replaces stays; a typed value is never reordered. Only a typed End is compared with the Start."
+  - "Typed date rules (D-4): the order of day, month and year comes from the language through Intl, with the slash as separator; day and month may have or lack a leading zero and the year has four digits; the text is written back as two digits for day and month and four for the year. One message at a time, in this order: empty, invalid, outside the limit, unavailable, end before start. Empty is an error only when required. A date with a problem is not committed and the value it replaces stays; a typed value is never reordered. Only a typed End is compared with the Start."
   - "Single: a typed date that passes is committed when the person leaves the field and fires change. With the panel open it is committed at once and the panel moves to the date."
   - "Range, panel open: a typed Start or End goes to the panel, moves the months to it and marks the shortcut; nothing counts before Apply."
-  - "Provisional (D-13): a typed Start or End with the panel closed is committed when the person leaves the field, even when it leaves an incomplete period, and fires change."
+  - "Open (D-13): a typed Start or End with the panel closed is committed when the person leaves the field, even when it leaves an incomplete period, and fires change."
   - "A click in the field is not a click outside: the panel stays open."
   - "The panel is a surface of its own, not an nph-popover, because its widths stop at 400. It lives in the top layer, opens date-picker/panel-offset below the field, aligned to its start, flips above with the same gap when it does not fit and the room above is larger, and keeps the larger side and shrinks with an inner scroll when neither fits."
   - "Esc closes without change. A press outside closes like Cancel. Tab after the last item of the panel closes it like Cancel; the panel is not a focus trap. What was not applied is discarded."
@@ -560,14 +571,16 @@ business_rules:
   - "Single: picking a day applies, writes the text, closes and fires change once."
   - "Range: the panel keeps a draft. The first pick is the start, the second the end, and an end picked before the start reorders; the period counts only on Apply. The Start and End texts keep the period that was applied until Apply: a pick or a shortcut changes only what the panel holds, and start, end and change wait for Apply. Cancel, Esc, a press outside and Tab discard the draft."
   - "The shortcuts are seven fixed nph-option in a listbox the date picker owns, and the product cannot pass its own. They are Today, Yesterday, Last 7 days, Last 30 days, This month, Last month and Custom."
-  - "Provisional (D-6): Today and Yesterday are one day; Last 7 days and Last 30 days end today and include it; This month runs from day 1 to the last day, cut by the max; Last month is the whole previous month; Custom does not change the dates and moves the focus to the grid. Picking or typing dates marks Custom, or the shortcut whose period matches; on opening with a period the matching shortcut is marked, or Custom; on opening empty none is marked. A shortcut brings the months to its start. A shortcut is disabled only when none of its days is allowed, and a shortcut partly outside the min or max is cut by the limit."
-  - "Provisional (D-8): Clear does not close the panel; it empties the selection in the panel and clears the shortcut mark at once; the fields empty only on Apply."
-  - "Provisional (D-10): a third pick starts over, the date becomes the new start and the end is emptied; start and end on the same day is a valid period; Apply stays enabled: with nothing chosen it applies an empty period, and with only the start it applies that day and the End field shows the same date; with only the end the Start takes the same date."
-  - "Provisional (D-5, D-11): the two months of a range move together and stay consecutive, with both arrows on each month as drawn; the month of the start opens on the left, the current month when empty, and with only the end the month of the end opens on the right; the focus goes to the start day, the end day or today."
-  - "Provisional (D-7): the range shows one month with the shortcuts on top when the width of the window does not fit the panel of the size in use (762 default, 874 large) plus the page margin, not at a fixed breakpoint. It is measured when the panel opens."
-  - "Provisional (D-12): the shortcut column is 192, which is 12 steps of date-picker/panel-padding; the header of the grid is 40, which is control/height-default plus space/inline-tight; the month and year cell is 84, three sevenths of the default week row. The evidence draws these measures and no token holds them."
-  - "Provisional (D-14): the page margin of D-7 is space/container-padding on each side."
-  - "Provisional (D-1, D-2, D-3, D-9): the grid draws six week rows, keeps the month and year views at their drawn size, uses text/label-sm on the weekday names and climbs from months to years as a ladder; the rules are in the sheet of nph-calendar."
+  - "Decided (D-6): Today and Yesterday are one day; Last 7 days and Last 30 days are the whole days up to yesterday, without today; This month runs from day 1 to the last day, cut by the max, the one cut the limits make; Last month is the whole previous month; Custom does not change the dates and moves the focus to the grid. A shortcut with any day outside the min or the max is disabled, with the disabled look of nph-option, except This month, which is disabled only when no day of it is allowed or the min falls inside it. Picking or typing dates marks Custom, or the shortcut whose period matches; on opening with a period the matching shortcut is marked, or Custom; on opening empty none is marked. A shortcut brings the months to its start."
+  - "Decided (D-8): Clear does not close the panel; it empties the selection in the panel and clears the shortcut mark at once; the fields empty only on Apply."
+  - "Decided (D-10): a third pick starts over, the date becomes the new start and the end is emptied; start and end on the same day is a valid period; Apply stays enabled: with nothing chosen it applies an empty period, and with only the start it applies that day and the End field shows the same date; with only the end the Start takes the same date."
+  - "Decided (D-10): a period picked in the panel does not cross a day unavailable by rule unless allowsNonContiguousRanges is on: while only the start is chosen, the days past the first unavailable day after it, or before the first one before it, cannot be the end and are disabled. A typed period keeps the rule of today (it commits across an unavailable day, and an unavailable day itself is refused) and a shortcut fills its period whatever it holds; both wait for the design owner (D-15)."
+  - "Decided (D-5, D-9, D-11): the two months of a range move together, one month per click, and stay consecutive, with Previous month only on the first month and Next month only on the last; the month of the start opens on the left, the current month when empty, and with only the end the month of the end opens on the right; the focus goes to the start day, the end day or today. The title of either month opens the month or the year view in both columns together."
+  - "Decided (D-7): the range shows one month with the shortcuts on top when the width of the window does not fit the panel of the size in use (762 default, 874 large) plus the page margin, not at a fixed breakpoint. It is measured when the panel opens."
+  - "Open (D-12): the shortcut column is 192, which is 12 steps of date-picker/panel-padding; the default header of the grid is 40, which is control/height-default plus space/inline-tight; the month and year cell is a third of the week row wide, which is 84 on default. The evidence draws these measures and no token holds them."
+  - "Open (D-14): the page margin of D-7 is space/container-padding on each side."
+  - "Open (D-15 to D-18): a typed period and a shortcut that hold an unavailable day keep the rule of today; the views of a range anchor on the first month shown, with arrows on the outer edges and one unit per click; This month with a min inside the month is disabled; a day that cannot be the End looks like a day outside the limits. None is drawn in Figma; the design owner decides."
+  - "Decided (D-1, D-2, D-3, D-9): the grid draws six week rows, gives the month and year views the height of the day view and cells as high as the day, uses text/label-sm on the weekday names and climbs from months to years as a ladder with chevron-down on both titles; the rules are in the sheet of nph-calendar."
   - "Combined states: error and disabled, disabled wins; a chosen and disabled shortcut keeps its fill and marker under state/disabled-opacity; a chosen day cannot be disabled."
   - "Every text comes from the consumer, already localized, except the order of the date and the names of months and weekdays, which come from Intl."
 domain_errors:
@@ -693,8 +706,9 @@ filled is the date. The panel is the inner Figma piece `nph-date-picker / painel
 **By size and density:** `compact` is 28, `default` 36 and `large` 44, the height of the field and of the
 calendar button. The compact field opens the default panel; `large` opens the large panel, whose footer
 buttons are the default size, and the other panels have compact footer buttons. Density is `not_applicable`.
-The panel measures, with six week rows (D-1), 286 by 334 for one date on default and 342 by 390 on large;
-762 by 395 for the range on default and 874 by 459 on large; and 286 by 679 for the narrow range.
+The panel measures, with six week rows (D-1), 286 by 334 for one date on default and 342 by 394 on large;
+762 by 395 for the range on default and 874 by 463 on large; and 286 by 679 for the narrow range. The month
+and year views keep the size of the panel (D-2).
 
 **Do not combine with:** a mode, a size or a week-start outside the lists; `compact` on a touch screen;
 fields of different sizes in one form; two single date fields for the start and the end of a period.
@@ -738,7 +752,7 @@ press outside leave the focus where it is.
   is dropped from the manifest (P133). The calendar button keeps its own name. In a range the Start and End
   fields sit side by side, `date-picker/trigger-gap` apart, aligned at the top, and the single calendar button
   is in the End field.
-- **The typed date (D-4, provisional).** No mask. The order of day, month and year comes from the language
+- **The typed date (D-4).** No mask. The order of day, month and year comes from the language
   through `Intl`, so `en` writes month first and `pt-BR` and `es` day first, with the slash as separator. Day
   and month may be typed with or without a leading zero and the year has four digits; the text is written back
   with two digits for day and month and four for the year. The text is checked when the person leaves the
@@ -757,7 +771,8 @@ press outside leave the focus where it is.
   focus to the calendar button; it is not a focus trap. The surface does not clip its content, so a focus ring
   is not cut. It has no padding of its own: the grid brings its 16.
 - **The range.** A draft: the first pick is the start, the second the end, an end before the start reorders,
-  and the period counts only on Apply. The Start and End texts keep the applied period until Apply: a pick or a
+  and the period counts only on Apply. A period picked in the panel does not cross a day unavailable by rule
+  unless `allowsNonContiguousRanges` is on (D-10). The Start and End texts keep the applied period until Apply: a pick or a
   shortcut changes only what the panel holds, and `start`, `end` and `change` wait for Apply; Cancel, Esc, a
   press outside and Tab discard the draft. The body is the shortcut
   column and two months, top aligned, with no divider between them; below, an `nph-separator` edge to edge in
@@ -768,23 +783,26 @@ press outside leave the focus where it is.
   of its options as `nph-select` is of its own: Today, Yesterday, Last 7 days, Last 30 days, This month, Last
   month and Custom. The product passes their texts in `labels` and cannot pass its own shortcuts. The list is one
   Tab stop; Up and Down move through the enabled ones without wrapping, Home and End go to the first and the last,
-  Enter and Space choose. A shortcut fills the band and waits for Apply.
+  Enter and Space choose. A shortcut fills the band and waits for Apply. Last 7 days and Last 30 days end
+  yesterday, without today. A shortcut with any day outside the `min` or the `max` is disabled, with the
+  disabled look of `nph-option`; This month is the exception, which the `max` cuts (D-6).
 
-**Provisional decisions.** The design owner has not answered these. The code follows the rule on the right
-until then; each is named in the task with its number:
+**Decisions.** The design owner answered D-1 to D-11 on 2026-11-18, as recommended, and Figma draws the answers
+(the evidence of DSA-96). What stays open is named in the task with its number:
 
-| Decision | What the code does until the design owner answers |
+| Decision | What the code does |
 |---|---|
-| D-1, D-2, D-3, D-9, D-10, D-11 | The grid rules, in the sheet of `nph-calendar`: six week rows, the views at their drawn size, `text/label-sm` on the weekday names, the ladder of months and years, the selection cycle, picking a day outside the month |
+| D-1, D-2, D-3, D-9, D-10, D-11 | The grid rules, in the sheet of `nph-calendar`: six week rows, the views at the height of the day view, `text/label-sm` on the weekday names, the ladder of months and years, the selection cycle, picking a day outside the month |
 | D-4 | A typed date outside the limits, unavailable, or an End before the Start is an error that says what to fix, with no reorder; one message at a time, in the order empty, invalid, limit, unavailable, end before start |
-| D-5 | Both arrows on each month, as drawn; the two months move together and stay consecutive; the start month opens on the left, the current month when empty, and the focus on the start day or today |
-| D-6 | Today and Yesterday are one day; Last 7 days and Last 30 days end today and include it; This month is the whole month, cut by the limits; Last month is the whole previous month; Custom keeps the dates and moves the focus to the grid; a manual choice marks Custom or the matching shortcut; none is marked when empty |
+| D-5 | Previous month only on the first month and Next month only on the last, the other keeping its space, hidden; the two months move together, one month per click, and stay consecutive; the start month opens on the left, the current month when empty, and the focus on the start day or today |
+| D-6 | Today and Yesterday are one day; Last 7 days and Last 30 days are the whole days up to yesterday, without today; This month is the whole month, cut by the max; Last month is the whole previous month; a shortcut with any day outside the limits is disabled, except This month; Custom keeps the dates and moves the focus to the grid; a manual choice marks Custom or the matching shortcut; none is marked when empty |
 | D-7 | One month with the shortcuts on top when the width of the window does not fit the panel plus the page margin, measured when the panel opens; the rule is by width, not by a fixed breakpoint |
 | D-8 | Clear empties the panel and the shortcut mark and stays open; the fields empty on Apply |
-| D-10 | A third pick starts over; one day is valid; Apply stays enabled, with an empty period, with the start alone as one day, and with the end alone as one day |
-| D-12 | The shortcut column is 192 (12 steps of `date-picker/panel-padding`), the header 40 (`control/height-default` plus `space/inline-tight`) and the month and year cell 84 (three sevenths of the default week row): measures with no token |
-| D-13 | A typed Start or End with the panel closed is committed when the field is left, even when the period stays incomplete |
-| D-14 | The page margin of D-7 is `space/container-padding` on each side |
+| D-10 | A third pick starts over; one day is valid; Apply stays enabled, with an empty period, with the start alone as one day, and with the end alone as one day; a period picked in the panel does not cross a day unavailable by rule unless `allowsNonContiguousRanges` is on |
+| D-12 (open) | The shortcut column is 192 (12 steps of `date-picker/panel-padding`), the default header 40 (`control/height-default` plus `space/inline-tight`) and the month and year cell a third of the week row wide, 84 on default: measures with no token |
+| D-13 (open) | A typed Start or End with the panel closed is committed when the field is left, even when the period stays incomplete |
+| D-14 (open) | The page margin of D-7 is `space/container-padding` on each side |
+| D-15 to D-18 (open) | A typed period and a shortcut that hold an unavailable day keep the rule of today (they commit and fill their period); the views of a range anchor on the first month shown, with the arrows on the outer edges, one unit per click; This month is disabled when the min falls inside the month; a day that cannot be the End looks like a day outside the limits |
 
 **Domain error states:** a typed text that is not a date, a date outside `min` or `max`, a date unavailable
 by rule and an End before the Start are messages on the field, each from `labels`; an empty required field has
