@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 900,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-rich-option",
   "dependencies": [
     "DSA-03",
@@ -66,7 +66,11 @@
     "excerpt": null,
     "converted_decision": "The nph-rich-option documentation frame (6935:11785, page 4128:26259) was accepted as the API and behavior specification of the nph-rich-option card and of the rich option of the nph-select and nph-combobox list, with the visual acceptance of the root (6910:6824). COMPONENT_SET nph-rich-option (6910:6828), 36 variants; COMPONENT_SET of the rich option (6910:7093), 40 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "feat/dsa-91-rich-option",
+    "commit": null,
+    "pr": 187
+  },
   "context": "docs/operacao/contextos/DSA-91.md",
   "updated_at": "2026-11-18"
 }

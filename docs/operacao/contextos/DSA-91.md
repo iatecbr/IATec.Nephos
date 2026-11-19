@@ -26,7 +26,7 @@ Implement the `nph-rich-option` card and the rich look of the `nph-option` with 
 - `git fetch origin && git checkout -B feat/dsa-91-rich-option origin/v/5.0.0`
 
 ## Result
-In progress. No token created or changed.
+Pull request 187 open, in review. No token created or changed.
 
 ## Evidence
 None yet: the `review-and-merge` gate opens after the merge.
@@ -35,4 +35,4 @@ None yet: the `review-and-merge` gate opens after the merge.
 None.
 
 ## Next command
-`npm test -- src/components/nph-option`
+`gh pr checks 187 --watch`
