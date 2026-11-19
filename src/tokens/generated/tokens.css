@@ -1145,6 +1145,7 @@
   --nph-sidebar-flyout-border: var(--nph-color-border-subtle);
   --nph-sidebar-flyout-foreground: var(--nph-color-foreground);
   --nph-sidebar-scrim: var(--nph-overlay-scrim);
+  --nph-skeleton-background: var(--nph-color-skeleton);
   --nph-status-on-solid: var(--nph-color-background);
   --nph-table-background: var(--nph-color-background);
   --nph-table-foreground: var(--nph-color-foreground);
@@ -1629,6 +1630,7 @@
   --nph-color-muted-foreground: var(--nph-core-neutral-600);
   --nph-color-subtle-foreground: var(--nph-core-neutral-500);
   --nph-color-muted: var(--nph-core-surface-50);
+  --nph-color-skeleton: var(--nph-core-surface-50);
   --nph-color-popover-foreground: var(--nph-core-neutral-950);
   --nph-color-popover: var(--nph-core-base-white);
   --nph-color-secondary-foreground: var(--nph-core-surface-900);
@@ -1857,6 +1859,7 @@
   --nph-color-muted-foreground: var(--nph-core-surface-200);
   --nph-color-subtle-foreground: var(--nph-core-neutral-300);
   --nph-color-muted: var(--nph-core-surface-700);
+  --nph-color-skeleton: var(--nph-core-surface-600);
   --nph-color-popover-foreground: var(--nph-core-neutral-100);
   --nph-color-popover: var(--nph-core-surface-700);
   --nph-color-secondary-foreground: var(--nph-core-surface-100);
