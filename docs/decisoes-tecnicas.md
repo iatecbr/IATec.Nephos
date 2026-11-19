@@ -10078,6 +10078,11 @@ its network namespace changes (P106), and no switch turns that off.
 - Where the namespace cannot be created (macOS, an agent without unprivileged user namespaces) the command
   runs as it is and the log carries an Azure warning. Nothing locally changes: the script is only called by the
   pipeline.
+- The browser tests get 30 s per test (`testTimeout` in the two projects of `vitest.config.ts`) instead of the
+  15 s that browser mode gives by default. The sleeps of `nph-tooltip.test.ts` that must outlast a few
+  round trips to the browser (`WIDE_EXIT`, the `vi.waitFor` windows, and the hover wait of "a mouse hover
+  opens it after motion/hover-delay, not before") are widened the same way. No test is skipped or
+  loosened in what it asserts: the lower bound of that test is now the widened wait.
 - P106 stays as it is, for a failure the namespace does not prevent. The step also records the link and
   address changes of the host with `ip monitor` and prints them at the end, to show what the
   namespace kept away from Chromium.
@@ -10093,9 +10098,16 @@ with 866 host network events recorded during the run and no `net::ERR_NETWORK_CH
 A test that needs the network beyond the loopback would fail in the namespace; none does today (the URLs in the
 tests are strings checked by the code, not requests).
 
-**Out of scope.** The 15-second timeouts of the documentation stories on a host with load above 20 (build
-629910), a second cause that the namespace does not touch; the load of the shared host is an infrastructure
-decision (a dedicated pool or fewer agents per host). Raising the timeouts is not part of this decision.
+**Second cause.** With the network fixed, the runs that still failed (builds 632933, 632987 and 633071,
+agents `myagent-11`, `-13` and `-19`) had no `net::ERR_NETWORK_CHANGED` and failed on the load of the shared
+host, 13 to 35 on 8 cores before the job began: documentation stories of `nph-scheduler`, `nph-data-table` and
+`nph-multi-combobox` over the 15 s budget (`nph-data-table.docs.stories` takes 5 s at load 1 and 11 s at
+load 15), a `click` of `nph-sidebar.test.ts` that waited the whole 15 s, and two sleeps of `nph-tooltip.test.ts`
+shorter than a few browser round trips. That is why the budgets above are raised. The load itself stays an
+infrastructure decision (a dedicated pool or fewer agents per host), and fewer workers or shards are not
+changed: they only shrink our own share of a load that comes from other jobs (#142).
+
+**Out of scope.** The load of the shared host.
 
 **Status.** Not a component decision. Reviewed in the pull request that brings it; the merge is the approval.
 

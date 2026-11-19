@@ -14,6 +14,15 @@ import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig, type Plugin } from 'vitest/config';
 
+/**
+ * Time a test may take. Vitest browser mode gives 15 s by default. On the shared Azure agents
+ * the host load reaches 13 to 35 on 8 cores before the job starts, and a docs story that takes
+ * 5 s at load 1 takes 11 s at load 15, a click may wait the whole 15 s, and the run fails
+ * with "Test timed out" on a test that is right (P131). The budget is raised and no test is
+ * skipped: a test that hangs still fails, only after 30 s.
+ */
+const TEST_TIMEOUT = 30_000;
+
 /** A new object per project: Vitest writes the project name into each instance. */
 const browser = () => ({
   enabled: true,
@@ -75,6 +84,7 @@ export default defineConfig({
         plugins: requestLog('unit'),
         test: {
           name: 'unit',
+          testTimeout: TEST_TIMEOUT,
           include: ['src/**/*.test.ts'],
           browser: browser(),
         },
@@ -83,6 +93,7 @@ export default defineConfig({
         plugins: [storybookTest({ configDir: '.storybook' }), ...requestLog('storybook')],
         test: {
           name: 'storybook',
+          testTimeout: TEST_TIMEOUT,
           browser: browser(),
         },
       },
