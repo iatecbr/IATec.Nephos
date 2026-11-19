@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 890,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-date-picker",
   "dependencies": [
     "DSA-03",
@@ -36,11 +36,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 4906ba6fb5def1e4a225ae36db64ea32e9ba3af1 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-90/review-and-merge-2026-11-19.md",
+      "result": "passed",
+      "verified_at": "2026-11-19",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -131,7 +131,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-90/figma-docs-accepted-2026-11-17.md"
+    "docs/operacao/evidencias/DSA-90/figma-docs-accepted-2026-11-17.md",
+    "docs/operacao/evidencias/DSA-90/review-and-merge-2026-11-19.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -146,9 +147,9 @@
     "excerpt": null,
     "converted_decision": "The nph-date-picker documentation frame (6673:62837, page 1364:2) was accepted as the API and behavior specification of nph-date-picker, with the visual acceptance of the root (6662:55010). COMPONENT_SET nph-date-picker (6666:32), 78 variants; COMPONENT_SET of the nph-date-picker panel (6662:56378), 6 variants; the date grid nph-calendar (4015:28204) with its day (4015:28020). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-90-date-picker", "commit": null, "pr": 186 },
-  "context": "docs/operacao/contextos/DSA-90.md",
-  "updated_at": "2026-11-18"
+  "git_review": { "branch": "feat/dsa-90-date-picker", "commit": "4906ba6", "pr": 186 },
+  "context": null,
+  "updated_at": "2026-11-19"
 }
 ```
 
