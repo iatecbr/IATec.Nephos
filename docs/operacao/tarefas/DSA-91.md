@@ -40,7 +40,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-4",
+      "question": "The anatomy says the parts are aligned to the top and the control to the first line of the title, but not where the 20 px icon sits. The provisional rule: the icon is centered on the first line of the title, with the same lowering as the title (the touch area of the control is 24 and the line is 20). If the icon should sit flush at the top with the control, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-18"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-91/figma-docs-accepted-2026-11-18.md"
   ],

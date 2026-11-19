@@ -136,7 +136,9 @@ api:
     reflects: false
     constraint: >-
       The options: nph-option children, as option children of a select. The list
-      shows them in order.
+      shows them in order. An option with rich is the rich option, with a description
+      below the label; the select tells it whether the active option got there by the
+      keyboard (see nph-option).
   input:
     type: event
     required: false

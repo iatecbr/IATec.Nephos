@@ -467,12 +467,13 @@ describe('the whole card is the click area', () => {
     expect(element.checked).toBe(false);
   });
 
-  it('a click the page cancels still reaches the page, and the card follows the control it holds', async () => {
+  it('a click reaches the page once, and the card toggles', async () => {
     const element = await one();
     const seen = vi.fn();
     element.addEventListener('click', seen);
     await userEvent.click(element);
     expect(seen).toHaveBeenCalledTimes(1);
+    expect(element.checked).toBe(true);
   });
 
   it('a disabled card takes no click: nothing changes and the consumer hears nothing', async () => {
@@ -522,18 +523,37 @@ describe('events', () => {
 });
 
 describe('the keyboard', () => {
-  it('Space toggles a checkbox card and a switch card; Enter does not check', async () => {
-    for (const control of ['checkbox', 'switch']) {
-      const element = await one(`control="${control}"`);
-      await enter();
-      await userEvent.keyboard(' ');
-      expect(element.checked, control).toBe(true);
-      await userEvent.keyboard('{Enter}');
-      expect(element.checked, control).toBe(true);
-      await userEvent.keyboard(' ');
-      expect(element.checked, control).toBe(false);
-      document.body.replaceChildren();
-    }
+  it('Space toggles a checkbox card and a switch card; Enter checks nothing on the checkbox, as nph-checkbox', async () => {
+    const element = await one('control="checkbox"');
+    await enter();
+    await userEvent.keyboard(' ');
+    expect(element.checked).toBe(true);
+    await userEvent.keyboard('{Enter}');
+    expect(element.checked).toBe(true);
+    await userEvent.keyboard(' ');
+    expect(element.checked).toBe(false);
+  });
+
+  it('Enter toggles a switch card, as nph-switch does, and fires input and change once', async () => {
+    const element = await one('control="switch"');
+    const heard = vi.fn();
+    element.addEventListener('change', heard);
+    await enter();
+    await userEvent.keyboard('{Enter}');
+    expect(element.checked).toBe(true);
+    await userEvent.keyboard('{Enter}');
+    expect(element.checked).toBe(false);
+    expect(heard).toHaveBeenCalledTimes(2);
+  });
+
+  it('Enter does not submit the form around a checkbox or radio card: the controls they follow do not either', async () => {
+    const holder = await mount(`<form><nph-rich-option name="a" text="A"></nph-rich-option></form>`);
+    const submitted = vi.fn((event: Event) => event.preventDefault());
+    holder.querySelector('form')?.addEventListener('submit', submitted);
+    await enter();
+    await userEvent.keyboard('{Enter}');
+    expect(submitted).not.toHaveBeenCalled();
+    expect(card(holder).checked).toBe(false);
   });
 
   it('checkbox and switch cards are one Tab stop each, and the arrows do nothing', async () => {
@@ -763,7 +783,7 @@ describe('the form', () => {
     expect(Number(getComputedStyle(element).opacity)).toBe(Number(resolved('opacity', '--nph-rich-option-disabled-opacity')));
     element.click();
     expect(element.checked).toBe(true);
-    expect((await axNode(element)).properties.disabled ?? (await axNode(element)).properties.checked).toBeDefined();
+    expect((await axNode(element)).properties.disabled).toBe(true);
   });
 
   it('history restoration brings the state back', async () => {
@@ -836,6 +856,15 @@ describe('states', () => {
     expect(outer.right - box.right).toBe(px('--nph-rich-option-focus-ring-width'));
     expect(getComputedStyle(element).zIndex).toBe('1');
     expect(box.width).toBe(px('--nph-layout-rich-option-width'));
+  });
+
+  it('the keyboard focus keeps the outline of the card: the browser ring does not replace it', async () => {
+    const element = await one();
+    await enter();
+    const style = getComputedStyle(element);
+    expect(style.outlineStyle).toBe('solid');
+    expect(Number.parseFloat(style.outlineWidth)).toBe(px('--nph-rich-option-border-width'));
+    expect(Number.parseFloat(style.outlineOffset)).toBe(-px('--nph-rich-option-border-width'));
   });
 
   it('a pointer click draws no focus: the focus shows only for the keyboard', async () => {

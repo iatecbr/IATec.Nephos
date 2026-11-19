@@ -172,7 +172,7 @@
     "The whole card is the click area: a click anywhere on it checks a radio card or toggles a checkbox or switch card.",
     "The card holds the role, the state and the focus; the control inside is a visual indicator, inert and hidden from the screen reader.",
     "Radio cards with the same name and the same form owner, in the same root, are one group: checking one unchecks the others, one Tab stop per group, and the arrow keys move the focus and check, wrapping.",
-    "Enter checks nothing; Space checks a radio card and toggles a checkbox or switch card.",
+    "Space checks a radio card and toggles a checkbox or switch card. Enter checks nothing on a checkbox or radio card, as nph-checkbox and nph-radio, and toggles a switch card, as nph-switch; it does not submit the form.",
     "Only the person checking or toggling the card fires input and change; setting checked from code never fires them.",
     "Only a checked checkbox or radio card enters the form, as name=value; a switch card is not a form member.",
     "The shortcut is a hint: the card binds no key and sets aria-keyshortcuts only when keyShortcuts says the key is bound.",
@@ -212,7 +212,7 @@
       "Radio: arrow down and arrow right move to the next card and check it, wrapping; arrow up and arrow left, to the previous one.",
       "Checkbox and switch: each card is one Tab stop, and the arrows do nothing.",
       "Space checks a radio card and toggles a checkbox or switch card.",
-      "Enter does not check.",
+      "Enter checks nothing on a checkbox or radio card and toggles a switch card, following the control held; it does not submit the form.",
       "A disabled card is out of the Tab order and the arrow keys skip it."
     ],
     "focus": "Keyboard only: the outline turns rich-option/focus-border and a halo of rich-option/focus-ring-width shows outside the card; the control inside takes no ring. A mouse click does not show it.",

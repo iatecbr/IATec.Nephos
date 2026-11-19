@@ -30,8 +30,11 @@
  *   unchecks the others. One Tab stop per group, on the checked card or, with none checked, on
  *   the first that responds; the arrow keys move the focus to the next or previous card that
  *   responds, wrapping, and check it; Space checks the focused one (WAI-ARIA APG, Radio Group).
- *   Checkbox and switch cards are one Tab stop each, and Space toggles them. Enter checks
- *   nothing, as in `nph-checkbox` and `nph-radio`. The card owns the `tabindex` of the host;
+ *   Checkbox and switch cards are one Tab stop each, and Space toggles them. Enter does what
+ *   the control the card holds does: it checks nothing on a checkbox or radio card, as in
+ *   `nph-checkbox` and `nph-radio` (the accepted table also lists a submit of the form, which
+ *   those two controls do not do, and the card follows them: P134), and it toggles a switch
+ *   card, as in `nph-switch`. The card owns the `tabindex` of the host;
  * - a click anywhere on the card (the whole card is the click area), `click()` or a
  *   `<label for>` checks it or toggles it. A click on a checked radio card changes nothing;
  * - events: when the person checks or toggles the card, the host fires the native `input`
@@ -411,7 +414,7 @@ export class NphRichOption extends LitElement {
     if (this.inactive || event.altKey || event.ctrlKey || event.metaKey || event.target !== this) {
       return;
     }
-    if (event.key === ' ') {
+    if (event.key === ' ' || (event.key === 'Enter' && this.control === 'switch')) {
       event.preventDefault();
       this.activate();
       return;

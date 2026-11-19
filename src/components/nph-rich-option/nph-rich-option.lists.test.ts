@@ -35,6 +35,9 @@ afterEach(async () => {
   vi.restoreAllMocks();
 });
 
+const trigger = (select: NphSelect): HTMLElement => select.shadowRoot?.querySelector('.trigger') as HTMLElement;
+const optionAt = (select: NphSelect, index: number): NphOption => select.querySelectorAll('nph-option')[index] as NphOption;
+
 const frame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
 async function settle(root: ParentNode = document.body): Promise<void> {
@@ -106,8 +109,6 @@ describe('nph-select with rich options', () => {
     return holder.querySelector('nph-select') as NphSelect;
   }
 
-  const trigger = (select: NphSelect): HTMLElement => select.shadowRoot?.querySelector('.trigger') as HTMLElement;
-  const optionAt = (select: NphSelect, index: number): NphOption => select.querySelectorAll('nph-option')[index] as NphOption;
 
   it('an option is rich by its own attribute: one list holds the rich and the plain option', async () => {
     const select = await mount();
@@ -184,6 +185,35 @@ describe('nph-select with rich options', () => {
     await settle();
     expect(optionAt(select, 1).active).toBe(true);
     expect(optionAt(select, 1).keyboard).toBe(true);
+  });
+
+  it('a real pointer over a list taller than its limit: the keyboard moves the active option and the ring follows it', async () => {
+    const holder = document.createElement('div');
+    const many = Array.from({ length: 10 }, (_, index) => `<nph-option rich value="v${index}" description="Description ${index}.">Option ${index}</nph-option>`).join('');
+    holder.innerHTML = `<nph-select label="Plan">${many}</nph-select>`;
+    document.body.append(holder);
+    await settle(holder);
+    const select = holder.querySelector('nph-select') as NphSelect;
+    await userEvent.click(trigger(select));
+    await settle();
+    await new Promise((resolve) => window.setTimeout(resolve, 400));
+    const scroller = select.shadowRoot?.querySelector('.scroller') as HTMLElement;
+    expect(scroller.scrollHeight).toBeGreaterThan(scroller.clientHeight);
+    await userEvent.hover(optionAt(select, 1));
+    await settle();
+    expect(optionAt(select, 1).active).toBe(true);
+    expect(optionAt(select, 1).keyboard).toBe(false);
+    for (let step = 0; step < 6; step += 1) {
+      await userEvent.keyboard('{ArrowDown}');
+    }
+    await settle();
+    await new Promise((resolve) => window.setTimeout(resolve, 100));
+    const active = [...select.querySelectorAll('nph-option')].filter((item) => (item as NphOption).active) as NphOption[];
+    expect(active).toHaveLength(1);
+    expect(active[0]).toBe(optionAt(select, 7));
+    expect(active[0]?.keyboard).toBe(true);
+    expect(ringOf(active[0] as NphOption)).toEqual({ border: 'block', halo: 'block', layer: 'block' });
+    expect(scroller.scrollTop).toBeGreaterThan(0);
   });
 
   it('the active option is the one the field points to, with the label as the name and the description as the description', async () => {

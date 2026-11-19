@@ -4745,8 +4745,12 @@
         "check (padrão) ou checkbox, refletido. O nph-select usa sempre check; checkbox é a escolha múltipla do nph-multi-combobox (P96)."
       ],
       [
-        "selected, active",
-        "Escritas pela lista, nunca pelo consumidor. Não refletem."
+        "rich, description",
+        "Liga a aparência rica: uma descrição abaixo do rótulo, uma camada de hover mais suave, nenhum fundo de selecionada e a borda de foco e o halo dos itens de lista na opção ativa pelo teclado. Uma opção simples ao lado não muda. description é o texto abaixo do rótulo, desenhado só com rich."
+      ],
+      [
+        "selected, active, keyboard",
+        "Escritas pela lista, nunca pelo consumidor. Não refletem. keyboard diz que a opção ativa chegou pelo teclado."
       ]
     ],
     "optionStatesHeader": [
@@ -17718,7 +17722,7 @@
       ],
       [
         "Enter",
-        "Não marca nada."
+        "Não marca nada num cartão com checkbox ou radio e alterna um cartão com switch, como os controles que ele segue. Não envia o formulário."
       ],
       [
         "Tab",
@@ -17849,7 +17853,7 @@
       ],
       [
         "Teclado",
-        "Radio: uma parada de Tab, setas que marcam e dão a volta, Espaço marca. Checkbox e switch: uma parada cada, Espaço alterna. Enter não marca nada."
+        "Radio: uma parada de Tab, setas que marcam e dão a volta, Espaço marca. Checkbox e switch: uma parada cada, Espaço alterna. Enter não marca nada num cartão com checkbox ou radio e alterna um cartão com switch."
       ],
       [
         "Foco",

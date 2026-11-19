@@ -9940,8 +9940,10 @@ only in development, once per cause: the rule of P21. The names follow P64.
 3. **The group of radio cards (Q3).** The group is not an element: cards with `control="radio"` and the same non-empty `name`, in
    the same root and with the same form owner, are one group, as in `nph-radio`. Checking one unchecks the others, from the person or
    from code; one Tab stop per group, on the checked card or, with none checked, on the first that responds; the arrow keys move
-   the focus to the next or previous card that responds, wrapping, and check it; Space checks the focused one; Enter checks
-   nothing. The group settles when a card leaves, changes `name` or changes `control`. A checkbox card and a switch card are one Tab
+   the focus to the next or previous card that responds, wrapping, and check it; Space checks the focused one. Enter follows the
+   control the card holds: it checks nothing on a checkbox or radio card, as `nph-checkbox` and `nph-radio` do, and toggles a
+   switch card, as `nph-switch` does. The accepted table also says Enter "submits the form, if there is one"; the two controls the
+   card follows do not submit, so the card does not either, and this is a declared difference from that table. The group settles when a card leaves, changes `name` or changes `control`. A checkbox card and a switch card are one Tab
    stop each, Space toggles, the arrows do nothing. A radio card with no `name` is a group of one and warns nothing.
 
 4. **The form (Q4).** The card is form-associated. A checked checkbox or radio card enters the `FormData` as `name=value`; `reset`,
@@ -10017,6 +10019,9 @@ only in development, once per cause: the rule of P21. The names follow P64.
 
 - A group of radio cards inside `nph-field` is read as a `group` and not as a `radiogroup`, because the field reads `nphFieldRole`
   from the class and the class is `option`; letting the field read the role of the instance is a follow-up, not part of this task.
+- Enter does not submit the form around a checkbox or radio card (see item 3); the accepted table lists a submit.
+- The description of the option and of the card reaches the screen reader through `aria-description` by `ElementInternals`, proved
+  in Chromium only.
 - The control inside the card shows no hover on card hover (DSA-45 D-3).
 - The card has no `forced-colors` or right-to-left treatment; the arrow keys are physical.
 - In light mode of the default brand, `focus/border` measures 2.92:1 against the halo, as `design.md` records.
@@ -10031,7 +10036,7 @@ the description through the internals and the width that shrinks are a technical
 
 **Effects on other pieces.** `nph-option` gains `rich`, `description` and `keyboard`, and a CSS file for the rich look; `nph-select`,
 `nph-combobox` and `nph-multi-combobox` keep the last input and write `keyboard`, and the combobox data gain `rich` and `description`;
-`nph-radio` skips its composition check when inert. The sheets of `nph-option`, `nph-combobox` and `nph-multi-combobox` say so. The
+`nph-radio` skips its composition check when inert. The sheets of `nph-option`, `nph-select`, `nph-combobox`, `nph-multi-combobox` and `nph-radio`, and the option API of the `nph-select` Docs page, say so. The
 other pieces do not change.
 
 **Out of scope.** The look of the plain option (a task of its own of the select, with the same focus pattern, items 9 to 11). A dark value of

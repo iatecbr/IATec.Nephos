@@ -4745,8 +4745,12 @@
         "check (default) or checkbox, reflected. nph-select always uses check; checkbox is the multiple choice of nph-multi-combobox (P96)."
       ],
       [
-        "selected, active",
-        "Written by the list, never by the consumer. Not reflected."
+        "rich, description",
+        "Turns on the rich look: a description below the label, a softer hover layer, no selected background and the focus border and halo of the list items on the option active by the keyboard. A plain option next to it does not change. description is the text below the label, drawn only with rich."
+      ],
+      [
+        "selected, active, keyboard",
+        "Written by the list, never by the consumer. Not reflected. keyboard says the active option got there by the keyboard."
       ]
     ],
     "optionStatesHeader": [
@@ -17718,7 +17722,7 @@
       ],
       [
         "Enter",
-        "Checks nothing."
+        "Checks nothing on a checkbox or radio card and toggles a switch card, as the controls they follow do. It does not submit the form."
       ],
       [
         "Tab",
@@ -17849,7 +17853,7 @@
       ],
       [
         "Keyboard",
-        "Radio: one Tab stop, arrows that check and wrap, Space checks. Checkbox and switch: a stop each, Space toggles. Enter checks nothing."
+        "Radio: one Tab stop, arrows that check and wrap, Space checks. Checkbox and switch: a stop each, Space toggles. Enter checks nothing on a checkbox or radio card and toggles a switch card."
       ],
       [
         "Focus",

@@ -184,7 +184,7 @@ business_rules:
   - "The whole card is the click area: a click anywhere on it checks a radio card or toggles a checkbox or switch card."
   - "The card holds the role, the state and the focus; the control inside is a visual indicator, inert and hidden from the screen reader."
   - "Radio cards with the same name and the same form owner, in the same root, are one group: checking one unchecks the others, one Tab stop per group, and the arrow keys move the focus and check, wrapping."
-  - "Enter checks nothing; Space checks a radio card and toggles a checkbox or switch card."
+  - "Space checks a radio card and toggles a checkbox or switch card. Enter checks nothing on a checkbox or radio card, as nph-checkbox and nph-radio, and toggles a switch card, as nph-switch; it does not submit the form."
   - "Only the person checking or toggling the card fires input and change; setting checked from code never fires them."
   - "Only a checked checkbox or radio card enters the form, as name=value; a switch card is not a form member."
   - "The shortcut is a hint: the card binds no key and sets aria-keyshortcuts only when keyShortcuts says the key is bound."
@@ -220,7 +220,7 @@ accessibility:
     - "Radio: arrow down and arrow right move to the next card and check it, wrapping; arrow up and arrow left, to the previous one."
     - "Checkbox and switch: each card is one Tab stop, and the arrows do nothing."
     - "Space checks a radio card and toggles a checkbox or switch card."
-    - "Enter does not check."
+    - "Enter checks nothing on a checkbox or radio card and toggles a switch card, following the control held; it does not submit the form."
     - "A disabled card is out of the Tab order and the arrow keys skip it."
   focus: "Keyboard only: the outline turns rich-option/focus-border and a halo of rich-option/focus-ring-width shows outside the card; the control inside takes no ring. A mouse click does not show it."
   contrast: "The title 19.56:1 in light and 12.45:1 in dark over rich-option/background, the second line 6.69:1 and 8.28:1. The resting outline is decorative; the boundary that meets 3:1 is the control inside. Known limit: in light mode of the default brand, focus/border measures 2.92:1 against the halo, as design.md records."
@@ -337,7 +337,9 @@ until those pieces get an API (P134).
 - The card holds the role, the state and the focus; the control inside is inert.
 - Radio cards with the same `name`, in the same root and with the same form owner, are one
   group: one Tab stop, and the arrows move the focus and check, wrapping.
-- Enter checks nothing; Space checks a radio card and toggles a checkbox or switch card.
+- Space checks a radio card and toggles a checkbox or switch card. Enter follows the control the
+  card holds: nothing on a checkbox or radio card, a toggle on a switch card; it does not
+  submit the form.
 - Only the person fires `input` and `change`; setting `checked` from code never does.
 - Only a checked checkbox or radio card enters the form; a switch card is not a form member.
 - The shortcut is a hint: `keyShortcuts` is written only when the product binds the key.
@@ -352,7 +354,7 @@ message of `nph-field`. `invalid` and `disabled` do not combine: `disabled` wins
 |---|---|
 | Semantics | The host is the control: `role` checkbox, radio or switch with `aria-checked` and `aria-disabled`, through `ElementInternals`. The control drawn inside is `inert` and hidden from the screen reader, as the box of `nph-option` is |
 | Accessible name | The title is the name of the control and the second line is its description, both through the internals, because an id does not cross a shadow root. The icon, the second line and the shortcut are hidden from the screen reader |
-| Keyboard | Radio: Tab enters the group on the checked card or the first one that responds; the arrows move and check, wrapping; Space checks. Checkbox and switch: one Tab stop each, Space toggles, the arrows do nothing. Enter checks nothing. A disabled card is out of the Tab order |
+| Keyboard | Radio: Tab enters the group on the checked card or the first one that responds; the arrows move and check, wrapping; Space checks. Checkbox and switch: one Tab stop each, Space toggles, the arrows do nothing. Enter checks nothing on a checkbox or radio card and toggles a switch card. A disabled card is out of the Tab order |
 | Focus | Keyboard only: the outline turns `rich-option/focus-border` and a halo of `rich-option/focus-ring-width` shows outside; the control inside takes no ring. Disabled shows none |
 | Contrast | The title 19.56:1 in light and 12.45:1 in dark; the second line 6.69:1 and 8.28:1. The resting outline is decorative; the boundary that meets 3:1 is the control inside the card |
 | Alternative to color | The control says the choice; the error has the sentence of `nph-field` |
@@ -360,6 +362,9 @@ message of `nph-field`. `invalid` and `disabled` do not combine: `disabled` wins
 
 **Known limits:**
 
+- Enter does not submit the form around a checkbox or radio card: the accepted table lists a
+  submit, and `nph-checkbox` and `nph-radio`, which the card follows, do not do it. It toggles
+  a switch card, as `nph-switch` does (P134).
 - A group of radio cards inside `nph-field` is read as a `group`, not as a `radiogroup`: the
   field reads the role of the class, and the class is `option` because the same card also
   holds a checkbox or a switch. Each card still has the `radio` role, the arrow keys and the
