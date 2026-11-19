@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 950,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-date-picker",
   "dependencies": [
     "DSA-90"
@@ -49,7 +49,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-19"
 }
 ```
 
