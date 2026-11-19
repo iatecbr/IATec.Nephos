@@ -3,7 +3,7 @@
  *
  * They prove the contract accepted in Figma (the grid `4015:28204`, its day `4015:28020`, the month and year cell `4015:28139`) and
  * P133: the single date in the two sizes with the day states, the range with its bands across the turn of the week, a one-day
- * period and the two months, the limits and the day unavailable by rule, the month and year views, the week that starts on Monday, a grid to try with
+ * period and the two months with one arrow on each outer edge, the limits, the day unavailable by rule and a period stopped by it, the month and year views at the height of the day view (in the two sizes and in the two columns of a range), the week that starts on Monday, a grid to try with
  * the mouse and the keyboard, and the seven brands. Every story shows the same grids in light and in dark mode, in the same story,
  * through `data-nph-color-scheme` on the frame (P20, P67). The month and year views open from the title of a month: the Views story presses it for you, and the Interactive story lets you try it;
  * the component test measures each one. No attribute forces a state, because it would be API.
@@ -94,6 +94,14 @@ export const Limits: Story = {
         matrix(validationTitle(context, 'nph-calendar', page('limits').storyId), [], [
           { label: 'min · max', cells: [grid(v, { min: '2026-10-08', max: '2026-10-24', value: '2026-10-14' })] },
           { label: 'unavailable', cells: [grid(v, { unavailable: ['2026-10-12', '2026-10-15', '2026-10-27'] })] },
+          {
+            label: 'mode: range · start only · unavailable',
+            cells: [grid(v, { mode: 'range', start: '2026-10-14', unavailable: ['2026-10-08', '2026-10-20'] })],
+          },
+          {
+            label: 'mode: range · start only · unavailable · allows-non-contiguous-ranges',
+            cells: [grid(v, { mode: 'range', start: '2026-10-14', unavailable: ['2026-10-08', '2026-10-20'], allowsNonContiguousRanges: true })],
+          },
         ]),
       ),
     );
@@ -118,7 +126,7 @@ export const Week: Story = {
   },
 };
 
-/** The month view and the year view, opened from the title: 4 rows by 3 columns at their drawn size, a year or twelve years at a time, a disabled cell when none of its days is allowed. */
+/** The month view and the year view, opened from the title: 4 rows by 3 columns at the height of the day view, in both sizes and in both columns of a range, a year or twelve years at a time, a disabled cell when none of its days is allowed. */
 export const Views: Story = {
   name: 'Views',
   render: (_args, context: GlobalsContext) => {
@@ -132,6 +140,15 @@ export const Views: Story = {
           { label: 'view: year', cells: [inView(v, 'year', { value: '2026-10-20' })] },
           { label: 'view: month · min · max', cells: [inView(v, 'month', { min: '2026-08-15', max: '2026-11-10' })] },
           { label: 'view: month · size: large', cells: [inView(v, 'month', { size: 'large', value: '2026-10-20' })] },
+          { label: 'view: year · size: large', cells: [inView(v, 'year', { size: 'large', value: '2026-10-20' })] },
+          {
+            label: 'view: month · mode: range · months: 2',
+            cells: [inView(v, 'month', { mode: 'range', months: 2, start: '2026-10-09', end: '2026-11-21' })],
+          },
+          {
+            label: 'view: year · mode: range · months: 2',
+            cells: [inView(v, 'year', { mode: 'range', months: 2, start: '2026-10-09', end: '2026-11-21' })],
+          },
         ]),
       ),
     );

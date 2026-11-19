@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 950,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-date-picker",
   "dependencies": [
     "DSA-90"
@@ -31,7 +31,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-15",
+      "question": "A period that is not picked day by day: a typed period and a shortcut that hold an unavailable day. Until she answers, the code keeps the rule of today for both: a typed period commits across an unavailable day (the unavailable day itself is still refused, D-4) and a shortcut fills its period, so only a period picked day by day in the panel stops before an unavailable day. If they should follow D-10, a shortcut disabled and a typed period an error while allowsNonContiguousRanges is off, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-19"
+    },
+    {
+      "id": "D-16",
+      "question": "The month and year views in a range switch both columns together (answered), but the answer does not say which year or block the first column shows, where the arrows go, or how the keys cross. Until she answers, the first column is the year of the first month shown (or the block of twelve years that starts at the decade of that year), the arrows are only on the outer edges and move one year or twelve years per click, and the 24 cells are one sequence for the arrow keys and one Tab stop. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-19"
+    },
+    {
+      "id": "D-17",
+      "question": "This month is the one shortcut the max cuts (answered). With a min inside the month the answer says nothing. Until she answers, This month is disabled in that case, by the general rule of D-6 (any day outside the min disables a shortcut). If the min should cut it too, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-19"
+    },
+    {
+      "id": "D-18",
+      "question": "How a day that cannot be the End looks while only the Start is chosen (D-10, answered without a drawing). Until she answers, it is disabled like a day outside the min or the max: faded under state/disabled-opacity, skipped by the focus. If it should look unavailable, or differently, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-19"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-96/design-decision-2026-11-18.md"
   ],
@@ -47,9 +72,9 @@
     "excerpt": null,
     "converted_decision": "Eleven answers and one measure, all as recommended by the market research of 2026-11-18. Six of them change what the code of DSA-90 does today: the month and year views (D-2), the arrows of the range (D-5), the shortcuts (D-6), the year title icon and the views in the range (D-9), a period across an unavailable day (D-10) and the header of the large grid. The answers, what the code does today and the Figma nodes are in the evidence of the design-decision gate, with a correction to the D-5 row of DSA-90."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-96-date-picker", "commit": "44bda3e", "pr": 188 },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-19"
 }
 ```
 

@@ -215,10 +215,12 @@ describe('Validation stories: text only from the dictionary', () => {
     const target = draw(calendarStories.Views as Renderable, 'en');
     const frame = target.querySelector('[data-nph-color-scheme="light"]') as HTMLElement;
     const grids = [...frame.querySelectorAll('nph-calendar')] as Array<HTMLElement & { updateComplete: Promise<unknown> }>;
-    expect(grids).toHaveLength(4);
+    expect(grids).toHaveLength(7);
     await new Promise((resolve) => setTimeout(resolve, 600));
     const views = grids.map((grid) => grid.shadowRoot?.querySelector('.view')?.getAttribute('data-view'));
-    expect(views).toEqual(['month', 'year', 'month', 'month']);
+    expect(views).toEqual(['month', 'year', 'month', 'month', 'year', 'month', 'year']);
+    /* A range opens the view in both columns. */
+    expect(grids.slice(5).map((grid) => grid.shadowRoot?.querySelectorAll('.view').length)).toEqual([2, 2]);
   });
 
   it('Examples: the three required examples, each in both modes', async () => {

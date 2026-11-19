@@ -18,6 +18,8 @@
  *   field, and the placeholder of an empty one;
  * - `name` (single), `start-name` and `end-name` (range) put the date in the form data. The piece is form-associated: required,
  *   a typed date that is not one, and `form.reset()` work as in a native field;
+ * - `allows-non-contiguous-ranges` (`allowsNonContiguousRanges`): off by default, a period does not cross a day unavailable by rule
+ *   (D-10); on, it may. It goes to the calendar of the panel. A typed period that holds an unavailable day keeps the rule of today;
  * - `week-start`: `sunday` (default) or `monday`. `now`: the date of today, for tests and stories. `labels`: every text the
  *   piece writes, already localized, as one object (it writes no word of its own). The names of the months and the weekdays and
  *   the order of day, month and year come from `Intl`, in the language of the nearest `lang`;
@@ -38,13 +40,17 @@
  * Apply. The range has seven shortcuts (`nph-option` in a listbox), two months, a divider and a footer; on a narrow screen one month, the
  * shortcuts on top (D-7).
  *
- * PROVISIONAL RULES (the design owner has not answered D-1 to D-11; each follows the column "Until the design owner answers" of the task):
- * D-1 six rows; D-2 the views as drawn; D-3 `text/label-sm` on the weekday names; D-4 an error on the field that says what to fix and
- * cites the limit, no reorder of a typed value; D-5 both arrows on each month, the months move together, the Start month on the left;
- * D-6 the periods of the shortcuts; D-7 the switch to one month by the width available; D-8 Clear empties the panel and the fields
- * only on Apply; D-9 the ladder of month and year views; D-10 a third pick starts over, one day is valid, Apply stays enabled; D-11 a day
- * outside the month can be picked, one Tab stop per grid. The code carries the questions DSA-90 D-12 (the measures with no token),
- * D-13 (a typed Start or End with the panel closed commits when the field is left) and D-14 (the page margin of D-7).
+ * DECIDED (the design owner answered D-1 to D-11 on 2026-11-18, as recommended; DSA-96, P135): D-1 six rows; D-2 the month and year views
+ * as high as the day view, their cells as high as the day; D-3 `text/label-sm` on the weekday names; D-4 an error on the field that says
+ * what to fix and cites the limit, no reorder of a typed value; D-5 one arrow on each outer edge of the range, the months move together,
+ * the Start month on the left; D-6 the shortcuts without today, off when a day is outside the limits, except This month; D-7 the switch to
+ * one month by the width available; D-8 Clear empties the panel and the fields only on Apply; D-9 the ladder of month and year views,
+ * both columns together in a range; D-10 a period does not cross an unavailable day by default, a third pick starts over, one day is valid,
+ * Apply stays enabled; D-11 a day outside the month can be picked, one Tab stop per grid.
+ *
+ * STILL OPEN with the design owner: DSA-90 D-12 (the measures with no token), D-13 (a typed Start or End with the panel closed commits when
+ * the field is left) and D-14 (the page margin of D-7), and from DSA-96 D-15 to D-18 (a shortcut across an unavailable day, the views of a
+ * range, This month with a min inside it, the look of a day that cannot be the End).
  *
  * Invalid input does not render and emits `console.error` only in development, one per cause while it lasts (the rule of P21): a `mode`,
  * a `size` or a `week-start` outside the lists, a date that does not exist, and `labels` with no key at all. A label missing from a
@@ -235,6 +241,7 @@ export class NphDatePicker extends LitElement {
     weekStart: { type: String, attribute: 'week-start' },
     now: { type: String },
     labels: { attribute: false },
+    allowsNonContiguousRanges: { type: Boolean, attribute: 'allows-non-contiguous-ranges' },
   };
 
   declare mode: string;
@@ -262,6 +269,8 @@ export class NphDatePicker extends LitElement {
   declare weekStart: string;
   declare now: string;
   declare labels: Partial<NphDatePickerLabels>;
+  /** Off by default: a period does not cross a day unavailable by rule (D-10). */
+  declare allowsNonContiguousRanges: boolean;
 
   private readonly internals: ElementInternals;
   private valid = false;
@@ -319,6 +328,7 @@ export class NphDatePicker extends LitElement {
     this.weekStart = 'sunday';
     this.now = '';
     this.labels = {};
+    this.allowsNonContiguousRanges = false;
   }
 
   /* ----- the clock, the language and the text -------------------------------------------- */
@@ -1169,6 +1179,7 @@ export class NphDatePicker extends LitElement {
       .min=${trimmed(this.min)}
       .max=${trimmed(this.max)}
       .unavailable=${this.unavailable}
+      .allowsNonContiguousRanges=${this.allowsNonContiguousRanges}
       .labels=${this.calendarLabels()}
       .value=${range ? '' : trimmed(this.value)}
       .start=${range ? this.draft.start : ''}
