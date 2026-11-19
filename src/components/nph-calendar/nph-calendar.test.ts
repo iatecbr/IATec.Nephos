@@ -5,7 +5,8 @@
  * They prove the contract accepted in Figma (the grid `4015:28204`, its day `4015:28020`, the month and year cell
  * `4015:28139`), recorded in the evidence of the `figma-docs-accepted` gate of DSA-90: the API and the invalid input, the
  * six-week month (D-1), the day states, the range bands and the preview, the limits and the day unavailable by rule
- * (item 9), the keyboard of the grid and the two grids of a range (D-11), the month and year views (D-2, D-9), the
+ * (item 9), a period that does not cross an unavailable day (D-10), the keyboard of the grid and the two grids of a range (D-11), the
+ * arrows on the outer edges (D-5), the month and year views at the height of the day view, in one or two columns (D-2, D-9), the
  * events, the measures and the token contract.
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
@@ -95,7 +96,7 @@ async function press(calendar: NphCalendar, keys: string): Promise<void> {
 describe('the API and the invalid input', () => {
   it('has exactly the declared reactive properties', () => {
     expect([...NphCalendar.elementProperties.keys()].sort()).toEqual(
-      ['end', 'labels', 'max', 'min', 'mode', 'month', 'months', 'now', 'size', 'start', 'unavailable', 'value', 'weekStart'].sort(),
+      ['allowsNonContiguousRanges', 'end', 'labels', 'max', 'min', 'mode', 'month', 'months', 'now', 'size', 'start', 'unavailable', 'value', 'weekStart'].sort(),
     );
   });
 
@@ -106,6 +107,7 @@ describe('the API and the invalid input', () => {
     expect(calendar.months).toBe(1);
     expect(calendar.weekStart).toBe('sunday');
     expect(calendar.value).toBe('');
+    expect(calendar.allowsNonContiguousRanges).toBe(false);
   });
 
   it('reflects mode, size and months, which the CSS and the consumer select by', async () => {
@@ -188,7 +190,7 @@ describe('the month (D-1)', () => {
     expect(titles(chosen)[0]).toBe('March 2027');
   });
 
-  it('has the drawn measures: 284 × 332 on default and 340 × 388 on large with six rows, the header 40 high', async () => {
+  it('has the drawn measures: 284 × 332 on default, with the header 40 high, and 340 × 392 on large, with the header 44 high', async () => {
     const calendar = await mount({ month: '2026-10' });
     const box = calendar.getBoundingClientRect();
     expect(box.width).toBe(284);
@@ -198,9 +200,11 @@ describe('the month (D-1)', () => {
     calendar.size = 'large';
     await settle(calendar);
     expect(calendar.getBoundingClientRect().width).toBe(340);
-    expect(calendar.getBoundingClientRect().height).toBe(388);
+    expect(calendar.getBoundingClientRect().height).toBe(392);
     expect(day(calendar, '2026-10-14').getBoundingClientRect().width).toBe(44);
-    expect(root(calendar).querySelector('.header')?.getBoundingClientRect().height).toBe(40);
+    expect(root(calendar).querySelector('.header')?.getBoundingClientRect().height).toBe(44);
+    const arrow = root(calendar).querySelector('.header .arrow')?.getBoundingClientRect() as DOMRect;
+    expect(arrow.height).toBe(44);
   });
 });
 
@@ -578,13 +582,56 @@ describe('the range', () => {
 });
 
 describe('the two months of a range (D-5, D-11)', () => {
-  it('draws two consecutive grids side by side, top aligned, 568 wide, each with both arrows (D-5)', async () => {
+  it('draws two consecutive grids side by side, top aligned, 568 wide', async () => {
     const calendar = await mount({ mode: 'range', months: 2, month: '2026-10' });
     expect(titles(calendar)).toEqual(['October 2026', 'November 2026']);
     expect(calendar.getBoundingClientRect().width).toBe(568);
-    expect(root(calendar).querySelectorAll('.header nph-button.arrow')).toHaveLength(4);
     const grids = [...root(calendar).querySelectorAll('.month')].map((month) => month.getBoundingClientRect().top);
     expect(grids[0]).toBe(grids[1]);
+  });
+
+  it('draws Previous month only on the first month and Next month only on the last, and keeps the space of the other (D-5)', async () => {
+    const calendar = await mount({ mode: 'range', months: 2, month: '2026-10' });
+    const arrows = [...root(calendar).querySelectorAll<HTMLElement & { label: string }>('.header nph-button.arrow')];
+    expect(arrows.map((arrow) => [arrow.label, arrow.hasAttribute('data-hidden')])).toEqual([
+      ['Previous month', false],
+      ['Next month', true],
+      ['Previous month', true],
+      ['Next month', false],
+    ]);
+    /* The hidden one keeps its box, so the title stays centered on its grid. */
+    for (const month of root(calendar).querySelectorAll('.month')) {
+      const frame = (month.querySelector('.frame') as HTMLElement).getBoundingClientRect();
+      const box = month.getBoundingClientRect();
+      const padding = 16;
+      expect(Math.round(frame.left - box.left - padding)).toBe(Math.round(box.right - padding - frame.right));
+      expect(Math.round(frame.width)).toBe(Math.round(box.width - 2 * padding - 2 * 36 - 2 * 8));
+    }
+  });
+
+  it('hides the other arrow from sight, from the Tab order and from the accessibility tree (D-5)', async () => {
+    const calendar = await mount({ mode: 'range', months: 2, month: '2026-10' });
+    const hidden = [...root(calendar).querySelectorAll<HTMLElement>('.header nph-button.arrow[data-hidden]')];
+    expect(hidden).toHaveLength(2);
+    for (const arrow of hidden) {
+      expect(getComputedStyle(arrow).visibility).toBe('hidden');
+      expect(getComputedStyle(arrow.shadowRoot?.querySelector('button') as Element).visibility).toBe('hidden');
+    }
+    ((root(calendar).querySelectorAll('.header nph-button.arrow')[0]) as HTMLElement).focus();
+    const visited: string[] = [];
+    for (let step = 0; step < 6; step += 1) {
+      await userEvent.tab();
+      const now = root(calendar).activeElement as HTMLElement | null;
+      visited.push(now?.getAttribute('label') ?? now?.getAttribute('text') ?? now?.dataset.date ?? '');
+    }
+    expect(visited.slice(0, 4)).toEqual(['October 2026', '2026-10-14', 'November 2026', 'Next month']);
+  });
+
+  it('keeps both arrows on a single month, also in a range', async () => {
+    const calendar = await mount({ mode: 'range', months: 1, month: '2026-10' });
+    const arrows = [...root(calendar).querySelectorAll<HTMLElement>('.header nph-button.arrow')];
+    expect(arrows).toHaveLength(2);
+    expect(arrows.some((arrow) => arrow.hasAttribute('data-hidden'))).toBe(false);
   });
 
   it('moves the two months together, and they stay consecutive', async () => {
@@ -652,16 +699,71 @@ describe('the month and year views (D-2, D-9)', () => {
   }
   const items = (calendar: NphCalendar): HTMLButtonElement[] => [...root(calendar).querySelectorAll<HTMLButtonElement>('.item')];
 
-  it('opens the month view in place of the days: the year as the title, four rows by three columns, 284 × 224', async () => {
+  it('opens the month view in place of the days: the year as the title, four rows by three columns, at the size of the day view', async () => {
     const calendar = await openMonths();
     expect(items(calendar)).toHaveLength(12);
     expect(titles(calendar)).toEqual(['2026']);
     expect(root(calendar).querySelectorAll('.view-grid tr')).toHaveLength(4);
     expect(calendar.getBoundingClientRect().width).toBe(284);
-    expect(calendar.getBoundingClientRect().height).toBe(224);
+    expect(calendar.getBoundingClientRect().height).toBe(332);
     expect(items(calendar)[0]?.getBoundingClientRect().width).toBe(84);
     expect(items(calendar)[0]?.getBoundingClientRect().height).toBe(36);
     expect(root(calendar).querySelector('.status')?.textContent).toBe('2026');
+  });
+
+  /** The box of the arrows and of the grid of a calendar, to compare the views. */
+  const frame = (calendar: NphCalendar): { arrows: number[][]; grid: number[]; box: number[] } => {
+    const rect = (element: Element): number[] => {
+      const box = element.getBoundingClientRect();
+      return [box.left, box.top, box.width, box.height];
+    };
+    return {
+      arrows: [...root(calendar).querySelectorAll('.header nph-button.arrow')].map(rect),
+      grid: [...root(calendar).querySelectorAll('table.grid')].flatMap(rect),
+      box: rect(calendar),
+    };
+  };
+
+  for (const size of ['default', 'large'] as const) {
+    it(`gives the month and the year view the cell of the day, the height of the day view and the same arrows, in the ${size} size (D-2)`, async () => {
+      const cell = size === 'large' ? 44 : 36;
+      const calendar = await mount({ month: '2026-10', size });
+      const days = frame(calendar);
+      (root(calendar).querySelector('.title') as HTMLElement).click();
+      await settle(calendar);
+      const months = frame(calendar);
+      expect(months.box).toEqual(days.box);
+      expect(months.arrows).toEqual(days.arrows);
+      /* The grid of the view fills the weekday row and the six weeks of the day view: seven cells. */
+      expect(months.grid).toEqual([days.grid[0], days.grid[1], 7 * cell, 7 * cell]);
+      expect(days.grid).toEqual([days.grid[0], days.grid[1], 7 * cell, 7 * cell]);
+      const month = items(calendar).map((item) => item.getBoundingClientRect());
+      expect(month[0]?.width).toBeCloseTo((7 * cell) / 3, 1);
+      expect(month.every((box) => box.height === cell)).toBe(true);
+      /* Four rows, the gap between rows as high as a cell, the first row on the top of the grid and the last on its bottom. */
+      const rows = [0, 3, 6, 9].map((index) => month[index] as DOMRect);
+      expect(rows[0]?.top).toBe(months.grid[1]);
+      expect(rows.slice(1).map((box, index) => box.top - (rows[index] as DOMRect).bottom)).toEqual([cell, cell, cell]);
+      expect(rows[3]?.bottom).toBe((months.grid[1] as number) + (months.grid[3] as number));
+      (root(calendar).querySelector('.title') as HTMLElement).click();
+      await settle(calendar);
+      const years = frame(calendar);
+      expect(years.box).toEqual(days.box);
+      expect(years.arrows).toEqual(days.arrows);
+      expect(years.grid).toEqual(months.grid);
+      expect(items(calendar).map((item) => item.getBoundingClientRect().height)).toEqual(Array(12).fill(cell));
+    });
+  }
+
+  it('keeps the box of the panel when the views open on a month whose weeks fill four, five and six rows', async () => {
+    for (const month of ['2026-02', '2026-10', '2026-08']) {
+      const calendar = await mount({ month });
+      const before = calendar.getBoundingClientRect().height;
+      (root(calendar).querySelector('.title') as HTMLElement).click();
+      await settle(calendar);
+      expect(calendar.getBoundingClientRect().height).toBe(before);
+      calendar.remove();
+    }
   });
 
   it('names every month and year cell with its visible text first, so the name holds the label (WCAG 2.5.3)', async () => {
@@ -678,12 +780,12 @@ describe('the month and year views (D-2, D-9)', () => {
     }
   });
 
-  it('keeps the icons as drawn: chevron-down on the month title, chevron-up on the year title (D-9)', async () => {
+  it('draws chevron-down on the month title and on the year title: the gesture is the same, open the view above (D-9)', async () => {
     const calendar = await mount({ month: '2026-10' });
     expect((root(calendar).querySelector('.title') as HTMLElement & { iconEnd: string }).iconEnd).toBe('chevron-down');
     (root(calendar).querySelector('.title') as HTMLElement).click();
     await settle(calendar);
-    expect((root(calendar).querySelector('.title') as HTMLElement & { iconEnd: string }).iconEnd).toBe('chevron-up');
+    expect((root(calendar).querySelector('.title') as HTMLElement & { iconEnd: string }).iconEnd).toBe('chevron-down');
   });
 
   it('puts the focus on the month shown and marks the current month', async () => {
@@ -818,37 +920,286 @@ describe('the month and year views (D-2, D-9)', () => {
     expect(items(calendar).indexOf(root(calendar).activeElement as HTMLButtonElement)).toBe(11);
   });
 
-  it('keeps the drawn size of the views on large, centered, with the header of the panel (D-2)', async () => {
+  it('draws the views on large at 340 × 392, with the header 44 high and the cells 44 high and 103 wide', async () => {
     const calendar = await openMonths({ size: 'large' });
     expect(calendar.getBoundingClientRect().width).toBe(340);
-    expect(root(calendar).querySelector('.view-grid')?.getBoundingClientRect().width).toBe(252);
-    expect(items(calendar)[0]?.getBoundingClientRect().height).toBe(36);
-    const grid = (root(calendar).querySelector('.view-grid') as HTMLElement).getBoundingClientRect();
-    expect(Math.round(grid.left - calendar.getBoundingClientRect().left)).toBe(Math.round(calendar.getBoundingClientRect().right - grid.right));
+    expect(calendar.getBoundingClientRect().height).toBe(392);
+    expect(root(calendar).querySelector('.view .header')?.getBoundingClientRect().height).toBe(44);
+    expect(root(calendar).querySelector('.view-grid')?.getBoundingClientRect().width).toBe(308);
+    expect(items(calendar)[0]?.getBoundingClientRect().height).toBe(44);
+    expect(Math.round(items(calendar)[0]?.getBoundingClientRect().width as number)).toBe(103);
+  });
+});
+
+describe('the views of a range, both columns together (D-9)', () => {
+  async function openRangeMonths(slot = 0, props: Partial<NphCalendar> = {}): Promise<NphCalendar> {
+    const calendar = await mount({ mode: 'range', months: 2, month: '2026-10', ...props });
+    (root(calendar).querySelectorAll('.title')[slot] as HTMLElement).click();
+    await settle(calendar);
+    return calendar;
+  }
+  const items = (calendar: NphCalendar): HTMLButtonElement[] => [...root(calendar).querySelectorAll<HTMLButtonElement>('.item')];
+  const at = (calendar: NphCalendar): number => items(calendar).indexOf(root(calendar).activeElement as HTMLButtonElement);
+
+  it('switches both columns to two consecutive years when the title of either month is pressed', async () => {
+    for (const slot of [0, 1]) {
+      const calendar = await openRangeMonths(slot);
+      expect(root(calendar).querySelectorAll('.month.view')).toHaveLength(2);
+      expect(root(calendar).querySelectorAll('table.grid:not(.view-grid)')).toHaveLength(0);
+      expect(titles(calendar)).toEqual(['2026', '2027']);
+      expect(items(calendar)).toHaveLength(24);
+      expect(root(calendar).querySelector('.status')?.textContent).toBe('2026, 2027');
+      expect(calendar.getBoundingClientRect().width).toBe(568);
+      expect(calendar.getBoundingClientRect().height).toBe(332);
+      calendar.remove();
+    }
   });
 
-  it('opens the view in place of the month whose title was chosen, and keeps the other month (range)', async () => {
-    const calendar = await mount({ mode: 'range', months: 2, month: '2026-10' });
-    (root(calendar).querySelectorAll('.title')[1] as HTMLElement).click();
-    await settle(calendar);
-    expect(root(calendar).querySelectorAll('.month')).toHaveLength(2);
-    expect(root(calendar).querySelectorAll('.month')[0]?.querySelector('table.grid:not(.view-grid)')).not.toBeNull();
-    expect(root(calendar).querySelectorAll('.month')[1]?.classList.contains('view')).toBe(true);
-    expect(titles(calendar)[0]).toBe('October 2026');
+  it('puts the focus on the month of the title that was pressed, in its own column', async () => {
+    expect(at(await openRangeMonths(0))).toBe(9);
+    expect(at(await openRangeMonths(1))).toBe(10);
+    const december = await openRangeMonths(1, { month: '2026-12' });
+    expect(at(december)).toBe(12);
+    expect(titles(december)).toEqual(['2026', '2027']);
   });
 
-  it('keeps a month chosen through the title of the second month in the second place, the first becoming the month before', async () => {
-    const calendar = await mount({ mode: 'range', months: 2, month: '2026-10' });
+  it('draws Previous year only on the first column and Next year only on the last, and moves one year', async () => {
+    const calendar = await openRangeMonths();
+    const arrows = [...root(calendar).querySelectorAll<HTMLElement & { label: string }>('.header nph-button.arrow')];
+    expect(arrows.map((arrow) => [arrow.label, arrow.hasAttribute('data-hidden')])).toEqual([
+      ['Previous year', false],
+      ['Next year', true],
+      ['Previous year', true],
+      ['Next year', false],
+    ]);
+    arrows[3]?.click();
+    await settle(calendar);
+    expect(titles(calendar)).toEqual(['2027', '2028']);
+    expect(root(calendar).querySelector('.status')?.textContent).toBe('2027, 2028');
+  });
+
+  it('opens two consecutive blocks of twelve years from either year title, at the decade of the first column', async () => {
+    const calendar = await openRangeMonths();
     (root(calendar).querySelectorAll('.title')[1] as HTMLElement).click();
     await settle(calendar);
+    expect([...root(calendar).querySelectorAll('.title-text')].map((text) => text.textContent)).toEqual(['2020 – 2031', '2032 – 2043']);
+    expect(items(calendar).map((item) => item.textContent?.trim())).toEqual(
+      Array.from({ length: 24 }, (_, index) => String(2020 + index)),
+    );
+    expect(root(calendar).querySelector('.status')?.textContent).toBe('2020 – 2031, 2032 – 2043');
+    expect(at(calendar)).toBe(7);
+    const arrows = [...root(calendar).querySelectorAll<HTMLElement & { label: string }>('.header nph-button.arrow')];
+    expect(arrows.map((arrow) => [arrow.label, arrow.hasAttribute('data-hidden')])).toEqual([
+      ['Previous 12 years', false],
+      ['Next 12 years', true],
+      ['Previous 12 years', true],
+      ['Next 12 years', false],
+    ]);
+    arrows[3]?.click();
+    await settle(calendar);
+    expect([...root(calendar).querySelectorAll('.title-text')].map((text) => text.textContent)).toEqual(['2032 – 2043', '2044 – 2055']);
+  });
+
+  it('brings a month chosen in either column back on the left, with the next month on the right', async () => {
+    const calendar = await openRangeMonths(1);
     items(calendar)[5]?.click();
     await settle(calendar);
-    expect(titles(calendar)).toEqual(['May 2026', 'June 2026']);
+    expect(titles(calendar)).toEqual(['June 2026', 'July 2026']);
+    const again = await openRangeMonths(0);
+    items(again)[12 + 1]?.click();
+    await settle(again);
+    expect(titles(again)).toEqual(['February 2027', 'March 2027']);
+    const december = await openRangeMonths(0);
+    items(december)[11]?.click();
+    await settle(december);
+    expect(titles(december)).toEqual(['December 2026', 'January 2027']);
+    expect(focused(december)).toBe('2026-12-01');
+  });
+
+  it('brings a year chosen in either column back as the first of two consecutive years of months', async () => {
+    const calendar = await openRangeMonths();
     (root(calendar).querySelectorAll('.title')[0] as HTMLElement).click();
     await settle(calendar);
-    items(calendar)[0]?.click();
+    items(calendar)[15]?.click();
     await settle(calendar);
-    expect(titles(calendar)).toEqual(['January 2026', 'February 2026']);
+    expect(titles(calendar)).toEqual(['2035', '2036']);
+    expect(items(calendar)).toHaveLength(24);
+  });
+
+  it('moves across the two columns with the arrows, as the two grids of days do', async () => {
+    const calendar = await openRangeMonths();
+    expect(at(calendar)).toBe(9);
+    await press(calendar, '{ArrowRight}{ArrowRight}');
+    expect(at(calendar)).toBe(11);
+    await press(calendar, '{ArrowRight}');
+    expect(at(calendar)).toBe(12);
+    await press(calendar, '{ArrowLeft}');
+    expect(at(calendar)).toBe(11);
+    await press(calendar, '{ArrowDown}');
+    expect(at(calendar)).toBe(14);
+    await press(calendar, '{ArrowUp}{ArrowUp}');
+    expect(at(calendar)).toBe(8);
+    await press(calendar, '{PageDown}');
+    expect(titles(calendar)).toEqual(['2027', '2028']);
+  });
+
+  it('is one Tab stop across the two columns, and goes back to the title that was pressed with Esc', async () => {
+    const calendar = await openRangeMonths(1);
+    expect(items(calendar).filter((item) => item.tabIndex === 0)).toHaveLength(1);
+    await press(calendar, '{Escape}');
+    expect(titles(calendar)).toEqual(['October 2026', 'November 2026']);
+    expect(root(calendar).activeElement).toBe(root(calendar).querySelectorAll('.title')[1]);
+  });
+
+  it('disables a month or a year of the second column when none of its days is allowed, and the Next arrow looks past the last column', async () => {
+    const calendar = await openRangeMonths(0, { min: '2026-08-15', max: '2027-03-10' });
+    const disabled = items(calendar).map((item) => item.disabled);
+    expect(disabled.slice(0, 12)).toEqual([true, true, true, true, true, true, true, false, false, false, false, false]);
+    expect(disabled.slice(12)).toEqual([false, false, false, true, true, true, true, true, true, true, true, true]);
+    const next = root(calendar).querySelectorAll<HTMLElement & { disabled: boolean }>('.header nph-button.arrow')[3];
+    expect(next?.disabled).toBe(true);
+    const limited = await openRangeMonths(0, { max: '2028-06-01' });
+    expect((root(limited).querySelectorAll('.header nph-button.arrow')[3] as HTMLElement & { disabled: boolean }).disabled).toBe(false);
+  });
+});
+
+describe('a period that does not cross an unavailable day (D-10)', () => {
+  const enabled = (calendar: NphCalendar, ...dates: string[]): boolean[] => dates.map((date) => !day(calendar, date).disabled);
+
+  it('closes the days past the first unavailable day after the Start, and before the first one before it, while only the Start is chosen', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20', '2026-10-08', '2026-10-28'] });
+    expect(enabled(calendar, '2026-10-09', '2026-10-13', '2026-10-15', '2026-10-19')).toEqual([true, true, true, true]);
+    expect(enabled(calendar, '2026-10-08', '2026-10-07', '2026-10-20', '2026-10-21', '2026-10-28', '2026-10-31')).toEqual([false, false, false, false, false, false]);
+    /* The closed days fade as the days outside the limits do, and the unavailable one still says it is. */
+    expect(getComputedStyle(day(calendar, '2026-10-22')).opacity).toBe(getComputedStyle(day(calendar, '2026-10-22')).opacity);
+    expect(Number(getComputedStyle(day(calendar, '2026-10-22')).opacity)).toBeLessThan(1);
+    expect(Number(getComputedStyle(day(calendar, '2026-10-12')).opacity)).toBe(1);
+    expect(day(calendar, '2026-10-20').getAttribute('aria-label')).toContain('unavailable');
+  });
+
+  it('does not pick a closed day, and picks the End on the last open one', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'] });
+    const picks = vi.fn();
+    calendar.addEventListener('nph-pick', picks);
+    /* A disabled button takes no click: the browser does not even deliver it. */
+    day(calendar, '2026-10-22').click();
+    await settle(calendar);
+    expect(picks).not.toHaveBeenCalled();
+    expect(calendar.end).toBe('');
+    await userEvent.click(day(calendar, '2026-10-19'));
+    await settle(calendar);
+    expect([calendar.start, calendar.end]).toEqual(['2026-10-14', '2026-10-19']);
+  });
+
+  it('refuses a closed day also when the pick comes with no help from the disabled attribute', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'] });
+    const picks = vi.fn();
+    calendar.addEventListener('nph-pick', picks);
+    const closed = day(calendar, '2026-10-24');
+    closed.disabled = false;
+    closed.click();
+    await settle(calendar);
+    expect(picks).not.toHaveBeenCalled();
+  });
+
+  it('lets the End come before the Start inside the window, and reorders it', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-08'] });
+    await userEvent.click(day(calendar, '2026-10-10'));
+    await settle(calendar);
+    expect([calendar.start, calendar.end]).toEqual(['2026-10-10', '2026-10-14']);
+  });
+
+  it('closes nothing with a complete period, and starts over with a third pick that may be anywhere', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-10', end: '2026-10-14', unavailable: ['2026-10-20'] });
+    expect(days(calendar).filter((button) => button.disabled)).toHaveLength(0);
+    await userEvent.click(day(calendar, '2026-10-25'));
+    await settle(calendar);
+    expect([calendar.start, calendar.end]).toEqual(['2026-10-25', '']);
+  });
+
+  it('closes nothing in a single date, with no Start, or while the property is on', async () => {
+    const single = await mount({ month: '2026-10', value: '2026-10-14', unavailable: ['2026-10-20'] });
+    expect(days(single).filter((button) => button.disabled)).toHaveLength(0);
+    const empty = await mount({ mode: 'range', month: '2026-10', unavailable: ['2026-10-20'] });
+    expect(days(empty).filter((button) => button.disabled)).toHaveLength(0);
+    const allowed = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'], allowsNonContiguousRanges: true });
+    expect(days(allowed).filter((button) => button.disabled)).toHaveLength(0);
+    await userEvent.click(day(allowed, '2026-10-24'));
+    await settle(allowed);
+    expect([allowed.start, allowed.end]).toEqual(['2026-10-14', '2026-10-24']);
+  });
+
+  it('follows the property set from the attribute and back', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'] });
+    expect(day(calendar, '2026-10-24').disabled).toBe(true);
+    calendar.setAttribute('allows-non-contiguous-ranges', '');
+    await settle(calendar);
+    expect(calendar.allowsNonContiguousRanges).toBe(true);
+    expect(day(calendar, '2026-10-24').disabled).toBe(false);
+    calendar.removeAttribute('allows-non-contiguous-ranges');
+    await settle(calendar);
+    expect(day(calendar, '2026-10-24').disabled).toBe(true);
+  });
+
+  it('works with a rule given as a function, and calls it for a bounded number of days', async () => {
+    const rule = vi.fn((date: string) => new Date(`${date}T00:00:00Z`).getUTCDay() === 0);
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: rule });
+    expect(enabled(calendar, '2026-10-17', '2026-10-18', '2026-10-19')).toEqual([true, false, false]);
+    expect(enabled(calendar, '2026-10-11', '2026-10-10', '2026-10-04')).toEqual([false, false, false]);
+    expect(rule.mock.calls.length).toBeLessThan(2000);
+  });
+
+  it('skips a closed day with the arrows and stays at the edge of the window', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'] });
+    calendar.focusDate('2026-10-14');
+    await settle(calendar);
+    await press(calendar, '{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}');
+    expect(focused(calendar)).toBe('2026-10-19');
+    await press(calendar, '{ArrowRight}');
+    expect(focused(calendar)).toBe('2026-10-19');
+    await press(calendar, '{ArrowDown}');
+    expect(focused(calendar)).toBe('2026-10-19');
+    await press(calendar, '{End}');
+    expect(focused(calendar)).toBe('2026-10-19');
+  });
+
+  it('does not lock the arrows of the months: they move on, and every day of the other month is closed', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'] });
+    const next = root(calendar).querySelectorAll<HTMLElement & { disabled: boolean }>('.header nph-button.arrow')[1] as HTMLElement & { disabled: boolean };
+    expect(next.disabled).toBe(false);
+    next.click();
+    await settle(calendar);
+    expect(titles(calendar)[0]).toBe('November 2026');
+    expect(days(calendar).filter((button) => !button.hasAttribute('data-outside')).every((button) => button.disabled)).toBe(true);
+    expect(days(calendar).some((button) => button.tabIndex === 0)).toBe(false);
+  });
+
+  it('gives each grid of two months its own window, with the Tab stop only where a day is open', async () => {
+    const calendar = await mount({ mode: 'range', months: 2, month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'] });
+    expect(days(calendar).filter((button) => button.tabIndex === 0).map((button) => button.dataset.date)).toEqual(['2026-10-14']);
+    const open = await mount({ mode: 'range', months: 2, month: '2026-10', start: '2026-10-14', unavailable: ['2026-11-10'] });
+    expect(days(open).filter((button) => button.tabIndex === 0).map((button) => button.dataset.date)).toEqual(['2026-10-14', '2026-11-01']);
+    expect(enabled(open, '2026-11-09')[0]).toBe(true);
+    expect(enabled(open, '2026-11-10')[0]).toBe(false);
+  });
+
+  it('does not paint the preview band over a closed day', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', unavailable: ['2026-10-20'] });
+    await userEvent.hover(day(calendar, '2026-10-24'));
+    await settle(calendar);
+    expect(days(calendar).some((button) => button.hasAttribute('data-preview'))).toBe(false);
+    await userEvent.hover(day(calendar, '2026-10-18'));
+    await settle(calendar);
+    expect(days(calendar).filter((button) => button.hasAttribute('data-preview')).map((button) => button.dataset.date)).toEqual([
+      '2026-10-15', '2026-10-16', '2026-10-17', '2026-10-18',
+    ]);
+  });
+
+  it('keeps a period typed across an unavailable day: the rule of today for typed dates', async () => {
+    const calendar = await mount({ mode: 'range', month: '2026-10', start: '2026-10-14', end: '2026-10-24', unavailable: ['2026-10-20'] });
+    expect([calendar.start, calendar.end]).toEqual(['2026-10-14', '2026-10-24']);
+    expect(days(calendar).filter((button) => button.disabled)).toHaveLength(0);
+    expect(day(calendar, '2026-10-20').getAttribute('data-role')).toBe('middle');
   });
 });
 

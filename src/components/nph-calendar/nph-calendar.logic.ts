@@ -194,6 +194,38 @@ export function pickInRange(range: Range, day: Day): Range {
   return day < range.start ? { start: day, end: range.start } : { start: range.start, end: day };
 }
 
+/**
+ * The days that can be the End while only the Start is chosen, when a period does not cross a day unavailable by rule (D-10, the
+ * default of `allowsNonContiguousRanges`). The first unavailable day after the Start closes the window on its day before, and the
+ * first one before the Start closes it on its day after; a side with none keeps `null`. The search starts at the day next to the
+ * Start (the Start itself, if typed on an unavailable day, does not close the window) and goes only as far as `low` and `high`, the
+ * farthest day the caller asks about, so a rule given as a function is called for a bounded number of days.
+ */
+export function periodReach(start: Day, isUnavailable: (day: Day) => boolean, low: Day, high: Day): Limits {
+  let max: Day | null = null;
+  for (let day = start + 1; day <= high; day += 1) {
+    if (isUnavailable(day)) {
+      max = day - 1;
+      break;
+    }
+  }
+  let min: Day | null = null;
+  for (let day = start - 1; day >= low; day -= 1) {
+    if (isUnavailable(day)) {
+      min = day + 1;
+      break;
+    }
+  }
+  return { min, max };
+}
+
+/** Two sets of limits as one: the later `min` and the earlier `max` win. */
+export function mergeLimits(a: Limits, b: Limits): Limits {
+  const min = a.min === null ? b.min : b.min === null ? a.min : Math.max(a.min, b.min);
+  const max = a.max === null ? b.max : b.max === null ? a.max : Math.min(a.max, b.max);
+  return { min, max };
+}
+
 export type RangeRole = 'none' | 'start' | 'end' | 'middle' | 'single';
 
 /**

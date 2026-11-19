@@ -176,6 +176,8 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **Images**: none.
 
 ## Decisions open with the design owner
+
+> **Superseded on 2026-11-18.** The design owner answered D-1 to D-11 as recommended (evidence of DSA-96, `design-decision-2026-11-18.md`); DSA-96 and P135 bring the code to the answers that change it. D-12 to D-14 stay open.
 The reviews of 17-11 and 18-11 found the first eleven of these questions; the code added D-12 to D-14. They are questions with no drawing or rule in Figma. Each of the first eleven has a recommendation from market research with sources, and each says what the code does until the design owner answers (last column): the recommendation, or the accepted drawing where the recommendation would change it (D-2, D-5 and the year title icon of D-9); D-1 follows the recommendation, six rows, because the five drawn rows cannot hold a six-week month. None blocks the pull request. The ones marked preview need a Figma preview, in light and dark, before the design owner decides.
 
 | ID | Question | Recommended | Preview | Until the design owner answers, the code |

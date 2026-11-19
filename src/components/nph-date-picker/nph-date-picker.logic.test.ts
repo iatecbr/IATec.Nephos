@@ -14,6 +14,7 @@ import {
   matchShortcut,
   parseTyped,
   shortcutDisabled,
+  shortcutPeriod,
   shortcutRange,
 } from './nph-date-picker.logic';
 import type { DateOrder } from './nph-date-picker.logic';
@@ -124,9 +125,11 @@ describe('the shortcuts (D-6)', () => {
     expect(range('yesterday')).toEqual(['2026-10-13', '2026-10-13']);
   });
 
-  it('ends Last 7 days and Last 30 days today and includes it', () => {
-    expect(range('last-7-days')).toEqual(['2026-10-08', '2026-10-14']);
-    expect(range('last-30-days')).toEqual(['2026-09-15', '2026-10-14']);
+  it('makes Last 7 days and Last 30 days the whole days up to yesterday, without today', () => {
+    expect(range('last-7-days')).toEqual(['2026-10-07', '2026-10-13']);
+    expect(range('last-30-days')).toEqual(['2026-09-14', '2026-10-13']);
+    const period = shortcutPeriod('last-7-days', today);
+    expect((period?.end as number) - (period?.start as number) + 1).toBe(7);
   });
 
   it('runs This month from the first day to the last, and Last month is the whole previous month', () => {
@@ -138,27 +141,43 @@ describe('the shortcuts (D-6)', () => {
     expect([isoDate(previous?.start as number), isoDate(previous?.end as number)]).toEqual(['2025-12-01', '2025-12-31']);
   });
 
-  it('cuts a shortcut by the min and the max, and disables it only when none of its days is allowed', () => {
-    expect(range('this-month', { min: null, max: day('2026-10-20') })).toEqual(['2026-10-01', '2026-10-20']);
-    expect(range('last-7-days', { min: day('2026-10-10'), max: null })).toEqual(['2026-10-10', '2026-10-14']);
+  it('disables a shortcut with any day outside the min or the max, and never cuts it', () => {
+    expect(range('last-7-days', { min: day('2026-10-10'), max: null })).toBeNull();
+    expect(range('last-7-days', { min: day('2026-10-07'), max: null })).toEqual(['2026-10-07', '2026-10-13']);
+    expect(range('last-7-days', { min: null, max: day('2026-10-12') })).toBeNull();
+    expect(range('last-7-days', { min: null, max: day('2026-10-13') })).toEqual(['2026-10-07', '2026-10-13']);
     expect(range('last-month', { min: day('2026-10-01'), max: null })).toBeNull();
+    expect(range('last-month', { min: day('2026-09-02'), max: null })).toBeNull();
+    expect(range('last-month', { min: day('2026-09-01'), max: day('2026-09-30') })).toEqual(['2026-09-01', '2026-09-30']);
     expect(shortcutDisabled('last-month', today, { min: day('2026-10-01'), max: null })).toBe(true);
     expect(shortcutDisabled('today', today, { min: null, max: day('2026-10-13') })).toBe(true);
+    expect(shortcutDisabled('yesterday', today, { min: null, max: day('2026-10-13') })).toBe(false);
     expect(shortcutDisabled('last-7-days', today, { min: null, max: day('2026-10-13') })).toBe(false);
     expect(shortcutDisabled('custom', today, { min: day('2030-01-01'), max: null })).toBe(false);
   });
 
+  it('keeps This month cut by the max, the one exception, and disables it when no day is allowed or the min is inside it', () => {
+    expect(range('this-month', { min: null, max: day('2026-10-20') })).toEqual(['2026-10-01', '2026-10-20']);
+    expect(range('this-month', { min: null, max: day('2026-10-14') })).toEqual(['2026-10-01', '2026-10-14']);
+    expect(range('this-month', { min: day('2026-10-01'), max: day('2026-10-14') })).toEqual(['2026-10-01', '2026-10-14']);
+    expect(range('this-month', { min: null, max: day('2026-09-30') })).toBeNull();
+    expect(range('this-month', { min: day('2026-10-05'), max: null })).toBeNull();
+    expect(shortcutDisabled('this-month', today, { min: null, max: day('2026-10-14') })).toBe(false);
+  });
+
   it('marks the shortcut whose period matches, Custom for any other period, and none for an empty one', () => {
     expect(matchShortcut({ start: day('2026-10-14'), end: day('2026-10-14') }, today, noLimits)).toBe('today');
-    expect(matchShortcut({ start: day('2026-10-08'), end: day('2026-10-14') }, today, noLimits)).toBe('last-7-days');
+    expect(matchShortcut({ start: day('2026-10-07'), end: day('2026-10-13') }, today, noLimits)).toBe('last-7-days');
+    expect(matchShortcut({ start: day('2026-10-08'), end: day('2026-10-14') }, today, noLimits)).toBe('custom');
     expect(matchShortcut({ start: day('2026-10-01'), end: day('2026-10-31') }, today, noLimits)).toBe('this-month');
     expect(matchShortcut({ start: day('2026-10-02'), end: day('2026-10-05') }, today, noLimits)).toBe('custom');
     expect(matchShortcut({ start: day('2026-10-14'), end: null }, today, noLimits)).toBe('custom');
     expect(matchShortcut({ start: null, end: null }, today, noLimits)).toBeNull();
   });
 
-  it('matches a shortcut that the limits cut', () => {
+  it('matches This month cut by the max, and a shortcut the limits disable is never matched', () => {
     const limits = { min: null, max: day('2026-10-20') };
     expect(matchShortcut({ start: day('2026-10-01'), end: day('2026-10-20') }, today, limits)).toBe('this-month');
+    expect(matchShortcut({ start: day('2026-10-07'), end: day('2026-10-13') }, today, { min: day('2026-10-10'), max: null })).toBe('custom');
   });
 });

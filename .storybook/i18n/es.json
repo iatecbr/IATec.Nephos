@@ -8775,8 +8775,8 @@
       "components-nph-timeline-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: un proceso de aprobación rechazado, un historial por persona con una acción y un historial por tipo de evento.",
       "components-nph-timeline-validation--brands": "Las siete marcas en modo claro y oscuro: la línea conectora, el punto, el círculo neutro y su icono siguen la marca del marco.",
       "components-nph-calendar-validation--single": "La fecha única en los dos tamaños: siempre seis filas de semana, hoy con su contorno, el día elegido relleno y los días del mes anterior y del siguiente en tono suave.",
-      "components-nph-calendar-validation--range": "El rango: un periodo que cruza el cambio de semana con la franja recta, un periodo de un día, solo el inicio elegido y dos meses consecutivos lado a lado.",
-      "components-nph-calendar-validation--limits": "Los días fuera del mínimo y del máximo se atenúan y el foco los salta; una fecha no disponible por regla conserva la celda, atenúa solo el número, recibe foco y nunca se elige.",
+      "components-nph-calendar-validation--range": "El rango: un periodo que cruza el cambio de semana con la franja recta, un periodo de un día, solo el inicio elegido y dos meses consecutivos lado a lado, con Mes anterior solo en el primero y Mes siguiente solo en el último.",
+      "components-nph-calendar-validation--limits": "Los días fuera del mínimo y del máximo se atenúan y el foco los salta; una fecha no disponible por regla conserva la celda, atenúa solo el número, recibe foco y nunca se elige. En el rango con solo el inicio elegido, los días después de un día no disponible no pueden ser el fin y se atenúan igual, a menos que el periodo pueda cruzarlo.",
       "components-nph-calendar-validation--week": "La semana que empieza en domingo y en lunes: solo la fila de los días de la semana y la primera semana del mes cambian.",
       "components-nph-calendar-validation--interactive": "Una cuadrícula para probar: el título de un mes abre la vista de meses y luego la de años, las flechas, Page Up y Page Down mueven, y la línea de estado dice lo que disparó la cuadrícula.",
       "components-nph-calendar-validation--brands": "Las siete marcas en modo claro y oscuro: el día elegido, el periodo, hoy y el foco siguen la marca del marco.",
@@ -8786,12 +8786,12 @@
       "components-nph-date-picker-validation--panel-single": "El panel de una fecha única abierto bajo el campo: solo la cuadrícula con seis filas de semana; elegir un día aplica y cierra.",
       "components-nph-date-picker-validation--panel-range": "El panel de un rango abierto: los siete atajos, dos meses, el divisor y el pie con Borrar, Cancelar y Aplicar.",
       "components-nph-date-picker-validation--panel-large": "El panel del tamaño grande, para pantalla táctil: el día de 44 y los botones del pie en el tamaño por defecto.",
-      "components-nph-date-picker-validation--limits": "El panel con mínimo, máximo y fechas no disponibles por regla: los días fuera de los límites se atenúan y el foco los salta, los otros reciben foco y nunca se eligen.",
+      "components-nph-date-picker-validation--limits": "El panel con mínimo, máximo y fechas no disponibles por regla: los días fuera de los límites se atenúan y el foco los salta, los otros reciben foco y nunca se eligen; en el rango, un atajo con un día fuera de los límites queda deshabilitado, y un periodo se detiene antes de un día no disponible.",
       "components-nph-date-picker-validation--interactive": "Un selector para probar, único y rango: el botón abre el panel, Esc, un clic fuera o Cancelar lo cierra y el foco vuelve al botón.",
       "components-nph-date-picker-validation--form": "Un selector en un formulario: el nombre pone la fecha en los datos del formulario y el reset trae el valor por defecto.",
       "components-nph-date-picker-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: una fecha de vencimiento, un periodo de informe con Personalizado elegido y Aplicar en el pie, y una fecha no válida con el mensaje.",
       "components-nph-date-picker-validation--brands": "Las siete marcas en modo claro y oscuro: el foco, el día elegido, el periodo y el botón Aplicar siguen la marca del marco.",
-      "components-nph-calendar-validation--views": "La vista de meses y la de años, abiertas desde el título: cuatro filas por tres columnas en el tamaño dibujado, un año o doce años a la vez, y una celda deshabilitada solo cuando ninguno de sus días está permitido."
+      "components-nph-calendar-validation--views": "La vista de meses y la de años, abiertas desde el título, a la altura de la vista de días y con celdas de la altura del día, en los dos tamaños; en el rango los dos meses cambian juntos a dos años o a dos bloques de doce años; una celda queda deshabilitada solo cuando ninguno de sus días está permitido."
     }
   },
   "multiComboboxDocs": {
@@ -17238,7 +17238,7 @@
     "onThisPage": "En esta página",
     "matrixLabel": "Matriz del componente",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las preguntas que la diseñadora aún no respondió están en la tarea y en la P133; el código sigue la regla provisional de cada una.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133 y la P135. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las respuestas del diseño del 18-11-2026 están en la P135; las preguntas aún abiertas están en la tarea, con la regla provisional que sigue el código.",
     "sourceLabel": "Fuente:",
     "whenToUseTitle": "Cuándo usar",
     "whenNotToUseTitle": "Cuándo no usar",
@@ -17283,6 +17283,10 @@
       [
         "unavailable",
         "Una lista de AAAA-MM-DD, o una función que lo dice para una fecha, para una fecha no disponible por regla, como un festivo. Recibe foco y nunca se elige. Solo propiedad."
+      ],
+      [
+        "allows-non-contiguous-ranges",
+        "Desactivada por defecto: un periodo no cruza un día no disponible por regla. Mientras solo el inicio está elegido, los días después del primer día no disponible tras él, o antes del primero anterior a él, quedan deshabilitados y no pueden ser el fin. Activada, un periodo puede tener días no disponibles. La propiedad es allowsNonContiguousRanges. Un periodo escrito y los atajos no se verifican."
       ],
       [
         "label, start-label, end-label",
@@ -17370,11 +17374,11 @@
       ],
       [
         "Atajos",
-        "Hoy, Ayer, Últimos 7 días, Últimos 30 días, Este mes, Mes pasado y Personalizado, en una lista que es una parada de Tab. Elegir uno rellena la franja y espera el Aplicar; Personalizado no cambia nada."
+        "Hoy, Ayer, Últimos 7 días, Últimos 30 días, Este mes, Mes pasado y Personalizado, en una lista que es una parada de Tab. Últimos 7 días y Últimos 30 días terminan ayer, sin hoy. Un atajo con cualquier día fuera del mínimo o del máximo queda deshabilitado, salvo Este mes, que el máximo recorta. Elegir uno rellena la franja y espera el Aplicar; Personalizado no cambia nada."
       ],
       [
         "Selección",
-        "La primera elección es el inicio, la segunda el fin; un fin antes del inicio reordena; una tercera elección recomienza; un día es un periodo válido; Aplicar sin nada elegido aplica un periodo vacío."
+        "La primera elección es el inicio, la segunda el fin; un fin antes del inicio reordena; una tercera elección recomienza; un día es un periodo válido; Aplicar sin nada elegido aplica un periodo vacío. Mientras solo el inicio está elegido, un periodo no cruza un día no disponible por regla, a menos que allowsNonContiguousRanges esté activada."
       ],
       [
         "Pie",
@@ -17382,10 +17386,10 @@
       ],
       [
         "Cuadrícula",
-        "Seis filas de semana, los días fuera del mes mostrados, una parada de Tab por mes, las flechas pasando de un mes al otro. El título de un mes abre los meses del año, y el título del año abre doce años."
+        "Seis filas de semana, los días fuera del mes mostrados, una parada de Tab por mes, las flechas pasando de un mes al otro. En el rango, Mes anterior queda solo en el primer mes y Mes siguiente solo en el último. El título de un mes abre los meses del año, y el título del año abre doce años; en el rango los dos meses cambian juntos."
       ]
     ],
-    "sourcePanel": "fichas del nph-date-picker y del nph-calendar; P133",
+    "sourcePanel": "fichas del nph-date-picker y del nph-calendar; P133 y P135",
     "typingTitle": "Escribir una fecha",
     "typingText": "La persona puede escribir la fecha en vez de elegirla. No hay máscara: el texto se lee cuando la persona sale del campo, y el mensaje llega por el campo, diciendo qué corregir.",
     "typingHeader": [
@@ -17471,7 +17475,7 @@
       ],
       [
         "No disponible",
-        "Una fecha fuera de los límites se atenúa y el foco la salta. Una fecha no disponible por regla atenúa solo el número, recibe foco con aria-disabled, y Enter no la elige."
+        "Una fecha fuera de los límites se atenúa y el foco la salta. Una fecha no disponible por regla atenúa solo el número, recibe foco con aria-disabled, y Enter no la elige. Mientras solo el inicio de un periodo está elegido, un día que no puede ser el fin se atenúa como un día fuera de los límites."
       ],
       [
         "Anuncio",
@@ -17488,11 +17492,11 @@
     "darkCaption": "Modo oscuro",
     "sourceFrame": "ficha del nph-date-picker; Figma, marco nph-date-picker (6673:62837)",
     "sourceSpec": "ficha del nph-date-picker; Figma, marco nph-date-picker (6673:62837)",
-    "sourceApi": "ficha del nph-date-picker; docs/decisoes-tecnicas.md › P133",
+    "sourceApi": "ficha del nph-date-picker; docs/decisoes-tecnicas.md › P133 y P135",
     "referencesTitle": "Referencias",
     "references": [
       "Fichas del nph-date-picker y del nph-calendar — función, variantes, estados, accesibilidad, tokens y antipatrones.",
-      "docs/decisoes-tecnicas.md — P133 (API y semántica), P01, P02 y P03.",
+      "docs/decisoes-tecnicas.md — P133 (API y semántica), P135 (las respuestas del 18-11-2026), P01, P02 y P03.",
       "design.md — los tokens de la cuadrícula y del panel, el foco y la elevación.",
       "WAI-ARIA APG, Date Picker Dialog — https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/",
       "React Aria, RangeCalendar — https://react-aria.adobe.com/RangeCalendar",

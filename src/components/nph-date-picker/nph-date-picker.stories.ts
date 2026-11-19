@@ -3,8 +3,8 @@
  *
  * They prove the contract accepted in Figma (documentation frame `6673:62837`, root `6662:55010`, set `6666:32`, panel `6662:56378`) and
  * P133: the field in its three sizes, empty and filled, with the error and disabled states; the range with Start and End; the
- * panel open in its modes and sizes, with the date grid, the seven shortcuts, the divider and the footer; the limits and the date
- * unavailable by rule; the form; the three required examples; and the seven brands. Every story shows the same pickers in light and
+ * panel open in its modes and sizes, with the date grid, the seven shortcuts, the divider and the footer; the limits, the date
+ * unavailable by rule and a period that stops before it, and the shortcuts the limits disable; the form; the three required examples; and the seven brands. Every story shows the same pickers in light and
  * dark mode, in the same story, through `data-nph-color-scheme` on the frame (P20, P67).
  *
  * The open panels are drawn by the `open` attribute, one frame under the other, and take no focus: nothing the person did asked for
@@ -144,7 +144,11 @@ export const PanelLarge: Story = {
   },
 };
 
-/** The limits and the dates unavailable by rule: the day outside min and max fades and is skipped; the holiday takes focus and is not chosen. */
+/**
+ * The limits and the dates unavailable by rule: the day outside min and max fades and is skipped; the holiday takes focus and is not chosen.
+ * In the range, with only the Start chosen, the days past the unavailable day cannot be the End, and the shortcuts with a day outside
+ * the limits are disabled.
+ */
 export const Limits: Story = {
   name: 'Limits',
   render: (_args, context: GlobalsContext) => {
@@ -152,8 +156,13 @@ export const Limits: Story = {
     return validationPage(
       context,
       page('limits'),
-      bothModes(captions(v), () =>
-        opened(v, { value: '2026-10-14', min: '2026-10-08', max: '2026-10-24', unavailable: ['2026-10-12', '2026-10-15', '2026-10-20'] }),
+      bothModes(
+        captions(v),
+        () =>
+          html`<div style="display: flex; flex-direction: column; gap: var(--nph-space-stack);">
+            ${opened(v, { value: '2026-10-14', min: '2026-10-08', max: '2026-10-24', unavailable: ['2026-10-12', '2026-10-15', '2026-10-20'] })}
+            ${opened(v, { mode: 'range', start: '2026-10-14', min: '2026-10-08', max: '2026-10-31', unavailable: ['2026-10-20'] })}
+          </div>`,
       ),
     );
   },
