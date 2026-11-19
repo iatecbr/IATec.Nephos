@@ -94,7 +94,7 @@ Indiane answered D-1 and D-3 in the chat on 2026-11-16, after market research wi
 | ID | Answer | What the code does |
 |---|---|---|
 | D-1 | Confirmed: the preview type lifts the cut at three lines with no movement. | Nothing changes. |
-| D-3 | Confirmed as an exception to the motion rule of `design.md`: the expansion of a disclosure grows its grid rows in `motion/expand-*`; with reduced motion nothing moves (Radix Collapsible animates the content height). | Nothing changes in the code. Writing the exception into the motion rule of `design.md` is Claude's, and waits for Indiane's release. |
+| D-3 | Confirmed as an exception to the motion rule of `design.md`: the expansion of a disclosure grows its grid rows in `motion/expand-*`; with reduced motion nothing moves (Radix Collapsible animates the content height). | Nothing changes in the code. The exception is written into the motion rule of `design.md` ("Animate opacity and transform"). |
 
 ## Decisions answered on 2026-11-16 on the Figma previews
 Indiane chose the recommended option 1 on the previews in Figma (parent frame `6753:17854`, page Rascunho `988:6952`), in light and dark, after market research with sources.
