@@ -67,7 +67,7 @@ import '../nph-badge/nph-badge';
 import '../nph-empty/nph-empty';
 import '../nph-icon/nph-icon';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
-import { NPH_OPTION_DEFAULT_ICON } from '../nph-option/nph-option';
+import { NPH_OPTION_DEFAULT_ICON, pointerMoved } from '../nph-option/nph-option';
 import type { NphComboboxEntry, NphComboboxOption } from '../nph-combobox/nph-combobox';
 import { comboboxListStyles, entryProblems, filterGroups, groupsOf, isOption, renderGroup, renderOption, trimmed } from '../nph-combobox/nph-combobox.list';
 import type { NphComboboxGroup } from '../nph-combobox/nph-combobox.list';
@@ -704,6 +704,7 @@ export class NphMultiCombobox extends LitElement {
     if (event.isComposing || this.inactive) {
       return;
     }
+    this.setModality(true);
     const { key, altKey } = event;
     let handled = true;
 
@@ -795,6 +796,7 @@ export class NphMultiCombobox extends LitElement {
     if (path.some((target) => this.isRemoveButton(target))) {
       return;
     }
+    this.setModality(false);
     const onArrow = path.some((target) => target instanceof Element && target.classList.contains('arrow'));
     this.field?.focus();
     if (this.open && onArrow) {
@@ -830,6 +832,18 @@ export class NphMultiCombobox extends LitElement {
   /** The options as the last render drew them, by position. */
   private renderedRows: NphComboboxOption[] = [];
 
+  /* The last input was the keyboard: only then the active rich option draws the focus border and the halo. */
+  private byKeyboard = false;
+  private pointerAt: [number, number] | null = null;
+
+  /** Tells the active option whether it got there by the keyboard or by the pointer. */
+  private setModality(keyboard: boolean): void {
+    if (this.byKeyboard !== keyboard) {
+      this.byKeyboard = keyboard;
+      this.requestUpdate();
+    }
+  }
+
   /** A click during the exit of a closed list chooses nothing: the list is already closed. */
   private onListClick(event: MouseEvent): void {
     const row = this.rowOf(event);
@@ -839,6 +853,10 @@ export class NphMultiCombobox extends LitElement {
   }
 
   private onListPointer(event: PointerEvent): void {
+    if (pointerMoved(this.pointerAt, event)) {
+      this.pointerAt = [event.clientX, event.clientY];
+      this.setModality(false);
+    }
     const row = this.rowOf(event);
     if (row !== null && row.disabled !== true) {
       this.setActive(row);
@@ -1212,6 +1230,7 @@ export class NphMultiCombobox extends LitElement {
             query,
             selected: chosen.has(option),
             active: this.open && option === this.activeRow,
+            keyboard: this.byKeyboard,
             marker: 'checkbox',
           });
         }),

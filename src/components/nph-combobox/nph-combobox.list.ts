@@ -15,7 +15,7 @@
  *   the separator, in the look of `nph-dropdown-menu`; and of the create row.
  *
  * Every option keeps the `nph-option` contract: the start, the dot, the secondary text, the
- * selected and the active looks are the option's own.
+ * rich look with its description (DSA-91), the selected and the active looks are the option's own.
  */
 import { html, nothing, unsafeCSS } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -55,7 +55,7 @@ export function entryProblems(entry: unknown): string[] {
   if (typeof entry !== 'object' || entry === null) {
     return ['an entry is not an object'];
   }
-  const candidate = entry as { type?: unknown; value?: unknown; text?: unknown; start?: unknown; icon?: unknown; status?: unknown };
+  const candidate = entry as { type?: unknown; value?: unknown; text?: unknown; start?: unknown; icon?: unknown; status?: unknown; rich?: unknown; description?: unknown };
   if (candidate.type === 'separator') {
     return [];
   }
@@ -81,6 +81,12 @@ export function entryProblems(entry: unknown): string[] {
   }
   if (candidate.status !== undefined && !(NPH_OPTION_STATUSES as readonly string[]).includes(String(candidate.status))) {
     problems.push(`an option status "${String(candidate.status)}" does not exist. Use ${NPH_OPTION_STATUSES.join(', ')}`);
+  }
+  if (candidate.rich !== undefined && typeof candidate.rich !== 'boolean') {
+    problems.push(`an option rich "${String(candidate.rich)}" is not a boolean`);
+  }
+  if (candidate.description !== undefined && typeof candidate.description !== 'string') {
+    problems.push('an option description is not a string');
   }
   return problems;
 }
@@ -206,12 +212,15 @@ export interface NphComboboxRowState {
   readonly active: boolean;
   /** The marker of the option: `check` (default) or `checkbox`, the multiple choice of `nph-multi-combobox` (P96). */
   readonly marker?: 'check' | 'checkbox';
+  /** The active option got there by the keyboard: only then the rich option draws the focus border and the halo (DSA-91). */
+  readonly keyboard?: boolean;
 }
 
 /** One option row: an `nph-option` (P91), with the typed stretch highlighted in its label. */
 export function renderOption(option: NphComboboxOption, state: NphComboboxRowState): TemplateResult {
   const start = option.start ?? 'none';
   const secondary = trimmed(option.secondary);
+  const description = trimmed(option.description);
   return html`<nph-option
     id=${state.id}
     start=${start}
@@ -220,9 +229,12 @@ export function renderOption(option: NphComboboxOption, state: NphComboboxRowSta
     status=${option.status === undefined ? nothing : option.status}
     secondary=${secondary === '' ? nothing : secondary}
     marker=${state.marker ?? 'check'}
+    ?rich=${option.rich === true}
+    description=${description === '' ? nothing : description}
     ?disabled=${option.disabled === true}
     .selected=${state.selected}
     .active=${state.active}
+    .keyboard=${state.active && state.keyboard === true}
     >${highlighted(trimmed(option.text), state.query)}</nph-option
   >`;
 }

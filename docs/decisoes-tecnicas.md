@@ -88,6 +88,7 @@ P62.4 subsection for the detail).
 | **P130** | API and semantics of `nph-card` | 18/11/2026 | Low now. No piece consumes the card yet; a collection of items, the summary of a record and a detail page will, and changing `type`, `surface`, `media`, `density`, `disabled`, `loading`, `heading`, `heading-level`, `description`, `icon`, `href`, `loading-label`, `hide-divider`, `items`, the slots by zone name, the stretched link, the touch rule, the narrow container rule or the invalid-input rule later requires redoing every consumer. The long key or value of the section list (D-1), the loading card with media (D-2) and the width of the narrow container (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P132** | API and semantics of `nph-timeline` | 18/11/2026 | Low now. No piece consumes the timeline yet; the history of a record and the progress of a request and its approval will, and changing `items`, `type`, `label`, `labelledBy`, `has-more`, `loading`, `live`, the texts of the host, the events `nph-timeline-action` and `nph-timeline-more`, the slot named as the `id` of an item, the paint of the connector line, the focus of the last batch of Show more, the announcements or the invalid-input rule later requires redoing every consumer. The number of skeleton rows (D-1), the look of the item that takes the focus (D-2) and the current status on the history (D-3) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P133** | API and semantics of `nph-date-picker` and `nph-calendar` | 18/11/2026 | Low now. No piece consumes the date picker yet; the filters of a report, a due date in a form and the scheduler adjustment (the `nph-calendar` grid replaces its own) will, and changing `mode`, `size`, `value`, `start`, `end`, `min`, `max`, `unavailable`, `month`, `months`, `week-start`, `now`, `labels`, `name`, `start-name`, `end-name`, `open`, the event `change`, the events `nph-pick` and `nph-month-change`, the date text `YYYY-MM-DD`, the internal control row, the seven shortcuts, the typed date rules, the keys or the invalid-input rule later requires redoing every consumer. D-1 to D-11 follow the provisional rule of the task; the measures with no token (D-12), a typed Start or End with the panel closed (D-13) and the page margin of the narrow switch (D-14) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P134** | API and semantics of `nph-rich-option` and of the rich option of `nph-option` | 18/11/2026 | Low now. No form consumes the card yet; a plan or delivery choice, a list of settings and the people list of a combobox will, and changing `control`, `checked`, `name`, `value`, `text`, `description`, `icon`, `shortcut`, `keyShortcuts`, `invalid`, `disabled`, the events `input` and `change`, the role held by the card, the radio group by `name`, `rich` and `description` on `nph-option`, the `keyboard` property the lists write, the `rich` and `description` of the combobox entries or the invalid-input rule later requires redoing every consumer. D-4 follows the provisional rule of the task and waits for Indiane | Anatomy and behavior: documentation accepted by Indiane on 18/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -9891,9 +9892,172 @@ block the pull request. API and semantics are reviewed in the pull request that 
 
 ---
 
+## P134 — `nph-rich-option` and the rich option: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `6935:11785`, page `4128:26259`, root `6910:6824`, sets `6910:6828` and
+`6910:7093`) draws two pieces of one idea: a form choice with a title and a description where the whole card checks the option,
+and the same rich look, with a description below the label, as the option of the `nph-select` and `nph-combobox` list. It leaves to
+the code who holds the role and the focus of the card, how the card gets its control, its state and its form value, how a group
+of radio cards forms one group, how the card learns it is invalid, whether the width is fixed or shrinks, what turns the rich look
+of the option on, how the list tells the option that the active option came from the keyboard, how the description reaches the
+screen reader while the focus stays on the field, and what happens with an input that does not fit. Five limits of the platform and
+of the system shape the answer:
+
+- the three controls of the card, `nph-checkbox`, `nph-radio` and `nph-switch`, have no `::part` and no property that hides their
+  own focus ring, and Figma draws the focus around the whole card and none on the control;
+- an `id` does not cross a shadow root, so a title and a second line cannot name and describe the card by `aria-labelledby` and
+  `aria-describedby` from inside;
+- the `nph-radio` forms its group by `name` in the same root, and the radio that the card draws is in the shadow root of each card,
+  so it cannot be the group of the cards;
+- the `nph-field` reads its role from the **class** of its children, and one class cannot be a `radiogroup` option and a `group`
+  option at once;
+- the list, not the option, knows whether the active option got there by the keyboard or by the pointer.
+
+**Decision.** `nph-rich-option` is a Web Component with **open Shadow DOM** (P01), form-associated, with the `rich-option/*`
+tokens, `layout/rich-option-width` and `text/label-md` and `text/caption`; **no token is created or changed**, and every
+`rich-option/*` token is consumed. The rich option is the `nph-option` (P91) with the
+`select/option-*` tokens, in a file of its own, `nph-option.rich.css`, so the plain option does not move; every `select/option-*`
+token is consumed. Neither has a `::part`, a color property or a slot. What they reject renders nothing and emits `console.error`
+only in development, once per cause: the rule of P21. The names follow P64.
+
+1. **Who holds the role and the focus: the card (Q1).** The host IS the control, as the host of `nph-radio` is (P82): its role is
+   `checkbox`, `radio` or `switch`, with `aria-checked` and `aria-disabled` set through `ElementInternals`, and it takes the focus
+   itself. The control drawn at its start is an `nph-checkbox`, `nph-radio` or `nph-switch` at the default size, `inert` and
+   `aria-hidden`, a visual indicator of the state of the card, as the box of `nph-option` is (P92, P96). The other path, the real
+   control inside holding the focus with the card drawing `:focus-within`, needs a way to hide the ring of the control, which the
+   three controls do not have; adding it would change three finished pieces for a look that does not change. A click on the card
+   reaches the host, because an `inert` element takes no pointer, so the whole card is the click area.
+
+2. **The API of the card (Q2).** `control` is `checkbox` (default), `radio` or `switch` and reflects. `checked` is the current
+   state and does not reflect; the `checked` attribute is the initial state and the one `form.reset()` returns to, and moves the
+   current state only while the card is not dirty, the rule of the native controls and of P81 and P82. `name` and `value` reflect,
+   `value` is `on` by default. `text` is the title, a property and not a slot, as the `text` of the three controls is, and it is
+   the accessible name; it wraps. `description` is the second line, empty turns it off. `icon` is a core name of `nph-icon`, drawn
+   `light` after the control, empty turns it off. `shortcut` is the keys separated by spaces, each in an `nph-kbd`, empty turns it
+   off. `keyShortcuts` is the `aria-keyshortcuts` value. `invalid` and `disabled` reflect. The events are the native `input`
+   (bubbles, composed) and then `change` (bubbles), only when the person checks or toggles the card.
+
+3. **The group of radio cards (Q3).** The group is not an element: cards with `control="radio"` and the same non-empty `name`, in
+   the same root and with the same form owner, are one group, as in `nph-radio`. Checking one unchecks the others, from the person or
+   from code; one Tab stop per group, on the checked card or, with none checked, on the first that responds; the arrow keys move
+   the focus to the next or previous card that responds, wrapping, and check it; Space checks the focused one. Enter follows the
+   control the card holds: it checks nothing on a checkbox or radio card, as `nph-checkbox` and `nph-radio` do, and toggles a
+   switch card, as `nph-switch` does. The accepted table also says Enter "submits the form, if there is one"; the two controls the
+   card follows do not submit, so the card does not either, and this is a declared difference from that table. The group settles when a card leaves, changes `name` or changes `control`. A checkbox card and a switch card are one Tab
+   stop each, Space toggles, the arrows do nothing. A radio card with no `name` is a group of one and warns nothing.
+
+4. **The form (Q4).** The card is form-associated. A checked checkbox or radio card enters the `FormData` as `name=value`; `reset`,
+   a disabled `<fieldset>` and the restoration of the history work as in the native controls. The card with a switch submits
+   nothing, as `nph-switch` is not a form member: a choice that goes with a submission is a checkbox.
+
+5. **The name and the description (Q5).** The title is the name of the control and the second line its description, both written
+   through `ElementInternals` (`ariaLabel` and `ariaDescription`), because an id does not cross the shadow root; the second line,
+   the icon and the shortcut are `aria-hidden`. The shortcut draws a hint and binds no key (D-2): `keyShortcuts` becomes
+   `ariaKeyShortcuts` only when it is filled in, and a disabled card announces none.
+
+6. **The states and the outline (Q6, D-1).** The outline is the stroke inside the card and takes no room: an `outline` of
+   `rich-option/border-width` with a negative offset of the same width, which follows the corner. The precedence is error, then
+   focus, then rest, and disabled wins over all (T11). Hover is a layer under the content, `rich-option/background-hover` at
+   `rich-option/background-hover-opacity`, and only the layer takes the opacity; it never changes the outline, so error with hover keeps
+   the error outline and focus with hover keeps the focus outline and the halo. The hover layer sits inside `@media (hover: hover)`,
+   and a disabled card takes none. The focus is the outline in `rich-option/focus-border` and a halo outside the card of
+   `rich-option/focus-ring-width` in `rich-option/focus-halo`, in `rich-option/focus-halo-error` when the card is invalid; it shows
+   only for the keyboard. The focused card sits over its neighbors. `invalid` is visual only: `aria-invalid` is not supported on the
+   `radio` and `switch` roles, and the written message belongs to the `nph-field` of the group.
+
+7. **The width (Q7).** `layout/rich-option-width` with `max-inline-size: 100%`: a maximum width that shrinks with its container, so
+   on a narrow screen a group stacks in one column.
+
+8. **The control hover (Q8, item 15).** The control inside is `inert`, so it takes no hover from outside and the card passes none:
+   the known limit of DSA-45 D-3, until the box, the circle and the track get an API.
+
+9. **The card in the field (Q9).** `static nphFieldRole = 'option'`: the field writes only `invalid` and `disabled`, and wraps the
+   cards in a `group`. A group of radio cards inside the field is read as a `group` and not as a `radiogroup`, a known limit
+   (see below); the cards still have the `radio` role, the arrow keys and the one Tab stop of the group.
+
+10. **What turns the rich look of the option on (Q10).** The boolean attribute `rich` on `nph-option`, which reflects, and `description`
+    for the text below the label. `rich` with no description is valid; a `description` without `rich` is not drawn. It is a choice of
+    the option and not of the list, so one list holds both looks: the create row of `nph-combobox` is a plain option (DSA-46 D-1) and
+    keeps today's look. In the `nph-combobox` and `nph-multi-combobox` data an entry may carry `rich` and `description`; an entry
+    whose `rich` is not a boolean or whose `description` is not text is left out with one `console.error`.
+
+11. **The rich option (Q11).** The hover and the active option are a layer under the content at `select/option-background-hover-opacity`;
+    the selected option has no background, whatever the marker, and keeps the check or the checked box (a declared deviation from
+    DSA-29 D8 and D-3, only for the rich option); the disabled option is the whole option at `select/option-disabled-opacity`, its
+    secondary text and description in `select/option-foreground`, and with `marker=checkbox` the box stays at its default; the
+    description is `text/caption` and wraps; the label is cut with an ellipsis on its line (DSA-29 D3).
+
+12. **Keyboard or pointer (Q12).** The option gets one more property written by the list, `keyboard`, as `selected` and `active`
+    are: it is not reflected and shows as the state `:state(keyboard)`. Only the rich option that is `active` and `keyboard` draws
+    the 1 px focus border outside it, `select/option-focus-border`, and the 4 px halo outside that border, `select/option-focus-halo`,
+    the pattern of the `nph-dropdown-menu` items, and it sits over its neighbors with `z-index`. The `nph-select`, the `nph-combobox` and the
+    `nph-multi-combobox` keep "the last input was the keyboard": a key press sets it, a real pointer move or a click clears it, and a
+    pointer position the browser repeats after the list scrolled under a parked pointer is not a move (`pointerMoved`, compared by
+    coordinates). The plain option ignores `keyboard`: no ring, and the full `color/accent` it has.
+
+13. **The description of the option for the screen reader (Q13).** The list points to the active option from the field with
+    `aria-activedescendant`, and the option is the host with its role through `ElementInternals`; the description is its `ariaDescription`,
+    and the line that draws it is `aria-hidden`, so the name stays the label and the secondary text.
+
+14. **The halo at the edge of the list (Q14).** The scroll box of the list keeps its `overflow-y: auto`, so it clips the outer pixel of
+    the halo at the edge, as Figma's list clips its content with the same padding. The clip stays.
+
+15. **Invalid input (Q15, the rule of P21).** The card draws nothing and emits `console.error` in development, once per cause and
+    accumulating: a `control` outside the three, an `icon` outside the core, a `shortcut` with the `switch`, and no `text`. The option
+    keeps the errors of P91; `rich` and `description` add none.
+
+16. **A change outside the piece (Q16).** `nph-radio` does not run its composition check on a radio that is `inert`: that radio is a
+    visual indicator inside another piece and not a group, so the card does not log the warning "without name" for the radio it draws.
+    It amends P82 in one line, with a regression test.
+
+17. **What the task does not change (Q17).** No token is created or changed, and `focus/halo-error` gets no dark value (item 13). The look of
+    the plain option of the `nph-select` and `nph-combobox` does not change: the selected background with `marker=check`, the full
+    hover, no focus border and the radius stay, and a test proves it with the keyboard state on. The option gets no shortcut: the shortcuts
+    stay in the combobox footer (DSA-46 D-2). `nph-field`, `nph-checkbox` and `nph-switch` change nothing.
+
+**Known limits.**
+
+- A group of radio cards inside `nph-field` is read as a `group` and not as a `radiogroup`, because the field reads `nphFieldRole`
+  from the class and the class is `option`; letting the field read the role of the instance is a follow-up, not part of this task.
+- Enter does not submit the form around a checkbox or radio card (see item 3); the accepted table lists a submit.
+- The description of the option and of the card reaches the screen reader through `aria-description` by `ElementInternals`, proved
+  in Chromium only.
+- The control inside the card shows no hover on card hover (DSA-45 D-3).
+- The card has no `forced-colors` or right-to-left treatment; the arrow keys are physical.
+- In light mode of the default brand, `focus/border` measures 2.92:1 against the halo, as `design.md` records.
+- The outer pixel of the halo of the rich option is clipped at the edge of the list.
+- The piece owns the `tabindex` of the host: a `tabindex` the consumer writes is replaced.
+
+**Source.** Documentation frame `6935:11785` (page `4128:26259`), root `6910:6824`, appendix `6935:12295` and sets `6910:6828` and `6910:7093`
+of the Figma file `DS-IA-NEPHOS 5.0`, accepted by the design owner on 18/11/2026, with the 17 items of its approval answered as recommended
+and D-1 to D-3 answered after a preview in light and dark; the evidence of the `figma-docs-accepted` gate of DSA-91, which carries the contract
+converted to text. The names and values of the API, the path of the card holding the role, the `rich` attribute, the `keyboard` property,
+the description through the internals and the width that shrinks are a technical proposal of this implementation.
+
+**Effects on other pieces.** `nph-option` gains `rich`, `description` and `keyboard`, and a CSS file for the rich look; `nph-select`,
+`nph-combobox` and `nph-multi-combobox` keep the last input and write `keyboard`, and the combobox data gain `rich` and `description`;
+`nph-radio` skips its composition check when inert. The sheets of `nph-option`, `nph-select`, `nph-combobox`, `nph-multi-combobox` and `nph-radio`, and the option API of the `nph-select` Docs page, say so. The
+other pieces do not change.
+
+**Out of scope.** The look of the plain option (a task of its own of the select, with the same focus pattern, items 9 to 11). A dark value of
+`focus/halo-error`. A shortcut on the option. A slot for the title. The bound shortcut key. A hover on the control from the card. The
+role of the instance in `nph-field`. A token, new or changed.
+
+**Pending decisions for the design owner.**
+
+- **D-4 — the alignment of the icon on the card.** The anatomy says the parts are aligned to the top and the control to the first line of
+  the title; it does not say where the 20 px icon sits. The provisional rule: the icon is centered on the first line of the title, with the
+  same lowering as the title (the touch area of the control is 24 and the line is 20). If the icon should sit flush at the top with the
+  control, the design owner decides. It does not block the pull request.
+
+**Status.** Anatomy and behavior accepted by the design owner on 18/11/2026. D-4 waits for the design owner and does not block the pull
+request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P132 or P133 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P132, P133 or P134 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

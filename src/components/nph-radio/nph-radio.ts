@@ -44,6 +44,8 @@
  * - invalid input does not render and emits `console.error` only in development (P21
  *   rule): no accessible name. A problem in the composition renders anyway and emits
  *   `console.warn` only in development, once while it lasts: no `name`, and a group of one.
+ *   A radio that is `inert` is a visual indicator inside another piece (`nph-rich-option`,
+ *   DSA-91, P134): it is no group and warns nothing.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -443,7 +445,8 @@ export class NphRadio extends LitElement {
   }
 
   private checkComposition(): void {
-    if (!this.isConnected) {
+    /* A radio that is `inert` is a visual indicator inside another piece, such as `nph-rich-option`: it is no group. */
+    if (!this.isConnected || this.inert) {
       return;
     }
     const name = this.name ?? '';

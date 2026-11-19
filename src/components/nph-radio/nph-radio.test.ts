@@ -1297,6 +1297,18 @@ describe('composition warnings: it still renders (a radio never shows alone)', (
     expect(warn).toHaveBeenCalledTimes(1);
   });
 
+  it('an inert radio is a visual indicator inside another piece, so it warns nothing (DSA-91)', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const indicator = document.createElement('nph-radio') as NphRadio;
+    indicator.setAttribute('inert', '');
+    indicator.label = 'Card';
+    document.body.append(indicator);
+    await indicator.updateComplete;
+    await frame();
+    expect(indicator.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
   it('radios parsed together do not warn, and there is no maximum', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const box = document.createElement('div');

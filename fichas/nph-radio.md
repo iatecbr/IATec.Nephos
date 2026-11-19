@@ -136,7 +136,7 @@ business_rules:
   - "Only the person checking a radio, by click, Space or an arrow key, fires input and change; setting checked from code never fires them."
   - "One Tab stop per group, on the checked radio or, with none checked, on the first one that responds; the arrow keys move the focus and check, wrapping, skipping a disabled radio."
   - "Only the checked radio enters the form, as name=value; form.reset() returns each radio to its checked attribute."
-  - "Without a name, or alone in its group, the radio still renders and warns in development: a radio never shows alone."
+  - "Without a name, or alone in its group, the radio still renders and warns in development: a radio never shows alone. A radio that is inert, a visual indicator inside another piece such as nph-rich-option, is no group and warns nothing."
 domain_errors:
   - "invalid: the group failed validation. Every radio shows the status/error border; the sentence that says what to fix is the error message of nph-field."
 tokens:
@@ -172,7 +172,7 @@ accessibility:
 invalid_combinations:
   - "No text, no label, no aria-label and no aria-labelledby — the radio draws nothing."
   - "invalid with disabled — disabled wins: no error border, and it is not a console error."
-  - "A radio without name, or alone in its group — it renders and warns in development."
+  - "A radio without name, or alone in its group — it renders and warns in development, unless it is inert, a visual indicator inside another piece."
   - "Two checked radios in the same group — the last one wins."
 relations:
   combines_with: [nph-field, nph-rich-option]
@@ -277,7 +277,9 @@ changes. Width, height and position never animate. The focus shows only for the 
 - One Tab stop per group; the arrow keys move the focus and check.
 - Only the checked radio enters the form, as `name=value`; `form.reset()` returns each radio
   to its `checked` attribute.
-- Without a `name`, or alone in its group, the radio still renders and warns in development.
+- Without a `name`, or alone in its group, the radio still renders and warns in development;
+  an `inert` radio, a visual indicator inside another piece such as `nph-rich-option`, warns
+  nothing.
 
 **Domain error states:** `invalid`. The group failed validation: every radio shows the
 `status/error` border, and the sentence that says what to fix is the error message of

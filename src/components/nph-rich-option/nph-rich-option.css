@@ -1,0 +1,183 @@
+/**
+ * Internal style of `nph-rich-option`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here: the `rich-option/*` ones of the accepted frame.
+ *
+ * No literal design value goes in here. Written relations: `0` and `100%` (the layers cover the
+ * card), `-1` (the hover layer under the content and the outline inside the card) and `1` (the
+ * focused card over its neighbors), `isolate` (the hover layer stays inside the card), `calc()`
+ * of tokens (the halo outside the card, the outline inside it, and the lowered title) and
+ * `anywhere` (a long word wraps).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/*
+ * The card: padding `rich-option/padding`, gap `rich-option/gap`, corner `rich-option/radius`,
+ * the width `layout/rich-option-width`, which shrinks with the container so a group stacks in
+ * one column on a narrow screen. The outline is drawn inside the card and takes no room (it is
+ * the Figma stroke inside), and the parts sit at the top because the title may wrap.
+ */
+:host([data-nph-rendered]) {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-rich-option-gap);
+  inline-size: var(--nph-layout-rich-option-width);
+  max-inline-size: 100%;
+  padding: var(--nph-rich-option-padding);
+  border-radius: var(--nph-rich-option-radius);
+  background-color: var(--nph-rich-option-background);
+  outline: var(--nph-rich-option-border-width) solid var(--nph-rich-option-border);
+  outline-offset: calc(-1 * var(--nph-rich-option-border-width));
+  color: var(--nph-rich-option-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-align: start;
+  cursor: pointer;
+}
+
+/* The parts that hold their size; the texts take the rest. */
+.control,
+.icon,
+.shortcut {
+  flex: none;
+}
+
+/* The layers do not take part in the layout. */
+.layer,
+.halo {
+  position: absolute;
+  box-sizing: border-box;
+  display: none;
+  pointer-events: none;
+}
+
+/* The hover layer: under the content, with the opacity of the layer only, never of the card. */
+.layer {
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--nph-rich-option-radius);
+  background-color: var(--nph-rich-option-background-hover);
+  opacity: var(--nph-rich-option-background-hover-opacity);
+}
+
+/* The halo: outside the card, `rich-option/focus-ring-width` thick. */
+.halo {
+  inset: calc(-1 * var(--nph-rich-option-focus-ring-width));
+  border: var(--nph-rich-option-focus-ring-width) solid var(--nph-rich-option-focus-halo);
+  border-radius: var(--nph-rich-option-focus-radius);
+}
+
+/* The control is a visual indicator: it never takes the pointer or the focus. */
+.control {
+  pointer-events: none;
+}
+
+/*
+ * The icon is a `rich-option/icon-size` box in the color of the title, and it and the texts are
+ * lowered so the first line of the title is centered on the 24 touch area of the control, as
+ * the text of `nph-checkbox` is (DSA-17 D5).
+ */
+.icon {
+  inline-size: var(--nph-rich-option-icon-size);
+  block-size: var(--nph-rich-option-icon-size);
+  margin-block-start: calc((var(--nph-icon-size-sm) + 2 * var(--nph-space-inline-tight) - var(--nph-rich-option-icon-size)) / 2);
+  color: var(--nph-rich-option-foreground);
+}
+
+.texts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--nph-rich-option-text-gap);
+  min-inline-size: 0;
+  padding-block-start: calc(
+    (var(--nph-icon-size-sm) + 2 * var(--nph-space-inline-tight) - var(--nph-text-label-md-line-height)) / 2
+  );
+}
+
+/* The title wraps, with no cut. */
+.title {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.description {
+  min-inline-size: 0;
+  color: var(--nph-rich-option-description-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/* The shortcut: one `nph-kbd` per key, side by side, at the end of the card. */
+.shortcut {
+  display: inline-flex;
+  gap: var(--nph-space-inline-tight);
+  align-self: flex-start;
+}
+
+/*
+ * Hover only adds the layer and never changes the outline (D-1): hover with error keeps the
+ * error outline, and hover with focus keeps the focus outline and the halo. A card that does
+ * not respond takes no hover, and neither does a screen with no hover.
+ */
+@media (hover: hover) {
+  :host(:not(:disabled):hover) .layer {
+    display: block;
+  }
+}
+
+/*
+ * The outline by precedence: error, then focus, then rest. The two selectors are written with
+ * growing specificity, so each one wins over the ones before it (D-1).
+ */
+:host(:focus-visible) {
+  outline-color: var(--nph-rich-option-focus-border);
+}
+
+:host([invalid]) {
+  outline-color: var(--nph-rich-option-border-error);
+}
+
+/* Focus, keyboard only: the halo outside the card, in the error color when the card is invalid. */
+:host(:focus-visible) .halo {
+  display: block;
+}
+
+:host([invalid]:focus-visible) .halo {
+  border-color: var(--nph-rich-option-focus-halo-error);
+}
+
+/* The focused card sits over its neighbors, so a neighbor in hover does not cover its halo. */
+:host(:focus-visible) {
+  z-index: 1;
+}
+
+/*
+ * Disabled wins over everything (T11): the whole card at its opacity with the resting outline,
+ * no hover, no error and no focus, also when the card kept the focus it had before it was
+ * disabled. `:disabled` matches the attribute and a disabled fieldset around the card.
+ */
+:host(:disabled) {
+  opacity: var(--nph-rich-option-disabled-opacity);
+  outline-color: var(--nph-rich-option-border);
+  cursor: default;
+}
+
+:host(:disabled) :is(.layer, .halo) {
+  display: none;
+}
