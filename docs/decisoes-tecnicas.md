@@ -9881,11 +9881,11 @@ on the End.
 A radius semantic for floating layers. Shortcuts of the product. A mask. A read-only state. Locale-aware parsing beyond the order
 of day, month and year and the slash.
 
-**Pending decisions for the design owner.** D-1 to D-11 stay as they are in the task. The code adds three:
+**Pending decisions for the design owner.** D-1 to D-11 were answered on 18/11/2026 (P135). The code added three, which stay open:
 
 - **D-12 — measures with no token.** The shortcut column is 192 wide, the header 40 high and the month and year cell 84 wide in
   Figma, and no token carries them. The code derives them from tokens, with no literal: 12 steps of `date-picker/panel-padding`,
-  the default control height plus `space/inline-tight`, and 3 of 7 of the default week row. The design owner decides whether
+  the default control height plus `space/inline-tight` (the default header; P135 made the large one `control/height-large`), and a third of the week row for the width of the month and year cell (84 on default; the cell height follows the day since P135). The design owner decides whether
   they get tokens, through Claude in Figma.
 - **D-13 — a typed Start or End with the panel closed.** The evidence says how typing works with the panel open and what Apply
   does; it says nothing about the panel closed. The code commits each field when the person leaves it, so a Start without an End

@@ -209,7 +209,7 @@ describe('the month (D-1)', () => {
 });
 
 describe('the text roles (D-3)', () => {
-  it('draws the weekday names in text/label-sm until the design owner answers: 12, medium, line height 16, tracking 0.4', async () => {
+  it('draws the weekday names in text/label-sm (D-3): 12, medium, line height 16, tracking 0.4', async () => {
     const calendar = await mount({ month: '2026-10' });
     const style = getComputedStyle(root(calendar).querySelector('.weekday') as Element);
     expect(style.fontSize).toBe('12px');
