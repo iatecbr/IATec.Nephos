@@ -86,7 +86,7 @@ const SKIPPED_DIRS = new Set(['node_modules', 'storybook-static', 'src/tokens/ge
 const CODE_EXTENSIONS = new Set(['ts', 'js', 'mjs', 'cjs']);
 const KNOWN_EXTENSIONS = new Set([...CODE_EXTENSIONS, 'css', 'html', 'json', 'md']);
 /** Directories of the checker contract (V28, V30, V31): exempt only in scripts/fixtures/operations/. */
-const CONTRACT_DIRS = new Set(['tarefas', 'evidencias', 'contextos', 'fichas']);
+const CONTRACT_DIRS = new Set(['tarefas', 'evidencias', 'contextos', 'fichas', 'blocos']);
 const OPERATIONS_FIXTURES = 'scripts/fixtures/operations/';
 /** Evidence name: <gate>-<YYYY-MM-DD>.md (`docs/operacao/README.md`). */
 const EVIDENCE_NAME = /^[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.md$/;

@@ -36,7 +36,7 @@ const SPECS_ROOT = 'fichas';
 const METADATA_ROOT = 'src/shared/metadata';
 
 const STATES = ['ready', 'in-progress', 'awaiting-decision', 'blocked', 'in-review', 'done'];
-const OWNERS = ['indiane', 'claude-code', 'claude-figma', 'copilot', 'elvys'];
+const OWNERS = ['indiane', 'thassila', 'claude-code', 'claude-figma', 'copilot', 'elvys'];
 const PHASES = ['F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7'];
 const CLASSIFICATIONS = ['public', 'internal-allowed', 'internal-restricted', 'unknown'];
 const GATE_RESULTS = ['pending', 'passed', 'failed'];
@@ -50,6 +50,36 @@ const GATE_RESULTS = ['pending', 'passed', 'failed'];
 const FIGMA_DOCS_GATE = 'figma-docs-accepted';
 const STATES_REQUIRING_FIGMA_GATE = ['ready', 'in-progress', 'in-review', 'done'];
 const STATES_REQUIRING_SPEC = ['in-review', 'done'];
+
+/**
+ * The level of a piece comes from the task's `piece` field, and nothing else
+ * (a decision of the design system owner): a component is `nph-<name>`, a
+ * block is `blocos/<name>`. A block name never takes the `nph-` prefix, which
+ * belongs to components, and is never `readme`, the folder's own README. The
+ * task's `piece` is the path of the spec under `fichas/`, so the level and the
+ * spec location never disagree. The spec's own `piece` field is a different
+ * thing: for a block it stays the bare name (`fichas/blocos/README.md`, §1).
+ */
+const PIECE_LEVELS = [
+  { level: 'component', re: /^nph-[a-z0-9]+(-[a-z0-9]+)*$/ },
+  { level: 'block', re: /^blocos\/(?!nph-|readme$)[a-z0-9]+(-[a-z0-9]+)*$/ },
+];
+
+/**
+ * Who accepts the Figma documentation, by level. The single place where this
+ * is decided: V31 reads it, and a level missing here fails.
+ */
+const DOCS_ACCEPTORS = {
+  component: ['indiane'],
+  block: ['thassila', 'indiane'],
+};
+
+/** Returns the level of a `piece`, or null when it matches no known level. */
+function pieceLevel(piece) {
+  if (typeof piece !== 'string') return null;
+  const match = PIECE_LEVELS.find(({ re }) => re.test(piece));
+  return match ? match.level : null;
+}
 
 /** Closed schema: a top-level key outside this list fails in V03. */
 const FIELDS = [
@@ -121,12 +151,13 @@ const isEmpty = (v) => v === undefined || v === null || (typeof v === 'string' &
  * cannot be audited later, and that is exactly what V30 tries to prevent. The
  * evidence lives in `evidencias/<ID>/` of the tree itself, and does not carry
  * restricted Figma content, only the converted decision, with the frame and
- * the COMPONENT_SET that originated it.
+ * the COMPONENT_SET that originated it. Who may accept depends on the level of
+ * the task's `piece` (`DOCS_ACCEPTORS`); a piece with no known level fails.
  *
  * V15, V16 and V17 already cover gate without evidence, broken pointer and
  * invalid JSON block. This function only looks at what is left: provenance.
  */
-function validateDocumentEvidence(taskId, gate, fail) {
+function validateDocumentEvidence(taskId, piece, gate, fail) {
   const ev = gate.evidence;
   if (typeof ev !== 'string' || isEmpty(ev) || !existsSync(ev)) return;
   const filePath = ev.replace(/\\/g, '/');
@@ -141,8 +172,14 @@ function validateDocumentEvidence(taskId, gate, fail) {
   if (data.gate !== FIGMA_DOCS_GATE) {
     fail('V31', filePath, `the \`gate\` field is "${data.gate}", not "${FIGMA_DOCS_GATE}"`);
   }
-  if (data.owner !== 'indiane') {
-    fail('V31', filePath, `whoever accepts the documentation is indiane, and \`owner\` declares "${data.owner}"`);
+  const level = pieceLevel(piece);
+  const acceptors = level === null ? undefined : DOCS_ACCEPTORS[level];
+  if (isEmpty(piece)) {
+    fail('V31', filePath, `"${taskId}" declares no \`piece\`, so its documentation gate has no level and nobody can accept it; use nph-<name> or blocos/<name>`);
+  } else if (acceptors === undefined) {
+    fail('V31', filePath, `the \`piece\` "${piece}" of "${taskId}" has no known level, so nobody can accept its documentation; use nph-<name> or blocos/<name>`);
+  } else if (!acceptors.includes(data.owner)) {
+    fail('V31', filePath, `whoever accepts the documentation of a ${level} is ${acceptors.join(' or ')}, and \`owner\` declares "${data.owner}"`);
   }
 
   const origin = data.external_origin;
@@ -423,8 +460,12 @@ export function validate(root, options = {}) {
 
     // V28 — the canonical spec is demanded at the end, not at the start. Local
     // code without a spec is allowed while the task is `ready` or `in-progress`.
+    // The `piece` is the spec path under `fichas/`: `nph-<name>` resolves to
+    // `fichas/nph-<name>.md`, and a block, `blocos/<name>`, to
+    // `fichas/blocos/<name>.md`. The specs folder comes from the options, so a
+    // fixture case checks its own `fichas/`, never the repository's.
     if (!isEmpty(data.piece) && STATES_REQUIRING_SPEC.includes(state)) {
-      const spec = join(SPECS_ROOT, `${data.piece}.md`).replace(/\\/g, '/');
+      const spec = join(specsDir, `${data.piece}.md`).replace(/\\/g, '/');
       if (!existsSync(spec)) {
         fail('V28', filePath, `\`state\` ${state} with \`piece\` "${data.piece}", but ${spec} does not exist`);
       }
@@ -445,7 +486,7 @@ export function validate(root, options = {}) {
     for (const g of gates) {
       if (g === null || typeof g !== 'object') continue;
       if (g.id !== FIGMA_DOCS_GATE || g.result !== 'passed') continue;
-      validateDocumentEvidence(data.id, g, fail);
+      validateDocumentEvidence(data.id, data.piece, g, fail);
     }
   }
 
@@ -754,6 +795,13 @@ const INVALID_CASES = {
   'invalid-state': 'V05',
   'figma-evidence-outside-directory': 'V31',
   'figma-evidence-without-provenance': 'V31',
+  'block-accepted-outside-list': 'V31',
+  'component-accepted-by-thassila': 'V31',
+  'piece-without-level': 'V31',
+  'block-with-nph-prefix': 'V31',
+  'block-spec-outside-blocks-folder': 'V28',
+  'docs-gate-without-piece': 'V31',
+  'block-named-readme': 'V31',
   'missing-evidence': 'V16',
   'spec-quote-in-middle': 'V32',
   'spec-block-irregular-indent': 'V32',

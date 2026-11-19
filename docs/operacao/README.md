@@ -97,9 +97,9 @@ ignored key.
 | `goal` | string | one sentence; what the task delivers |
 | `phase` | `F0` to `F7` | the phase in the phase plan |
 | `approved_order` | integer ≥ 1 | unique among the tasks that are not `done` |
-| `owner` | enum | `indiane`, `claude-code`, `claude-figma`, `copilot`, `elvys` |
+| `owner` | enum | `indiane`, `thassila`, `claude-code`, `claude-figma`, `copilot`, `elvys` |
 | `state` | enum | the six below |
-| `piece` | string or `null` | when filled in, requires `fichas/<piece>.md` in `in-review` and `done` — see §2b |
+| `piece` | string or `null` | `nph-<name>` for a component, `blocos/<name>` for a block; when filled in, requires `fichas/<piece>.md` in `in-review` and `done` — see §2b |
 | `dependencies` | list of IDs | may be empty |
 | `gates` | list of objects | at least one, each with `id`, `description` and `result` |
 | `blockers` | list of objects | may be empty |
@@ -147,13 +147,22 @@ word `done`: it opens the evidence file.
 
 A **component task** is one with `piece` filled in; its owner is `elvys`
 (see [`component-handoff.md`](component-handoff.md)). The verifier enforces the
-order below on tasks with `owner: "claude-code"`:
+order below: `V28` and `V31` on every task, `V30` only on tasks with
+`owner: "claude-code"`:
 
 | Moment | What must already exist | Who enforces it |
 |---|---|---|
 | Before any component code | the `figma-docs-accepted` gate with `result: "passed"` | `V30` |
 | While the task is `ready` or `in-progress` | nothing beyond that — **local code without a spec is allowed** | — |
 | Before `in-review` and `done` | the canonical spec in `fichas/<piece>.md` | `V28` |
+
+**A block task** follows the same order. Its `piece` is `blocos/<name>`,
+without the `nph-` prefix, so its spec is `fichas/blocos/<name>.md` (see
+[`fichas/blocos/README.md`](../../fichas/blocos/README.md)). The task's `piece`
+is the path under `fichas/`; the spec's own `piece` field stays the bare block
+name. The `piece` is also how the verifier knows the level, and the level
+decides who accepts the documentation — see §5b. `V30` reaches a block task
+only if its owner is `claude-code`, which the handoff does not foresee.
 
 **Why the two sets of states differ.** The documentation in Figma is what stops
 the component from being born wrong, so it comes first. The spec is the
@@ -259,7 +268,7 @@ whole provenance (`V31`):
   "task": "<ID>",
   "gate": "figma-docs-accepted",
   "date": "2026-09-10",
-  "owner": "indiane",
+  "owner": "<who accepted: see the table below>",
   "command": null,
   "exit_code": null,
   "sha": null,
@@ -277,12 +286,26 @@ whole provenance (`V31`):
 | What `V31` enforces | Why |
 |---|---|
 | `gate` is `figma-docs-accepted` | the evidence cannot serve another gate by mistake |
-| `owner` is `indiane` | accepting documentation is her decision, not the agent's |
+| `owner` is in the list of who accepts the level of the task's `piece` | accepting documentation is a person's decision, not the agent's |
 | `external_origin.classification` is `internal-allowed` | Figma is internal, and permitted: see §4 |
 | `external_origin.url_or_id` names Figma | without the pointer, nobody can reopen the frame |
 | `external_origin.date` in `AAAA-MM-DD`, and `author` | when, and by whom |
 | `external_origin.converted_decision` names the **frame** and the **COMPONENT_SET** | it is the link between what was accepted and what will be built |
 | the file is in `evidencias/<ID>/` | the proof is local and versioned, not a link that vanishes |
+
+**Who accepts, by level.** The level comes from the task's `piece`, and the list
+lives in one place, `DOCS_ACCEPTORS` in `scripts/verificar-operacao.mjs`:
+
+| Level | `piece` | Who accepts the documentation |
+|---|---|---|
+| Component | `nph-<name>` | `indiane` |
+| Block | `blocos/<name>` | `thassila` or `indiane` |
+
+A missing `piece`, a `piece` that matches neither pattern, or a block named
+with the `nph-` prefix or named `readme` has no level, and its evidence fails
+`V31`: nobody can accept documentation for a level the verifier does not know. A
+new level, such as layout or template, comes in by adding its pattern and its
+list there, in the same change that documents it here.
 
 **Restricted Figma content is not copied here.** What goes in is the converted
 decision — the requirement that came out of the frame —, not the frame's content.
@@ -370,18 +393,22 @@ keys, without the six forbidden ones · `V24` at most 60 lines ·
 
 **Metadata contract** · `V27` no `meta.ts` or `metadata.ts` in
 `src/components/` · `V28` `piece` filled in requires `fichas/<piece>.md` **in
-`in-review` and `done`** · `V32` the Metadata in `src/shared/metadata/` is an
-exact copy of each current spec, there is no JSON without a current spec, and the
-spec fits the grammar of `scripts/spec-lib.mjs`
+`in-review` and `done`** (a block, `blocos/<name>`, at
+`fichas/blocos/<name>.md`) · `V32` the Metadata in `src/shared/metadata/` is an
+exact copy of each current spec, there is no JSON without a current spec, and
+the spec fits the grammar of `scripts/spec-lib.mjs` (first level of `fichas/`
+only; block specs in `fichas/blocos/` are not read yet)
 
 **Queue** · `V29` `approved_order` integer ≥ 1, unique among those not `done`
 
 **Documentation lock** · `V30` a component task in `ready`, `in-progress`,
 `in-review` or `done` requires the `figma-docs-accepted` gate with
-`result: "passed"` · `V31` the evidence for that gate proves provenance: matching
-`gate`, `owner` `indiane`, `external_origin` `internal-allowed` with the
-Figma URL or ID, `date`, `author` and `converted_decision` naming the frame and the
-`COMPONENT_SET`, in `evidencias/<ID>/`
+`result: "passed"` · `V31` the evidence for that gate proves provenance:
+matching `gate`, `owner` in the list of the piece's level (component `indiane`;
+block `thassila` or `indiane`; unknown level fails), `external_origin`
+`internal-allowed` with the Figma URL or ID, `date`, `author` and
+`converted_decision` naming the frame and the `COMPONENT_SET`, in
+`evidencias/<ID>/`
 
 ## 9. The examples
 
