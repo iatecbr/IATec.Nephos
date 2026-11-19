@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 950,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-date-picker",
   "dependencies": [
     "DSA-90"
@@ -23,11 +23,11 @@
     {
       "id": "review-and-merge",
       "description": "The component, the CSS, the tests, the specs, the metadata and the stories change together, pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 475790c405e9e94edde4a27c9035d9c36d0a2a66 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-96/review-and-merge-2026-11-19.md",
+      "result": "passed",
+      "verified_at": "2026-11-19",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -58,7 +58,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-96/design-decision-2026-11-18.md"
+    "docs/operacao/evidencias/DSA-96/design-decision-2026-11-18.md",
+    "docs/operacao/evidencias/DSA-96/review-and-merge-2026-11-19.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -72,7 +73,7 @@
     "excerpt": null,
     "converted_decision": "Eleven answers and one measure, all as recommended by the market research of 2026-11-18. Six of them change what the code of DSA-90 does today: the month and year views (D-2), the arrows of the range (D-5), the shortcuts (D-6), the year title icon and the views in the range (D-9), a period across an unavailable day (D-10) and the header of the large grid. The answers, what the code does today and the Figma nodes are in the evidence of the design-decision gate, with a correction to the D-5 row of DSA-90."
   },
-  "git_review": { "branch": "feat/dsa-96-date-picker", "commit": "44bda3e", "pr": 188 },
+  "git_review": { "branch": "feat/dsa-96-date-picker", "commit": "475790c", "pr": 188 },
   "context": null,
   "updated_at": "2026-11-19"
 }
