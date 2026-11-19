@@ -80,7 +80,7 @@ import '../nph-empty/nph-empty';
 import '../nph-icon/nph-icon';
 import '../nph-spinner/nph-spinner';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
-import { NPH_OPTION_DEFAULT_ICON } from '../nph-option/nph-option';
+import { NPH_OPTION_DEFAULT_ICON, pointerMoved } from '../nph-option/nph-option';
 import type { NphOptionStart, NphOptionStatus } from '../nph-option/nph-option';
 import comboboxCss from './nph-combobox.css?inline';
 import {
@@ -132,6 +132,10 @@ export interface NphComboboxOption {
   src?: string;
   /** The color of the dot, with `start: 'dot'`. */
   status?: NphOptionStatus;
+  /** The rich look of the option, with a description below the label (DSA-91, P134). */
+  rich?: boolean;
+  /** The text below the label, drawn only with `rich: true`. Already localized. */
+  description?: string;
   disabled?: boolean;
 }
 
@@ -1087,6 +1091,7 @@ export class NphCombobox extends LitElement {
     if (event.isComposing || this.inactive) {
       return;
     }
+    this.setModality(true);
     if (this.freeText) {
       this.onFreeKeydown(event);
       return;
@@ -1167,11 +1172,20 @@ export class NphCombobox extends LitElement {
     }, 0);
   }
 
+  /** Tells the active option whether it got there by the keyboard or by the pointer. */
+  private setModality(keyboard: boolean): void {
+    if (this.byKeyboard !== keyboard) {
+      this.byKeyboard = keyboard;
+      this.requestUpdate();
+    }
+  }
+
   /** A click on the field opens the list; a click on the arrow area opens or closes it. */
   private onControlClick(event: MouseEvent): void {
     if (this.inactive) {
       return;
     }
+    this.setModality(false);
     const path = event.composedPath();
     if (path.some((target) => target instanceof Element && target.classList.contains('clear'))) {
       return;
@@ -1215,6 +1229,10 @@ export class NphCombobox extends LitElement {
   /** The rows as the last render drew them, by position. */
   private renderedRows: Row[] = [];
 
+  /* The last input was the keyboard: only then the active rich option draws the focus border and the halo. */
+  private byKeyboard = false;
+  private pointerAt: [number, number] | null = null;
+
   /** A click during the exit of a closed list chooses nothing: the list is already closed. */
   private onListClick(event: MouseEvent): void {
     const row = this.rowOf(event);
@@ -1224,6 +1242,10 @@ export class NphCombobox extends LitElement {
   }
 
   private onListPointer(event: PointerEvent): void {
+    if (pointerMoved(this.pointerAt, event)) {
+      this.pointerAt = [event.clientX, event.clientY];
+      this.setModality(false);
+    }
     const row = this.rowOf(event);
     if (row !== null && available(row)) {
       this.setActive(row);
@@ -1578,6 +1600,7 @@ export class NphCombobox extends LitElement {
               query,
               selected: option === selected,
               active: this.open && option === this.activeRow,
+              keyboard: this.byKeyboard,
             }),
           ),
         ),

@@ -23,12 +23,24 @@
  *   checked while selected, and no selected background and no check. The box is `inert`
  *   and hidden from the screen reader, as in `nph-dropdown-menu` (P92): the option
  *   carries the role and the state;
+ * - `rich` and `description` (DSA-91, P134): `rich` turns on the rich look of the option, the
+ *   one with a description below the label (the Figma `nph-select / opção rica`, `6910:7093`).
+ *   It reflects, because the internal CSS selects the look by it. The plain option keeps the
+ *   look it always had; the rich look is a choice of the option, not of the list, so one list
+ *   may hold both (the create row of `nph-combobox` is plain). `description` is the text
+ *   below the label, already localized; empty turns it off, and it is drawn only with `rich`.
+ *   The description reaches the screen reader as the description of the option through
+ *   `ElementInternals`, since an id does not cross the shadow root while the focus stays on
+ *   the field of the list. The rich option has no selected background: the check or the
+ *   checked box says the choice;
  * - `value`: the value the option gives the form. Reflects. Without the attribute,
  *   it is the label text with its white space collapsed, as in `<option>`;
- * - `selected` and `active`: written by the list that owns the option, not by the
+ * - `selected`, `active` and `keyboard`: written by the list that owns the option, not by the
  *   consumer, and never reflected. `selected` draws the `color/primary-surface`
  *   background and the check; `active` is the option the pointer or the keyboard is
- *   on, with the hover look (D5). The selected background wins over `active`;
+ *   on, with the hover look (D5). The selected background wins over `active`. `keyboard`
+ *   says the active option got there by the keyboard: only then the rich option draws the
+ *   focus border and the halo of the list items (DSA-91, item 9), never on a pointer hover;
  * - role `option`, `aria-selected` and `aria-disabled` through `ElementInternals`, so
  *   the option writes no attribute on its own host. The start, the dot and the check
  *   are hidden from the screen reader: the text says the option;
@@ -52,6 +64,7 @@ import '../nph-checkbox/nph-checkbox';
 import '../nph-icon/nph-icon';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import optionCss from './nph-option.css?inline';
+import richCss from './nph-option.rich.css?inline';
 
 const TAG = 'nph-option';
 
@@ -80,6 +93,15 @@ export const NPH_OPTION_DEFAULT_ICON = 'globe';
  */
 export const NPH_OPTION_CHANGED = Symbol('nph-option-changed');
 
+/**
+ * Whether a pointer event is a real move. After the keyboard scrolls the list, the browser
+ * repeats the last position of the pointer as a move; that is not the person using the pointer,
+ * so a list that tells the keyboard from the pointer (`keyboard`) reads it with this.
+ */
+export function pointerMoved(last: readonly [number, number] | null, event: PointerEvent): boolean {
+  return last === null || last[0] !== event.clientX || last[1] !== event.clientY;
+}
+
 /** A list that owns options: `nph-select`, and later `nph-combobox`. */
 export interface NphOptionOwner {
   [NPH_OPTION_CHANGED](option: NphOption): void;
@@ -106,7 +128,7 @@ function isOwner(element: Element | null): element is Element & NphOptionOwner {
 }
 
 export class NphOption extends LitElement {
-  static override styles = unsafeCSS(optionCss);
+  static override styles = [unsafeCSS(optionCss), unsafeCSS(richCss)];
 
   static override properties = {
     secondary: { type: String },
@@ -116,6 +138,9 @@ export class NphOption extends LitElement {
     status: { type: String },
     /* `marker` reflects: the internal CSS selects the selected look by it. */
     marker: { type: String, reflect: true },
+    /* `rich` reflects: the internal CSS selects the rich look by it. */
+    rich: { type: Boolean, reflect: true },
+    description: { type: String },
     /* `disabled` reflects: the internal CSS and the consumer's selectors read it. */
     disabled: { type: Boolean, reflect: true },
   };
@@ -131,12 +156,17 @@ export class NphOption extends LitElement {
   declare status: string | null;
   /** `check` (default) or `checkbox`: the single or the multiple choice. */
   declare marker: string;
+  /** The rich look: a description below the label, a softer hover and no selected background. */
+  declare rich: boolean;
+  /** The text below the label of a rich option. Already localized. Empty turns it off. */
+  declare description: string;
   declare disabled: boolean;
 
   private readonly internals: ElementInternals;
   private valid = false;
   private isSelected = false;
   private isActive = false;
+  private isKeyboard = false;
 
   constructor() {
     super();
@@ -147,6 +177,8 @@ export class NphOption extends LitElement {
     this.src = '';
     this.status = null;
     this.marker = 'check';
+    this.rich = false;
+    this.description = '';
     this.disabled = false;
   }
 
@@ -199,6 +231,20 @@ export class NphOption extends LitElement {
     this.toggleState('active', value);
   }
 
+  /** The active option got there by the keyboard. Written by the list, not by the consumer. */
+  get keyboard(): boolean {
+    return this.isKeyboard;
+  }
+
+  set keyboard(next: boolean) {
+    const value = Boolean(next);
+    if (value === this.isKeyboard) {
+      return;
+    }
+    this.isKeyboard = value;
+    this.toggleState('keyboard', value);
+  }
+
   private toggleState(name: string, on: boolean): void {
     if (on) {
       this.internals.states.add(name);
@@ -212,6 +258,10 @@ export class NphOption extends LitElement {
   protected override willUpdate(changed: PropertyValues): void {
     if (changed.has('disabled')) {
       this.internals.ariaDisabled = this.disabled ? 'true' : null;
+    }
+    if (changed.has('description') || changed.has('rich')) {
+      const description = this.rich ? (this.description ?? '').trim() : '';
+      this.internals.ariaDescription = description === '' ? null : description;
     }
     const decisive = ['start', 'icon', 'status', 'marker'].some((name) => changed.has(name));
     if (!decisive) {
@@ -280,12 +330,22 @@ export class NphOption extends LitElement {
     }
     const secondary = (this.secondary ?? '').trim();
     const checkbox = (this.marker ?? '').trim() === 'checkbox';
-    return html`${checkbox ? this.box() : nothing}${this.startArt()}
-      <span class="text">
+    const check = this.isSelected && !checkbox ? html`<nph-icon class="check" name="check" size="sm" aria-hidden="true"></nph-icon>` : nothing;
+    const text = html`<span class="text">
         <span class="label"><slot @slotchange=${checkbox ? this.onSlotchange : nothing}></slot></span>
         ${secondary === '' ? nothing : html`<span class="secondary">${secondary}</span>`}
-      </span>
-      ${this.isSelected && !checkbox ? html`<nph-icon class="check" name="check" size="sm" aria-hidden="true"></nph-icon>` : nothing}`;
+      </span>`;
+    if (this.rich) {
+      /* The rich look: the layers under and around the option, and the description below the label line. */
+      const description = (this.description ?? '').trim();
+      return html`<span class="layer" aria-hidden="true"></span><span class="focus-border" aria-hidden="true"></span
+        ><span class="focus-halo" aria-hidden="true"></span>${checkbox ? this.box() : nothing}${this.startArt()}
+        <span class="body">${text}${description === '' ? nothing : html`<span class="description" aria-hidden="true">${description}</span>`}</span>
+        ${check}`;
+    }
+    return html`${checkbox ? this.box() : nothing}${this.startArt()}
+      ${text}
+      ${check}`;
   }
 
   /** The label text names the box: a new text draws it again. */

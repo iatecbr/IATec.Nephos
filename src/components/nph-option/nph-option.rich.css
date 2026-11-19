@@ -1,0 +1,142 @@
+/**
+ * Internal style of the rich look of `nph-option` (`rich`, DSA-91 and P134).
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here: the `select/option-*` ones of the accepted frame.
+ *
+ * It sits after `nph-option.css` in the same shadow root and every rule needs `[rich]`, so a
+ * plain option never reads it. It differs from the plain option in four things: the hover is
+ * a layer at the opacity `select/option-background-hover-opacity` under the content, the
+ * selected option has no background, the option active by the keyboard draws the focus border
+ * and the halo of the list items, and there is a description below the label.
+ *
+ * No literal design value goes in here. Written relations: `-1` and `1` (the layer under the
+ * content and the active option over its neighbors), `isolate` (the layer stays inside the
+ * option), `transparent` (the rich option has no background of its own) and `anywhere` (the
+ * description wraps a long word).
+ */
+
+/* --- The rich option (DSA-91) ------------------------------------------------------ */
+
+/*
+ * The option is the box of the layers: the hover layer stays under the content, inside it
+ * (`isolation`), and the option active by the keyboard sits over its neighbors, so its halo,
+ * which lies over them, is not covered by a neighbor in pointer hover (the list items of
+ * `nph-dropdown-menu`).
+ */
+:host([data-nph-rendered][rich]) {
+  position: relative;
+  isolation: isolate;
+  padding: var(--nph-select-option-padding);
+  gap: var(--nph-select-option-gap);
+  border-radius: var(--nph-select-option-radius);
+  color: var(--nph-select-option-foreground);
+}
+
+:host([rich]) .layer,
+:host([rich]) .focus-border,
+:host([rich]) .focus-halo {
+  position: absolute;
+  box-sizing: border-box;
+  display: none;
+  pointer-events: none;
+}
+
+/* The hover layer: under the content, with the opacity of the layer only, never of the option. */
+:host([rich]) .layer {
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--nph-select-option-radius);
+  background-color: var(--nph-select-option-background-hover);
+  opacity: var(--nph-select-option-background-hover-opacity);
+}
+
+/* The focus border, 1 px outside the option, and the halo outside it: the focus of the list items. */
+:host([rich]) .focus-border {
+  inset: calc(-1 * var(--nph-select-option-focus-border-width));
+  border: var(--nph-select-option-focus-border-width) solid var(--nph-select-option-focus-border);
+  border-radius: var(--nph-select-option-focus-border-radius);
+}
+
+:host([rich]) .focus-halo {
+  inset: calc(-1 * (var(--nph-select-option-focus-border-width) + var(--nph-select-option-focus-halo-width)));
+  border: var(--nph-select-option-focus-halo-width) solid var(--nph-select-option-focus-halo);
+  border-radius: var(--nph-select-option-focus-halo-radius);
+}
+
+/* Active, by the pointer or by the keyboard: the layer and the hover colors. Selected has no background of its own. */
+:host([rich]:state(active):not([disabled])) {
+  background-color: transparent;
+  color: var(--nph-select-option-foreground-hover);
+}
+
+:host([rich]:state(active):not([disabled])) .layer {
+  display: block;
+}
+
+/* Only the option active by the keyboard has the focus border and the halo, and sits over its neighbors. */
+:host([rich]:state(active):state(keyboard):not([disabled])) {
+  z-index: 1;
+}
+
+:host([rich]:state(active):state(keyboard):not([disabled])) :is(.focus-border, .focus-halo) {
+  display: block;
+}
+
+/* Selected, with `marker=check` or `checkbox`: no background; the label keeps its color, also in hover. */
+:host([rich]:state(selected)) {
+  background-color: transparent;
+  color: var(--nph-select-option-foreground);
+}
+
+:host([rich]) .check {
+  color: var(--nph-select-option-marker);
+}
+
+:host([rich]) .start.dot-box {
+  inline-size: var(--nph-select-option-icon-size);
+  block-size: var(--nph-select-option-icon-size);
+}
+
+:host([rich]) .dot {
+  inline-size: var(--nph-select-option-dot-size);
+  block-size: var(--nph-select-option-dot-size);
+}
+
+/* The texts: the label line, then the description below it, which wraps. */
+:host([rich]) .body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--nph-select-option-text-gap);
+  min-inline-size: 0;
+}
+
+:host([rich]) .text {
+  flex: none;
+  gap: var(--nph-select-option-label-gap);
+}
+
+:host([rich]) .secondary {
+  color: var(--nph-select-option-secondary-foreground);
+}
+
+:host([rich]) .description {
+  min-inline-size: 0;
+  color: var(--nph-select-option-description-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/* Disabled: the whole option at its opacity; the secondary text and the description take the label color. */
+:host([rich][disabled]) {
+  opacity: var(--nph-select-option-disabled-opacity);
+}
+
+:host([rich][disabled]) :is(.secondary, .description) {
+  color: var(--nph-select-option-foreground);
+}
