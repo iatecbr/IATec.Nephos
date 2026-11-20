@@ -216,9 +216,15 @@ describe('Validation stories: text only from the dictionary', () => {
     const frame = target.querySelector('[data-nph-color-scheme="light"]') as HTMLElement;
     const grids = [...frame.querySelectorAll('nph-calendar')] as Array<HTMLElement & { updateComplete: Promise<unknown> }>;
     expect(grids).toHaveLength(7);
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    const views = grids.map((grid) => grid.shadowRoot?.querySelector('.view')?.getAttribute('data-view'));
-    expect(views).toEqual(['month', 'year', 'month', 'month', 'year', 'month', 'year']);
+    /*
+     * The story presses the title of each grid after a timer (`inView` in `nph-calendar.demo.ts`),
+     * once for the months and twice for the years. A fixed sleep here raced with those timers on a
+     * slow runner (builds 633805 and 634371 read 'month' in every grid), so the test waits for the
+     * state it asserts: the same exact lists, with a long ceiling that only a view that never opens
+     * reaches.
+     */
+    const viewsOf = () => grids.map((grid) => grid.shadowRoot?.querySelector('.view')?.getAttribute('data-view'));
+    await vi.waitFor(() => expect(viewsOf()).toEqual(['month', 'year', 'month', 'month', 'year', 'month', 'year']), { timeout: 10_000 });
     /* A range opens the view in both columns. */
     expect(grids.slice(5).map((grid) => grid.shadowRoot?.querySelectorAll('.view').length)).toEqual([2, 2]);
   });
