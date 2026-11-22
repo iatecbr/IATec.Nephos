@@ -169,6 +169,7 @@
   --nph-core-layout-width-popover-lg: 25rem;
   --nph-core-layout-width-stepper-text: 10rem;
   --nph-core-layout-width-list-time-compact: 4.5rem;
+  --nph-core-layout-width-tree-column: 15rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-line-height-200: 1.25rem;
   --nph-core-neutral-50: #f1f1f1;
@@ -805,6 +806,7 @@
   --nph-tree-table-cell-padding-inline: var(--nph-core-space-300);
   --nph-tree-table-row-padding-block: var(--nph-core-space-300);
   --nph-tree-table-row-height: var(--nph-core-space-800);
+  --nph-tree-table-tree-column-min-width: var(--nph-core-layout-width-tree-column);
   --nph-chart-y-label-gap: var(--nph-space-inline);
   --nph-chart-x-label-gap: var(--nph-space-stack-tight);
   --nph-chart-grid-width: var(--nph-border-width);

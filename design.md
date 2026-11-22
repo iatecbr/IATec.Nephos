@@ -1911,6 +1911,7 @@ tokens_core_layout:
   core/layout-width/stepper-text:      { valor: 160, css: '--nph-core-layout-width-stepper-text', alias_de: 'stepper/text-max-width' }
   core/layout-width/list-time-compact: { valor: 72, css: '--nph-core-layout-width-list-time-compact', alias_de: 'scheduler/list-time-width-compact' }
   core/layout-height/chart:            { valor: 320, css: '--nph-core-layout-height-chart', alias_de: 'chart/plot-height', por_decisao: 'the reference height of the nph-chart plot area (DSA-101): layout/field-width, layout/rich-option-width and layout/dialog-min-width are 320, all widths' }
+  core/layout-width/tree-column:       { valor: 240, css: '--nph-core-layout-width-tree-column', alias_de: 'tree-table/tree-column-min-width', por_decisao: 'the floor of the nph-tree-table tree column width; the page gives the width, as for any column (DSA-102 D-2): layout/separator-width and popover/width-sm are 240 with another function, the width of the separator and of the popover' }
 
 # ---------------------------------------------------------------
 # PRIMITIVES WITHOUT A CONSUMER - they exist in Figma and NO semantic
