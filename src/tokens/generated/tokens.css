@@ -801,6 +801,10 @@
   --nph-accordion-tile-padding-compact: var(--nph-core-space-100);
   --nph-toast-region-inset: var(--nph-core-space-600);
   --nph-toast-region-inset-compact: var(--nph-core-space-400);
+  --nph-tree-table-indent: var(--nph-core-control-height-compact);
+  --nph-tree-table-cell-padding-inline: var(--nph-core-space-300);
+  --nph-tree-table-row-padding-block: var(--nph-core-space-300);
+  --nph-tree-table-row-height: var(--nph-core-space-800);
   --nph-chart-y-label-gap: var(--nph-space-inline);
   --nph-chart-x-label-gap: var(--nph-space-stack-tight);
   --nph-chart-grid-width: var(--nph-border-width);
@@ -1185,6 +1189,14 @@
   --nph-toast-region-gap: var(--nph-space-stack);
   --nph-toast-region-enter-duration: var(--nph-motion-enter-duration);
   --nph-toast-region-exit-duration: var(--nph-motion-exit-duration);
+  --nph-tree-table-focus-border-width: var(--nph-border-width);
+  --nph-tree-table-focus-halo-width: var(--nph-focus-ring-width);
+  --nph-tree-table-focus-border-radius: var(--nph-focus-border-radius-control);
+  --nph-tree-table-focus-halo-radius: var(--nph-focus-radius-control-with-border);
+  --nph-tree-table-cell-gap: var(--nph-space-inline);
+  --nph-tree-table-error-gap: var(--nph-space-inline-tight);
+  --nph-tree-table-border-width: var(--nph-border-width);
+  --nph-tree-table-error-icon-size: var(--nph-icon-size-sm);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
 }
 
@@ -1540,6 +1552,10 @@
   --nph-accordion-status-warning-icon: var(--nph-status-warning);
   --nph-accordion-status-error-icon: var(--nph-status-error);
   --nph-accordion-status-pending-icon: var(--nph-color-muted-foreground);
+  --nph-tree-table-row-background: var(--nph-color-background);
+  --nph-tree-table-border: var(--nph-color-border);
+  --nph-tree-table-error-icon-foreground: var(--nph-status-error);
+  --nph-tree-table-error-foreground: var(--nph-color-foreground);
   --nph-chart-focus-border: var(--nph-focus-border);
   --nph-chart-focus-halo: var(--nph-focus-halo);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
@@ -1655,9 +1671,13 @@
   --nph-select-option-focus-halo: var(--nph-focus-halo);
   --nph-accordion-tile-background: var(--nph-color-primary-surface);
   --nph-accordion-tile-foreground: var(--nph-color-primary-on-surface);
+  --nph-tree-table-focus-border: var(--nph-focus-border);
+  --nph-tree-table-focus-halo: var(--nph-focus-halo);
+  --nph-tree-table-error-foreground-hover: var(--nph-table-foreground);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
+  --nph-tree-table-row-background-hover: var(--nph-table-row-hover-background);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
