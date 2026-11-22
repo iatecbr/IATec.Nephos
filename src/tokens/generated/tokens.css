@@ -779,6 +779,8 @@
   --nph-accordion-title-gap: var(--nph-core-space-50);
   --nph-accordion-tile-padding: var(--nph-core-space-200);
   --nph-accordion-tile-padding-compact: var(--nph-core-space-100);
+  --nph-toast-region-inset: var(--nph-core-space-600);
+  --nph-toast-region-inset-compact: var(--nph-core-space-400);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
@@ -1128,6 +1130,9 @@
   --nph-accordion-tile-radius: var(--nph-radius-inset);
   --nph-accordion-tile-icon-size: var(--nph-icon-size-sm);
   --nph-accordion-tile-icon-size-large: var(--nph-icon-size-lg);
+  --nph-toast-region-gap: var(--nph-space-stack);
+  --nph-toast-region-enter-duration: var(--nph-motion-enter-duration);
+  --nph-toast-region-exit-duration: var(--nph-motion-exit-duration);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
 }
 
