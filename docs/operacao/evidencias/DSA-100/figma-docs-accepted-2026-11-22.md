@@ -24,6 +24,8 @@ The documentation of the nph-toast-region (frame `7819:4737`, page `5415:32`) wa
 
 Its tokens came with this task and are on `v/5.0.0`.
 
+A label "Pend. N" names a pending point of the Figma appendix (section G), all closed now: accepted with the root or answered on the approval page (see "Decisions answered" and "Points that followed the recommendation").
+
 What changed in the tokens with this task:
 
 - New group `toast-region/*`, 5 tokens. 3 alias semantics (rule 2 of T9). 2 point straight to the core by decision (rule 3 of T9, Pend. 3 accepted with the root), with no new value in the core:
