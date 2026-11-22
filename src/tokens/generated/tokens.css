@@ -167,6 +167,8 @@
   --nph-core-layout-width-popover-sm: 15rem;
   --nph-core-layout-width-popover-md: 20rem;
   --nph-core-layout-width-popover-lg: 25rem;
+  --nph-core-layout-width-popconfirm-sm: 19rem;
+  --nph-core-layout-width-popconfirm-md: 23.25rem;
   --nph-core-layout-width-stepper-text: 10rem;
   --nph-core-layout-width-list-time-compact: 4.5rem;
   --nph-core-layout-width-tree-column: 15rem;
@@ -807,6 +809,16 @@
   --nph-tree-table-row-padding-block: var(--nph-core-space-300);
   --nph-tree-table-row-height: var(--nph-core-space-800);
   --nph-tree-table-tree-column-min-width: var(--nph-core-layout-width-tree-column);
+  --nph-popconfirm-radius: var(--nph-core-radius-600);
+  --nph-popconfirm-padding-md: var(--nph-core-space-600);
+  --nph-popconfirm-footer-padding-md: var(--nph-core-space-600);
+  --nph-popconfirm-icon-box-padding: var(--nph-core-space-200);
+  --nph-popconfirm-width-sm: var(--nph-core-layout-width-popconfirm-sm);
+  --nph-popconfirm-width-md: var(--nph-core-layout-width-popconfirm-md);
+  --nph-popconfirm-offset: var(--nph-core-space-100);
+  --nph-popconfirm-arrow-width: var(--nph-core-space-400);
+  --nph-popconfirm-arrow-height: var(--nph-core-space-200);
+  --nph-popconfirm-arrow-inset: var(--nph-core-space-400);
   --nph-chart-y-label-gap: var(--nph-space-inline);
   --nph-chart-x-label-gap: var(--nph-space-stack-tight);
   --nph-chart-grid-width: var(--nph-border-width);
@@ -1199,6 +1211,17 @@
   --nph-tree-table-error-gap: var(--nph-space-inline-tight);
   --nph-tree-table-border-width: var(--nph-border-width);
   --nph-tree-table-error-icon-size: var(--nph-icon-size-sm);
+  --nph-popconfirm-border-width: var(--nph-border-width);
+  --nph-popconfirm-padding-sm: var(--nph-space-container-padding);
+  --nph-popconfirm-footer-padding-sm: var(--nph-space-container-padding);
+  --nph-popconfirm-text-gap: var(--nph-space-stack-snug);
+  --nph-popconfirm-icon-gap: var(--nph-space-inline);
+  --nph-popconfirm-actions-gap: var(--nph-space-inline-loose);
+  --nph-popconfirm-icon-size-sm: var(--nph-icon-size-sm);
+  --nph-popconfirm-icon-size-md: var(--nph-icon-size-lg);
+  --nph-popconfirm-icon-box-radius: var(--nph-radius-inset);
+  --nph-popconfirm-enter-duration: var(--nph-motion-enter-duration);
+  --nph-popconfirm-exit-duration: var(--nph-motion-exit-duration);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
 }
 
@@ -1558,6 +1581,17 @@
   --nph-tree-table-border: var(--nph-color-border);
   --nph-tree-table-error-icon-foreground: var(--nph-status-error);
   --nph-tree-table-error-foreground: var(--nph-color-foreground);
+  --nph-popconfirm-background: var(--nph-color-popover);
+  --nph-popconfirm-title-foreground: var(--nph-color-popover-foreground);
+  --nph-popconfirm-description-foreground: var(--nph-color-muted-foreground);
+  --nph-popconfirm-border: var(--nph-color-border-subtle);
+  --nph-popconfirm-divider: var(--nph-color-border-subtle);
+  --nph-popconfirm-icon-box-background: var(--nph-status-info-surface);
+  --nph-popconfirm-icon-box-background-warning: var(--nph-status-warning-surface);
+  --nph-popconfirm-icon-box-background-destructive: var(--nph-color-destructive-surface);
+  --nph-popconfirm-icon-foreground: var(--nph-status-info);
+  --nph-popconfirm-icon-foreground-warning: var(--nph-status-warning);
+  --nph-popconfirm-icon-foreground-destructive: var(--nph-color-destructive-on-surface);
   --nph-chart-focus-border: var(--nph-focus-border);
   --nph-chart-focus-halo: var(--nph-focus-halo);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
