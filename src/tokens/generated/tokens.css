@@ -332,6 +332,7 @@
   --nph-theme-brand-halo-dark: var(--nph-core-sistemas-700);
   --nph-theme-brand-400-hover: var(--nph-core-sistemas-300);
   --nph-theme-brand-text-dark: var(--nph-core-sistemas-300);
+  --nph-theme-brand-text-light: var(--nph-core-sistemas-600);
 }
 [data-nph-brand="gerencial"] {
   --nph-theme-brand-400: var(--nph-core-gerencial-400);
@@ -351,6 +352,7 @@
   --nph-theme-brand-halo-dark: var(--nph-core-gerencial-500);
   --nph-theme-brand-400-hover: var(--nph-core-gerencial-500);
   --nph-theme-brand-text-dark: var(--nph-core-gerencial-100);
+  --nph-theme-brand-text-light: var(--nph-core-gerencial-600);
 }
 [data-nph-brand="educacao"] {
   --nph-theme-brand-400: var(--nph-core-educacao-700);
@@ -370,6 +372,7 @@
   --nph-theme-brand-halo-dark: var(--nph-core-educacao-800);
   --nph-theme-brand-400-hover: var(--nph-core-educacao-800);
   --nph-theme-brand-text-dark: var(--nph-core-educacao-300);
+  --nph-theme-brand-text-light: var(--nph-core-educacao-800);
 }
 [data-nph-brand="comercial"] {
   --nph-theme-brand-400: var(--nph-core-comercial-400);
@@ -389,6 +392,7 @@
   --nph-theme-brand-halo-dark: var(--nph-core-comercial-700);
   --nph-theme-brand-400-hover: var(--nph-core-comercial-300);
   --nph-theme-brand-text-dark: var(--nph-core-comercial-200);
+  --nph-theme-brand-text-light: var(--nph-core-comercial-600);
 }
 [data-nph-brand="financeiro"] {
   --nph-theme-brand-400: var(--nph-core-financeiro-400);
@@ -408,6 +412,7 @@
   --nph-theme-brand-halo-dark: var(--nph-core-financeiro-700);
   --nph-theme-brand-400-hover: var(--nph-core-financeiro-300);
   --nph-theme-brand-text-dark: var(--nph-core-financeiro-200);
+  --nph-theme-brand-text-light: var(--nph-core-financeiro-600);
 }
 [data-nph-brand="igrejas"] {
   --nph-theme-brand-400: var(--nph-core-igrejas-400);
@@ -427,6 +432,7 @@
   --nph-theme-brand-halo-dark: var(--nph-core-igrejas-600);
   --nph-theme-brand-400-hover: var(--nph-core-igrejas-500);
   --nph-theme-brand-text-dark: var(--nph-core-igrejas-200);
+  --nph-theme-brand-text-light: var(--nph-core-igrejas-600);
 }
 [data-nph-brand="rh"] {
   --nph-theme-brand-400: var(--nph-core-rh-400);
@@ -446,6 +452,7 @@
   --nph-theme-brand-halo-dark: var(--nph-core-rh-500);
   --nph-theme-brand-400-hover: var(--nph-core-rh-500);
   --nph-theme-brand-text-dark: var(--nph-core-rh-100);
+  --nph-theme-brand-text-light: var(--nph-core-rh-600);
 }
 
 /* layer 2 - semantic, invariants: alias and final value equal in light and dark,
@@ -1957,7 +1964,7 @@
   --nph-color-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-color-primary: var(--nph-theme-brand-600);
   --nph-color-primary-surface: var(--nph-theme-brand-50);
-  --nph-color-primary-on-surface: var(--nph-theme-brand-600);
+  --nph-color-primary-on-surface: var(--nph-theme-brand-text-light);
   --nph-color-primary-surface-hover: var(--nph-theme-brand-100);
   --nph-color-primary-on-surface-hover: var(--nph-theme-brand-700);
   --nph-color-primary-border: var(--nph-theme-brand-600);
