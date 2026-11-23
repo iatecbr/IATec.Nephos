@@ -1,0 +1,367 @@
+/**
+ * Internal style of `nph-accordion-item`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties consumed
+ * here: the `accordion/*` ones, the `collapsible/*` ones the accepted documentation names for the item (a
+ * temporary exception to T9 until the `nph-collapsible` adjustment, items 7 and 8 of the evidence), and the text
+ * roles `text/label-md`, `text/label-lg`, `text/body-sm` and `text/body-md`. The size and the indicator are read
+ * from the attributes the host reflects; where the content is, from `data-state` on the panel.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `1`, `none`, `100%`, `0fr` and
+ * `1fr` (the two rows of the growth), `-1` and `calc(-1 * ...)` (the focus border and halo outside the box,
+ * without changing its size), `scaleX(-1)` (the mirror of the chevron in right-to-left writing), `180deg` and
+ * `90deg` (the turn of the chevron, which the accepted documentation gives as an angle) and `50%` (the clip of
+ * the hidden text).
+ */
+
+/* Invalid input, or an item with no title, takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid item. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+/*
+ * Disabled fades the whole item, the status included (the accepted contract). The fade is on the box inside the
+ * host, not on the host: the divider and the block outline are the accordion's and stay at full.
+ */
+:host([disabled]) .item {
+  opacity: var(--nph-collapsible-disabled-opacity);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 0;
+}
+
+/* ----- the trigger ------------------------------------------------------------------------------ */
+
+.trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: var(--nph-collapsible-trigger-height);
+  margin: 0;
+  padding-block: var(--nph-collapsible-trigger-padding-y);
+  padding-inline: var(--nph-collapsible-trigger-padding-x);
+  border: 0;
+  border-radius: var(--nph-collapsible-trigger-radius);
+  background: transparent;
+  color: var(--nph-collapsible-title-foreground);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  /* The native button outline is replaced by the focus border and halo below. */
+  outline: none;
+}
+
+:host([size='compact']) .trigger {
+  min-block-size: var(--nph-collapsible-trigger-height-compact);
+  padding-block: var(--nph-collapsible-trigger-padding-y-compact);
+}
+
+:host([size='large']) .trigger {
+  min-block-size: var(--nph-collapsible-trigger-height-large);
+}
+
+.trigger:disabled,
+.trigger[aria-disabled='true'] {
+  cursor: default;
+}
+
+/* Hover paints the trigger only; an item that cannot change has nothing to offer. Open does not change the background. */
+.trigger:not(:disabled):not([aria-disabled='true']):hover {
+  background-color: var(--nph-collapsible-trigger-background-hover);
+}
+
+/* ----- the parts of the trigger, centered on the vertical axis ---------------------------------- */
+
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nph-accordion-title-gap);
+  min-inline-size: 0;
+}
+
+/* With the indicator at the end the text block keeps a gap before the end status, or before the indicator. */
+:host([indicator='end']) .text {
+  padding-inline-end: var(--nph-collapsible-trigger-gap);
+}
+
+.title-line {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-accordion-tag-gap);
+  max-inline-size: 100%;
+}
+
+.title {
+  min-inline-size: 0;
+  color: var(--nph-collapsible-title-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+:host([size='large']) .title {
+  font-family: var(--nph-text-label-lg-font-family);
+  font-size: var(--nph-text-label-lg-font-size);
+  font-weight: var(--nph-text-label-lg-font-weight);
+  line-height: var(--nph-text-label-lg-line-height);
+  letter-spacing: var(--nph-text-label-lg-letter-spacing);
+}
+
+.tag {
+  flex: none;
+}
+
+.description {
+  color: var(--nph-collapsible-description-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/* ----- the start media: its gap to the title is on the media itself ------------------------------ */
+
+.start {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+/* The icon and the status icon keep the trigger gap; the tile, the avatar and the image keep the media gap. */
+.start-tight {
+  margin-inline-end: var(--nph-collapsible-trigger-gap);
+}
+
+.start-wide {
+  margin-inline-end: var(--nph-accordion-media-gap);
+}
+
+.icon {
+  --nph-icon-size-sm: var(--nph-collapsible-icon-size);
+  color: var(--nph-collapsible-icon-foreground);
+}
+
+.status-icon {
+  --nph-icon-size-sm: var(--nph-collapsible-icon-size);
+}
+
+.status-icon[data-status='success'] {
+  color: var(--nph-accordion-status-success-icon);
+}
+
+.status-icon[data-status='warning'] {
+  color: var(--nph-accordion-status-warning-icon);
+}
+
+.status-icon[data-status='error'] {
+  color: var(--nph-accordion-status-error-icon);
+}
+
+.status-icon[data-status='pending'] {
+  color: var(--nph-accordion-status-pending-icon);
+}
+
+/* The tile: a tonal box with the icon in it. The box is 24, 32 and 40 by the size of the item. */
+.tile {
+  display: flex;
+  box-sizing: border-box;
+  padding: var(--nph-accordion-tile-padding);
+  border-radius: var(--nph-accordion-tile-radius);
+  background-color: var(--nph-accordion-tile-background);
+  color: var(--nph-accordion-tile-foreground);
+}
+
+:host([size='compact']) .tile {
+  padding: var(--nph-accordion-tile-padding-compact);
+}
+
+.tile nph-icon {
+  --nph-icon-size-sm: var(--nph-accordion-tile-icon-size);
+  --nph-icon-size-lg: var(--nph-accordion-tile-icon-size-large);
+}
+
+/* ----- the end status and the indicator ---------------------------------------------------------- */
+
+.end {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+/* At the end of the trigger the status keeps the end gap before the indicator; at the start the trigger gap before it. */
+:host([indicator='end']) .end {
+  margin-inline-end: var(--nph-accordion-end-gap);
+}
+
+:host([indicator='start']) .end {
+  margin-inline-start: var(--nph-collapsible-trigger-gap);
+}
+
+.indicator {
+  --nph-icon-size-sm: var(--nph-collapsible-indicator-size);
+  flex: none;
+  color: var(--nph-collapsible-indicator-foreground);
+}
+
+:host([indicator='start']) .indicator {
+  margin-inline-end: var(--nph-collapsible-trigger-gap);
+}
+
+/* The word for the screen reader: clipped, not `display: none`, which the browser does not read. */
+.assistive {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ----- the movement: the chevron turns in the expand duration ----------------------------------- */
+
+.indicator {
+  transform: none;
+  transition-property: transform;
+  transition-duration: var(--nph-collapsible-expand-duration);
+  transition-timing-function: var(--nph-collapsible-expand-easing);
+}
+
+/* At the end the chevron points down and turns a half; at the start it points right and turns a quarter, down. */
+.trigger[aria-expanded='true'] .indicator[name='chevron-down'] {
+  transform: rotate(180deg);
+}
+
+.trigger[aria-expanded='true'] .indicator[name='chevron-right'] {
+  transform: rotate(90deg);
+}
+
+/*
+ * Right-to-left writing: the closed chevron at the start points to the start, which is the left. Closed and open
+ * keep the same two functions in the same order, so the browser turns between them function by function.
+ */
+:host(:dir(rtl)) .indicator[name='chevron-right'] {
+  transform: rotate(0deg) scaleX(-1);
+}
+
+:host(:dir(rtl)) .trigger[aria-expanded='true'] .indicator[name='chevron-right'] {
+  transform: rotate(-90deg) scaleX(-1);
+}
+
+/* ----- focus: a border on the trigger and, outside it, a halo ------------------------------------ */
+
+.trigger:focus-visible::before,
+.trigger:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.trigger:focus-visible::before {
+  inset: calc(-1 * var(--nph-collapsible-focus-border-width));
+  border: var(--nph-collapsible-focus-border-width) solid var(--nph-collapsible-focus-border);
+  border-radius: var(--nph-collapsible-focus-border-radius);
+}
+
+.trigger:focus-visible::after {
+  inset: calc(-1 * (var(--nph-collapsible-focus-border-width) + var(--nph-collapsible-focus-halo-width)));
+  border: var(--nph-collapsible-focus-halo-width) solid var(--nph-collapsible-focus-halo);
+  border-radius: var(--nph-collapsible-focus-halo-radius);
+}
+
+/*
+ * With forced colors the browser drops the system's own outline replaced above, so the trigger keeps one
+ * in the system color for the focus (`Highlight`, no token: the user's palette decides).
+ */
+@media (forced-colors: active) {
+  .trigger:focus-visible {
+    outline: var(--nph-collapsible-focus-border-width) solid Highlight;
+  }
+}
+
+/* ----- the content: it grows down and pushes what comes below ----------------------------------- */
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition-property: grid-template-rows;
+  transition-duration: var(--nph-collapsible-expand-duration);
+  transition-timing-function: var(--nph-collapsible-expand-easing);
+}
+
+.panel[data-state='opening'],
+.panel[data-state='open'] {
+  grid-template-rows: 1fr;
+}
+
+/*
+ * The clip has no padding: a box with padding does not shrink below it, so the padding lives on the content
+ * inside. It clips while the content moves and when it is closed; steady and open it lets the focus halo of
+ * what is inside show.
+ */
+.clip {
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.panel[data-state='open'] .clip {
+  overflow: visible;
+}
+
+.content {
+  display: flex;
+  gap: var(--nph-collapsible-trigger-gap);
+  padding-block-start: var(--nph-collapsible-content-padding-top);
+  padding-block-end: var(--nph-collapsible-content-padding-bottom);
+  padding-inline: var(--nph-collapsible-content-padding-x);
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+/* With the indicator at the start the content lines up with the part after it. */
+.indent {
+  flex: none;
+  inline-size: var(--nph-collapsible-indicator-size);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--nph-collapsible-content-gap);
+  min-inline-size: 0;
+}
+
+/* Reduced motion: the content opens and the chevron turns with no movement. */
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .indicator {
+    transition: none;
+  }
+}

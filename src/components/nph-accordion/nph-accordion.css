@@ -1,0 +1,55 @@
+/**
+ * Internal style of `nph-accordion`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties consumed here:
+ * the `accordion/*` ones, which alias a semantic token, and the effect style `elevation/raised`. The appearance is
+ * read from the attribute the host reflects. The items are slotted, and the container paints what is between and
+ * around them (the divider, the block, the space), so an item never needs to know where it is.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0` and `none`.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid accordion. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* ----- grouped: one container, the soft outline, the shadow and the padding on the four sides -------- */
+
+:host([appearance='grouped']) {
+  padding: var(--nph-accordion-padding);
+  border: var(--nph-accordion-border-width) solid var(--nph-accordion-border);
+  border-radius: var(--nph-accordion-radius);
+  background-color: var(--nph-accordion-background);
+  box-shadow: var(--nph-elevation-raised);
+}
+
+/* ----- the divider: grouped and flush, between two items, never before the first or after the last ------ */
+
+:host([appearance='grouped']) ::slotted(nph-accordion-item:not(:first-child)),
+:host([appearance='flush']) ::slotted(nph-accordion-item:not(:first-child)) {
+  margin-block-start: var(--nph-accordion-divider-spacing);
+  padding-block-start: var(--nph-accordion-divider-spacing);
+  border-block-start: var(--nph-border-width) solid var(--nph-accordion-divider);
+}
+
+/* ----- separated: a block per item, space between the blocks, no shadow and no divider ---------------- */
+
+:host([appearance='separated']) {
+  gap: var(--nph-accordion-item-gap);
+}
+
+:host([appearance='separated']) ::slotted(nph-accordion-item) {
+  box-sizing: border-box;
+  padding: var(--nph-accordion-padding);
+  border: var(--nph-accordion-border-width) solid var(--nph-accordion-border);
+  border-radius: var(--nph-accordion-radius);
+  background-color: var(--nph-accordion-background);
+}
