@@ -3,7 +3,7 @@
   "task": "DSA-99",
   "worktree": "/home/helielton_fioramonte/Work/IATec.Nephos",
   "start_sha": "4ae504f",
-  "end_sha": null
+  "end_sha": "2792e20e"
 }
 ```
 ## Goal of this pass
@@ -21,10 +21,10 @@ Implement the nph-popconfirm in the contract accepted in Figma (evidence of the 
 - `git checkout -b feat/dsa-99-popconfirm`
 - `npx vitest run src/shared nph-popconfirm`, `npx tsc --noEmit`, `npm run test:i18n`, `node scripts/verificar-operacao.mjs --gerar-metadata`
 ## Result
-Component, CSS, tests, stories, dictionary, sheet, P137 and Metadata written and passing, not committed. Open: the full proof on the head, the pull request, the Copilot review.
+Component, CSS, tests, stories, dictionary, sheet, P137 and Metadata written and passing, not committed. Pull request #192 open, Copilot review requested. Open: the Copilot rounds and the full proof on the final head.
 ## Evidence
 None yet.
 ## Blocker
 None.
 ## Next command
-Commit, open the pull request to `v/5.0.0` and request the Copilot review: `gh pr edit <number> --add-reviewer @copilot`.
+Answer the review threads of PR #192, push, request a new Copilot review and rerun the proof on the final head.
