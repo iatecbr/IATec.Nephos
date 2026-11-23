@@ -91,6 +91,7 @@ P62.4 subsection for the detail).
 | **P133** | API and semantics of `nph-date-picker` and `nph-calendar` | 18/11/2026 | Low now. No piece consumes the date picker yet; the filters of a report, a due date in a form and the scheduler adjustment (the `nph-calendar` grid replaces its own) will, and changing `mode`, `size`, `value`, `start`, `end`, `min`, `max`, `unavailable`, `month`, `months`, `week-start`, `now`, `labels`, `name`, `start-name`, `end-name`, `open`, the event `change`, the events `nph-pick` and `nph-month-change`, the date text `YYYY-MM-DD`, the internal control row, the seven shortcuts, the typed date rules, the keys or the invalid-input rule later requires redoing every consumer. D-1 to D-11 were answered on 18/11/2026 (P135 changes D-2, D-5, D-6, D-9 and D-10); the measures with no token (D-12), a typed Start or End with the panel closed (D-13) and the page margin of the narrow switch (D-14) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 17/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P134** | API and semantics of `nph-rich-option` and of the rich option of `nph-option` | 18/11/2026 | Low now. No form consumes the card yet; a plan or delivery choice, a list of settings and the people list of a combobox will, and changing `control`, `checked`, `name`, `value`, `text`, `description`, `icon`, `shortcut`, `keyShortcuts`, `invalid`, `disabled`, the events `input` and `change`, the role held by the card, the radio group by `name`, `rich` and `description` on `nph-option`, the `keyboard` property the lists write, the `rich` and `description` of the combobox entries or the invalid-input rule later requires redoing every consumer. D-4 follows the provisional rule of the task and waits for Indiane | Anatomy and behavior: documentation accepted by Indiane on 18/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P135** | `nph-date-picker` and `nph-calendar`: the answers of 18/11/2026 (D-2, D-5, D-6, D-9, D-10 and the header of the large grid) | 19/11/2026 | Low now, as P133: no piece consumes the date picker yet. Changing the property `allowsNonContiguousRanges`, the periods of the shortcuts and when one is disabled, the arrows on the outer edges of the range, the views in two columns, the height of the views or the header of the large grid later requires redoing every consumer. D-15 to D-18 wait for Indiane, with D-12 to D-14 | Answers of the design owner on 18/11/2026 (evidence of DSA-96). API and semantics reviewed in the pull request that brings them |
+| **P136** | API and semantics of `nph-accordion` and `nph-accordion-item` | 23/11/2026 | Low now. No piece consumes the accordion yet; the details of a record, frequently asked questions, the steps of a setup and the filters of a side panel will, and changing `appearance`, `expansion`, `size`, `heading-level`, the properties of the item (`label`, `description`, `start`, `icon`, `media-src`, `start-label`, `tag`, `status`, `status-label`, `indicator`, `open`, `disabled`, `persistent`), the event `nph-toggle`, the rules of the single expansion, the region rule or the invalid-input rule later requires redoing every consumer. | Anatomy and behavior: documentation accepted by Indiane on 19/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -10203,9 +10204,112 @@ merge is the approval. D-12 to D-18 wait for the design owner and do not block t
 
 ---
 
+## P136 — `nph-accordion` and `nph-accordion-item`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `7428:43770`, page `1626:29`, root `7227:25867`, sets `7227:26169`,
+`7227:26332` and `7227:26993`) draws a list of sections with a title that the person opens and closes in place, in three
+appearances, two expansions and three sizes, and leaves to the code how the items are declared, how the appearance, the
+expansion and the size reach every item, how an item gets its title, description, start, tag, status, indicator and states,
+how a short description is told from a long one, when the content is a region, what the single expansion does in the cases
+Figma does not draw, how the divider takes the color of `accordion/divider`, and what happens with an input that does not fit.
+Four limits of the platform and of the system shape the answer:
+- the heading, its button and the content have to live in one shadow root, so the name of the trigger (title, tag,
+  description and status as the text of the button) and the `aria-controls` and `aria-labelledby` between the button and the
+  content need the item to be a custom element, not a list that the accordion reads;
+- `nph-separator` fixes its color at `color/border` and may not change, and the divider has to be `color/border-subtle`
+  through `accordion/divider`;
+- the item fades as a whole when disabled, but the divider and the outline of a separated block belong to the container and
+  must stay at full;
+- the `nph-collapsible` does not yet have the start media, the tag, the status, the heading or the open that does not
+  close, and the evidence says the item stays its own part until that adjustment.
+
+**Decision.** `nph-accordion` and `nph-accordion-item` are two Web Components with **open Shadow DOM** (P01). Anatomy only
+through semantic tokens: the 23 `accordion/*` ones of the accepted frame, and the `collapsible/*` ones the evidence names for
+the item (a temporary exception to the token layers, written in the evidence, until the `nph-collapsible` adjustment); **no
+token is created or changed**. The text styles are `text/label-md`, `text/label-lg`, `text/body-sm` and `text/body-md`. They
+have no `::part`, no color property and no form association; their one event is `nph-toggle`, and the item has one slot, the
+content. What they reject renders nothing and emits `console.error` only in development, once per cause: the rule of P21. The
+names follow P64.
+1. **Two tags, items as children (Q1).** The accordion is `nph-accordion` and each section is an `nph-accordion-item`
+   child. Unlike the `steps` of `nph-stepper` (P117), the item holds free content in a slot and its own heading and button,
+   so it is an element. Anything else inside the accordion is ignored and warned once. The accordion hands the item its `size`,
+   its `heading-level` and its `region`, by property, on every update and on every `slotchange`; an item never keeps a size of
+   its own, and an accordion that is not drawn hands nothing on, so an invalid value is reported once and not once per item.
+2. **The properties of the accordion (Q2).** `appearance` (`grouped`, `separated`, `flush`; `grouped`), `expansion`
+   (`multiple`, `single`; `multiple`), `size` (`compact`, `default`, `large`; `default`) and `heading-level` (1 to 6; 3,
+   because the level comes from the page). The first three reflect, because the CSS reads them. The container paints the
+   divider and the block with `::slotted`, so the item never knows where it is: grouped gives the host the background, the
+   soft outline, the corner, the padding and `elevation/raised`; separated gives each item the same background, outline,
+   corner and padding with no shadow and `accordion/item-gap` between them; the divider is a 1 px line in `border/width` and
+   `accordion/divider`, with `accordion/divider-spacing` above and below, on every item but the first, in grouped and flush.
+3. **The properties of the item (Q3).** `label`, `description`, `start`, `icon`, `media-src`, `start-label`, `tag`, `status`,
+   `status-label`, `indicator` (`end`, `start`), `open`, `disabled` and `persistent`; `size`, `heading-level` and `region` are
+   set by the accordion. `start` is one of `icon`, `tile`, `avatar`, `image`, `status-success`, `status-warning`,
+   `status-error` and `status-pending`, and empty draws none; `icon` names the `nph-icon` of `icon` and `tile`, `gear` and
+   `folder` when empty, as the Figma start set draws; `media-src` is the photo of the avatar or the picture of the image,
+   which the item sizes by its own size (24, 32 and 40; the image 24, 32 and 48) and keeps decorative. The tag is an
+   `nph-badge` primary light, and the end status an `nph-badge` light of the tone of the status, `pending` in secondary,
+   always with text: a `status` with no `status-label` is not drawn, and warns.
+4. **The words come from the consumer (Q4).** Every text is a property of the item, **already localized**: the piece writes no
+   word of its own, and has no translation key. A status icon at the start, with no end status, carries the hidden text
+   `start-label`, which the item writes last in the button so it is read after the title, the tag and the description; with
+   the end status the icon is decoration and the text is not drawn. A status start with neither warns once.
+5. **A short description is the `description`; a long one is the content (Q5).** There is no property, slot or length rule to
+   tell them apart: `description` is always short and is read inside the name of the button, after the tag and before the
+   status (item 11); what does not fit in a few words goes in the default slot, where it is the first paragraph of the
+   content.
+6. **Name, heading and region (Q6).** The trigger is a `button` with `aria-expanded` and `aria-controls`, the only child of a
+   `div` with `role="heading"` and `aria-level` from `heading-level`, and has no `aria-label`, so the tag, the description
+   and the status are part of its name. The content takes `role="region"` with `aria-labelledby` on the trigger, except
+   when the accordion says `region` is false, which it does for the `multiple` expansion with more than six items
+   (`NPH_ACCORDION_REGION_LIMIT`); the single expansion keeps the region, because only one panel is open. The indicator and
+   the start media are `aria-hidden`; the avatar is decorative by having no `label`, and the image by an empty `alt`.
+7. **The open item that does not close, and the locked section (Q7).** `persistent` is the APG case: `aria-disabled="true"`
+   on the trigger, which stays in the Tab order and does nothing, with the plain open look and no hover; it opens a closed item.
+   The locked section is `disabled` with `open`: the button is disabled, the content stays in view, and the opacity is on
+   the inner box of the item, not on the host, so the divider and the block of the accordion stay at full. `aria-disabled`
+   is not added to the locked section: the disabled button is in the accessibility tree and the evidence leaves that a
+   consideration, not a rule.
+8. **The single expansion, the cases Figma does not draw (Q8).**
+   (a) More than one item open when the accordion starts, or when `expansion` changes to `single`: the first item that the
+   person cannot close (`persistent`) stays open, else the first in the document, the others close, and a warning says so once.
+   (b) An item with `persistent` when another opens: it closes and the mark moves to the item that opened. This follows from
+   the APG, which keeps one panel open and puts `aria-disabled` on its button, and is a deduction, not its text.
+   (c) A locked section: the person did not open it and cannot close it, so the rule leaves it as it is and it is not the open
+   item. The items the rule closes fire no event: setting `open` from code is silent in Nephos, and the event of the item
+   the person opened says what happened. Changing back to `multiple` closes and opens nothing.
+9. **The event (Q9).** `nph-toggle`, `bubbles` and `composed`, `detail: { open }`, as in `nph-collapsible` and
+   `nph-sidebar-item`, fired by the item only when the person opens or closes it (click, Enter, Space, the search of the page or
+   a link to an id inside it), never for an `open` set by the page. The accordion listens to it to apply the single expansion.
+10. **Direct link and page search (Q10).** Closed content is `hidden="until-found"` and a disabled closed one is plain
+    `hidden`; `beforematch` opens the item without growth and fires the event. Where the browser has no `beforematch` event, the
+    item that holds the element of the `#id` of the address opens when it renders and on `hashchange`. The evidence table
+    (read on 2026-11-16) says Chrome and Edge 102, Firefox 148 and Safari 26.2 in part; the Firefox release notes on MDN say
+    139, so the two disagree and the code tests the feature, not the browser.
+11. **Motion (Q11).** The content grows by the rows of a grid and the indicator turns in `collapsible/expand-duration` with
+    `collapsible/expand-easing`, as `nph-collapsible` does (DSA-78, D-3); with reduced motion nothing moves. The open item
+    that is open from the first render does not animate.
+12. **The divider is drawn by the accordion, not by `nph-separator` (Q12).** The evidence offers two paths: the accordion
+    sets the color of the separator it holds, or it draws its own line. The separator is a custom element inside the shadow
+    root of the item, and a line between two items is the container's, so the accordion draws its own 1 px line with
+    `border/width` in `accordion/divider`, as a `border-block-start` on the item it slots. `nph-card` takes the other
+    path (P130, item 10: it writes the color on the separator it holds); the accordion cannot, because the line belongs to
+    the container and not to the item. `nph-separator` is untouched and gains no hook.
+
+**Out of scope.** The adjustment of the `nph-collapsible` that brings the start media, the tag and the end status to it
+and moves `collapsible/title-gap` to 2 (items 7 and 8 of the evidence), after which the item becomes an instance of it and
+`accordion/title-gap` leaves. A Docs page in Storybook (the stories point to the sheet). A token of inner padding of a
+small piece, which is a foundation task. Item 10 of the approval page, which had no answer and changes nothing in the piece.
+
+**Status.** Anatomy and behavior accepted by the design owner on 19/11/2026. API and semantics are reviewed in the pull request
+that brings them; the merge is the approval.
+
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134 or P135 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135 or P136 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
