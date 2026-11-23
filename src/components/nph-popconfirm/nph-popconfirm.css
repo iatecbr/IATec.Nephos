@@ -1,0 +1,291 @@
+/**
+ * Internal style of `nph-popconfirm`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. The `--_*` variables are internal to the shadow root and are not
+ * API. The component exposes no `::part`.
+ *
+ * No literal design value goes in here. Written box relations and resets, as in `nph-popover`:
+ * `0`, `1`, `auto`, `none` and `100%` (box and flex relations, the resets of the browser's
+ * `[popover]` style, and the arrow sitting on the edge of the surface), `calc(-1 * ...)` (the
+ * slide of the surface; the arrow's overlap with the border), `column-reverse`, `flex-start`,
+ * `flex-end`, `stretch` and `border-box`. Every measure of the surface comes from the
+ * `popconfirm/*` tokens. The tokens the divider reads are redefined in scope with no new value
+ * (`color/border` and `border/width`), as `nph-popover` does for its divider.
+ */
+
+/* The host takes no room in the flow: the surface lives in the top layer. */
+:host {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: visible;
+}
+
+:host([size='sm']) {
+  --_width: var(--nph-popconfirm-width-sm);
+  --_padding: var(--nph-popconfirm-padding-sm);
+  --_footer-padding: var(--nph-popconfirm-footer-padding-sm);
+  --_heading-font-family: var(--nph-text-heading-sm-font-family);
+  --_heading-font-size: var(--nph-text-heading-sm-font-size);
+  --_heading-font-weight: var(--nph-text-heading-sm-font-weight);
+  --_heading-line-height: var(--nph-text-heading-sm-line-height);
+  --_heading-letter-spacing: var(--nph-text-heading-sm-letter-spacing);
+}
+:host([size='md']) {
+  --_width: var(--nph-popconfirm-width-md);
+  --_padding: var(--nph-popconfirm-padding-md);
+  --_footer-padding: var(--nph-popconfirm-footer-padding-md);
+  --_heading-font-family: var(--nph-text-heading-md-font-family);
+  --_heading-font-size: var(--nph-text-heading-md-font-size);
+  --_heading-font-weight: var(--nph-text-heading-md-font-weight);
+  --_heading-line-height: var(--nph-text-heading-md-line-height);
+  --_heading-letter-spacing: var(--nph-text-heading-md-letter-spacing);
+}
+
+/* The icon box and the icon take their colors from the type. */
+:host,
+:host([type='default']) {
+  --_icon-background: var(--nph-popconfirm-icon-box-background);
+  --_icon-foreground: var(--nph-popconfirm-icon-foreground);
+}
+:host([type='warning']) {
+  --_icon-background: var(--nph-popconfirm-icon-box-background-warning);
+  --_icon-foreground: var(--nph-popconfirm-icon-foreground-warning);
+}
+:host([type='destructive']) {
+  --_icon-background: var(--nph-popconfirm-icon-box-background-destructive);
+  --_icon-foreground: var(--nph-popconfirm-icon-foreground-destructive);
+}
+
+/*
+ * The distance from the trigger to the surface is `popconfirm/offset`. With the arrow, the tip
+ * keeps that distance and the surface sits one arrow height further (DSA-67 D-1).
+ */
+:host {
+  --_gap: var(--nph-popconfirm-offset);
+}
+:host([arrow]) {
+  --_gap: calc(var(--nph-popconfirm-offset) + var(--nph-popconfirm-arrow-height));
+}
+
+/*
+ * The surface is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an
+ * ancestor. The resets undo the browser's `[popover]` style: `inset`, `margin: auto`, the
+ * padding and the color. It does NOT clip what it holds (`overflow: visible`), so the focus ring
+ * of a button is whole. JavaScript sets `top`, `left` and the largest width the window allows.
+ */
+.surface {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  inline-size: var(--_width);
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: var(--nph-popconfirm-border-width) solid var(--nph-popconfirm-border);
+  border-radius: var(--nph-popconfirm-radius);
+  background-color: var(--nph-popconfirm-background);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-popconfirm-title-foreground);
+  text-align: start;
+  outline: none;
+  /* Leaving: the exit role. Opacity and a short slide toward the trigger. */
+  opacity: 0;
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-popconfirm-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role. */
+.surface[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-popconfirm-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/*
+ * The side is the one the surface resolved to (the requested one, or the opposite when it did
+ * not fit). The gap is a margin on the edge that faces the trigger; the surface slides in from
+ * `popconfirm/offset` toward it.
+ */
+.surface[data-side='bottom'] {
+  margin-top: var(--_gap);
+  translate: 0 calc(-1 * var(--nph-popconfirm-offset));
+}
+.surface[data-side='top'] {
+  margin-bottom: var(--_gap);
+  translate: 0 var(--nph-popconfirm-offset);
+}
+.surface[data-side='right'] {
+  margin-left: var(--_gap);
+  translate: calc(-1 * var(--nph-popconfirm-offset)) 0;
+}
+.surface[data-side='left'] {
+  margin-right: var(--_gap);
+  translate: var(--nph-popconfirm-offset) 0;
+}
+.surface[data-open][data-side] {
+  translate: none;
+}
+
+/* ----- content ------------------------------------------------------------- */
+
+/* The row: the icon box at the start, aligned to the top, then the texts at `popconfirm/icon-gap`. */
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-popconfirm-icon-gap);
+  padding: var(--_padding);
+}
+
+/* The box: `popconfirm/icon-box-padding` on four sides, the background and the color of the type. */
+.icon-box {
+  flex: none;
+  display: flex;
+  padding: var(--nph-popconfirm-icon-box-padding);
+  border-radius: var(--nph-popconfirm-icon-box-radius);
+  background-color: var(--_icon-background);
+  color: var(--_icon-foreground);
+}
+
+/* The icon takes the size the `nph-icon` size gives; its token is `popconfirm/icon-size-*`. */
+.icon-box nph-icon {
+  --nph-icon-size-sm: var(--nph-popconfirm-icon-size-sm);
+  --nph-icon-size-lg: var(--nph-popconfirm-icon-size-md);
+}
+
+/* Title, then description at `popconfirm/text-gap`, aligned to the start. */
+.texts {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--nph-popconfirm-text-gap);
+  align-items: flex-start;
+  min-inline-size: 0;
+}
+
+/* A long string with no space breaks instead of being cut. */
+.heading {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--nph-popconfirm-title-foreground);
+  font-family: var(--_heading-font-family);
+  font-size: var(--_heading-font-size);
+  font-weight: var(--_heading-font-weight);
+  line-height: var(--_heading-line-height);
+  letter-spacing: var(--_heading-letter-spacing);
+}
+
+.description {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--nph-popconfirm-description-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+/* ----- footer -------------------------------------------------------------- */
+
+/* The divider: a line from edge to edge, in `popconfirm/divider`, below the content with no gap. */
+.divider {
+  --nph-color-border: var(--nph-popconfirm-divider);
+  --nph-border-width: var(--nph-popconfirm-border-width);
+  display: block;
+}
+
+/*
+ * The actions band: Cancel then Confirm at the end, `popconfirm/actions-gap` apart, centered
+ * vertically. When they do not fit side by side, JavaScript sets `data-stacked`: a column, Confirm
+ * on top, each button at the full width of the band, the surface keeping its width (D-2).
+ */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--nph-popconfirm-actions-gap);
+  padding: var(--_footer-padding);
+}
+
+.actions[data-stacked] {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+/*
+ * The primary Confirm (default and warning) sets the focus hook the `nph-button` offers to
+ * `focus/border`, so the focus border keeps 3:1 against the surface in dark (D-1). The danger
+ * Confirm and Cancel keep the focus border of their own severity.
+ */
+:host(:not([type='destructive'])) .confirm {
+  --nph-button-focus-border: var(--nph-focus-border);
+}
+
+/* ----- arrow --------------------------------------------------------------- */
+
+/*
+ * The arrow is decorative. Its base sits on the inner edge of the border, one border width
+ * inside the surface, so the fill covers the border under it; the tip goes `popconfirm/arrow-height`
+ * beyond the outer edge. The outline is drawn only on the two slanted edges. The corner of the
+ * view box decides the direction, so no rotation is written here.
+ */
+.arrow {
+  --_depth: calc(var(--nph-popconfirm-arrow-height) + var(--nph-popconfirm-border-width));
+  position: absolute;
+  display: block;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.arrow-fill {
+  fill: var(--nph-popconfirm-background);
+  stroke: none;
+}
+
+.arrow-line {
+  fill: none;
+  stroke: var(--nph-popconfirm-border);
+  stroke-width: var(--nph-popconfirm-border-width);
+  vector-effect: non-scaling-stroke;
+}
+
+/* On the top and bottom edges: wide, as the base is long. The offset runs along the edge. */
+.surface[data-side='bottom'] .arrow,
+.surface[data-side='top'] .arrow {
+  inline-size: var(--nph-popconfirm-arrow-width);
+  block-size: var(--_depth);
+  left: calc(var(--_arrow-offset) - var(--nph-popconfirm-border-width));
+}
+.surface[data-side='bottom'] .arrow {
+  bottom: 100%;
+}
+.surface[data-side='top'] .arrow {
+  top: 100%;
+}
+
+/* On the left and right edges: tall. */
+.surface[data-side='right'] .arrow,
+.surface[data-side='left'] .arrow {
+  inline-size: var(--_depth);
+  block-size: var(--nph-popconfirm-arrow-width);
+  top: calc(var(--_arrow-offset) - var(--nph-popconfirm-border-width));
+}
+.surface[data-side='right'] .arrow {
+  right: 100%;
+}
+.surface[data-side='left'] .arrow {
+  left: 100%;
+}
+
+/* Reduced motion: no animation (WCAG 2.3.3). The surface appears and leaves at once. */
+@media (prefers-reduced-motion: reduce) {
+  .surface,
+  .surface[data-open] {
+    transition: none;
+  }
+}
