@@ -33,20 +33,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The accepted contract says the context menu in a table opens over the clicked row and acts only on it, and does not say how the code knows the row. The code names one object with for and reports the element under the pointer in detail.origin of nph-item-select. If the menu should be one per row, or origin should be the row itself, it is her call. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-08"
-    },
-    {
-      "id": "D-2",
-      "question": "The contract has no event of opening or closing, so the code fires none. A consumer that must prepare the items for the row under the pointer sets items in its own contextmenu listener. If the piece should announce opening, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-08"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-69/figma-docs-accepted-2026-11-06.md",
     "docs/operacao/evidencias/DSA-69/review-and-merge-2026-11-08.md"
@@ -55,7 +42,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-context-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (radius 12 and 8, outline on color/border-subtle, dropdown/separator, color/destructive-text, solid icon on highlight in nph-dropdown-menu, compact destructive item, no context-menu tokens, arrow-pointer in nph-icon, cleanup, notification/error-action-foreground unchanged); a finished component enters the first version",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-1 and D-2 in the chat, all as recommended, after market research with sources; D-2 changes the code in DSA-115"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -71,7 +59,7 @@
     "pr": 160
   },
   "context": null,
-  "updated_at": "2026-11-09"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -107,12 +95,20 @@ Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decision
 | D-3 | Long press: 700 ms and 10 px, now tokens. `context-menu/long-press-delay` points to `motion/long-press-delay` (`core/duration/long-press`, 700 ms); `context-menu/long-press-tolerance` points to `motion/long-press-tolerance` (`core/space/off-scale/10`). | Reads the two tokens instead of the literal values. |
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-4 and D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-1 and D-2 stay open: they are technical choices of the code.
+Indiane answered D-4 and D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-1 and D-2 were answered on 2026-11-23 (section "Decisions answered on 2026-11-23").
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-4 | Accepted: the item icon at rest keeps the label color in both menus, as nph-dropdown-menu shipped; the two menus stay the same. | Nothing changes. |
 | D-5 | Accepted as shipped: the first Escape closes the submenu and the second closes the menu (APG menu). | Nothing changes. |
+
+## Decisions answered on 2026-11-23
+Indiane answered D-1 and D-2 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Confirmed: one menu per table, named with `for`, and the element under the pointer in `detail.origin` of `nph-item-select`. AG Grid also has one menu and gives the product the clicked cell (https://www.ag-grid.com/javascript-data-grid/context-menu/ ). | Nothing changes. |
+| D-2 | Yes: the menu fires an event when it opens and when it closes. Radix (`onOpenChange`) and AG Grid (`contextMenuVisibleChanged`) give this signal (https://www.radix-ui.com/primitives/docs/components/context-menu , https://www.ag-grid.com/javascript-data-grid/context-menu/ ); the names follow the events that already exist (`nph-close` of nph-dialog, `nph-toggle` of the pieces that open and close content), and the spec gives them. | Changes in DSA-115. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, together with the nph-dropdown-menu and nph-icon changes.

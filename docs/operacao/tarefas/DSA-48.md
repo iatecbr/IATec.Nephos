@@ -29,14 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D2",
-      "question": "Rule 3 says a click does not open the balloon, but not what a click during the 300 ms wait does. The code cancels the wait: the balloon does not open until the pointer leaves and enters again, as with the native title; an open balloon does not close on click. The alternative is to let the wait run, since what opens it is the resting pointer. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-48/figma-docs-accepted-2026-10-22.md",
     "docs/operacao/evidencias/DSA-48/review-and-merge-2026-10-23.md"
@@ -46,7 +39,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane approved: keyboard focus opens, Enter runs the action; 300 ms on hover, none on focus; only on focusable elements; on an icon-only button the balloon is the accessible name of the action",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane accepted: Enter and Space neither open nor close the balloon; on touch the icon-only button has no visible name, as an exception",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane answered D1: create the token; the 300 ms became motion/hover-delay",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D2 in the chat, as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -62,7 +56,7 @@
     "pr": "98"
   },
   "context": null,
-  "updated_at": "2026-10-23"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -120,6 +114,13 @@ and the affected technical decisions pass the proof commands in
 | ID | Answer | What the code does |
 |---|---|---|
 | D1 | Create the token. The 300 ms became `motion/hover-delay` (`--nph-motion-hover-delay`), an alias of `core/duration/delay`; a single token with no curve, because nothing moves during the wait. | Waits `motion/hover-delay` before opening on hover; keyboard focus does not wait. |
+
+## Decision answered on 2026-11-23
+Indiane answered D2 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D2 | Accepted: a click during the 300 ms wait cancels the opening, and the balloon opens only when the pointer leaves and enters again; an open balloon does not close on click. Radix closes the balloon when the trigger is activated, and cancelling the wait follows the same logic (https://www.radix-ui.com/primitives/docs/components/tooltip ). | Nothing changes. |
 
 ## Relations with other tasks
 - DSA-42 (merged) holds the current component; this task adjusts it.

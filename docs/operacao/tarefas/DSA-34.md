@@ -22,20 +22,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The nph-button list approved on 2026-10-16 predates P86 and DSA-52, which on 2026-10-23 and 2026-10-27 rewrote the icon-only items of the frame and the sheet and added the actions column of a table. The sheet took the approved list with the later frame text in use_when item 7 and do_not_use_when item 2, and the actions column item as use_when item 8, all already translated (Q1, below). Confirm this list or give the one to keep. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
-      "id": "D-2",
-      "question": "Item 3 of the nph-label use_when, approved on 2026-10-16 from the frame, reads \"info=true to show the information icon after the text.\" In code, info is the text of the help, and the icon appears only with info-label too (P62.6, since 2026-10-06): following the item leaves the icon hidden (Copilot review of PR #138). The sheet keeps the approved text, because this task does not reword an item. Give the text to keep. It does not block the pull request: the API table of the same page explains info and info-label.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-34/review-and-merge-2026-10-28.md"
   ],
@@ -44,7 +31,8 @@
     "docs/decisoes-tecnicas.md#p63",
     "docs/operacao/tarefas/DSA-30.md, D1, answered by Indiane on 2026-10-15",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 and D2 of DSA-34",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane approved the merged lists of nph-button, nph-badge, nph-icon and nph-label (B2 closed)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane approved the merged lists of nph-button, nph-badge, nph-icon and nph-label (B2 closed)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-1 and D-2 in the chat, all as recommended, after market research with sources; D-2 changes the nph-label sheet in DSA-115"
   ],
   "external_origin": null,
   "git_review": {
@@ -53,7 +41,7 @@
     "pr": "138"
   },
   "context": null,
-  "updated_at": "2026-10-28"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -115,7 +103,7 @@ frame already has and the dictionaries already translate:
 - `use_when` gains item 8, "In the actions column of a table, even when the action leads to another screen, such as view details."
 - `do_not_use_when` item 2 becomes "Icon only on an action with consequences, such as delete or publish, outside the actions column of a table: write the text."
 
-Indiane confirms the result in D-1.
+Indiane confirmed the result in D-1 on 2026-11-23.
 
 ### nph-badge
 
@@ -166,6 +154,17 @@ Indiane confirms the result in D-1.
 
 Item 2 of `use_when` also covers the frame item "Explain the asterisk in a
 visible legend on the form", which leaves the dictionary.
+
+Item 3 of `use_when` changes by D-2, answered on 2026-11-23 (section "Decisions
+answered on 2026-11-23").
+
+## Decisions answered on 2026-11-23
+Indiane answered D-1 and D-2 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Confirmed: the nph-button list as the sheet has it today, with the later frame text in `use_when` item 7 and `do_not_use_when` item 2, and the actions column of a table as `use_when` item 8 (Q1). | Nothing changes. |
+| D-2 | Corrected: item 3 of the nph-label `use_when` becomes "info with info-label to show the information icon after the text: info is the help text and info-label its accessible name." Following the approved text leaves the icon hidden (P62.6; review of PR #138). | Changes in DSA-115: the sheet, the Metadata and the three dictionaries. |
 
 ## How it is proved
 **`review-and-merge`** passes when the sheets of `nph-badge`, `nph-button`, `nph-icon` and `nph-label` hold every item of their accepted frames; `node scripts/verificar-operacao.mjs --gerar-metadata` ran in the same commit and `V32` passes; the `useDontUse` block of each `Docs` page reads the Metadata; a test fails a page whose lists differ from the Metadata; `npm test`, `npm run typecheck`, `npm run test:i18n`, `npm run test:naming`, `npm run test:operacao`, `npm run build-storybook` and `git diff --check` exit 0; and the pull request is merged into `v/5.0.0`.

@@ -47,26 +47,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The evidence switches the footer by the width of the table's space: from 850 px tipo tabela, from 420 to 849 px itens por página and tipo intervalo, below 420 px only tipo intervalo. There is no breakpoint token for 850 or 420 px, and a literal width is forbidden in the component. The code takes the footer from a pagination-layout property the consumer sets — wide, middle (the default, the master's middle case) or narrow — and does not switch it by itself. The automatic switch waits for the breakpoint tokens. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
       "id": "D-2",
       "question": "The evidence says the sortable header carries an icon that shows the sort direction, without naming the glyphs. The code uses arrow-up-arrow-down for a column that sorts and is not sorted, arrow-up for ascending and arrow-up turned half a turn for descending, because arrow-down is not in the nph-icon core; nph-pagination turns its arrow the same way. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence does not say what a click on a sortable header does. The code sorts a column that was not sorted ascending, and a second click on the same column turns it descending and back; a click never returns the column to unsorted. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence names the header box Selecionar todas, without saying all of what. The code checks and unchecks the rows drawn on the current page; rows selected on other pages stay selected, and the header box is indeterminate when only part of the drawn rows is checked. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-29"
     },
@@ -89,7 +71,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-data-table: toolbar as nph-toolbar, footer by width with nph-pagination, focus ring inside the sortable header cell, unchecked box border on color/input-hover; Figma UX QA and textual audit approved, documentation accepted"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-data-table: toolbar as nph-toolbar, footer by width with nph-pagination, focus ring inside the sortable header cell, unchecked box border on color/input-hover; Figma UX QA and textual audit approved, documentation accepted",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-1, D-3 and D-4 in the chat, all as recommended, after market research with sources; D-3 changes the code in DSA-115"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -101,7 +84,7 @@
   },
   "git_review": { "branch": "feat/dsa-58-data-table", "commit": "0dc524b", "pr": 147 },
   "context": null,
-  "updated_at": "2026-10-29"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -117,6 +100,15 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The 13 `data-table/*` tokens came with this task and are on `v/5.0.0`; no core primitive was needed. The table itself builds on nph-table (DSA-49, DSA-56), and the pieces inside are done: nph-icon, nph-badge, nph-checkbox, nph-skeleton, nph-switch, nph-select, nph-empty, nph-dropdown-menu, nph-icon-button and nph-pagination. The search field, an nph-input, comes inside the nph-toolbar.
 
 The toolbar above the table and the bulk action bar are the nph-toolbar (DSA-55), which is `done` on `v/5.0.0` (PR #146). The hover of the ghost ⋮ in each row uses the secondary ghost hover of DSA-60, which is `done` (PR #143). The nph-chip (DSA-57), used by the applied filters, is done. B1 is closed: DSA-55 and DSA-60 are `done`, so every dependency is `done` and the task is `ready`.
+
+## Decisions answered on 2026-11-23
+Indiane answered D-1, D-3 and D-4 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Kept for v1: the product chooses the footer with `pagination-layout`; the footer does not switch by itself. There is no breakpoint token for 850 or 420 px, and a literal width is forbidden in the component; Carbon defines no responsive footer either (https://carbondesignsystem.com/components/data-table/usage/ ). | Nothing changes. |
+| D-3 | Changed: a click on a sortable header goes ascending, descending and back to unsorted. MUI and AG Grid cycle this way, and Carbon has the unsorted state (https://mui.com/x/react-data-grid/sorting/ , https://www.ag-grid.com/javascript-data-grid/row-sorting/ , https://carbondesignsystem.com/components/data-table/usage/ ). | Changes in DSA-115. |
+| D-4 | Confirmed: Selecionar todas checks and unchecks only the rows drawn on the current page; rows selected on other pages stay selected. MUI and AG Grid offer this mode, and checking rows the person does not see is a risk in a bulk action (https://mui.com/x/react-data-grid/row-selection/ , https://www.ag-grid.com/javascript-data-grid/row-selection-multi-row/ ). | Nothing changes. If a product asks for every row, a "select all" notice comes in a task of its own. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

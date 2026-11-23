@@ -31,27 +31,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D4",
-      "question": "The evidence says not to mix buttons with text and icon-only buttons in the same group, but it does not say what the component does when someone does. The code renders the group and warns in the console in development. Does Indiane confirm the warning, or want the group not to render? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-20"
-    },
-    {
-      "id": "D5",
-      "question": "The evidence does not ask for arrow keys inside the group and does not say whether the group is one Tab stop or one per button. The code keeps one Tab stop per button, with no arrow keys; a roving tabindex across groups would belong to a future toolbar. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-20"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-23/documentacao-figma-aceita-2026-10-08.md",
     "docs/operacao/evidencias/DSA-23/review-and-merge-2026-10-21.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D3 of the nph-toggle-group"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D3 of the nph-toggle-group",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D4 and D5 in the chat, all as recommended, after market research with sources; D5 changes the code in DSA-115"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -67,7 +55,7 @@
     "pr": "92"
   },
   "context": null,
-  "updated_at": "2026-10-21"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -100,13 +88,13 @@ is `done`, so B1 is closed and the task is `ready`.
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
-## Pending decisions
-The evidence gives the whole contract, so the code can start. Two points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule each.
+## Decisions answered on 2026-11-23
+Indiane answered D4 and D5 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, all as recommended, after market research with sources.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D4 | A Do not: do not mix buttons with text and icon only in the same group. | What the component does when someone mixes them. | Warns in the console in development and renders. If the answer is not to render, the group follows the invalid-input rule. |
-| D5 | Each button shows its own focus; the group does not receive focus. | Whether arrow keys move between the buttons, and whether the group is one Tab stop. | One Tab stop per button, no arrow keys. If the answer is a roving tabindex, the group takes it. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D4 | Accepted: when someone mixes buttons with text and icon-only buttons, the group warns in the console in development and renders. It keeps the Do not of the documentation without breaking the screen; no open market source treats the case. | Nothing changes. |
+| D5 | The group is one Tab stop, and the arrow keys move between its buttons (roving tabindex). Radix Toggle Group does so (https://www.radix-ui.com/primitives/docs/components/toggle-group ); one Tab stop per button differs from it. | Changes in DSA-115. |
 
 ## What this task does not do
 It does not create a token or change a token value.

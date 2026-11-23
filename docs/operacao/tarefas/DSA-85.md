@@ -42,12 +42,6 @@
       "question": "On the narrow width, with a step in error, nph-stepper gives nph-progress status error at the first step with an error, with step equal to that step, and a help text made of the error word, the label and the reason. The bar then shows done up to the step before the error, the error segment, and pending after it. When the error step is before the current one, the current step is drawn as pending and the bar reads 50% on four steps; when it is after the current one, the steps between are drawn as done. The text (Step N of M) and the label stay those of the current step, so the position of the bar and the text can differ. nph-progress was not changed: a bar that shows both the current step and the error would need a new property in it. Does Indiane confirm this reading of the answer of the previews, or ask for the new property?",
       "decider": "indiane",
       "opened_at": "2026-11-16"
-    },
-    {
-      "id": "D-2",
-      "question": "The rail button of a group that holds the current page shows the active look (background and solid icon) and carries no aria-current, because the group is a disclosure button and not a page; the current page inside its flyout panel carries aria-current page. Does Indiane confirm the active look with no aria-current on the group? Recommended: confirm. It does not block this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-16"
     }
   ],
   "evidence": [
@@ -56,12 +50,13 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane asked for one new task with the code changes instead of reopening the done ones (DSA-70)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-2 in the chat, as recommended, after market research with sources"
   ],
   "external_origin": null,
   "git_review": { "branch": "feat/dsa-85-respostas", "commit": "fbe57196cdaa9835820fa70dabf3224820abf7bf", "pr": "179" },
   "context": "docs/operacao/contextos/DSA-85.md",
-  "updated_at": "2026-11-17"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -82,6 +77,13 @@ Each change in the table below is in the code of its piece, with its tests, stor
 | nph-collapsible | DSA-78 D-2 | The preview type hides "Show more" when the text fits in the three lines and nothing is cut. |
 | nph-command, token build | DSA-80 D-1 | The panel stays centered until the token exists. The token is in Figma: `command/offset-top` → `core/layout-offset/top`, 16% of the window height. The build has no percentage dimension: make it take one, or say in this task which unit it takes. The build script is code, so this change is the code owner's; the two tokens stay with Claude. Then Claude brings the two tokens to the sources, and the panel opens at that distance from the top instead of centered. |
 | docs | All the answers of the previews | In `docs/decisoes-tecnicas.md`, the lines of P115 to P124 that still say a point waits for Indiane are updated for the points answered on the previews, including the ones where the code does not change (DSA-71 D-4, DSA-74 D-3 and D-5, DSA-75 D-2, DSA-77 D-4, DSA-80 D-3). DSA-74 D-1 keeps its wording. |
+
+## Decision answered on 2026-11-23
+Indiane answered D-2 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Confirmed: the rail button of a group that holds the current page shows the active look and carries no `aria-current`; the current page inside its flyout panel carries `aria-current="page"`. The group is a button that opens a list, and two current items would confuse a screen reader (https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current ). | Nothing changes. |
 
 ## How it is proved
 **`review-and-merge`** passes when each row of the table is in the code, with the tests and stories of each piece updated and its spec in `fichas/` saying the same; the proof commands in `docs/operacao/component-handoff.md` exit 0; and the work is merged into `v/5.0.0`.

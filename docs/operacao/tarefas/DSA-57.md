@@ -36,20 +36,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The evidence says the counter is nph-badge, type secondary and emphasis light, and it also gives the counter its own paint and space tokens (chip/counter-background, chip/counter-background-hover, chip/counter-background-disabled, chip/counter-foreground, chip/counter-padding-y and chip/counter-padding-x) that nph-badge does not paint: nph-badge has no color property and no ::part. The code draws the counter as its own pill with the chip/counter-* tokens and the text/label-sm role of the badge text, as nph-pagination did with its buttons (P99) and nph-sidebar-item with its counter (P98). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
       "id": "D-2",
       "question": "The evidence puts an nph-avatar before the text but does not give its size. The code uses the sm size of nph-avatar (avatar/size-sm), which fits the compact height. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence says a cut label shows the whole text in a tooltip on hover and on focus, but in the removable chip the body has no action and nph-tooltip draws only on an element that takes focus. The code makes the cut label itself focusable (tabindex 0), as the truncated cell of nph-table (P97), and points the tooltip at it; the focused label draws the focus ring around the whole chip. In the selectable chip the tooltip points at the chip button. A label that is not cut takes no focus and has no tooltip; a disabled chip has none. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-28"
     },
@@ -72,7 +60,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-chip visual acceptance, Figma UX QA and textual audit approved, documentation accepted; X ring in the status color; smaller counter; counter background on hover; border on every chip with a status border in the status colors; approved_order 560"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-chip visual acceptance, Figma UX QA and textual audit approved, documentation accepted; X ring in the status color; smaller counter; counter background on hover; border on every chip with a status border in the status colors; approved_order 560",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-1 and D-3 in the chat, all as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,7 +73,7 @@
   },
   "git_review": { "branch": "claude/dsa-57-nph-chip", "commit": "53b18ed3753b06474530eb6993413d0283a3c7d2", "pr": "134" },
   "context": null,
-  "updated_at": "2026-10-28"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -100,6 +89,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The 62 `chip/*` tokens came with this task and are on `v/5.0.0`, with the four core primitives they need. The pieces inside the chip are done: nph-icon (DSA-03), nph-badge (DSA-12), nph-avatar (DSA-24) and nph-tooltip (DSA-48), which shows the whole label when it is cut.
 
 The accepted documentation places the applied filters of nph-toolbar in a line below the bar, with "Limpar filtros" after the last chip. That closes the D-1 that DSA-55 had about where the chip goes in the bar; the nph-toolbar documentation was accepted again on 2026-10-28 with that strip, and DSA-55 now depends on this task. This task does not change DSA-55.
+
+## Decisions answered on 2026-11-23
+Indiane answered D-1 and D-3 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Accepted: the counter is a pill of the chip itself, painted by the `chip/counter-*` tokens with the `text/label-sm` role, not an nph-badge, as nph-pagination (P99) and nph-sidebar-item (P98). MUI also builds such an inner part on its own, as the item of its pagination (https://mui.com/material-ui/api/pagination-item/ ). | Nothing changes. |
+| D-3 | Accepted: in the removable chip, a cut label takes the focus (tabindex 0) and shows the whole text in the tooltip; a label that is not cut takes no focus. The APG asks the tooltip to open on keyboard focus too, not only on hover (https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/ ). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

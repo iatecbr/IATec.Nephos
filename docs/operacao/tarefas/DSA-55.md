@@ -51,30 +51,6 @@
       "question": "The evidence says that in the em massa bar the hover of the actions uses toolbar/bulk-action-background-hover, without saying which actions. The code points the hover of the secondary ghost actions, with text and icon only, at that token inside the bulk bar; the danger ghost action keeps its own destructive hover, which stays visible over the highlighted background. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-2",
-      "question": "The evidence sends the keyboard to the W3C ARIA Authoring Practices toolbar pattern, which leaves two choices open. The code wraps the arrow keys from the last action to the first and back, as nph-dropdown-menu does, and keeps the search field (nph-input) out of the arrow keys, as its own Tab stop before the actions, because the arrow keys edit its text. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence gives the bar the role toolbar but says the applied filters are not actions. The code gives the applied filters strip the role group, named by its label, with no arrow keys: the X of each chip and Limpar filtros are Tab stops of their own, which is what the focus rule after a removal assumes. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence asks for the removal of a chip by its X to be announced in a status region, and says nothing about Limpar filtros. The code also announces, in the same region, the text the consumer gives when Limpar filtros takes every filter away, and then sends the focus to the button that opens the filters. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-5",
-      "question": "The evidence says that on a narrow screen the text of the buttons goes away first and then the actions at the back go to the More menu. The code does not do this by itself in this version: the bar does not wrap, and the sheet tells the consumer to compose the narrow bar with icon-only buttons and the More menu. Whether the bar must collapse by itself is open. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
     }
   ],
   "evidence": [
@@ -86,7 +62,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-toolbar visual acceptance, Figma UX QA and textual audit approved, documentation accepted; keyboard rule moved from Figma to this task; nph-chip enters the toolbar as an applied filter; approved_order 540",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-toolbar documentation accepted again with the tipo filtros aplicados: the applied filters go in a strip below the page bar, option A of the preview, with one nph-chip per filter and Limpar filtros after the last one, shown from the first chip; after a chip is removed the focus goes to the next chip, else the previous, else the button that opens the filters; no new token",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-input documentation with the compact size accepted; its tokens and DSA-59 are on v/5.0.0, which closes B1",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-29.md, nph-togglebutton and nph-toggle-group documentation with the size and the new states accepted; their tokens and DSA-61 are on v/5.0.0, which closes B2"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-29.md, nph-togglebutton and nph-toggle-group documentation with the size and the new states accepted; their tokens and DSA-61 are on v/5.0.0, which closes B2",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-2 to D-5 in the chat, all as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -98,7 +75,7 @@
   },
   "git_review": { "branch": "feat/dsa-55-toolbar", "commit": "7655294", "pr": 146 },
   "context": null,
-  "updated_at": "2026-10-29"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -114,6 +91,16 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The applied filters decided on 2026-10-28 go in a strip below the page bar (tipo `filtros aplicados`, with one nph-chip per filter and "Limpar filtros" after the last one); that closes the earlier question about where the chip goes, and it makes nph-chip (DSA-57) a dependency. The 14 `toolbar/*` tokens came with this task and are on `v/5.0.0`; the strip needs no new token. Each one is an alias of a semantic token; no core primitive was added. Three pieces the bar holds changed in Figma on 2026-10-27. B1 is closed: the nph-input compact documentation was accepted on 2026-10-28, and its tokens and its task, DSA-59, are on `v/5.0.0`; DSA-59 is now a dependency. B3 is closed: the secondary ghost hover tokens of nph-button and nph-icon-button and their task, DSA-60, are on `v/5.0.0`; DSA-60 is now a dependency. B2 is closed: the nph-togglebutton and nph-toggle-group documentation with the size and the new states was accepted on 2026-10-29, and their tokens and their task, DSA-61, are on `v/5.0.0`; DSA-61 is now a dependency. DSA-52, the solid icon on hover, is `done`. nph-chip (DSA-57), used by the applied filters strip, and nph-input compact (DSA-59), used by the compact search, are `done`. B4 is closed: DSA-60 (the secondary ghost hover the actions of the bar use, PR #143) and DSA-61 (nph-togglebutton and nph-toggle-group at 28, 36 and 44 px with the new states, PR #145) are `done` on `v/5.0.0`, so every dependency is `done` and the task is `ready`.
+
+## Decisions answered on 2026-11-23
+Indiane answered D-2 to D-5 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Confirmed: the arrow keys wrap from the last action to the first and back, and the search field stays out of them, as its own Tab stop before the actions. The APG toolbar leaves wrapping open and takes out of the arrow keys a field that uses them to edit (https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/ ). | Nothing changes. |
+| D-3 | Confirmed: the applied filters strip is a group named by its label, with no arrow keys; the X of each chip and Limpar filtros are Tab stops of their own. An applied filter is not an action of the bar, and the APG keeps the toolbar for controls (https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/ ). | Nothing changes. |
+| D-4 | Confirmed: when Limpar filtros takes every filter away, the status region announces the text the product gives, and the focus goes to the button that opens the filters. WCAG 4.1.3 asks for the result of an action to be announced with no change of focus (https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html ). | Nothing changes. |
+| D-5 | Kept for v1: the product composes the narrow bar with icon-only buttons and the More menu; the bar does not collapse by itself. In Spectrum, collapsing into a More menu is an option turned on by hand, and the default wraps (https://react-spectrum.adobe.com/react-spectrum/ActionGroup.html ). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

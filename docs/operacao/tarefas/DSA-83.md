@@ -40,24 +40,6 @@
       "question": "A top item that is open and in keyboard focus at once is reached by the arrows, with a panel open (the focus stays on the top item, APG), and Figma draws `hover-aberto` and `foco` apart. The code composes the two accepted looks: the background and the label of the open item, with the focus border and the halo. If the combination needs its own look, she decides. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-16"
-    },
-    {
-      "id": "D-2",
-      "question": "The accepted contract says Enter activates the item and closes the panel, also on a checkbox and a radio, and Space on those checks without closing; it says nothing about the pointer. The code closes on a click on a common item and on a single choice and keeps the panel open on a multiple choice, as nph-dropdown-menu and nph-context-menu do. If the click should follow the keys, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-16"
-    },
-    {
-      "id": "D-3",
-      "question": "The contract says that by click the panel opens with no item highlighted. The code opens it with the first item focused and the focus ring not shown, as nph-dropdown-menu and nph-context-menu do (P92, P113), so the arrows go on from the first item. If the panel should open with no focused item, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-16"
-    },
-    {
-      "id": "D-4",
-      "question": "The contract calls the panel an instance of nph-dropdown-menu. In code the panel is drawn by the nph-menubar itself, with the same dropdown tokens and the same look, because the unmodified nph-dropdown-menu cannot open a second panel beside an item, closes when the focus or the pointer goes to it, and has other differences from the keyboard contract (P126, which follows P113 for the nph-context-menu). If the panel must be a real instance of the nph-dropdown-menu, that menu changes first and it is her call. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-16"
     }
   ],
   "evidence": [
@@ -67,7 +49,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-14.md, nph-menubar: post-goal round with the corrections of the design owner (top item open and in hover on the primary palette; the panel is the approved nph-dropdown-menu)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, nph-menubar: green light (visual acceptance), documentation accepted, and the 8 approval items answered as recommended: top item hover pair, focus/border on the nph-dropdown-menu item, solid submenu arrow in focus in Figma, dropdown/submenu-offset, narrow screen button, 4 px from the window edge in code, and the design rule for bar triggers"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, nph-menubar: green light (visual acceptance), documentation accepted, and the 8 approval items answered as recommended: top item hover pair, focus/border on the nph-dropdown-menu item, solid submenu arrow in focus in Figma, dropdown/submenu-offset, narrow screen button, 4 px from the window edge in code, and the design rule for bar triggers",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-2 to D-4 in the chat, all as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -79,7 +62,7 @@
   },
   "git_review": { "branch": "feat/dsa-83-menubar", "commit": "bc55cec201975a1891bd1b7e51d96ba60eb60db8", "pr": 178 },
   "context": null,
-  "updated_at": "2026-11-17"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -114,6 +97,15 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 8 `menubar/*` tokens and `dropdown/submenu-offset` came with this task and are on `v/5.0.0`: 7 aliases of existing semantics, and `menubar/panel-offset` and `dropdown/submenu-offset` straight to `core/space/100` by decision (no semantic names the distance to a floating layer; `space/inline-tight`, also 4, is the space inside a unit), as `navigation-menu/panel-offset` and `popover/offset`. No new value entered the core. Every piece it uses is done: `nph-icon` (DSA-03), `nph-button` (DSA-13), `nph-dropdown-menu` (DSA-45), `nph-context-menu` (DSA-69).
+
+## Decisions answered on 2026-11-23
+Indiane answered D-2 to D-4 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Confirmed: a click closes the panel on a common item and on a single choice and keeps it open on a multiple choice, as nph-dropdown-menu and nph-context-menu do, so the three menus behave the same. The APG speaks only of keys (https://www.w3.org/WAI/ARIA/apg/patterns/menubar/ ). | Nothing changes. |
+| D-3 | Confirmed: by click, the panel opens with the first item focused and the focus ring not shown (P92, P113). The APG and Radix put the focus on the first item when the menu opens (https://www.w3.org/WAI/ARIA/apg/patterns/menubar/ , https://www.radix-ui.com/primitives/docs/components/menubar ). | Nothing changes. |
+| D-4 | Accepted: the nph-menubar draws its own panel, with the same dropdown tokens and look (P126). Radix also builds its menubar from parts of its own, without reusing its dropdown menu (https://www.radix-ui.com/primitives/docs/components/menubar ). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, with the focus border of the `nph-dropdown-menu` item and the submenu gap of the `nph-context-menu`.

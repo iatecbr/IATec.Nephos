@@ -29,20 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "The evidence lists three demonstrations of what not to do: icon only on an action with a consequence (danger), an icon-only button without a tooltip (which the code does not let exist) and two buttons told apart only by color (info and warn). Do they go on the Docs page as negative examples, or stay only in the spec? Until the answer, they stay only in the spec. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    },
-    {
-      "id": "D2",
-      "question": "With keyboard focus on an icon-only button the balloon opens at once (DSA-48, rule 1), so inside a dialog the first Esc closes the balloon and not the dialog (P77 item 4); the second Esc closes the dialog. The code keeps it and records it as a known limit of P86. Does Indiane accept it? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-43/documentacao-figma-aceita-2026-10-20.md",
     "docs/operacao/evidencias/DSA-43/review-and-merge-2026-10-23.md"
@@ -51,7 +38,8 @@
     "docs/decisoes-tecnicas.md#p86",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane wants square and circular shapes, disabled follows the Nephos opacity, outline stays, and every icon-only button carries a tooltip; visual, QA and documentation accepted",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, icon only is allowed in the actions column of a table; the Figma set is named nph-icon-button; textual audit approved"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, icon only is allowed in the actions column of a table; the Figma set is named nph-icon-button; textual audit approved",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D1 and D2 in the chat, all as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -67,7 +55,7 @@
     "pr": "103"
   },
   "context": null,
-  "updated_at": "2026-10-23"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -113,6 +101,14 @@ element. Do not build hover or focus opening inside the
 `nph-button`; use the contract DSA-42 delivers, where it is defined how an
 element attaches the balloon in code. The `review-and-merge` gate of this task
 passes only with DSA-42 in `done`.
+
+## Decisions answered on 2026-11-23
+Indiane answered D1 and D2 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Kept only in the spec in v1: the three "do not" examples do not go on the Docs page. One of them, an icon-only button without a tooltip, cannot exist in the code, so showing it would need a fake example. | Nothing changes. |
+| D2 | Accepted: inside a dialog, the first Esc closes the balloon of the icon-only button in focus and the second closes the dialog. The APG tooltip pattern has Esc close the tooltip first (https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/ ). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

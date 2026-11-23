@@ -49,12 +49,6 @@
       "question": "On the last batch of Show more the button goes away and the focus moves to the first new item, as the accepted behavior asks. The item takes no focus in the contract and no focus token exists for it, so the code draws no ring on that list item (tabindex -1 only while it holds the focus). If a visible mark is wanted there, she decides which one. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-3",
-      "question": "The contract denies aria-current on the history type but does not say what an item with the current status looks like there. The code draws the current look (strong title and center dot) without aria-current. If the history should not take the current status, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
     }
   ],
   "evidence": [
@@ -64,7 +58,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-14.md and 2026-11-16.md, nph-timeline: adjustment rounds with the corrections of the design owner (brand palette on the details: history dot, connector line and neutral circle; lighter pending outline)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md, nph-timeline: green light (visual acceptance) and a test round with the 16 approval items taken as recommended: documentation accepted, 27 timeline tokens with four straight to the core by decision, connector line on color/primary-border, pending outline on color/input, tonal marker, descriptions with additions only, connector line on a whole pixel, history in columns in the nph-table, rich content in the nph-card base or section, default behavior"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md, nph-timeline: green light (visual acceptance) and a test round with the 16 approval items taken as recommended: documentation accepted, 27 timeline tokens with four straight to the core by decision, connector line on color/primary-border, pending outline on color/input, tonal marker, descriptions with additions only, connector line on a whole pixel, history in columns in the nph-table, rich content in the nph-card base or section, default behavior",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-3 in the chat, as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -80,7 +75,7 @@
     "pr": 185
   },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -119,6 +114,13 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 27 `timeline/*` tokens came with this task and are on `v/5.0.0`: 23 aliases of semantics and 4 straight to the core by decision (`timeline/marker-size` `core/icon-size/300`, `timeline/dot-size` `core/space/200`, `timeline/connector-gap` `core/space/100`, `timeline/content-gap` `core/space/300`: no semantic of the same value has the function; the evidence says why for each). No new semantic or primitive. Every piece it uses is done: `nph-icon` (DSA-03), `nph-separator` (DSA-10), `nph-button` (DSA-13, ghost hover DSA-60), `nph-avatar` (DSA-24), `nph-skeleton` (DSA-26), `nph-empty` (DSA-40).
+
+## Decision answered on 2026-11-23
+Indiane answered D-3 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-3 | Confirmed: in the history type, an item with the current status takes the current look (strong title and center dot) with no `aria-current`. `aria-current` marks where the person is in a navigation or a process, and a history is neither (https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current ). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

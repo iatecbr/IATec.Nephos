@@ -53,12 +53,6 @@
       "question": "The evidence makes more actions an nph-icon-button ghost and compact, but does not name its severity. The code keeps the default of nph-button, primary. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence says a subitem with options=yes shows the arrow to the right and leads to a list of options, but not what opens that list. The code keeps it a link, like the subitem without options, and the arrow is visual only. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
     }
   ],
   "evidence": [
@@ -68,7 +62,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, nph-sidebar-item visual acceptance and sidebar tokens delivered in Figma",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-26.md, textual audit approved after 5 rounds; visual acceptance confirmed; approved_order 520"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-26.md, textual audit approved after 5 rounds; visual acceptance confirmed; approved_order 520",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-4 in the chat, as recommended, after market research with sources; the code already does it (P116)"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -80,7 +75,7 @@
   },
   "git_review": { "branch": "claude/dsa-53-nph-sidebar-item", "commit": "41cdc12ab8e877352cd08d96dab47b08058a59a2", "pr": "128" },
   "context": null,
-  "updated_at": "2026-10-26"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -94,6 +89,13 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 Every piece it composes is done, and every token it uses is on `v/5.0.0`: the `sidebar/*` tokens of the pieces and the focus radii `focus/border-radius-sidebar-item`, `focus/radius-sidebar-item`, `focus/border-radius-container` and `focus/radius-container` came with this task, each one an alias of a semantic token or, where there is none with the same function, of a core primitive. The components depend on nph-icon (DSA-03), nph-button (DSA-13), nph-icon-button (DSA-43), nph-dropdown-menu (DSA-47) and nph-tooltip (DSA-48), all delivered.
+
+## Decision answered on 2026-11-23
+Indiane answered D-4 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-4 | Confirmed: a subitem with options is a button that opens and closes its list, with `aria-expanded`, as the disclosure navigation pattern of the APG (https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/ ). The code already does it since P116: the `nph-sidebar-subitem` with `options` is a native button with `aria-expanded`, `expanded` and `nph-toggle`, with no `href` (`fichas/nph-sidebar-subitem.md`). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

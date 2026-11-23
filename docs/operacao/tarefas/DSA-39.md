@@ -37,12 +37,6 @@
       "opened_at": "2026-10-23"
     },
     {
-      "id": "D2",
-      "question": "In `tipo=intervalo`, the evidence does not say which thumb minus and plus move. The code moves the thumb used or focused last, the start one by default. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    },
-    {
       "id": "D3",
       "question": "The evidence gives the default width (`layout/input-width`) but not the length of the vertical track. The code uses `layout/input-width` as its height. It does not block the pull request.",
       "decider": "indiane",
@@ -68,7 +62,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, slider modernization accepted, Figma UX QA approved, documentation accepted and textual audit approved",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane sends the nph-slider to code"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane sends the nph-slider to code",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D2 in the chat, as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,7 +79,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/112"
   },
   "context": null,
-  "updated_at": "2026-10-24"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -107,20 +102,27 @@ PR #99, DSA-28 after the merge of PR #105), so B1 is closed and the task is
 `ready`. Value, limits, step, keyboard, form value and events are technical
 proposals for the PR.
 
+## Decision answered on 2026-11-23
+Indiane answered D2 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D2 | Accepted: in `tipo=intervalo`, minus and plus move the thumb used or focused last, the start one by default. In the APG each thumb of a range slider has its own focus; moving the last one used respects it (https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/ ). | Nothing changes. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Pending decisions
-The evidence gives the contract, so the code can start. Five points remain for
-Indiane; the code follows the stated default meanwhile, and the answer only
+The evidence gives the contract, so the code could start. D2 was answered on
+2026-11-23 (section "Decision answered on 2026-11-23"); D1 and D3 to D5 remain for
+Indiane. The code follows the stated default meanwhile, and the answer only
 adjusts one rule each. They are recorded in P94.
 
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
 |---|---|---|---|
 | D1 | The parts beside the track sit at `space/inline` from it. | Their order when several are on. | `[start field] [minus] [minimum] track [maximum] [plus] [end field]`. |
-| D2 | Minus and plus move one step. | Which thumb they move in `tipo=intervalo`. | The thumb used last, the start one by default. |
 | D3 | The default width is `layout/input-width`. | The length of the vertical track. | `layout/input-width` as its height. |
 | D4 | `marcas` shows the steps under the track. | One mark per step, or a subset. | One label per step. |
 | D5 | `campo` is an `nph-input` at `space/inline` from the track. | Its width; there is no token for it. | The field shares the line with the track: one part for the field, three for the track. |

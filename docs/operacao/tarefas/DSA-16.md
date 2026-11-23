@@ -31,24 +31,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D1",
-      "question": "The required Search example has no visible label. Is `label`, an accessible name in text that becomes the `aria-label` of the inner field, acceptable as the name of an nph-input outside nph-field? The code takes it and warns in development when the field has no name at all. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D2",
-      "question": "The evidence draws the `foco-limpar` state, so the clear button takes focus: one more Tab stop in a field with a value. Does Indiane confirm? The code keeps the clear button in the Tab order. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D3",
-      "question": "In `large` (44 px), does the clear target stay 24 by 24? The evidence says the measures are the same in both sizes except the height, and the code keeps 24 by 24. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
       "id": "D4",
       "question": "The evidence says nothing about motion. Does the color change of the border on hover and on focus use the pair `motion/hover-duration` and `motion/hover-easing`, like the other form controls? The code has no transition. It does not block the pull request.",
       "decider": "indiane",
@@ -68,7 +50,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D7 of the nph-input",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, DSA-33 D2: the nph-icon example inside nph-input comes with this task"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, DSA-33 D2: the nph-icon example inside nph-input comes with this task",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D1 to D3 (the points opened on 2026-10-22, not the D1 to D3 answered on 2026-10-16) in the chat, all as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,7 +67,7 @@
     "pr": "99"
   },
   "context": null,
-  "updated_at": "2026-10-23"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -122,19 +105,25 @@ section of `nph-icon.docs.stories.ts`, from the frame `1130:956`: an `nph-input`
 "Search". Caption: "magnifying-glass in a search field, inside the control, at
 `icon/size-sm`." The text goes into the three dictionaries.
 
+## Decisions answered on 2026-11-23
+Indiane answered D1 to D3 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, all as recommended, after market research with sources. These are the D1 to D3 opened on 2026-10-22 (section "Pending decisions"), not the D1 to D3 of the table "Decisions answered" above.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Accepted: outside `nph-field`, `label` is the accessible name and becomes the `aria-label` of the inner field, with a warning in development when the field has no name at all. The W3C accepts `aria-label` when there is no visible label, as in a search field (https://www.w3.org/WAI/tutorials/forms/labels/ ). | Nothing changes. |
+| D2 | Accepted: the clear button is one more Tab stop in a field with a value. Carbon does the same: the clear button of its search is the next Tab stop (https://carbondesignsystem.com/components/search/accessibility/ ). | Nothing changes. |
+| D3 | Accepted: the clear target stays 24 by 24 in both sizes, which meets the minimum of WCAG 2.2, 2.5.8 (https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html ). | Nothing changes. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Pending decisions
-The evidence gives the whole contract, so the code can start. Five points remain for Indiane; the code follows the stated default meanwhile, and none blocks the pull request.
+The evidence gives the whole contract, so the code could start. D1 to D3 were answered on 2026-11-23 (section "Decisions answered on 2026-11-23"); D4 and D5 remain for Indiane. The code follows the stated default meanwhile, and none blocks the pull request.
 
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
 |---|---|---|---|
-| D1 | The name comes from the `nph-field` label; the placeholder is not a label. | The name of the Search example, which has no visible label. | `label` becomes the `aria-label` of the inner field; with no name at all, a warning in development. |
-| D2 | The `foco-limpar` state: the clear button takes focus. | Whether one more Tab stop per field with a value is wanted. | The clear button stays in the Tab order. |
-| D3 | The measures are the same in both sizes, except the height. | Whether the clear target grows in `large`. | 24 by 24 in both sizes. |
 | D4 | Nothing about motion. | Whether hover and focus animate the border color. | No transition. |
 | D5 | Seven states, none read-only. | Whether `readonly` enters v1. | Out of v1. |
 

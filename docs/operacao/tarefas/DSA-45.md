@@ -29,14 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-3",
-      "question": "On item hover, the evidence asks the nph-checkbox box and the nph-switch track to take their own hover (unchecked: `color/input-hover`, for 3:1 on `color/primary-surface`). Both pieces hover only through `:hover` inside their own shadow root and have no way to force it. The code ships without the forced hover, as a known limit, with a follow-up task for an API in the two pieces. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-24"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-45/documentacao-figma-aceita-2026-10-21.md",
     "docs/operacao/evidencias/DSA-45/review-and-merge-2026-10-26.md"
@@ -46,7 +39,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, nph-dropdown-menu modernized: item hover in color/primary-surface, focus border and halo, color/dropdown-border only for the dropdown",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dropdown-menu visual acceptance, tag, switch and profile header, Figma UX QA approved, documentation accepted, textual audit approved, right-from-bracket icon and the 4 tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, solid icon in the active state: in the item hover, type default, start icon and submenu arrow turn solid in dropdown/item-hover-icon-foreground",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-3 in the chat, as recommended, after market research with sources; it changes the code in DSA-115"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -62,7 +56,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/118"
   },
   "context": null,
-  "updated_at": "2026-11-09"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -101,7 +95,7 @@ catalog, light and solid. Add it to
 else the name goes.
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2, D-4, D-5 and D-6 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 stays open: it is a technical choice of the code.
+Indiane answered D-1, D-2, D-4, D-5 and D-6 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 was answered on 2026-11-23 (section "Decision answered on 2026-11-23").
 
 | ID | Answer | What the code does |
 |---|---|---|
@@ -153,6 +147,13 @@ Inside the item, the whole row is the target, above 24 by 24 in every size.
 comes from the item label, as the evidence of the `figma-docs-accepted` gate
 already says (section "Accessibility", row "Accessible name").
 
+## Decision answered on 2026-11-23
+Indiane answered D-3 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-3 | Open the follow-up task: on item hover, the box of nph-checkbox and the track of nph-switch take their own hover (unchecked: `color/input-hover`, for 3:1 on `color/primary-surface`). Without it the border loses contrast on the item background, and WCAG 1.4.11 asks for 3:1 on the parts that show the state of a control (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | Changes in DSA-115. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — menu, item, parts,
 the icon, CSS, tests, stories and spec pass the proof commands in
@@ -161,14 +162,14 @@ the icon, CSS, tests, stories and spec pass the proof commands in
 ## Pending decisions
 The evidence gave the contract the code was built on. This table keeps the
 defaults given at handoff. Indiane answered D-1, D-2, D-4, D-5 and D-6 on
-2026-11-09 (section "Decisions answered on 2026-11-09 (lot 2)"); only D-3 stays
-open, and the code follows its default meanwhile.
+2026-11-09 (section "Decisions answered on 2026-11-09 (lot 2)") and D-3 on
+2026-11-23 (section "Decision answered on 2026-11-23").
 
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
 |---|---|---|---|
 | D-1 | The menu opens attached to a button. | The distance between the trigger and the menu. | `space/inline-tight`, as the list of `nph-select`. |
 | D-2 | Opening and closing belong to code. | The motion. | Fade and a slide of `space/inline-tight` on `motion/enter-*` and `motion/exit-*`, as the list of `nph-select`. |
-| D-3 | On item hover, the box and the track take their own hover. | A way to force the hover of `nph-checkbox` and `nph-switch` from outside. | Ships without it, as a known limit; a follow-up task gives the two pieces an API. |
+| D-3 | On item hover, the box and the track take their own hover. | A way to force the hover of `nph-checkbox` and `nph-switch` from outside. | Superseded by the answer of 2026-11-23: the follow-up is DSA-115, which gives the two pieces a way to show the hover from outside. |
 | D-4 | The switch sits in a 20 px slot. | The switch track is 24 high and has no size. | Superseded by the answer of 2026-11-09: the slot uses the small nph-switch (section "D-4: the small nph-switch"). |
 | D-5 | Single choice highlights text and icon in `color/primary-hover`. | Whether it is every item of the group or the checked one. | The checked item only, with the check. DSA-36 D2 moves its text to `color/primary-text` (changes in DSA-70). |
 | D-6 | Hover paints the item. | Whether the pointer moves the keyboard focus. | Superseded by the answer of 2026-11-09: the pointer over an item moves the keyboard focus to it (changes in DSA-70). |

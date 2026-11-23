@@ -33,24 +33,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-15",
-      "question": "A period that is not picked day by day: a typed period and a shortcut that hold an unavailable day. Until she answers, the code keeps the rule of today for both: a typed period commits across an unavailable day (the unavailable day itself is still refused, D-4) and a shortcut fills its period, so only a period picked day by day in the panel stops before an unavailable day. If they should follow D-10, a shortcut disabled and a typed period an error while allowsNonContiguousRanges is off, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-19"
-    },
-    {
-      "id": "D-16",
-      "question": "The month and year views in a range switch both columns together (answered), but the answer does not say which year or block the first column shows, where the arrows go, or how the keys cross. Until she answers, the first column is the year of the first month shown (or the block of twelve years that starts at the decade of that year), the arrows are only on the outer edges and move one year or twelve years per click, and the 24 cells are one sequence for the arrow keys and one Tab stop. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-19"
-    },
-    {
-      "id": "D-17",
-      "question": "This month is the one shortcut the max cuts (answered). With a min inside the month the answer says nothing. Until she answers, This month is disabled in that case, by the general rule of D-6 (any day outside the min disables a shortcut). If the min should cut it too, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-19"
-    },
-    {
       "id": "D-18",
       "question": "How a day that cannot be the End looks while only the Start is chosen (D-10, answered without a drawing). Until she answers, it is disabled like a day outside the min or the max: faded under state/disabled-opacity, skipped by the focus. If it should look unavailable, or differently, she decides. It does not block the pull request.",
       "decider": "indiane",
@@ -63,7 +45,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-date-picker: the design owner answered D-1 to D-11 of DSA-90 and the header of the large grid as recommended, after previews in light and dark; Figma changed the same day"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-date-picker: the design owner answered D-1 to D-11 of DSA-90 and the header of the large grid as recommended, after previews in light and dark; Figma changed the same day",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-15 to D-17 in the chat, all as recommended, after market research with sources; D-15 changes the code in DSA-115"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -75,7 +58,7 @@
   },
   "git_review": { "branch": "feat/dsa-96-date-picker", "commit": "475790c", "pr": 188 },
   "context": null,
-  "updated_at": "2026-11-19"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -112,7 +95,7 @@ The evidence of the `design-decision` gate has the six answers, what the code do
    - While only the Start is chosen, a day past the first unavailable day after it, or before the first one before it, cannot be the End.
    - The product can allow a period across an unavailable day with a property, off by default, as `allowsNonContiguousRanges` of React Stately; the spec names it.
    - The rest of the pick cycle of DSA-90 stays.
-   - A typed period that holds an unavailable day has no answer yet: it goes to the design owner in the next batch. Until then, the code keeps today's rule for typed dates.
+   - A typed period that holds an unavailable day, and a shortcut that holds one, were answered on 2026-11-23 (D-15); the change is in DSA-115.
 6. **Header of the large grid.**
    - Today the header is `control/height-default` plus `space/inline-tight` (40) on both sizes, and the large arrows (44) pass it.
    - New: 40 on default, as today, and `control/height-large` (44) on large (Figma `3093:2170`, `3093:2190`, `3093:2210`).
@@ -125,13 +108,22 @@ Every new measure has a token already: the large header and the large cell are `
 ## Order with other tasks
 After DSA-90. It does not touch the nph-scheduler, which takes the grid `nph-calendar` only in its own adjustment task (DSA-77 D-1); the six rows already drawn in the scheduler page of Figma come from the owner grid.
 
+## Decisions answered on 2026-11-23
+Indiane answered D-15 to D-17 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-15 | Follow D-10: while a period may not cross an unavailable day (the property of D-10 off), a shortcut whose period holds one is disabled, and a typed period that holds one shows an error, as D-4. React Spectrum asks for an error on a range across an unavailable day (https://react-spectrum.adobe.com/react-spectrum/DateRangePicker.html ); MUI disables a shortcut that fails validation (https://mui.com/x/react-date-pickers/shortcuts/ ). | Changes in DSA-115. |
+| D-16 | Confirmed: in the range, the first column is the year of the first month shown (or the block of twelve years that starts at the decade of that year); the arrows are only on the outer edges and move one year or twelve years per click; the cells of both columns are one sequence for the arrow keys and one Tab stop. The APG date picker has one Tab stop in the grid and the arrow keys to move in it (https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/ ). | Nothing changes. |
+| D-17 | Confirmed: with a min inside the month, This month is disabled, by the general rule of D-6. In MUI a shortcut that fails validation is disabled by default (https://mui.com/x/react-date-pickers/shortcuts/ ). | Nothing changes. |
+
 ## How it is proved
 - `npm run test:operacao`, `npm run test:naming`, `npm run test:tokens`.
 - The unit tests of `nph-calendar` and `nph-date-picker` cover the new rules: views at the day height, one arrow per edge in the range, shortcuts without today and disabled outside the limit, the year title icon, both columns switching in the range, the unavailable day inside a period, the large header height.
 - The stories show the large views, the range in the month view and a period stopped by an unavailable day.
 
 ## What this task does not do
-It does not create a token or change a token value. It does not change Figma. It does not answer D-12 to D-14 of DSA-90, which stay open with the design owner, nor a typed period that holds an unavailable day, which goes to her next batch.
+It does not create a token or change a token value. It does not change Figma. It does not answer D-12 and D-14 of DSA-90, which stay open with the design owner (D-13 was answered on 2026-11-23, with no change to the code). It does not change a typed period or a shortcut that holds an unavailable day: that is DSA-115 (D-15).
 
 ## Sources
 https://raw.githubusercontent.com/react-component/picker/master/src/PickerPanel/DatePanel/index.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/DateCalendar/DayCalendar.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/PickerControl/PickerControl.module.css ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/internals/constants/dimensions.ts ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers-pro/src/PickersRangeCalendarHeader/PickersRangeCalendarHeader.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/internals/components/PickersArrowSwitcher/PickersArrowSwitcher.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/MonthLevelGroup/MonthLevelGroup.tsx ; https://github.com/Shopify/polaris/blob/main/polaris.shopify.com/content/patterns/date-picking/variants/date-range.mdx ; https://developers.google.com/google-ads/api/docs/query/date-ranges ; https://mui.com/x/react-date-pickers/shortcuts/ ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Calendar/Calendar.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/PickersCalendarHeader/PickersCalendarHeader.tsx ; https://raw.githubusercontent.com/adobe/react-spectrum/main/packages/react-stately/src/calendar/useRangeCalendarState.ts ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/CalendarHeader/CalendarHeader.module.css ; https://raw.githubusercontent.com/carbon-design-system/carbon/main/packages/styles/scss/components/date-picker/_flatpickr.scss ; https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html

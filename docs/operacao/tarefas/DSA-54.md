@@ -38,12 +38,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The evidence says the numbers and the arrows are nph-button and nph-icon-button, type secondary and emphasis outline, and it also gives them their own paint tokens (pagination/arrow-background on color/background, pagination/arrow-border on color/input, pagination/item-background-hover on color/accent, pagination/text-foreground on color/foreground) that no severity and emphasis of nph-button paints: its secondary outline is color/muted with a secondary-foreground border, and nph-button has no color property. The two cannot both be followed. The code draws its own native buttons with the pagination tokens, with the focus of the secondary nph-button and the tooltip of the icon-only button, so that every pagination token is consumed. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
       "id": "D-2",
       "question": "The evidence gives the current page text/label-md-strong, but no text role for the other numbers, the position text and the labels of items per page and go to page. The code uses text/label-md, the role of the nph-button text. It does not block the pull request.",
       "decider": "indiane",
@@ -75,7 +69,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-pagination v3 approved, Figma UX QA and textual audit approved, documentation accepted; approved_order 530",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, decision 9 (closes D-1): the first and last arrows use arrow-left-to-line from Font Awesome Pro 6, an arrow with a bar; the last arrow is the same icon rotated"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, decision 9 (closes D-1): the first and last arrows use arrow-left-to-line from Font Awesome Pro 6, an arrow with a bar; the last arrow is the same icon rotated",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-1 in the chat, as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -87,7 +82,7 @@
   },
   "git_review": { "branch": "claude/dsa-54-nph-pagination-4a7569", "commit": "41b9cec6ec691f53a1d263e6117345dbdf78a182", "pr": "131" },
   "context": null,
-  "updated_at": "2026-10-28"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -101,6 +96,13 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 Every piece it composes is done, and every token it uses is on `v/5.0.0`: the 19 `pagination/*` tokens, the primitives `core/space/1000` and `core/layout-width/page-size-select`, and the text role `text/label-md-strong` came with this task. Each `pagination/*` token is an alias of a semantic token or, where there is none with the same function, of a core primitive. The component depends on nph-icon (DSA-03), nph-button (DSA-13), nph-input (DSA-16), nph-select (DSA-29), nph-icon-button (DSA-43) and nph-tooltip (DSA-48), all delivered. nph-icon gains one Font Awesome icon in this task, `arrow-left-to-line` (light and solid); the evidence names its packages, under "First and last arrow icon".
+
+## Decision answered on 2026-11-23
+Indiane answered D-1 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Accepted: the numbers and the arrows are native buttons of the pagination itself, painted by the `pagination/*` tokens, with the focus of the secondary nph-button and the tooltip of the icon-only button (P99). MUI builds its pagination from an item of its own, not from its Button (https://mui.com/material-ui/api/pagination-item/ ). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

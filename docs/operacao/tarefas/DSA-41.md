@@ -35,24 +35,6 @@
       "question": "The evidence lists the hover state of the cell and the focus halo, and says the disabled state applies opacity, but names no token for the hover border, the halo width or the opacity, and does not say which of disabled and error wins. The code follows the nph-input (DSA-16): hover border color/input-hover on every cell while the pointer is over the field, halo width focus/ring-width, opacity state/disabled-opacity, and disabled wins over error. Does Indiane confirm? It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D2",
-      "question": "The evidence says the field accepts letters and numbers as behavior, not as a property, so a phone shows the text keyboard and not the numeric one. The code always accepts letters and digits with inputmode text. Does Indiane want a way to restrict the field to digits, with the numeric keyboard? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D3",
-      "question": "In Figma, the property that hides the character with a dot belongs to the cell, not to the set, and the cells are not public in code. The code puts it on the host as masked, applied to every cell, so a code typed in a public place can be hidden. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D4",
-      "question": "The evidence asks for the resend action as a ghost nph-button with the label in color/link and underlined, but the nph-button has no color property and no part, and a link-looking button is out of its scope (P68). This delivery does not show the resend action. Should an nph-button task create that look, after which the nph-input-otp page gets the countdown examples? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
     }
   ],
   "evidence": [
@@ -62,7 +44,8 @@
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p85",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, nph-input-otp visual acceptance, Figma UX QA approved, documentation accepted, textual audit approved and the token color/link"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, nph-input-otp visual acceptance, Figma UX QA approved, documentation accepted, textual audit approved and the token color/link",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D2 to D4 in the chat, all as recommended, after market research with sources; D2 and D4 change the code in DSA-115"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -78,7 +61,7 @@
     "pr": "110"
   },
   "context": null,
-  "updated_at": "2026-10-24"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -98,6 +81,15 @@ There is no need to open Figma.
 It depends on no other task to be built. Every token it uses is on `v/5.0.0`,
 `color/link` included: the new token was taken to `semantic.tokens.json` and to
 `design.md` together with this task.
+
+## Decisions answered on 2026-11-23
+Indiane answered D2 to D4 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D2 | Yes: a mode that takes digits only, with `inputmode="numeric"`, so a phone shows the numeric keyboard. GOV.UK uses `inputmode="numeric"` for a security code (https://design-system.service.gov.uk/patterns/confirm-a-phone-number/ ), and shadcn has a digits-only mode for codes (https://ui.shadcn.com/docs/components/input-otp ). | Changes in DSA-115. |
+| D3 | Accepted: `masked` on the host hides every cell, without changing the value. Ant Design does the same with `mask` on the whole Input.OTP (https://ant.design/components/input ). | Nothing changes. |
+| D4 | No new look: the resend action is a common ghost `nph-button`, with no link color and no underline. Resend is an action on the same screen, so it is a button; GOV.UK uses a link because it leads to another page (https://design-system.service.gov.uk/patterns/confirm-a-phone-number/ ). | No nph-button task. The resend examples come to the Docs page with the common ghost button, in DSA-115. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

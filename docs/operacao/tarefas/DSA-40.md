@@ -31,12 +31,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D1",
-      "question": "The two illustration files are 2048 px wide (about 385 KB each) for a drawing of 120 × 87, and the piece downloads both, because the scheme switches them by opacity. Can the illustrations be exported at 2× (240 × 174) or 3× (360 × 261)? The code uses the current files; a new file does not change the code. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
       "id": "D2",
       "question": "The light illustration is 2048 × 1487 and fits the 120 × 87 box; the dark one is 2048 × 1538, another proportion. In Figma, is the dark one cut (fill) or fitted (fit) in the box, or should it be exported again with the same frame as the light one? The code fits it whole, with object-fit: contain, so it is about 116 px wide. It does not block the pull request.",
       "decider": "indiane",
@@ -47,12 +41,6 @@
       "question": "The evidence gives the box the width layout/input-width. In a narrower container, does the box shrink to it, or keep its width? The code shrinks it (max-inline-size: 100%), so the text wraps instead of overflowing. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D4",
-      "question": "Follows D1. An Angular application published in a subdirectory, such as /my-app/, resolves the illustrations to /assets/ at the root of the site, outside the application, so the consumer copies the two PNG files there (known limit of P84, decided by Elvys on 23/10/2026). A new task is needed for (b) or (c) once D1 settles the weight of the illustrations: (b) the consumer gives the base of the assets, or (c) the illustrations are embedded in the package. Indiane opens that task, because the DSA IDs come from Jira. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
     }
   ],
   "evidence": [
@@ -61,7 +49,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, nph-empty visual acceptance, Figma UX QA approved, documentation accepted, textual audit approved and the scheme/is-light and scheme/is-dark names"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, nph-empty visual acceptance, Figma UX QA approved, documentation accepted, textual audit approved and the scheme/is-light and scheme/is-dark names",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D1 and D4 in the chat, all as recommended, after market research with sources; both change in DSA-115"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -77,7 +66,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/100"
   },
   "context": null,
-  "updated_at": "2026-10-23"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -98,6 +87,14 @@ It depends on no other task: the piece has no child component, and every token
 it uses is on `v/5.0.0`. The two illustration files are on `v/5.0.0` too, in
 `assets/illustrations/`; they are not tokens.
 
+## Decisions answered on 2026-11-23
+Indiane answered D1 and D4 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, all as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Export at 2× the drawing: 240 × 174 for the box of 120 × 87. An image much larger than the space it fills costs two to four times more data (https://web.dev/articles/serve-responsive-images ). | Changes in DSA-115: the two files are replaced. |
+| D4 | Option (c): the illustrations are embedded in the package, so the product sets nothing up. Carbon ships its pictograms inside its package (https://carbondesignsystem.com/elements/pictograms/code/ ). | Changes in DSA-115; the known limit of P84 goes with it. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
@@ -109,14 +106,12 @@ tests, stories and spec pass the proof commands in
   use the `nph-empty`.
 
 ## Pending decisions
-The evidence gives the whole contract, so the code can start. Four points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one file or one rule each.
+The evidence gives the whole contract, so the code could start. D1 and D4 were answered on 2026-11-23 (section "Decisions answered on 2026-11-23"); D2 and D3 remain for Indiane. The code follows the stated default meanwhile, and the answer only adjusts one file or one rule each.
 
 | ID | What the evidence gives | What is missing | What the code does with the answer |
 |---|---|---|---|
-| D1 | The two illustration files, drawn at 120 × 87. | Files the size of the drawing: the current ones are 2048 px wide. | Uses the current files. A lighter export only replaces the two files. |
 | D2 | The box of 120 × 87, which fits the light file. | Whether the dark file, of another proportion, is cut or fitted. | Fits it whole. If the answer is to cut, one CSS declaration changes; if it is a new export, nothing changes. |
 | D3 | The width `layout/input-width`. | What the box does in a narrower container. | Shrinks to the container. If the answer is to keep the width, one CSS declaration goes. |
-| D4 | The delivery of P84: the images resolve next to the bundle, in `../assets/`. | Whether a new task brings (b) a base of the assets given by the consumer, or (c) the illustrations embedded in the package, once D1 settles their weight. | Nothing changes meanwhile: an Angular application in a subdirectory copies the two PNG files to `/assets/` at the root of the site (known limit of P84 and of `docs/consuming.md`). |
 
 ## What this task does not do
 It does not create a token or change a token value: `scheme/is-light` and

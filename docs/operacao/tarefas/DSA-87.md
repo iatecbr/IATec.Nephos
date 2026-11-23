@@ -35,14 +35,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The disabled arrow at the ends stays natively disabled, out of the Tab order, and the focus moves to the current indicator or the other arrow, as the task recommends. Keeping it focusable, as the appendix and the APG say, needs a focusable disabled mode in the nph-icon-button, a change to that component in its own task. She decides it in the next approval round. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-87/figma-docs-accepted-2026-11-16.md",
     "docs/operacao/evidencias/DSA-87/review-and-merge-2026-11-18.md"
@@ -50,7 +43,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-14.md, nph-carousel: adjustment round with the corrections of the design owner (softer colors on the dots and the arrow icon)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, nph-carousel: green light (visual acceptance) and a test round with the 15 approval items taken as recommended: documentation accepted, 14 carousel tokens, descriptions of color/subtle-foreground, color/primary-border, radius/full and radius/subtle, indicators as a tab group, counter above five slides, two slides shown together, automatic rotation, vertical and thumbnails out of v1, focus and arrow hover unchanged, whole slides by container width, image exported at 2x"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, nph-carousel: green light (visual acceptance) and a test round with the 15 approval items taken as recommended: documentation accepted, 14 carousel tokens, descriptions of color/subtle-foreground, color/primary-border, radius/full and radius/subtle, indicators as a tab group, counter above five slides, two slides shown together, automatic rotation, vertical and thumbnails out of v1, focus and arrow hover unchanged, whole slides by container width, image exported at 2x",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-1 in the chat, as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -66,7 +60,7 @@
     "pr": 182
   },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -81,7 +75,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Specification to follow closely
 - **Parts**: root (track and controls bar stacked, gap `carousel/controls-offset`, no background or outline); track (horizontal, clips the overflow, gap `carousel/slide-gap`); slide (no background, outline or radius of its own, free content); peek (the neighbor edge, `carousel/peek-size`, peek layout only); controls bar (centered row, gap `carousel/control-gap`, order: previous arrow, indicators, next arrow, counter).
 - **Layouts**: `único` one whole slide; `vários` as many whole slides as fit the container width, at least one, never shrunk nor cut, a single slide follows the container below one slide width (decided); `espiada` the current slide and the edge of the neighbor (next at start and middle, previous at the end). Default: one slide.
-- **Arrows**: the nph-icon-button `secondary`, `solid`, `default`, circular, with nph-icon `chevron-left` and `chevron-right` (`light`; `solid` in hover and active, DSA-47 D1), icon color overridden to `carousel/control-foreground`. With no wrap-around, the arrow on the side with no slide is disabled (`state/disabled-opacity`) and, by the appendix, stays focusable (APG); in v1 that depends on the nph-icon-button (see "Open points for the code", disabled arrow at the ends). The arrow hover is the nph-icon-button hover (decided, no change).
+- **Arrows**: the nph-icon-button `secondary`, `solid`, `default`, circular, with nph-icon `chevron-left` and `chevron-right` (`light`; `solid` in hover and active, DSA-47 D1), icon color overridden to `carousel/control-foreground`. With no wrap-around, the arrow on the side with no slide is disabled (`state/disabled-opacity`) and, by the answer of D-1 (2026-11-23), stays natively disabled, out of the Tab order (see "Open points for the code", disabled arrow at the ends). The arrow hover is the nph-icon-button hover (decided, no change).
 - **Indicators**: one per slide, 2 to 5, targets touching (gap 0). Target `carousel/indicator-target-size` (24 × 24), circle `carousel/indicator-target-radius`, hover background `carousel/indicator-target-background-hover` on the non-current one only. Marker: dot `carousel/indicator-size` in `carousel/indicator-background`; current pill `carousel/indicator-width-current` × `carousel/indicator-size` in `carousel/indicator-background-current`; corner `carousel/indicator-radius`. The current one has no hover. With focus, no hover background; focus border `focus/border` (`border/width`) and halo `focus/halo` (`focus/ring-width`) outside the target, corner `carousel/indicator-target-radius`.
 - **Counter**: "position of total" (as "2 of 8"), text style `text/label-md`, color `carousel/counter-foreground`, off by default; turn it on when the indicators are off. Above five slides, indicators off and counter on; in the several layout it counts pages (decided).
 - **Two slides**: the spec tells the product not to use the carousel and to show both together; only without room, indicators with two items and arrows (decided).
@@ -101,12 +95,16 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - The 256 px slide width in Figma is the example nph-image width (`image/media-width`); the real slide width comes from the content or the product. The whole-slide rule of the several layout uses the real width.
 - Drag threshold and swipe velocity (Figma does not set a value): the code picks them, and the spec names them.
 - The arrow `label` text and the indicator names, translated: the spec names the strings.
-- Disabled arrow at the ends: the appendix keeps it focusable (APG, focusability of disabled controls), but today the nph-icon-button cannot do it without a change: `src/components/nph-button/nph-button.ts` writes `aria-disabled` only for `loading`, `fichas/nph-button.md` takes a `disabled` button out of the Tab order, and its tooltip hides only with `disabled`. Provisional in v1, until the design owner decides (open point below): the arrow uses the native `disabled`, out of the Tab order. When the focused arrow becomes disabled because the last (or first) slide is reached, focus must not get lost: recommended, it moves to the current indicator, or to the other arrow when the indicators are off; the spec names it. If the design owner asks for a focusable disabled mode in the nph-icon-button, it comes in its own task; then, with focus, the border shows at full opacity over the dimmed arrow (as DSA-75 D-2) and the tooltip does not show, as on a disabled button.
+- Disabled arrow at the ends: the appendix keeps it focusable (APG, focusability of disabled controls), but today the nph-icon-button cannot do it without a change: `src/components/nph-button/nph-button.ts` writes `aria-disabled` only for `loading`, `fichas/nph-button.md` takes a `disabled` button out of the Tab order, and its tooltip hides only with `disabled`. Decided on 2026-11-23 (D-1): the arrow uses the native `disabled`, out of the Tab order. When the focused arrow becomes disabled because the last (or first) slide is reached, focus must not get lost: recommended, it moves to the current indicator, or to the other arrow when the indicators are off; the spec names it.
 - Slides out of view: as the APG, the content of a slide that is not in view leaves the Tab order and the accessibility tree (`inert`, or `aria-hidden="true"` with its controls out of the Tab order). In the several layout every whole slide in view counts as visible, so its links and buttons follow the content order. In the peek layout the neighbor shown at the edge is out of view: recommended, it stays `inert`, and a click on it does not change the slide (the arrows and indicators do it). Each slide announces itself as "position of total" (as "3 of 5"), with `aria-roledescription="slide"` or the tab panel label. The spec names the final choice.
 - Right-to-left text: the arrows and the slide order mirror, as the APG says for left and right; the spec names it.
 
-## Open point for the design owner (non-blocking)
-- Disabled arrow at the ends: keeping it focusable, as the appendix and the APG say, needs a focusable disabled mode in the nph-icon-button (a change to that component). Until the design owner decides it in the next approval round, the arrow uses the native `disabled` as a provisional way out, with the focus rule of the open point above.
+## Decision answered on 2026-11-23
+Indiane answered D-1 in the chat on 2026-11-23, in lot B of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Kept out of the Tab order: the disabled arrow at the ends stays natively disabled, and the focus moves to the current indicator, or to the other arrow when the indicators are off. The APG lets a disabled Previous control on the first page leave the Tab order, since the person can tell it is there (https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/ , https://www.w3.org/WAI/ARIA/apg/patterns/carousel/ ). | Nothing changes. The nph-icon-button gets no focusable disabled mode. |
 
 ## Why it is ready
 The 14 `carousel/*` tokens came with this task and are on `v/5.0.0`: 10 aliases of semantics, and 4 straight to the core by decision (`carousel/indicator-size`, `carousel/indicator-width-current`, `carousel/indicator-target-size`, `carousel/peek-size`): no semantic has the function of a marker size, a hit target or a peek. No new value entered the core. Every piece it uses is done: `nph-icon` (DSA-03), the icon-only nph-button (DSA-43), the secondary icon-only nph-button (DSA-64), `nph-image` (DSA-51). The examples use nph-skeleton (DSA-26, done) as slide content only.

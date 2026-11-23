@@ -37,12 +37,6 @@
       "opened_at": "2026-10-26"
     },
     {
-      "id": "D-2",
-      "question": "The evidence draws `conteúdo=contador` with the subject and the counter, but not the field in counter mode with nothing chosen. The code shows the placeholder then, as `conteúdo=placeholder`, and the subject and the counter from the first choice on. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
       "id": "D-3",
       "question": "The evidence says the chip start icon repeats the icon of the option in the list, with `tag` as the default instance, but not what a chip shows for an option with no icon. The code shows `tag` for it. It does not block the pull request.",
       "decider": "indiane",
@@ -62,7 +56,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, pill chip and chip start icon decided; documentation accepted and textual audit approved",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, D1, D2 and D3 answered by Indiane"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, D1, D2 and D3 answered by Indiane",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-2 in the chat, as recommended, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -74,7 +69,7 @@
   },
   "git_review": { "branch": "claude/dsa-31-nph-multi-combobox-4b7aff", "commit": "3f633ba3aedce3f8ce9c49bf935a44b38d10f319", "pr": "125" },
   "context": null,
-  "updated_at": "2026-10-26"
+  "updated_at": "2026-11-23"
 }
 ```
 
@@ -106,16 +101,23 @@ PR.
 | D3 | A long chip label stays on one line with an ellipsis; the chip stops before the end of the field. The full name is in the list. | Sets one line, `text-overflow: ellipsis` and a maximum chip width inside the field. |
 
 ## Pending decisions
-The evidence gives the contract, so the code can start. Four points remain for
-Indiane; the code follows the stated default meanwhile, and each answer only
+The evidence gives the contract, so the code could start. D-2 was answered on
+2026-11-23 (section "Decision answered on 2026-11-23"); D-1, D-3 and D-4 remain for
+Indiane. The code follows the stated default meanwhile, and each answer only
 adjusts one rule.
 
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
 |---|---|---|---|
 | D-1 | Each option uses `marcador=checkbox`, with an `nph-checkbox`. | Where the box sits in the option. | At the start, before the option's own start, as `nph-dropdown-menu`. |
-| D-2 | `conteúdo=contador` shows the subject and the counter. | The counter mode with nothing chosen. | The placeholder, as `conteúdo=placeholder`. |
 | D-3 | The chip icon repeats the option icon; the default instance is `tag`. | A chip for an option with no icon. | `tag`. |
 | D-4 | `conteúdo=contador` stays on one line. | Where the typed text sits. | The text field after the counter, on the same line. |
+
+## Decision answered on 2026-11-23
+Indiane answered D-2 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Accepted: in counter mode, with nothing chosen, the field shows the placeholder, as `conteúdo=placeholder`; the subject and the counter come from the first choice on. It follows the placeholder mode of the field itself and avoids a counter at 0. | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, chip,
