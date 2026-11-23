@@ -1467,7 +1467,7 @@ tokens_space:
     css: '--nph-space-inline-loose'
     alias: core/space/300
     valor: 12
-    use: "Space between the actions of a footer, side by side or stacked: nph-dialog, alert, nph-popover, the nph-popconfirm (popconfirm/actions-gap), the range footer of the nph-date-picker (date-picker/footer-gap) and the footer of the nph-rich-text-editor (rich-text-editor/footer-actions-gap). The footer of the nph-textarea keeps space/inline until a decision of its own (DSA-107). DO NOT USE inside a regular group of buttons - there it is space/inline."
+    use: "Space between the actions of a footer, side by side or stacked: nph-dialog, alert, nph-popover, the nph-popconfirm (popconfirm/actions-gap), the range footer of the nph-date-picker (date-picker/footer-gap), the footer of the nph-rich-text-editor (rich-text-editor/footer-actions-gap) and the footer of the nph-textarea (DSA-107). DO NOT USE inside a regular group of buttons - there it is space/inline."
   space/overlay-padding:
     css: '--nph-space-overlay-padding'
     alias: core/space/600
