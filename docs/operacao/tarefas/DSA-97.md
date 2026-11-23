@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 960,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-accordion",
   "dependencies": [
     "DSA-03",
@@ -53,9 +53,9 @@
     "excerpt": null,
     "converted_decision": "The nph-accordion documentation (7428:43770, page 1626:29) was accepted as the API and behavior specification of the nph-accordion, with the visual acceptance of the root (7227:25867). Accordion set 7227:26169, 18 variants; item set 7227:26332, 48 variants; start set 7227:26993, 24 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-19"
+  "git_review": { "branch": "feat/dsa-97-accordion", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-97.md",
+  "updated_at": "2026-11-23"
 }
 ```
 
