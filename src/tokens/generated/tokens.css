@@ -589,6 +589,8 @@
   --nph-layout-max-list-height: var(--nph-core-layout-height-list);
   --nph-layout-textarea-min-height: var(--nph-core-layout-height-textarea-min);
   --nph-layout-textarea-max-height: var(--nph-core-layout-height-textarea-max);
+  --nph-layout-multiline-min-height: var(--nph-core-layout-height-textarea-min);
+  --nph-layout-multiline-max-height: var(--nph-core-layout-height-textarea-max);
   --nph-layout-field-width: var(--nph-core-layout-width-field);
   --nph-layout-input-width: var(--nph-core-layout-width-input);
   --nph-layout-multi-combobox-width: var(--nph-core-layout-width-multi-combobox);
@@ -819,6 +821,10 @@
   --nph-popconfirm-arrow-width: var(--nph-core-space-400);
   --nph-popconfirm-arrow-height: var(--nph-core-space-200);
   --nph-popconfirm-arrow-inset: var(--nph-core-space-400);
+  --nph-rich-text-editor-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-rich-text-editor-content-padding-y: var(--nph-core-space-200);
+  --nph-rich-text-editor-list-indent: var(--nph-core-space-600);
+  --nph-rich-text-editor-quote-padding-start: var(--nph-core-space-400);
   --nph-chart-y-label-gap: var(--nph-space-inline);
   --nph-chart-x-label-gap: var(--nph-space-stack-tight);
   --nph-chart-grid-width: var(--nph-border-width);
@@ -1222,7 +1228,21 @@
   --nph-popconfirm-icon-box-radius: var(--nph-radius-inset);
   --nph-popconfirm-enter-duration: var(--nph-motion-enter-duration);
   --nph-popconfirm-exit-duration: var(--nph-motion-exit-duration);
+  --nph-rich-text-editor-border-width: var(--nph-border-width);
+  --nph-rich-text-editor-radius: var(--nph-radius-control);
+  --nph-rich-text-editor-width: var(--nph-layout-input-width);
+  --nph-rich-text-editor-focus-halo-width: var(--nph-focus-ring-width);
+  --nph-rich-text-editor-focus-halo-radius: var(--nph-focus-radius-control);
+  --nph-rich-text-editor-divider-width: var(--nph-border-width);
+  --nph-rich-text-editor-content-padding-x: var(--nph-space-control-padding);
+  --nph-rich-text-editor-content-min-height: var(--nph-layout-multiline-min-height);
+  --nph-rich-text-editor-content-max-height: var(--nph-layout-multiline-max-height);
+  --nph-rich-text-editor-block-gap: var(--nph-space-stack-snug);
+  --nph-rich-text-editor-quote-border-width: var(--nph-border-width);
+  --nph-rich-text-editor-footer-gap: var(--nph-space-stack);
+  --nph-rich-text-editor-footer-actions-gap: var(--nph-space-inline-loose);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
+  --nph-rich-text-editor-focus-halo-error: var(--nph-focus-halo-error);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1592,6 +1612,16 @@
   --nph-popconfirm-icon-foreground: var(--nph-status-info);
   --nph-popconfirm-icon-foreground-warning: var(--nph-status-warning);
   --nph-popconfirm-icon-foreground-destructive: var(--nph-color-destructive-on-surface);
+  --nph-rich-text-editor-background: var(--nph-color-background);
+  --nph-rich-text-editor-background-disabled: var(--nph-color-muted);
+  --nph-rich-text-editor-border: var(--nph-color-input);
+  --nph-rich-text-editor-border-hover: var(--nph-color-input-hover);
+  --nph-rich-text-editor-border-error: var(--nph-status-error);
+  --nph-rich-text-editor-divider: var(--nph-color-border-subtle);
+  --nph-rich-text-editor-foreground: var(--nph-color-foreground);
+  --nph-rich-text-editor-placeholder-foreground: var(--nph-color-muted-foreground);
+  --nph-rich-text-editor-counter-foreground: var(--nph-color-muted-foreground);
+  --nph-rich-text-editor-quote-border: var(--nph-color-border);
   --nph-chart-focus-border: var(--nph-focus-border);
   --nph-chart-focus-halo: var(--nph-focus-halo);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
@@ -1710,6 +1740,9 @@
   --nph-tree-table-focus-border: var(--nph-focus-border);
   --nph-tree-table-focus-halo: var(--nph-focus-halo);
   --nph-tree-table-error-foreground-hover: var(--nph-table-foreground);
+  --nph-rich-text-editor-focus-border: var(--nph-focus-border);
+  --nph-rich-text-editor-focus-halo: var(--nph-focus-halo);
+  --nph-rich-text-editor-link-foreground: var(--nph-color-link);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
