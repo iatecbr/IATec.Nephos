@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 980,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-popconfirm",
   "dependencies": [
     "DSA-03",
@@ -52,9 +52,9 @@
     "excerpt": null,
     "converted_decision": "The nph-popconfirm documentation (7389:104, page 4128:35277) was accepted as the API and behavior specification of the nph-popconfirm, with the visual acceptance of the root (7222:3379). Component set 7222:3568, 42 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-22"
+  "git_review": { "branch": "feat/dsa-99-popconfirm", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-99.md",
+  "updated_at": "2026-11-23"
 }
 ```
 
