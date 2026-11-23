@@ -320,8 +320,14 @@ tokens_semantic:
     css: '--nph-color-subtle-foreground'
     claro: core/neutral/500
     escuro: core/neutral/300
-    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 4.74:1 over color/popover in light, 5.55:1 in dark. Also a non-current position marker, a non-text mark that passes 3:1: the dot of the nph-carousel indicators (carousel/indicator-background), 4.74:1 over color/background in light and 8.23:1 in dark, and 3:1 or more over color/card and color/muted in every brand. Also the who and when line of the nph-timeline item (timeline/meta-foreground), 4.74:1 over color/background in light, the lowest of the item text; the word that marks the pending item as waiting stays on color/muted-foreground, because the person needs it to act."
-    nao_use: "Placeholder, caption or helper text (color/muted-foreground); text needed to complete the task."
+    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 4.74:1 over color/popover in light, 5.55:1 in dark. Also the who and when line of the nph-timeline item (timeline/meta-foreground), 4.74:1 over color/background in light, the lowest of the item text; the word that marks the pending item as waiting stays on color/muted-foreground, because the person needs it to act."
+    nao_use: "Placeholder, caption or helper text (color/muted-foreground); text needed to complete the task. The non-current position marker: there it is color/marker."
+  color/marker:
+    css: '--nph-color-marker'
+    claro: core/neutral/400
+    escuro: core/surface/400
+    use: "Non-current position marker: the small dot that marks an item of a sequence without being the current one, a non-text mark (WCAG 1.4.11). The dot of the nph-carousel indicators (carousel/indicator-background). 3.23:1 over color/background and color/card in light; 4.18:1 over color/background and 3.53:1 over color/card in dark. Over color/muted it measures 2.78:1 in light and 2.81:1 in dark, below 3:1."
+    nao_use: "Text (color/subtle-foreground or color/muted-foreground). The current marker (color/primary-border). Over color/muted, where it does not reach 3:1."
   color/destructive:
     css: '--nph-color-destructive'
     claro: core/danger/600

@@ -1565,7 +1565,7 @@
   --nph-resizable-grip-foreground: var(--nph-color-muted-foreground);
   --nph-resizable-grip-foreground-active: var(--nph-color-accent-foreground);
   --nph-resizable-grip-background-active: var(--nph-color-accent);
-  --nph-carousel-indicator-background: var(--nph-color-subtle-foreground);
+  --nph-carousel-indicator-background: var(--nph-color-marker);
   --nph-carousel-indicator-target-background-hover: var(--nph-color-accent);
   --nph-carousel-control-foreground: var(--nph-color-muted-foreground);
   --nph-carousel-counter-foreground: var(--nph-color-muted-foreground);
@@ -1828,6 +1828,7 @@
   --nph-color-input: var(--nph-core-neutral-400);
   --nph-color-muted-foreground: var(--nph-core-neutral-600);
   --nph-color-subtle-foreground: var(--nph-core-neutral-500);
+  --nph-color-marker: var(--nph-core-neutral-400);
   --nph-color-muted: var(--nph-core-surface-50);
   --nph-color-skeleton: var(--nph-core-surface-50);
   --nph-color-popover-foreground: var(--nph-core-neutral-950);
@@ -2059,6 +2060,7 @@
   --nph-color-input: var(--nph-core-surface-300);
   --nph-color-muted-foreground: var(--nph-core-surface-200);
   --nph-color-subtle-foreground: var(--nph-core-neutral-300);
+  --nph-color-marker: var(--nph-core-surface-400);
   --nph-color-muted: var(--nph-core-surface-700);
   --nph-color-skeleton: var(--nph-core-surface-600);
   --nph-color-popover-foreground: var(--nph-core-neutral-100);
