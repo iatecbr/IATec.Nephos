@@ -41,6 +41,19 @@ A multi-line field for text with simple formatting, with the formatting toolbar 
 
 Selection of properties: nph-rich-text-editor — `state` (default, hover, `foco` focus, `erro` error, `erro-foco` error focus, disabled, `leitura` read only), `placeholder`, `valor` value, `exemplo formatado` formatted example, `rodapé` footer, `ações` actions, `texto do contador` counter text and `barra` toolbar. The toolbar changes width with the box: wide or narrow.
 
+## Component description (as in Figma)
+
+Use it when the person needs to highlight parts of the text with bold, a list, a quote, a heading or a link. The editor sits inside the `nph-field`, which gives the label, the help and the error message.
+
+It does not replace the `nph-textarea`: text with no formatting goes there. It is not a document editor either: image, table, slash command and full page stay out of it.
+
+The toolbar follows the toolbar pattern: one Tab stop, with the arrow keys between the buttons.
+
+## Description of the sets (as in Figma)
+
+- `nph-rich-text-editor` (`7744:282`): a multi-line field for text with simple formatting, with the formatting toolbar at the top of the box, inside the `nph-field`. Do: put it inside the `nph-field` with a visible label; keep the link in view in the narrow toolbar; disable undo and redo with no history; keep clear formatting alone at the end of the wide toolbar; show in the trigger the style where the cursor is. Do not: short text with no formatting (use the `nph-input`; for long text with no formatting, the `nph-textarea`); the toolbar turned off to edit formatted text; the placeholder in place of the label. Documentation: https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/?node-id=7926-14926
+- `nph-rich-text-editor / barra` (`7743:137`): the formatting toolbar of the `nph-rich-text-editor`, a composition with the `nph-toolbar` tokens (`toolbar/background`, `toolbar/padding` and `toolbar/gap`), until the `nph-toolbar` gains a slot property, in a task of its own. Wide: every group in view; narrow: history and link in view and the rest in More.
+
 ## Component sets
 
 | Set | Figma id | What it is |
@@ -48,7 +61,7 @@ Selection of properties: nph-rich-text-editor — `state` (default, hover, `foco
 | `nph-rich-text-editor` | `7744:282` | The field, 7 variants of `state`: default `7744:51`, hover `7744:106`, `foco` `7744:131`, `erro` `7744:157`, `erro-foco` `7744:182`, disabled `7744:208`, `leitura` `7744:233`. Default: default. Booleans `placeholder` (off), `valor` (on), `exemplo formatado` (off), `rodapé` (off), `ações` (on), `barra` (on); text `texto do contador` ("0/1000"). |
 | `nph-rich-text-editor / barra` (toolbar) | `7743:137` | The toolbar, property `largura` (width): `larga` wide `7743:2`, `estreita` narrow `7743:105`. In the 7 field variants the toolbar is the narrow instance. |
 
-Root `7742:1107` (light `7748:200`, dark `7748:7832`), documentation `7926:14926`, appendix `7930:2` (it leaves Figma in the cleanup; this evidence carries it). Pieces by instance: `nph-field`, `nph-button` (icon only, ghost, compact, square; and with text), `nph-togglebutton`, `nph-separator`, `nph-dropdown-menu`, `nph-popover`, `nph-input`, `nph-tooltip`, `nph-icon`, `nph-skeleton` (in place of the nine missing icons, until DSA-108). In Figma, undo, redo, link, clear formatting and More are instances of the `nph-icon-button`, the Figma form of the `nph-button` icon only in code.
+Root `7742:1107` (light `7748:200`, dark `7748:7832`), documentation `7926:14926`, appendix `7930:2` (it leaves Figma in the cleanup; this evidence carries it). Pieces by instance: `nph-field`, `nph-button` (icon only, ghost, compact, square; and with text), `nph-togglebutton`, `nph-separator`, `nph-dropdown-menu`, `nph-popover`, `nph-input`, `nph-tooltip`, `nph-icon`, `nph-skeleton` (in place of the nine missing icons in Figma, until the design side adds them to the Figma `nph-icon`). In Figma, undo, redo, link, clear formatting and More are instances of the `nph-icon-button`, the Figma form of the `nph-button` icon only in code.
 
 ## Tokens
 
@@ -151,7 +164,7 @@ All tokens in this table are `rich-text-editor/*`.
 
 - **Wide toolbar** `7743:2`, 577 × 44, horizontal, gap 8, padding 8, items centered in height. Groups in order, a vertical divider between each two: history (undo, redo), block style (the trigger "Paragraph"), formatting (bold, italic, underline, strike-through), lists (bulleted, numbered), quote, link, clear formatting. Each group is horizontal with gap 8 (`toolbar/gap`).
 - **Narrow toolbar** `7743:105`, 170 × 44: history (undo, redo), divider, link, divider, More.
-- **Icons** (Font Awesome, `light`, 16, `icon/size-sm`): redo `rotate-right`, block style trigger `chevron-down`, link `link`, More `ellipsis`. Undo (`rotate-left`), bold (`bold`), italic (`italic`), underline (`underline`), strike-through (`strikethrough`), bulleted list (`list-ul`), numbered list (`list-ol`), quote (`block-quote`) and clear formatting (`text-slash`) are an `nph-skeleton` block of 16 × 16 in Figma, in place of the icon, until the foundation task DSA-108 (item 11). The code uses the named icon.
+- **Icons** (Font Awesome, `light`, 16, `icon/size-sm`): redo `rotate-right`, block style trigger `chevron-down`, link `link`, More `ellipsis`. Undo (`rotate-left`), bold (`bold`), italic (`italic`), underline (`underline`), strike-through (`strikethrough`), bulleted list (`list-ul`), numbered list (`list-ol`), quote (`block-quote`) and clear formatting (`text-slash`) are an `nph-skeleton` block of 16 × 16 in Figma, in place of the icon, until the design side adds them to the Figma `nph-icon` (item 11). The code uses the named icon; six of them enter the code core with DSA-108.
 - **Toggle buttons**: `nph-togglebutton` unchecked, compact, no text, 28 × 28, padding 4 (`space/inline-tight`), 1 px border (`border/width`), `radius/control`.
 - In the 7 field variants the toolbar is the narrow one; in the root samples with text, redo is disabled (nothing undone).
 
@@ -286,7 +299,7 @@ Base: the W3C ARIA Authoring Practices toolbar pattern for the toolbar and the m
 | Pointer and focus | On the toolbar buttons, hover paints the piece and does not move the focus (by analogy: the state belongs to the piece). In the menu, the pointer moves the focus to the item (DSA-45 D-6). | `fichas/nph-toolbar.md`, states; `fichas/nph-dropdown-menu.md` |
 | Near the window edge | The menu opens below the trigger, aligned to the start, and turns up when it does not fit below and fits above. The popover turns to the opposite side when it does not fit and the opposite has more room. Neither leaves the window; the tooltip turns sides when it does not fit. | `fichas/nph-dropdown-menu.md`; `fichas/nph-popover.md`; `fichas/nph-tooltip.md` |
 | Tooltip | Keyboard focus opens the tooltip at once; the pointer opens it after `motion/hover-delay`; it never opens on touch. A disabled button has no tooltip. | `fichas/nph-tooltip.md`; DSA-48 D1; DSA-42 D7 |
-| Narrow toolbar | Whole groups go to More, from right to left; history and link stay in view. A departure from `fichas/nph-toolbar.md` (narrow screen rule, DSA-55 D-5) and P104, item 7: the text of the style trigger is the value of the block and does not leave; the trigger goes whole to More, as an item with a submenu (Pend. 3; departure accepted in item 3; the exception goes into the `nph-toolbar` spec in DSA-106). Clear formatting is the last item of More, after a divider (item 4). | https://spark.genesys.com/latest/components/forms-and-inputs/rich-text-editor/usage-XlHQCpoM ; `fichas/nph-toolbar.md` (DSA-55 D-5); P104, item 7 |
+| Narrow toolbar | Two states only, wide and narrow, by the box width (see "When to use"); no toolbar in between is drawn. In the narrow one, history and link stay in view and the other groups go to More, in the order of the wide toolbar. A departure from `fichas/nph-toolbar.md` (narrow screen rule, DSA-55 D-5) and P104, item 7: the text of the style trigger is the value of the block and does not leave; the trigger goes whole to More, drawn as an item with a submenu (how the code builds More today is D-1 of the task) (Pend. 3; departure accepted in item 3; the exception goes into the `nph-toolbar` spec in DSA-106). Clear formatting is the last item of More, after a divider (item 4). | https://spark.genesys.com/latest/components/forms-and-inputs/rich-text-editor/usage-XlHQCpoM ; `fichas/nph-toolbar.md` (DSA-55 D-5); P104, item 7 |
 | Text area | Grows with the text up to the maximum height and then scrolls inside; the toolbar stays in view. | P93, item 5 |
 | Read only | The toolbar leaves (Pend. 5); the text stays readable and selectable, with no hover. The focus of the area follows the `nph-textarea` in read only. | https://ckeditor.com/docs/ckeditor5/latest/features/read-only.html ; `fichas/nph-textarea.md`, focus (DSA-38 D-2) |
 | Disabled | Takes no focus. The toolbar and the footer actions fade with the box: their opacity adds to the box's. | T11; DSA-38 D-5 |
@@ -294,7 +307,7 @@ Base: the W3C ARIA Authoring Practices toolbar pattern for the toolbar and the m
 
 ## Combined states (T11)
 
-1. Checked + disabled: the checked toolbar button keeps its background and its checked mark, under `state/disabled-opacity`.
+1. Checked + disabled: the checked toolbar button keeps its background and its checked mark, under `rich-text-editor/disabled-opacity` (`state/disabled-opacity`).
 2. Error + disabled: disabled wins; the error border goes away and only the opacity stays.
 3. In the editor, disabled wins over read only, and read only wins over error (P93, item 2).
 4. Inside the disabled box, the actions and the buttons keep their own opacity: 50% over 50%, about 25% on screen (DSA-38 D-5; it follows the `nph-textarea` until that answer).
@@ -320,12 +333,12 @@ The matrix in Figma draws: error + disabled → disabled; bold checked + editor 
 
 | Icon (Font Awesome, by `nph-icon`) | Weight and size | Where |
 |---|---|---|
-| `rotate-left` | `light` at rest and `solid` in hover-active (DSA-47 D1); `icon/size-sm`, 16 | undo; a 16 × 16 skeleton in Figma until DSA-108 |
+| `rotate-left` | `light` at rest and `solid` in hover-active (DSA-47 D1); `icon/size-sm`, 16 | undo; a 16 × 16 skeleton in Figma until the design side adds them to the Figma `nph-icon` |
 | `rotate-right` | `light` at rest and `solid` in hover-active (DSA-47 D1); 16 | redo |
-| `bold`, `italic`, `underline`, `strikethrough` | unchecked `light` in `color/muted-foreground`; checked `solid` in `color/foreground`; 16 (the `nph-togglebutton` icon rule) | formatting; skeleton in Figma until DSA-108 |
-| `list-ul`, `list-ol`, `block-quote` | as the formatting; 16 | lists and quote; skeleton in Figma until DSA-108 |
+| `bold`, `italic`, `underline`, `strikethrough` | unchecked `light` in `color/muted-foreground`; checked `solid` in `color/foreground`; 16 (the `nph-togglebutton` icon rule) | formatting; skeleton in Figma until the design side adds them to the Figma `nph-icon` |
+| `list-ul`, `list-ol`, `block-quote` | as the formatting; 16 | lists and quote; skeleton in Figma until the design side adds them to the Figma `nph-icon` |
 | `link` | `light` at rest and `solid` in hover-active; 16 | link button |
-| `text-slash` | `light` at rest and `solid` in hover-active; 16 | clear formatting; skeleton in Figma until DSA-108 |
+| `text-slash` | `light` at rest and `solid` in hover-active; 16 | clear formatting; skeleton in Figma until the design side adds them to the Figma `nph-icon` |
 | `ellipsis` | `light` at rest and `solid` in hover-active; 16 | More, in the narrow toolbar |
 | `chevron-down` | `light`; 16 | end of the block style trigger |
 | menu and popover icons | those of the piece, by instance | `nph-dropdown-menu` (the single choice check) and `nph-popover` |
@@ -337,11 +350,11 @@ The matrix in Figma draws: error + disabled → disabled; bold checked + editor 
 
 The six cases of the limits row, all drawn:
 
-- **Minimum**: the default field width (`layout/input-width`), with the narrow toolbar and More.
+- **Minimum**: the default field width, `rich-text-editor/width` (`layout/input-width`), with the narrow toolbar and More.
 - **Maximum**: the container width; the area stretches and the wide toolbar shows every group.
 - **Long text**: the area stops at the maximum height and scrolls inside; the last line shows cut by the scroll; the toolbar stays in view.
-- **Empty**: placeholder in `color/muted-foreground` (`rich-text-editor/placeholder-foreground`); the counter, if any, shows 0.
-- **Many items**: every group in the wide toolbar; with less room, the groups go to More from right to left.
+- **Empty**: placeholder in `rich-text-editor/placeholder-foreground` (`color/muted-foreground`); the counter, if any, shows 0.
+- **Many items**: every group in the wide toolbar; with less room, the narrow toolbar, with the other groups in More. The Figma text says "from right to left": the groups after the history leave and the link stays; no state in between is drawn.
 - **Short window**: toolbar with history, link and More.
 
 Out of the v1 (the list of the matrix, with its reason): sticky toolbar on scroll (the area scrolls inside, so the toolbar does not leave the view); toolbar below the area; bubble on selection; menu on an empty line or a side block bar; the "/" command; markdown shortcuts (code behavior with no drawing); markdown with edit and preview; no toolbar; a toolbar that wraps to several lines; a toolbar with horizontal scroll; a permanent "more styles" dropdown; default and subtle densities (one density in the v1, the compact toolbar); button sizes (one size, compact); full container height; resizable by the person; loading; collapsed that expands on focus; ready-made contexts; source code mode; highlighted toolbar. Button groups out of the toolbar in the v1: alignment; media and table; font, font size and color; inline code and code block. A button in a mixed state (`aria-pressed="mixed"`, for a selection that is part bold): no system read shows a look of its own; the look stays the unchecked one, and the code names whether it announces mixed.
@@ -350,7 +363,7 @@ Out of the v1 (the list of the matrix, with its reason): sticky toolbar on scrol
 
 Read on `v/5.0.0` (sheet and code of each piece):
 
-- **`nph-togglebutton`, square icon only** (Pend. 2): the editor needs the compact icon-only toggle 28 × 28, the same square as the `nph-button` with no text. Today the sheet says the icon-only piece "hugs it, never square: 50 by 28" (`fichas/nph-togglebutton.md`, business rules). Figma already draws it (`tamanho=compacto`, `texto=não`, 28 × 28, padding 4). This task asks the `nph-togglebutton` for that form; the code names how (a shape attribute or the icon-only compact becoming square), and the sheet changes with it.
+- **`nph-togglebutton`, square icon only** (Pend. 2): the editor needs the compact icon-only toggle 28 × 28, the same square as the `nph-button` with no text. Today the sheet says the icon-only piece "hugs it, never square: 50 by 28" (`fichas/nph-togglebutton.md`, business rules). In Figma the master `2962:71772` (compact, no text) measures 48 × 28; the editor resizes its toggle instances to 28 × 28, padding 4, by override. This task asks the `nph-togglebutton` for an opt-in square form of the compact icon only, used by the editor; the default icon only keeps its width for every other consumer, such as the `nph-toggle-group`, and the sheet gains the opt-in.
 - **`nph-separator`, line color**: the sheet fixes the separator color at `color/border` (`fichas/nph-separator.md`, business rules and tokens) and its CSS has no color hook. The divider between the toolbar and the area is `rich-text-editor/divider` (`color/border-subtle`). The `nph-dialog` and the `nph-command` already take this path: they override `--nph-color-border` only on their own separator (DSA-80). The editor does the same on its divider; the group dividers in the toolbar keep `color/border`.
 - **`nph-dropdown-menu`, nested menu**: the More menu draws Block style, Formatting and Lists as items with a submenu. The `nph-dropdown-menu` today has groups with a label, separators, single and multiple choice, but "the nested menu is out of scope" (`fichas/nph-dropdown-menu.md`, business rules). This is D-1 of the task, for the design owner, with a provisional way out.
 - **`nph-popover`, focus return**: the popover gives the focus back to its trigger on Esc, the close button and the footer action (`fichas/nph-popover.md`, business rules). When the popover opened by Ctrl or Cmd + K, the editor brings the focus back to the text area at the cursor or the selection (item 12); the popover does not change. The title Link is the popover title, always visible, naming the surface by `aria-labelledby` (item 5).
@@ -365,7 +378,7 @@ Family: `nph-textarea` → `nph-rich-text-editor`, with the measures of the tool
 
 | Decision | How it applies |
 |---|---|
-| DSA-16 D1 to D7 (D1 to D5 open) | In the `nph-input` of the link (Pend. 7): accepted types, clear, measures, focus, precedence, width and light icons. Inherits. D5 also holds on the box: error + hover stays `status/error`; disabled + error, disabled wins. |
+| DSA-16 D1 to D7 (D1 to D5 open) | In the `nph-input` of the link (Pend. 7): accepted types, clear, measures, focus, precedence, width and light icons. Inherits. D5 also holds on the box: error + hover stays `rich-text-editor/border-error` (`status/error`); disabled + error, disabled wins. |
 | DSA-22 D1 to D6; D7 open | In the `nph-togglebutton`: radii, padding, gaps, focus radii and icon swap; checked ↔ unchecked in `motion/state`; reduced motion (D7). It follows D1 to D5 in part: the compact icon only becomes a 28 × 28 square instead of hugging its icon (50 × 28 in the sheet today) (Pend. 2; see "What the editor asks of other pieces"). |
 | DSA-23 D1 | The `bold`, `italic` and `underline` icons are in the code core. D2 and D3 do not apply (single choice group); D4 and D5, open, do not apply: the arrow keys come from the toolbar (P104, item 5). |
 | DSA-61 | The checked `nph-togglebutton` stays as drawn: background and color, no semibold and no outline. Inherits; the contrast is in "Foundation findings". |
@@ -396,7 +409,7 @@ Family: `nph-textarea` → `nph-rich-text-editor`, with the measures of the tool
 | 8 | 17 | The divider stays in `color/border-subtle`; its description gains the editor divider and its "do not use" becomes "the border of a field (color/input)". Cost: 1.13:1 in light, the line almost fades; the toolbar above helps to separate. |
 | 9 | 11 | New semantics `layout/multiline-min-height` and `layout/multiline-max-height`; the core heights cite both; the `nph-textarea` moves in a task of its own (DSA-107). |
 | 10 | 10 | The `nph-toolbar` gains a slot property in Figma, in a task of its own on the design side; until then the Figma toolbar is the composition `7743:137` with the toolbar tokens. |
-| 11 | 9 | A foundation task for the nine icons in the `nph-icon` (Classic Light): DSA-108; skeletons in Figma until then. |
+| 11 | 9 | A foundation task for the nine icons in the `nph-icon` (Classic Light): DSA-108 in code; skeletons in Figma until the design side adds them to the Figma `nph-icon`. |
 | 12 | 14 | Opened by Ctrl or Cmd + K in the text area, Esc, Remove link and Apply give the focus back to the text area; opened by the button, to the button. |
 | 13 | 15 | With the focus in the editor, Ctrl or Cmd + K opens the link and does not reach the `nph-command`. |
 | 14 | — | `rich-text-editor/content-padding-y` 8 px, straight to `core/space/200`, by decision. |
@@ -409,6 +422,8 @@ Where the points come from: Pend. 1 to 8 (how the toolbar sits in the box, the s
 - **Focus of the `nph-togglebutton`**: its focus border is `color/primary`, not `focus/border`. In the worst case, 2.71:1 over `color/background` (Gerencial, dark), 1.76:1 over the checked background (the education brand, dark) and 1.41:1 over the hover background (Gerencial, dark): below 3:1. The fix belongs to the `nph-togglebutton`, in a task of its own; the editor inherits it by instance. https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
 - **Checked `nph-togglebutton`**: the checked background measures 1.26:1 against the toolbar in light and 1.54:1 in dark (worst 1.02:1, Gerencial dark). The state also comes from the icon and `aria-pressed`; it is the decision of DSA-61 (option A). Recorded for the family.
 - **Error focus of the fields in dark**: `status/error` measures 1.41:1 against `focus/halo-error`; it holds for the `nph-input`, the `nph-textarea` and the editor, in a foundation task of the fields. The border passes against the inner background (6.96:1).
+- **`ellipsis` for More**: `design.md`, `icones_nucleo`, says the horizontal `ellipsis` means omitted items and that more actions is `ellipsis-vertical`; the `nph-toolbar` demo already uses `ellipsis` for More, the precedent the editor follows. A foundation point for the icon notes.
+- **Width of the `nph-togglebutton` icon only**: the sheet says 50 × 28 and the Figma master `2962:71772` measures 48 × 28. A foundation point of the `nph-togglebutton`; the editor uses its square opt-in.
 - **Third-party library**: the decision map asks for the technical validation of the editing library by the code owner. It goes to this task, with no choice made here (see "Open points" in the task).
 
 ## Hidden on purpose in Figma
