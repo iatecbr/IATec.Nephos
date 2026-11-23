@@ -32,7 +32,7 @@
   "pending_decisions": [
     {
       "id": "D2",
-      "question": "The light illustration is 2048 × 1487 and fits the 120 × 87 box; the dark one is 2048 × 1538, another proportion. In Figma, is the dark one cut (fill) or fitted (fit) in the box, or should it be exported again with the same frame as the light one? The code fits it whole, with object-fit: contain, so it is about 116 px wide. It does not block the pull request.",
+      "question": "The light illustration is 240 × 174 and fits the 120 × 87 box; the dark one is 240 × 180, another proportion (until 2026-11-23 they were 2048 × 1487 and 2048 × 1538; D1, DSA-115). In Figma, is the dark one cut (fill) or fitted (fit) in the box, or should it be exported again with the same frame as the light one? The code fits it whole, with object-fit: contain, so it is about 116 px wide. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-22"
     },
