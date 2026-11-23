@@ -92,6 +92,7 @@ P62.4 subsection for the detail).
 | **P134** | API and semantics of `nph-rich-option` and of the rich option of `nph-option` | 18/11/2026 | Low now. No form consumes the card yet; a plan or delivery choice, a list of settings and the people list of a combobox will, and changing `control`, `checked`, `name`, `value`, `text`, `description`, `icon`, `shortcut`, `keyShortcuts`, `invalid`, `disabled`, the events `input` and `change`, the role held by the card, the radio group by `name`, `rich` and `description` on `nph-option`, the `keyboard` property the lists write, the `rich` and `description` of the combobox entries or the invalid-input rule later requires redoing every consumer. D-4 follows the provisional rule of the task and waits for Indiane | Anatomy and behavior: documentation accepted by Indiane on 18/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P135** | `nph-date-picker` and `nph-calendar`: the answers of 18/11/2026 (D-2, D-5, D-6, D-9, D-10 and the header of the large grid) | 19/11/2026 | Low now, as P133: no piece consumes the date picker yet. Changing the property `allowsNonContiguousRanges`, the periods of the shortcuts and when one is disabled, the arrows on the outer edges of the range, the views in two columns, the height of the views or the header of the large grid later requires redoing every consumer. D-15 to D-18 wait for Indiane, with D-12 to D-14 | Answers of the design owner on 18/11/2026 (evidence of DSA-96). API and semantics reviewed in the pull request that brings them |
 | **P136** | API and semantics of `nph-accordion` and `nph-accordion-item` | 23/11/2026 | Low now. No piece consumes the accordion yet; the details of a record, frequently asked questions, the steps of a setup and the filters of a side panel will, and changing `appearance`, `expansion`, `size`, `heading-level`, the properties of the item (`label`, `description`, `start`, `icon`, `media-src`, `start-label`, `tag`, `status`, `status-label`, `indicator`, `open`, `disabled`, `persistent`), the event `nph-toggle`, the rules of the single expansion, the region rule or the invalid-input rule later requires redoing every consumer. | Anatomy and behavior: documentation accepted by Indiane on 19/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P137** | API and semantics of `nph-popconfirm` | 23/11/2026 | Low now. No piece consumes the popconfirm yet; deleting a row that goes to the trash, leaving the editing of one item and sending a request for approval will, and changing `type`, `size`, `side`, `align`, `arrow`, `hide-icon`, `confirm-label`, `cancel-label`, `loading`, `return-focus-to`, the events `nph-confirm` and `nph-cancel` with their `source`, the rule that Confirm closes unless `preventDefault` is called, the Tab kept between the two buttons or the initial focus by type later requires redoing every consumer. | Anatomy and behavior: documentation accepted by the design owner on 19/11/2026; D-1, D-2 and D-3 answered on 22/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -10305,11 +10306,81 @@ small piece, which is a foundation task. Item 10 of the approval page, which had
 that brings them; the merge is the approval.
 
 
+## P137 — `nph-popconfirm`: API and semantics
+**Technical conflict.** The accepted documentation (frame `7389:104`, page `4128:35277`, root `7222:3379`, set `7222:3568`) draws
+a short confirmation anchored to a trigger, in three types, two sizes, four sides, three alignments and with or without the
+arrow, and leaves to the code how the trigger is linked, how the type, size, side, alignment, arrow, icon, description and the
+two labels reach the component, how the consumer hears Confirm and Cancel with the source, how it sets Confirm loading, where
+the focus goes when the trigger is gone, what the actions do when they do not fit, how the divider takes the color of
+`popconfirm/divider`, which easing the motion uses and what happens with an input that does not fit. Four limits of the
+platform and of the system shape the answer:
+- an `alertdialog` that does not make the page inert and keeps the Tab between two buttons departs from the APG, which treats
+  it as modal, and was accepted by the design owner (item 8);
+- the surface and the position are the family of `nph-popover` (P111), but the popover lets the Tab leave and closes on focus
+  out, takes the first focusable element on open and has a close button and compact buttons, none of which the popconfirm has;
+- `nph-separator` fixes its color at `color/border` and may not change;
+- `nph-button` keeps its label on one line and offers one public focus hook, `--nph-button-focus-border` (P116).
+
+**Decision.** `nph-popconfirm` is one Web Component with **open Shadow DOM** (P01). Anatomy only through semantic tokens: the
+`popconfirm/*` ones of the accepted frame; **no token is created or changed**. It has no `::part`, no slot, no color property
+and no form association. What it rejects renders nothing and emits `console.error` only in development, once per cause: the
+rule of P21. The names follow P64.
+1. **The trigger, as the popover (Q1).** `for` is the `id` of the trigger, looked up in the same root, and the trigger stays
+   outside. The popconfirm writes `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls` (the host) on it, and the
+   `nph-button` that carries them draws the open trigger (P111). A disabled, `aria-disabled` or loading trigger opens nothing.
+2. **The properties (Q2).** `open` (reflects), `heading` (required), `description`, `type` (`default`, `warning`,
+   `destructive`; `default`), `size` (`sm`, `md`; `sm`), `side` (`bottom`, `top`, `right`, `left`; `bottom`), `align` (`start`,
+   `center`, `end`; `center`), `arrow`, `hide-icon`, `confirm-label` and `cancel-label` (both required), `loading`.
+   `hide-icon` is true to hide, because a boolean attribute cannot start on and be turned off. The Figma `descrição` is an empty
+   `description`. The texts come by property, not by slot: the piece writes no word of its own.
+3. **Events (Q3).** `nph-confirm` (bubbles, composed, cancelable) fires when Confirm is pressed and is not loading; unless
+   `preventDefault()` is called, the popconfirm closes. `nph-cancel` (bubbles, composed) fires before it closes when the person
+   gives up, with `detail.source`: `cancel-button`, `escape`, `outside`, `trigger` (the trigger pressed again) or
+   `other-layer`. It is cancelable, except `other-layer`. Setting `open` from code fires neither.
+4. **The slow confirm (Q4, D-3).** The consumer calls `preventDefault()` on `nph-confirm`, sets `loading`, and sets `open` to
+   `false` on success; on failure it clears `loading` and the surface stays open. `loading` goes to the loading state of
+   `nph-button`, which carries `aria-disabled` and drops the click, so a repeated press does nothing. Cancel stays enabled.
+   Cancel, Esc, a press outside and another layer close the surface during the wait, and the consumer hears the source on
+   `nph-cancel`. The component does not undo the request already sent.
+5. **Focus (Q5).** On open, Cancel in `warning` and `destructive`, Confirm in `default`. Tab and Shift+Tab move only between
+   the two buttons, in the order they appear on screen, handled by the keydown on the surface. Esc, Cancel and Confirm give the
+   focus back to the trigger; a press outside leaves it where the person pressed (item 9). When the trigger is gone, the focus
+   goes to `return-focus-to`, a property that takes an element; without it the focus is left to the browser. If the popconfirm
+   leaves the page with the trigger, the consumer places the focus. The fallback is named here and in the sheet, and nothing is
+   guessed about the next row.
+6. **One layer at a time (Q6).** As `nph-popover`: the one that opens takes the focus, a press outside closes the open one, and
+   the focus leaving it closes it as `other-layer`, also while its Confirm loads. There is no global registry, so a page can
+   draw several open for validation by opening them in turn. Esc belongs to the last one shown.
+7. **Actions that do not fit (Q7, D-2).** The code measures the natural width of the two buttons against the band; when they do
+   not fit, `data-stacked` turns the band into a column with Confirm on top and each button at the full width. The surface keeps
+   its width. A single label longer than the band stays outside: it needs `nph-button` to wrap.
+8. **Focus border of the primary Confirm (Q8, D-1).** The primary Confirm (default and warning) sets
+   `--nph-button-focus-border` to `focus/border`. The danger Confirm and Cancel keep their own. `nph-button` is not changed.
+9. **The divider and the motion (Q9).** The popconfirm draws the divider through the `nph-separator` it holds, setting
+   `--nph-color-border` and `--nph-border-width` in scope to `popconfirm/divider` and `popconfirm/border-width`, as the
+   popover does; the separator gains no hook. The easing is `motion/enter-easing` and `motion/exit-easing`, as the popover; the
+   durations are `popconfirm/enter-duration` and `popconfirm/exit-duration`. With reduced motion there is no transition.
+10. **The title (Q10).** The title is plain text with the id the `alertdialog` points to, not a heading, so the piece assumes no
+    heading level of the page. The look does not change.
+11. **Position and width (Q11).** The position, the flip, the arrow and the follow of scroll and resize are those of
+    `nph-popover`, copied and not shared, as the focus helpers of P87 were: sharing would change `nph-popover`, which this
+    task does not touch. The width is the fixed token of the size and never goes beyond the window minus `layout/margin-compact`
+    on each side.
+
+**Out of scope.** The wrap of a long label inside `nph-button`. The focus fix of `nph-button` per brand and scheme (item 10).
+The change of the DSA-67 text that says the focus returns to the trigger on a press outside. A popconfirm inside a dialog. A
+Docs page in Storybook. The reading in NVDA, JAWS and VoiceOver of an `alertdialog` with no `aria-modal` and the Tab kept
+inside, which has no read source.
+
+**Status.** Anatomy and behavior accepted by the design owner on 19/11/2026; D-1, D-2 and D-3 answered on 22/11/2026. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+
 ---
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135 or P136 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136 or P137 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

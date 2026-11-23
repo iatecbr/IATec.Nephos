@@ -444,6 +444,15 @@
     "components-nph-popover-validation--direction": "Direction",
     "components-nph-popover-validation--interactive": "Interactive",
     "components-nph-popover-validation--examples": "Examples",
+    "components-nph-popconfirm-validation": "Validation",
+    "components-nph-popconfirm-validation--types": "Types",
+    "components-nph-popconfirm-validation--placement": "Placement",
+    "components-nph-popconfirm-validation--parts": "Parts",
+    "components-nph-popconfirm-validation--actions": "Actions",
+    "components-nph-popconfirm-validation--direction": "Direction",
+    "components-nph-popconfirm-validation--interactive": "Interactive",
+    "components-nph-popconfirm-validation--examples": "Examples",
+    "components-nph-popconfirm-validation--brands": "Brands",
     "components-nph-hover-card-docs": "Docs",
     "components-nph-hover-card-docs--documentation": "Documentation",
     "components-nph-hover-card-validation": "Validation",
@@ -8683,6 +8692,14 @@
       "components-nph-popover-validation--direction": "Right-to-left writing: start and end follow the direction on the top and bottom sides, and the arrow follows them.",
       "components-nph-popover-validation--interactive": "A popover to try: the trigger opens it and carries aria-expanded; Esc, a press outside, the close button or the footer closes it, and the focus goes back to the trigger.",
       "components-nph-popover-validation--examples": "The three required examples, each in light and dark mode: filter with confirmation, short form, and information with the close button and the arrow.",
+      "components-nph-popconfirm-validation--types": "The three types in the two sizes, with no arrow: the icon, the icon box and Confirm follow the type, and the width, the padding and the title follow the size.",
+      "components-nph-popconfirm-validation--placement": "The four sides and the three alignments, with the arrow: the surface opens at 4 px from the tip of the arrow, aligned to the trigger, and the arrow points to it. The type changes by row, so each one is on every side.",
+      "components-nph-popconfirm-validation--parts": "The icon and the description turn on and off; the title and the two actions are always there.",
+      "components-nph-popconfirm-validation--actions": "The two buttons side by side; stacked with Confirm on top when the labels do not fit, each at the full width of the band; and Confirm loading with Cancel still enabled.",
+      "components-nph-popconfirm-validation--direction": "Right-to-left writing: start and end follow the direction on the top and bottom sides, and the arrow follows them.",
+      "components-nph-popconfirm-validation--interactive": "A popconfirm to try: the trigger opens it and carries aria-expanded; Cancel, Esc or a press outside gives up, Tab moves only between the two buttons, and Confirm loads for a moment before it closes. The focus goes back to the trigger, except after a press outside.",
+      "components-nph-popconfirm-validation--examples": "The three required examples, each in light and dark mode: delete a spreadsheet, leave the editing of one item and send a request for approval.",
+      "components-nph-popconfirm-validation--brands": "The seven brands in light and dark mode, with the popconfirm open in every frame: the primary Confirm and its focus border follow the brand of the frame.",
       "components-nph-hover-card-validation--sides": "The card open on each side, without the arrow and with it: 4 from the link without the arrow; with it, the arrow tip is 4 from the link and the card sits 11 away. The card is 320 wide.",
       "components-nph-hover-card-validation--meta-line": "The meta line as a phrase, a relative time with the full date in the title, a date, a time and turned off: the clock icon for a phrase or a time and the calendar for a date.",
       "components-nph-hover-card-validation--in-sentence": "The link in the line of a sentence with the card closed, and the same link with the card open: the piece takes the line of the text.",
@@ -12505,6 +12522,33 @@
     "sourceApi": "nph-navigation-menu spec sheet; docs/decisoes-tecnicas.md › P110",
     "sourceAnatomy": "Figma, sets 3969:7897, 3957:6662 and 3957:6722; design.md",
     "matrixLabel": "Component matrix"
+  },
+  "popconfirmValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "cancel": "Cancel",
+    "longConfirm": "Delete the whole March spreadsheet",
+    "longCancel": "Keep it and go back to the list",
+    "default": {
+      "verb": "Send",
+      "title": "Send for approval?",
+      "description": "The manager gets the request and you cannot edit until the answer."
+    },
+    "warning": {
+      "verb": "Leave",
+      "title": "Leave without saving?",
+      "description": "The changes to this item are lost."
+    },
+    "destructive": {
+      "verb": "Delete",
+      "title": "Delete this file?",
+      "description": "The file goes to the trash and leaves the folder."
+    },
+    "spreadsheet": {
+      "verb": "Delete",
+      "title": "Delete the March spreadsheet?",
+      "description": "The spreadsheet goes to the trash and leaves the project list."
+    }
   },
   "popoverValidation": {
     "lightCaption": "Light mode",
