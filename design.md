@@ -614,7 +614,7 @@ tokens_semantic:
     css: '--nph-focus-halo-danger'
     claro: core/danger/200
     escuro: core/danger/200
-    use: "Focus HALO when the control is of the danger type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
+    use: "Focus HALO when the control is of the danger type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. The danger part of the nph-split-button uses focus/halo instead (split-button/focus-halo, DSA-109)."
   focus/halo-success:
     css: '--nph-focus-halo-success'
     claro: core/success/200
