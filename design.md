@@ -1301,7 +1301,7 @@ tokens_theme:
   theme/brand-text-light:
     css: '--nph-theme-brand-text-light'
     valor_por_modo: "core/<vertical>/600 in six verticals; core/educacao/800 in `Educacao`"
-    use: "Brand tone for text and icon on background and surface in light mode, consumed by color/primary-on-surface. The same tone as theme/brand-600 in six verticals; `Educacao` uses 800, because its 700 measures 4.27:1 on color/muted, below the 4.5:1 of WCAG 1.4.3 for normal text, and its 800 measures 7.53:1. The solid button, the link and the border of the brand stay on theme/brand-600. Do not use for fill or border."
+    use: "Brand tone for text and icon on background and surface in light mode, consumed by color/primary-on-surface. The same tone as theme/brand-600 in six verticals; `Educacao` uses 800, because its 700 measures 4.27:1 on color/muted, below the 4.5:1 of WCAG 1.4.3 for normal text, and its 800 measures 7.53:1. The solid button, the link and color/primary-border stay on theme/brand-600; the border of the primary outline nph-button uses color/primary-on-surface and follows the label. Do not use for solid fill."
   theme/brand-400-hover:
     css: '--nph-theme-brand-400-hover'
     valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial`, `Igrejas` and `Recursos Humanos`; core/educacao/800 in `Educacao`"
