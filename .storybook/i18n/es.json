@@ -444,6 +444,15 @@
     "components-nph-popover-validation--direction": "Dirección",
     "components-nph-popover-validation--interactive": "Interactivo",
     "components-nph-popover-validation--examples": "Ejemplos",
+    "components-nph-popconfirm-validation": "Validación",
+    "components-nph-popconfirm-validation--types": "Tipos",
+    "components-nph-popconfirm-validation--placement": "Posición",
+    "components-nph-popconfirm-validation--parts": "Partes",
+    "components-nph-popconfirm-validation--actions": "Acciones",
+    "components-nph-popconfirm-validation--direction": "Dirección",
+    "components-nph-popconfirm-validation--interactive": "Interactivo",
+    "components-nph-popconfirm-validation--examples": "Ejemplos",
+    "components-nph-popconfirm-validation--brands": "Marcas",
     "components-nph-hover-card-docs": "Docs",
     "components-nph-hover-card-docs--documentation": "Documentación",
     "components-nph-hover-card-validation": "Validación",
@@ -8683,6 +8692,14 @@
       "components-nph-popover-validation--direction": "Escritura de derecha a izquierda: inicio y fin siguen la dirección en los lados superior e inferior, y la flecha los acompaña.",
       "components-nph-popover-validation--interactive": "Un popover para probar: el disparador lo abre y lleva aria-expanded; Esc, un clic fuera, el botón de cerrar o el pie lo cierran, y el foco vuelve al disparador.",
       "components-nph-popover-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: filtro con confirmación, formulario corto e información con el botón de cerrar y la flecha.",
+      "components-nph-popconfirm-validation--types": "Los tres tipos en los dos tamaños, sin flecha: el icono, la caja del icono y Confirmar siguen el tipo, y el ancho, el relleno y el título siguen el tamaño.",
+      "components-nph-popconfirm-validation--placement": "Los cuatro lados y las tres alineaciones, con la flecha: la superficie abre a 4 px de la punta de la flecha, alineada al disparador, y la flecha apunta hacia él. El tipo cambia en cada fila, así que cada uno aparece en todos los lados.",
+      "components-nph-popconfirm-validation--parts": "El icono y la descripción se activan y desactivan; el título y las dos acciones siempre están.",
+      "components-nph-popconfirm-validation--actions": "Los dos botones lado a lado; apilados con Confirmar arriba cuando las etiquetas no caben, cada uno al ancho completo de la franja; y Confirmar cargando con Cancelar aún activo.",
+      "components-nph-popconfirm-validation--direction": "Escritura de derecha a izquierda: inicio y fin siguen la dirección en los lados superior e inferior, y la flecha los acompaña.",
+      "components-nph-popconfirm-validation--interactive": "Un popconfirm para probar: el disparador lo abre y lleva aria-expanded; Cancelar, Esc o un clic fuera desiste, el Tab se mueve solo entre los dos botones, y Confirmar carga un momento antes de cerrar. El foco vuelve al disparador, salvo después de un clic fuera.",
+      "components-nph-popconfirm-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: eliminar una hoja de cálculo, salir de la edición de un elemento y enviar una solicitud de aprobación.",
+      "components-nph-popconfirm-validation--brands": "Las siete marcas en modo claro y oscuro, con el popconfirm abierto en cada marco: el Confirmar primario y su borde de foco siguen la marca del marco.",
       "components-nph-hover-card-validation--sides": "La tarjeta abierta en cada lado, sin la flecha y con ella: a 4 del enlace sin la flecha; con ella, la punta de la flecha queda a 4 del enlace y la tarjeta a 11. La tarjeta mide 320 de ancho.",
       "components-nph-hover-card-validation--meta-line": "La línea de meta como frase, tiempo relativo con la fecha completa en el title, fecha, hora y apagada: el icono de reloj para frase u hora y el de calendario para fecha.",
       "components-nph-hover-card-validation--in-sentence": "El enlace en la línea de una frase con la tarjeta cerrada, y el mismo enlace con la tarjeta abierta: la pieza sigue la línea del texto.",
@@ -12505,6 +12522,33 @@
     "sourceApi": "Ficha del nph-navigation-menu; docs/decisoes-tecnicas.md › P110",
     "sourceAnatomy": "Figma, conjuntos 3969:7897, 3957:6662 y 3957:6722; design.md",
     "matrixLabel": "Matriz del componente"
+  },
+  "popconfirmValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "cancel": "Cancelar",
+    "longConfirm": "Eliminar toda la hoja de cálculo de marzo",
+    "longCancel": "Conservarla y volver a la lista",
+    "default": {
+      "verb": "Enviar",
+      "title": "¿Enviar para aprobación?",
+      "description": "El gerente recibe la solicitud y no puedes editar hasta la respuesta."
+    },
+    "warning": {
+      "verb": "Salir",
+      "title": "¿Salir sin guardar?",
+      "description": "Los cambios de este elemento se pierden."
+    },
+    "destructive": {
+      "verb": "Eliminar",
+      "title": "¿Eliminar este archivo?",
+      "description": "El archivo va a la papelera y sale de la carpeta."
+    },
+    "spreadsheet": {
+      "verb": "Eliminar",
+      "title": "¿Eliminar la hoja de cálculo de marzo?",
+      "description": "La hoja de cálculo va a la papelera y sale de la lista del proyecto."
+    }
   },
   "popoverValidation": {
     "lightCaption": "Modo claro",

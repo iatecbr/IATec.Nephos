@@ -259,6 +259,8 @@ dictionaryDefinitions:
       - novalidate
       - nums
       - passwordless
+      - popconfirm
+      - popconfirms
       - popovertarget
       - precomposed
       - reassociates
