@@ -825,6 +825,7 @@
   --nph-rich-text-editor-content-padding-y: var(--nph-core-space-200);
   --nph-rich-text-editor-list-indent: var(--nph-core-space-600);
   --nph-rich-text-editor-quote-padding-start: var(--nph-core-space-400);
+  --nph-split-button-gap: var(--nph-core-space-50);
   --nph-chart-y-label-gap: var(--nph-space-inline);
   --nph-chart-x-label-gap: var(--nph-space-stack-tight);
   --nph-chart-grid-width: var(--nph-border-width);
@@ -1241,6 +1242,9 @@
   --nph-rich-text-editor-quote-border-width: var(--nph-border-width);
   --nph-rich-text-editor-footer-gap: var(--nph-space-stack);
   --nph-rich-text-editor-footer-actions-gap: var(--nph-space-inline-loose);
+  --nph-split-button-inner-radius: var(--nph-radius-inner);
+  --nph-split-button-focus-border-inner-radius: var(--nph-focus-border-radius-inner);
+  --nph-split-button-focus-halo-inner-radius: var(--nph-focus-radius-inner-with-border);
   --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
   --nph-rich-text-editor-focus-halo-error: var(--nph-focus-halo-error);
 }
@@ -1743,6 +1747,8 @@
   --nph-rich-text-editor-focus-border: var(--nph-focus-border);
   --nph-rich-text-editor-focus-halo: var(--nph-focus-halo);
   --nph-rich-text-editor-link-foreground: var(--nph-color-link);
+  --nph-split-button-focus-border: var(--nph-focus-border);
+  --nph-split-button-focus-halo: var(--nph-focus-halo);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-sidebar-item-foreground-open);
   --nph-panel-menu-subgroup-background-hover: var(--nph-sidebar-item-background-hover);
   --nph-panel-menu-guide-background: var(--nph-sidebar-group-line);
