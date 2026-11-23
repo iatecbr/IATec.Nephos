@@ -106,7 +106,7 @@ Documentation samples: primary with the start icon; compact and large; loading; 
 
 Documentation samples: focus on each part, in secondary, primary and danger, ready to copy (`7996:6439`, `7996:6442`, `7996:6445`, `8041:364`, `8041:395`, `7996:6448`; dark pairs `7996:6461`, `7996:6464`, `7996:6467`, `8041:424`, `8041:445`, `7996:6470`); open with the menu; whole group disabled.
 
-Known limits (appendix, section H; foundation, outside this task): the halo (`focus/halo`) has low contrast against the dark background; the light focus border (`focus/border`) carries the ring, by the Nephos rule. In the strict reading of WCAG, the primary solid focus border in light has the same tone as `color/primary` in the brand `Sistemas`, as in the `nph-button` alone. The primary ghost label over `color/muted` in the brand `Educacao`, light, measures 4.27:1 (DSA-113).
+Known limits (appendix, section H; foundation, outside this task): the halo (`focus/halo`) has low contrast against the dark background; the light focus border (`focus/border`) carries the ring, by the Nephos rule. Against the halo, the focus border has the known limit written in `focus/border` of `design.md`: 2.92:1 in the brand `Sistemas`, light. In the strict reading of WCAG, the primary solid focus border in light has the same tone as `color/primary` in the brand `Sistemas`, as in the `nph-button` alone. The primary ghost label over `color/muted` in the brand `Educacao`, light, measures 4.27:1 (DSA-113).
 
 ## Relations and context (as in Figma, section 6)
 
@@ -275,7 +275,7 @@ Read by script in the set, the root and the documentation, before the approval; 
 | 7 | Pend. 14 | A foundation task for `color/primary-on-surface` of `Educacao` in light, up to 4.5:1 over `color/muted` (DSA-113). |
 | 8 | Pend. 21 | No focus variant per part in the Figma set; documentation section 4 teaches how to show the focus, with the sample ready to copy. Caveats recorded: no source read treats focus per part in a composed component; an override in a nested instance is lost more easily; the documentation says the focus always exists in the code. |
 | 9 | Pend. 17 | The `nph-dropdown-menu` gains an end alignment, as the `nph-popover` (DSA-111). |
-| 10 | Pend. 19 | Inside the `nph-toolbar`, each part is an action of the bar (DSA-112). Caveat recorded: in a vertical bar, Down Arrow on the arrow competes with the navigation. |
+| 10 | Pend. 19 | Inside the `nph-toolbar`, each part is an action of the bar (DSA-112). Caveat recorded: in a vertical bar, Down Arrow on the arrow competes with the navigation; it does not apply in this version, because the `nph-toolbar` has no vertical bar. |
 | 11 | Pend. 15 | Down and Up Arrow on the main part do nothing. |
 | 12 | Pend. 16 | Loading moves the focus to the main part; with the whole group disabled, the part with focus keeps `aria-disabled` until it loses the focus. Caveat recorded: the `nph-button` alone lets the focus fall today. |
 | 13 | Pend. 18 | A click on the main part with the menu open closes the menu and runs the action of the main part in the same click. Caveat recorded: a person who clicks to close the menu may fire the action. |

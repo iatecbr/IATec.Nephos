@@ -1649,7 +1649,7 @@ tokens_radius:
     css: '--nph-radius-inner'
     alias: core/radius/200
     valor: 4
-    use: "USE on an element nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item), on nph-tooltip and on the tab inside the segmented nph-tabs rail (tabs/item-radius) and on the inner corner of the junction of the parts of a control (split-button/inner-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on a surface or box fitted inside a card or a floating layer (the tonal section and the icon box of the nph-card, the icon box of the nph-popconfirm): there it is radius/inset. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius. Also the corner of the rich option and of its hover layer (select/option-radius), as the nph-select option (T6)."
+    use: "USE on an element nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item), on nph-tooltip, on the tab inside the segmented nph-tabs rail (tabs/item-radius) and on the inner corner of the junction of the parts of a control (split-button/inner-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on a surface or box fitted inside a card or a floating layer (the tonal section and the icon box of the nph-card, the icon box of the nph-popconfirm): there it is radius/inset. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius. Also the corner of the rich option and of its hover layer (select/option-radius), as the nph-select option (T6)."
   radius/inset:
     css: '--nph-radius-inset'
     alias: core/radius/400
