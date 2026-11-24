@@ -147,8 +147,8 @@ describe('nph-tooltip Documentation', () => {
       expect(text).toContain('aria-describedby');
       expect(text).toContain('Esc');
       expect(text).toContain('1.4.13');
-      expect(text).toMatch(/6[.,]69:1/);
-      expect(text).toMatch(/7[.,]47:1/);
+      expect(text).toMatch(/5[.,]85:1/);
+      expect(text).toMatch(/8[.,]98:1/);
     });
   }
 
