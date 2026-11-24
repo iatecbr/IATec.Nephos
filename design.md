@@ -125,18 +125,6 @@ tokens_core:
     '800': { valor: '#1e0d33', css: '--nph-core-rh-800' }
     '900': { valor: '#0f0619', css: '--nph-core-rh-900' }
     '950': { valor: '#08030d', css: '--nph-core-rh-950' }
-  neutral:
-    '50': { valor: '#f1f1f1', css: '--nph-core-neutral-50' }
-    '100': { valor: '#e3e3e3', css: '--nph-core-neutral-100' }
-    '200': { valor: '#c7c7c7', css: '--nph-core-neutral-200' }
-    '300': { valor: '#ababab', css: '--nph-core-neutral-300' }
-    '400': { valor: '#8f8f8f', css: '--nph-core-neutral-400' }
-    '500': { valor: '#737373', css: '--nph-core-neutral-500' }
-    '600': { valor: '#5c5c5c', css: '--nph-core-neutral-600' }
-    '700': { valor: '#454545', css: '--nph-core-neutral-700' }
-    '800': { valor: '#2e2e2e', css: '--nph-core-neutral-800' }
-    '900': { valor: '#171717', css: '--nph-core-neutral-900' }
-    '950': { valor: '#0c0c0c', css: '--nph-core-neutral-950' }
   slate:
     '50': { valor: '#f6f8fa', css: '--nph-core-slate-50' }
     '100': { valor: '#e6eaef', css: '--nph-core-slate-100' }
@@ -156,14 +144,6 @@ tokens_core:
     '100': { valor: '#e9eff7', css: '--nph-core-surface-100' }
     '150': { valor: '#e1e8f2', css: '--nph-core-surface-150' }
     '200': { valor: '#d6dfeb', css: '--nph-core-surface-200' }
-    '300': { valor: '#9399a1', css: '--nph-core-surface-300' }
-    '400': { valor: '#6f7782', css: '--nph-core-surface-400' }
-    '500': { valor: '#4b5563', css: '--nph-core-surface-500' }
-    '600': { valor: '#3c444f', css: '--nph-core-surface-600' }
-    '700': { valor: '#2d333b', css: '--nph-core-surface-700' }
-    '800': { valor: '#1e2228', css: '--nph-core-surface-800' }
-    '900': { valor: '#0f1114', css: '--nph-core-surface-900' }
-    '950': { valor: '#08080a', css: '--nph-core-surface-950' }
   info:
     '50': { valor: '#e6f3f9', css: '--nph-core-info-50' }
     '100': { valor: '#cce6f4', css: '--nph-core-info-100' }
