@@ -213,7 +213,7 @@ accessibility:
     - "Drag or swipe on the track changes the slide, never the only way."
     - "Focus stays on the control used. A disabled arrow leaves the Tab order; when the focused arrow becomes disabled at an end, the focus moves to the current indicator, or to the other arrow when the indicators are off."
   focus: "The arrow shows the focus of nph-button. The indicator shows a focus/border border outside its target and a focus/halo halo beyond it, with no hover background. The border passes 3:1 over color/background, color/card and color/muted in every brand and both schemes."
-  contrast: "The indicator, the current indicator and the arrow icon pass 3:1 over the surfaces named in the accepted frame; the counter passes 4.5:1. The current indicator over the hover background fails, so the current one has no hover. The disabled arrow is exempt."
+  contrast: "The current indicator and the arrow icon pass 3:1 over the surfaces named in the accepted frame; the counter passes 4.5:1. The non-current indicator (color/marker) passes 3:1 over color/background and color/card in light and dark, and over color/muted and the hover color/accent in light; in dark it is 2.59:1 over color/muted and 1.93:1 over the hover color/accent, below 3:1, accepted with the choice of the softer dot. The current indicator over the hover background fails, so the current one has no hover. The disabled arrow is exempt."
   color_alternative: "The current indicator is wider than the others, besides the color. The arrow on the side with no slide is disabled. The counter says the position in text."
 invalid_combinations:
   - "A layout that is not single, several or peek — the carousel draws nothing and emits console.error in development."
@@ -330,7 +330,7 @@ end, the focus moves to the current indicator, or to the other arrow when the in
 | Accessible name | `label` or the host `aria-label` names the region; the arrows take `previous-label` and `next-label`; each indicator is "Slide N of total", or "Go to page N" in the several layout |
 | Keyboard | Tab: previous arrow, indicators (one stop), next arrow; Left and Right on an indicator show the slide, Home and End go to the ends; Enter or Space on an arrow; the focus stays on the control used |
 | Focus | The arrow shows the `nph-button` focus; the indicator shows a `focus/border` border and a `focus/halo` halo, with no hover background |
-| Contrast | The indicators and the arrow icon pass 3:1; the counter passes 4.5:1; the current indicator over the hover background fails, so it has no hover; the disabled arrow is exempt |
+| Contrast | The current indicator and the arrow icon pass 3:1; the non-current indicator (`color/marker`) passes 3:1 over `color/background` and `color/card`, and over `color/muted` and the hover `color/accent` in light, and is 2.59:1 and 1.93:1 over those two in dark; the counter passes 4.5:1; the current indicator over the hover background fails, so it has no hover; the disabled arrow is exempt |
 | Alternative to color | The current indicator is wider; the disabled arrow shows the end; the counter says the position in text |
 | Touch target | The indicator target is `carousel/indicator-target-size`, 24 by 24; the arrow has the default control height |
 | Alternative to dragging | Arrows and indicators move the slide with one tap, so at least one of the two stays on (WCAG 2.5.7) |

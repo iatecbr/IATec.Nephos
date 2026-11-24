@@ -16791,7 +16791,7 @@
       ],
       [
         "Contrast",
-        "The indicators and the arrow icon pass 3:1; the counter passes 4.5:1. The current indicator has no hover, because it would fail over the hover background."
+        "The current indicator and the arrow icon pass 3:1; the counter passes 4.5:1. The non-current indicator passes 3:1 over the background and the card in both modes, and over the muted background and the hover in light; in dark it is 2.59:1 over the muted background and 1.93:1 over the hover, below 3:1. The current indicator has no hover, because it would fail over the hover background."
       ],
       [
         "Color is not the only signal",

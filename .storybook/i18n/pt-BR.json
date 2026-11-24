@@ -16791,7 +16791,7 @@
       ],
       [
         "Contraste",
-        "Os indicadores e o ícone da seta passam em 3:1; o contador passa em 4,5:1. O indicador atual não tem hover, porque falharia sobre o fundo do hover."
+        "O indicador atual e o ícone da seta passam em 3:1; o contador passa em 4,5:1. O indicador não atual passa em 3:1 sobre o fundo e o cartão nos dois modos, e sobre o fundo muted e o hover no claro; no escuro tem 2,59:1 sobre o fundo muted e 1,93:1 sobre o hover, abaixo de 3:1. O indicador atual não tem hover, porque falharia sobre o fundo do hover."
       ],
       [
         "A cor não é o único sinal",
