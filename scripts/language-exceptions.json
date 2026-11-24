@@ -463,17 +463,13 @@
       "Documentação",
       "estado",
       "foco",
-      "itens",
       "linha",
       "moldura",
-      "página",
       "Selecionar",
       "seleção",
-      "tabela",
-      "tipo",
       "todas"
     ],
-    "reason": "Name of the Figma frame (Documentação) and property, variant and piece names of nph-data-table, quoted as they are in the accepted board (P64: Figma is in Portuguese). The pending decisions quote the Figma values tipo tabela, tipo intervalo, itens por página and carregando and the accessible name Selecionar todas, as the evidence does."
+    "reason": "Name of the Figma frame (Documentação) and property, variant and piece names of nph-data-table, quoted as they are in the accepted board (P64: Figma is in Portuguese). The pending decisions quote the Figma value carregando and the accessible name Selecionar todas, as the evidence does."
   },
   {
     "file": "docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md",
@@ -691,5 +687,29 @@
       "revisão"
     ],
     "reason": "Literal quotes in Portuguese, quoted as they were written: Elvys's review message relayed by the orchestrating session and the ready-for-review comment posted on the pull request (the text is in the evidence itself)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-100.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-101.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-102.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
   }
 ]
