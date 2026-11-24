@@ -93,6 +93,7 @@ P62.4 subsection for the detail).
 | **P135** | `nph-date-picker` and `nph-calendar`: the answers of 18/11/2026 (D-2, D-5, D-6, D-9, D-10 and the header of the large grid) | 19/11/2026 | Low now, as P133: no piece consumes the date picker yet. Changing the property `allowsNonContiguousRanges`, the periods of the shortcuts and when one is disabled, the arrows on the outer edges of the range, the views in two columns, the height of the views or the header of the large grid later requires redoing every consumer. D-15 to D-18 wait for Indiane, with D-12 to D-14 | Answers of the design owner on 18/11/2026 (evidence of DSA-96). API and semantics reviewed in the pull request that brings them |
 | **P136** | API and semantics of `nph-accordion` and `nph-accordion-item` | 23/11/2026 | Low now. No piece consumes the accordion yet; the details of a record, frequently asked questions, the steps of a setup and the filters of a side panel will, and changing `appearance`, `expansion`, `size`, `heading-level`, the properties of the item (`label`, `description`, `start`, `icon`, `media-src`, `start-label`, `tag`, `status`, `status-label`, `indicator`, `open`, `disabled`, `persistent`), the event `nph-toggle`, the rules of the single expansion, the region rule or the invalid-input rule later requires redoing every consumer. | Anatomy and behavior: documentation accepted by Indiane on 19/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P137** | API and semantics of `nph-popconfirm` | 23/11/2026 | Low now. No piece consumes the popconfirm yet; deleting a row that goes to the trash, leaving the editing of one item and sending a request for approval will, and changing `type`, `size`, `side`, `align`, `arrow`, `hide-icon`, `confirm-label`, `cancel-label`, `loading`, `return-focus-to`, the events `nph-confirm` and `nph-cancel` with their `source`, the rule that Confirm closes unless `preventDefault` is called, the Tab kept between the two buttons or the initial focus by type later requires redoing every consumer. | Anatomy and behavior: documentation accepted by the design owner on 19/11/2026; D-1, D-2 and D-3 answered on 22/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P138** | API and semantics of `nph-tree-select`, and the rows of `nph-tree` as a module | 24/11/2026 | Low now. No piece consumes the tree select yet; a destination folder, the files of a submission and a contract in a large tree will, and changing `mode`, `value` and `values`, the id as the value, `nph-tree-load` and `nph-tree-toggle` with the detail of `nph-tree`, the rows drawn in the shadow root of the field, or the parent carrying its children in `values` later requires redoing every consumer. | Documentation accepted by the design owner on 18/11/2026; D-1 answered the same day. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -10378,9 +10379,70 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P138 — `nph-tree-select`: API and semantics, and the rows of `nph-tree` as a module
+
+**Technical conflict.** The accepted documentation (frame `7145:9081`, sets `6339:8107` and `6339:8110`) draws a form field that
+opens a panel with a tree, in three modes and two sizes, and leaves to the code how the tree sits in the panel, how the field
+of each mode is reused, what the value is, what happens when a whole branch is checked, how the load on demand is passed on
+and how the whole path reaches the accessible name. The APG combobox with a tree popup keeps DOM focus on the field and points
+to the active `treeitem` by `aria-activedescendant`, and two limits of the platform and of the system shape the answer:
+- an `aria-activedescendant` (or `ariaActiveDescendantElement`) set on the field cannot point into the shadow root of another
+  element, and the `nph-tree` draws its rows in its own shadow root and moves the DOM focus between them;
+- the fields of the family draw their own box in their own shadow root, with no shared field part: the only module they share
+  is the list of the `nph-combobox` (P95).
+
+**Decision.** `nph-tree-select` is one Web Component with **open Shadow DOM** (P01), form-associated (P80), consuming only
+semantic tokens: the eight `tree-select/*` ones of the accepted frame, which came with this work, and the tokens of the field
+it reuses. It has no `::part`, no slot and no color property. What it rejects renders nothing and emits `console.error` only in
+development, once per cause: the rule of P21. The names follow P64.
+1. **The tree as a popup (path A).** The rows of the `nph-tree` become two modules, as the list of the `nph-combobox` did
+   (P95): `nph-tree.model.ts` (the rows, the check states with the cascade, the next list of checked ids) and
+   `nph-tree.rows.ts` with `nph-tree.rows.css` (the drawing of the items, of the error row, of the first load and of the empty
+   tree). The `nph-tree` consumes them with no change of behavior, and the tree select draws the same rows in its own shadow
+   root, so the field points to a row by `aria-activedescendant`. The rows take no `tabindex` there, and the active row draws
+   the focus border of the item by `data-focus`, only when the last input was the keyboard. The path with a popup mode in the
+   `nph-tree` was left out: it cannot give a valid `aria-activedescendant`.
+2. **The field of each mode.** The field is drawn in the shadow root of the tree select, with the tokens and the structure of
+   the `nph-select` (single), of the `nph-combobox` (search) and of the `nph-multi-combobox` (multiple, chips and counter),
+   because none of the three exposes its field as a part another piece can take. The chip, the counter, the clear target and the
+   arrow area follow those pieces.
+3. **The value.** `value` is the id of the chosen item in `single` and `search` (an empty string for none); `values` is the list
+   of the ids of the checked items in `multiple`. When a whole branch is checked, `values` carries the parent and every enabled
+   item under it, as `checked` of the `nph-tree` does, and the field shows one chip, the parent's. Removing that chip unchecks
+   the branch. The form submits the id in `single` and `search`, and one entry per checked id in `multiple`.
+4. **The properties and the events.** `mode` (`single`, `search`, `multiple`; `single`), `size` (`default`, `large`), `items`,
+   `expanded`, `value`, `values`, `query`, `placeholder`, `counter`, `subject`, `icons`, `loading`, the texts (`remove-label`,
+   `clear-label`, `empty-*`, `no-result-*`, `error-text`, `retry-text`), `open`, `name`, `required`, `disabled`, `invalid`,
+   `label` and `description`. `input` and `change` when the person changes the value; `nph-tree-toggle` and `nph-tree-load` with
+   the detail of the `nph-tree`, for the branches that open in the panel. Setting a value, `query` or `open` from code fires
+   nothing.
+5. **The filter.** The text matches as in the `nph-combobox` (no difference of case or accent); an item is kept when it matches
+   or when one of its loaded descendants does, and the kept ancestors are open. The first match becomes active. The check states
+   come from the whole tree, so a filter never changes what is checked.
+6. **The letter in `single` (D-1).** As decided on 18/11/2026: closed, the letter opens the panel on the next visible item after
+   the chosen one that starts with it, from the first with no value; open, it moves the active item. Quick letters form a prefix
+   for 500 ms, as the `nph-select`; the same letter cycles; a Space inside a quick search is part of it; only visible items
+   count, and no closed branch opens. The visible items of a closed field are the tree as it will open, with the path to the
+   chosen item open.
+7. **The whole path in the accessible name.** The field shows only the label of the chosen item; a hidden text with the path
+   (`Documents, Contracts, Contract 2025.pdf`) is added to the name of the field, after the label, in `single` and `search`.
+8. **The panel.** A `popover="manual"` in the top layer, as the list of the `nph-select`: below the field, aligned to its start,
+   `tree-select/panel-offset` away; above with the same distance when it does not fit below. Its width is the width of the field,
+   with `tree-select/panel-width` (`tree-select/panel-width-multiple` in `multiple`) as the minimum. The code of the position
+   is copied and not shared, as the other pieces did.
+
+**Out of scope.** The `nph-tooltip` that shows the whole label of a cut item: it needs the Tab stop of the item, which the rows
+of the tree select do not take, and is left for a later task. Checking the parent and the children independently, a small size,
+a warning status, a "+N" chip and a highlight of the searched part (out of the v1 by the accepted documentation).
+**Status.** Documentation accepted by the design owner on 18/11/2026; D-1 answered the same day. API and semantics are reviewed
+in the pull request that brings them; the merge is the approval.
+
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136 or P137 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137 or P138 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

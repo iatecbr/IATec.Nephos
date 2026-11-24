@@ -10,6 +10,7 @@
  * - `size`: `default` or `large`; reflects;
  * - `items`: the nodes, as in `nph-tree`: `{ id, label, children?, branch?, disabled?, loading?, error? }`.
  *   Property only. `expanded`: the ids of the open branches;
+ * - `query`: the text typed in the field of the two editable modes; setting it from code filters the tree;
  * - `value`: the id of the chosen item, in `single` and `search` (`''` for none); `values`: the ids of the
  *   checked items, in `multiple`. Setting them from code fires nothing. When a whole branch is checked,
  *   `values` carries the parent and every item under it, as `checked` of the `nph-tree` does, and the field
@@ -125,6 +126,7 @@ export class NphTreeSelect extends LitElement {
     /* The values have their own accessors: the `value` attribute is the default of the single choice. */
     value: { attribute: false, noAccessor: true },
     values: { attribute: false, noAccessor: true },
+    query: { attribute: false, noAccessor: true },
     placeholder: { type: String },
     counter: { type: Boolean, reflect: true },
     subject: { type: String },
@@ -287,6 +289,17 @@ export class NphTreeSelect extends LitElement {
     this.requestUpdate('value', old);
   }
 
+  /** The text typed in the field of the two editable modes. Setting it from code filters the tree and fires nothing. */
+  get query(): string {
+    return this.typed ?? '';
+  }
+
+  set query(next: string) {
+    const old = this.typed;
+    this.typed = next === null || next === undefined || String(next) === '' ? null : String(next);
+    this.requestUpdate('query', old);
+  }
+
   /** The ids of the checked items in `multiple`. Setting them from code fires nothing. */
   get values(): string[] {
     return [...this.currentValues];
@@ -438,7 +451,7 @@ export class NphTreeSelect extends LitElement {
   }
 
   /** The text that filters the tree: only the editable modes filter. */
-  private get query(): string {
+  private get filterText(): string {
     return this.editable ? (this.typed ?? '') : '';
   }
 
@@ -494,7 +507,7 @@ export class NphTreeSelect extends LitElement {
       this.pruneLoads();
     }
     const items = this.items;
-    const filtered = filterTree(items, this.query);
+    const filtered = filterTree(items, this.filterText);
     const open = new Set([...(Array.isArray(this.expanded) ? this.expanded : []), ...filtered.open]);
     this.model = buildModel(filtered.items, [...open], (node) => this.loadsNow(node));
     this.fullModel = buildModel(items, branchIds(items), () => false);
@@ -517,7 +530,7 @@ export class NphTreeSelect extends LitElement {
       if (pending === 'first') key = visible[0]?.key ?? null;
       else if (pending === 'last') key = visible.at(-1)?.key ?? null;
       else if (pending === 'chosen') key = this.model.rowByKey.has(this.current) && this.current !== '' ? this.current : (visible[0]?.key ?? null);
-      else if (pending === 'match') key = (firstMatch(visible, this.query) ?? visible[0])?.key ?? null;
+      else if (pending === 'match') key = (firstMatch(visible, this.filterText) ?? visible[0])?.key ?? null;
       else key = this.model.rowByKey.has(pending.key) ? pending.key : (visible[0]?.key ?? null);
     } else if (key === null || !this.model.rowByKey.has(key)) {
       key = visible[0]?.key ?? null;
@@ -1196,7 +1209,7 @@ export class NphTreeSelect extends LitElement {
       inside = html`<div id="tree">${renderEmpty(this.noResultHeading, this.noResultDescription)}</div>`;
     } else {
       inside = html`<ul class="tree" id="tree" role="tree" aria-multiselectable=${this.multiple ? 'true' : nothing}>
-        ${renderLevel(this.rowContext(), filteredTop(this.model, this.items, this.query))}
+        ${renderLevel(this.rowContext(), filteredTop(this.model, this.items, this.filterText))}
       </ul>`;
     }
     return html`<div class="scroller">${inside}</div>`;
