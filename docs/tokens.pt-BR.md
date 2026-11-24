@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=7f2a70b17fc1070d2d81674de9938c991921e5c5e2ffbf61a65fb5b0f220f345 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=5a8e083e66df6b98860cc5d3714f0a614f1a0a4a5b5223266c2e94950512636b | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -115,8 +115,8 @@ Os três tokens abaixo foram aprovados no Figma e sincronizados na fonte técnic
 
 | Token | Tipo DTCG | Claro | Escuro |
 |---|---|---|---|
-| `color/destructive-foreground` | `color` | `{core.base.white}` | `{core.neutral.950}` |
-| `color/secondary-hover` | `color` | `{core.neutral.200}` | `{core.surface.700}` |
+| `color/destructive-foreground` | `color` | `{core.base.white}` | `{core.slate.950}` |
+| `color/secondary-hover` | `color` | `{core.surface.200}` | `{core.slate.700}` |
 | `state/hover-opacity` | `number` | `0.95` | `0.95` |
 
 `state/disabled-opacity` permanece `number = 0.5`.

@@ -1178,7 +1178,7 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
 
   /*
    * Known limit, accepted with the board: the checked background is not a 3:1 boundary on
-   * the page (1.26:1 in light and 1.54:1 in dark in the default brand). The checked state
+   * the page (1.26:1 in light and 1.39:1 in dark in the default brand). The checked state
    * is also told by the label color, the icon swap and aria-pressed. The test pins it: if a
    * token changes, it fails and the limit is rewritten.
    */
@@ -1190,7 +1190,7 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
       measured.push(`${scheme} ${ratio.toFixed(2)}`);
       part.remove();
     }
-    expect(measured).toEqual(['light 1.26', 'dark 1.54']);
+    expect(measured).toEqual(['light 1.26', 'dark 1.39']);
   });
 
   it('the focus border (color/primary) is at least 3:1 on the page background in light, in every brand, and in dark in the default brand', () => {

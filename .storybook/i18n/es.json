@@ -1753,7 +1753,7 @@
       ],
       [
         "Contraste",
-        "El texto usa color/tooltip-foreground sobre color/tooltip: 6,69:1 en claro y 7,47:1 en oscuro, por encima de 4,5:1 (WCAG 1.4.3)."
+        "El texto usa color/tooltip-foreground sobre color/tooltip: 5,85:1 en claro y 8,98:1 en oscuro, por encima de 4,5:1 (WCAG 1.4.3)."
       ],
       [
         "Foco visible",
@@ -2174,7 +2174,7 @@
       ],
       [
         "El color no es la única señal",
-        "El estado presionado se muestra en el fondo, en el color del label y en el icono, que pasa de xmark a check, y aria-pressed lo expone. Límite conocido: el fondo marcado tiene 1,26:1 sobre la página en claro y 1,54:1 en oscuro, y en oscuro sin icono el label casi no cambia. La pieza inválida cambia el borde; el mensaje de error queda fuera."
+        "El estado presionado se muestra en el fondo, en el color del label y en el icono, que pasa de xmark a check, y aria-pressed lo expone. Límite conocido: el fondo marcado tiene 1,26:1 sobre la página en claro y 1,39:1 en oscuro, y en oscuro sin icono el label casi no cambia. La pieza inválida cambia el borde; el mensaje de error queda fuera."
       ],
       [
         "Área de toque",
@@ -16791,7 +16791,7 @@
       ],
       [
         "Contraste",
-        "Los indicadores y el icono de la flecha pasan 3:1; el contador pasa 4,5:1. El indicador actual no tiene hover, porque fallaría sobre el fondo del hover."
+        "El indicador actual y el icono de la flecha pasan 3:1; el contador pasa 4,5:1. El indicador no actual pasa 3:1 sobre el fondo y la tarjeta en los dos modos, y sobre el fondo muted y el hover en claro; en oscuro tiene 2,59:1 sobre el fondo muted y 1,93:1 sobre el hover, por debajo de 3:1. El indicador actual no tiene hover, porque fallaría sobre el fondo del hover."
       ],
       [
         "El color no es la única señal",

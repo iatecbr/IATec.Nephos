@@ -1260,7 +1260,7 @@ describe('token contract', () => {
 
   it('the tokens point where the contract says', () => {
     const value = (name: string) => new RegExp(`${name}:\\s*([^;]+);`).exec(tokensCss)?.[1]?.trim();
-    expect(value('--nph-carousel-indicator-background')).toBe('var(--nph-color-subtle-foreground)');
+    expect(value('--nph-carousel-indicator-background')).toBe('var(--nph-color-marker)');
     expect(value('--nph-carousel-indicator-background-current')).toBe('var(--nph-color-primary-border)');
     expect(value('--nph-carousel-indicator-target-background-hover')).toBe('var(--nph-color-accent)');
     expect(value('--nph-carousel-indicator-size')).toBe('var(--nph-core-space-200)');
@@ -1277,7 +1277,7 @@ describe('token contract', () => {
   });
 
   it('design.md names the semantic tokens the carousel tokens alias, with the position marker and the circular target', () => {
-    expect(designMd).toMatch(/color\/subtle-foreground/);
+    expect(designMd).toMatch(/color\/marker/);
     expect(designMd).toMatch(/color\/primary-border/);
     expect(designMd).toMatch(/position marker \(dot or pill\) and circular target/);
   });

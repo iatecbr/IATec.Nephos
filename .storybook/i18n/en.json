@@ -1753,7 +1753,7 @@
       ],
       [
         "Contrast",
-        "The text uses color/tooltip-foreground on color/tooltip: 6.69:1 in light and 7.47:1 in dark, above 4.5:1 (WCAG 1.4.3)."
+        "The text uses color/tooltip-foreground on color/tooltip: 5.85:1 in light and 8.98:1 in dark, above 4.5:1 (WCAG 1.4.3)."
       ],
       [
         "Visible focus",
@@ -2174,7 +2174,7 @@
       ],
       [
         "Color is not the only signal",
-        "The pressed state shows in the background, in the label color and in the icon, which swaps from xmark to check, and aria-pressed exposes it. Known limit: the checked background is 1.26:1 on the page in light and 1.54:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border; the error message stays outside."
+        "The pressed state shows in the background, in the label color and in the icon, which swaps from xmark to check, and aria-pressed exposes it. Known limit: the checked background is 1.26:1 on the page in light and 1.39:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border; the error message stays outside."
       ],
       [
         "Touch target",
@@ -16791,7 +16791,7 @@
       ],
       [
         "Contrast",
-        "The indicators and the arrow icon pass 3:1; the counter passes 4.5:1. The current indicator has no hover, because it would fail over the hover background."
+        "The current indicator and the arrow icon pass 3:1; the counter passes 4.5:1. The non-current indicator passes 3:1 over the background and the card in both modes, and over the muted background and the hover in light; in dark it is 2.59:1 over the muted background and 1.93:1 over the hover, below 3:1. The current indicator has no hover, because it would fail over the hover background."
       ],
       [
         "Color is not the only signal",

@@ -2007,14 +2007,14 @@ describe('token contract', () => {
   });
 
   for (const scheme of SCHEMES) {
-    it(`${scheme}: the text on the balloon passes 4.5:1 and matches the board (6.69 light, 7.47 dark)`, async () => {
+    it(`${scheme}: the text on the balloon passes 4.5:1 and matches the board (5.85 light, 8.98 dark)`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const { tooltip } = await mount({ open: true });
       await shown(tooltip);
       const style = getComputedStyle(bubbleOf(tooltip));
       const ratio = contrast(rgb(style.color), rgb(style.backgroundColor));
       expect(ratio).toBeGreaterThan(4.5);
-      expect(ratio).toBeCloseTo(scheme === 'light' ? 6.69 : 7.47, 1);
+      expect(ratio).toBeCloseTo(scheme === 'light' ? 5.85 : 8.98, 1);
     });
   }
 });
