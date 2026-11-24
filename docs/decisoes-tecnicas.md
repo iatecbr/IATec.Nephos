@@ -321,6 +321,21 @@ external environment and deploy stay out of scope. This annotation replaces the 
 26/10/2026 where they differ. Reviewed in the pull request that brings it; the merge is the
 approval.
 
+**Annotation of 24/11/2026.** At Elvys's request, the pipeline of 16/11/2026 also builds and
+publishes the Build artifact `files` on every push to `v/5.0.0` (each merge), besides the
+`v5.*` tags and manual runs. Since it was created, every automatic run had been a pull
+request run, which publishes nothing, so a release that consumes `files` found no artifact
+until a tag or a manual run. The branch trigger uses `batch: true`, so merges that arrive
+during a run are gathered into one run of the latest commit. A pull request to `v/5.0.0`
+still only builds. The trigger lives in the YAML; the pipeline definition in Azure DevOps
+does not override it. The artifact stays a private CI artifact and the pipeline still hosts
+nothing and does not create or change a release; which run a classic release takes is a
+setting of the release definition, outside the repository. Hosting it outside IATec stays a
+license decision (Font Awesome Pro, `PO-001`, Indiane); public publishing, GitHub Pages, an
+external environment and deploy stay out of scope. This annotation replaces the one of
+16/11/2026 where they differ (builds on `v5.*` tags and manual runs only). Reviewed in the
+pull request that brings it; the merge is the approval.
+
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
 by Elvys on 28/08/2026.
 

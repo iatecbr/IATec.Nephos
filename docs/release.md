@@ -48,7 +48,8 @@ Publish depends on Build and Test succeeding. Storybook is not part of that
 chain: since the annotation of 16/11/2026 in P19, a broken Storybook no longer
 fails Build, so a tag can publish a version to the feed while the Storybook
 pipeline fails. Both pipelines start on a `v5.*` tag: check the run of the
-Storybook pipeline for the same tag too.
+Storybook pipeline for the same tag too. Only the Storybook pipeline also
+starts on a push to `v/5.0.0`.
 
 ## The Storybook pipeline
 
@@ -60,10 +61,14 @@ pipeline `PrimeNg.Apollo.Versions`, whose release takes the artifact `files`
 from a Build artifact. It is a private CI artifact (P19); the pipeline hosts
 nothing and does not create or change a release.
 
-- **Triggers.** A `v5.*` tag and a manual run publish `files`. A pull request to
+- **Triggers.** Every push to `v/5.0.0` (each merge), a `v5.*` tag and a manual
+  run publish `files`. The branch trigger uses `batch: true`: merges that
+  arrive while a run is in progress are gathered into one run of the latest
+  commit, so two quick merges do not start parallel runs. A pull request to
   `v/5.0.0` only builds, as a check, and does not publish the artifact, so a
   broken Storybook is still caught on the PR. A run that fails publishes
-  nothing.
+  nothing. A merge and a tag on the same commit start two runs, each with its
+  own `files`.
 - **Steps.** The install steps repeat the Build job of the release candidate
   pipeline (Node, `.npmrc` from `.npmrc.pipeline`, `replacetokens`, `npm ci`
   with the Font Awesome Pro token, `.npmrc` removed at the end). Storybook needs
@@ -72,8 +77,13 @@ nothing and does not create or change a release.
 - **What a release consumes.** Add the pipeline as a Build artifact of the
   release; its content is the site, with `index.html` at the root of `files`:
   `$(System.DefaultWorkingDirectory)/<artifact alias>/files`.
-- **Without a new tag.** Use **Run pipeline** on `v/5.0.0` (or on a tag) and take
-  the artifact `files` of the run. To read it outside a release: in Azure
+- **Which run a release takes.** After a merge into `v/5.0.0`, the push run lists `files`
+  (`az pipelines runs artifact list --run-id <id>`). Check the version setting
+  of the artifact in the classic release (for example "Latest" or "Latest from
+  the specific branch"): it decides which run the release takes, and it lives
+  in the release definition, not in this file.
+- **Without a merge or a tag.** Use **Run pipeline** on `v/5.0.0` (or on a tag)
+  and take the artifact `files` of the run. To read it outside a release: in Azure
   DevOps, open the run, then **Summary**, then the published artifacts, or
   `az pipelines runs artifact download --run-id <id> --artifact-name files
   --path <folder>`. The folder is a static site: serve it with a static file
