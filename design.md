@@ -137,10 +137,25 @@ tokens_core:
     '800': { valor: '#2e2e2e', css: '--nph-core-neutral-800' }
     '900': { valor: '#171717', css: '--nph-core-neutral-900' }
     '950': { valor: '#0c0c0c', css: '--nph-core-neutral-950' }
+  slate:
+    '50': { valor: '#f6f8fa', css: '--nph-core-slate-50' }
+    '100': { valor: '#e6eaef', css: '--nph-core-slate-100' }
+    '200': { valor: '#bfc6d1', css: '--nph-core-slate-200' }
+    '300': { valor: '#8896aa', css: '--nph-core-slate-300' }
+    '400': { valor: '#6f7d91', css: '--nph-core-slate-400' }
+    '500': { valor: '#586679', css: '--nph-core-slate-500' }
+    '600': { valor: '#445163', css: '--nph-core-slate-600' }
+    '700': { valor: '#323e4e', css: '--nph-core-slate-700' }
+    '800': { valor: '#222c3a', css: '--nph-core-slate-800' }
+    '900': { valor: '#141c28', css: '--nph-core-slate-900' }
+    '950': { valor: '#080f18', css: '--nph-core-slate-950' }
   surface:
-    '50': { valor: '#edeeef', css: '--nph-core-surface-50' }
-    '100': { valor: '#dbdde0', css: '--nph-core-surface-100' }
-    '200': { valor: '#b7bbc1', css: '--nph-core-surface-200' }
+    '25': { valor: '#fafcfe', css: '--nph-core-surface-25' }
+    '50': { valor: '#f5f8fd', css: '--nph-core-surface-50' }
+    '75': { valor: '#eff4fa', css: '--nph-core-surface-75' }
+    '100': { valor: '#e9eff7', css: '--nph-core-surface-100' }
+    '150': { valor: '#e1e8f2', css: '--nph-core-surface-150' }
+    '200': { valor: '#d6dfeb', css: '--nph-core-surface-200' }
     '300': { valor: '#9399a1', css: '--nph-core-surface-300' }
     '400': { valor: '#6f7782', css: '--nph-core-surface-400' }
     '500': { valor: '#4b5563', css: '--nph-core-surface-500' }
@@ -249,14 +264,14 @@ tokens_semantic:
   color/background:
     css: '--nph-color-background'
     claro: core/base/white
-    escuro: core/surface/900
+    escuro: core/slate/900
     use: "Page background and background of any area that is not a card. Also the active tab of the segmented nph-tabs and the counter inside its rail (tabs/item-background-active, tabs/counter-background-rail). Also the background of the nph-tree-table branch error row at rest and in focus (tree-table/row-background), as the table row. Also the background of the nph-rich-text-editor box (rich-text-editor/background)."
     nao_use: "On a card, popover or sidebar."
   color/foreground:
     css: '--nph-color-foreground'
     claro: core/base/black
-    escuro: core/neutral/100
-    use: "Default text on the base background. Also the phrase of the nph-file-upload drop zone and the file name of the nph-file-upload-item, including over status/error-surface, status/warning-surface and status/success-surface (file-upload/foreground, file-upload-item/foreground): the neutral text measures 13.31:1 or more over those surfaces, and the status is also told by icon and text. Also the label of the nph-tree item and the texts of its error row (tree/item-foreground). Also the text of the nph-scheduler (scheduler/foreground). Also the title of the nph-collapsible trigger (collapsible/title-foreground). Also the label of the nph-menubar top item at rest, in focus and disabled (menubar/trigger-foreground). Also the title of the nph-timeline item, except on the pending item (timeline/title-foreground). Also the nph-chart: the value and the number of the highlight, the value label, the slice percentage, the donut total, the legend value and the error sentence (chart/foreground), and the legend item name on hover, with no background (chart/legend-item-foreground-hover). Also the message and the Try again action of the nph-tree-table branch error row at rest and in focus (tree-table/error-foreground). Also the text of the nph-rich-text-editor content: paragraph, headings, list and quote (rich-text-editor/foreground)."
+    escuro: core/slate/100
+    use: "Default text on the base background. Also the phrase of the nph-file-upload drop zone and the file name of the nph-file-upload-item, including over status/error-surface, status/warning-surface and status/success-surface (file-upload/foreground, file-upload-item/foreground): the neutral text measures 14.13:1 or more over those surfaces, and the status is also told by icon and text. Also the label of the nph-tree item and the texts of its error row (tree/item-foreground). Also the text of the nph-scheduler (scheduler/foreground). Also the title of the nph-collapsible trigger (collapsible/title-foreground). Also the label of the nph-menubar top item at rest, in focus and disabled (menubar/trigger-foreground). Also the title of the nph-timeline item, except on the pending item (timeline/title-foreground). Also the nph-chart: the value and the number of the highlight, the value label, the slice percentage, the donut total, the legend value and the error sentence (chart/foreground), and the legend item name on hover, with no background (chart/legend-item-foreground-hover). Also the message and the Try again action of the nph-tree-table branch error row at rest and in focus (tree-table/error-foreground). Also the text of the nph-rich-text-editor content: paragraph, headings, list and quote (rich-text-editor/foreground)."
     nao_use: "On color/primary or on a state color."
   color/primary:
     css: '--nph-color-primary'
@@ -273,60 +288,60 @@ tokens_semantic:
   color/secondary:
     css: '--nph-color-secondary'
     claro: core/surface/100
-    escuro: core/surface/600
+    escuro: core/slate/600
     use: "Alternative action that accompanies the primary one. Also the background of the solid nph-badge, which labels a state or category by its meaning."
     nao_use: "Destructive action."
   color/secondary-foreground:
     css: '--nph-color-secondary-foreground'
-    claro: core/surface/900
-    escuro: core/surface/100
+    claro: core/slate/950
+    escuro: core/slate/100
     use: "Text on color/secondary. On the secondary nph-button and nph-badge, also text, icon and border on color/secondary-light and color/muted, the text of the ghost secondary nph-button, which has no background, and the number of the nph-tabs counter (tabs/counter-foreground)."
   color/secondary-hover:
     css: '--nph-color-secondary-hover'
     claro: core/surface/200
-    escuro: core/surface/700
-    use: "Hover surface of a secondary action. Keeps the change visible in both modes. Contrast with color/secondary-foreground: 9.81:1 in light and 9.36:1 in dark."
+    escuro: core/slate/700
+    use: "Hover surface of a secondary action. Keeps the change visible in both modes. Contrast with color/secondary-foreground: 14.30:1 in light and 8.98:1 in dark."
     nao_use: "Hover of primary, destructive, outline or ghost."
   color/accent:
     css: '--nph-color-accent'
     claro: core/surface/50
-    escuro: core/surface/600
-    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover). Also the background of the nph-resizable grip box while dragging (resizable/grip-background-active). Also the hover background of the nph-carousel indicator target (carousel/indicator-target-background-hover); the indicator with focus does not take it, and the current one has no hover. Also the hover layer of the rich option of the nph-select and nph-combobox list (select/option-background-hover), in hover and on the option active by the keyboard, at select/option-background-hover-opacity (0.5): the layer alone measures 1.08:1 light and 1.13:1 dark over color/popover, so the option active by the keyboard also takes the 1 px focus border and the 4 px halo outside it, in focus/border and focus/halo (select/option-focus-border, select/option-focus-halo). The plain option keeps the full color/accent until its own select task."
+    escuro: core/slate/600
+    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (7.58:1 light, 4.69:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover). Also the background of the nph-resizable grip box while dragging (resizable/grip-background-active). Also the hover background of the nph-carousel indicator target (carousel/indicator-target-background-hover); the indicator with focus does not take it, and the current one has no hover. Also the hover layer of the rich option of the nph-select and nph-combobox list (select/option-background-hover), in hover and on the option active by the keyboard, at select/option-background-hover-opacity (0.5): the layer alone measures 1.03:1 light and 1.16:1 dark over color/popover, so the option active by the keyboard also takes the 1 px focus border and the 4 px halo outside it, in focus/border and focus/halo (select/option-focus-border, select/option-focus-halo). The plain option keeps the full color/accent until its own select task."
     nao_use: "Permanent block background, except the nph-select and nph-combobox arrow area."
   color/accent-foreground:
     css: '--nph-color-accent-foreground'
-    claro: core/neutral/950
-    escuro: core/neutral/100
+    claro: core/slate/950
+    escuro: core/slate/100
     use: "Text on color/accent. Also the label of the nph-tree item in hover (tree/item-foreground-hover). Also the grip icon of the nph-resizable while dragging (resizable/grip-foreground-active), over resizable/grip-background-active. Also the label, the start icon and the start dot of the rich option in hover and when active by the keyboard (select/option-foreground-hover), over the hover layer."
   color/muted:
     css: '--nph-color-muted'
     claro: core/surface/50
-    escuro: core/surface/700
+    escuro: core/slate/700
     use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the rail of the segmented nph-tabs (tabs/list-background). Also the background of the pending nph-stepper step marker (stepper/marker-background), decorative: the number carries the status. Also the tonal section of the nph-card (card/section-background): it separates by background, with no border. Also the background of the disabled nph-rich-text-editor box (rich-text-editor/background-disabled)."
     nao_use: "Hover: there it is color/accent, including the ghost secondary nph-button (button/secondary-ghost-background-hover, DSA-60). The nph-skeleton shape: there it is color/skeleton (skeleton/background, DSA-94); in dark, color/muted is the same as color/popover and the shape would vanish on a floating panel."
   color/skeleton:
     css: '--nph-color-skeleton'
     claro: core/surface/50
-    escuro: core/surface/600
-    use: "Background of the loading block (nph-skeleton) on a page, a card or a floating layer, only through skeleton/background. Same as color/muted in light; in dark one step above color/muted and color/popover, so the block does not vanish on a panel: 1.16:1 over color/popover, color/background and color/card in light; 1.29:1 over color/popover, 1.62:1 over color/card and 1.92:1 over color/background in dark. Decorative: the block carries no state and no text; the busy state of the region is told by aria-busy."
+    escuro: core/slate/600
+    use: "Background of the loading block (nph-skeleton) on a page, a card or a floating layer, only through skeleton/background. Same as color/muted in light; in dark one step above color/muted and color/popover, so the block does not vanish on a panel: 1.06:1 over color/popover, color/background and color/card in light; 1.35:1 over color/popover, 1.75:1 over color/card and 2.12:1 over color/background in dark. Decorative: the block carries no state and no text; the busy state of the region is told by aria-busy."
     nao_use: "Permanent background (color/muted). Interaction highlight (color/accent), which has the same two values with another function. Any piece other than the nph-skeleton shape."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
-    claro: core/neutral/600
-    escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground). Also the grip icon of the nph-resizable handle at rest, in hover, focus and disabled (resizable/grip-foreground): the grip passes 3:1 and shows that the handle can be dragged. Also the chevron of the nph-carousel arrows, by override on the nph-icon-button instance (carousel/control-foreground): 5.75:1 light and 5.10:1 dark over the arrow background, 4.91:1 and 3.91:1 in hover. Also the nph-carousel counter (carousel/counter-foreground). Also the description, the tonal section label, the list key and the meta footer of the nph-card (card/description-foreground). Also the title of the pending nph-timeline item, the item description and the word that marks the pending item as waiting (timeline/title-foreground-pending, timeline/description-foreground). Also the second line of the nph-rich-option choice card (rich-option/description-foreground), and the description and the secondary text of the rich option (select/option-description-foreground, select/option-secondary-foreground). Also the pending status icon at the start of the nph-accordion item (accordion/status-pending-icon), a neutral status icon, since there is no status/pending; the status tag with text at the end carries the meaning. Also the nph-chart: the labels of the axes, the goal, the categories, the direct series labels, the slice names and the donut total label, the comparison text of the change, the legend item name, the series name in the tooltip and the change icon in the neutral sense (chart/label-foreground, chart/legend-item-foreground, chart/tooltip-label-foreground, chart/delta-icon-neutral). Also the description of the nph-popconfirm (popconfirm/description-foreground). Also the placeholder and the counter of the nph-rich-text-editor (rich-text-editor/placeholder-foreground, rich-text-editor/counter-foreground): 6.69:1 light and 9.81:1 dark."
+    claro: core/slate/600
+    escuro: core/slate/200
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground). Also the chevron and the folder and file icon of the nph-tree item outside the selected state, in hover too (tree/toggle-foreground, tree/icon-foreground). Also the time column, the day label, the number of the days outside the shown month and the cancelled event text of the nph-scheduler (scheduler/time-foreground, scheduler/day-label-foreground, scheduler/event-cancelled-foreground). Also the description, the indicator and the start icon of the nph-collapsible trigger (collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground). Also the grip icon of the nph-resizable handle at rest, in hover, focus and disabled (resizable/grip-foreground): the grip passes 3:1 and shows that the handle can be dragged. Also the chevron of the nph-carousel arrows, by override on the nph-icon-button instance (carousel/control-foreground): 6.97:1 light and 4.69:1 dark over the arrow background, 6.00:1 and 3.40:1 in hover. Also the nph-carousel counter (carousel/counter-foreground). Also the description, the tonal section label, the list key and the meta footer of the nph-card (card/description-foreground). Also the title of the pending nph-timeline item, the item description and the word that marks the pending item as waiting (timeline/title-foreground-pending, timeline/description-foreground). Also the second line of the nph-rich-option choice card (rich-option/description-foreground), and the description and the secondary text of the rich option (select/option-description-foreground, select/option-secondary-foreground). Also the pending status icon at the start of the nph-accordion item (accordion/status-pending-icon), a neutral status icon, since there is no status/pending; the status tag with text at the end carries the meaning. Also the nph-chart: the labels of the axes, the goal, the categories, the direct series labels, the slice names and the donut total label, the comparison text of the change, the legend item name, the series name in the tooltip and the change icon in the neutral sense (chart/label-foreground, chart/legend-item-foreground, chart/tooltip-label-foreground, chart/delta-icon-neutral). Also the description of the nph-popconfirm (popconfirm/description-foreground). Also the placeholder and the counter of the nph-rich-text-editor (rich-text-editor/placeholder-foreground, rich-text-editor/counter-foreground): 8.07:1 light and 9.96:1 dark."
     nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
   color/subtle-foreground:
     css: '--nph-color-subtle-foreground'
-    claro: core/neutral/500
-    escuro: core/neutral/300
-    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 4.74:1 over color/popover in light, 5.55:1 in dark. Also the who and when line of the nph-timeline item (timeline/meta-foreground), 4.74:1 over color/background in light, the lowest of the item text; the word that marks the pending item as waiting stays on color/muted-foreground, because the person needs it to act."
+    claro: core/slate/500
+    escuro: core/slate/200
+    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 5.85:1 over color/popover in light, 6.31:1 in dark. Also the who and when line of the nph-timeline item (timeline/meta-foreground), 5.85:1 over color/background in light, the lowest of the item text; the word that marks the pending item as waiting stays on color/muted-foreground, because the person needs it to act."
     nao_use: "Placeholder, caption or helper text (color/muted-foreground); text needed to complete the task. The non-current position marker: there it is color/marker."
   color/marker:
     css: '--nph-color-marker'
-    claro: core/neutral/400
-    escuro: core/surface/400
-    use: "Non-current position marker: the small dot that marks an item of a sequence without being the current one, a non-text mark (WCAG 1.4.11). The dot of the nph-carousel indicators (carousel/indicator-background). 3.23:1 over color/background and color/card in light; 4.18:1 over color/background and 3.53:1 over color/card in dark. Over color/muted it measures 2.78:1 in light and 2.81:1 in dark, below 3:1."
+    claro: core/slate/400
+    escuro: core/slate/400
+    use: "Non-current position marker: the small dot that marks an item of a sequence without being the current one, a non-text mark (WCAG 1.4.11). The dot of the nph-carousel indicators (carousel/indicator-background). 4.18:1 over color/background and color/card in light; 4.09:1 over color/background and 3.37:1 over color/card in dark. Over color/muted it measures 3.93:1 in light and 2.59:1 in dark; the dark stays below 3:1."
     nao_use: "Text (color/subtle-foreground or color/muted-foreground). The current marker (color/primary-border). Over color/muted, where it does not reach 3:1."
   color/destructive:
     css: '--nph-color-destructive'
@@ -337,38 +352,38 @@ tokens_semantic:
   color/destructive-text:
     css: '--nph-color-destructive-text'
     claro: core/danger/600
-    escuro: core/danger/200
-    use: "Text and icon of a destructive action over a neutral surface (color/popover, color/background, color/card, color/dialog): the destructive item of a menu and of the nph-command. In dark, 5.12:1 over color/dialog and 6.62:1 over color/popover."
+    escuro: core/danger/100
+    use: "Text and icon of a destructive action over a neutral surface (color/popover, color/background, color/card, color/dialog): the destructive item of a menu and of the nph-command. In dark, 5.90:1 over color/dialog and 7.94:1 over color/popover."
     nao_use: "Over color/destructive-surface (color/destructive-on-surface); over solid color/destructive (color/destructive-foreground); validation error text (status/error-text)."
   color/destructive-foreground:
     css: '--nph-color-destructive-foreground'
     claro: core/base/white
-    escuro: core/neutral/950
+    escuro: core/slate/950
     use: "Text and icon on color/destructive."
     nao_use: "On another solid background. The dedicated alias exists because color/primary-foreground does not pass in every mode and brand."
   color/border:
     css: '--nph-color-border'
-    claro: core/neutral/200
-    escuro: core/surface/400
-    use: "Divider, outline of an area, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color). Also the outline of the clickable nph-card in hover (card/border-hover): only the outline rises one step; background and shadow stay. Also the divider at the base of the nph-tree-table branch error row (tree-table/border), as the rows of the nph-data-table. Also the bar at the start of a quote in the nph-rich-text-editor (rich-text-editor/quote-border), decorative: 1.69:1 light and 4.18:1 dark."
+    claro: core/slate/200
+    escuro: core/slate/400
+    use: "Divider, outline of an area, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color). Also the outline of the clickable nph-card in hover (card/border-hover): only the outline rises one step; background and shadow stay. Also the divider at the base of the nph-tree-table branch error row (tree-table/border), as the rows of the nph-data-table. Also the bar at the start of a quote in the nph-rich-text-editor (rich-text-editor/quote-border), decorative: 1.72:1 light and 4.09:1 dark."
     nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, the outline and the divider of the nph-popconfirm (popconfirm/border, popconfirm/divider), the outline and the divider of the nph-accordion (accordion/border, accordion/divider), the resting outline and the divider of the nph-card (card/border, card/divider), the divider between the toolbar and the text area of the nph-rich-text-editor (rich-text-editor/divider), and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. The line of the nph-resizable handle in hover and dragging: there it is color/border-strong (the hover line of the underline nph-tabs stays here)."
   color/border-subtle:
     css: '--nph-color-border-subtle'
-    claro: core/neutral/50
+    claro: core/surface/75
     escuro: core/alpha/white-10
-    use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); the outline of the grouped nph-accordion and of each separated block, and the divider between its items (accordion/border, accordion/divider): 1.13:1 light, decorative, the trigger is recognized by its text and its indicator; border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border). Also the outline of the nph-rich-option choice card at rest, checked and in hover (rich-option/border): 1.13:1 light and 1.35:1 dark, decorative; the control inside the card is the boundary that meets 3:1. Also the outline of the nph-date-picker panel and the divider above its range footer (date-picker/panel-border, date-picker/divider). Also the outline of the option list of nph-select, nph-combobox and nph-multi-combobox (DSA-95) and the outline of the nph-tree-select panel (tree-select/panel-border, DSA-94): decorative, the elevation/dropdown shadow and the background separate the layer, and each item carries its own contrast. Also the outline of the nph-chart data tooltip (chart/tooltip-border). Also the outline of the surface and of the arrow and the divider above the actions of the nph-popconfirm (popconfirm/border, popconfirm/divider); the divider is an nph-separator instance whose line color is overridden. Also the divider between the toolbar and the text area of the nph-rich-text-editor (rich-text-editor/divider): 1.13:1 light, decorative; the box border (color/input) is the boundary that meets 3:1, and the toolbar above completes the separation; the divider is an nph-separator instance whose line color is overridden."
+    use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); the outline of the grouped nph-accordion and of each separated block, and the divider between its items (accordion/border, accordion/divider): 1.11:1 light, decorative, the trigger is recognized by its text and its indicator; border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border). Also the outline of the nph-rich-option choice card at rest, checked and in hover (rich-option/border): 1.11:1 light and 1.37:1 dark, decorative; the control inside the card is the boundary that meets 3:1. Also the outline of the nph-date-picker panel and the divider above its range footer (date-picker/panel-border, date-picker/divider). Also the outline of the option list of nph-select, nph-combobox and nph-multi-combobox (DSA-95) and the outline of the nph-tree-select panel (tree-select/panel-border, DSA-94): decorative, the elevation/dropdown shadow and the background separate the layer, and each item carries its own contrast. Also the outline of the nph-chart data tooltip (chart/tooltip-border). Also the outline of the surface and of the arrow and the divider above the actions of the nph-popconfirm (popconfirm/border, popconfirm/divider); the divider is an nph-separator instance whose line color is overridden. Also the divider between the toolbar and the text area of the nph-rich-text-editor (rich-text-editor/divider): 1.11:1 light, decorative; the box border (color/input) is the boundary that meets 3:1, and the toolbar above completes the separation; the divider is an nph-separator instance whose line color is overridden."
     nao_use: "nph-dialog (color/dialog-separator); the border of a field (color/input)."
   color/border-strong:
     css: '--nph-color-border-strong'
-    claro: core/neutral/600
-    escuro: core/surface/200
-    use: "Divider and outline of an area in interaction: today the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 6.69:1 over color/background in light, 9.81:1 in dark. It does not replace accepted hover lines: the underline nph-tabs keeps color/border (tabs/indicator-hover-color), the outline of the clickable nph-card in hover keeps color/border (card/border-hover), strong enough for the soft style, and the done nph-file-upload-item keeps color/input (file-upload-item/border-done-hover)."
+    claro: core/slate/500
+    escuro: core/slate/200
+    use: "Divider and outline of an area in interaction: today the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 5.85:1 over color/background in light, 9.96:1 in dark. It does not replace accepted hover lines: the underline nph-tabs keeps color/border (tabs/indicator-hover-color), the outline of the clickable nph-card in hover keeps color/border (card/border-hover), strong enough for the soft style, and the done nph-file-upload-item keeps color/input (file-upload-item/border-done-hover)."
     nao_use: "At rest: there it is color/border. Field border: there it is color/input. Text: there it is color/muted-foreground, which points to the same primitives with another function."
   color/input:
     css: '--nph-color-input'
-    claro: core/neutral/400
-    escuro: core/surface/300
-    use: "Field border: input, select, textarea, checkbox. Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link. Also an outline that needs 3:1 outside a field, such as the hollow marker of the pending nph-timeline item (timeline/marker-border-pending): 3.23:1 light and 6.58:1 dark against the background, the only sign of the state besides the text. Also the border of the nph-rich-text-editor box (rich-text-editor/border): 3.23:1 light and 6.58:1 dark against the background."
+    claro: core/slate/400
+    escuro: core/slate/200
+    use: "Field border: input, select, textarea, checkbox. Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link. Also an outline that needs 3:1 outside a field, such as the hollow marker of the pending nph-timeline item (timeline/marker-border-pending): 4.18:1 light and 9.96:1 dark against the background, the only sign of the state besides the text. Also the border of the nph-rich-text-editor box (rich-text-editor/border): 4.18:1 light and 9.96:1 dark against the background."
     nao_use: "The line of the nph-resizable handle in hover and dragging: there it is color/border-strong. The outline of the option list of nph-select, nph-combobox and nph-multi-combobox and of the nph-tree-select panel: there it is color/border-subtle (DSA-95; tree-select/panel-border, DSA-94)."
   color/dropdown-border:
     css: '--nph-color-dropdown-border'
@@ -429,52 +444,52 @@ tokens_semantic:
   color/card:
     css: '--nph-color-card'
     claro: core/base/white
-    escuro: core/surface/800
+    escuro: core/slate/800
     use: "Card background. Also the background of the nph-scheduler container and of its cancelled event (scheduler/background, scheduler/event-cancelled-background). Also the background of the nph-collapsible card appearance (collapsible/card-background). Also the background of the nph-card, in hover too (card/background). Also the background of the nph-rich-option choice card (rich-option/background). Also the background of the grouped nph-accordion and of each block of the separated one (accordion/background); the flush appearance has no background. Also the 2 px stroke between neighbor colors of the nph-chart and the gap between the focused mark and its focus border: the card surface (chart/separator)."
     nao_use: "Shadow to simulate elevation in dark mode."
   color/card-foreground:
     css: '--nph-color-card-foreground'
-    claro: core/neutral/950
-    escuro: core/neutral/100
-    use: "Text on color/card. Also the title, the content, the tonal section text, the list value and the arrow of the clickable nph-card (card/foreground, card/indicator-foreground). Also the title and the optional icon of the nph-rich-option choice card (rich-option/foreground): 19.56:1 light and 12.45:1 dark."
+    claro: core/slate/950
+    escuro: core/slate/100
+    use: "Text on color/card. Also the title, the content, the tonal section text, the list value and the arrow of the clickable nph-card (card/foreground, card/indicator-foreground). Also the title and the optional icon of the nph-rich-option choice card (rich-option/foreground): 19.23:1 light and 11.67:1 dark."
   color/popover:
     css: '--nph-color-popover'
     claro: core/base/white
-    escuro: core/surface/700
+    escuro: core/slate/700
     use: "Floating layer attached to a trigger, which does NOT block the page: popover, dropdown, context menu. Also the background of the nph-tree-select panel (tree-select/panel-background, DSA-94). Also the background of the nph-chart data tooltip (chart/tooltip-background). Also the surface and the arrow of the nph-popconfirm (popconfirm/background)."
     nao_use: "Fixed page content. Dialog, modal or side panel - those are color/dialog."
   color/popover-foreground:
     css: '--nph-color-popover-foreground'
-    claro: core/neutral/950
-    escuro: core/neutral/100
-    use: "Text on color/popover. Also the label, the start icon and the start dot of the rich option of the nph-select and nph-combobox list and, on the disabled rich option, also its secondary text and description (select/option-foreground): 19.56:1 light and 9.93:1 dark. Also the title and the values of the nph-chart data tooltip (chart/tooltip-foreground). Also the title of the nph-popconfirm (popconfirm/title-foreground)."
+    claro: core/slate/950
+    escuro: core/slate/100
+    use: "Text on color/popover. Also the label, the start icon and the start dot of the rich option of the nph-select and nph-combobox list and, on the disabled rich option, also its secondary text and description (select/option-foreground): 19.23:1 light and 8.98:1 dark. Also the title and the values of the nph-chart data tooltip (chart/tooltip-foreground). Also the title of the nph-popconfirm (popconfirm/title-foreground)."
   color/dialog:
     css: '--nph-color-dialog'
     claro: core/base/white
-    escuro: core/surface/600
-    use: "Background of dialog, modal and side panel - the layer that BLOCKS the page. In dark it rises to surface/600, one step above the popover: it is the highest level of the ramp, and in dark the ramp IS the elevation. USE always with overlay/scrim. Also the panel of the nph-command, which opens in a dialog (command/background)."
+    escuro: core/slate/600
+    use: "Background of dialog, modal and side panel - the layer that BLOCKS the page. In dark it rises to slate/600, one step above the popover: it is the highest level of the ramp, and in dark the ramp IS the elevation. USE always with overlay/scrim. Also the panel of the nph-command, which opens in a dialog (command/background)."
     nao_use: "Popover or dropdown menu - those are color/popover. Tooltip is color/tooltip."
   color/dialog-foreground:
     css: '--nph-color-dialog-foreground'
-    claro: core/neutral/950
-    escuro: core/neutral/100
-    use: "Text and icon on color/dialog. 7,68:1 in dark."
+    claro: core/slate/950
+    escuro: core/slate/100
+    use: "Text and icon on color/dialog. 6,68:1 in dark."
   color/dialog-separator:
     css: '--nph-color-dialog-separator'
-    claro: core/neutral/100
-    escuro: core/surface/500
+    claro: core/surface/150
+    escuro: core/slate/500
     use: "Line of the nph-dialog header and footer. Softer than color/border, to separate long content, such as a list or a table, without weight. Decorative: the content does not depend on it. Also the lines between the field, the list and the footer of the nph-command, which opens in a dialog (command/divider)."
     nao_use: "Outside the nph-dialog and the nph-command. A divider of a page or table is color/border; the divider of the nph-card is color/border-subtle (card/divider)."
   color/secondary-on-dialog:
     css: '--nph-color-secondary-on-dialog'
     claro: color/secondary
-    escuro: core/surface/800
+    escuro: core/slate/800
     use: "Background of the solid secondary nph-button inside the nph-dialog, until DSA-70 lands. Indiane decided on 2026-11-09 (DSA-64 D-1) that the button keeps its own background inside the dialog (button/secondary-solid-background), so this token loses that use; whether it stays for another use is open."
     nao_use: "Outside the nph-dialog."
   color/secondary-on-dialog-hover:
     css: '--nph-color-secondary-on-dialog-hover'
     claro: color/secondary-hover
-    escuro: core/surface/700
+    escuro: core/slate/700
     use: "Hover-active of the solid secondary nph-button inside the nph-dialog, until DSA-70 lands (DSA-64 D-1: the button keeps its own hover inside the dialog); whether it stays for another use is open."
     nao_use: "Outside the nph-dialog."
   color/primary-surface:
@@ -547,37 +562,37 @@ tokens_semantic:
   color/secondary-surface-hover:
     css: '--nph-color-secondary-surface-hover'
     claro: core/surface/200
-    escuro: core/surface/600
+    escuro: core/slate/600
     use: "Surface of the alternative action in light emphasis, in the hover-active state. USE only in that state, with color/secondary-foreground on top. DO NOT USE on the solid secondary button — there color/secondary-hover applies."
   color/secondary-light:
     css: '--nph-color-secondary-light'
     claro: core/surface/50
-    escuro: core/surface/700
+    escuro: core/slate/700
     use: "Background of the alternative action in light emphasis: secondary light nph-button and nph-badge, with color/secondary-foreground. Also the counter of the inactive nph-tabs tab outside the rail (tabs/counter-background). DO NOT USE in outline — there it is color/muted."
   color/secondary-light-hover:
     css: '--nph-color-secondary-light-hover'
     claro: core/surface/100
-    escuro: core/surface/600
+    escuro: core/slate/600
     use: "Hover-active of the secondary light nph-button, with color/secondary-foreground on top. DO NOT USE in outline — there it is color/secondary-surface-hover."
   color/input-hover:
     css: '--nph-color-input-hover'
-    claro: core/neutral/500
-    escuro: core/surface/200
+    claro: core/slate/500
+    escuro: core/slate/100
     use: "Border of the form field when the pointer is over it. One step above color/input, so the field responds to the mouse without changing size or weight. Do not use for a divider, a card outline or a message border. Also the border of the nph-rich-text-editor box in hover (rich-text-editor/border-hover)."
   color/accent-subtle:
     css: '--nph-color-accent-subtle'
-    claro: core/neutral/50
-    escuro: core/surface/700
+    claro: core/surface/50
+    escuro: core/slate/700
     use: "Hover surface of a selectable container: option card, item the person chooses. Do not use for the hover of a table row or simple list item: those stay in color/accent. The hover of the nph-dropdown-menu item is color/primary-surface. Also the hover layer of the nph-rich-option choice card (rich-option/background-hover), drawn over color/card at rich-option/background-hover-opacity (0.5): #F8F8F8 light and #262B32 dark on screen. The layer takes the opacity, never the whole card."
   color/tooltip:
     css: '--nph-color-tooltip'
-    claro: core/neutral/600
-    escuro: core/neutral/700
+    claro: core/slate/500
+    escuro: core/slate/700
     use: "Background of the help balloon (nph-tooltip): dark surface, attached to a trigger, which does not block the page. USE only on nph-tooltip. DO NOT USE on popover, menu or dialog — those are color/popover and color/dialog."
   color/tooltip-foreground:
     css: '--nph-color-tooltip-foreground'
     claro: core/base/white
-    escuro: core/neutral/100
+    escuro: core/slate/100
     use: "Text on color/tooltip. USE only inside nph-tooltip. DO NOT USE on another background."
   focus/ring:
     css: '--nph-focus-ring'
@@ -633,24 +648,24 @@ tokens_semantic:
     use: "Focus HALO when the field is invalid. Decoration; the border meets the contrast, and in this state it is status/error. Light tone in both modes. Renamed from focus/ring-error, for the same reason as focus/border. Also the focus halo around the nph-rich-option choice card in error (rich-option/focus-halo-error). Known limit: the same light tone in both modes weighs more in dark (8.30:1 over color/card, against 1.97:1 of focus/halo); a foundation task gives it its own dark value, in every field at once. Also the focus halo of the invalid nph-rich-text-editor box (rich-text-editor/focus-halo-error)."
   sidebar/background:
     css: '--nph-sidebar-background'
-    claro: core/neutral/50
-    escuro: core/surface/950
+    claro: core/surface/50
+    escuro: core/slate/950
     use: "Sidebar background."
   sidebar/foreground:
     css: '--nph-sidebar-foreground'
-    claro: core/neutral/700
-    escuro: core/neutral/300
+    claro: core/slate/700
+    escuro: core/slate/300
     use: "Text of an unselected item."
   sidebar/accent:
     css: '--nph-sidebar-accent'
-    claro: core/neutral/100
-    escuro: core/surface/700
+    claro: core/surface/100
+    escuro: core/slate/700
     use: "Sidebar item on hover."
     nao_use: "Active item."
   sidebar/accent-foreground:
     css: '--nph-sidebar-accent-foreground'
-    claro: core/neutral/900
-    escuro: core/neutral/100
+    claro: core/slate/900
+    escuro: core/slate/100
     use: "Text of the item on hover."
   sidebar/primary:
     css: '--nph-sidebar-primary'
@@ -665,28 +680,28 @@ tokens_semantic:
     use: "Text of the active item."
   sidebar/border:
     css: '--nph-sidebar-border'
-    claro: core/neutral/200
-    escuro: core/surface/400
+    claro: core/slate/200
+    escuro: core/slate/400
     use: "Separates the sidebar from the content."
   sidebar/ring:
     css: '--nph-sidebar-ring'
-    claro: core/neutral/300
-    escuro: core/neutral/200
+    claro: core/slate/400
+    escuro: core/slate/200
     use: "Focus ring inside the sidebar."
   scrollbar/track:
     css: '--nph-scrollbar-track'
     claro: core/surface/50
-    escuro: core/surface/800
+    escuro: core/slate/800
     use: "USE for the scrollbar track (the part the thumb runs along). DO NOT USE as a block or field background."
   scrollbar/thumb:
     css: '--nph-scrollbar-thumb'
     claro: core/surface/200
-    escuro: core/surface/500
-    use: "USE for the scrollbar thumb at rest. DO NOT USE for a border, divider or text. Known exception: the thumb measures 1,66:1 against scrollbar/track in light mode and 2,11:1 in dark mode; over color/popover, 1,93:1 and 1,69:1. All are below the 3:1 of WCAG 1.4.11, accepted for softness. Do not raise the tone and never use opacity to soften it."
+    escuro: core/slate/500
+    use: "USE for the scrollbar thumb at rest. DO NOT USE for a border, divider or text. Known exception: the thumb measures 1,26:1 against scrollbar/track in light mode and 2,41:1 in dark mode; over color/popover, 1,34:1 and 1,86:1. All are below the 3:1 of WCAG 1.4.11, accepted for softness. Do not raise the tone and never use opacity to soften it."
   scrollbar/thumb-hover:
     css: '--nph-scrollbar-thumb-hover'
-    claro: core/surface/300
-    escuro: core/surface/400
+    claro: core/slate/300
+    escuro: core/slate/400
     use: "Reference tone in Figma for the scrollbar thumb with the pointer over it or while dragging. In code, the native scrollbar may show the browser's own hover tone, and src/styles/scrollbar.css does not apply this token. DO NOT USE at rest."
   status/info:
     css: '--nph-status-info'
@@ -775,8 +790,8 @@ tokens_semantic:
   status/error-text:
     css: '--nph-status-error-text'
     claro: core/danger/600
-    escuro: core/danger/200
-    use: "Validation error text over a neutral surface (color/popover, color/background, color/card, color/dialog): the error message of nph-field. In dark it is core/danger/200 since DSA-84 (5.12:1 on color/dialog, the same as color/destructive-text); core/danger/300 measured 3.62:1 there. Also the label and the reason (description) of the nph-stepper step with an error (stepper/label-foreground-error, stepper/description-foreground-error)."
+    escuro: core/danger/100
+    use: "Validation error text over a neutral surface (color/popover, color/background, color/card, color/dialog): the error message of nph-field. In dark it is core/danger/100 (5.90:1 on color/dialog, the same as color/destructive-text); with the slate scale, core/danger/200 measures 4.19:1 there, below 4.5:1. Also the label and the reason (description) of the nph-stepper step with an error (stepper/label-foreground-error, stepper/description-foreground-error)."
     nao_use: "Destructive action; text over status/error-surface (status/error-foreground); icon, dot or bar (status/error)."
   status/success:
     css: '--nph-status-success'
@@ -849,7 +864,7 @@ tokens_semantic:
   brand/sistemas-foreground:
     css: '--nph-brand-sistemas-foreground'
     claro: core/base/white
-    escuro: core/neutral/950
+    escuro: core/slate/950
     use: "Text on brand/sistemas."
   brand/gerencial:
     css: '--nph-brand-gerencial'
@@ -860,7 +875,7 @@ tokens_semantic:
   brand/gerencial-foreground:
     css: '--nph-brand-gerencial-foreground'
     claro: core/base/white
-    escuro: core/neutral/950
+    escuro: core/slate/950
     use: "Text on brand/gerencial."
   brand/educacao:
     css: '--nph-brand-educacao'
@@ -883,7 +898,7 @@ tokens_semantic:
   brand/comercial-foreground:
     css: '--nph-brand-comercial-foreground'
     claro: core/base/white
-    escuro: core/neutral/950
+    escuro: core/slate/950
     use: "Text on brand/comercial."
   brand/financeiro:
     css: '--nph-brand-financeiro'
@@ -894,7 +909,7 @@ tokens_semantic:
   brand/financeiro-foreground:
     css: '--nph-brand-financeiro-foreground'
     claro: core/base/white
-    escuro: core/neutral/950
+    escuro: core/slate/950
     use: "Text on brand/financeiro."
   brand/igrejas:
     css: '--nph-brand-igrejas'
@@ -905,7 +920,7 @@ tokens_semantic:
   brand/igrejas-foreground:
     css: '--nph-brand-igrejas-foreground'
     claro: core/base/white
-    escuro: core/neutral/950
+    escuro: core/slate/950
     use: "Text on brand/igrejas."
   brand/rh:
     css: '--nph-brand-rh'
@@ -916,7 +931,7 @@ tokens_semantic:
   brand/rh-foreground:
     css: '--nph-brand-rh-foreground'
     claro: core/base/white
-    escuro: core/neutral/950
+    escuro: core/slate/950
     use: "Text on brand/rh."
   brand/sistemas-strong:
     css: '--nph-brand-sistemas-strong'
@@ -1262,7 +1277,7 @@ tokens_theme:
     use: "Text on the brand tone in light mode. White in all seven verticals - the `Educacao` difference was solved by darkening the background, not by lightening the text."
   theme/brand-on-400:
     css: '--nph-theme-brand-on-400'
-    valor_por_modo: "core/neutral/950 in `Sistemas`, `Comercial` and `Financeiro`; core/base/white in `Gerencial`, `Igrejas`, `Recursos Humanos` and `Educacao`"
+    valor_por_modo: "core/slate/950 in `Sistemas`, `Comercial` and `Financeiro`; core/base/white in `Gerencial`, `Igrejas`, `Recursos Humanos` and `Educacao`"
     use: "Text on the brand tone in dark mode. Varies by vertical because the luminance of the tone varies: where the 400 is light, the text is dark."
   theme/brand-50:
     css: '--nph-theme-brand-50'
@@ -1302,8 +1317,8 @@ tokens_theme:
     use: "Focus halo tone in dark mode, consumed only by focus/halo. In each brand it is darker than the dark focus border (theme/brand-200), which measures from 5,02:1 to 6,74:1 against it; `Educacao` uses 800. Do not use for fill, border or text."
   theme/brand-text-dark:
     css: '--nph-theme-brand-text-dark'
-    valor_por_modo: "core/<vertical>/300 in `Sistemas` and `Educacao`; core/<vertical>/200 in `Comercial`, `Financeiro` and `Igrejas`; core/<vertical>/100 in `Gerencial` and `Recursos Humanos`"
-    use: "Brand tone for text and icon on background, card, popover or dialog in dark mode, consumed by color/primary-text and color/link. In each brand it measures at least 4.5:1 on core/surface/700, on the nph-sidebar panel (theme/brand-800) and on color/dialog. Since DSA-84, one tone lighter in `Gerencial`, `Comercial`, `Financeiro` and `Recursos Humanos`, which fell below 4.5:1 on color/dialog (4.02:1 to 4.43:1). Do not use for fill or border."
+    valor_por_modo: "core/<vertical>/300 in `Educacao`; core/<vertical>/200 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/100 in `Gerencial`, `Igrejas` and `Recursos Humanos`"
+    use: "Brand tone for text and icon on background, card, popover or dialog in dark mode, consumed by color/primary-text and color/link. In each brand it measures at least 4.5:1 on color/popover, on the nph-sidebar panel (theme/brand-800) and on color/dialog. Since DSA-84, one tone lighter in `Gerencial`, `Comercial`, `Financeiro` and `Recursos Humanos`, which fell below 4.5:1 on color/dialog (4.02:1 to 4.43:1). With the slate scale, one tone lighter also in `Sistemas` and `Igrejas`, which fell to 3.83:1 and 3.79:1 on color/dialog; now 4.99:1 and 5.68:1. Do not use for fill or border."
   theme/brand-text-light:
     css: '--nph-theme-brand-text-light'
     valor_por_modo: "core/<vertical>/600 in six verticals; core/educacao/800 in `Educacao`"
@@ -2628,8 +2643,8 @@ tokens_chart:
     nao_use: "For a category."
   chart/div-4:
     css: '--nph-chart-div-4'
-    claro: core/neutral/100
-    escuro: core/surface/600
+    claro: core/surface/100
+    escuro: core/slate/600
     use: "Center of the diverging scale. Marks the real zero, the target reached, the no-deviation point. The only color of the scale that does not mean a direction."
     nao_use: "Centered on the sample mean: the same data would change sign when the sample changed."
   chart/div-5:
@@ -2652,38 +2667,38 @@ tokens_chart:
     nao_use: "For a category."
   chart/grid:
     css: '--nph-chart-grid'
-    claro: core/neutral/100
-    escuro: core/surface/700
+    claro: core/surface/150
+    escuro: core/slate/700
     use: "Grid line. Lighter than color/border on purpose: the grid guides reading, it does not delimit an area."
     nao_use: "On the axis. The axis is chart/axis and must meet 3:1."
   chart/axis:
     css: '--nph-chart-axis'
-    claro: core/neutral/400
-    escuro: core/surface/400
+    claro: core/slate/400
+    escuro: core/slate/400
     use: "Axis line and scale ticks. Meets 3:1 against the background in both modes, because the axis is graphical content required to understand the data."
     nao_use: "On a grid line: making the two equal erases the chart hierarchy."
   chart/reference:
     css: '--nph-chart-reference'
-    claro: core/neutral/700
-    escuro: core/neutral/200
+    claro: core/slate/700
+    escuro: core/slate/200
     use: "Goal, target, mean or limit line. ALWAYS dashed and ALWAYS labeled. This is how state comes into the chart."
     nao_use: "For a data series: a reference is a comparison, not a measure."
   chart/empty:
     css: '--nph-chart-empty'
-    claro: core/neutral/100
-    escuro: core/surface/700
+    claro: core/surface/100
+    escuro: core/slate/700
     use: "Fill of an area without data and empty state of the chart."
     nao_use: "For the zero value: zero is data and goes in the series color."
   chart/muted:
     css: '--nph-chart-muted'
-    claro: core/neutral/500
-    escuro: core/neutral/400
+    claro: core/slate/500
+    escuro: core/slate/300
     use: "Dimmed series when another is highlighted, and the Others grouping from the seventh category on."
     nao_use: "For a disabled control: disabled is state/disabled-opacity on the whole control."
   chart/track:
     css: '--nph-chart-track'
-    claro: core/neutral/200
-    escuro: core/surface/600
+    claro: core/slate/200
+    escuro: core/slate/600
     use: "Track background in a meter, progress bar and bullet chart: the part not yet filled."
     nao_use: "As an area without data: there chart/empty goes."
 
@@ -2927,11 +2942,11 @@ The curve says what the piece is. The question is not how much to round.
 
 It is not an inversion. Three rules:
 
-1. **Elevation lightens.** The `surface` scale is the ramp: sidebar `950` → background `900` → card `800` → popover `700` → dialog `600`. Shadow is not perceived on a dark background — **NEVER** use shadow to simulate elevation in dark.
-2. **No pure black or white.** The background is `surface/900`, not `#000000`. Text is `neutral/100`, not white. Absolute black with white text causes halation.
-3. **The border lightens much more than symmetry suggests.** `color/border` in light is `neutral/200`; in dark it is **not** `neutral/700` (it would give 2,04:1 and fail) — it is `surface/400`.
+1. **Elevation lightens.** The `slate` scale is the ramp: sidebar `950` → background `900` → card `800` → popover `700` → dialog `600`. Shadow is not perceived on a dark background — **NEVER** use shadow to simulate elevation in dark.
+2. **No pure black or white.** The background is `slate/900`, not `#000000`. Text is `slate/100`, not white. Absolute black with white text causes halation.
+3. **The border lightens much more than symmetry suggests.** `color/border` in light is `slate/200`; in dark it is **not** `slate/700` (it would give 1,58:1 and fail) — it is `slate/400`.
 
-**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card, the nph-popconfirm (`popconfirm/border`, `popconfirm/divider`), the nph-date-picker panel (`date-picker/panel-border`, `date-picker/divider`) and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`, and so do the option list of nph-select, nph-combobox and nph-multi-combobox (DSA-95) and the nph-tree-select panel (`tree-select/panel-border`, DSA-94); there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background. The nph-card and the nph-accordion also use `color/border-subtle` (`card/border`, `card/divider`, `accordion/border`, `accordion/divider`), decorative: in dark the card background, one step above the page, or the space between blocks separates it.
+**Known limitation:** `color/border` on `color/popover` gives 2,59:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card, the nph-popconfirm (`popconfirm/border`, `popconfirm/divider`), the nph-date-picker panel (`date-picker/panel-border`, `date-picker/divider`) and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`, and so do the option list of nph-select, nph-combobox and nph-multi-combobox (DSA-95) and the nph-tree-select panel (`tree-select/panel-border`, DSA-94); there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background. The nph-card and the nph-accordion also use `color/border-subtle` (`card/border`, `card/divider`, `accordion/border`, `accordion/divider`), decorative: in dark the card background, one step above the page, or the space between blocks separates it.
 
 ---
 
