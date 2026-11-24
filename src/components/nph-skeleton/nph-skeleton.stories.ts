@@ -7,7 +7,7 @@
  * light and in dark mode, in the same story. The loading container carries
  * `aria-busy`; the shapes are decorative. The only visible text, the caption of
  * each mode, comes from the language dictionary under `skeletonValidation`
- * (`docs/i18n.md`, "Storybook"). `color/muted` varies by mode and not by brand,
+ * (`docs/i18n.md`, "Storybook"). `color/skeleton` varies by mode and not by brand,
  * so there is no story per brand.
  */
 import { html } from 'lit';

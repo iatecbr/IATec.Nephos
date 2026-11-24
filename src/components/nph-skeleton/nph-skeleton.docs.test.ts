@@ -135,7 +135,7 @@ describe('nph-skeleton Validation: text only from the dictionary', () => {
     });
   }
 
-  it('there is no story per brand: color/muted varies by mode, not by brand', () => {
+  it('there is no story per brand: color/skeleton varies by mode, not by brand', () => {
     for (const [name, story] of stories) {
       const target = document.createElement('div');
       document.body.append(target);

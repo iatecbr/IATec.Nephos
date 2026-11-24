@@ -5,7 +5,7 @@
  * - `shape` `line` (default), `block`, `avatar-sm`, `avatar-md` or `avatar-lg`. It
  *   is the Figma property `forma`. `line` is the place of a text line, `block` of
  *   an image, chart or area, and `avatar-*` of an `nph-avatar` of the same size;
- * - a rectangle in `color/muted`, with no border, no text and no animation. The
+ * - a rectangle in `skeleton/background` (`color/skeleton`), with no border, no text and no animation. The
  *   piece is still: there is no pulse to reduce under reduced motion;
  * - the line takes its own `skeleton/line-height`; the space between lines comes
  *   from the consumer. The line and the block stretch to the container width. The

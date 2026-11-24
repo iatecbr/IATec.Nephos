@@ -453,6 +453,14 @@
     "components-nph-popconfirm-validation--interactive": "Interativo",
     "components-nph-popconfirm-validation--examples": "Exemplos",
     "components-nph-popconfirm-validation--brands": "Marcas",
+    "components-nph-tree-select-validation": "Validação",
+    "components-nph-tree-select-validation--modes": "Modos",
+    "components-nph-tree-select-validation--states": "Estados",
+    "components-nph-tree-select-validation--panel": "Painel",
+    "components-nph-tree-select-validation--error-row": "Linha de erro",
+    "components-nph-tree-select-validation--interactive": "Interativo",
+    "components-nph-tree-select-validation--examples": "Exemplos",
+    "components-nph-tree-select-validation--brands": "Marcas",
     "components-nph-hover-card-docs": "Docs",
     "components-nph-hover-card-docs--documentation": "Documentação",
     "components-nph-hover-card-validation": "Validação",
@@ -1836,7 +1844,7 @@
       ],
       [
         "cor",
-        "Não é propriedade: a forma sempre usa color/muted."
+        "Não é propriedade: a forma sempre usa skeleton/background."
       ]
     ],
     "usageTitle": "Uso",
@@ -1891,7 +1899,7 @@
     "anatomy": [
       [
         "Forma",
-        "Um retângulo em color/muted, sem borda, sem texto e sem animação."
+        "Um retângulo em skeleton/background, sem borda, sem texto e sem animação."
       ],
       [
         "Raio",
@@ -1943,7 +1951,7 @@
     "references": [
       "ficha nph-skeleton — função, formas, acessibilidade, tokens e anti-padrões.",
       "docs/decisoes-tecnicas.md — P69 (API e semântica), P01, P02 e P03.",
-      "design.md — color/muted, skeleton/line-height, radius/inner, radius/control, avatar/size-* e avatar/radius-*.",
+      "design.md — skeleton/background, skeleton/line-height, radius/inner, radius/control, avatar/size-* e avatar/radius-*.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Skeleton, quadro nph-skeleton (1578:38) e conjunto 1578:37.",
       "Storybook — Validação, na pasta ao lado."
     ],
@@ -8856,7 +8864,14 @@
       "components-nph-accordion-validation--direction": "Escrita da direita para a esquerda: o indicador, a mídia do início e o recuo seguem o início, e a seta no início aponta para ele quando fechada.",
       "components-nph-accordion-validation--interactive": "O evento: nph-toggle é disparado quando a pessoa abre ou fecha um item e diz o estado em que o item está agora.",
       "components-nph-accordion-validation--examples": "Os três exemplos obrigatórios, em modo claro e escuro: os detalhes de um contrato, agrupado, com ícone de status no início; os passos de uma configuração, separado, um aberto por vez; e os filtros de um painel lateral, sem borda e compacto.",
-      "components-nph-accordion-validation--brands": "As sete marcas em modo claro e escuro: o bloco, o hover, o foco, a etiqueta e o botão seguem a marca."
+      "components-nph-accordion-validation--brands": "As sete marcas em modo claro e escuro: o bloco, o hover, o foco, a etiqueta e o botão seguem a marca.",
+      "components-nph-tree-select-validation--modes": "Os três modos nos dois tamanhos, fechados, com e sem valor: a escolha única usa o campo do nph-select, a única com busca o campo do nph-combobox e a múltipla o campo do nph-multi-combobox com seus chips.",
+      "components-nph-tree-select-validation--states": "Os estados do campo: erro, desabilitado, desabilitado com valor, erro com desabilitado (o desabilitado vence), o contador da escolha múltipla e o campo dentro do nph-field.",
+      "components-nph-tree-select-validation--panel": "O painel com cada conteúdo: os itens, a busca que mantém os ancestrais de cada resultado, sem resultado, a primeira carga com linhas de skeleton e a árvore vazia. O painel abre abaixo do campo, a tree-select/panel-offset de distância, com o contorno de color/border-subtle.",
+      "components-nph-tree-select-validation--error-row": "A linha de erro nos painéis de 280 e 360: no estreito a mensagem nunca é cortada e Tentar de novo desce para baixo dela, no mesmo início; no de 360 ficam lado a lado, em uma linha.",
+      "components-nph-tree-select-validation--interactive": "Um campo de cada modo para experimentar: um clique ou as setas abrem o painel, as setas movem o item ativo enquanto o foco fica no campo, Direita e Esquerda abrem e fecham um ramo, Enter escolhe ou marca, Esc fecha.",
+      "components-nph-tree-select-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: escolher um arquivo em uma pasta, arquivos que vão em um envio e achar um contrato em uma árvore grande.",
+      "components-nph-tree-select-validation--brands": "As sete marcas no modo claro e escuro, com o painel aberto em cada quadro: o item escolhido e o foco seguem a marca do quadro."
     }
   },
   "multiComboboxDocs": {
@@ -14352,7 +14367,7 @@
       ],
       [
         "Linha de erro",
-        "Dentro do grupo do ramo, alinhada ao recuo dos filhos: o triângulo, a frase e Tentar de novo."
+        "Dentro do grupo do ramo, alinhada ao recuo dos filhos: o triângulo, a frase e Tentar de novo. A frase nunca é cortada: em uma árvore estreita, Tentar de novo desce para baixo dela."
       ],
       [
         "Grupo",
@@ -18013,5 +18028,33 @@
     "filterOwnerBody": "Quem cuida do registro.",
     "eventOpen": "nph-toggle: o item está aberto.",
     "eventClosed": "nph-toggle: o item está fechado."
+  },
+  "treeSelectValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "fieldLabel": "Pasta de destino",
+    "placeholderSingle": "Selecione uma opção",
+    "placeholderSearch": "Buscar opção",
+    "placeholderMultiple": "Buscar opções",
+    "removeLabel": "Remover",
+    "clearLabel": "Limpar",
+    "subject": "Pastas",
+    "emptyHeading": "Nenhum item",
+    "emptyDescription": "Esta pasta ainda não tem itens",
+    "noResultHeading": "Nenhum resultado",
+    "noResultDescription": "Confira o que digitou ou busque outro nome",
+    "errorText": "Não foi possível carregar.",
+    "retryText": "Tentar de novo",
+    "errorMessage": "Escolha uma pasta",
+    "typed": "Contr",
+    "documents": "Documentos",
+    "contracts": "Contratos",
+    "contract2025": "Contrato 2025.pdf",
+    "contract2026": "Contrato 2026.pdf",
+    "reports": "Relatórios",
+    "images": "Imagens",
+    "logo": "Logo.png",
+    "readme": "Leia-me.txt",
+    "shortWindow": "Janela baixa"
   }
 }

@@ -242,7 +242,7 @@ states:
     changes_for_user: "On an open branch whose children come, the spinner takes the place of the chevron and the branch is busy."
   error:
     token: "tree/error-icon-foreground, tree/item-foreground"
-    changes_for_user: "Inside the group of the branch that failed, a row with a triangle, the phrase and the action Try again, which takes the hover and the focus of an item."
+    changes_for_user: "Inside the group of the branch that failed, a row with a triangle, the phrase and the action Try again, which takes the hover and the focus of an item. The row takes the width it has, at least tree/item-height high, and grows with its content: the phrase is never cut, and when the phrase and Try again do not fit on one line, Try again drops below the phrase, at the same start."
 business_rules:
   - "The chevron opens and closes a branch; the rest of the row chooses. With no selection, a click on the row opens and closes the branch. In single selection a click on the row chooses, a branch included. In multiple selection a click on the row checks and unchecks, as a click on the box, and a click on the chevron only opens and closes."
   - "In single selection the chosen item takes the background, the bar and the label in medium weight; the checkbox is never on there. In multiple selection every item has the checkbox, and checked, unchecked and mixed come from it."
@@ -382,7 +382,7 @@ nodes without icon.
 | Item | Selected | `tree/item-background-selected`, `tree/item-foreground-selected`, `tree/toggle-foreground-selected`, `tree/icon-foreground-selected`, `tree/indicator-background`, `tree/indicator-width` | In single selection: the surface, the bar and the label in medium weight |
 | Item | Disabled | `tree/item-disabled-opacity` | The whole item fades and does nothing; it still takes focus |
 | Open branch | Loading | `nph-spinner`, `color/primary` | The spinner takes the place of the chevron; the branch is busy |
-| Group | Error | `tree/error-icon-foreground` | The error row: the triangle, the phrase and Try again |
+| Group | Error | `tree/error-icon-foreground` | The error row: the triangle, the phrase and Try again. The phrase and Try again sit in one group that wraps, `tree/item-gap` between them and between the lines, and the row grows from `tree/item-height` |
 
 In the Figma set of the item, `estado` has the values `padrão`, `hover`, `foco`, `selecionado`,
 `selecionado foco`, `desabilitado`, `selecionado desabilitado` and `carregando` (the open branch
@@ -411,7 +411,8 @@ turns a quarter in `motion/expand-duration`; with reduced motion it swaps with n
 **Business rule the piece carries:** see the rules above and the section on keyboard. The chevron
 opens; the row chooses. The cascade of multiple selection leaves a disabled item out of the count.
 The first load shows three skeleton rows; a branch that opens later shows the spinner. The label is
-cut on one line, with the whole text in `nph-tooltip`.
+cut on one line, with the whole text in `nph-tooltip`. The error row is the exception: its phrase wraps and
+is never cut, so Try again stays whole in a narrow tree such as the panel of `nph-tree-select`.
 
 **Domain error states:** an invalid `items` or `selection` draws nothing and emits `console.error` in
 development, one per cause. A missing name or text draws and warns once in development.

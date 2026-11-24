@@ -453,6 +453,14 @@
     "components-nph-popconfirm-validation--interactive": "Interactive",
     "components-nph-popconfirm-validation--examples": "Examples",
     "components-nph-popconfirm-validation--brands": "Brands",
+    "components-nph-tree-select-validation": "Validation",
+    "components-nph-tree-select-validation--modes": "Modes",
+    "components-nph-tree-select-validation--states": "States",
+    "components-nph-tree-select-validation--panel": "Panel",
+    "components-nph-tree-select-validation--error-row": "Error row",
+    "components-nph-tree-select-validation--interactive": "Interactive",
+    "components-nph-tree-select-validation--examples": "Examples",
+    "components-nph-tree-select-validation--brands": "Brands",
     "components-nph-hover-card-docs": "Docs",
     "components-nph-hover-card-docs--documentation": "Documentation",
     "components-nph-hover-card-validation": "Validation",
@@ -1836,7 +1844,7 @@
       ],
       [
         "color",
-        "Not a property: the shape always uses color/muted."
+        "Not a property: the shape always uses skeleton/background."
       ]
     ],
     "usageTitle": "Usage",
@@ -1891,7 +1899,7 @@
     "anatomy": [
       [
         "Shape",
-        "A rectangle in color/muted, with no border, no text and no animation."
+        "A rectangle in skeleton/background, with no border, no text and no animation."
       ],
       [
         "Radius",
@@ -1943,7 +1951,7 @@
     "references": [
       "nph-skeleton spec sheet — purpose, shapes, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P69 (API and semantics), P01, P02 and P03.",
-      "design.md — color/muted, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*.",
+      "design.md — skeleton/background, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Skeleton, frame nph-skeleton (1578:38) and set 1578:37.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -8856,7 +8864,14 @@
       "components-nph-accordion-validation--direction": "Right-to-left writing: the indicator, the start media and the indent follow the start, and the chevron at the start points to it when closed.",
       "components-nph-accordion-validation--interactive": "The event: nph-toggle is fired when the person opens or closes an item and says the state the item is in now.",
       "components-nph-accordion-validation--examples": "The three required examples, in light and dark mode: the details of a contract, grouped, with a status icon at the start; the steps of a setup, separated, one open at a time; and the filters of a side panel, flush and compact.",
-      "components-nph-accordion-validation--brands": "The seven brands in light and dark mode: the tile, the hover, the focus, the tag and the button follow the brand."
+      "components-nph-accordion-validation--brands": "The seven brands in light and dark mode: the tile, the hover, the focus, the tag and the button follow the brand.",
+      "components-nph-tree-select-validation--modes": "The three modes in the two sizes, closed, with and without a value: the single choice takes the field of the nph-select, the single choice with search the field of the nph-combobox, and the multiple choice the field of the nph-multi-combobox with its chips.",
+      "components-nph-tree-select-validation--states": "The states of the field: error, disabled, disabled with a value, error with disabled (disabled wins), the counter of the multiple choice and the field inside the nph-field.",
+      "components-nph-tree-select-validation--panel": "The panel with each content: the items, the search that keeps the ancestors of every match, no result, the first load with skeleton rows and the empty tree. The panel opens below the field, tree-select/panel-offset away, with the outline of color/border-subtle.",
+      "components-nph-tree-select-validation--error-row": "The error row in the 280 and 360 panels: in the narrow panel the message is never cut and Try again drops below it, at the same start; in the 360 panel they sit side by side on one row.",
+      "components-nph-tree-select-validation--interactive": "A field of each mode to try: a click or the arrows open the panel, the arrows move the active item while the focus stays on the field, Right and Left open and close a branch, Enter chooses or checks, Esc closes.",
+      "components-nph-tree-select-validation--examples": "The three required examples, each in light and dark mode: choosing a file in a folder, files that go in a submission and finding a contract in a large tree.",
+      "components-nph-tree-select-validation--brands": "The seven brands in light and dark mode, with the panel open in every frame: the chosen item and the focus follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -14352,7 +14367,7 @@
       ],
       [
         "Error row",
-        "Inside the group of the branch, aligned to the indent of the children: the triangle, the phrase and Try again."
+        "Inside the group of the branch, aligned to the indent of the children: the triangle, the phrase and Try again. The phrase is never cut: in a narrow tree, Try again drops below it."
       ],
       [
         "Group",
@@ -18013,5 +18028,33 @@
     "filterOwnerBody": "Who is in charge of the record.",
     "eventOpen": "nph-toggle: the item is open.",
     "eventClosed": "nph-toggle: the item is closed."
+  },
+  "treeSelectValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "fieldLabel": "Destination folder",
+    "placeholderSingle": "Select an option",
+    "placeholderSearch": "Search for an option",
+    "placeholderMultiple": "Search for options",
+    "removeLabel": "Remove",
+    "clearLabel": "Clear",
+    "subject": "Folders",
+    "emptyHeading": "No items",
+    "emptyDescription": "This folder has no items yet",
+    "noResultHeading": "No results",
+    "noResultDescription": "Check what you typed or search for another name",
+    "errorText": "Couldn't load.",
+    "retryText": "Try again",
+    "errorMessage": "Choose a folder",
+    "typed": "Contr",
+    "documents": "Documents",
+    "contracts": "Contracts",
+    "contract2025": "Contract 2025.pdf",
+    "contract2026": "Contract 2026.pdf",
+    "reports": "Reports",
+    "images": "Images",
+    "logo": "Logo.png",
+    "readme": "Read-me.txt",
+    "shortWindow": "Short window"
   }
 }

@@ -771,6 +771,7 @@
   --nph-tree-item-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-tree-indicator-width: var(--nph-core-focus-width-sm);
   --nph-tree-focus-border-width: var(--nph-core-focus-width-sm);
+  --nph-tree-select-panel-offset: var(--nph-core-space-100);
   --nph-panel-menu-subgroup-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-panel-menu-nest-gap: var(--nph-core-space-300);
   --nph-scheduler-event-indicator-width: var(--nph-core-focus-width-sm);
@@ -1059,6 +1060,11 @@
   --nph-tree-toggle-padding: var(--nph-space-inline-tight);
   --nph-tree-icon-size: var(--nph-icon-size-sm);
   --nph-tree-focus-border-radius: var(--nph-radius-control);
+  --nph-tree-select-panel-border-width: var(--nph-border-width);
+  --nph-tree-select-panel-radius: var(--nph-radius-container);
+  --nph-tree-select-panel-max-height: var(--nph-layout-max-list-height);
+  --nph-tree-select-panel-width: var(--nph-layout-input-width);
+  --nph-tree-select-panel-width-multiple: var(--nph-layout-multi-combobox-width);
   --nph-panel-menu-subgroup-height: var(--nph-control-height-default);
   --nph-panel-menu-subgroup-padding-x: var(--nph-sidebar-item-padding);
   --nph-panel-menu-subgroup-padding-y: var(--nph-space-inline);
@@ -1491,6 +1497,8 @@
   --nph-tree-toggle-foreground: var(--nph-color-muted-foreground);
   --nph-tree-icon-foreground: var(--nph-color-muted-foreground);
   --nph-tree-error-icon-foreground: var(--nph-status-error);
+  --nph-tree-select-panel-background: var(--nph-color-popover);
+  --nph-tree-select-panel-border: var(--nph-color-border-subtle);
   --nph-panel-menu-subgroup-foreground: var(--nph-sidebar-item-foreground);
   --nph-scheduler-border: var(--nph-color-border-subtle);
   --nph-scheduler-grid-line: var(--nph-color-border-subtle);

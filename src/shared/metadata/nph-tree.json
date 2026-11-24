@@ -217,7 +217,7 @@
     },
     "error": {
       "token": "tree/error-icon-foreground, tree/item-foreground",
-      "changes_for_user": "Inside the group of the branch that failed, a row with a triangle, the phrase and the action Try again, which takes the hover and the focus of an item."
+      "changes_for_user": "Inside the group of the branch that failed, a row with a triangle, the phrase and the action Try again, which takes the hover and the focus of an item. The row takes the width it has, at least tree/item-height high, and grows with its content: the phrase is never cut, and when the phrase and Try again do not fit on one line, Try again drops below the phrase, at the same start."
     }
   },
   "business_rules": [

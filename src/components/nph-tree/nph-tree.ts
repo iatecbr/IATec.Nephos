@@ -52,7 +52,6 @@
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
-import { repeat } from 'lit/directives/repeat.js';
 
 import '../nph-checkbox/nph-checkbox';
 import '../nph-empty/nph-empty';
@@ -61,6 +60,10 @@ import '../nph-skeleton/nph-skeleton';
 import '../nph-spinner/nph-spinner';
 import '../nph-tooltip/nph-tooltip';
 import treeCss from './nph-tree.css?inline';
+import { NPH_TREE_SKELETON_ROWS as MODEL_SKELETON_ROWS, buildModel, computeChecks, isUnloaded, toggleCheck } from './nph-tree.model';
+import type { CheckState, Row } from './nph-tree.model';
+import { renderEmpty, renderLevel, renderSkeleton, treeRowStyles } from './nph-tree.rows';
+import type { TreeRowContext } from './nph-tree.rows';
 
 const TAG = 'nph-tree';
 
@@ -72,7 +75,7 @@ export const NPH_TREE_SELECTIONS = ['none', 'single', 'multiple'] as const;
 export type NphTreeSelection = (typeof NPH_TREE_SELECTIONS)[number];
 
 /** The skeleton rows of the first load of the tree. */
-export const NPH_TREE_SKELETON_ROWS = 3;
+export const NPH_TREE_SKELETON_ROWS = MODEL_SKELETON_ROWS;
 
 /** One node of the tree. */
 export interface NphTreeNode {
@@ -116,27 +119,6 @@ export interface NphTreeLoadDetail {
   retry: boolean;
 }
 
-type CheckState = 'checked' | 'unchecked' | 'mixed';
-
-/** An item as drawn: a node, or the error row of a branch. */
-interface Row {
-  key: string;
-  kind: 'node' | 'error';
-  node: NphTreeNode;
-  parentKey: string | null;
-  level: number;
-  setSize: number;
-  position: number;
-  branch: boolean;
-  open: boolean;
-  loading: boolean;
-  /** What the group under the item holds: its children, the error row, or nothing. */
-  content: 'children' | 'error' | 'none';
-}
-
-/** The key of the error row of a branch: a character no `id` can be confused with in a lookup. */
-const ERROR_SUFFIX = '\u0000error';
-
 /** Development message; outside a bundler with `import.meta.env`, it stays silent. */
 function devMessage(kind: 'error' | 'warn', message: string): void {
   if (import.meta.env?.DEV) {
@@ -148,12 +130,8 @@ function text(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-function isBranch(node: NphTreeNode): boolean {
-  return node.branch === true || (Array.isArray(node.children) && node.children.length > 0);
-}
-
 export class NphTree extends LitElement {
-  static override styles = unsafeCSS(treeCss);
+  static override styles = [unsafeCSS(treeCss), treeRowStyles];
 
   static override properties = {
     items: { attribute: false },
@@ -388,121 +366,22 @@ export class NphTree extends LitElement {
     return this.multiple && !this.checkStrictly;
   }
 
-  /** A branch the consumer has not loaded yet: no children, no failure, not asked to load by the node. */
-  private static unloaded(node: NphTreeNode): boolean {
-    return node.branch === true && node.children === undefined;
-  }
-
   /** Whether the branch loads now: the node says so, "Try again" was pressed, or it has no children and no failure. */
   private loadsNow(node: NphTreeNode): boolean {
     if (this.retrying.get(node.id) === node || node.loading === true) return true;
-    return NphTree.unloaded(node) && node.error !== true;
+    return isUnloaded(node) && node.error !== true;
   }
 
   /** The rows, the drawn ones in order and the lookups the render and the keys need. */
   private buildModel(): void {
-    this.rows = [];
-    this.visible = [];
-    this.rowByKey = new Map();
-    this.parentOf = new Map();
-    const open = new Set(Array.isArray(this.expanded) ? this.expanded : []);
-    const walk = (nodes: readonly NphTreeNode[], parentKey: string | null, level: number): void => {
-      for (const [index, node] of nodes.entries()) {
-        const branch = isBranch(node);
-        const isOpen = branch && open.has(node.id);
-        const loading = isOpen && this.loadsNow(node);
-        const content: Row['content'] = !isOpen || loading ? 'none' : node.error === true ? 'error' : 'children';
-        const row: Row = {
-          key: node.id,
-          kind: 'node',
-          node,
-          parentKey,
-          level,
-          setSize: nodes.length,
-          position: index + 1,
-          branch,
-          open: isOpen,
-          loading,
-          content,
-        };
-        this.parentOf.set(row.key, parentKey);
-        this.rowByKey.set(row.key, row);
-        this.rows.push(row);
-        this.visible.push(row);
-        if (content === 'children') {
-          walk(node.children ?? [], node.id, level + 1);
-        } else if (content === 'error') {
-          const errorRow: Row = {
-            key: node.id + ERROR_SUFFIX,
-            kind: 'error',
-            node,
-            parentKey: node.id,
-            level: level + 1,
-            setSize: 1,
-            position: 1,
-            branch: false,
-            open: false,
-            loading: false,
-            content: 'none',
-          };
-          this.parentOf.set(errorRow.key, node.id);
-          this.rowByKey.set(errorRow.key, errorRow);
-          this.rows.push(errorRow);
-          this.visible.push(errorRow);
-        }
-      }
-    };
-    walk(Array.isArray(this.items) ? this.items : [], null, 1);
-    this.checkStates = this.multiple ? this.computeChecks(new Set(Array.isArray(this.checked) ? this.checked : [])) : new Map();
-  }
-
-  /**
-   * The state of every node from the ids that are checked. With the cascade on, a checked parent checks
-   * its enabled children, a parent is checked when all its enabled children are, mixed when only part of
-   * them is, and a disabled item keeps its own state and stays out of its parent's count.
-   */
-  private computeChecks(ids: ReadonlySet<string>): Map<string, CheckState> {
-    const states = new Map<string, CheckState>();
-    const cascade = !this.checkStrictly;
-    const visit = (node: NphTreeNode, inherited: boolean): CheckState => {
-      const own = ids.has(node.id) || inherited;
-      const children = Array.isArray(node.children) ? node.children : [];
-      let state: CheckState = own ? 'checked' : 'unchecked';
-      if (!cascade || children.length === 0 || node.disabled === true) {
-        /* A disabled node keeps its own mark and neither gives it to its children nor takes theirs. */
-        for (const child of children) visit(child, false);
-      } else {
-        const counted: CheckState[] = [];
-        for (const child of children) {
-          const inner = visit(child, own && child.disabled !== true);
-          if (child.disabled !== true) counted.push(inner);
-        }
-        if (counted.length > 0) {
-          state = counted.every((value) => value === 'checked')
-            ? 'checked'
-            : counted.every((value) => value === 'unchecked')
-              ? 'unchecked'
-              : 'mixed';
-        }
-      }
-      states.set(node.id, state);
-      return state;
-    };
-    for (const node of this.items) visit(node, false);
-    return states;
-  }
-
-  /** The ids in the `checked` state, in the order of the tree, the closed branches included. */
-  private checkedIds(states: ReadonlyMap<string, CheckState>): string[] {
-    const ids: string[] = [];
-    const walk = (nodes: readonly NphTreeNode[]): void => {
-      for (const node of nodes) {
-        if (states.get(node.id) === 'checked') ids.push(node.id);
-        walk(node.children ?? []);
-      }
-    };
-    walk(this.items);
-    return ids;
+    const model = buildModel(Array.isArray(this.items) ? this.items : [], Array.isArray(this.expanded) ? this.expanded : [], (node) =>
+      this.loadsNow(node),
+    );
+    this.rows = model.rows;
+    this.visible = model.visible;
+    this.rowByKey = model.rowByKey;
+    this.parentOf = model.parentOf;
+    this.checkStates = this.multiple ? computeChecks(this.items, new Set(Array.isArray(this.checked) ? this.checked : []), !this.checkStrictly) : new Map();
   }
 
   /** The key of the item that is the Tab stop: the active one if it is drawn, else the chosen one, else the first. */
@@ -539,10 +418,6 @@ export class NphTree extends LitElement {
   /** Whether the tree has an accessible name: its `label`, or the `aria-label` or `aria-labelledby` of the host. */
   private hasName(): boolean {
     return text(this.label) !== '' || text(this.hostName) !== '' || this.hasAttribute('aria-labelledby');
-  }
-
-  private retryName(): string {
-    return [text(this.errorText), text(this.retryText)].filter((part) => part !== '').join(' ');
   }
 
   /* ----- life cycle -------------------------------------------------------- */
@@ -708,7 +583,7 @@ export class NphTree extends LitElement {
     else next.delete(row.node.id);
     this.expanded = [...next];
     this.emitToggle({ id: row.node.id, expanded: open });
-    if (open && NphTree.unloaded(row.node) && row.node.error !== true && row.node.loading !== true && !this.loadAsked.has(row.node.id)) {
+    if (open && isUnloaded(row.node) && row.node.error !== true && row.node.loading !== true && !this.loadAsked.has(row.node.id)) {
       this.loadAsked.add(row.node.id);
       this.emitLoad({ id: row.node.id, retry: false });
     }
@@ -769,29 +644,7 @@ export class NphTree extends LitElement {
   /** Checks or unchecks an item in multiple selection: a mixed or an unchecked item gets checked, a checked one unchecked. */
   private check(row: Row): void {
     const id = row.node.id;
-    const checked = this.checkStates.get(id) !== 'checked';
-    const next = new Set(this.checkedIds(this.checkStates));
-    const apply = (node: NphTreeNode): void => {
-      if (checked) next.add(node.id);
-      else next.delete(node.id);
-      if (this.cascades) {
-        for (const child of node.children ?? []) {
-          if (child.disabled !== true) apply(child);
-        }
-      }
-    };
-    apply(row.node);
-    if (this.cascades) {
-      /* The parents are decided again from their children: a checked parent with an unchecked child is no longer checked. */
-      let parent = this.parentOf.get(id);
-      while (parent !== null && parent !== undefined) {
-        /* A disabled ancestor is out of the count, so nothing above it depends on this item: the climb stops. */
-        if (this.rowByKey.get(parent)?.node.disabled === true) break;
-        next.delete(parent);
-        parent = this.parentOf.get(parent);
-      }
-    }
-    const value = this.checkedIds(this.computeChecks(next));
+    const { checked, value } = toggleCheck(this.items, { rows: this.rows, visible: this.visible, rowByKey: this.rowByKey, parentOf: this.parentOf }, this.checkStates, id, this.cascades);
     this.checked = value;
     this.emitCheck({ id, checked, value });
   }
@@ -1024,116 +877,21 @@ export class NphTree extends LitElement {
 
   /* ----- rendering --------------------------------------------------------- */
 
-  private nodeIcon(row: Row): string {
-    return row.branch ? (row.open ? 'folder-open' : 'folder') : 'file';
-  }
-
-  /** The chevron target: the chevron of a branch, the spinner of a branch that loads, or the empty place of a leaf. */
-  private renderToggle(row: Row): TemplateResult {
-    if (row.loading) {
-      return html`<span class="toggle" aria-hidden="true"><nph-spinner size="sm"></nph-spinner></span>`;
-    }
-    if (!row.branch) {
-      return html`<span class="toggle" aria-hidden="true"></span>`;
-    }
-    return html`<span class="toggle" aria-hidden="true"
-      ><nph-icon class="chevron" name="chevron-right" variant="light" size="sm"></nph-icon
-    ></span>`;
-  }
-
-  private renderBox(row: Row): TemplateResult | typeof nothing {
-    if (!this.multiple) return nothing;
-    const state = this.checkStates.get(row.node.id) ?? 'unchecked';
-    /* Never `disabled` here: the opacity of the item fades the box, once. */
-    return html`<nph-checkbox
-      class="box"
-      inert
-      aria-hidden="true"
-      label=${row.node.label}
-      .checked=${state === 'checked'}
-      .indeterminate=${state === 'mixed'}
-    ></nph-checkbox>`;
-  }
-
-  private renderNodeItem(row: Row, tabKey: string | null): TemplateResult {
-    const node = row.node;
-    const id = this.domId(row.key);
-    const disabled = node.disabled === true;
-    const selectedState = this.selection === 'single' ? (this.selected === node.id ? 'true' : 'false') : nothing;
-    const checkedState = this.multiple
-      ? (() => {
-          const state = this.checkStates.get(node.id) ?? 'unchecked';
-          return state === 'mixed' ? 'mixed' : state === 'checked' ? 'true' : 'false';
-        })()
-      : nothing;
-    return html`<div
-      class="item"
-      id=${id}
-      role="treeitem"
-      data-key=${row.key}
-      tabindex=${row.key === tabKey ? '0' : '-1'}
-      aria-label=${text(node.label)}
-      aria-level=${String(row.level)}
-      aria-setsize=${String(row.setSize)}
-      aria-posinset=${String(row.position)}
-      aria-expanded=${row.branch ? (row.open ? 'true' : 'false') : nothing}
-      aria-selected=${selectedState}
-      aria-checked=${checkedState}
-      aria-disabled=${disabled ? 'true' : nothing}
-      aria-busy=${row.loading ? 'true' : nothing}
-      aria-owns=${row.content === 'none' ? nothing : `group-${id}`}
-      ?data-selected=${this.selection === 'single' && this.selected === node.id}
-      @click=${(event: MouseEvent) => this.onClick(row, event)}
-      @pointerenter=${{ handleEvent: (event: PointerEvent) => this.onPointerenter(row, event), capture: true }}
-    >
-      <div class="face">
-        ${this.renderToggle(row)}${this.renderBox(row)}${this.icons
-          ? html`<nph-icon class="node-icon" name=${this.nodeIcon(row)} variant="light" size="sm"></nph-icon>`
-          : nothing}<span class="label" data-key=${row.key}>${text(node.label)}</span>
-      </div>
-    </div>`;
-  }
-
-  private renderErrorItem(row: Row, tabKey: string | null): TemplateResult {
-    const id = this.domId(row.key);
-    return html`<div
-      class="item error-item"
-      id=${id}
-      role="treeitem"
-      data-key=${row.key}
-      tabindex=${row.key === tabKey ? '0' : '-1'}
-      aria-label=${this.retryName() === '' ? nothing : this.retryName()}
-      aria-level=${String(row.level)}
-      aria-setsize=${String(row.setSize)}
-      aria-posinset=${String(row.position)}
-      @click=${(event: MouseEvent) => this.onClick(row, event)}
-    >
-      <div class="face">
-        <span class="toggle" aria-hidden="true"
-          ><nph-icon class="error-icon" name="triangle-exclamation" variant="light" size="sm"></nph-icon
-        ></span>
-        <span class="error-text">${text(this.errorText)}</span>
-        <span class="retry">${text(this.retryText)}</span>
-      </div>
-    </div>`;
-  }
-
-  /** The nodes of a level and the group of the open branch under each one. */
-  private renderLevel(nodes: readonly NphTreeNode[], tabKey: string | null): TemplateResult {
-    /* Keyed by `id`: an item that leaves takes its own element, and its focus, with it, instead of lending
-       the element to the item that moves into its place. */
-    return html`${repeat(nodes, (node) => node.id, (node) => {
-      const row = this.rowByKey.get(node.id) as Row;
-      const group =
-        row.content === 'children'
-          ? html`<ul class="group" id=${`group-${this.domId(row.key)}`} role="group">${this.renderLevel(node.children ?? [], tabKey)}</ul>`
-          : row.content === 'error'
-            ? html`<ul class="group" id=${`group-${this.domId(row.key)}`} role="group">
-                <li role="none">${this.renderErrorItem(this.rowByKey.get(row.key + ERROR_SUFFIX) as Row, tabKey)}</li>
-              </ul>`
-            : nothing;
-      return html`<li role="none">${this.renderNodeItem(row, tabKey)}${group}</li>`;
-    })}`;
+  /** What the shared rows need from this tree. */
+  private rowContext(tabKey: string | null): TreeRowContext {
+    return {
+      rowByKey: this.rowByKey,
+      checkStates: this.checkStates,
+      selection: this.selection,
+      selected: this.selected,
+      icons: this.icons,
+      errorText: this.errorText,
+      retryText: this.retryText,
+      domId: (key) => this.domId(key),
+      tabKey,
+      onClick: (row, event) => this.onClick(row, event),
+      onPointerenter: (row, event) => this.onPointerenter(row, event),
+    };
   }
 
   private renderBalloons(): TemplateResult[] {
@@ -1145,20 +903,12 @@ export class NphTree extends LitElement {
       );
   }
 
-  private renderSkeleton(): TemplateResult {
-    return html`<div class="skeleton" aria-hidden="true">
-      ${Array.from({ length: NPH_TREE_SKELETON_ROWS }, () => html`<div class="skeleton-row"><nph-skeleton shape="line"></nph-skeleton></div>`)}
-    </div>`;
-  }
-
   protected override render(): TemplateResult | typeof nothing {
     if (this.problem !== null) {
       return nothing;
     }
     if (this.empty) {
-      return this.skeleton
-        ? this.renderSkeleton()
-        : html`<nph-empty heading=${text(this.emptyHeading)} description=${text(this.emptyDescription)}></nph-empty>`;
+      return this.skeleton ? renderSkeleton() : renderEmpty(this.emptyHeading, this.emptyDescription);
     }
     const tabKey = this.tabKey();
     return html`<ul
@@ -1168,7 +918,7 @@ export class NphTree extends LitElement {
         @focusin=${this.onFocusin}
         @focusout=${this.onFocusout}
       >
-        ${this.renderLevel(this.items, tabKey)}
+        ${renderLevel(this.rowContext(tabKey), this.items)}
       </ul>
       ${this.renderBalloons()}`;
   }

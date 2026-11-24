@@ -45,12 +45,12 @@
   },
   "states": {
     "default": {
-      "token": "color/muted",
+      "token": "skeleton/background",
       "changes_for_user": "A still rectangle holds the place of the content; it does not change with interaction."
     }
   },
   "business_rules": [
-    "The shape always uses color/muted, with no border, no text and no animation: it carries no state.",
+    "The shape always uses skeleton/background (color/skeleton), with no border, no text and no animation: it carries no state.",
     "The line takes its own skeleton/line-height; the space between lines comes from whoever uses it.",
     "The line and the block stretch to the container width. The block height follows the content that will come in, so whoever uses it gives the height.",
     "The avatar takes avatar/size-* and avatar/radius-*, like nph-avatar, with rounded corners and never a circle.",
@@ -58,7 +58,7 @@
   ],
   "domain_errors": [],
   "tokens": {
-    "color": "color/muted",
+    "color": "skeleton/background",
     "line_height": "skeleton/line-height",
     "line_radius": "radius/inner",
     "block_radius": "radius/control",
@@ -82,7 +82,7 @@
   "invalid_combinations": [
     "One avatar size in place of another — the size would change when the content arrives.",
     "Text inside the shape — the shape holds no text.",
-    "Another color or an animation — the shape always uses color/muted and is still."
+    "Another color or an animation — the shape always uses skeleton/background and is still."
   ],
   "relations": {
     "combines_with": [
@@ -105,7 +105,7 @@
     "Animating the shape or painting it with another color."
   ],
   "sources": {
-    "design_md": "design.md, color/muted, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*",
+    "design_md": "design.md, skeleton/background, color/skeleton, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*",
     "decision": "P69 — API and semantics of nph-skeleton, 15-10-2026",
     "tests": "src/components/nph-skeleton/nph-skeleton.test.ts",
     "usage_evidence": "none in code yet; the accepted frame shows a list of people, a card and a paragraph loading",
