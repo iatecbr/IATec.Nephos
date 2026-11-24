@@ -10431,9 +10431,13 @@ development, once per cause: the rule of P21. The names follow P64.
    with `tree-select/panel-width` (`tree-select/panel-width-multiple` in `multiple`) as the minimum. The code of the position
    is copied and not shared, as the other pieces did.
 
-**Out of scope.** The `nph-tooltip` that shows the whole label of a cut item: it needs the Tab stop of the item, which the rows
-of the tree select do not take, and is left for a later task. Checking the parent and the children independently, a small size,
-a warning status, a "+N" chip and a highlight of the searched part (out of the v1 by the accepted documentation).
+9. **The whole label of a cut item.** The `nph-tooltip` is drawn beside the rows, in the same shadow root, only for the rows whose label is
+   cut (measured on the screen), with `relation="name"`. The rows take `tabindex="-1"` in this mode, so the balloon opens on hover after
+   `motion/hover-delay` (P77); a press on the panel keeps the focus on the field. Since the focus never reaches a row, the balloon of the
+   active item is opened by its `open` property when the keyboard put the item there.
+
+**Out of scope.** Checking the parent and the children independently, a small size, a warning status, a "+N" chip and a highlight of
+the searched part (out of the v1 by the accepted documentation).
 **Status.** Documentation accepted by the design owner on 18/11/2026; D-1 answered the same day. API and semantics are reviewed
 in the pull request that brings them; the merge is the approval.
 

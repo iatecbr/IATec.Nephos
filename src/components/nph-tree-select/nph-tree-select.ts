@@ -42,6 +42,7 @@ import { live } from 'lit/directives/live.js';
 
 import '../nph-badge/nph-badge';
 import '../nph-icon/nph-icon';
+import '../nph-tooltip/nph-tooltip';
 import { isUnloaded } from '../nph-tree/nph-tree.model';
 import { buildModel, computeChecks, toggleCheck } from '../nph-tree/nph-tree.model';
 import type { CheckState, NphTreeNode, Row, TreeModel } from '../nph-tree/nph-tree.model';
@@ -150,6 +151,7 @@ export class NphTreeSelect extends LitElement {
     activeKey: { state: true },
     typed: { state: true },
     byKeyboard: { state: true },
+    cutKeys: { state: true },
   };
 
   /** `single` (default), `search` or `multiple`. */
@@ -189,6 +191,8 @@ export class NphTreeSelect extends LitElement {
   /** The text typed in the field, `null` when none. Not API. */
   declare protected typed: string | null;
   declare protected byKeyboard: boolean;
+  /** The keys of the rows whose label is cut. Measured, not API. */
+  declare protected cutKeys: ReadonlySet<string>;
 
   private readonly internals: ElementInternals;
   private readonly uid = `nts${String(nextUid++)}`;
@@ -251,6 +255,7 @@ export class NphTreeSelect extends LitElement {
     this.activeKey = null;
     this.typed = null;
     this.byKeyboard = false;
+    this.cutKeys = new Set();
     this.addEventListener('focusin', () => this.syncName());
     this.addEventListener('focusout', this.onFocusout);
   }
@@ -564,10 +569,21 @@ export class NphTreeSelect extends LitElement {
     } else if (this.open && this.valid) {
       this.show(panel);
       this.revealActive();
+      this.measureCut();
     } else if (changed.has('open') || this.shown) {
       this.hide(panel);
     }
     this.syncFormState();
+  }
+
+  /** The cut labels, measured on the screen: a label is cut when its text is wider than its box. */
+  private measureCut(): void {
+    const cut = new Set<string>();
+    for (const label of this.renderRoot.querySelectorAll<HTMLElement>('.label')) {
+      if (label.scrollWidth > label.clientWidth) cut.add(label.dataset.key ?? '');
+    }
+    const previous = this.cutKeys;
+    if (cut.size !== previous.size || [...cut].some((key) => !previous.has(key))) this.cutKeys = cut;
   }
 
   private rowElement(key: string): HTMLElement | null {
@@ -698,7 +714,10 @@ export class NphTreeSelect extends LitElement {
     this.frame = requestAnimationFrame(() => {
       this.frame = undefined;
       const panel = this.panel;
-      if (panel && this.shown) this.place(panel);
+      if (panel && this.shown) {
+        this.place(panel);
+        this.measureCut();
+      }
     });
   };
 
@@ -1183,8 +1202,29 @@ export class NphTreeSelect extends LitElement {
       retryText: this.retryText,
       domId: (key) => this.domId(key),
       focusKey: this.open && this.byKeyboard ? this.activeKey : null,
+      hoverable: true,
       onClick: (row, event) => this.onRowClick(row, event),
     };
+  }
+
+  /**
+   * The whole label of a cut item, in an `nph-tooltip` beside the rows, in this root so it can point at the row: on
+   * hover after `motion/hover-delay`, and at once for the active item when the keyboard moved it, since the focus
+   * stays on the field.
+   */
+  private renderBalloons(): TemplateResult[] {
+    return this.model.visible
+      .filter((row) => row.kind === 'node' && this.cutKeys.has(row.key))
+      .map(
+        (row) =>
+          html`<nph-tooltip
+            for=${this.domId(row.key)}
+            relation="name"
+            side="top"
+            .text=${trimmed(row.node.label)}
+            ?open=${this.open && this.byKeyboard && this.activeKey === row.key}
+          ></nph-tooltip>`,
+      );
   }
 
   private renderChip(node: NphTreeNode, removable: boolean): TemplateResult {
@@ -1229,7 +1269,7 @@ export class NphTreeSelect extends LitElement {
         ${renderLevel(this.rowContext(), filteredTop(this.model, this.items, this.filterText))}
       </ul>`;
     }
-    return html`<div class="scroller">${inside}</div>`;
+    return html`<div class="scroller">${inside}</div>${this.renderBalloons()}`;
   }
 
   private renderControl(): TemplateResult {

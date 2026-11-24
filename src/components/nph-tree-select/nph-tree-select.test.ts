@@ -833,6 +833,65 @@ describe('the panel', () => {
   });
 });
 
+describe('the whole label of a cut item', () => {
+  const LONG = 'A very long folder name that cannot fit in the panel of two hundred and eighty pixels';
+  const cutItems: NphTreeNode[] = [
+    { id: 'long', label: LONG },
+    { id: 'short', label: 'Short' },
+  ];
+  const balloons = (element: NphTreeSelect): Array<HTMLElement & { open: boolean; text: string; for: string; relation: string }> =>
+    [...root(element).querySelectorAll('nph-tooltip')] as Array<HTMLElement & { open: boolean; text: string; for: string; relation: string }>;
+
+  it('only a cut label gets a balloon, pointing at its row, with the whole text as its name', async () => {
+    const element = await mount({ items: cutItems });
+    await open(element);
+    await settle(element);
+    const found = balloons(element);
+    expect(found).toHaveLength(1);
+    expect(found[0]?.text).toBe(LONG);
+    expect(found[0]?.relation).toBe('name');
+    expect(found[0]?.for).toBe(row(element, 'long').id);
+    expect(row(element, 'long').getAttribute('tabindex')).toBe('-1');
+  });
+
+  it('the active item opens its balloon at once when the keyboard put it there, with the focus on the field', async () => {
+    const element = await mount({ items: cutItems });
+    await open(element);
+    await settle(element);
+    expect(activeKey(element)).toBe('long');
+    expect(balloons(element)[0]?.open).toBe(true);
+    expect(root(element).activeElement).toBe(control(element));
+    await press(element, '{ArrowDown}');
+    expect(balloons(element)[0]?.open).toBe(false);
+  });
+
+  it('the pointer opens it after motion/hover-delay and closes it when it leaves', async () => {
+    const element = await mount({ items: cutItems });
+    await userEvent.click(control(element));
+    await settle(element);
+    expect(balloons(element)).toHaveLength(1);
+    await userEvent.hover(row(element, 'long'));
+    expect(balloons(element)[0]?.open).toBe(false);
+    await wait(700);
+    await settle(element);
+    expect(balloons(element)[0]?.open).toBe(true);
+    await userEvent.unhover(row(element, 'long'));
+    await wait(50);
+    expect(balloons(element)[0]?.open).toBe(false);
+    expect(root(element).activeElement).toBe(control(element));
+  });
+
+  it('a click on a cut item still chooses it: the row takes no focus from the field', async () => {
+    const element = await mount({ items: cutItems });
+    await userEvent.click(control(element));
+    await settle(element);
+    await userEvent.click(row(element, 'long'));
+    await settle(element);
+    expect(element.value).toBe('long');
+    expect(root(element).activeElement).toBe(control(element));
+  });
+});
+
 describe('sizes', () => {
   it('large changes the height of the field and not the panel', async () => {
     const normal = await mount();

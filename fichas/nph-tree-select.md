@@ -322,6 +322,7 @@ business_rules:
   - "Typing in search and multiple filters the tree, keeps the ancestors of every match visible and open, and makes the first match active."
   - "A letter in single (D-1): closed, it opens the panel on the next visible item after the chosen one that starts with it; open, it moves the active item; the search wraps, the same letter cycles, a Space inside a quick search is part of it; the value changes only by Enter, Space outside a search, or Alt+ArrowUp."
   - "Esc closes the panel with the focus on the field; closed with typed text, it clears the text. Tab closes without choosing and the focus moves on. A press outside closes and keeps the value."
+  - "The whole label of a cut item shows in an nph-tooltip: on hover after motion/hover-delay, and at once for the active item when the keyboard put it there, since the focus stays on the field."
   - "A branch that opens with no children asks for them once with nph-tree-load; the spinner takes the place of the chevron. On a failed branch the error row says so and Enter tries again."
   - "With no room below the panel opens above, at the same distance; above layout/max-list-height the tree scrolls inside the panel."
   - "disabled wins over invalid."
@@ -346,7 +347,7 @@ tokens:
   panel_width: "tree-select/panel-width in single and search; tree-select/panel-width-multiple in multiple; the field width when it is larger"
   panel_offset: tree-select/panel-offset
   panel_shadow: elevation/dropdown
-  tree: "tree/* of nph-tree: tree/padding around the rows, tree/item-height, tree/indent, the focus of the item"
+  tree: "tree/* of nph-tree: tree/padding around the rows, tree/item-height, tree/indent, the focus of the item; the balloon of a cut label is the nph-tooltip"
   skeleton: skeleton/background
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control"
   disabled: state/disabled-opacity
@@ -382,7 +383,7 @@ invalid_combinations:
   - "counter without subject — the counter alone."
   - "invalid without the sentence in nph-field — red with no text."
 relations:
-  combines_with: [nph-field, nph-tree, nph-checkbox, nph-badge, nph-empty, nph-skeleton, nph-spinner, nph-icon]
+  combines_with: [nph-field, nph-tree, nph-tooltip, nph-checkbox, nph-badge, nph-empty, nph-skeleton, nph-spinner, nph-icon]
   parents: [nph-field, "form"]
   children: [nph-tree, nph-checkbox, nph-badge, nph-empty, nph-skeleton, nph-spinner, nph-icon]
   complements_block: []
@@ -533,7 +534,7 @@ field with nothing chosen. `nph-field` writes the sentence and passes it to the 
 | Alternative to color | The chosen item has a bar and the weight of the label; a parent with part checked shows a dash; the error is said by the sentence of `nph-field` |
 | Hidden parts | The icons, the box of the item and the arrow are hidden from the screen reader |
 | Touch target | The field has the height of the size; the chevron, the box, the clear and the remove targets are 24 × 24; the item is `tree/item-height` |
-| Known limits | The `nph-tooltip` that shows the whole label of a cut item (on focus and on hover) is not drawn in the panel yet: the label is cut with an ellipsis and the whole text reaches the screen reader. The outer 1 px of the focus halo of an item at the edge of the panel is clipped by its scroll box, as in the list of the family. Forced colors follow the rows of `nph-tree` |
+| Known limits | The outer 1 px of the focus halo of an item at the edge of the panel is clipped by its scroll box, as in the list of the family. The balloon of the active item closes when the pointer enters and leaves that item's balloon. Forced colors follow the rows of `nph-tree` |
 
 ## Relations
 
@@ -563,7 +564,7 @@ shadow root of another element.
 | Text | `text/body-md`, `color/foreground`; the placeholder in `color/muted-foreground` |
 | Chip | `color/primary-surface`; `radius/full`; horizontal padding `space/inline`; gap `space/inline-tight`; the label `text/label-sm` in `color/primary-on-surface` |
 | Panel | `tree-select/panel-background`, `tree-select/panel-border`, `tree-select/panel-border-width`, `tree-select/panel-radius`, `tree-select/panel-max-height`, `tree-select/panel-offset`, `tree-select/panel-width`, `tree-select/panel-width-multiple`; shadow `elevation/dropdown` |
-| Tree | The `tree/*` tokens of `nph-tree`, by the shared rows |
+| Tree | The `tree/*` tokens of `nph-tree`, by the shared rows; the balloon of a cut label is the `nph-tooltip` |
 | First load | `skeleton/background` |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
 | Disabled | `state/disabled-opacity` on `color/muted` |

@@ -311,6 +311,7 @@
     "Typing in search and multiple filters the tree, keeps the ancestors of every match visible and open, and makes the first match active.",
     "A letter in single (D-1): closed, it opens the panel on the next visible item after the chosen one that starts with it; open, it moves the active item; the search wraps, the same letter cycles, a Space inside a quick search is part of it; the value changes only by Enter, Space outside a search, or Alt+ArrowUp.",
     "Esc closes the panel with the focus on the field; closed with typed text, it clears the text. Tab closes without choosing and the focus moves on. A press outside closes and keeps the value.",
+    "The whole label of a cut item shows in an nph-tooltip: on hover after motion/hover-delay, and at once for the active item when the keyboard put it there, since the focus stays on the field.",
     "A branch that opens with no children asks for them once with nph-tree-load; the spinner takes the place of the chevron. On a failed branch the error row says so and Enter tries again.",
     "With no room below the panel opens above, at the same distance; above layout/max-list-height the tree scrolls inside the panel.",
     "disabled wins over invalid."
@@ -337,7 +338,7 @@
     "panel_width": "tree-select/panel-width in single and search; tree-select/panel-width-multiple in multiple; the field width when it is larger",
     "panel_offset": "tree-select/panel-offset",
     "panel_shadow": "elevation/dropdown",
-    "tree": "tree/* of nph-tree: tree/padding around the rows, tree/item-height, tree/indent, the focus of the item",
+    "tree": "tree/* of nph-tree: tree/padding around the rows, tree/item-height, tree/indent, the focus of the item; the balloon of a cut label is the nph-tooltip",
     "skeleton": "skeleton/background",
     "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control",
     "disabled": "state/disabled-opacity"
@@ -381,6 +382,7 @@
     "combines_with": [
       "nph-field",
       "nph-tree",
+      "nph-tooltip",
       "nph-checkbox",
       "nph-badge",
       "nph-empty",
