@@ -11,26 +11,12 @@
  * - the next list of checked ids when one item is checked or unchecked.
  */
 
+/* The node is declared with the component, which is the public file; the module only reads its type. */
+import type { NphTreeNode } from './nph-tree';
+export type { NphTreeNode };
+
 /** The skeleton rows of the first load of the tree. */
 export const NPH_TREE_SKELETON_ROWS = 3;
-
-/** One node of the tree. */
-export interface NphTreeNode {
-  /** Unique in the tree. The value `selected`, `checked`, `expanded` and the events carry. */
-  id: string;
-  /** The text of the item. Already localized. */
-  label: string;
-  /** The nodes of the next level, when they are loaded. */
-  children?: readonly NphTreeNode[];
-  /** A branch whose children are not loaded yet: it opens and asks for them. */
-  branch?: boolean;
-  /** The item takes focus by the arrows and does nothing. */
-  disabled?: boolean;
-  /** The branch is loading, whatever its children. */
-  loading?: boolean;
-  /** The children could not be loaded: the error row takes their place. */
-  error?: boolean;
-}
 
 export type CheckState = 'checked' | 'unchecked' | 'mixed';
 

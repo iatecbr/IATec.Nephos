@@ -1202,7 +1202,7 @@ export class NphTreeSelect extends LitElement {
       retryText: this.retryText,
       domId: (key) => this.domId(key),
       focusKey: this.open && this.byKeyboard ? this.activeKey : null,
-      hoverable: true,
+      withBalloons: true,
       onClick: (row, event) => this.onRowClick(row, event),
     };
   }

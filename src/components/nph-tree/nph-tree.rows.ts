@@ -48,7 +48,7 @@ export interface TreeRowContext {
    * Descendant: the rows take `tabindex="-1"`, so a balloon (`nph-tooltip`) can attach to them: it opens on hover
    * only on an element that a focus could reach (P77). The owner keeps the focus on its field.
    */
-  readonly hoverable?: boolean;
+  readonly withBalloons?: boolean;
   onClick(row: Row, event: MouseEvent): void;
   onPointerenter?(row: Row, event: PointerEvent): void;
 }
@@ -94,7 +94,7 @@ function renderBox(context: TreeRowContext, row: Row): TemplateResult | typeof n
 }
 
 function tabindexOf(context: TreeRowContext, row: Row): string | typeof nothing {
-  if (context.tabKey === undefined) return context.hoverable === true ? '-1' : nothing;
+  if (context.tabKey === undefined) return context.withBalloons === true ? '-1' : nothing;
   return row.key === context.tabKey ? '0' : '-1';
 }
 

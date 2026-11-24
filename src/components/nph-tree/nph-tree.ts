@@ -60,8 +60,8 @@ import '../nph-skeleton/nph-skeleton';
 import '../nph-spinner/nph-spinner';
 import '../nph-tooltip/nph-tooltip';
 import treeCss from './nph-tree.css?inline';
-import { buildModel, computeChecks, isUnloaded, toggleCheck } from './nph-tree.model';
-import type { CheckState, NphTreeNode, Row } from './nph-tree.model';
+import { NPH_TREE_SKELETON_ROWS as MODEL_SKELETON_ROWS, buildModel, computeChecks, isUnloaded, toggleCheck } from './nph-tree.model';
+import type { CheckState, Row } from './nph-tree.model';
 import { renderEmpty, renderLevel, renderSkeleton, treeRowStyles } from './nph-tree.rows';
 import type { TreeRowContext } from './nph-tree.rows';
 
@@ -74,8 +74,26 @@ const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 export const NPH_TREE_SELECTIONS = ['none', 'single', 'multiple'] as const;
 export type NphTreeSelection = (typeof NPH_TREE_SELECTIONS)[number];
 
-export { NPH_TREE_SKELETON_ROWS } from './nph-tree.model';
-export type { NphTreeNode } from './nph-tree.model';
+/** The skeleton rows of the first load of the tree. */
+export const NPH_TREE_SKELETON_ROWS = MODEL_SKELETON_ROWS;
+
+/** One node of the tree. */
+export interface NphTreeNode {
+  /** Unique in the tree. The value `selected`, `checked`, `expanded` and the events carry. */
+  id: string;
+  /** The text of the item. Already localized. */
+  label: string;
+  /** The nodes of the next level, when they are loaded. */
+  children?: readonly NphTreeNode[];
+  /** A branch whose children are not loaded yet: it opens and asks for them. */
+  branch?: boolean;
+  /** The item takes focus by the arrows and does nothing. */
+  disabled?: boolean;
+  /** The branch is loading, whatever its children. */
+  loading?: boolean;
+  /** The children could not be loaded: the error row takes their place. */
+  error?: boolean;
+}
 
 /** The detail of `nph-tree-toggle`: the branch the person opened or closed. */
 export interface NphTreeToggleDetail {
