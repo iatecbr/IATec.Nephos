@@ -19,7 +19,6 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import hostCss from './nph-tree.css?raw';
 import rowsCss from './nph-tree.rows.css?raw';
-const componentCss = hostCss + rowsCss;
 import componentSource from './nph-tree.ts?raw';
 import { NPH_TREE_SELECTIONS, NPH_TREE_SKELETON_ROWS, NphTree } from './nph-tree';
 import type { NphTreeCheckDetail, NphTreeLoadDetail, NphTreeNode, NphTreeSelectDetail, NphTreeToggleDetail } from './nph-tree';
@@ -27,6 +26,8 @@ import { BRANDS } from '../../shared/docs/brands';
 import '../nph-context-menu/nph-context-menu';
 import type { NphContextMenu } from '../nph-context-menu/nph-context-menu';
 import type { NphTooltip } from '../nph-tooltip/nph-tooltip';
+
+const componentCss = hostCss + rowsCss;
 
 beforeAll(async () => {
   await document.fonts.load('400 14px "Noto Sans"');
