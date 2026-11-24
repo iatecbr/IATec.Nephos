@@ -34,17 +34,17 @@ variants:
     do_not_combine_with: [text, animation, color]
 states:
   default:
-    token: color/muted
+    token: skeleton/background
     changes_for_user: "A still rectangle holds the place of the content; it does not change with interaction."
 business_rules:
-  - "The shape always uses color/muted, with no border, no text and no animation: it carries no state."
+  - "The shape always uses skeleton/background (color/skeleton), with no border, no text and no animation: it carries no state."
   - "The line takes its own skeleton/line-height; the space between lines comes from whoever uses it."
   - "The line and the block stretch to the container width. The block height follows the content that will come in, so whoever uses it gives the height."
   - "The avatar takes avatar/size-* and avatar/radius-*, like nph-avatar, with rounded corners and never a circle."
   - "The wait is announced by the container with aria-busy, not by the piece."
 domain_errors: []
 tokens:
-  color: color/muted
+  color: skeleton/background
   line_height: skeleton/line-height
   line_radius: radius/inner
   block_radius: radius/control
@@ -65,7 +65,7 @@ accessibility:
 invalid_combinations:
   - "One avatar size in place of another — the size would change when the content arrives."
   - "Text inside the shape — the shape holds no text."
-  - "Another color or an animation — the shape always uses color/muted and is still."
+  - "Another color or an animation — the shape always uses skeleton/background and is still."
 relations:
   combines_with: [nph-avatar, nph-spinner]
   parents: [list, card, paragraph]
@@ -78,7 +78,7 @@ anti_patterns:
   - "Using one avatar size in place of another."
   - "Animating the shape or painting it with another color."
 sources:
-  design_md: "design.md, color/muted, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*"
+  design_md: "design.md, skeleton/background, color/skeleton, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*"
   decision: "P69 — API and semantics of nph-skeleton, 15-10-2026"
   tests: "src/components/nph-skeleton/nph-skeleton.test.ts"
   usage_evidence: "none in code yet; the accepted frame shows a list of people, a card and a paragraph loading"
@@ -128,14 +128,14 @@ property, not a second axis.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Default | `color/muted` | A still rectangle holds the place of the content; it does not change with interaction |
+| Default | `skeleton/background` | A still rectangle holds the place of the content; it does not change with interaction |
 
 **Feedback and focus:** the piece does not receive focus nor react to interaction. It is
 still: there is no pulse, so there is nothing to reduce under reduced motion.
 
 **Business rule the piece carries:**
 
-- The shape always uses `color/muted`, with no border, no text and no animation.
+- The shape always uses `skeleton/background` (`color/skeleton`), with no border, no text and no animation. It is the same as before in light and one step up in dark, so the block does not vanish on a floating panel such as the `nph-tree-select` panel: 1.16:1 in light; in dark 1.29:1 over `color/popover`, 1.62:1 over `color/card` and 1.92:1 over `color/background`. Decorative: the block carries no state and no text.
 - The line takes its own `skeleton/line-height`; the space between lines comes from
   whoever uses it.
 - The line and the block stretch to the container width. The block height follows the
@@ -176,7 +176,7 @@ container carries `aria-busy`.
 
 | Part | Token |
 |---|---|
-| Color | `color/muted` |
+| Color | `skeleton/background` (`color/skeleton`) |
 | Line height | `skeleton/line-height` |
 | Line radius | `radius/inner` |
 | Block radius | `radius/control` |
@@ -213,11 +213,11 @@ place of the text. A paragraph loading takes one line per text line.
 - **Do not use one avatar size in place of another** — use the avatar shape of the same
   size.
 - **Do not animate the shape or paint it with another color** — it always uses
-  `color/muted` and is still.
+  `skeleton/background` and is still.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `color/muted`, `skeleton/line-height`, `radius/inner`,
+- **The repository `design.md`:** `skeleton/background`, `color/skeleton`, `skeleton/line-height`, `radius/inner`,
   `radius/control`, `avatar/size-*` and `avatar/radius-*`.
 - **The decision that originated it:** P69, of 15-10-2026.
 - **Tests:** `src/components/nph-skeleton/nph-skeleton.test.ts`.

@@ -1836,7 +1836,7 @@
       ],
       [
         "cor",
-        "Não é propriedade: a forma sempre usa color/muted."
+        "Não é propriedade: a forma sempre usa skeleton/background."
       ]
     ],
     "usageTitle": "Uso",
@@ -1891,7 +1891,7 @@
     "anatomy": [
       [
         "Forma",
-        "Um retângulo em color/muted, sem borda, sem texto e sem animação."
+        "Um retângulo em skeleton/background, sem borda, sem texto e sem animação."
       ],
       [
         "Raio",
@@ -1943,7 +1943,7 @@
     "references": [
       "ficha nph-skeleton — função, formas, acessibilidade, tokens e anti-padrões.",
       "docs/decisoes-tecnicas.md — P69 (API e semântica), P01, P02 e P03.",
-      "design.md — color/muted, skeleton/line-height, radius/inner, radius/control, avatar/size-* e avatar/radius-*.",
+      "design.md — skeleton/background, skeleton/line-height, radius/inner, radius/control, avatar/size-* e avatar/radius-*.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Skeleton, quadro nph-skeleton (1578:38) e conjunto 1578:37.",
       "Storybook — Validação, na pasta ao lado."
     ],

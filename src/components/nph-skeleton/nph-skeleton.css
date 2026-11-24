@@ -3,7 +3,7 @@
  *
  * Classes and selectors here are NOT public API (P02). The contract is the token
  * custom properties consumed here. No literal design value goes in: the color is
- * `color/muted`, the measures are `skeleton/line-height` and `avatar/size-*`, and
+ * `skeleton/background` (`color/skeleton`), the measures are `skeleton/line-height` and `avatar/size-*`, and
  * the radii are `radius/inner`, `radius/control` and `avatar/radius-*`.
  *
  * The piece is still, so there is no `animation` and no reduced-motion rule.
@@ -19,7 +19,7 @@
 :host([data-nph-rendered]) {
   display: block;
   flex: none;
-  background-color: var(--nph-color-muted);
+  background-color: var(--nph-skeleton-background);
 }
 
 /* Fills the width in a block parent or a column flex parent. */

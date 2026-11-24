@@ -1836,7 +1836,7 @@
       ],
       [
         "color",
-        "Not a property: the shape always uses color/muted."
+        "Not a property: the shape always uses skeleton/background."
       ]
     ],
     "usageTitle": "Usage",
@@ -1891,7 +1891,7 @@
     "anatomy": [
       [
         "Shape",
-        "A rectangle in color/muted, with no border, no text and no animation."
+        "A rectangle in skeleton/background, with no border, no text and no animation."
       ],
       [
         "Radius",
@@ -1943,7 +1943,7 @@
     "references": [
       "nph-skeleton spec sheet — purpose, shapes, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P69 (API and semantics), P01, P02 and P03.",
-      "design.md — color/muted, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*.",
+      "design.md — skeleton/background, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Skeleton, frame nph-skeleton (1578:38) and set 1578:37.",
       "Storybook — Validation, in the folder alongside."
     ],

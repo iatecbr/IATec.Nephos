@@ -3,7 +3,7 @@
  * container filling and resolved color only exist where there is layout.
  *
  * They prove the contract accepted in Figma (frame `1578:38`): the five shapes,
- * their radii and measures, the color of `color/muted` in both schemes, the
+ * their radii and measures, the color of `skeleton/background` in both schemes, the
  * line height decision (D1 of DSA-26, the literal reading), the stillness and
  * the absence of semantics and focus.
  */
@@ -131,17 +131,17 @@ describe('avatar', () => {
 });
 
 describe('appearance', () => {
-  it('every shape is color/muted, with no border', async () => {
+  it('every shape is skeleton/background, with no border', async () => {
     for (const shape of NPH_SKELETON_SHAPES) {
       const { skeleton } = await mountIn('block', shape, 'block-size: 40px;');
       const style = getComputedStyle(skeleton);
-      expect(style.backgroundColor, shape).toBe(resolved('backgroundColor', '--nph-color-muted'));
+      expect(style.backgroundColor, shape).toBe(resolved('backgroundColor', '--nph-skeleton-background'));
       expect(style.borderTopWidth, shape).toBe('0px');
       document.body.replaceChildren();
     }
   });
 
-  it('the color follows the scheme: color/muted in dark mode', async () => {
+  it('the color follows the scheme: skeleton/background in dark mode', async () => {
     const scope = document.createElement('div');
     scope.setAttribute('data-nph-color-scheme', 'dark');
     const skeleton = document.createElement('nph-skeleton');
@@ -149,7 +149,8 @@ describe('appearance', () => {
     document.body.append(scope);
     await skeleton.updateComplete;
     const dark = getComputedStyle(skeleton).backgroundColor;
-    expect(dark).toBe(resolved('backgroundColor', '--nph-color-muted', scope));
+    expect(dark).toBe(resolved('backgroundColor', '--nph-skeleton-background', scope));
+    expect(dark).not.toBe(resolved('backgroundColor', '--nph-color-popover', scope));
     scope.setAttribute('data-nph-color-scheme', 'light');
     expect(getComputedStyle(skeleton).backgroundColor).not.toBe(dark);
   });
@@ -227,7 +228,7 @@ describe('token contract', () => {
     const used = [...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1]);
     expect(new Set(used)).toEqual(
       new Set([
-        '--nph-color-muted',
+        '--nph-skeleton-background',
         '--nph-skeleton-line-height',
         '--nph-radius-inner',
         '--nph-radius-control',
