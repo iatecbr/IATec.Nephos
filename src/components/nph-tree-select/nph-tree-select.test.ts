@@ -603,6 +603,27 @@ describe('multiple', () => {
     expect(chipLabels(element)).toEqual([]);
   });
 
+  it('the chip repeats the icon of the item when the tree has icons, and has none when it does not (DSA-31 D-3)', async () => {
+    const element = await mount({ mode: 'multiple', icons: true, values: ['contracts', 'c2025', 'c2026', 'readme'] });
+    await settle(element);
+    const icons = [...root(element).querySelectorAll('.chip .chip-icon')].map((icon) => icon.getAttribute('name'));
+    expect(icons).toEqual(['folder', 'file']);
+    const plain = await mount({ mode: 'multiple', values: ['readme'] });
+    await settle(plain);
+    expect(root(plain).querySelector('.chip .chip-icon')).toBeNull();
+  });
+
+  it('Alt+ArrowDown opens without moving the active item: there is none until the person moves', async () => {
+    const element = await mount({ mode: 'multiple' });
+    field(element).focus();
+    await press(element, '{Alt>}{ArrowDown}{/Alt}');
+    expect(element.open).toBe(true);
+    expect(activeOf(element)).toBeNull();
+    expect(rows(element).some((item) => item.hasAttribute('data-focus'))).toBe(false);
+    await press(element, '{ArrowDown}');
+    expect(activeKey(element)).toBe('docs');
+  });
+
   it('the counter mode shows the subject and how many are chosen, on one line', async () => {
     const element = await mount({ mode: 'multiple', counter: true, subject: 'Folders', values: ['readme', 'images', 'logo'] });
     await settle(element);

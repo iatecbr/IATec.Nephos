@@ -209,6 +209,8 @@ export class NphTreeSelect extends LitElement {
   private pending: Pending | null = null;
   private quick = '';
   private quickTimer: number | undefined;
+  /** Alt+ArrowDown opened the panel on purpose with no active item, until the person moves. */
+  private noActive = false;
 
   /* The model of the current render. */
   private model: TreeModel = { rows: [], visible: [], rowByKey: new Map(), parentOf: new Map() };
@@ -523,6 +525,11 @@ export class NphTreeSelect extends LitElement {
       this.activeKey = null;
       return;
     }
+    if (this.noActive) {
+      this.pending = null;
+      if (this.activeKey !== null) this.activeKey = null;
+      return;
+    }
     const pending = this.pending;
     this.pending = null;
     let key: string | null = this.activeKey;
@@ -600,6 +607,7 @@ export class NphTreeSelect extends LitElement {
     this.typed = null;
     this.activeKey = null;
     this.pending = null;
+    this.noActive = false;
   }
 
   private show(panel: HTMLElement): void {
@@ -951,6 +959,12 @@ export class NphTreeSelect extends LitElement {
       this.typed = null;
       return true;
     }
+    if (key === 'ArrowDown' && altKey && this.editable) {
+      /* Alt+ArrowDown opens the panel without moving the active item: there is none until the person moves. */
+      this.openPanel('first');
+      this.noActive = true;
+      return true;
+    }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       if (this.multiple) this.openPanel(key === 'ArrowDown' ? 'first' : 'last');
       else if (this.mode === 'search') this.openPanel(chosen ? 'chosen' : key === 'ArrowDown' ? 'first' : 'last');
@@ -982,6 +996,7 @@ export class NphTreeSelect extends LitElement {
   private keyWhenOpen(event: KeyboardEvent): boolean {
     const { key, altKey, ctrlKey, metaKey } = event;
     const row = this.activeRow();
+    if (key !== 'Alt' && key !== 'Shift' && key !== 'Control' && key !== 'Meta' && !(key === 'ArrowDown' && altKey)) this.noActive = false;
     switch (key) {
       case 'Escape':
         this.closePanel();
@@ -1047,6 +1062,7 @@ export class NphTreeSelect extends LitElement {
   private onInput(event: Event): void {
     if (this.inactive) return;
     this.typed = (event.target as HTMLInputElement).value;
+    this.noActive = false;
     this.byKeyboard = true;
     this.pending = 'match';
     this.open = true;
@@ -1174,6 +1190,7 @@ export class NphTreeSelect extends LitElement {
   private renderChip(node: NphTreeNode, removable: boolean): TemplateResult {
     const text = trimmed(node.label);
     return html`<span class="chip" role="listitem">
+      ${this.icons ? html`<nph-icon class="chip-icon" name=${node.children !== undefined || node.branch === true ? 'folder' : 'file'} variant="light" size="sm" aria-hidden="true"></nph-icon>` : nothing}
       <span class="chip-label">${text}</span>
       ${removable
         ? html`<button class="remove" type="button" aria-label=${`${trimmed(this.removeLabel)} ${text}`} @click=${(event: Event) => this.removeChip(node, event)}>

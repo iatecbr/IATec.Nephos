@@ -115,6 +115,10 @@ export const ErrorRow: Story = {
           label: 'branch: failed to load · panel: 280',
           cells: [cell(v, { open: true, expanded: ['remote'], tree: [{ id: 'remote', label: v.documents, branch: true, error: true }], room: 200 })],
         },
+        {
+          label: 'branch: failed to load · panel: 360',
+          cells: [cell(v, { open: true, width: 360, expanded: ['remote'], tree: [{ id: 'remote', label: v.documents, branch: true, error: true }], room: 200 })],
+        },
       ]),
     );
   },

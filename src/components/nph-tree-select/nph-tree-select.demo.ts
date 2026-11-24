@@ -87,6 +87,8 @@ export interface CellOptions {
   counter?: boolean;
   withField?: boolean;
   tree?: NphTreeNode[];
+  /** The width of the field, and so of its panel, in pixels. */
+  width?: number;
   /** The room kept under the field for the panel it opens, in pixels. */
   room?: number;
 }
@@ -98,6 +100,7 @@ export function cell(v: ExampleTexts, options: CellOptions = {}): TemplateResult
   const tree = options.empty === true ? [] : (options.tree ?? items(v));
   const field = html`<nph-tree-select
     mode=${mode}
+    style=${ifDefined(options.width === undefined ? undefined : `inline-size: ${String(options.width)}px`)}
     size=${options.size ?? 'default'}
     ?open=${options.open === true}
     ?invalid=${options.invalid === true}

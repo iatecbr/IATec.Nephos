@@ -163,6 +163,9 @@
   background-color: var(--nph-color-primary-surface);
   color: var(--nph-color-primary-on-surface);
 }
+.chip-icon {
+  flex: none;
+}
 .chip-label {
   min-inline-size: 0;
   overflow: hidden;
