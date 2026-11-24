@@ -11,7 +11,8 @@
 # (`azure-pipelines.yml`, P75), which builds, tests and publishes the package
 # to the feed and no longer builds Storybook (P19, annotation of 16/11/2026).
 # The two are not tied: a tag can publish a version while this pipeline fails.
-# Both start on a `v5.*` tag, so check this run of the same tag too.
+# Both start on a `v5.*` tag, so check this run of the same tag too. Only this
+# pipeline also starts on a push to `v/5.0.0`.
 #
 # The artifact is private CI output. This pipeline hosts nothing: it does not
 # create or change a release. The static build carries Font Awesome Pro
@@ -36,18 +37,25 @@
 # placeholders only; the real `.npmrc` is generated on the agent and never
 # committed.
 
-# Tag builds only (for example `v5.0.0-rc.1`). No branch builds.
+# Builds and publishes the artifact `files` on every push to the integration
+# branch (each merge into `v/5.0.0`) and on every `v5.*` tag (for example
+# `v5.0.0-rc.1`). `batch: true` keeps a single run at a time on the branch:
+# merges that arrive while a run is in progress are gathered into one run of
+# the latest commit, so two quick merges do not start parallel runs. The
+# artifact is per run, so a release always takes a complete site.
 trigger:
+  batch: true
   branches:
-    exclude:
-      - '*'
+    include:
+      - v/5.0.0
   tags:
     include:
       - 'v5.*'
 
 # Pull requests to the integration branch build Storybook, so a broken
 # Storybook is caught on the PR. The artifact is not published on a PR (see
-# the condition of the publish step). Keep "Make secrets available to builds of
+# the condition of the publish step); it is published on the push and tag runs
+# above. Keep "Make secrets available to builds of
 # forks" disabled on the pipeline. Without this `pr` section, a pipeline linked
 # to GitHub would run on a pull request to any branch.
 pr:

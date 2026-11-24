@@ -259,7 +259,8 @@ component contract and the validation base (P21). The Azure Pipeline
 `azure-pipelines.yml` (`docs/release.md`) builds, tests and publishes the
 package to the private feed (P75); the Storybook has its own pipeline,
 `azure-pipelines.storybook.yml`, which builds it on pull requests and
-publishes it as the private Build artifact `files` (P19).
+publishes it as the private Build artifact `files` on every merge into
+`v/5.0.0` and on `v5.*` tags (P19).
 
 The technical tokens live in `src/tokens/source/*.tokens.json`, in the layers
 `core`, `theme` and `semantic`, with the generated CSS in
