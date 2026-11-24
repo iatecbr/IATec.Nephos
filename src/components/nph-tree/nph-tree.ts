@@ -52,7 +52,6 @@
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
-import { repeat } from 'lit/directives/repeat.js';
 
 import '../nph-checkbox/nph-checkbox';
 import '../nph-empty/nph-empty';
@@ -61,8 +60,10 @@ import '../nph-skeleton/nph-skeleton';
 import '../nph-spinner/nph-spinner';
 import '../nph-tooltip/nph-tooltip';
 import treeCss from './nph-tree.css?inline';
-import { ERROR_SUFFIX, NPH_TREE_SKELETON_ROWS, buildModel, computeChecks, isUnloaded, toggleCheck } from './nph-tree.model';
+import { buildModel, computeChecks, isUnloaded, toggleCheck } from './nph-tree.model';
 import type { CheckState, NphTreeNode, Row } from './nph-tree.model';
+import { renderEmpty, renderLevel, renderSkeleton, treeRowStyles } from './nph-tree.rows';
+import type { TreeRowContext } from './nph-tree.rows';
 
 const TAG = 'nph-tree';
 
@@ -112,7 +113,7 @@ function text(value: unknown): string {
 }
 
 export class NphTree extends LitElement {
-  static override styles = unsafeCSS(treeCss);
+  static override styles = [unsafeCSS(treeCss), treeRowStyles];
 
   static override properties = {
     items: { attribute: false },
@@ -399,10 +400,6 @@ export class NphTree extends LitElement {
   /** Whether the tree has an accessible name: its `label`, or the `aria-label` or `aria-labelledby` of the host. */
   private hasName(): boolean {
     return text(this.label) !== '' || text(this.hostName) !== '' || this.hasAttribute('aria-labelledby');
-  }
-
-  private retryName(): string {
-    return [text(this.errorText), text(this.retryText)].filter((part) => part !== '').join(' ');
   }
 
   /* ----- life cycle -------------------------------------------------------- */
@@ -862,118 +859,21 @@ export class NphTree extends LitElement {
 
   /* ----- rendering --------------------------------------------------------- */
 
-  private nodeIcon(row: Row): string {
-    return row.branch ? (row.open ? 'folder-open' : 'folder') : 'file';
-  }
-
-  /** The chevron target: the chevron of a branch, the spinner of a branch that loads, or the empty place of a leaf. */
-  private renderToggle(row: Row): TemplateResult {
-    if (row.loading) {
-      return html`<span class="toggle" aria-hidden="true"><nph-spinner size="sm"></nph-spinner></span>`;
-    }
-    if (!row.branch) {
-      return html`<span class="toggle" aria-hidden="true"></span>`;
-    }
-    return html`<span class="toggle" aria-hidden="true"
-      ><nph-icon class="chevron" name="chevron-right" variant="light" size="sm"></nph-icon
-    ></span>`;
-  }
-
-  private renderBox(row: Row): TemplateResult | typeof nothing {
-    if (!this.multiple) return nothing;
-    const state = this.checkStates.get(row.node.id) ?? 'unchecked';
-    /* Never `disabled` here: the opacity of the item fades the box, once. */
-    return html`<nph-checkbox
-      class="box"
-      inert
-      aria-hidden="true"
-      label=${row.node.label}
-      .checked=${state === 'checked'}
-      .indeterminate=${state === 'mixed'}
-    ></nph-checkbox>`;
-  }
-
-  private renderNodeItem(row: Row, tabKey: string | null): TemplateResult {
-    const node = row.node;
-    const id = this.domId(row.key);
-    const disabled = node.disabled === true;
-    const selectedState = this.selection === 'single' ? (this.selected === node.id ? 'true' : 'false') : nothing;
-    const checkedState = this.multiple
-      ? (() => {
-          const state = this.checkStates.get(node.id) ?? 'unchecked';
-          return state === 'mixed' ? 'mixed' : state === 'checked' ? 'true' : 'false';
-        })()
-      : nothing;
-    return html`<div
-      class="item"
-      id=${id}
-      role="treeitem"
-      data-key=${row.key}
-      tabindex=${row.key === tabKey ? '0' : '-1'}
-      aria-label=${text(node.label)}
-      aria-level=${String(row.level)}
-      aria-setsize=${String(row.setSize)}
-      aria-posinset=${String(row.position)}
-      aria-expanded=${row.branch ? (row.open ? 'true' : 'false') : nothing}
-      aria-selected=${selectedState}
-      aria-checked=${checkedState}
-      aria-disabled=${disabled ? 'true' : nothing}
-      aria-busy=${row.loading ? 'true' : nothing}
-      aria-owns=${row.content === 'none' ? nothing : `group-${id}`}
-      ?data-selected=${this.selection === 'single' && this.selected === node.id}
-      @click=${(event: MouseEvent) => this.onClick(row, event)}
-      @pointerenter=${{ handleEvent: (event: PointerEvent) => this.onPointerenter(row, event), capture: true }}
-    >
-      <div class="face">
-        ${this.renderToggle(row)}${this.renderBox(row)}${this.icons
-          ? html`<nph-icon class="node-icon" name=${this.nodeIcon(row)} variant="light" size="sm"></nph-icon>`
-          : nothing}<span class="label" data-key=${row.key}>${text(node.label)}</span>
-      </div>
-    </div>`;
-  }
-
-  private renderErrorItem(row: Row, tabKey: string | null): TemplateResult {
-    const id = this.domId(row.key);
-    return html`<div
-      class="item error-item"
-      id=${id}
-      role="treeitem"
-      data-key=${row.key}
-      tabindex=${row.key === tabKey ? '0' : '-1'}
-      aria-label=${this.retryName() === '' ? nothing : this.retryName()}
-      aria-level=${String(row.level)}
-      aria-setsize=${String(row.setSize)}
-      aria-posinset=${String(row.position)}
-      @click=${(event: MouseEvent) => this.onClick(row, event)}
-    >
-      <div class="face">
-        <span class="toggle" aria-hidden="true"
-          ><nph-icon class="error-icon" name="triangle-exclamation" variant="light" size="sm"></nph-icon
-        ></span>
-        <span class="error-body"
-          ><span class="error-text">${text(this.errorText)}</span
-          ><span class="retry">${text(this.retryText)}</span></span
-        >
-      </div>
-    </div>`;
-  }
-
-  /** The nodes of a level and the group of the open branch under each one. */
-  private renderLevel(nodes: readonly NphTreeNode[], tabKey: string | null): TemplateResult {
-    /* Keyed by `id`: an item that leaves takes its own element, and its focus, with it, instead of lending
-       the element to the item that moves into its place. */
-    return html`${repeat(nodes, (node) => node.id, (node) => {
-      const row = this.rowByKey.get(node.id) as Row;
-      const group =
-        row.content === 'children'
-          ? html`<ul class="group" id=${`group-${this.domId(row.key)}`} role="group">${this.renderLevel(node.children ?? [], tabKey)}</ul>`
-          : row.content === 'error'
-            ? html`<ul class="group" id=${`group-${this.domId(row.key)}`} role="group">
-                <li role="none">${this.renderErrorItem(this.rowByKey.get(row.key + ERROR_SUFFIX) as Row, tabKey)}</li>
-              </ul>`
-            : nothing;
-      return html`<li role="none">${this.renderNodeItem(row, tabKey)}${group}</li>`;
-    })}`;
+  /** What the shared rows need from this tree. */
+  private rowContext(tabKey: string | null): TreeRowContext {
+    return {
+      rowByKey: this.rowByKey,
+      checkStates: this.checkStates,
+      selection: this.selection,
+      selected: this.selected,
+      icons: this.icons,
+      errorText: this.errorText,
+      retryText: this.retryText,
+      domId: (key) => this.domId(key),
+      tabKey,
+      onClick: (row, event) => this.onClick(row, event),
+      onPointerenter: (row, event) => this.onPointerenter(row, event),
+    };
   }
 
   private renderBalloons(): TemplateResult[] {
@@ -985,20 +885,12 @@ export class NphTree extends LitElement {
       );
   }
 
-  private renderSkeleton(): TemplateResult {
-    return html`<div class="skeleton" aria-hidden="true">
-      ${Array.from({ length: NPH_TREE_SKELETON_ROWS }, () => html`<div class="skeleton-row"><nph-skeleton shape="line"></nph-skeleton></div>`)}
-    </div>`;
-  }
-
   protected override render(): TemplateResult | typeof nothing {
     if (this.problem !== null) {
       return nothing;
     }
     if (this.empty) {
-      return this.skeleton
-        ? this.renderSkeleton()
-        : html`<nph-empty heading=${text(this.emptyHeading)} description=${text(this.emptyDescription)}></nph-empty>`;
+      return this.skeleton ? renderSkeleton() : renderEmpty(this.emptyHeading, this.emptyDescription);
     }
     const tabKey = this.tabKey();
     return html`<ul
@@ -1008,7 +900,7 @@ export class NphTree extends LitElement {
         @focusin=${this.onFocusin}
         @focusout=${this.onFocusout}
       >
-        ${this.renderLevel(this.items, tabKey)}
+        ${renderLevel(this.rowContext(tabKey), this.items)}
       </ul>
       ${this.renderBalloons()}`;
   }
