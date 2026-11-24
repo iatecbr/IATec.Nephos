@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 930,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-tree-select",
   "dependencies": [
     "DSA-03",
@@ -60,7 +60,7 @@
     "excerpt": null,
     "converted_decision": "The nph-tree-select documentation frame (7145:9081, page 4128:35276) was accepted as the API and behavior specification of the nph-tree-select, with the visual acceptance of the root (6339:6323). COMPONENT_SET nph-tree-select (6339:8107), 42 variants; COMPONENT_SET of the panel (6339:8110), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-94-tree-select", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-94-tree-select", "commit": "271c7601", "pr": 193 },
   "context": "docs/operacao/contextos/DSA-94.md",
   "updated_at": "2026-11-24"
 }

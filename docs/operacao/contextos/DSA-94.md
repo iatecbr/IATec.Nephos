@@ -3,7 +3,7 @@
   "task": "DSA-94",
   "worktree": "/home/helielton_fioramonte/Work/IATec.Nephos",
   "start_sha": "f919605",
-  "end_sha": null
+  "end_sha": "271c7601"
 }
 ```
 ## Goal of this pass
@@ -20,10 +20,10 @@ Land the three shared pieces of DSA-94 (tokens, `nph-skeleton` background, `nph-
 ## Commands run
 - `npm run build:tokens`, `npm run test:tokens`, `npx tsc --noEmit`, `npx vitest run nph-tree/ nph-skeleton nph-tree-select`, `npm run test:i18n`, `npm run test:naming`, `npx cspell` on the touched files, `node scripts/verificar-operacao.mjs --gerar-metadata`, `npm run build-storybook`, `npm test`
 ## Result
-`nph-tree`, `nph-skeleton` and `nph-tree-select` tests pass (the tree select has 70); the Storybook builds; the stories of the tree select pass the a11y check inside `npm test`. The full `npm test` has 6 failures, all outside this task: `nph-notification` stories (axe contrast 4.44:1 on the dark help button), `nph-carousel` token contract (`color/marker`, DSA-114), `nph-togglebutton` (dark contrast 1.39 against 1.54 pinned) and `nph-tooltip` (balloon contrast 5.85 against 6.69), which read token values this task did not change. `test:naming` fails only on `docs/operacao/tarefas/DSA-58`, `DSA-100`, `DSA-101` and `DSA-102`.
+Branch rebased on `origin/v/5.0.0` (`9bd901c6`) and pull request #193 opened to `v/5.0.0`, Copilot review requested. On the final head: `build:tokens`, `test:tokens`, `typecheck`, `test:i18n`, `test:operacao`, `build:lib`, `test:package` and `build-storybook` pass; `npm test` has 11060 of 11066 passing. The tree select has 72 tests, and its stories pass the a11y check. The 6 failures (`nph-notification` stories, `nph-carousel`, `nph-togglebutton`, `nph-tooltip`) are the same on `origin/v/5.0.0` at `f9196052`, with no code of this branch; DSA-116 tracks the token tests. `test:naming` fails only on `DSA-100`, `DSA-101` and `DSA-102`. `test:spelling` did not finish in this environment; `cspell` on the touched files has no issue.
 ## Evidence
-None yet; no pull request.
+Pull request https://github.com/iatecbr/IATec.Nephos/pull/193. The `review-and-merge` gate stays `pending` until the merge.
 ## Blocker
-None for the code. Open in the sheet: the `nph-tooltip` of a cut label is not drawn in the panel (see "Known limits" of the sheet).
+None.
 ## Next command
-Push `feat/dsa-94-tree-select`, open the pull request to `v/5.0.0` and request the Copilot review: `gh pr edit <number> --add-reviewer @copilot`.
+Answer each review thread of the Copilot, fix with a regression test when it is a defect, push and request a new review of the new head: `gh pr edit 193 --add-reviewer @copilot`. After the merge, move the task to `done` and pass the `review-and-merge` gate.
