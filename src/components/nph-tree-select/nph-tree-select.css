@@ -1,0 +1,387 @@
+/**
+ * Internal style of `nph-tree-select`: the field of the three modes and the panel. The rows of the tree are
+ * `nph-tree.rows.css`, the styles of the `nph-tree` rows (DSA-94).
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties consumed
+ * here: the `tree-select/*` ones for the panel, and for the field the same ones as `nph-select`,
+ * `nph-combobox` and `nph-multi-combobox`. The `--_*` variables are internal to the shadow root.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `100%`, `50%`, `1` and `none`
+ * (box and flex relations), `wrap` and `nowrap` (the chips go down to more lines; the counter stays on one),
+ * `ellipsis` and `nowrap` (the value, one line), `start` (the text starts at the start edge), `transparent`
+ * (the inner field and the buttons show what is behind them), `calc(-1 * ...)` (focus border and halo outside,
+ * without changing the size; the slide of the panel) and the resets of the native field, button and
+ * `[popover]` style.
+ *
+ * The order of the state rules is the precedence of the set: hover, then focus (and open, which is focus with
+ * the panel open), then error, then disabled, which wins over everything.
+ */
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+/* Width `layout/input-width`; the multiple choice is `layout/multi-combobox-width`. The parent may stretch it. */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+  inline-size: var(--nph-layout-input-width);
+  min-inline-size: 0;
+}
+:host([data-nph-rendered][mode='multiple']) {
+  inline-size: var(--nph-layout-multi-combobox-width);
+}
+/* Disabled, by the attribute or by a disabled `<fieldset>`: the whole piece loses opacity. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+/* ----- the field ----------------------------------------------------------------- */
+.control {
+  --_border: var(--nph-color-input);
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  block-size: var(--nph-control-height-default);
+  padding-block: 0;
+  padding-inline-start: var(--nph-space-control-padding);
+  padding-inline-end: 0;
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-muted-foreground);
+  text-align: start;
+  cursor: text;
+  outline: none;
+}
+:host([mode='single']) .control {
+  cursor: pointer;
+}
+:host([size='large']) .control {
+  block-size: var(--nph-control-height-large);
+}
+/* The multiple choice grows when the chips go to another line: the height is a minimum. */
+:host([mode='multiple']) .control {
+  block-size: auto;
+  min-block-size: var(--nph-control-height-default);
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline-end: var(--nph-space-control-padding);
+}
+:host([mode='multiple'][size='large']) .control {
+  min-block-size: var(--nph-control-height-large);
+}
+.start,
+.arrow-icon {
+  flex: none;
+}
+/* The value of the single choice: `text/body-md`, one line with an ellipsis. */
+.value {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.placeholder {
+  color: var(--nph-color-muted-foreground);
+}
+/* The typed text of the two editable modes. */
+.field {
+  flex: 1 1 auto;
+  align-self: stretch;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  caret-color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  outline: none;
+  appearance: none;
+}
+:host([mode='multiple']) .field {
+  align-self: auto;
+}
+.field::placeholder {
+  color: var(--nph-color-muted-foreground);
+  opacity: 1;
+}
+/* The chips and the typed text: on the same line while they fit, then down to the next one. */
+.content {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-space-inline-tight);
+  min-inline-size: 0;
+}
+.chips {
+  display: contents;
+}
+:host([counter]) .content {
+  flex-wrap: nowrap;
+}
+.subject {
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.count {
+  flex: none;
+}
+.chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--nph-space-inline-tight);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  padding-inline: var(--nph-space-inline);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-primary-surface);
+  color: var(--nph-color-primary-on-surface);
+}
+.chip-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The remove and the clear targets: 24 x 24, the icon of `icon/size-sm` with `space/inline-tight` around it. */
+.remove,
+.clear {
+  position: relative;
+  box-sizing: content-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+/*
+ * The arrow area of the single choice and of the single choice with search: `color/accent`, `control/height-*`
+ * wide, as tall as the field minus its borders, the divider beside it. In the multiple choice there is only the
+ * arrow, at the end.
+ */
+.arrow {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  inline-size: var(--nph-control-height-default);
+  border-inline-start: var(--nph-border-width) solid var(--nph-color-border);
+  border-start-start-radius: var(--nph-radius-none);
+  border-end-start-radius: var(--nph-radius-none);
+  border-start-end-radius: var(--nph-radius-control-inner);
+  border-end-end-radius: var(--nph-radius-control-inner);
+  background-color: var(--nph-color-accent);
+  color: var(--nph-color-muted-foreground);
+  cursor: pointer;
+}
+:host([size='large']) .arrow {
+  inline-size: var(--nph-control-height-large);
+}
+.arrow-icon {
+  cursor: pointer;
+}
+:host([mode='multiple']) .arrow {
+  align-self: auto;
+  inline-size: auto;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+/* The description and the path of the chosen item: never visible, but in the accessibility tree. */
+.description,
+.path {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+/* ----- the states of the field ------------------------------------------------------ */
+/* Focus border and halo: drawn outside, without changing the size. */
+.control::after,
+.remove:focus-visible::before,
+.remove:focus-visible::after,
+.clear:focus-visible::before,
+.clear:focus-visible::after {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.control:hover {
+  --_border: var(--nph-color-input-hover);
+}
+.control:has(.remove:focus-visible, .clear:focus-visible) {
+  --_border: var(--nph-color-input);
+}
+/* `foco`, and `aberto`, which is `foco` with the panel open. */
+.control:focus-visible,
+.control:has(.field:focus),
+:host([open]) .control {
+  --_border: var(--nph-focus-border);
+}
+.control:focus-visible::after,
+.control:has(.field:focus)::after,
+:host([open]) .control::after {
+  content: '';
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control);
+}
+.remove:focus-visible::before,
+.remove:focus-visible::after,
+.clear:focus-visible::before,
+.clear:focus-visible::after {
+  content: '';
+}
+.remove:focus-visible::before,
+.clear:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+.remove:focus-visible::after,
+.clear:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+/* `erro`: the border stays `status/error` on hover and on focus; on focus, the halo is the error one. */
+:host([invalid]) .control,
+:host([invalid]) .control:hover,
+:host([invalid]) .control:focus-visible,
+:host([invalid]) .control:has(.field:focus),
+:host([invalid][open]) .control {
+  --_border: var(--nph-status-error);
+}
+:host([invalid]) .control:focus-visible::after,
+:host([invalid]) .control:has(.field:focus)::after,
+:host([invalid][open]) .control::after {
+  border-color: var(--nph-focus-halo-error);
+}
+/* Disabled wins: the resting border, the `color/muted` background, no hover, no error look and no focus look. */
+:host(:disabled) .control,
+:host(:disabled) .control:hover,
+:host(:disabled) .control:focus-visible,
+:host(:disabled) .control:has(.field:focus) {
+  --_border: var(--nph-color-input);
+  background-color: var(--nph-color-muted);
+  cursor: default;
+}
+:host(:disabled) .control::after {
+  content: none;
+}
+:host(:disabled) .arrow {
+  background-color: var(--nph-color-muted);
+  cursor: default;
+}
+:host(:disabled) .chip {
+  padding-block: var(--nph-space-inline-tight);
+  background-color: var(--nph-color-muted);
+  color: var(--nph-color-muted-foreground);
+}
+/* ----- the panel ------------------------------------------------------------------- */
+/*
+ * The panel is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an ancestor. The
+ * resets undo the browser's `[popover]` style. JavaScript sets `top`, `left` and the width of the field; the
+ * width of the token is the minimum. The outline sits outside `tree-select/panel-max-height`, so the scroll is
+ * on the inner box.
+ */
+.panel {
+  position: fixed;
+  text-align: start;
+  inset: auto;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  min-inline-size: var(--nph-tree-select-panel-width);
+  border: var(--nph-tree-select-panel-border-width) solid var(--nph-tree-select-panel-border);
+  border-radius: var(--nph-tree-select-panel-radius);
+  background-color: var(--nph-tree-select-panel-background);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-color-popover-foreground);
+  /* Leaving: the exit role. */
+  opacity: 0;
+  translate: 0 calc(-1 * var(--nph-space-inline-tight));
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+:host([mode='multiple']) .panel {
+  min-inline-size: var(--nph-tree-select-panel-width-multiple);
+}
+.panel[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+/* The distance to the field is `tree-select/panel-offset`, as a margin on the side that faces it. */
+.panel[data-side='bottom'] {
+  margin-top: var(--nph-tree-select-panel-offset);
+}
+.panel[data-side='top'] {
+  margin-bottom: var(--nph-tree-select-panel-offset);
+  translate: 0 var(--nph-space-inline-tight);
+}
+.panel[data-side='top'][data-open] {
+  translate: none;
+}
+/* Above the maximum height, the tree scrolls inside the panel. */
+.scroller {
+  box-sizing: border-box;
+  max-block-size: var(--nph-tree-select-panel-max-height);
+  overflow-y: auto;
+}
+/* Reduced motion: opacity only. */
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel[data-side='top'] {
+    translate: none;
+  }
+  .panel,
+  .panel[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}
