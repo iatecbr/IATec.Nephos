@@ -14352,7 +14352,7 @@
       ],
       [
         "Error row",
-        "Inside the group of the branch, aligned to the indent of the children: the triangle, the phrase and Try again."
+        "Inside the group of the branch, aligned to the indent of the children: the triangle, the phrase and Try again. The phrase is never cut: in a narrow tree, Try again drops below it."
       ],
       [
         "Group",

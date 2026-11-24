@@ -1112,8 +1112,10 @@ export class NphTree extends LitElement {
         <span class="toggle" aria-hidden="true"
           ><nph-icon class="error-icon" name="triangle-exclamation" variant="light" size="sm"></nph-icon
         ></span>
-        <span class="error-text">${text(this.errorText)}</span>
-        <span class="retry">${text(this.retryText)}</span>
+        <span class="error-body"
+          ><span class="error-text">${text(this.errorText)}</span
+          ><span class="retry">${text(this.retryText)}</span></span
+        >
       </div>
     </div>`;
   }

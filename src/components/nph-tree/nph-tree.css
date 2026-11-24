@@ -220,18 +220,33 @@ li {
 }
 
 /* ----- the error row ---------------------------------------------------------- */
-
+/* The row takes the width it has, at least `tree/item-height` high, and grows with its content: in a narrow
+   tree (the panel of `nph-tree-select`) "Try again" drops below the message instead of being cut. */
+.error-item {
+  block-size: auto;
+  min-block-size: var(--nph-tree-item-height);
+}
+.error-item .face {
+  block-size: auto;
+  min-block-size: var(--nph-tree-item-height);
+}
 .error-icon {
   color: var(--nph-tree-error-icon-foreground);
 }
-
+/* The message and the action, in one group that wraps, `tree/item-gap` between them and between the lines. */
+.error-body {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-tree-item-gap);
+}
+/* The message is never cut: it wraps. */
 .error-text {
   min-inline-size: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
-
 /* "Try again" is told apart by the weight. */
 .retry {
   flex: none;
@@ -241,7 +256,6 @@ li {
   line-height: var(--nph-text-label-md-line-height);
   letter-spacing: var(--nph-text-label-md-letter-spacing);
 }
-
 /* ----- the first load: three skeleton rows, each at the height of the item ------- */
 
 .skeleton {

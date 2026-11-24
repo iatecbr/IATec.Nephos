@@ -14352,7 +14352,7 @@
       ],
       [
         "Fila de error",
-        "Dentro del grupo de la rama, alineada con la sangría de los hijos: el triángulo, la frase y Reintentar."
+        "Dentro del grupo de la rama, alineada con la sangría de los hijos: el triángulo, la frase y Reintentar. La frase nunca se corta: en un árbol estrecho, Reintentar baja debajo de ella."
       ],
       [
         "Grupo",

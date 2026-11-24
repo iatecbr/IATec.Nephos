@@ -1079,6 +1079,53 @@ describe('load on demand', () => {
     expect(item(tree, 'remote').getBoundingClientRect().left).toBeCloseTo(child, 0);
   });
 
+  describe('the error row takes the width it has', () => {
+    const failing: Partial<NphTree> = {
+      items: [{ id: 'remote', label: 'Remote', branch: true, error: true }],
+      expanded: ['remote'],
+      errorText: "We couldn't load the items of this folder.",
+    };
+    const parts = (tree: NphTree) => {
+      const row = root(tree).querySelector('.error-item') as HTMLElement;
+      return {
+        row,
+        text: row.querySelector('.error-text') as HTMLElement,
+        retry: row.querySelector('.retry') as HTMLElement,
+      };
+    };
+    it('in a narrow tree (the 280 panel) the whole message and the whole Try again show, Try again below the message', async () => {
+      const tree = await mount(failing, '17.5rem');
+      const { row, text, retry } = parts(tree);
+      const rowBox = row.getBoundingClientRect();
+      const textBox = text.getBoundingClientRect();
+      const retryBox = retry.getBoundingClientRect();
+      expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth);
+      expect(getComputedStyle(text).textOverflow).not.toBe('ellipsis');
+      expect(retryBox.left).toBeGreaterThanOrEqual(rowBox.left);
+      expect(retryBox.right).toBeLessThanOrEqual(rowBox.right);
+      expect(retryBox.top).toBeGreaterThanOrEqual(textBox.bottom - 1);
+      expect(Math.abs(retryBox.left - textBox.left)).toBeLessThan(1);
+      expect(rowBox.height).toBeGreaterThan(px('--nph-tree-item-height'));
+    });
+    it('in a 360 tree the message and Try again sit side by side, in one row of tree/item-height', async () => {
+      const tree = await mount({ ...failing, errorText: "Couldn't load." }, '22.5rem');
+      const { row, text, retry } = parts(tree);
+      expect(row.getBoundingClientRect().height).toBe(px('--nph-tree-item-height'));
+      expect(retry.getBoundingClientRect().left).toBeGreaterThanOrEqual(text.getBoundingClientRect().right);
+      expect(Math.abs(retry.getBoundingClientRect().top - text.getBoundingClientRect().top)).toBeLessThan(px('--nph-tree-item-height') / 2);
+    });
+    it('the row keeps the hover and the focus of an item', async () => {
+      const tree = await mount(failing, '17.5rem');
+      const { row } = parts(tree);
+      await enter(tree);
+      await userEvent.keyboard('{ArrowDown}');
+      expect(root(tree).activeElement).toBe(row);
+      expect(row.matches(':focus-visible')).toBe(true);
+      const ring = getComputedStyle(row, '::after');
+      expect(ring.borderTopColor).toBe(color('--nph-tree-focus-border'));
+      expect(Number.parseFloat(ring.height)).toBeCloseTo(row.getBoundingClientRect().height, 0);
+    });
+  });
   it('Enter and a click on the error row try again: the row turns into loading and the consumer is asked', async () => {
     const tree = await mount({ items: [{ id: 'remote', label: 'Remote', branch: true, error: true }], expanded: ['remote'] });
     const loads = collect<NphTreeLoadDetail>(tree, 'nph-tree-load');
@@ -1809,7 +1856,7 @@ describe('the manifest of the package', () => {
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));
-  const declared = [...new Set([...tokensCss.matchAll(/(--nph-tree-[a-z0-9-]+):/g)].map((match) => match[1] ?? ''))];
+  const declared = [...new Set([...tokensCss.matchAll(/(--nph-tree-(?!select-|table-)[a-z0-9-]+):/g)].map((match) => match[1] ?? ''))];
 
   it('every custom property in the CSS exists in tokens.css', () => {
     for (const name of used) {
