@@ -286,8 +286,8 @@ tokens_semantic:
     css: '--nph-color-accent'
     claro: core/surface/50
     escuro: core/slate/600
-    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (7.58:1 light, 4.69:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover). Also the background of the nph-resizable grip box while dragging (resizable/grip-background-active). Also the hover background of the nph-carousel indicator target (carousel/indicator-target-background-hover); the indicator with focus does not take it, and the current one has no hover. Also the hover layer of the rich option of the nph-select and nph-combobox list (select/option-background-hover), in hover and on the option active by the keyboard, at select/option-background-hover-opacity (0.5): the layer alone measures 1.03:1 light and 1.16:1 dark over color/popover, so the option active by the keyboard also takes the 1 px focus border and the 4 px halo outside it, in focus/border and focus/halo (select/option-focus-border, select/option-focus-halo). The plain option keeps the full color/accent until its own select task."
-    nao_use: "Permanent block background, except the nph-select and nph-combobox arrow area."
+    use: "Temporary highlight: hover, focused item, active row. Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus. Also the hover background of the nph-tree item (tree/item-background-hover); the item with focus does not take it. Also the background of the nph-collapsible trigger in hover (collapsible/trigger-background-hover). Also the background of the nph-resizable grip box while dragging (resizable/grip-background-active). Also the hover background of the nph-carousel indicator target (carousel/indicator-target-background-hover); the indicator with focus does not take it, and the current one has no hover. Also the hover layer of the rich option of the nph-select and nph-combobox list (select/option-background-hover), in hover and on the option active by the keyboard, at select/option-background-hover-opacity (0.5): the layer alone measures 1.03:1 light and 1.16:1 dark over color/popover, so the option active by the keyboard also takes the 1 px focus border and the 4 px halo outside it, in focus/border and focus/halo (select/option-focus-border, select/option-focus-halo). The plain option keeps the full color/accent until its own select task."
+    nao_use: "Permanent block background: there it is color/muted. The arrow area of nph-select, nph-combobox and nph-tree-select has no background."
   color/accent-foreground:
     css: '--nph-color-accent-foreground'
     claro: core/slate/950
@@ -345,32 +345,44 @@ tokens_semantic:
     css: '--nph-color-border'
     claro: core/slate/200
     escuro: core/slate/400
-    use: "Divider, outline of an area, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color). Also the outline of the clickable nph-card in hover (card/border-hover): only the outline rises one step; background and shadow stay. Also the divider at the base of the nph-tree-table branch error row (tree-table/border), as the rows of the nph-data-table. Also the bar at the start of a quote in the nph-rich-text-editor (rich-text-editor/quote-border), decorative: 1.72:1 light and 4.09:1 dark. Also the connector line of the pending nph-timeline item (timeline/connector-border-pending), decorative."
-    nao_use: "The line of the nph-separator (separator/border, which points to color/border-subtle). Form field border. The border and divider of nph-popover and nph-hover-card, the outline and the divider of the nph-popconfirm (popconfirm/border, popconfirm/divider), the outline and the divider of the nph-accordion (accordion/border, accordion/divider), the resting outline and the divider of the nph-card (card/border, card/divider), the divider between the toolbar and the text area of the nph-rich-text-editor (rich-text-editor/divider), and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. The line of the nph-resizable handle in hover and dragging: there it is color/border-strong (the hover line of the underline nph-tabs stays here)."
+    use: "Divider, outline of an area, table row. Also the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color). Also the outline of the clickable nph-card in hover (card/border-hover): only the outline rises one step; background and shadow stay. Also the divider at the base of the nph-tree-table branch error row (tree-table/border), as the rows of the nph-data-table. Also the bar at the start of a quote in the nph-rich-text-editor (rich-text-editor/quote-border), decorative: 1.72:1 light and 4.09:1 dark. Also the connector line of the pending nph-timeline item (timeline/connector-border-pending), decorative."
+    nao_use: "The line of the nph-separator (separator/border, which points to color/border-subtle). Form field border: there it is color/field-border and color/field-border-bottom (the bottom line meets 3:1); on checkbox and radio, color/input. The arrow area of nph-select, nph-combobox and nph-tree-select has no divider. The border and divider of nph-popover and nph-hover-card, the outline and the divider of the nph-popconfirm (popconfirm/border, popconfirm/divider), the outline and the divider of the nph-accordion (accordion/border, accordion/divider), the resting outline and the divider of the nph-card (card/border, card/divider), the divider between the toolbar and the text area of the nph-rich-text-editor (rich-text-editor/divider), and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. The line of the nph-resizable handle in hover and dragging: there it is color/border-strong (the hover line of the underline nph-tabs stays here)."
   color/border-subtle:
     css: '--nph-color-border-subtle'
     claro: core/surface/200
     escuro: core/alpha/white-15
     use: "Soft border and divider of a surface: the outline and the divider of the nph-card (card/border, card/divider); the outline of the grouped nph-accordion and of each separated block, and the divider between its items (accordion/border, accordion/divider): 1.34:1 light, decorative, the trigger is recognized by its text and its indicator; border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative: the shadow, the card background or the space between blocks completes the separation. Also the container outline, the grid lines (full hour only) and the cancelled event outline of the nph-scheduler (scheduler/border, scheduler/grid-line, scheduler/event-cancelled-border). Also the outline of the nph-rich-option choice card at rest, checked and in hover (rich-option/border): 1.34:1 light and 1.62:1 dark, decorative; the control inside the card is the boundary that meets 3:1. Also the outline of the nph-date-picker panel and the divider above its range footer (date-picker/panel-border, date-picker/divider). Also the outline of the option list of nph-select, nph-combobox and nph-multi-combobox (DSA-95) and the outline of the nph-tree-select panel (tree-select/panel-border): decorative, the elevation/dropdown shadow and the background separate the layer, and each item carries its own contrast. Also the outline of the nph-chart data tooltip (chart/tooltip-border). Also the outline of the surface and of the arrow and the divider above the actions of the nph-popconfirm (popconfirm/border, popconfirm/divider); the divider is an nph-separator instance whose line color is overridden. Also the divider between the toolbar and the text area of the nph-rich-text-editor (rich-text-editor/divider): 1.34:1 light, decorative; the box border (color/input) is the boundary that meets 3:1, and the toolbar above completes the separation; the divider is an nph-separator instance whose line color is overridden. Also the line of the nph-separator, horizontal and vertical (separator/border): 1.34:1 light and 1.59:1 dark on color/background, decorative."
-    nao_use: "nph-dialog (color/dialog-separator); the border of a field (color/input)."
+    nao_use: "nph-dialog (color/dialog-separator); the border of a field (color/field-border and color/field-border-bottom)."
   color/border-strong:
     css: '--nph-color-border-strong'
     claro: core/slate/500
     escuro: core/slate/200
     use: "Divider and outline of an area in interaction: today the line of the nph-resizable handle in hover and dragging (resizable/handle-color-hover). Passes 3:1 over color/background and color/card: 5.85:1 over color/background in light, 9.96:1 in dark. It does not replace accepted hover lines: the underline nph-tabs keeps color/border (tabs/indicator-hover-color), the outline of the clickable nph-card in hover keeps color/border (card/border-hover), strong enough for the soft style, and the done nph-file-upload-item keeps color/input (file-upload-item/border-done-hover)."
-    nao_use: "At rest: there it is color/border. Field border: there it is color/input. Text: there it is color/muted-foreground, which points to the same primitives with another function."
+    nao_use: "At rest: there it is color/border. Field border: there it is color/field-border and color/field-border-bottom. Text: there it is color/muted-foreground, which points to the same primitives with another function."
   color/input:
     css: '--nph-color-input'
     claro: core/slate/400
     escuro: core/slate/200
-    use: "Field border: input, select, textarea, checkbox. Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link. Also an outline that needs 3:1 outside a field, such as the hollow marker of the pending nph-timeline item (timeline/marker-border-pending): 4.18:1 light and 9.96:1 dark against the background, the only sign of the state besides the text. Also the border of the nph-rich-text-editor box (rich-text-editor/border): 4.18:1 light and 9.96:1 dark against the background."
-    nao_use: "The line of the nph-resizable handle in hover and dragging: there it is color/border-strong. The outline of the option list of nph-select, nph-combobox and nph-multi-combobox and of the nph-tree-select panel: there it is color/border-subtle (DSA-95; tree-select/panel-border)."
+    use: "Border of a form control with a full outline: nph-checkbox, nph-radio, the cell of nph-input-otp, the arrows of nph-pagination (pagination/arrow-border) and the disabled state of the fields (nph-input, nph-select, nph-combobox, nph-multi-combobox, nph-textarea and nph-date-picker, and nph-tree-select through them). Stronger than color/border on purpose: the boundary of a control must be identifiable. At rest, the fields use color/field-border and color/field-border-bottom through their own tokens (input/border, select/border and so on). Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link. Also an outline that needs 3:1 outside a field, such as the hollow marker of the pending nph-timeline item (timeline/marker-border-pending): 4.18:1 light and 9.96:1 dark against the background, the only sign of the state besides the text. Also the border of the nph-rich-text-editor box (rich-text-editor/border): 4.18:1 light and 9.96:1 dark against the background."
+    nao_use: "The line of the nph-resizable handle in hover and dragging: there it is color/border-strong. The outline of the option list of nph-select, nph-combobox and nph-multi-combobox and of the nph-tree-select panel: there it is color/border-subtle (DSA-95; tree-select/panel-border). The resting border of a field (nph-input, nph-select, nph-combobox, nph-multi-combobox, nph-textarea and nph-date-picker): there it is color/field-border on top and sides and color/field-border-bottom on the bottom line."
+  color/field-border:
+    css: '--nph-color-field-border'
+    claro: core/slate/200
+    escuro: core/slate/700
+    use: "Top and sides of the resting border of a form field: nph-input, nph-select, nph-combobox, nph-multi-combobox, nph-textarea and nph-date-picker (input/border, select/border, combobox/border, multi-combobox/border, textarea/border, date-picker/border), and nph-tree-select and nph-field through them. Also in the state where the focus is on the clear button inside the field and in the read-only nph-textarea. Lighter on purpose (1.72:1 light, 1.58:1 dark on color/background): the bottom line carries the 3:1."
+    nao_use: "Alone, without color/field-border-bottom: the field would lose its 3:1 boundary. Hover, focus, error and disabled: the border is whole, in color/input-hover, focus/border, status/error and color/input. Checkbox, radio and the nph-input-otp cell: color/input."
+  color/field-border-bottom:
+    css: '--nph-color-field-border-bottom'
+    claro: core/slate/300
+    escuro: core/slate/400
+    use: "Bottom line of the resting border of a form field, the same fields as color/field-border (input/border-bottom, select/border-bottom, combobox/border-bottom, multi-combobox/border-bottom, textarea/border-bottom, date-picker/border-bottom). Stronger than the top and sides: it is the line that meets 3:1 for the boundary of the field (WCAG 1.4.11), 3.00:1 light and 4.09:1 dark on color/background. In CSS it is the color of the bottom border; the 1 px inner shadow of the Figma masters only draws it."
+    nao_use: "Hover, focus, error and disabled: the border is whole, in one color. Any line outside a form field."
   color/dropdown-border:
     css: '--nph-color-dropdown-border'
     claro: color/border-subtle
     escuro: color/border-subtle
     use: "Outline of a floating list and panel: nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading variant of nph-notification. Same outline as nph-popover; the elevation/dropdown shadow completes the separation from the background. Decorative: the items are read by their text."
-    nao_use: "The field of select, combobox, tree-select or date-picker (color/input); the option list of nph-select, nph-combobox and nph-multi-combobox, which takes color/border-subtle straight (DSA-95); the nph-date-picker and nph-tree-select panels, which have their own outline (date-picker/panel-border and tree-select/panel-border, on color/border-subtle); the other variants of nph-notification (status/*-border; in neutral, color/border); the divider between groups (dropdown/separator, color/border-subtle)."
+    nao_use: "The field of select, combobox, tree-select or date-picker (color/field-border and color/field-border-bottom at rest); the option list of nph-select, nph-combobox and nph-multi-combobox, which takes color/border-subtle straight (DSA-95); the nph-date-picker and nph-tree-select panels, which have their own outline (date-picker/panel-border and tree-select/panel-border, on color/border-subtle); the other variants of nph-notification (status/*-border; in neutral, color/border); the divider between groups (dropdown/separator, color/border-subtle)."
   dropdown/item-hover-icon-foreground:
     css: '--nph-dropdown-item-hover-icon-foreground'
     claro: color/primary
@@ -386,7 +398,7 @@ tokens_semantic:
     claro: color/border-subtle
     escuro: color/border-subtle
     use: "Line of the nph-separator, horizontal and vertical. Decorative and aria-hidden: it does not need 3:1."
-    nao_use: "The border of a field (color/input); the lines of nph-dialog and nph-command (color/dialog-separator)."
+    nao_use: "The border of a field (color/field-border and color/field-border-bottom); the lines of nph-dialog and nph-command (color/dialog-separator)."
   dropdown/panel-radius:
     css: '--nph-dropdown-panel-radius'
     alias: core/radius/500
@@ -564,7 +576,7 @@ tokens_semantic:
     css: '--nph-color-input-hover'
     claro: core/slate/500
     escuro: core/slate/100
-    use: "Border of the form field when the pointer is over it. One step above color/input, so the field responds to the mouse without changing size or weight. Do not use for a divider, a card outline or a message border. Also the border of the nph-rich-text-editor box in hover (rich-text-editor/border-hover)."
+    use: "The whole border of the form field when the pointer is over it, on all four sides. Stronger than the resting border (color/field-border and color/field-border-bottom), so the field responds to the mouse without changing size or weight. Do not use for a divider, a card outline or a message border. Also the border of the nph-rich-text-editor box in hover (rich-text-editor/border-hover)."
   color/accent-subtle:
     css: '--nph-color-accent-subtle'
     claro: core/surface/50
@@ -1502,7 +1514,7 @@ regras_densidade:
 
 regras_sombra_interna:
   existe: false
-  motivo: 'The seven shadows of the system are all drop shadows. A sunken field and a list well are solved with color/muted on the background plus color/input on the border. Inner shadow is vocabulary of the 2010s admin panel, which is among the anti-references.'
+  motivo: 'The seven shadows of the system are all drop shadows. A sunken field and a list well are solved with color/muted on the background plus a border (color/field-border and color/field-border-bottom on a field at rest). The 1 px inner shadow that draws the bottom line of a field in the Figma masters is a border in CSS, not a shadow. Inner shadow is vocabulary of the 2010s admin panel, which is among the anti-references.'
 
 tokens_control:
   control/height-compact:
@@ -1514,7 +1526,13 @@ tokens_control:
     css: '--nph-control-height-default'
     alias: core/control-height/default
     valor: 36
-    use: "Default height of button, field and select. When in doubt, it is this one. Also the height of the nph-tree item and of its error row (tree/item-height). Also the height of the nph-panel-menu subgroup (panel-menu/subgroup-height). Also the minimum height of the nph-collapsible trigger in the default size (collapsible/trigger-height). Also the side of the day cell in the nph-scheduler mini month (scheduler/mini-month-cell-size). Also the height of the nph-menubar top item (menubar/trigger-height)."
+    use: "Default height of button and of the other controls. When in doubt, it is this one. Form fields use control/height-field (38). Also the select and the go to page field of the nph-pagination (pagination/field-height), which stay at the height of its buttons. Also the height of the nph-tree item and of its error row (tree/item-height). Also the height of the nph-panel-menu subgroup (panel-menu/subgroup-height). Also the minimum height of the nph-collapsible trigger in the default size (collapsible/trigger-height). Also the side of the day cell in the nph-scheduler mini month (scheduler/mini-month-cell-size). Also the height of the nph-menubar top item (menubar/trigger-height)."
+  control/height-field:
+    css: '--nph-control-height-field'
+    alias: core/control-height/field
+    valor: 38
+    use: "Default height of the form fields: nph-input, nph-select, nph-combobox, nph-multi-combobox (minimum height) and nph-date-picker (input/height, select/height, combobox/height, multi-combobox/height, date-picker/height), and nph-tree-select and nph-field through them. Button and the other controls stay at control/height-default (36), also the calendar button beside the nph-date-picker field."
+    nao_use: "Button, icon button, tabs, chip, tree item, menubar and the cell of nph-input-otp: control/height-default. The compact and large sizes: control/height-compact and control/height-large. The fields of nph-pagination: pagination/field-height (36)."
   control/height-large:
     css: '--nph-control-height-large'
     alias: core/control-height/large
@@ -1676,7 +1694,7 @@ tokens_radius:
     css: '--nph-radius-control-inner'
     alias: core/radius/off-scale/5
     valor: 5
-    use: "Radius of a surface fitted inside a control with a border: radius/control minus border/width. USE on the arrow area of nph-select and nph-combobox, on the corners that touch the border, and on every piece that fills the end of a field. The corners that touch the divider are radius/none."
+    use: "Radius of a surface fitted inside a control with a border: radius/control minus border/width. USE on the arrow area of nph-select, nph-combobox and nph-tree-select, on the corners that touch the border, and on every piece that fills the end of a field. The arrow area has no background and no divider, so its radius only clips; the start corners stay radius/none."
   radius/container:
     css: '--nph-radius-container'
     alias: core/radius/400
@@ -1885,9 +1903,10 @@ tokens_core_avatar:
   core/avatar-overlap/100: { valor: -8, css: '--nph-core-avatar-overlap-100', alias_de: 'avatar/overlap' }
 
 tokens_core_control:
-  regra: 'NEVER consume directly. Use control/height-compact, -default and -large. Read from Figma when migrating the tokens to JSON. A component token aliases one straight only by decision, when no semantic token has the same function: core/control-height/compact is also the level indent and the chevron space of the nph-tree-table branch error row (tree-table/indent), because control/height-compact is the height of a control on a dense screen, not an indent.'
+  regra: 'NEVER consume directly. Use control/height-compact, -default, -field and -large. Read from Figma when migrating the tokens to JSON. A component token aliases one straight only by decision, when no semantic token has the same function: core/control-height/compact is also the level indent and the chevron space of the nph-tree-table branch error row (tree-table/indent), because control/height-compact is the height of a control on a dense screen, not an indent.'
   core/control-height/compact: { valor: 28, css: '--nph-core-control-height-compact', alias_de: 'control/height-compact', por_decisao: 'tree-table/indent, the level indent of the nph-tree-table branch error row' }
   core/control-height/default: { valor: 36, css: '--nph-core-control-height-default', alias_de: 'control/height-default' }
+  core/control-height/field:   { valor: 38, css: '--nph-core-control-height-field',   alias_de: 'control/height-field' }
   core/control-height/large:   { valor: 44, css: '--nph-core-control-height-large',   alias_de: 'control/height-large' }
 
 tokens_core_layout:
@@ -3139,7 +3158,7 @@ Before building or modifying a component, **open its metadata file**.
 | 3g | ~~**Radius on a partial corner**~~ Resolved: **it is a rule, not a token** — see `regras_raio_parcial` | UX |
 | 3h | ~~Shadow and elevation foundation~~ Resolved: 8 levels, two layers where applicable, transparent shadow in dark, plus the modal scrim | UX |
 | 3i | ~~**The modal has no step in the dark ramp**~~ Resolved: **`color/dialog` at `surface/600`** | UX |
-| 3j | ~~**Inner shadow**~~ Resolved: **it does not come in** — a sunken field uses `color/muted` on the background and `color/input` on the border | UX |
+| 3j | ~~**Inner shadow**~~ Resolved: **it does not come in** — a sunken field uses `color/muted` on the background and a border (`color/field-border` and `color/field-border-bottom` at rest) | UX |
 | 3k | ~~Grid and layout foundation~~ Resolved: 12 columns, 4 breakpoints, two maximum widths and the shell measures | UX |
 | 3l | **Shell behavior** — at which breakpoint the bar collapses — is layout anatomy and depends on a real screen or an approved mock | UX |
 | 3m | ~~Motion foundation~~ Resolved: durations, curves, roles and the reduced motion rule. **The seven foundations are closed** | UX |

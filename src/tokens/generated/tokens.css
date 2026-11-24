@@ -38,6 +38,7 @@
   --nph-core-comercial-900: #0c1a1d;
   --nph-core-control-height-compact: 1.75rem;
   --nph-core-control-height-default: 2.25rem;
+  --nph-core-control-height-field: 2.375rem;
   --nph-core-control-height-large: 2.75rem;
   --nph-core-danger-50: #fce9e9;
   --nph-core-danger-100: #f8d4d4;
@@ -552,6 +553,7 @@
   --nph-color-marker: var(--nph-core-slate-400);
   --nph-control-height-compact: var(--nph-core-control-height-compact);
   --nph-control-height-default: var(--nph-core-control-height-default);
+  --nph-control-height-field: var(--nph-core-control-height-field);
   --nph-control-height-large: var(--nph-core-control-height-large);
   --nph-dropdown-panel-radius: var(--nph-core-radius-500);
   --nph-dropdown-item-radius: var(--nph-core-radius-400);
@@ -909,6 +911,7 @@
   --nph-pagination-item-gap: var(--nph-space-inline);
   --nph-pagination-control-gap: var(--nph-space-inline);
   --nph-pagination-item-size: var(--nph-control-height-default);
+  --nph-pagination-field-height: var(--nph-control-height-default);
   --nph-pagination-item-radius: var(--nph-radius-control);
   --nph-pagination-arrow-border-width: var(--nph-border-width);
   --nph-toolbar-border-width: var(--nph-border-width);
@@ -938,7 +941,10 @@
   --nph-data-table-pagination-gap: var(--nph-space-inline);
   --nph-data-table-empty-gap: var(--nph-space-stack);
   --nph-input-height-compact: var(--nph-control-height-compact);
+  --nph-input-height: var(--nph-control-height-field);
+  --nph-combobox-height: var(--nph-control-height-field);
   --nph-combobox-free-text-padding-end: var(--nph-space-control-padding);
+  --nph-multi-combobox-height: var(--nph-control-height-field);
   --nph-navigation-menu-trigger-padding-x: var(--nph-space-control-padding);
   --nph-navigation-menu-trigger-padding-y: var(--nph-space-inline);
   --nph-navigation-menu-trigger-gap: var(--nph-space-inline-tight);
@@ -1195,6 +1201,7 @@
   --nph-rich-option-icon-size: var(--nph-icon-size-md);
   --nph-rich-option-focus-radius: var(--nph-focus-radius-surface);
   --nph-rich-option-focus-ring-width: var(--nph-focus-ring-width);
+  --nph-select-height: var(--nph-control-height-field);
   --nph-select-option-gap: var(--nph-space-inline);
   --nph-select-option-label-gap: var(--nph-space-inline-tight);
   --nph-select-option-text-gap: var(--nph-space-stack-tight);
@@ -1205,6 +1212,7 @@
   --nph-select-option-focus-border-radius: var(--nph-focus-border-radius-inner);
   --nph-select-option-focus-halo-width: var(--nph-focus-ring-width);
   --nph-select-option-focus-halo-radius: var(--nph-focus-radius-inner-with-border);
+  --nph-date-picker-height: var(--nph-control-height-field);
   --nph-date-picker-panel-padding: var(--nph-space-container-padding);
   --nph-date-picker-trigger-gap: var(--nph-space-inline);
   --nph-date-picker-footer-gap: var(--nph-space-inline-loose);
@@ -1366,6 +1374,14 @@
   --nph-data-table-sort-icon-active-foreground: var(--nph-color-foreground);
   --nph-data-table-checkbox-border: var(--nph-color-input-hover);
   --nph-data-table-page-size-label-foreground: var(--nph-color-foreground);
+  --nph-input-border: var(--nph-color-field-border);
+  --nph-input-border-bottom: var(--nph-color-field-border-bottom);
+  --nph-combobox-border: var(--nph-color-field-border);
+  --nph-combobox-border-bottom: var(--nph-color-field-border-bottom);
+  --nph-multi-combobox-border: var(--nph-color-field-border);
+  --nph-multi-combobox-border-bottom: var(--nph-color-field-border-bottom);
+  --nph-textarea-border: var(--nph-color-field-border);
+  --nph-textarea-border-bottom: var(--nph-color-field-border-bottom);
   --nph-button-secondary-ghost-background-hover: var(--nph-color-accent);
   --nph-button-secondary-outline-background-hover: var(--nph-color-secondary-light-hover);
   --nph-button-secondary-solid-background: var(--nph-color-secondary);
@@ -1604,11 +1620,15 @@
   --nph-rich-option-border-error: var(--nph-status-error);
   --nph-rich-option-foreground: var(--nph-color-card-foreground);
   --nph-rich-option-description-foreground: var(--nph-color-muted-foreground);
+  --nph-select-border: var(--nph-color-field-border);
+  --nph-select-border-bottom: var(--nph-color-field-border-bottom);
   --nph-select-option-background-hover: var(--nph-color-accent);
   --nph-select-option-foreground: var(--nph-color-popover-foreground);
   --nph-select-option-foreground-hover: var(--nph-color-accent-foreground);
   --nph-select-option-description-foreground: var(--nph-color-muted-foreground);
   --nph-select-option-secondary-foreground: var(--nph-color-muted-foreground);
+  --nph-date-picker-border: var(--nph-color-field-border);
+  --nph-date-picker-border-bottom: var(--nph-color-field-border-bottom);
   --nph-date-picker-panel-border: var(--nph-color-border-subtle);
   --nph-date-picker-divider: var(--nph-color-border-subtle);
   --nph-accordion-background: var(--nph-color-card);
@@ -1860,6 +1880,8 @@
   --nph-color-inverse-foreground: var(--nph-core-base-white);
   --nph-color-border-subtle: var(--nph-core-surface-200);
   --nph-color-border-strong: var(--nph-core-slate-500);
+  --nph-color-field-border: var(--nph-core-slate-200);
+  --nph-color-field-border-bottom: var(--nph-core-slate-300);
   --nph-focus-ring-error: var(--nph-core-danger-200);
   --nph-overlay-scrim: var(--nph-core-scrim-light);
   --nph-scrollbar-track: var(--nph-core-surface-50);
@@ -2087,6 +2109,8 @@
   --nph-color-inverse-foreground: var(--nph-core-slate-100);
   --nph-color-border-subtle: var(--nph-core-alpha-white-15);
   --nph-color-border-strong: var(--nph-core-slate-200);
+  --nph-color-field-border: var(--nph-core-slate-700);
+  --nph-color-field-border-bottom: var(--nph-core-slate-400);
   --nph-focus-ring-error: var(--nph-core-danger-400);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
   --nph-scrollbar-track: var(--nph-core-slate-800);
