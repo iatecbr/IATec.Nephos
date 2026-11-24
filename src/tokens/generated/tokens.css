@@ -1848,7 +1848,7 @@
   --nph-color-background-subtle: var(--nph-core-surface-25);
   --nph-color-inverse: var(--nph-core-slate-500);
   --nph-color-inverse-foreground: var(--nph-core-base-white);
-  --nph-color-border-subtle: var(--nph-core-surface-75);
+  --nph-color-border-subtle: var(--nph-core-surface-200);
   --nph-color-border-strong: var(--nph-core-slate-500);
   --nph-focus-ring-error: var(--nph-core-danger-200);
   --nph-overlay-scrim: var(--nph-core-scrim-light);
@@ -2075,7 +2075,7 @@
   --nph-color-background-subtle: var(--nph-core-slate-900);
   --nph-color-inverse: var(--nph-core-slate-700);
   --nph-color-inverse-foreground: var(--nph-core-slate-100);
-  --nph-color-border-subtle: var(--nph-core-alpha-white-10);
+  --nph-color-border-subtle: var(--nph-core-alpha-white-15);
   --nph-color-border-strong: var(--nph-core-slate-200);
   --nph-focus-ring-error: var(--nph-core-danger-400);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
