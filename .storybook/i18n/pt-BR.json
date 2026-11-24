@@ -1753,7 +1753,7 @@
       ],
       [
         "Contraste",
-        "O texto usa color/tooltip-foreground sobre color/tooltip: 6,69:1 no claro e 7,47:1 no escuro, acima de 4,5:1 (WCAG 1.4.3)."
+        "O texto usa color/tooltip-foreground sobre color/tooltip: 5,85:1 no claro e 8,98:1 no escuro, acima de 4,5:1 (WCAG 1.4.3)."
       ],
       [
         "Foco visível",
@@ -2174,7 +2174,7 @@
       ],
       [
         "A cor não é o único sinal",
-        "O estado pressionado aparece no fundo, na cor do label e no ícone, que passa de xmark para check, e o aria-pressed o expõe. Limite conhecido: o fundo marcado tem 1,26:1 sobre a página no claro e 1,54:1 no escuro, e no escuro sem ícone o label quase não muda. A peça inválida muda a borda; a mensagem de erro fica fora."
+        "O estado pressionado aparece no fundo, na cor do label e no ícone, que passa de xmark para check, e o aria-pressed o expõe. Limite conhecido: o fundo marcado tem 1,26:1 sobre a página no claro e 1,39:1 no escuro, e no escuro sem ícone o label quase não muda. A peça inválida muda a borda; a mensagem de erro fica fora."
       ],
       [
         "Alvo de toque",

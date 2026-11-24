@@ -64,7 +64,7 @@ const cases = {
     // 5. same alias in both modes -> invariant
     'same-alias': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.base.white}') },
     // 6. different alias, different final value -> variant
-    'different-alias': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.surface.900}') },
+    'different-alias': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.slate.900}') },
     // 7. brand-dependent alias, same in both modes -> invariant
     'brand-alias': { $type: 'color', $value: '{theme.brand-600}', ...modes('{theme.brand-600}', '{theme.brand-600}') },
     // 8. no modes block -> invariant by definition

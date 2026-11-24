@@ -120,7 +120,7 @@
       "Esc closes the balloon and does not reach the page; the focus stays on the element. With the balloon closed, Esc is not intercepted."
     ],
     "focus": "The balloon never takes focus: focus stays on the element that opened it, with the focus drawing of that element. The balloon stays open while the pointer is over it (WCAG 1.4.13).",
-    "contrast": "The text uses color/tooltip-foreground on color/tooltip: 6.69 to 1 in light and 7.47 to 1 in dark, above 4.5 to 1.",
+    "contrast": "The text uses color/tooltip-foreground on color/tooltip: 5.85 to 1 in light and 8.98 to 1 in dark, above 4.5 to 1.",
     "color_alternative": "The explanation is conveyed by the text; color is not the only signal."
   },
   "invalid_combinations": [

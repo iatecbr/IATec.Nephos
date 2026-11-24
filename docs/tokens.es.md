@@ -116,8 +116,8 @@ técnica:
 
 | Token | Tipo DTCG | Claro | Oscuro |
 |---|---|---|---|
-| `color/destructive-foreground` | `color` | `{core.base.white}` | `{core.neutral.950}` |
-| `color/secondary-hover` | `color` | `{core.neutral.200}` | `{core.surface.700}` |
+| `color/destructive-foreground` | `color` | `{core.base.white}` | `{core.slate.950}` |
+| `color/secondary-hover` | `color` | `{core.surface.200}` | `{core.slate.700}` |
 | `state/hover-opacity` | `number` | `0.95` | `0.95` |
 
 `state/disabled-opacity` permanece en `number = 0.5`.

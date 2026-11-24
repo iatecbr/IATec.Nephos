@@ -126,7 +126,7 @@ accessibility:
     - "Enter and Space run the action of the element and neither open nor close the balloon."
     - "Esc closes the balloon and does not reach the page; the focus stays on the element. With the balloon closed, Esc is not intercepted."
   focus: "The balloon never takes focus: focus stays on the element that opened it, with the focus drawing of that element. The balloon stays open while the pointer is over it (WCAG 1.4.13)."
-  contrast: "The text uses color/tooltip-foreground on color/tooltip: 6.69 to 1 in light and 7.47 to 1 in dark, above 4.5 to 1."
+  contrast: "The text uses color/tooltip-foreground on color/tooltip: 5.85 to 1 in light and 8.98 to 1 in dark, above 4.5 to 1."
   color_alternative: "The explanation is conveyed by the text; color is not the only signal."
 invalid_combinations:
   - "No for, or a for that matches no element in the same root: the balloon is not drawn."
@@ -264,7 +264,7 @@ On any other element it is a description, the default:
 | Criterion | Rule |
 |---|---|
 | Semantics | The host is a `role="tooltip"` from mount, open or closed; the element points to it with `aria-describedby`, or with `aria-labelledby` under `relation="name"` |
-| Contrast | The text uses `color/tooltip-foreground` on `color/tooltip`: 6.69:1 in light and 7.47:1 in dark, above 4.5:1 (WCAG 1.4.3) |
+| Contrast | The text uses `color/tooltip-foreground` on `color/tooltip`: 5.85:1 in light and 8.98:1 in dark, above 4.5:1 (WCAG 1.4.3) |
 | Visible focus | The balloon never takes focus: focus stays on the element that opened it. The balloon stays open while the pointer is over it (WCAG 1.4.13) |
 | Keyboard | Keyboard focus on the element opens the balloon at once; Enter and Space run the action and neither open nor close it; Esc closes it. Hover opens it after `motion/hover-delay` |
 | Touch target | The balloon is not a touch target and does not open on touch. The touch target is the element, at its own size (WCAG 2.5.8). On touch the icon-only button has no visible name, an accepted exception: the name lives in the accessible name, the icon must be easy to recognize, and an ambiguous action uses a button with text |

@@ -420,7 +420,7 @@ describe('secondary solid and outline, on the component tokens (DSA-64)', () => 
     }
   });
 
-  it('in light, the icon-only outline border hover is a different color from the one with text (surface/300 and surface/400)', () => {
+  it('in light, the icon-only outline border hover is a different color from the one with text (slate/300 and slate/400)', () => {
     document.documentElement.setAttribute('data-nph-color-scheme', 'light');
     expect(resolved('color', '--nph-icon-button-secondary-outline-border-hover')).not.toBe(
       resolved('color', '--nph-button-secondary-outline-border-hover'),

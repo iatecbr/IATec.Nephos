@@ -1739,7 +1739,7 @@ describe('regressions of the fifth review of PR 119', () => {
 });
 
 describe('color schemes', () => {
-  it('in dark mode the header is color/muted through table/header-background, and the stripe core/surface/800', async () => {
+  it('in dark mode the header is color/muted through table/header-background, and the stripe core/slate/800', async () => {
     const frame = document.createElement('div');
     frame.setAttribute('data-nph-color-scheme', 'dark');
     document.body.append(frame);
