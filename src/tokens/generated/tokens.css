@@ -1296,6 +1296,7 @@
   --nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
   --nph-focus-ring-sidebar: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-sidebar-ring);
   --nph-menubar-trigger-foreground: var(--nph-color-foreground);
+  --nph-separator-border: var(--nph-color-border-subtle);
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
   --nph-sidebar-flyout-background: var(--nph-color-background);
@@ -1589,6 +1590,7 @@
   --nph-timeline-title-foreground-pending: var(--nph-color-muted-foreground);
   --nph-timeline-description-foreground: var(--nph-color-muted-foreground);
   --nph-timeline-meta-foreground: var(--nph-color-subtle-foreground);
+  --nph-timeline-connector-border-pending: var(--nph-color-border);
   --nph-timeline-marker-border-pending: var(--nph-color-input);
   --nph-timeline-marker-background-error: var(--nph-status-error-surface);
   --nph-timeline-marker-foreground-error: var(--nph-status-error-foreground);
