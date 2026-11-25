@@ -21,7 +21,8 @@ import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
-import { STATIC_SEVERITIES, bothModes, column, formArea, notification, toastRegion } from './nph-notification.demo';
+import { exampleScreen } from '../nph-toast-region/nph-toast-region.demo';
+import { STATIC_SEVERITIES, bothModes, column, formArea, notification } from './nph-notification.demo';
 import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-notification.json';
@@ -96,7 +97,8 @@ export const Documentation: Story = {
     const loadingToast = (): TemplateResult =>
       notification({ ...base('loading'), placement: 'toast', hideClose: true });
     const region = (): TemplateResult =>
-      toastRegion(
+      exampleScreen(
+        'default',
         [loadingToast(), successToast(), notification({ ...base('error'), placement: 'toast', action: d.retry })],
         d.regionLabel,
       );

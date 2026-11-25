@@ -16,7 +16,7 @@ use_when:
   - "Subtle emphasis by default, in both placements; solid only when the message needs more weight and has no action."
   - "Single-line for short text; when the text goes beyond one line, it reflows to stacked and the action moves below."
 do_not_use_when:
-  - "For what needs an answer before going on: use nph-alert-dialog."
+  - "For what needs an answer before going on: use nph-dialog, while the nph-alert-dialog is deferred."
   - "For the error of a field: it stays in nph-field."
   - "For an error that stops the person: use an inline notification near the problem."
   - "For the result of an operation with the help severity: use success, error, warning or info."
@@ -138,8 +138,8 @@ api:
       invalid (WCAG 2.2.1): the notification draws nothing and emits console.error in
       development. Only a subtle or solid toast that is not error, not loading and has no
       action reads it; a valid duration on inline, on error, on loading or with an action is
-      ignored, with no error. It pauses while the pointer is over the toast and while focus is
-      inside it.
+      ignored, with no error. It pauses while the pointer is over the toast, while focus is
+      inside it and while paused is on.
   time-bar:
     type: boolean
     required: false
@@ -151,6 +151,16 @@ api:
       solid, on error, on loading, with an action or with duration 0 it draws nothing and
       emits console.error in development. Until nph-progress is wired in, it is an
       nph-skeleton line, stopped, as Figma shows it. The property is timeBar.
+  paused:
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
+      Holds the countdown of a toast while it is on, and lets it go on with what was left when it
+      is turned off; it closes and opens nothing by itself. The nph-toast-region sets it for the
+      pointer on the region, the focus inside it and an open modal dialog, and a consumer may use it
+      too. Reflects so the region and the consumer can check the state.
   nph-action:
     type: event
     required: false
@@ -167,7 +177,8 @@ api:
     reflects: false
     constraint: >-
       Fired before the notification closes. detail.source is close-button, when the person
-      pressed the close button, or timeout, when the time of a toast ran out. It bubbles,
+      pressed the close button, timeout, when the time of a toast ran out, or escape, when the
+      person pressed Esc with the focus inside a toast of the nph-toast-region. It bubbles,
       crosses the shadow root and is cancelable: preventDefault keeps the notification on
       the page, and after a timeout the time does not restart. Without preventDefault the
       notification hides itself with the hidden attribute; the consumer removes the element.
@@ -211,7 +222,7 @@ states:
     changes_for_user: "On solid, the close button shows a 2 px border in the text color and no halo; neutral uses notification/neutral-close-focus-border."
   closing-paused:
     token: not_applicable
-    changes_for_user: "While the pointer is over a toast that closes by itself, or focus is inside it, its time stops and goes on from what was left."
+    changes_for_user: "While the pointer is over a toast that closes by itself, focus is inside it or paused is on, its time stops and goes on from what was left."
   reflowed:
     token: not_applicable
     changes_for_user: "A single-line notification whose text does not fit on one line takes the stacked layout, with the action below the text."
@@ -225,7 +236,7 @@ business_rules:
   - "The notification never takes or moves focus."
   - "The notification does not remove itself: on nph-close it hides with hidden unless the event is canceled, and the consumer removes the element."
   - "A loading toast turns into success or error in the same toast when the task ends: the consumer changes severity, heading and description."
-  - "The toast region is the container of the consuming application, not a piece."
+  - "The toast region is the nph-toast-region: it places, stacks, queues and announces the toasts, and a toast inside it has no role of its own and closes with Esc."
 domain_errors: []
 tokens:
   container: [notification/radius, notification/toast-radius, notification/border-width]
@@ -243,9 +254,9 @@ tokens:
   elevation: elevation/modal
   touch: control/height-large
   focus: [focus/border, focus/halo]
-  region: notification/stack-gap
+  region: "toast-region/gap, toast-region/inset and toast-region/inset-compact, read by the nph-toast-region and not by the piece; notification/stack-gap has no consumer and leaves in a foundation task"
 ai_hints:
-  - "Use nph-notification to report a result, a risk or a piece of guidance; what needs an answer before going on is nph-alert-dialog and the error of a field stays in nph-field."
+  - "Use nph-notification to report a result, a risk or a piece of guidance; what needs an answer before going on is nph-dialog and the error of a field stays in nph-field."
   - "Use inline for a message tied to an area of the page and toast to confirm an action or report the end of a task."
   - "Pick severity by meaning and never set a color; help is for guidance, never for the result of an operation."
   - "Write the result in heading, such as Payment declined, and what happened and what to do in description, which is required."
@@ -253,14 +264,15 @@ ai_hints:
   - "Give close-label, already localized, while the close button is shown; listen to nph-close and remove the element, because the notification only hides itself."
   - "Keep error toasts and toasts with an action on the screen until the person acts or closes them; they never close by themselves."
   - "Never turn on time-bar together with an action, on error, on loading or with duration 0."
-  - "Build the toast region in your own container, at the bottom-right corner, with at most three toasts and notification/stack-gap between them."
+  - "Put every toast in the nph-toast-region, appended as a child with placement toast and removed on nph-close; do not build your own container, position or gap for toasts."
 accessibility:
-  semantics: "The host has role alert on error and warning and role status on the others, and takes no focus. The contract specifies the announcement only for the toast; using the same rule for inline is an extension of this piece. The severity icon is decorative (aria-hidden): the title and the description say the severity in words. The close button is an icon-only nph-button."
+  semantics: "The host has role alert on error and warning and role status on the others, and takes no focus; inside an nph-toast-region it has no role, because the region announces it. The contract specifies the announcement only for the toast; using the same rule for inline is an extension of this piece. The severity icon is decorative (aria-hidden): the title and the description say the severity in words. The close button is an icon-only nph-button."
   accessible_name: "The close button is named by close-label, already localized; the nph-button shows its own tooltip with that name. The actions are named by their text. The notification has no name of its own: its role announces its content."
   keyboard:
     - "Tab reaches the actions and the close button, in reading order; the notification takes no focus itself."
     - "Enter and Space activate an action or the close button, as in nph-button."
     - "A toast that closes by itself pauses while focus is inside it and goes on when focus leaves."
+    - "Inside the nph-toast-region, Esc with the focus in a toast closes it, with the source escape; the region adds F6 and the pause of every toast."
   focus: "The notification never moves focus when it appears or closes. Actions and close show the focus ring of nph-button. On solid, the close shows a 2 px border in the text color and no halo."
   contrast: "Text passes 4.5:1 and icon passes 3:1 in every severity and emphasis, in light and dark, including the label of the main action and of the secondary action in the severity color."
   color_alternative: "Each severity has its own icon drawing, and the title says the result in words; the loading toast shows a spinner next to the text."
@@ -274,7 +286,7 @@ invalid_combinations:
   - "The close button shown with no close-label — nothing is drawn."
 relations:
   combines_with: [nph-button, nph-icon, nph-spinner, nph-skeleton]
-  parents: ["a form area or any area of the page, for inline", "the toast region of the consuming application, for toast"]
+  parents: ["a form area or any area of the page, for inline", "the nph-toast-region, for toast"]
   children: [nph-icon, nph-spinner, nph-button, nph-skeleton]
   complements_block: []
   appears_in: []
@@ -303,8 +315,8 @@ sources:
 message, inside the page tied to an area (`inline`) or floating over it (`toast`). It has a
 severity picked by the consumer, an optional title, a description that says what happened and
 what to do, up to two actions, a close button and, on a toast that closes by itself, a time
-bar. It does not replace `nph-alert-dialog`, for what needs an answer before going on, nor the
-error message of a field, which stays in `nph-field`.
+bar. It does not replace `nph-dialog`, for what needs an answer before going on, nor the
+error message of a field, which stays in `nph-field`. A toast lives in the `nph-toast-region`.
 
 **When to use:**
 
@@ -327,7 +339,7 @@ error message of a field, which stays in `nph-field`.
 
 **When NOT to use:**
 
-- **For what needs an answer before going on** — use `nph-alert-dialog`.
+- **For what needs an answer before going on** — use `nph-dialog`, while the `nph-alert-dialog` is deferred.
 - **For the error of a field** — it stays in `nph-field`.
 - **For an error that stops the person** — use an inline notification near the problem.
 - **For the result of an operation with the help severity** — use success, error, warning or
@@ -418,8 +430,8 @@ an `nph-spinner` instead of the icon, in `color/primary`, decorative.
   by the consuming application; the piece writes no word of its own.
 - `nph-action` says which action the person pressed, in `detail.action` (`primary` or
   `secondary`). The notification does not close on its own after it.
-- `nph-close` says that the notification is closing, in `detail.source`: `close-button` or
-  `timeout`. It is cancelable: with `preventDefault()` the notification stays, and after a
+- `nph-close` says that the notification is closing, in `detail.source`: `close-button`,
+  `timeout` or, inside the `nph-toast-region`, `escape`. It is cancelable: with `preventDefault()` the notification stays, and after a
   timeout its time does not restart. Without it, the notification hides itself with the
   `hidden` attribute and the consumer removes the element. Removing it is the consumer's job.
 - `heading` is not `title`: the name avoids the global HTML attribute, which the browser would
@@ -427,45 +439,38 @@ an `nph-spinner` instead of the icon, in `color/primary`, decorative.
 
 ## The toast region
 
-The toast region is **not a piece and not a tag**: it is the container of the consuming
-application. The piece draws one toast; position and stacking belong to the region.
+The toast region is the **`nph-toast-region`** (`fichas/nph-toast-region.md`), a piece of its own.
+The `nph-notification` draws one toast; the region places and stacks them.
 
 ```html
-<div
-  role="group"
-  aria-label="Notifications"
-  style="position: fixed; inset-block-end: var(--nph-layout-margin-compact); inset-inline-end: var(--nph-layout-margin-compact); display: flex; flex-direction: column; align-items: flex-end; gap: var(--nph-notification-stack-gap);"
->
-  <!-- up to three nph-notification placement="toast" -->
-</div>
+<nph-toast-region label="Notifications">
+  <nph-notification placement="toast" severity="success" description="Changes saved." close-label="Close"></nph-notification>
+</nph-toast-region>
 ```
 
-The distance from the corner is the application's choice: the example uses `layout/margin-compact`, and
-the contract names no token for it.
-
-- Anchor the region at the bottom-right corner with `position: fixed`.
-- Put `notification/stack-gap` between the toasts. The CSS of the piece does not read it: the
-  gap belongs to the region.
-- Show at most three toasts at once, the newest next to the corner and in front of the others:
-  with the column above, append the newest toast last. The consumer holds the rest back until
-  one leaves.
-- Each toast has the width of its own tokens, so the minimum of 320 px of the contract holds by
-  construction, and no width is set on the region.
+- Append every toast to the region as a child, in order of arrival, and remove it on `nph-close`.
+- The region puts the toasts at the bottom-right corner, `toast-region/inset` from the edge, with
+  `toast-region/gap` between them, the newest next to the corner. The CSS of the piece reads none of
+  these tokens.
+- At most three toasts show at once; the fourth and the next ones wait in a queue, in order of arrival,
+  and the countdown of a queued toast starts when it comes into view.
+- Below 768 px the region takes the base from side to side and the toast takes the width of the region.
+- Inside the region the toast has no `role` of its own, because the region announces it through its two
+  live regions, and Esc with the focus in the toast closes it (`detail.source` `escape`). The `paused`
+  property is how the region holds the countdown of every toast.
 - A loading toast turns into success or error in the same toast when the task ends: change
   `severity`, `heading` and `description` on the same element, and give `close-label` from the
-  start, because the close button comes back on success and on error.
-
-Whether the region becomes a piece of its own is a pending decision (D-1 of the task DSA-63).
+  start, because the close button comes back on success and on error. The region announces the change.
 
 ## Accessibility
 
 | Criterion | Rule |
 |---|---|
-| Semantics | The host has `role="alert"` on error and warning and `role="status"` on the others, and takes no focus. The contract specifies this announcement only for the toast; using the same rule on inline is an extension of this piece |
+| Semantics | The host has `role="alert"` on error and warning and `role="status"` on the others, and takes no focus. Inside the `nph-toast-region` it has no role, because the region announces it. The contract specifies this announcement only for the toast; using the same rule on inline is an extension of this piece |
 | Accessible name | The close button is an icon-only `nph-button` named by `close-label`, with its own tooltip with that name. The actions are named by their text. The severity icon is `aria-hidden`: the title and the description say the severity in words |
-| Keyboard | Tab reaches the actions and the close button, in reading order; Enter and Space activate them, as in `nph-button`. The notification takes no focus itself |
+| Keyboard | Tab reaches the actions and the close button, in reading order; Enter and Space activate them, as in `nph-button`. The notification takes no focus itself. Inside the `nph-toast-region`, Esc with the focus in the toast closes it, and F6 belongs to the region |
 | Focus | The notification never moves focus. Actions and close show the focus ring of `nph-button`; on solid, the close shows a 2 px border in the text color and no halo |
-| Time | A toast that closes by itself stays at least 6 seconds and pauses while the pointer is over it or focus is inside it. Error, loading and a toast with an action only leave when the person acts or closes them |
+| Time | A toast that closes by itself stays at least 6 seconds and pauses while the pointer is over it, focus is inside it or `paused` is on; the region pauses every toast together. Error, loading and a toast with an action only leave when the person acts or closes them |
 | Contrast | Text passes 4.5:1 and icon passes 3:1 in every severity and emphasis, in light and dark, including the label of the main and of the secondary action |
 | Alternative to color | Each severity has its own icon drawing and the title says the result in words. The spinner of loading is decorative, next to the text |
 | Touch target | With a mouse, actions and close use `control/height-default`. On a touch screen the actions take the size large and the touch area of the close grows to `control/height-large` |
@@ -476,8 +481,8 @@ Whether the region becomes a piece of its own is a pending decision (D-1 of the 
 **Combines with:** `nph-button` for the actions and the close, `nph-icon` for the severity,
 `nph-spinner` for loading and `nph-skeleton` for the time bar.
 
-**What is the parent:** a form area or any area of the page, for `inline`; the toast region of
-the consuming application, for `toast`.
+**What is the parent:** a form area or any area of the page, for `inline`; the `nph-toast-region`,
+for `toast`.
 
 **What is the child:** `nph-icon` or `nph-spinner`, `nph-button` and, on the time bar,
 `nph-skeleton`. They are internal: the piece has no slot.
@@ -490,11 +495,11 @@ the consuming application, for `toast`.
 
 - The time bar is an `nph-skeleton` line, stopped, until `nph-progress` is approved and wired in.
 - An action that navigates would be an `nph-link`; until it exists, the actions are `nph-button`.
-- What needs an answer before going on is `nph-alert-dialog`, which the piece does not use.
+- What needs an answer before going on is `nph-dialog` while the `nph-alert-dialog` is deferred; the piece uses neither.
 
 **Responsibility boundary:** the notification draws one message, announces it, keeps the time of
 a toast and fires `nph-action` and `nph-close`. The consumer writes the texts, decides what each
-action does, removes the element after `nph-close`, and builds the region of toasts.
+action does and removes the element after `nph-close`. The `nph-toast-region` places and stacks the toasts.
 
 ## Tokens, intent and AI hints
 
@@ -515,7 +520,7 @@ action does, removes the element after `nph-close`, and builds the region of toa
 | Elevation | `elevation/modal`, used directly: there is no `notification` token for it. In dark mode `shadow/color` is transparent, so the toast has no shadow and separates from the page by its surface and its border |
 | Touch | `control/height-default` and `control/height-large` |
 | Focus | `focus/border` and `focus/halo`, which the close on solid points at its own values |
-| Region | `notification/stack-gap`, read by the consumer's container, not by the piece |
+| Region | `toast-region/gap`, `toast-region/inset` and `toast-region/inset-compact`, read by the `nph-toast-region`, not by the piece. `notification/stack-gap` has no consumer and leaves in a foundation task |
 
 **Usage restrictions:** `nph-button` has no color property and no `::part`. The colors of the
 contract that its own tokens do not give go through the public custom properties it already
@@ -537,7 +542,7 @@ no color property.
 **AI hints:**
 
 - Use `nph-notification` to report a result, a risk or a piece of guidance; what needs an answer
-  before going on is `nph-alert-dialog` and the error of a field stays in `nph-field`.
+  before going on is `nph-dialog` and the error of a field stays in `nph-field`.
 - Use `inline` for a message tied to an area of the page and `toast` to confirm an action or
   report the end of a task.
 - Pick `severity` by meaning and never set a color; `help` is for guidance, never for the result
@@ -551,8 +556,8 @@ no color property.
 - Keep error toasts and toasts with an action on the screen until the person acts or closes
   them; they never close by themselves.
 - Never turn on `time-bar` together with an action, on error, on loading or with `duration` 0.
-- Build the toast region in your own container, at the bottom-right corner, with at most three
-  toasts and `notification/stack-gap` between them.
+- Put every toast in the `nph-toast-region`, appended as a child with `placement="toast"` and removed
+  on `nph-close`; do not build your own container, position or gap for toasts.
 
 ## Examples
 
@@ -580,7 +585,7 @@ a `solid` toast for a message that needs more weight, with only the close button
 - **Do not use single-line with text longer than one line** — use stacked, with the actions
   below.
 - **Do not use a toast for an error that stops the person** — use an inline notification near
-  the problem, or `nph-alert-dialog` when it needs an answer.
+  the problem, or `nph-dialog` when it needs an answer.
 - **Do not turn the title off and leave the description without the result.**
 - **Do not allow an action and the time bar together** — the code blocks the pair.
 - **Do not change severity, emphasis or layout by detaching the instance** — change the
@@ -590,7 +595,7 @@ a `solid` toast for a message that needs more weight, with only the close button
   the subtle toast; a `duration` between 1 and 5999; `secondary-action` without `action` where it would be drawn (not on single-line);
   `time-bar` outside a subtle toast that closes by itself; the close button shown with no
   `close-label`. The notification draws nothing and emits `console.error` in development.
-- **Do not create or adapt without a decision:** a toast region tag, a color property, a slot, a
+- **Do not create or adapt without a decision:** a color property, a slot, a
   `::part`, a token of its own for the elevation, or an automatic removal of the element.
 
 ## Sources and decisions
@@ -600,8 +605,8 @@ a `solid` toast for a message that needs more weight, with only the close button
   `text/body-md`, `control/height-large` and the focus tokens. The `notification/*` tokens are in
   `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P108.
-- **Pending decisions:** D-1 of the task DSA-63: whether the toast region becomes a piece of its
-  own. It does not block the piece.
+- **Pending decisions:** none. D-1 of the task DSA-63, whether the toast region becomes a piece of
+  its own, was answered by the `nph-toast-region` (DSA-100, P140).
 - **Tests:** `src/components/nph-notification/nph-notification.test.ts` and
   `nph-notification.docs.test.ts`.
 - **Usage evidence:** the mandatory examples of the `nph-notification` Examples story and Docs

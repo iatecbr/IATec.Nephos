@@ -31,10 +31,16 @@
  *   blocks it), on error or on loading. Until `nph-progress` is wired in, it is an `nph-skeleton`
  *   line, as the Figma does;
  * - events `nph-action` (`detail: { action: 'primary' | 'secondary' }`) and `nph-close`
- *   (`detail: { source: 'close-button' | 'timeout' }`, bubbles, composed, cancelable). Without
+ *   (`detail: { source: 'close-button' | 'timeout' | 'escape' }`, bubbles, composed, cancelable). Without
  *   `preventDefault()`, the notification hides itself (`hidden`); the consumer removes the element;
+ * - `paused` (DSA-100): holds the countdown while it is on and goes on with what was left when it is
+ *   turned off. The `nph-toast-region` sets it for the pointer on the region, the focus inside it and an
+ *   open modal dialog; a consumer may use it too. It never closes or opens anything by itself;
+ * - inside an `nph-toast-region` (DSA-100) the toast has no `role` of its own, because the region
+ *   announces it through its live regions, and Esc with the focus inside the toast closes it
+ *   (`detail.source` `escape`). Outside the region neither changes;
  * - accessibility: the host has `role="alert"` on error and warning and `role="status"` on the
- *   others, and the notification never takes or moves focus. The severity icon is decorative, the
+ *   others (not inside the region), and the notification never takes or moves focus. The severity icon is decorative, the
  *   title and the description say the severity in words. On a touch screen (`pointer: coarse`) the
  *   actions switch to the size large of `nph-button` and the touch area of the close grows to
  *   `control/height-large`, with no change in its drawing;
@@ -93,7 +99,7 @@ export const NPH_NOTIFICATION_ACTION_EVENT = 'nph-action';
 export const NPH_NOTIFICATION_CLOSE_EVENT = 'nph-close';
 
 export type NphNotificationAction = 'primary' | 'secondary';
-export type NphNotificationCloseSource = 'close-button' | 'timeout';
+export type NphNotificationCloseSource = 'close-button' | 'timeout' | 'escape';
 
 export interface NphNotificationActionDetail {
   action: NphNotificationAction;
@@ -171,6 +177,8 @@ export class NphNotification extends LitElement {
     closeLabel: { type: String, attribute: 'close-label' },
     duration: { type: Number },
     timeBar: { type: Boolean, attribute: 'time-bar' },
+    /* Reflected: the region and the consumer can read it, and the tests prove it. */
+    paused: { type: Boolean, reflect: true },
     coarse: { state: true },
   };
 
@@ -198,6 +206,8 @@ export class NphNotification extends LitElement {
   declare duration: number;
   /** The line at the base of the toast that shows the time until it closes. */
   declare timeBar: boolean;
+  /** Holds the countdown while on; the `nph-toast-region` sets it. */
+  declare paused: boolean;
 
   /** Touch screen: the actions switch to the size large and the close grows its touch area. */
   declare coarse: boolean;
@@ -229,6 +239,7 @@ export class NphNotification extends LitElement {
     this.closeLabel = '';
     this.duration = NPH_NOTIFICATION_DEFAULT_DURATION;
     this.timeBar = false;
+    this.paused = false;
     this.coarse = false;
   }
 
@@ -248,6 +259,7 @@ export class NphNotification extends LitElement {
     this.addEventListener('pointerleave', this.onPointerLeave);
     this.addEventListener('focusin', this.onFocusIn);
     this.addEventListener('focusout', this.onFocusOut);
+    this.addEventListener('keydown', this.onKeyDown);
     this.pointerQuery = window.matchMedia?.('(pointer: coarse)');
     if (this.pointerQuery !== undefined) {
       this.coarse = this.pointerQuery.matches;
@@ -257,6 +269,8 @@ export class NphNotification extends LitElement {
     if (this.hasUpdated) {
       this.observeSize();
       this.syncTimer();
+      /* The role depends on being inside a region: moved in or out, it is decided again. */
+      this.requestUpdate();
     }
   }
 
@@ -266,6 +280,7 @@ export class NphNotification extends LitElement {
     this.removeEventListener('pointerleave', this.onPointerLeave);
     this.removeEventListener('focusin', this.onFocusIn);
     this.removeEventListener('focusout', this.onFocusOut);
+    this.removeEventListener('keydown', this.onKeyDown);
     this.pointerQuery?.removeEventListener('change', this.onPointerChange);
     this.pointerQuery = undefined;
     this.resizeObserver?.disconnect();
@@ -378,9 +393,17 @@ export class NphNotification extends LitElement {
     this.applySemantics();
   }
 
-  /** Error and warning are announced as alerts; the others as status. Nothing takes focus. */
+  /** Whether the toast sits inside an `nph-toast-region`, which announces it and takes Esc for it. */
+  private get inRegion(): boolean {
+    return this.toast && this.closest('nph-toast-region') !== null;
+  }
+
+  /**
+   * Error and warning are announced as alerts; the others as status. Nothing takes focus. Inside
+   * the region the toast has no role: the region announces it, so it is not read twice (DSA-100).
+   */
   private applySemantics(): void {
-    if (!this.valid) {
+    if (!this.valid || this.inRegion) {
       this.removeAttribute('role');
       return;
     }
@@ -554,7 +577,7 @@ export class NphNotification extends LitElement {
       this.stopTimer();
       return;
     }
-    if (this.hovering || this.focusing) {
+    if (this.hovering || this.focusing || this.paused) {
       this.pauseTimer();
     } else {
       this.resumeTimer();
@@ -613,6 +636,13 @@ export class NphNotification extends LitElement {
     const next = event.relatedTarget;
     this.focusing = next instanceof Node && (next === this || this.contains(next));
     this.syncTimer();
+  };
+
+  /** Esc with the focus inside a toast of the region closes that toast (DSA-100, item 8). */
+  private readonly onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key !== 'Escape' || event.defaultPrevented || !this.valid || !this.inRegion || this.hidden) return;
+    event.preventDefault();
+    this.close('escape');
   };
 
   private readonly onPointerChange = (event: MediaQueryListEvent): void => {

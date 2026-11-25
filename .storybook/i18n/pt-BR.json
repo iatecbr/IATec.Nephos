@@ -650,7 +650,12 @@
     "components-nph-chart-validation--examples": "Exemplos",
     "components-nph-chart-validation--legend": "Legenda",
     "components-nph-chart-validation--limits": "Limites",
-    "components-nph-chart-validation--brands": "Marcas"
+    "components-nph-chart-validation--brands": "Marcas",
+    "components-nph-toast-region-validation": "Validação",
+    "components-nph-toast-region-validation--quantities": "Quantidades",
+    "components-nph-toast-region-validation--live": "Ao vivo",
+    "components-nph-toast-region-validation--direction": "Direção",
+    "components-nph-toast-region-validation--examples": "Exemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -8681,7 +8686,7 @@
       "components-nph-notification-validation--close": "O botão de fechar ligado e desligado, e no sólido, onde o hover é a cor do contrato a 16% e o foco é uma borda de 2 px na cor do texto, sem halo. Use Tab até o botão para ver o foco.",
       "components-nph-notification-validation--toast": "O toast, empilhado e em uma linha, com a elevação modal, que não projeta sombra no modo escuro. Um toast de erro com ação e um toast loading nunca fecham sozinhos.",
       "components-nph-notification-validation--time-bar": "A barra de tempo na base de um toast sutil que fecha sozinho, desenhada com o nph-skeleton até o nph-progress entrar. Nunca vai com ação, em error nem em loading.",
-      "components-nph-notification-validation--region": "A moldura da região de toasts que uma aplicação consumidora monta: uma coluna no canto, até três toasts, com notification/stack-gap entre eles. A região não é uma peça da biblioteca.",
+      "components-nph-notification-validation--region": "A coluna de toasts do nph-toast-region, desenhada no fluxo da página: até três toasts, o mais novo junto ao canto, com toast-region/gap entre eles.",
       "components-nph-notification-validation--required-examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: um erro inline com ação numa área de formulário, um toast de sucesso para confirmar uma ação e um toast loading para uma tarefa em andamento.",
       "components-nph-notification-validation--surfaces": "A notificação sobre color/background e sobre color/popover, no modo claro e escuro: as superfícies próprias mantêm o contraste.",
       "components-nph-notification-validation--invalid-input": "Uma barra de tempo num toast com ação é bloqueada: nada é desenhado em nenhum dos modos, e o console mostra um erro em desenvolvimento.",
@@ -8884,7 +8889,11 @@
       "components-nph-chart-validation--examples": "Os exemplos obrigatórios do frame: uma coluna com destaque, meta tracejada e seletor de período; uma agrupada vertical com a legenda abaixo; e uma rosca de quatro fatias com o total no centro.",
       "components-nph-chart-validation--legend": "Seis séries: a legenda abaixo da área com um botão por série, uma linha por fatia com o valor na rosca, e o grupo das séries menores em chart/muted.",
       "components-nph-chart-validation--limits": "O que o conjunto não desenha: um valor negativo no eixo zero, uma coluna sem dado, uma categoria longa cortada com reticências e doze categorias com um rótulo a cada dois.",
-      "components-nph-chart-validation--brands": "As sete marcas em claro e escuro: a borda e o halo de foco do item da legenda e dos dados seguem a marca, e as cores das séries ficam as mesmas."
+      "components-nph-chart-validation--brands": "As sete marcas em claro e escuro: a borda e o halo de foco do item da legenda e dos dados seguem a marca, e as cores das séries ficam as mesmas.",
+      "components-nph-toast-region-validation--quantities": "Um, dois e três toasts na tela padrão e na compacta, em modo claro e escuro: o mais antigo no alto, o mais novo embaixo, com 16 de distância e alinhados pela borda final. Na tela compacta o toast ocupa a largura da região.",
+      "components-nph-toast-region-validation--live": "A região de verdade no canto inferior direito da janela, a 24 da borda de baixo e da borda final: três toasts à vista, o mais novo junto ao canto, e dois esperando na fila, fora da vista e sem anúncio.",
+      "components-nph-toast-region-validation--direction": "Escrita da direita para a esquerda: a borda final é a esquerda, e os toasts terminam ali.",
+      "components-nph-toast-region-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: uma exportação na fila, três avisos em sequência com uma falha que pode ser corrigida embaixo, e um salvamento em andamento acima de um convite e de uma falha."
     }
   },
   "multiComboboxDocs": {
@@ -11767,7 +11776,7 @@
     "closeCaption": "Fechar no sutil, sem ele, e no sólido em error e em neutral.",
     "toastCaption": "Toasts: success empilhado e em uma linha, um error com ação e um toast loading.",
     "timeBarCaption": "Toasts sutis que fecham sozinhos, com a barra de tempo na base.",
-    "regionCaption": "A moldura da região, no máximo três toasts, o mais novo junto ao canto.",
+    "regionCaption": "A coluna de toasts do nph-toast-region, no máximo três toasts, o mais novo junto ao canto.",
     "requiredCaption": "Um erro inline com ação numa área de formulário, um toast de sucesso e um toast loading.",
     "backgroundCaption": "Sobre color/background.",
     "popoverCaption": "Sobre color/popover, a superfície de um popover.",
@@ -11790,7 +11799,7 @@
     "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-notification, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P108. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra é criada aqui.",
     "onThisPage": "Nesta página",
     "sourceLabel": "Fonte:",
-    "purpose": "Use inline para uma mensagem ligada a uma área da página, que fica até o problema ser resolvido ou a pessoa fechar. Use toast para confirmar uma ação ou avisar o fim de uma tarefa em segundo plano, sem tirar a pessoa do que ela está fazendo. Não substitui o diálogo de alerta, para o que precisa de resposta antes de seguir, nem a mensagem de erro de um campo.",
+    "purpose": "Use inline para uma mensagem ligada a uma área da página, que fica até o problema ser resolvido ou a pessoa fechar. Use toast para confirmar uma ação ou avisar o fim de uma tarefa em segundo plano, sem tirar a pessoa do que ela está fazendo. Não substitui o diálogo, para o que precisa de resposta antes de seguir, nem a mensagem de erro de um campo.",
     "whenToUseTitle": "Quando usar",
     "whenToUse": [
       "Inline: uma mensagem ligada a uma área da página, que fica até o problema ser resolvido ou a pessoa fechar.",
@@ -11804,7 +11813,7 @@
     ],
     "whenNotToUseTitle": "Quando não usar",
     "whenNotToUse": [
-      "Para o que precisa de resposta antes de seguir: use o nph-alert-dialog.",
+      "Para o que precisa de resposta antes de seguir: use o nph-dialog, enquanto o nph-alert-dialog está adiado.",
       "Para o erro de um campo: ele fica no nph-field.",
       "Para um erro que impede a pessoa: use uma notificação inline perto do problema.",
       "Para o resultado de uma operação com a severidade help: use success, error, warning ou info.",
@@ -11866,12 +11875,16 @@
         "Mostra a barra de tempo na base do toast. Só num toast sutil que fecha sozinho; nunca com ação, no error nem no loading, onde não desenha nada e emite console.error em desenvolvimento."
       ],
       [
+        "paused",
+        "Mantém o tempo de um toast parado enquanto está ligado, e o deixa seguir com o que restava quando é desligado. A região de toasts o liga com o ponteiro na região, o foco dentro dela ou um diálogo modal aberto."
+      ],
+      [
         "nph-action",
         "Evento disparado quando a pessoa usa uma ação. detail.action é primary ou secondary. Faz bubbling e é composed."
       ],
       [
         "nph-close",
-        "Evento disparado quando a pessoa fecha a notificação ou o tempo acaba. detail.source é close-button ou timeout. Faz bubbling, é composed e cancelável; sem preventDefault() a notificação se esconde, e a aplicação remove o elemento."
+        "Evento disparado quando a pessoa fecha a notificação ou o tempo acaba. detail.source é close-button, timeout ou, dentro do nph-toast-region, escape. Faz bubbling, é composed e cancelável; sem preventDefault() a notificação se esconde, e a aplicação remove o elemento."
       ]
     ],
     "sourceApi": "ficha do nph-notification; docs/decisoes-tecnicas.md › P108",
@@ -11958,11 +11971,11 @@
     "toastTitle": "Toast e região",
     "toastList": [
       "Um toast tem 360 px de largura, ou o máximo de 440 px quando é de uma linha; nunca fica mais largo que o contêiner.",
-      "A região de toasts não é uma peça da biblioteca: a aplicação a monta no canto inferior direito, com até três toasts, notification/stack-gap entre eles, o mais novo junto ao canto e na frente.",
+      "Os toasts da página ficam no nph-toast-region: ele os coloca no canto inferior direito, com até três à vista e o resto em uma fila, toast-region/gap entre eles e o mais novo junto ao canto.",
       "Um toast loading vira success ou error no mesmo toast quando a tarefa acaba: a aplicação troca a severidade dele.",
       "O toast nunca move o foco."
     ],
-    "regionCaption": "A moldura da região: um toast loading, um toast de sucesso e um toast de erro com ação.",
+    "regionCaption": "A coluna de toasts da região: um toast loading, um toast de sucesso e um toast de erro com ação.",
     "regionLabel": "Notificações",
     "sourceToast": "Figma, documentação do nph-notification (3442:10163); ficha do nph-notification",
     "statesTitle": "Estados",
@@ -12028,7 +12041,7 @@
     "relations": [
       "O ícone vem só do nph-icon, na cor da severidade; no loading, do nph-spinner.",
       "As ações são nph-button no tamanho default: o principal no tipo da severidade, sólido, e o secundário ghost.",
-      "O que precisa de resposta antes de seguir não é uma notificação: vai para o diálogo de alerta, que ainda não existe. O erro de um campo fica no nph-field.",
+      "O que precisa de resposta antes de seguir não é uma notificação: vai para o nph-dialog, enquanto o diálogo de alerta está adiado. O erro de um campo fica no nph-field.",
       "A barra de tempo é uma linha de nph-skeleton até o nph-progress entrar; uma ação de texto que navega espera o nph-link."
     ],
     "examplesTitle": "Exemplos obrigatórios",
@@ -18171,5 +18184,39 @@
     },
     "seriesLabel": "Séries",
     "changeLabel": "subiu 12% vs mês anterior"
+  },
+  "toastRegionValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "close": "Fechar",
+    "action": "Escolher outro",
+    "regionLabel": "Notificações",
+    "liveCaption": "A região de verdade, fixa no canto inferior direito da janela: três toasts à vista, o mais novo junto ao canto, e mais dois esperando na fila.",
+    "samples": {
+      "info": {
+        "heading": "Exportação na fila",
+        "description": "Avisaremos quando o arquivo estiver pronto."
+      },
+      "success": {
+        "heading": "Convite enviado",
+        "description": "A equipe já pode acessar o projeto."
+      },
+      "error": {
+        "heading": "Falha no envio",
+        "description": "O arquivo é maior que o tamanho permitido."
+      },
+      "loading": {
+        "heading": "Salvando alterações…",
+        "description": "Isso leva alguns segundos."
+      },
+      "queuedA": {
+        "heading": "Relatório gerado",
+        "description": "O arquivo está na sua pasta de downloads."
+      },
+      "queuedB": {
+        "heading": "Configurações atualizadas",
+        "description": "As novas configurações já estão ativas."
+      }
+    }
   }
 }

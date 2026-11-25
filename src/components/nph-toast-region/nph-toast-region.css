@@ -1,0 +1,182 @@
+/**
+ * Internal style of `nph-toast-region`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties this file consumes: `toast-region/gap`, `inset`, `inset-compact`, `enter-duration` and
+ * `exit-duration`, the curves `motion/enter-easing` and `motion/exit-easing`, the reduced motion
+ * duration `motion/hover-duration` (used straight, as `nph-hover-card`, P112) and the global tokens
+ * `focus/ring-width` and `color/foreground` of the ring, read only while the list scrolls (D-1). The component exposes no `::part` and
+ * declares no custom property of its own beyond the private `--_inset`.
+ *
+ * No literal design value goes in here. The keywords and quantities below are box relations and
+ * resets of the browser's `[popover]` style: `fixed`, `auto`, `0`, `none`, `100%`, `max-content`, the
+ * `100dvh` of the window and `50%`, the slide of a toast measured on the toast itself (a percentage,
+ * not a token: design.md, `movimento_regras`). The only literal breakpoint is `md` (768 px, written
+ * in `rem` because a media query takes no custom property), as in `nph-dialog` (P87).
+ *
+ * The region has no background, border, shadow, radius or clipping of its own, and no layer token:
+ * it is a `popover="manual"`, so it lives in the top layer (P77). It reserves no space in the page.
+ */
+
+/* The host takes no room: the region is the popover and the two hidden live regions. */
+:host {
+  display: contents;
+}
+
+/*
+ * The region. Resets the browser's `[popover]` style (centered, with a border, a padding, a
+ * background and `overflow: auto`) and pins the column to the bottom corner, at the end edge: the
+ * end edge is the left one in right-to-left writing. The column is open: only space between the
+ * toasts, no divider.
+ */
+.region {
+  --_inset: var(--nph-toast-region-inset);
+  position: fixed;
+  inset: auto;
+  inset-block-end: var(--_inset);
+  inset-inline-end: var(--_inset);
+  box-sizing: border-box;
+  max-inline-size: calc(100% - 2 * var(--_inset));
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: none;
+  color: inherit;
+}
+
+/* `display` only while the region is in the top layer, so a closed `[popover]` stays out of the layout. */
+.region:popover-open {
+  display: flex;
+  flex-direction: column;
+  /* Toasts of different widths end on the same vertical line, the end edge. */
+  align-items: flex-end;
+  gap: var(--nph-toast-region-gap);
+}
+
+/*
+ * A window lower than the stack (D-1): the list gets a height limit, the window height less the
+ * inset at the bottom and the same at the top, and scrolls vertically, kept at the bottom by the
+ * component. It is on only while the stack does not fit, because a scrolling box clips the shadow
+ * of its toasts. The list takes the focus (`tabindex`) only while it scrolls, so it needs a ring.
+ */
+.region[data-scrolls] {
+  max-block-size: calc(100dvh - 2 * var(--_inset));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.region[data-scrolls]:focus-visible {
+  outline: var(--nph-focus-ring-width) solid var(--nph-color-foreground);
+  outline-offset: 0;
+}
+
+/* The toast is never narrower than its own content nor stretched by the column. */
+::slotted(nph-notification) {
+  flex: none;
+}
+
+/* Entering: opacity and transform only, never the layout position (design.md, `movimento_regras`). */
+::slotted(nph-notification) {
+  animation: nph-toast-region-enter var(--nph-toast-region-enter-duration) var(--nph-motion-enter-easing) backwards;
+}
+
+/*
+ * Leaving: the toast has already hidden itself, so the region shows it again for the length of the
+ * exit and takes it out of the pointer and the focus. `display` here comes from the outer tree and
+ * wins over the `:host` rule of the toast.
+ */
+::slotted(nph-notification[data-nph-leaving]) {
+  display: block;
+  pointer-events: none;
+  animation: nph-toast-region-exit var(--nph-toast-region-exit-duration) var(--nph-motion-exit-easing) forwards;
+}
+
+@keyframes nph-toast-region-enter {
+  from {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes nph-toast-region-exit {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+}
+
+@keyframes nph-toast-region-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nph-toast-region-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * The compact screen, below `md` (768 px, 48rem at 16 px): the region takes the base from side to
+ * side, `inset-compact` from the bottom and from each side, and the toast takes the width of the
+ * region, even below 320 px. A media query does not accept a custom property, so the breakpoint is
+ * written here, as in `nph-dialog`.
+ */
+@media (width < 48rem) {
+  .region {
+    --_inset: var(--nph-toast-region-inset-compact);
+    inset-inline-start: var(--_inset);
+    inline-size: auto;
+    max-inline-size: none;
+  }
+
+  ::slotted(nph-notification) {
+    inline-size: 100%;
+    max-inline-size: none;
+  }
+}
+
+/*
+ * The two hidden live regions (item 5), mounted even when the region is empty. Clipped, not
+ * `display: none`, so they stay in the accessibility tree; fixed and without size, so they take no
+ * room and never widen the page.
+ */
+.live {
+  position: fixed;
+  inset: 0;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Reduced motion: the slide becomes only opacity, in `motion/hover-duration` (100 ms), straight. */
+@media (prefers-reduced-motion: reduce) {
+  ::slotted(nph-notification) {
+    animation-name: nph-toast-region-fade-in;
+    animation-duration: var(--nph-motion-hover-duration);
+  }
+
+  ::slotted(nph-notification[data-nph-leaving]) {
+    animation-name: nph-toast-region-fade-out;
+    animation-duration: var(--nph-motion-hover-duration);
+  }
+}
