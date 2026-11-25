@@ -643,7 +643,14 @@
     "components-nph-accordion-validation--direction": "Direction",
     "components-nph-accordion-validation--interactive": "Interactive",
     "components-nph-accordion-validation--examples": "Examples",
-    "components-nph-accordion-validation--brands": "Brands"
+    "components-nph-accordion-validation--brands": "Brands",
+    "components-nph-chart-validation": "Validation",
+    "components-nph-chart-validation--types": "Types",
+    "components-nph-chart-validation--states": "States",
+    "components-nph-chart-validation--examples": "Examples",
+    "components-nph-chart-validation--legend": "Legend",
+    "components-nph-chart-validation--limits": "Limits",
+    "components-nph-chart-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -8871,7 +8878,13 @@
       "components-nph-tree-select-validation--error-row": "The error row in the 280 and 360 panels: in the narrow panel the message is never cut and Try again drops below it, at the same start; in the 360 panel they sit side by side on one row.",
       "components-nph-tree-select-validation--interactive": "A field of each mode to try: a click or the arrows open the panel, the arrows move the active item while the focus stays on the field, Right and Left open and close a branch, Enter chooses or checks, Esc closes.",
       "components-nph-tree-select-validation--examples": "The three required examples, each in light and dark mode: choosing a file in a folder, files that go in a submission and finding a contract in a large tree.",
-      "components-nph-tree-select-validation--brands": "The seven brands in light and dark mode, with the panel open in every frame: the chosen item and the focus follow the brand of the frame."
+      "components-nph-tree-select-validation--brands": "The seven brands in light and dark mode, with the panel open in every frame: the chosen item and the focus follow the brand of the frame.",
+      "components-nph-chart-validation--types": "The ten types of the Figma type, one example of each, inside an nph-card: column, horizontal bar, grouped and stacked in both orientations, line, area, donut and sparkline.",
+      "components-nph-chart-validation--states": "The five states of the area (default, loading, empty, no result and error) under the same card header, which stays in every state.",
+      "components-nph-chart-validation--examples": "The required examples of the frame: a column with a highlight, a dashed goal and the period selector; a grouped vertical with the legend below; and a four-slice donut with the total in the center.",
+      "components-nph-chart-validation--legend": "Six series: the legend below the area with a button per series, one line per slice with its value in the donut, and the group of the smaller series in chart/muted.",
+      "components-nph-chart-validation--limits": "What the set does not draw: a negative value on the zero axis, a column with no data, a long category cut with an ellipsis and twelve categories with a label every two.",
+      "components-nph-chart-validation--brands": "The seven brands in light and dark: the focus border and the halo of the legend item and of the data follow the brand, and the series colors stay the same."
     }
   },
   "multiComboboxDocs": {
@@ -18056,5 +18069,107 @@
     "logo": "Logo.png",
     "readme": "Read-me.txt",
     "shortWindow": "Short window"
+  },
+  "chartValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "regions": [
+      "North",
+      "Northeast",
+      "Southeast",
+      "South",
+      "Center-West"
+    ],
+    "quarters": [
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4"
+    ],
+    "longCategory": "Center-West and Federal District",
+    "revenue": "Revenue",
+    "expense": "Expense",
+    "margin": "Margin",
+    "taxes": "Taxes",
+    "freight": "Freight",
+    "reserve": "Reserve",
+    "others": "Others",
+    "card": "Card",
+    "pix": "Pix",
+    "slip": "Bank slip",
+    "titleRevenue": "Revenue per month",
+    "descriptionRevenue": "R$ thousand · goal of 75",
+    "titleQuarter": "By quarter",
+    "descriptionQuarter": "R$ thousand",
+    "titlePayments": "Payment methods",
+    "descriptionPayments": "Orders",
+    "titleCosts": "Revenue and costs",
+    "descriptionCosts": "R$ thousand per month",
+    "titleRegion": "Composition by region",
+    "descriptionRegion": "R$ thousand",
+    "titleTrend": "Trend",
+    "descriptionTrend": "R$ thousand",
+    "titleSix": "Six series",
+    "titleNegative": "Result with a negative month",
+    "titleMissing": "Month with no data",
+    "titleLong": "Long category",
+    "titleMany": "Twelve categories",
+    "periods": {
+      "month": "Month",
+      "quarter": "Quarter",
+      "year": "Year"
+    },
+    "periodLabel": "Period",
+    "unit": "R$ thousand",
+    "labels": {
+      "summary": "Revenue per month, from January to June, with the goal of 75: four months above and two below.",
+      "goal": "Goal",
+      "noData": "No data",
+      "noValue": "No value",
+      "category": "Month",
+      "value": "Value",
+      "difference": "Difference",
+      "total": "orders",
+      "viewTable": "View as table",
+      "viewChart": "View as chart",
+      "retry": "Try again",
+      "error": "Could not load the chart.",
+      "loading": "Loading the chart.",
+      "emptyHeading": "No data for the period",
+      "emptyDescription": "Choose another period to see the data.",
+      "noResultHeading": "No data for this filter",
+      "noResultDescription": "Change or clear the filter to see the data.",
+      "noSeriesHeading": "No series selected",
+      "noSeriesDescription": "Turn on a series in the legend to see the data."
+    },
+    "highlightComparison": "vs last month",
+    "typeNames": {
+      "column": "Column chart",
+      "horizontal-bar": "Horizontal bar chart",
+      "grouped-vertical": "Grouped column chart",
+      "grouped-horizontal": "Grouped horizontal bar chart",
+      "stacked-vertical": "Stacked column chart",
+      "stacked-horizontal": "Stacked horizontal bar chart",
+      "line": "Line chart",
+      "area": "Area chart",
+      "donut": "Donut chart",
+      "sparkline": "Sparkline"
+    },
+    "seriesLabel": "Series",
+    "changeLabel": "up 12% vs last month"
   }
 }

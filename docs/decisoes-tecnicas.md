@@ -94,6 +94,7 @@ P62.4 subsection for the detail).
 | **P136** | API and semantics of `nph-accordion` and `nph-accordion-item` | 23/11/2026 | Low now. No piece consumes the accordion yet; the details of a record, frequently asked questions, the steps of a setup and the filters of a side panel will, and changing `appearance`, `expansion`, `size`, `heading-level`, the properties of the item (`label`, `description`, `start`, `icon`, `media-src`, `start-label`, `tag`, `status`, `status-label`, `indicator`, `open`, `disabled`, `persistent`), the event `nph-toggle`, the rules of the single expansion, the region rule or the invalid-input rule later requires redoing every consumer. | Anatomy and behavior: documentation accepted by Indiane on 19/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P137** | API and semantics of `nph-popconfirm` | 23/11/2026 | Low now. No piece consumes the popconfirm yet; deleting a row that goes to the trash, leaving the editing of one item and sending a request for approval will, and changing `type`, `size`, `side`, `align`, `arrow`, `hide-icon`, `confirm-label`, `cancel-label`, `loading`, `return-focus-to`, the events `nph-confirm` and `nph-cancel` with their `source`, the rule that Confirm closes unless `preventDefault` is called, the Tab kept between the two buttons or the initial focus by type later requires redoing every consumer. | Anatomy and behavior: documentation accepted by the design owner on 19/11/2026; D-1, D-2 and D-3 answered on 22/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P138** | API and semantics of `nph-tree-select`, and the rows of `nph-tree` as a module | 24/11/2026 | Low now. No piece consumes the tree select yet; a destination folder, the files of a submission and a contract in a large tree will, and changing `mode`, `value` and `values`, the id as the value, `nph-tree-load` and `nph-tree-toggle` with the detail of `nph-tree`, the rows drawn in the shadow root of the field, or the parent carrying its children in `values` later requires redoing every consumer. | Documentation accepted by the design owner on 18/11/2026; D-1 answered the same day. API and semantics reviewed in the pull request that brings them |
+| **P139** | API and semantics of `nph-chart`, and D3 as a math utility | 24/11/2026 | Low now. No piece consumes the chart yet; a dashboard card, a report and a trend line in a card will, and changing `type`, `state`, the shape of `categories` and `series` (a donut slice is a series), `highlight`, `goal`, the string properties, the events `nph-retry` and `nph-series-visibility-change`, the keyboard on the data or the D3 modules later requires redoing every consumer. | Documentation accepted by the design owner on 22/11/2026; D-1 to D-5 answered the same day; chart library chosen by the architect on 23/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -10457,11 +10458,37 @@ the searched part (out of the v1 by the accepted documentation).
 in the pull request that brings them; the merge is the approval.
 
 
+## P139 — `nph-chart`: API and semantics, and D3 as a math utility
+**Technical conflict.** The accepted documentation (frame `7817:4454`, page `1626:31`, root `7649:2`, sets `7653:286`, `7650:79`,
+`7649:20`, `7651:77`, `7651:147` and component `7651:151`) draws ten types, five states of the area and four pieces, and leaves to the
+code how the data reaches the chart, where the geometry comes from, what each key does in the horizontal types, where the text
+comes from and how the area is read without sight. Three limits shape the answer: the tokens are CSS custom properties in `rem`, so
+the geometry has to be read in pixels from the browser; D3 is a low-level toolbox, and its selection modules compete with Lit for
+the DOM; and D3 brings no accessibility.
+**Decision.** `nph-chart` is one Web Component with **open Shadow DOM** (P01). Anatomy only through the `chart/*` tokens and the
+foundation chart colors the evidence names; **no token is created or changed**. No `::part`, no color property and no form
+association. What it rejects renders nothing and emits `console.error` only in development, once per cause: the rule of P21.
+1. **D3 as a math utility.** Only `d3-scale`, `d3-shape` and `d3-array`, the modules that do not touch the DOM; Lit draws the SVG.
+   They are `devDependencies`, bundled into `nph-chart` by the library build, so the consumer installs nothing and the package does not depend on the version the application has; they are ISC.
+2. **Data.** `categories` (strings) and `series` (`{ name, values, others? }`, one value or `null` per category). A donut slice is a
+   series with one value. Up to six series keep their color; the component groups the seventh on, and any series marked `others`, into one series named by `others-label`, with the values summed per category, drawn in `chart/muted`.
+3. **Pieces in the component.** The highlight, the legend, "View as table" and the tooltip are inside it; the card, with the title,
+   the description and the period, is composed around it by the screen.
+4. **Strings.** Every visible text is a string property, already localized, with no default, as in `nph-table`. The consumer writes `summary`; the component builds the rest of the description (`type-label`, the visible series and the range of the categories). The change of the highlight is read from `changeLabel`. The goal is drawn in the vertical types only; the others warn in development.
+5. **Keyboard.** One Tab stop (roving tabindex). Left and Right along a series and Up and Down between the visible series; in the
+   horizontal types the pairs swap, so Up and Down follow the categories on the screen. Home and End, and Esc for the tooltip.
+6. **Events.** `nph-retry` and `nph-series-visibility-change`, bubbling and composed, never fired by code.
+7. **Measures.** The geometry is computed from the tokens read in pixels through hidden probes, and the text width from a canvas
+   with the computed font; both are measured again on resize and when the fonts load.
+**Out of scope.** The `sparkline` cell of `nph-table`, the compact `nph-select`, `arrow-down` in `nph-icon` and the foundation sentence
+on chart text, each in its own task.
+**Status.** Documentation accepted on 22/11/2026. API and semantics are reviewed in the pull request that brings them; the merge is
+the approval.
 ---
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137 or P138 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138 or P139 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

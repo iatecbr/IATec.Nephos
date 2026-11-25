@@ -224,6 +224,7 @@ read the documentation for that version.
 | `vite` | ^8.2.2 |
 | `vitest` and `@vitest/browser-playwright` | ^5.0.5 |
 | `playwright` | ^1.62.1 |
+| `d3-scale`, `d3-shape` and `d3-array` (`devDependencies`, bundled into `nph-chart`; types in `@types/d3-*`) | ^4.0.3, ^3.2.1 and ^3.2.5 |
 | `typescript` | ^5.9.3 |
 | `@fontsource/noto-sans` and `@fontsource/ibm-plex-mono` | ^5.3.0 |
 | `cspell` | ^10.4.0 |

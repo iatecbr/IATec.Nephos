@@ -231,6 +231,23 @@ for (const file of distFiles) {
  * and the row hands the contract to the text beside the calendar button.
  */
 const INTERNAL_ELEMENTS = ['nph-date-picker-control'];
+/*
+ * The math modules `nph-chart` bundles are not part of its contract (DSA-101): nothing a consumer reads of the chart, the
+ * declarations and the manifest, imports or types a structure of them, and the script has no import left to install.
+ * A comment may name them; an import or a type may not.
+ */
+const D3_IMPORT = /(?:from|import)\s*["']d3-[a-z-]+["']|import\(["']d3-[a-z-]+["']\)/;
+const D3_TYPE = /\bd3\.|@types\/d3|\bd3-[a-z]+["'`]/;
+for (const file of [...javascript, ...walk(dist).filter((path) => path.endsWith('.d.ts'))]) {
+  if (!/nph-chart/.test(relative(root, file))) continue;
+  const text = readFileSync(file, 'utf8');
+  check(!D3_IMPORT.test(text), `${relative(root, file)}: imports a math module, which must be bundled or not exposed`);
+}
+const chartModule = (JSON.parse(readFileSync(join(dist, 'custom-elements.json'), 'utf8')).modules ?? []).filter((entry) =>
+  /nph-chart/.test(entry.path ?? ''),
+);
+check(chartModule.length > 0, 'dist/custom-elements.json: no module of nph-chart');
+check(!D3_TYPE.test(JSON.stringify(chartModule)), 'dist/custom-elements.json: the nph-chart module exposes a math library type');
 const definitions = new Map();
 for (const file of javascript) {
   const where = relative(root, file);

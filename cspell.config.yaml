@@ -282,6 +282,7 @@ dictionaryDefinitions:
       - tabpanel
       - textareas
       - textboxes
+      - sparkline
       - togglebutton
       - toggletip
       - treegrid
