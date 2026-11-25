@@ -1124,9 +1124,9 @@ describe('load on demand', () => {
       await userEvent.keyboard('{ArrowDown}');
       expect(root(tree).activeElement).toBe(row);
       expect(row.matches(':focus-visible')).toBe(true);
-      const ring = getComputedStyle(row, '::after');
+      const ring = getComputedStyle(row, '::before');
       expect(ring.borderTopColor).toBe(color('--nph-tree-focus-border'));
-      expect(Number.parseFloat(ring.height)).toBeCloseTo(row.getBoundingClientRect().height, 0);
+      expect(Number.parseFloat(ring.height)).toBeCloseTo(row.getBoundingClientRect().height + 2 * px('--nph-tree-focus-border-width'), 0);
     });
   });
   it('Enter and a click on the error row try again: the row turns into loading and the consumer is asked', async () => {
@@ -1206,7 +1206,7 @@ describe('load on demand', () => {
     await userEvent.unhover(rowFace);
     await enter(tree);
     await userEvent.keyboard('{ArrowDown}');
-    expect(getComputedStyle(row, '::after').borderTopColor).toBe(color('--nph-tree-focus-border'));
+    expect(getComputedStyle(row, '::before').borderTopColor).toBe(color('--nph-tree-focus-border'));
   });
 
   it('the first load of the tree shows three skeleton rows at the height of the item, and the tree is busy', async () => {
@@ -1423,20 +1423,41 @@ describe('hover and focus', () => {
     expect(getComputedStyle(face(tree, 'a')).backgroundColor).toBe('rgba(0, 0, 0, 0)');
   });
 
-  it('the focus is a border of `tree/focus-border-width` in `focus/border`, drawn inside the whole row, with the corner of the item', async () => {
+  it('the focus is a border of `tree/focus-border-width` outside the row and a halo of `tree/focus-halo-width` outside the border, with the corner of the item', async () => {
     const tree = await mount();
     await enter(tree);
     const row = item(tree, 'docs');
     expect(row.matches(':focus-visible')).toBe(true);
-    const ring = getComputedStyle(row, '::after');
-    expect(Number.parseFloat(ring.borderTopWidth)).toBe(px('--nph-tree-focus-border-width'));
+    const [borderWidth, haloWidth] = [px('--nph-tree-focus-border-width'), px('--nph-tree-focus-halo-width')];
+    const ring = getComputedStyle(row, '::before');
+    expect(Number.parseFloat(ring.borderTopWidth)).toBe(borderWidth);
     expect(ring.borderTopColor).toBe(color('--nph-tree-focus-border'));
     expect(Number.parseFloat(ring.borderTopLeftRadius)).toBe(px('--nph-tree-focus-border-radius'));
-    expect(Number.parseFloat(ring.width)).toBeCloseTo(row.getBoundingClientRect().width, 0);
-    expect(Number.parseFloat(ring.height)).toBeCloseTo(row.getBoundingClientRect().height, 0);
+    expect(Number.parseFloat(ring.width)).toBeCloseTo(row.getBoundingClientRect().width + 2 * borderWidth, 0);
+    expect(Number.parseFloat(ring.height)).toBeCloseTo(row.getBoundingClientRect().height + 2 * borderWidth, 0);
+    const halo = getComputedStyle(row, '::after');
+    expect(Number.parseFloat(halo.borderTopWidth)).toBe(haloWidth);
+    expect(halo.borderTopColor).toBe(color('--nph-tree-focus-halo'));
+    expect(Number.parseFloat(halo.borderTopLeftRadius)).toBe(px('--nph-tree-focus-halo-radius'));
+    expect(Number.parseFloat(halo.width)).toBeCloseTo(row.getBoundingClientRect().width + 2 * (borderWidth + haloWidth), 0);
+    expect(Number.parseFloat(halo.height)).toBeCloseTo(row.getBoundingClientRect().height + 2 * (borderWidth + haloWidth), 0);
     expect(getComputedStyle(row).boxShadow).toBe('none');
     expect(getComputedStyle(row).outlineStyle).toBe('none');
-    expect(getComputedStyle(face(tree, 'readme'), '::after').content).toBe('none');
+    expect(getComputedStyle(face(tree, 'readme'), '::before').content).toBe('none');
+    expect(getComputedStyle(item(tree, 'readme'), '::after').content).toBe('none');
+  });
+  it('the focused row is above the next row, so its halo is not covered', async () => {
+    const tree = await mount();
+    await enter(tree);
+    expect(getComputedStyle(item(tree, 'docs')).zIndex).toBe('1');
+    expect(getComputedStyle(item(tree, 'readme')).zIndex).toBe('auto');
+  });
+  it('the row that scrolls to the edge keeps room for its border and its halo', async () => {
+    const tree = await mount();
+    await enter(tree);
+    const margin = px('--nph-tree-focus-border-width') + px('--nph-tree-focus-halo-width');
+    expect(Number.parseFloat(getComputedStyle(item(tree, 'docs')).scrollMarginTop)).toBe(margin);
+    expect(Number.parseFloat(getComputedStyle(item(tree, 'docs')).scrollMarginBottom)).toBe(margin);
   });
 
   it('the focus wins over the hover: the item with focus takes no hover background, with the pointer over it', async () => {
@@ -1445,22 +1466,21 @@ describe('hover and focus', () => {
     await userEvent.hover(face(tree, 'docs'));
     expect(getComputedStyle(face(tree, 'docs')).backgroundColor).toBe('rgba(0, 0, 0, 0)');
     expect(getComputedStyle(face(tree, 'docs')).color).toBe(color('--nph-tree-item-foreground'));
-    expect(getComputedStyle(item(tree, 'docs'), '::after').borderTopColor).toBe(color('--nph-tree-focus-border'));
+    expect(getComputedStyle(item(tree, 'docs'), '::before').borderTopColor).toBe(color('--nph-tree-focus-border'));
   });
 
-  it('on the selected item with focus the border covers the bar, and the selection stays by the background, the color and the weight', async () => {
+  it('on the selected item with focus the bar stays visible inside the border, and the selection stays by the background, the color and the weight', async () => {
     const tree = await mount({ selection: 'single', selected: 'docs' });
     await enter(tree);
     expect(getComputedStyle(face(tree, 'docs')).backgroundColor).toBe(background('--nph-tree-item-background-selected'));
     expect(getComputedStyle(face(tree, 'docs')).color).toBe(color('--nph-tree-item-foreground-selected'));
     expect(getComputedStyle(face(tree, 'docs')).fontWeight).toBe(resolved('font-weight', '--nph-text-label-md-font-weight'));
-    const ring = getComputedStyle(item(tree, 'docs'), '::after');
+    const ring = getComputedStyle(item(tree, 'docs'), '::before');
     expect(ring.borderTopColor).toBe(color('--nph-tree-focus-border'));
     const row = item(tree, 'docs').getBoundingClientRect();
-    expect(Number.parseFloat(ring.width)).toBeCloseTo(row.width, 0);
-    /* The border is drawn after the face, so it is on top of the bar. */
-    const order = (item(tree, 'docs').querySelector('.face') as HTMLElement).compareDocumentPosition(item(tree, 'docs'));
-    expect(order & Node.DOCUMENT_POSITION_CONTAINS).toBeTruthy();
+    expect(Number.parseFloat(ring.width)).toBeCloseTo(row.width + 2 * px('--nph-tree-focus-border-width'), 0);
+    /* The border is outside the row, so the bar stays visible inside it. */
+    expect(getComputedStyle(face(tree, 'docs'), '::before').backgroundColor).toBe(background('--nph-tree-indicator-background'));
   });
 
   it('a click shows no focus border: it is for the keyboard', async () => {
@@ -1468,6 +1488,7 @@ describe('hover and focus', () => {
     await userEvent.click(labelOf(tree, 'images'));
     expect(focusedKey(tree)).toBe('images');
     expect(item(tree, 'images').matches(':focus-visible')).toBe(false);
+    expect(getComputedStyle(item(tree, 'images'), '::before').content).toBe('none');
     expect(getComputedStyle(item(tree, 'images'), '::after').content).toBe('none');
   });
 });
@@ -1483,13 +1504,16 @@ describe('combined states', () => {
     expect(getComputedStyle(toggleOf(tree, 'a')).opacity).toBe('1');
   });
 
-  it('a disabled item with focus keeps the focus border on top at full opacity', async () => {
+  it('a disabled item with focus keeps the focus border and the halo on top at full opacity', async () => {
     const tree = await mount({ items: [{ id: 'a', label: 'A', disabled: true }, { id: 'b', label: 'B' }] });
     await enter(tree);
     expect(focusedKey(tree)).toBe('a');
-    const ring = getComputedStyle(item(tree, 'a'), '::after');
+    const ring = getComputedStyle(item(tree, 'a'), '::before');
     expect(ring.borderTopColor).toBe(color('--nph-tree-focus-border'));
     expect(ring.opacity).toBe('1');
+    const halo = getComputedStyle(item(tree, 'a'), '::after');
+    expect(halo.borderTopColor).toBe(color('--nph-tree-focus-halo'));
+    expect(halo.opacity).toBe('1');
     expect(getComputedStyle(item(tree, 'a')).opacity).toBe('1');
     expect(getComputedStyle(face(tree, 'a')).opacity).toBe(resolved('opacity', '--nph-tree-item-disabled-opacity'));
   });
@@ -1720,6 +1744,13 @@ describe('the row as the target', () => {
       const box = holder.getBoundingClientRect();
       expect(row.top, `step ${String(step)}`).toBeGreaterThanOrEqual(box.top);
       expect(row.bottom, `step ${String(step)}`).toBeLessThanOrEqual(box.bottom);
+      /* Once the list scrolls, the border and the halo of the row are whole too, not only the row box. */
+      if (holder.scrollTop > 0) {
+        const reach = px('--nph-tree-focus-border-width') + px('--nph-tree-focus-halo-width');
+        expect(row.top - reach, `step ${String(step)} halo`).toBeGreaterThanOrEqual(box.top);
+        expect(row.bottom + reach, `step ${String(step)} halo`).toBeLessThanOrEqual(box.bottom);
+      }
+      expect(holder.scrollWidth, `step ${String(step)} sideways`).toBeLessThanOrEqual(holder.clientWidth);
     }
     expect(holder.scrollTop).toBeGreaterThan(0);
     await userEvent.keyboard('{Home}');
@@ -1800,7 +1831,8 @@ describe('forced colors', () => {
       expect(getComputedStyle(face(tree, 'docs')).color).toBe(system.color);
       expect(getComputedStyle(face(tree, 'docs'), '::before').backgroundColor).toBe(system.color);
       await enter(tree);
-      expect(getComputedStyle(item(tree, 'docs'), '::after').borderTopColor).toBe(system.backgroundColor);
+      expect(getComputedStyle(item(tree, 'docs'), '::before').borderTopColor).toBe(system.backgroundColor);
+      expect(getComputedStyle(item(tree, 'docs'), '::after').display).toBe('none');
     } finally {
       await session.send('Emulation.setEmulatedMedia', { features: [{ name: 'forced-colors', value: 'none' }] });
     }
@@ -1867,8 +1899,8 @@ describe('token contract', () => {
     }
   });
 
-  it('consumes every one of the twenty-five tree/* tokens', () => {
-    expect(declared).toHaveLength(25);
+  it('consumes every one of the twenty-eight tree/* tokens', () => {
+    expect(declared).toHaveLength(28);
     for (const name of declared) {
       expect(used, name).toContain(name);
     }

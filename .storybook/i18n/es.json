@@ -14388,8 +14388,8 @@
         "Una barra en el borde inicial de la fila, de arriba abajo, en el elemento elegido de la selección single."
       ],
       [
-        "Borde de foco",
-        "Un borde dibujado por dentro de toda la fila, sobre la barra. En un elemento deshabilitado queda con la opacidad total."
+        "Borde y halo de foco",
+        "Un borde por fuera de la fila y un halo por fuera del borde. En un elemento deshabilitado quedan con la opacidad total."
       ],
       [
         "Fila de error",
@@ -14420,7 +14420,7 @@
       ],
       [
         "Foco visible",
-        "Un borde por dentro de toda la fila, sobre el elemento elegido y la barra, con opacidad total incluso en un elemento deshabilitado. El elemento con foco no recibe fondo de hover, para que el borde mantenga el contraste."
+        "Un borde por fuera de la fila y un halo por fuera del borde, con la barra del elemento elegido visible por dentro, con opacidad total incluso en un elemento deshabilitado. El elemento con foco no recibe fondo de hover."
       ],
       [
         "El color no es la única señal",
@@ -14440,7 +14440,7 @@
       ],
       [
         "Límites conocidos",
-        "La caja no recibe su propio hover cuando el puntero está sobre la fila, porque el nph-checkbox solo reacciona al hover dentro de su propio shadow root; el borde de foco del elemento deshabilitado espera una decisión; el árbol no se desplaza solo, ya que el contenedor da el desplazamiento."
+        "La caja no recibe su propio hover cuando el puntero está sobre la fila, porque el nph-checkbox solo reacciona al hover dentro de su propio shadow root; el borde y el halo de foco del elemento deshabilitado quedan con la opacidad total; el árbol no se desplaza solo, ya que el contenedor da el desplazamiento."
       ]
     ],
     "examplesTitle": "Ejemplos",

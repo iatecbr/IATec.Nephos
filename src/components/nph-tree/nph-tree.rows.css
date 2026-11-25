@@ -14,6 +14,9 @@
   margin: 0;
   padding: var(--nph-tree-padding);
   list-style: none;
+  /* The outer pixel of the halo passes the padding at the inline edge: it is clipped there, so it never opens a
+     horizontal scroll in the container. The block axis stays visible. */
+  overflow-x: clip;
 }
 
 /* The level: the children of an open branch are indented by one step, with no space between items. */
@@ -177,7 +180,7 @@ li {
   color: var(--nph-tree-icon-foreground-selected);
 }
 
-/* Disabled: the whole face fades, once. The item still takes focus, and its border stays at full opacity. */
+/* Disabled: the whole face fades, once. The item still takes focus, and its border and halo stay at full opacity. */
 .item[aria-disabled='true'] {
   cursor: default;
 }
@@ -186,16 +189,35 @@ li {
   opacity: var(--nph-tree-item-disabled-opacity);
 }
 
-/* Focus: a border drawn inside the whole row, over the bar of the selected item. */
+/* Focus: a border outside the row and, outside the border, a halo, as the other list items. The rows stack with no
+   gap, so the focused row stays above its neighbors and the next row does not cover the halo. The bar of the
+   selected item stays visible inside the border. */
+.item:focus-visible,
+.item[data-focus] {
+  z-index: 1;
+  /* A row that scrolls to the edge of its container shows the border and the halo whole (WCAG 2.4.11). */
+  scroll-margin-block: calc(var(--nph-tree-focus-border-width) + var(--nph-tree-focus-halo-width));
+}
+.item:focus-visible::before,
 .item:focus-visible::after,
+.item[data-focus]::before,
 .item[data-focus]::after {
   content: '';
   position: absolute;
-  inset: 0;
   box-sizing: border-box;
+  pointer-events: none;
+}
+.item:focus-visible::before,
+.item[data-focus]::before {
+  inset: calc(-1 * var(--nph-tree-focus-border-width));
   border: var(--nph-tree-focus-border-width) solid var(--nph-tree-focus-border);
   border-radius: var(--nph-tree-focus-border-radius);
-  pointer-events: none;
+}
+.item:focus-visible::after,
+.item[data-focus]::after {
+  inset: calc(-1 * (var(--nph-tree-focus-border-width) + var(--nph-tree-focus-halo-width)));
+  border: var(--nph-tree-focus-halo-width) solid var(--nph-tree-focus-halo);
+  border-radius: var(--nph-tree-focus-halo-radius);
 }
 
 /* ----- the error row ---------------------------------------------------------- */
@@ -259,9 +281,14 @@ li {
 
 /* The browser drops backgrounds and keeps borders: the selection is told by system colors. */
 @media (forced-colors: active) {
+  .item:focus-visible::before,
+  .item[data-focus]::before {
+    border-color: Highlight;
+  }
+  /* The halo is decoration: a system color would paint it as a band of the border. */
   .item:focus-visible::after,
   .item[data-focus]::after {
-    border-color: Highlight;
+    display: none;
   }
 
   .item[data-selected] .face {

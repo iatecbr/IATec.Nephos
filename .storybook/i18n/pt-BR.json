@@ -14388,8 +14388,8 @@
         "Uma barra na borda inicial da linha, de cima a baixo, no item escolhido da seleção single."
       ],
       [
-        "Borda de foco",
-        "Uma borda desenhada por dentro da linha inteira, sobre a barra. Num item desabilitado ela fica com a opacidade total."
+        "Borda e halo de foco",
+        "Uma borda por fora da linha e um halo por fora da borda. Num item desabilitado eles ficam com a opacidade total."
       ],
       [
         "Linha de erro",
@@ -14420,7 +14420,7 @@
       ],
       [
         "Foco visível",
-        "Uma borda por dentro da linha inteira, sobre o item escolhido e a barra, com opacidade total até num item desabilitado. O item com foco não recebe fundo de hover, para a borda manter o contraste."
+        "Uma borda por fora da linha e um halo por fora da borda, com a barra do item escolhido visível por dentro, com opacidade total até num item desabilitado. O item com foco não recebe fundo de hover."
       ],
       [
         "A cor não é o único sinal",
@@ -14440,7 +14440,7 @@
       ],
       [
         "Limites conhecidos",
-        "A caixa não recebe o próprio hover quando o ponteiro está sobre a linha, porque o nph-checkbox só reage ao hover dentro do próprio shadow root; a borda de foco do item desabilitado aguarda uma decisão; a árvore não rola sozinha, já que o contêiner dá a rolagem."
+        "A caixa não recebe o próprio hover quando o ponteiro está sobre a linha, porque o nph-checkbox só reage ao hover dentro do próprio shadow root; a borda e o halo de foco do item desabilitado ficam com a opacidade total; a árvore não rola sozinha, já que o contêiner dá a rolagem."
       ]
     ],
     "examplesTitle": "Exemplos",

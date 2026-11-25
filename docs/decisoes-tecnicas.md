@@ -7751,6 +7751,9 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
 14. **Look and movement.** The face of the row carries the background, the bar and the opacity of a
     disabled item; the focus border is the `::after` of the row, drawn inside, over the bar and at
     full opacity (the recommendation of D-2). Focus wins over hover; selected with hover is selected.
+    **Update (DSA-93, 2026-11-18):** the focus moved to the border and halo of the list items: the
+    `::before` draws a 1 px border outside the row and the `::after` a 4 px halo outside the border, with
+    the bar visible inside and the focused row above its neighbors. The text above stays as history.
     The chevron is one `chevron-right` that turns a quarter in `motion/expand-duration` and
     `motion/expand-easing`; the open chevron is that glyph turned, the same drawing as
     `chevron-down`; with reduced motion it swaps with no turning. The spinner takes `color/primary`
@@ -7758,7 +7761,7 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
     the indent, the bar and the closed chevron. With forced colors the selection and the focus use
     system colors. Nothing else moves.
 
-15. **Tokens.** Only `--nph-tree-*` (all twenty-five), the text roles `--nph-text-body-md-*` and
+15. **Tokens.** Only `--nph-tree-*` (every one of them), the text roles `--nph-text-body-md-*` and
     `--nph-text-label-md-*`, the motion pair and `--nph-color-primary`. No token was created or
     changed, and the CSS has no literal measure.
 

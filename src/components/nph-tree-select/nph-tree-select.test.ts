@@ -473,9 +473,12 @@ describe('single', () => {
     const element = await mount();
     await open(element);
     expect(row(element, 'docs').hasAttribute('data-focus')).toBe(true);
-    const ring = getComputedStyle(row(element, 'docs'), '::after');
+    const ring = getComputedStyle(row(element, 'docs'), '::before');
     expect(ring.borderTopColor).toBe(resolved('color', '--nph-tree-focus-border'));
     expect(Number.parseFloat(ring.borderTopWidth)).toBe(px('--nph-tree-focus-border-width'));
+    const halo = getComputedStyle(row(element, 'docs'), '::after');
+    expect(halo.borderTopColor).toBe(resolved('color', '--nph-tree-focus-halo'));
+    expect(Number.parseFloat(halo.borderTopWidth)).toBe(px('--nph-tree-focus-halo-width'));
     element.open = false;
     await settle(element);
     await userEvent.click(control(element));

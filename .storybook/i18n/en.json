@@ -14388,8 +14388,8 @@
         "A bar on the start edge of the row, from top to bottom, on the selected item of single selection."
       ],
       [
-        "Focus border",
-        "A border drawn inside the whole row, over the bar. On a disabled item it stays at full opacity."
+        "Focus border and halo",
+        "A border outside the row and a halo outside the border. On a disabled item they stay at full opacity."
       ],
       [
         "Error row",
@@ -14420,7 +14420,7 @@
       ],
       [
         "Visible focus",
-        "A border inside the whole row, over the selected item and the bar, at full opacity even on a disabled item. The item with focus takes no hover background, so the border keeps its contrast."
+        "A border outside the row and a halo outside the border, the bar of the selected item visible inside, at full opacity even on a disabled item. The item with focus takes no hover background."
       ],
       [
         "Color is not the only sign",
@@ -14440,7 +14440,7 @@
       ],
       [
         "Known limits",
-        "The box does not take its own hover when the pointer is over the row, because nph-checkbox hovers only inside its own shadow root; the focus border of the disabled item waits for a decision; the tree does not scroll by itself, since the container gives the scroll."
+        "The box does not take its own hover when the pointer is over the row, because nph-checkbox hovers only inside its own shadow root; the focus border and the halo of the disabled item stay at full opacity; the tree does not scroll by itself, since the container gives the scroll."
       ]
     ],
     "examplesTitle": "Examples",
