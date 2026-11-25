@@ -1066,7 +1066,7 @@
     "accessibility": [
       [
         "Contrast",
-        "The text passes 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.64:1, in primary light in light mode."
+        "The text passes 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.78:1, in primary light in light mode."
       ],
       [
         "Visible focus",
@@ -1383,7 +1383,7 @@
     "accessibility": [
       [
         "Contrast",
-        "Text and icon pass 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.64:1, in primary outline and light in light mode. The primary and danger outline borders pass 3:1; the secondary outline border does not in light mode (1.93:1), and the text, or the icon with its label and tooltip, identifies the button."
+        "Text and icon pass 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.78:1, in primary outline and light in light mode. The primary and danger outline borders pass 3:1; the secondary outline border does not in light mode (1.93:1), and the text, or the icon with its label and tooltip, identifies the button."
       ],
       [
         "Visible focus",

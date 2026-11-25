@@ -1066,7 +1066,7 @@
     "accessibility": [
       [
         "Contraste",
-        "O texto passa 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,64:1, no primary light do modo claro."
+        "O texto passa 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,78:1, no primary light do modo claro."
       ],
       [
         "Foco visível",
@@ -1383,7 +1383,7 @@
     "accessibility": [
       [
         "Contraste",
-        "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,64:1, no primary outline e light do modo claro. As bordas do outline de primary e danger passam 3:1; a borda do secondary outline não passa no modo claro (1,93:1), e o texto, ou o ícone com seu label e tooltip, identifica o botão."
+        "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,78:1, no primary outline e light do modo claro. As bordas do outline de primary e danger passam 3:1; a borda do secondary outline não passa no modo claro (1,93:1), e o texto, ou o ícone com seu label e tooltip, identifica o botão."
       ],
       [
         "Foco visível",
