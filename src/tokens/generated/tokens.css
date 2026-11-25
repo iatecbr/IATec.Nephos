@@ -1322,6 +1322,8 @@
   --nph-sidebar-flyout-background: var(--nph-color-background);
   --nph-sidebar-flyout-border: var(--nph-color-border-subtle);
   --nph-sidebar-flyout-foreground: var(--nph-color-foreground);
+  --nph-sidebar-panel-background: var(--nph-color-card);
+  --nph-sidebar-toggle-foreground: var(--nph-color-subtle-foreground);
   --nph-sidebar-scrim: var(--nph-overlay-scrim);
   --nph-skeleton-background: var(--nph-color-skeleton);
   --nph-status-on-solid: var(--nph-color-background);
@@ -1879,7 +1881,8 @@
   --nph-sidebar-rail-background-hover: var(--nph-color-primary-surface);
   --nph-sidebar-rail-background-active: var(--nph-color-primary);
   --nph-sidebar-rail-foreground-active: var(--nph-color-primary-foreground);
-  --nph-sidebar-panel-background: var(--nph-color-primary-surface-hover);
+  --nph-sidebar-panel-background-brand: var(--nph-color-primary-surface-hover);
+  --nph-sidebar-toggle-foreground-brand: var(--nph-color-primary-on-surface);
   --nph-sidebar-separator: var(--nph-color-primary-surface);
   --nph-sidebar-search-background: var(--nph-color-primary-surface);
   --nph-switch-track-background-checked: var(--nph-color-primary);
@@ -2161,6 +2164,7 @@
   --nph-sidebar-ring: var(--nph-core-slate-400);
   --nph-sidebar-item-foreground: var(--nph-core-slate-800);
   --nph-sidebar-group-label: var(--nph-core-slate-800);
+  --nph-sidebar-panel-border: var(--nph-core-alpha-black-0);
   --nph-status-error-border: var(--nph-core-danger-200);
   --nph-status-error-foreground: var(--nph-core-danger-800);
   --nph-status-error-surface: var(--nph-core-danger-50);
@@ -2266,7 +2270,7 @@
   --nph-focus-ring: var(--nph-theme-brand-700);
   --nph-focus-border: var(--nph-theme-brand-focus);
   --nph-focus-halo: var(--nph-theme-brand-halo);
-  --nph-sidebar-panel-border: var(--nph-theme-brand-200);
+  --nph-sidebar-panel-border-brand: var(--nph-theme-brand-200);
   --nph-sidebar-search-border: var(--nph-theme-brand-200);
   --nph-chip-counter-background: var(--nph-theme-brand-200);
   --nph-chip-counter-background-hover: var(--nph-theme-brand-300);
@@ -2501,7 +2505,8 @@
   --nph-focus-ring: var(--nph-theme-brand-400);
   --nph-focus-border: var(--nph-theme-brand-200);
   --nph-focus-halo: var(--nph-theme-brand-halo-dark);
-  --nph-sidebar-panel-border: var(--nph-theme-brand-700);
+  --nph-sidebar-panel-border: var(--nph-color-border-subtle);
+  --nph-sidebar-panel-border-brand: var(--nph-theme-brand-700);
   --nph-sidebar-search-border: var(--nph-theme-brand-700);
   --nph-table-header-background: var(--nph-color-muted);
   --nph-table-link-foreground: var(--nph-theme-brand-200);
