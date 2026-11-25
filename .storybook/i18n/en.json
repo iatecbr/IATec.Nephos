@@ -4881,7 +4881,7 @@
       ],
       [
         "6. List",
-        "color/popover, border color/input, radius/container, padding space/inline-tight, maximum height layout/max-list-height, elevation/dropdown."
+        "color/popover, border color/border-subtle, radius/container, padding space/inline-tight, maximum height layout/max-list-height, elevation/dropdown."
       ],
       [
         "7. Option",
@@ -7579,7 +7579,7 @@
       ],
       [
         "6. List",
-        "color/popover, border color/input, radius/container, padding space/inline-tight, maximum height layout/max-list-height, elevation/dropdown."
+        "color/popover, border color/border-subtle, radius/container, padding space/inline-tight, maximum height layout/max-list-height, elevation/dropdown."
       ],
       [
         "7. Focus ring",

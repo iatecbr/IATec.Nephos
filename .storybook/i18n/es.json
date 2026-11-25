@@ -4881,7 +4881,7 @@
       ],
       [
         "6. Lista",
-        "color/popover, borde color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+        "color/popover, borde color/border-subtle, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
       ],
       [
         "7. Opción",
@@ -7579,7 +7579,7 @@
       ],
       [
         "6. Lista",
-        "color/popover, borde color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+        "color/popover, borde color/border-subtle, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
       ],
       [
         "7. Anillo de foco",

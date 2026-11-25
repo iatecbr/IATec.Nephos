@@ -334,7 +334,7 @@
     "clear": "nph-icon xmark icon/size-sm with space/inline-tight around it",
     "divider": "border/width in color/border",
     "arrow_area": "color/accent, control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground",
-    "list": "color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height",
+    "list": "color/popover, border/width in color/border-subtle, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height",
     "list_offset": "space/inline-tight",
     "highlight": "text/highlight-weight on the typed stretch; color/muted-foreground on the rest",
     "group_label": "text/label-sm in color/muted-foreground, space/inline on the sides and space/inline-tight above and below",

@@ -371,7 +371,7 @@ tokens:
   clear: "nph-icon xmark icon/size-sm with space/inline-tight around it"
   divider: "border/width in color/border"
   arrow_area: "color/accent, control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground"
-  list: "color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
+  list: "color/popover, border/width in color/border-subtle, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
   list_offset: space/inline-tight
   highlight: "text/highlight-weight on the typed stretch; color/muted-foreground on the rest"
   group_label: "text/label-sm in color/muted-foreground, space/inline on the sides and space/inline-tight above and below"
@@ -616,7 +616,7 @@ entries, the search, the groups, the highlight and the style — instead of buil
 | Clear | `nph-icon` `xmark` `icon/size-sm`, `space/inline-tight` around it |
 | Divider | `border/width` in `color/border`, right before the arrow area |
 | Arrow area | `color/accent`; `control/height-*` wide, the field height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `color/muted-foreground` |
-| List | `color/popover`; border `border/width` in `color/input`; `radius/container`; `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it; offset `space/inline-tight` |
+| List | `color/popover`; border `border/width` in `color/border-subtle`; `radius/container`; `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it; offset `space/inline-tight` |
 | Highlight | `text/highlight-weight` on the typed stretch; `color/muted-foreground` on the rest |
 | Group label | `text/label-sm` in `color/muted-foreground`; `space/inline` on the sides, `space/inline-tight` above and below |
 | Separator | `nph-separator`, `space/inline-tight` above and below |

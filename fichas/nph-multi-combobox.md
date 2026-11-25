@@ -272,7 +272,7 @@ tokens:
   remove: "nph-icon xmark icon/size-sm with space/inline-tight around it, a 24 × 24 target"
   chip_disabled: "color/muted, the label and the icon in color/muted-foreground, vertical padding space/inline-tight"
   counter: "the subject in text/body-md and color/foreground; nph-badge primary solid"
-  list: "the nph-combobox list: color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height, offset space/inline-tight"
+  list: "the nph-combobox list: color/popover, border/width in color/border-subtle, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height, offset space/inline-tight"
   option: "nph-option with the checkbox marker: the checked nph-checkbox, no selected background"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control and, on the remove button, focus/border-radius-control and focus/radius-control-with-border"
   disabled: state/disabled-opacity
@@ -483,7 +483,7 @@ the groups, the highlight and the style. The `checkbox` marker of the option is 
 | Remove | `nph-icon` `xmark` `icon/size-sm`, `space/inline-tight` around it: a 24 × 24 target |
 | Disabled chip | `color/muted`; the label and the icon in `color/muted-foreground`; vertical padding `space/inline-tight` |
 | Counter | The subject in `text/body-md`, `color/foreground`; `nph-badge` `primary` `solid` |
-| List | The `nph-combobox` list: `color/popover`, border `border/width` in `color/input`, `radius/container`, `elevation/dropdown`, padding `space/inline-tight`, maximum height `layout/max-list-height`, offset `space/inline-tight` |
+| List | The `nph-combobox` list: `color/popover`, border `border/width` in `color/border-subtle`, `radius/container`, `elevation/dropdown`, padding `space/inline-tight`, maximum height `layout/max-list-height`, offset `space/inline-tight` |
 | Option | `nph-option` with the `checkbox` marker |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control`; on the remove button, `focus/border-radius-control` and `focus/radius-control-with-border` |
 | Disabled | `state/disabled-opacity` on `color/muted` |

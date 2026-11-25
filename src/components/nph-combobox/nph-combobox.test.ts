@@ -1148,13 +1148,13 @@ describe('the list in the top layer', () => {
     expect(list(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-max-list-height') + 2 * px('--nph-border-width'), 0);
   });
 
-  it('the list: color/popover, border color/input, radius/container, elevation/dropdown', async () => {
+  it('the list: color/popover, border color/border-subtle, radius/container, elevation/dropdown', async () => {
     const element = await mount();
     element.open = true;
     await settle();
     const style = getComputedStyle(list(element));
     expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-popover'));
-    expect(style.borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(style.borderTopColor).toBe(resolved('color', '--nph-color-border-subtle'));
     expect(style.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-container'));
     expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-dropdown'));
   });
@@ -1360,6 +1360,7 @@ describe('token contract', () => {
       '--nph-layout-input-width',
       '--nph-color-background',
       '--nph-color-input',
+      '--nph-color-border-subtle',
       '--nph-border-width',
       '--nph-radius-control',
       '--nph-control-height-default',

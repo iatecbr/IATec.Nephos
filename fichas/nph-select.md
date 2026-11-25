@@ -211,7 +211,7 @@ tokens:
   start: "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm"
   divider: "border/width in color/border"
   arrow_area: "color/accent (color/muted when disabled), control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground"
-  list: "color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
+  list: "color/popover, border/width in color/border-subtle, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
   list_offset: space/inline-tight
   motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control"
@@ -385,7 +385,7 @@ its options; `nph-icon` and `nph-avatar`, in the start, the arrow and the check;
 | Start | `nph-icon` `icon/size-sm` in `color/muted-foreground`, or `nph-avatar` `sm` |
 | Divider | `border/width` in `color/border`, beside the arrow area (D7) |
 | Arrow area | `color/accent`, `color/muted` when disabled; `control/height-*` wide, the trigger height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `color/muted-foreground` |
-| List | `color/popover`; border `border/width` in `color/input`; `radius/container`; `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it (D9); offset `space/inline-tight` (D1) |
+| List | `color/popover`; border `border/width` in `color/border-subtle`; `radius/container`; `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it (D9); offset `space/inline-tight` (D1) |
 | Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing`; with reduced motion, opacity only in `motion/hover-duration` (D2, `design.md` 2g) |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
 | Disabled | `state/disabled-opacity` on `color/muted` |
