@@ -1,0 +1,171 @@
+{
+  "piece": "nph-toast-region",
+  "level": "component",
+  "status": "active",
+  "solves": "Places and stacks the toasts of the nph-notification in a fixed region of the screen, at the bottom-right corner, with up to three in view and a queue for the rest, and announces them to a screen reader through its own live regions, so the person is told of a result without leaving what they are doing.",
+  "use_when": [
+    "A short notice after an action of the person that does not lock the screen: an export in the queue, an invitation sent, a failure that can be fixed.",
+    "A failure that can be fixed, or a warning with a short action, as a toast with an action: it does not close by itself and the person has time to act.",
+    "A task in progress, as a loading toast that stays until the task ends and then turns into success or error.",
+    "Once per page, at the start of the page, with every toast of the application going into it."
+  ],
+  "do_not_use_when": [
+    "For a message tied to an area, a field or a form: use the inline nph-notification in the area itself.",
+    "For the validation error of a field: use the error message of nph-field.",
+    "For a decision that needs an answer before going on: use nph-dialog. The toast does not ask and does not lock the screen.",
+    "To draw one toast: use nph-notification with placement toast inside the region.",
+    "To put anything but a toast in it: the region receives only nph-notification with placement toast.",
+    "For more than one region in the page, or another corner: the region has a single position."
+  ],
+  "api": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The accessible name of the region, already localized by the consuming application, such as Notifications. It names the landmark (P109, item 5). Empty emits console.error in development, one per cause, and the region still works."
+    },
+    "slots": {
+      "default": "the toasts: nph-notification with placement toast, appended in order of arrival and removed by the application on nph-close"
+    },
+    "events": "none"
+  },
+  "variants": {
+    "quantity": {
+      "axis": "density",
+      "choose_when": "Not a property: one, two or three toasts in view, by what the application appended; the fourth and the next ones wait in the queue.",
+      "do_not_combine_with": [
+        "More than three toasts in view: the region never shows them together."
+      ]
+    },
+    "screen": {
+      "axis": "size",
+      "choose_when": "Not a property: from 768 px the default screen, at the bottom-right corner; below 768 px the compact screen, at the base from side to side. The window decides, not the application.",
+      "do_not_combine_with": []
+    }
+  },
+  "states": {
+    "empty": {
+      "token": "not_applicable",
+      "changes_for_user": "Nothing is drawn: the region has no background, border or shadow. It stays in the top layer and keeps its two live regions mounted."
+    },
+    "stacked": {
+      "token": "toast-region/gap, toast-region/inset, toast-region/inset-compact",
+      "changes_for_user": "The toasts stack from the oldest at the top to the newest at the bottom, next to the corner, with space only between them."
+    },
+    "queued": {
+      "token": "not_applicable",
+      "changes_for_user": "The fourth and the next toasts wait out of view, in order of arrival, and are not announced; nothing is drawn for the queue. They come into view when a toast leaves."
+    },
+    "entering-leaving": {
+      "token": "toast-region/enter-duration, toast-region/exit-duration, motion/enter-easing, motion/exit-easing, motion/hover-duration",
+      "changes_for_user": "A toast fades in sliding up and fades out sliding down; with reduced motion it only fades, in motion/hover-duration."
+    },
+    "paused": {
+      "token": "not_applicable",
+      "changes_for_user": "With the pointer on the region, the focus inside it or a modal dialog open, every toast holds its time and goes on with what was left."
+    },
+    "below-a-modal-dialog": {
+      "token": "overlay/scrim",
+      "changes_for_user": "With a modal dialog open, the region stays in view below the scrim, inert, until the dialog closes; a toast that arrives is announced inside the dialog."
+    },
+    "scrolling": {
+      "token": "color/foreground, focus/ring-width",
+      "changes_for_user": "When the window is lower than the stack, the list gets a height limit, scrolls kept at the bottom and takes the focus; a ring shows while it has it."
+    }
+  },
+  "business_rules": [
+    "The region receives only nph-notification with placement toast; the toast keeps its severity, text, actions and close.",
+    "At most three toasts in view. The fourth and the next ones wait in a queue, in order of arrival, mounted but hidden and inert, with no countdown and no announcement, and come into view when a toast leaves.",
+    "A toast that leaves keeps its place for the length of the exit, so there are never four in view.",
+    "There is no priority in the queue in v1: with three toasts that do not close by themselves, a new one waits for the person to close one.",
+    "The newest toast is at the bottom, next to the corner; toasts are aligned by the end edge.",
+    "The region is role region with the name the application gave, and mounts a polite and an assertive live region even when empty. Error and warning go to the assertive one, the others to the polite one, with the heading and the description.",
+    "A toast is announced when it comes into view and again when its severity, heading or description change in place.",
+    "The toast inside the region has no role of its own, so it is not announced twice. The inline notification keeps its role.",
+    "The toast never takes or moves the focus by itself.",
+    "Every toast pauses together with the pointer on the region or the focus inside it, and under a modal dialog; each toast also keeps its own pause.",
+    "Error, loading and a toast with an action never close by themselves, whatever the region does.",
+    "One region per page, mounted once at the start of the page and kept there."
+  ],
+  "domain_errors": [],
+  "tokens": {
+    "gap": "toast-region/gap",
+    "inset": [
+      "toast-region/inset",
+      "toast-region/inset-compact"
+    ],
+    "motion": [
+      "toast-region/enter-duration",
+      "toast-region/exit-duration",
+      "motion/enter-easing",
+      "motion/exit-easing",
+      "motion/hover-duration"
+    ],
+    "scrim": "overlay/scrim",
+    "focus": [
+      "color/foreground",
+      "focus/ring-width"
+    ],
+    "toast": "every token inside the toast belongs to the nph-notification, by composition, with no change"
+  },
+  "ai_hints": [
+    "Mount one nph-toast-region at the start of the page, with label already localized, and append every toast of the application to it as nph-notification placement toast.",
+    "Remove the toast on nph-close; the region lets the next one in. Listen to nph-close on the region or on the toast.",
+    "Give error and warning toasts an action when the person can fix them: they never close by themselves.",
+    "Do not build your own container, position or gap for toasts: the region does it, in the top layer, with the tokens.",
+    "Use the inline nph-notification for a message tied to an area and nph-dialog for what needs an answer; the toast is only a notice.",
+    "Do not put more than three toasts of the same moment on purpose: from the fourth they wait, with no priority."
+  ],
+  "accessibility": {
+    "semantics": "The region is role region with a name given by the application. It mounts two hidden live regions, one polite and one assertive, even when empty. The toast inside it has no role. The list takes tabindex 0 only while it scrolls.",
+    "accessible_name": "The region takes the name from label, already localized. What a screen reader reads for a toast is its heading and its description; the severity icon is decorative.",
+    "keyboard": [
+      "F6 takes the focus to the first control, the action or else the close, of the newest toast that has one. F6 again returns the focus to where it came from.",
+      "Tab and Shift+Tab go through the controls of the toasts, in the order of the page.",
+      "Esc with the focus inside a toast closes that toast, with the source escape. With the focus on the icon-only close, the first Esc closes its tooltip and the second closes the toast.",
+      "Esc outside the region does nothing to it. F6 is left alone while a modal dialog is open.",
+      "When the toast that had the focus leaves, the focus goes to the next toast that has a control or, with none, back to where it came from.",
+      "With no toast that has a control, F6 takes the focus to the list while it scrolls and is left alone otherwise."
+    ],
+    "focus": "The toast never takes the focus by itself. The region takes no focus and has no ring of its own: the rings are those of nph-button. Only the list that scrolls takes the focus, with a ring in color/foreground and focus/ring-width. Nothing in the region or the toast clips the ring of the action or of the close.",
+    "contrast": "The region has no color of its own. The text and the icon of the toast pass 4.5:1 and 3:1 in both themes, as in nph-notification.",
+    "color_alternative": "The severity also comes by the icon and by the heading of the toast. The region uses no color for order or priority."
+  },
+  "invalid_combinations": [
+    "A child that is not an nph-notification: it is drawn but outside the contract, and console.error is emitted in development.",
+    "An nph-notification with placement inline inside the region: console.error is emitted in development; use the toast placement.",
+    "A second region in the page: console.error is emitted in development; there is one per page.",
+    "An empty label: console.error is emitted in development; the region has no name."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-notification",
+      "nph-dialog"
+    ],
+    "parents": [
+      "the page root, once, at the start of the page"
+    ],
+    "children": [
+      "nph-notification"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "A validation error of a field in a toast.",
+    "A question that needs a decision in a toast.",
+    "More than three toasts in view at the same time.",
+    "A toast that covers the whole stack with no way to reach it by keyboard.",
+    "A region built by the application with its own container, position and gap.",
+    "More than one region in the page."
+  ],
+  "sources": {
+    "design_md": "design.md, the toast-region/* tokens, space/stack, motion/enter-duration, motion/exit-duration, motion/enter-easing, motion/exit-easing, motion/hover-duration and overlay/scrim",
+    "decision": "P140 — nph-toast-region: API, announcement, keyboard and queue (DSA-100)",
+    "tests": "src/components/nph-toast-region/nph-toast-region.test.ts",
+    "usage_evidence": "the three required examples of the nph-toast-region Examples story and the real region of the Live story",
+    "storybook": "src/components/nph-toast-region/nph-toast-region.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, page 5415:32, documentation 7819:4737, root 7689:2, set 7689:288"
+  }
+}

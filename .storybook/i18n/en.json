@@ -650,7 +650,12 @@
     "components-nph-chart-validation--examples": "Examples",
     "components-nph-chart-validation--legend": "Legend",
     "components-nph-chart-validation--limits": "Limits",
-    "components-nph-chart-validation--brands": "Brands"
+    "components-nph-chart-validation--brands": "Brands",
+    "components-nph-toast-region-validation": "Validation",
+    "components-nph-toast-region-validation--quantities": "Quantities",
+    "components-nph-toast-region-validation--live": "Live",
+    "components-nph-toast-region-validation--direction": "Direction",
+    "components-nph-toast-region-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -8681,7 +8686,7 @@
       "components-nph-notification-validation--close": "The close button on and off, and on solid, where the hover is the contract color at 16% and the focus is a 2 px border in the text color, with no halo. Tab to the button to see the focus.",
       "components-nph-notification-validation--toast": "The toast, stacked and single-line, with the modal elevation, which casts no shadow in dark mode. An error toast with an action and a loading toast never close by themselves.",
       "components-nph-notification-validation--time-bar": "The time bar at the base of a subtle toast that closes by itself, drawn with nph-skeleton until nph-progress is wired in. It never goes with an action, on error or on loading.",
-      "components-nph-notification-validation--region": "The toast region frame a consuming application builds: a column at the corner, up to three toasts, with notification/stack-gap between them. The region is not a piece of the library.",
+      "components-nph-notification-validation--region": "The toast column of the nph-toast-region, drawn in the flow of the page: up to three toasts, the newest next to the corner, with toast-region/gap between them.",
       "components-nph-notification-validation--required-examples": "The three required examples, each in light and dark mode: an inline error with an action in a form area, a success toast to confirm an action and a loading toast for a task in progress.",
       "components-nph-notification-validation--surfaces": "The notification on color/background and on color/popover, in light and dark mode: its own surfaces keep the contrast.",
       "components-nph-notification-validation--invalid-input": "A time bar on a toast with an action is blocked: nothing is drawn in either mode, and the console shows an error in development.",
@@ -8884,7 +8889,11 @@
       "components-nph-chart-validation--examples": "The required examples of the frame: a column with a highlight, a dashed goal and the period selector; a grouped vertical with the legend below; and a four-slice donut with the total in the center.",
       "components-nph-chart-validation--legend": "Six series: the legend below the area with a button per series, one line per slice with its value in the donut, and the group of the smaller series in chart/muted.",
       "components-nph-chart-validation--limits": "What the set does not draw: a negative value on the zero axis, a column with no data, a long category cut with an ellipsis and twelve categories with a label every two.",
-      "components-nph-chart-validation--brands": "The seven brands in light and dark: the focus border and the halo of the legend item and of the data follow the brand, and the series colors stay the same."
+      "components-nph-chart-validation--brands": "The seven brands in light and dark: the focus border and the halo of the legend item and of the data follow the brand, and the series colors stay the same.",
+      "components-nph-toast-region-validation--quantities": "One, two and three toasts on the default screen and on the compact one, in light and dark mode: the oldest at the top, the newest at the bottom, 16 apart and aligned by the end edge. On the compact screen the toast takes the width of the region.",
+      "components-nph-toast-region-validation--live": "The real region at the bottom-right corner of the window, 24 from the bottom edge and from the end edge: three toasts in view, the newest next to the corner, and two waiting in the queue, out of view and not announced.",
+      "components-nph-toast-region-validation--direction": "Right-to-left writing: the end edge is the left one, and the toasts end there.",
+      "components-nph-toast-region-validation--examples": "The three required examples, each in light and dark mode: an export in the queue, three notices in a row with a failure that can be fixed at the bottom, and a save in progress above an invitation and a failure."
     }
   },
   "multiComboboxDocs": {
@@ -11767,7 +11776,7 @@
     "closeCaption": "Close on subtle, without it, and on solid in error and in neutral.",
     "toastCaption": "Toasts: success stacked and single-line, an error with an action and a loading toast.",
     "timeBarCaption": "Subtle toasts that close by themselves, with the time bar at the base.",
-    "regionCaption": "The region frame, at most three toasts, the newest next to the corner.",
+    "regionCaption": "The toast column of the nph-toast-region, at most three toasts, the newest next to the corner.",
     "requiredCaption": "An inline error with an action in a form area, a success toast and a loading toast.",
     "backgroundCaption": "On color/background.",
     "popoverCaption": "On color/popover, the surface of a popover.",
@@ -11790,7 +11799,7 @@
     "derivedText": "In case of divergence, the canonical sources prevail: the nph-notification spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P108. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
     "onThisPage": "On this page",
     "sourceLabel": "Source:",
-    "purpose": "Use inline for a message tied to an area of the page, which stays until the problem is solved or the person closes it. Use toast to confirm an action or to report the end of a background task, without taking the person away from what they are doing. It does not replace the alert dialog, for what needs an answer before going on, nor the error message of a field.",
+    "purpose": "Use inline for a message tied to an area of the page, which stays until the problem is solved or the person closes it. Use toast to confirm an action or to report the end of a background task, without taking the person away from what they are doing. It does not replace the dialog, for what needs an answer before going on, nor the error message of a field.",
     "whenToUseTitle": "When to use",
     "whenToUse": [
       "Inline: a message tied to an area of the page, which stays until the problem is solved or the person closes it.",
@@ -11804,7 +11813,7 @@
     ],
     "whenNotToUseTitle": "When not to use",
     "whenNotToUse": [
-      "For what needs an answer before going on: use nph-alert-dialog.",
+      "For what needs an answer before going on: use nph-dialog, while the nph-alert-dialog is deferred.",
       "For the error of a field: it stays in nph-field.",
       "For an error that stops the person: use an inline notification near the problem.",
       "For the result of an operation with the help severity: use success, error, warning or info.",
@@ -11866,12 +11875,16 @@
         "Shows the time bar at the base of the toast. Only on a subtle toast that closes by itself; never with an action, on error or on loading, where it draws nothing and emits console.error in development."
       ],
       [
+        "paused",
+        "Holds the countdown of a toast while it is on, and lets it go on with what was left when it is turned off. The toast region sets it for the pointer on the region, the focus inside it or an open modal dialog."
+      ],
+      [
         "nph-action",
         "Event fired when the person uses an action. detail.action is primary or secondary. It bubbles and is composed."
       ],
       [
         "nph-close",
-        "Event fired when the person closes the notification or its time runs out. detail.source is close-button or timeout. It bubbles, is composed and is cancelable; without preventDefault() the notification hides itself, and the application removes the element."
+        "Event fired when the person closes the notification or its time runs out. detail.source is close-button, timeout or, inside the nph-toast-region, escape. It bubbles, is composed and is cancelable; without preventDefault() the notification hides itself, and the application removes the element."
       ]
     ],
     "sourceApi": "nph-notification spec sheet; docs/decisoes-tecnicas.md › P108",
@@ -11958,11 +11971,11 @@
     "toastTitle": "Toast and region",
     "toastList": [
       "A toast is 360 px wide, or the maximum of 440 px when it is single-line; it is never wider than its container.",
-      "The toast region is not a piece of the library: the application builds it at the bottom-right corner, with up to three toasts, notification/stack-gap between them, the newest next to the corner and in front.",
+      "The toasts of the page live in the nph-toast-region: it places them at the bottom-right corner, with up to three in view and the rest in a queue, toast-region/gap between them and the newest next to the corner.",
       "A loading toast turns into success or error in the same toast when the task ends: the application changes its severity.",
       "The toast never moves focus."
     ],
-    "regionCaption": "The region frame: a loading toast, a success toast and an error toast with an action.",
+    "regionCaption": "The toast column of the region: a loading toast, a success toast and an error toast with an action.",
     "regionLabel": "Notifications",
     "sourceToast": "Figma, documentation of nph-notification (3442:10163); nph-notification spec sheet",
     "statesTitle": "States",
@@ -12028,7 +12041,7 @@
     "relations": [
       "The icon comes only from nph-icon, in the color of the severity; on loading, the nph-spinner.",
       "Actions are nph-button at the size default: the main one in the type of the severity, solid, and the secondary one ghost.",
-      "What needs an answer before going on is not a notification: it goes to the alert dialog, which does not exist yet. A field error stays in nph-field.",
+      "What needs an answer before going on is not a notification: it goes to the nph-dialog, while the alert dialog is deferred. A field error stays in nph-field.",
       "The time bar is an nph-skeleton line until nph-progress is wired in; a text action that navigates waits for nph-link."
     ],
     "examplesTitle": "Required examples",
@@ -18171,5 +18184,39 @@
     },
     "seriesLabel": "Series",
     "changeLabel": "up 12% vs last month"
+  },
+  "toastRegionValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "close": "Close",
+    "action": "Choose another",
+    "regionLabel": "Notifications",
+    "liveCaption": "The real region, fixed to the bottom-right corner of the window: three toasts in view, the newest next to the corner, and two more waiting in the queue.",
+    "samples": {
+      "info": {
+        "heading": "Export queued",
+        "description": "We will let you know when the file is ready."
+      },
+      "success": {
+        "heading": "Invitation sent",
+        "description": "The team can already access the project."
+      },
+      "error": {
+        "heading": "Upload failed",
+        "description": "The file is over the allowed size."
+      },
+      "loading": {
+        "heading": "Saving changes…",
+        "description": "This takes a few seconds."
+      },
+      "queuedA": {
+        "heading": "Report generated",
+        "description": "The file is in your downloads folder."
+      },
+      "queuedB": {
+        "heading": "Settings updated",
+        "description": "The new settings are already active."
+      }
+    }
   }
 }

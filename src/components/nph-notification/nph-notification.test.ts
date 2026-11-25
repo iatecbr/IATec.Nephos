@@ -114,6 +114,7 @@ describe('registration and API', () => {
         'heading',
         'hideClose',
         'layout',
+        'paused',
         'placement',
         'secondaryAction',
         'severity',
@@ -1195,7 +1196,7 @@ describe('token contract', () => {
     }
   });
 
-  it('every notification token of the contract is read by the CSS, but the gap of the region, which belongs to the consumer container', () => {
+  it('every notification token of the contract is read by the CSS, but the one the region no longer needs and the foundation task will remove (DSA-103)', () => {
     const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-notification-[a-z0-9-]+)\)/g)].map((match) => match[1] as string));
     const all = [...new Set([...tokensCss.matchAll(/(--nph-notification-[a-z0-9-]+):/g)].map((match) => match[1] as string))];
     expect(all.length).toBeGreaterThan(50);
@@ -1235,5 +1236,70 @@ describe('token contract', () => {
   it('the elevation is the modal effect, used directly: there is no notification token for it', () => {
     expect(cssWithoutComments).toContain('var(--nph-elevation-modal)');
     expect(tokensCss).not.toContain('--nph-notification-elevation');
+  });
+});
+
+describe('inside the nph-toast-region (DSA-100)', () => {
+  const inRegion = async (attributes: Attributes = {}): Promise<{ region: HTMLElement; note: NphNotification }> => {
+    const region = document.createElement('nph-toast-region');
+    region.setAttribute('label', 'Notifications');
+    const note = document.createElement('nph-notification');
+    const all: Attributes = { description: DESCRIPTION, 'close-label': CLOSE, placement: 'toast', ...attributes };
+    for (const [name, value] of Object.entries(all)) {
+      if (value !== undefined) note.setAttribute(name, value === true ? '' : value);
+    }
+    region.append(note);
+    document.body.append(region);
+    await note.updateComplete;
+    return { region, note };
+  };
+
+  it('paused holds the countdown and goes on with the time that was left', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { note } = await mount({ attributes: { placement: 'toast' } });
+    const seen: string[] = [];
+    note.addEventListener('nph-close', () => seen.push('close'));
+    await vi.advanceTimersByTimeAsync(4000);
+    note.paused = true;
+    await note.updateComplete;
+    await vi.advanceTimersByTimeAsync(60000);
+    expect(seen).toEqual([]);
+    expect(note.hasAttribute('paused')).toBe(true);
+    note.paused = false;
+    await note.updateComplete;
+    await vi.advanceTimersByTimeAsync(1900);
+    expect(seen).toEqual([]);
+    await vi.advanceTimersByTimeAsync(200);
+    expect(seen).toEqual(['close']);
+  });
+
+  it('has no role inside the region, and takes it back outside', async () => {
+    await import('../nph-toast-region/nph-toast-region');
+    const { note } = await inRegion({ severity: 'error' });
+    expect(note.hasAttribute('role')).toBe(false);
+    document.body.append(note);
+    await note.updateComplete;
+    expect(note.getAttribute('role')).toBe('alert');
+  });
+
+  it('Esc closes the toast with the source escape inside the region, and does nothing outside it', async () => {
+    await import('../nph-toast-region/nph-toast-region');
+    const outside = await mount({ attributes: { placement: 'toast' } });
+    const seen: string[] = [];
+    document.body.addEventListener('nph-close', (event) => seen.push((event as CustomEvent<NphNotificationCloseDetail>).detail.source));
+    outside.note.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true, cancelable: true }));
+    expect(seen).toEqual([]);
+    const { note } = await inRegion();
+    note.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true, cancelable: true }));
+    expect(seen).toEqual(['escape']);
+    expect(note.hidden).toBe(true);
+  });
+
+  it('an inline notification takes no Esc, even in a region-less page', async () => {
+    const { note } = await mount();
+    const seen: string[] = [];
+    note.addEventListener('nph-close', () => seen.push('close'));
+    note.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true, cancelable: true }));
+    expect(seen).toEqual([]);
   });
 });

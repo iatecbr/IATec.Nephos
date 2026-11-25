@@ -152,14 +152,14 @@ describe('nph-notification Documentation', () => {
       ]);
     });
 
-    it(`${locale}: the toast region example shows three toasts and no tag of its own`, async () => {
+    it(`${locale}: the toast column example shows three toasts, drawn in the flow of the page`, async () => {
       const target = renderInLocale(locale);
       const regions = [...target.querySelectorAll('#toast-and-region [role="group"]')];
       expect(regions).toHaveLength(2);
       for (const region of regions) {
         expect(region.querySelectorAll('nph-notification')).toHaveLength(3);
       }
-      expect(target.querySelector('nph-notification-region')).toBeNull();
+      expect(target.querySelector('nph-toast-region')).toBeNull();
     });
 
     it(`${locale}: the accessibility section names the announcement, the focus, the time and the touch target`, () => {
@@ -318,7 +318,7 @@ describe('nph-notification Validation: text only from the dictionary', () => {
     }
   });
 
-  it('Region: the frame holds three toasts and is not a piece', async () => {
+  it('Region: the column holds three toasts and is a stand-in, not the real region', async () => {
     const target = draw(validation.Region as Renderable, 'en');
     const regions = [...target.querySelectorAll('[role="group"]')];
     expect(regions).toHaveLength(2);

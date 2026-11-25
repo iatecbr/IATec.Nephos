@@ -95,6 +95,7 @@ P62.4 subsection for the detail).
 | **P137** | API and semantics of `nph-popconfirm` | 23/11/2026 | Low now. No piece consumes the popconfirm yet; deleting a row that goes to the trash, leaving the editing of one item and sending a request for approval will, and changing `type`, `size`, `side`, `align`, `arrow`, `hide-icon`, `confirm-label`, `cancel-label`, `loading`, `return-focus-to`, the events `nph-confirm` and `nph-cancel` with their `source`, the rule that Confirm closes unless `preventDefault` is called, the Tab kept between the two buttons or the initial focus by type later requires redoing every consumer. | Anatomy and behavior: documentation accepted by the design owner on 19/11/2026; D-1, D-2 and D-3 answered on 22/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P138** | API and semantics of `nph-tree-select`, and the rows of `nph-tree` as a module | 24/11/2026 | Low now. No piece consumes the tree select yet; a destination folder, the files of a submission and a contract in a large tree will, and changing `mode`, `value` and `values`, the id as the value, `nph-tree-load` and `nph-tree-toggle` with the detail of `nph-tree`, the rows drawn in the shadow root of the field, or the parent carrying its children in `values` later requires redoing every consumer. | Documentation accepted by the design owner on 18/11/2026; D-1 answered the same day. API and semantics reviewed in the pull request that brings them |
 | **P139** | API and semantics of `nph-chart`, and D3 as a math utility | 24/11/2026 | Low now. No piece consumes the chart yet; a dashboard card, a report and a trend line in a card will, and changing `type`, `state`, the shape of `categories` and `series` (a donut slice is a series), `highlight`, `goal`, the string properties, the events `nph-retry` and `nph-series-visibility-change`, the keyboard on the data or the D3 modules later requires redoing every consumer. | Documentation accepted by the design owner on 22/11/2026; D-1 to D-5 answered the same day; chart library chosen by the architect on 23/11/2026. API and semantics reviewed in the pull request that brings them |
+| **P140** | API, announcement, keyboard and queue of `nph-toast-region` | 25/11/2026 | Low now. Every toast of an application will go through the region, and changing the declarative API (children and `nph-close`), the limit of three and the queue, the `paused` property and the `escape` source of the `nph-notification`, F6 and Esc, or the live regions later requires redoing every consumer and the announcement of every toast. | Documentation accepted by the design owner on 22/11/2026; D-1 of DSA-100 answered the same day. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -6050,6 +6051,14 @@ a new token.
 and does not block the piece. API and semantics are reviewed in the pull request that brings them;
 the merge is the approval.
 
+**Amendment of 25/11/2026 (P140, DSA-100).** D-1 was answered: the toast region is the `nph-toast-region`, a piece of its own, so
+item 10 no longer holds ("the toast region is not a piece", the container of the consuming application, `notification/stack-gap`
+between the toasts). The region places the toasts with `toast-region/gap`, `toast-region/inset` and `toast-region/inset-compact`.
+Item 4 gains one pause condition: the `paused` property, which the region sets for the pointer on the region, the focus inside it and
+an open modal dialog. Item 5 changes only for the toast inside the region, which has no role of its own because the region
+announces it; the inline toast keeps it. Item 3 gains the source `escape`. This note is a supersession record; the items above stay
+as the history of P108.
+
 ---
 
 ## P109 — `nph-breadcrumb`: API and semantics
@@ -10486,9 +10495,50 @@ on chart text, each in its own task.
 the approval.
 ---
 
+## P140 — `nph-toast-region`: API, announcement, keyboard and queue
+
+**Technical conflict.** The accepted documentation (frame `7819:4737`, page `5415:32`, root `7689:2`, set `7689:288`) draws the
+fixed region that stacks the toasts of the `nph-notification` and leaves to the code how the application gives the toasts to it,
+how it pauses them, who listens to Esc, how it announces them and where the announcement goes under a modal dialog. The
+`nph-notification` (P108) runs a private timer, always sets its own role and has no Esc handling; the `nph-dialog` has no live
+region; and the region must stay below the scrim of a modal dialog that opens after it.
+
+**Decision.** `nph-toast-region` is one Web Component with **open Shadow DOM** (P01). Anatomy only through the `toast-region/*`
+tokens; **no token is created or changed**. No `::part`, no color property and no event. A development warning, once per cause,
+says what it rejects: the rule of P21.
+1. **API.** Declarative, one region per page: the application appends `nph-notification` with `placement="toast"` as a child and
+   removes it on `nph-close`. The only property is `label`, the accessible name already localized (P109, item 5). An imperative
+   shortcut may come later on top of it.
+2. **Quantity and queue.** At most three in view. The fourth and the next ones stay mounted, `hidden` and `inert`
+   (`data-nph-queued`), in order of arrival, with no countdown and no announcement, and come into view when a toast leaves. A toast
+   that leaves keeps its place for the length of the exit. No priority in v1.
+3. **Layer.** `popover="manual"`, shown while the region is connected, so a modal dialog opened afterwards goes above it and its
+   scrim covers it; the browser holds the region inert under the dialog. No `z-index` and no layer token (P77).
+4. **Announcement.** Two hidden live regions, mounted even when empty; error and warning in the assertive one. A toast is announced
+   when it comes into view and again when its severity, heading or description change in place. Under a modal dialog the two live
+   regions of the region are inert, so two others are appended to the open `nph-dialog` (or `dialog`) and removed when it closes.
+5. **The `nph-notification` changes in three small ways.** It has no `role` inside an `nph-toast-region`; it has a reflected
+   boolean `paused` that holds the countdown; and, inside the region, Esc with the focus in it closes it with `detail.source`
+   `escape`, the word `nph-dialog` already uses. The region sets `paused` for the pointer on the region, the focus inside it and an
+   open modal dialog.
+6. **Keyboard.** F6 goes to the first control of the newest toast that has one and back; with none, to the list only while it
+   scrolls, and F6 is left alone otherwise. When the focused toast leaves, the focus goes to the next toast with a control or back
+   to where F6 came from.
+7. **Motion.** A toast enters and leaves with opacity and transform only, sliding half its own height, a percentage and not a token;
+   with reduced motion only opacity. The exit shows while the element stays in the page. The toasts above move up with no animation.
+8. **A window lower than the stack (D-1).** The list gets a height limit, scrolls kept at the bottom, and takes the focus only while
+   it scrolls, with a ring in `color/foreground`, which is not in Figma and does not follow the brand. The limit is on only while the stack does not fit, because a scrolling box clips the
+   shadow of its toasts.
+**Out of scope.** A "close all", a priority in the queue, a collapsed stack, a region in another corner, the removal of
+`notification/stack-gap` (DSA-103) and the `nph-alert-dialog`.
+**Status.** Documentation accepted by the design owner on 22/11/2026; D-1 answered the same day. API and semantics are reviewed in
+the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138 or P139 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138, P139 or P140 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

@@ -2,13 +2,11 @@
  * Demonstration frame shared by the `nph-notification` Validation and Docs pages.
  *
  * It lives in a file that does not end in `.stories.ts`, so Storybook's glob does not index it.
- * The scenery here — the framed figure, the surfaces and the toast region frame — is NOT a
- * precedent for component CSS: the piece takes its measures from its own tokens.
+ * The scenery here — the framed figure and the surfaces — is NOT a precedent for component CSS: the
+ * piece takes its measures from its own tokens.
  *
- * THE TOAST REGION is not a piece (P108). `toastRegion` is the frame a consuming application
- * builds: a column that ends at the corner, `notification/stack-gap` between the toasts, the newest
- * one last, next to the corner. Here it is drawn in the flow of the page, so a page can show it next to other
- * examples; an application fixes it to the bottom-right corner of the window.
+ * THE TOAST REGION is the `nph-toast-region` (DSA-100). The frame that draws a column of toasts in
+ * the flow of a page lives in `../nph-toast-region/nph-toast-region.demo.ts`.
  *
  * The functions take the visible text as arguments: this file holds none, because every visible
  * text comes from the language dictionary of the page that calls them.
@@ -98,21 +96,6 @@ export function bothModes(captions: { light: string; dark: string }, content: ()
 /** A column of examples, with the space of a stack of notifications. */
 export function column(items: TemplateResult[]): TemplateResult {
   return html`<div style="display: flex; flex-direction: column; gap: var(--nph-space-stack-snug);">${items}</div>`;
-}
-
-/**
- * The toast region frame (P108): what a consuming application builds. A column that ends at the
- * corner, with `notification/stack-gap` between the toasts. The newest toast comes last, next to
- * the corner, and at most three show.
- */
-export function toastRegion(toasts: TemplateResult[], label: string): TemplateResult {
-  return html`<div
-    role="group"
-    aria-label=${label}
-    style="display: flex; flex-direction: column; align-items: flex-end; gap: var(--nph-notification-stack-gap); padding: var(--nph-space-container-padding); background: var(--nph-color-background-subtle); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control);"
-  >
-    ${toasts.slice(0, 3)}
-  </div>`;
 }
 
 /** A form area with a notification on top of its fields, for the example of an inline error. */

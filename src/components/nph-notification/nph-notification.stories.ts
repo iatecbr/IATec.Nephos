@@ -4,7 +4,7 @@
  * Each story proves a part of the contract accepted in Figma (frame `3442:10163`, set
  * `3434:9035`, focus of the close on solid `4207:1146`) and of P108: the six severities and the
  * loading toast, the subtle and solid emphases, the stacked and single-line layouts and the
- * reflow, the actions and the close, the toast and its region, the time bar and the invalid input.
+ * reflow, the actions and the close, the toast and the column of its region, the time bar and the invalid input.
  * Every story shows light and dark mode side by side. The titles, descriptions and action texts
  * are content and arrive ready from the application. They come from the language dictionary,
  * under the `notificationValidation` key (`docs/i18n.md`, "Storybook"). The page of each story
@@ -18,7 +18,8 @@ import { translations } from '../../../.storybook/i18n/index.js';
 import { brandFrames } from '../../shared/docs/brands';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
-import { STATIC_SEVERITIES, bothModes, column, formArea, notification, toastRegion } from './nph-notification.demo';
+import { exampleScreen } from '../nph-toast-region/nph-toast-region.demo';
+import { STATIC_SEVERITIES, bothModes, column, formArea, notification } from './nph-notification.demo';
 import type { NotificationText } from './nph-notification.demo';
 import type { NphNotificationSeverity } from './nph-notification';
 
@@ -190,7 +191,7 @@ export const TimeBar: Story = {
   },
 };
 
-/** The toast region frame: the column a consuming application builds, with up to three toasts. */
+/** The toast column of the `nph-toast-region`, drawn in the flow of the page, with up to three toasts. */
 export const Region: Story = {
   name: 'Region',
   render: (_args, context: GlobalsContext) => {
@@ -200,7 +201,8 @@ export const Region: Story = {
       'region',
       html`${caption(v.regionCaption)}
         ${bothModes({ light: v.lightCaption, dark: v.darkCaption }, () =>
-          toastRegion(
+          exampleScreen(
+            'default',
             [
               notification({ ...textOf(v, 'loading'), placement: 'toast', severity: 'loading', hideClose: true }),
               notification({ ...textOf(v, 'success'), placement: 'toast', severity: 'success', duration: 0 }),
