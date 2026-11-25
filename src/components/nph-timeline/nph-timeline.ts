@@ -57,7 +57,7 @@
  * without the button the focus needs a destination), which takes `tabindex="-1"` only while it holds it.
  *
  * THE CONNECTOR LINE — an `nph-separator` vertical, with its thickness from `border/width`; the item paints the color
- * of the separator it holds, `timeline/connector-border`, and the pending item leaves it as it is, `color/border`
+ * of the separator it holds, `timeline/connector-border`, and the pending item `timeline/connector-border-pending`
  * (the styles of the outer tree win over the `:host` of the separator, so `nph-separator` changes nothing). It sits
  * at half of the marker column, a whole pixel, with no `transform`, so the 1 px line stays sharp (item 12). It runs
  * from the marker to the bottom of the item, a gap away from each, and the last item has none.

@@ -2065,6 +2065,6 @@ describe('token contract', () => {
   });
 
   it('only redefines the two tokens of the search and the hook of the close button', () => {
-    expect([...defined].filter((name) => !name.startsWith('--_')).sort()).toEqual(['--nph-button-focus-border', '--nph-color-background', '--nph-color-border', '--nph-color-input']);
+    expect([...defined].filter((name) => !name.startsWith('--_')).sort()).toEqual(['--nph-button-focus-border', '--nph-color-background', '--nph-color-input', '--nph-separator-border']);
   });
 });

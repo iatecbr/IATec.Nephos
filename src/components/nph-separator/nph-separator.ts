@@ -4,7 +4,7 @@
  * Contract accepted in Figma (frame `1196:674`, set `762:6`) and P66:
  * - `orientation` `horizontal` (default) or `vertical`. Horizontal between
  *   stacked items; vertical between side-by-side items;
- * - one line of `border/width` in `color/border`. Thickness and color do not
+ * - one line of `border/width` in `separator/border`. Thickness and color do not
  *   change: the divider carries no state;
  * - the instance fills the container. Horizontal fills the width in a block
  *   parent or column flex parent; vertical fills the height in a row flex

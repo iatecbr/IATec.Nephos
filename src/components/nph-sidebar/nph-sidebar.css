@@ -237,7 +237,7 @@
 
 /* The one line between areas: between the search and the navigation. */
 .separator {
-  --nph-color-border: var(--nph-sidebar-separator);
+  --nph-separator-border: var(--nph-sidebar-separator);
   display: block;
   flex: none;
 }

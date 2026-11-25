@@ -821,8 +821,9 @@ describe('the connector line', () => {
     }
   });
 
-  it('on the pending item the separator keeps its own color, color/border', async () => {
+  it('on the pending item the connector paints timeline/connector-border-pending, which is color/border', async () => {
     const timeline = await mount({ items: [{ title: 'A', status: 'pending' }, { title: 'B' }] });
+    expect(getComputedStyle(connector(timeline, 0)!).backgroundColor).toBe(background('--nph-timeline-connector-border-pending'));
     expect(getComputedStyle(connector(timeline, 0)!).backgroundColor).toBe(background('--nph-color-border'));
     expect(getComputedStyle(connector(timeline, 0)!).backgroundColor).not.toBe(background('--nph-timeline-connector-border'));
   });
@@ -833,7 +834,7 @@ describe('the connector line', () => {
     separator.setAttribute('orientation', 'vertical');
     document.body.append(separator);
     await (separator as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
-    expect(getComputedStyle(separator).backgroundColor).toBe(background('--nph-color-border'));
+    expect(getComputedStyle(separator).backgroundColor).toBe(background('--nph-separator-border'));
     expect(connector(timeline, 0)!.shadowRoot).not.toBeNull();
   });
 });
@@ -1203,8 +1204,8 @@ describe('token contract', () => {
     }
   });
 
-  it('consumes every one of the twenty-seven timeline/* tokens', () => {
-    expect(declared).toHaveLength(27);
+  it('consumes every one of the twenty-eight timeline/* tokens', () => {
+    expect(declared).toHaveLength(28);
     for (const name of declared) {
       expect(used, name).toContain(name);
     }

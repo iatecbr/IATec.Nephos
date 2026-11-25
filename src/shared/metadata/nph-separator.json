@@ -37,17 +37,17 @@
   },
   "states": {
     "default": {
-      "token": "color/border",
+      "token": "separator/border",
       "changes_for_user": "A line separates the items; it does not change with interaction."
     }
   },
   "business_rules": [
-    "The thickness is always border/width and the color is always color/border: changing either would turn the divider into a state signal.",
+    "The thickness is always border/width and the color is always separator/border: changing either would turn the divider into a state signal.",
     "The horizontal one fills the width in a block parent or a column flex parent; the vertical one fills the height in a row flex or grid parent. Otherwise, whoever uses it gives the length."
   ],
   "domain_errors": [],
   "tokens": {
-    "color": "color/border",
+    "color": "separator/border",
     "thickness": "border/width"
   },
   "ai_hints": [
@@ -60,7 +60,7 @@
     "accessible_name": "not_applicable",
     "keyboard": [],
     "focus": "The divider does not receive focus.",
-    "contrast": "It is decorative: color/border does not need to meet 3:1.",
+    "contrast": "It is decorative: separator/border does not need to meet 3:1.",
     "color_alternative": "The divider carries no state; the separation is structural."
   },
   "invalid_combinations": [
@@ -87,7 +87,7 @@
     "Changing the thickness or the color of the divider."
   ],
   "sources": {
-    "design_md": "design.md, color/border, border/width and layout/separator-width and layout/separator-height, which are the length of the master in Figma",
+    "design_md": "design.md, separator/border, border/width and layout/separator-width and layout/separator-height, which are the length of the master in Figma",
     "decision": "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026",
     "tests": "src/components/nph-separator/nph-separator.test.ts",
     "usage_evidence": "none in code yet; the accepted frame shows menu, action bar and card",

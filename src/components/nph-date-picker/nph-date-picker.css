@@ -7,7 +7,7 @@
  * No literal design value goes in here. Written box relations and resets (P133): `0`, `1`, `auto`, `none`, `100%`, `fixed`,
  * `column`, `flex-start`, `space-between` and `calc(-1 * ...)` (the 4 px slide of the panel). The shortcut column is 12 steps
  * of `date-picker/panel-padding` (192 with the 16 px step, the measure drawn in Figma, which has no token: DSA-90 D-12). The
- * redefinitions in scope use no new value: `color/border` on the divider (as `nph-popover` does with `popover/divider`) and
+ * redefinitions in scope use no new value: `separator/border` on the divider (as `nph-popover` does with `popover/divider`) and
  * `color/secondary-foreground` on the calendar button, which draws the `calendar` icon in `color/muted-foreground`.
  */
 
@@ -120,7 +120,7 @@
 
 /* The divider: edge to edge, above the footer, in `date-picker/divider`. */
 .divider {
-  --nph-color-border: var(--nph-date-picker-divider);
+  --nph-separator-border: var(--nph-date-picker-divider);
   display: block;
 }
 

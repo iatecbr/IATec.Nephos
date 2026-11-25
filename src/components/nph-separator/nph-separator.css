@@ -3,7 +3,7 @@
  *
  * Classes and selectors here are NOT public API (P02). The contract is the token
  * custom properties consumed here. No literal design value goes in: the
- * thickness is `border/width` and the color is `color/border`.
+ * thickness is `border/width` and the color is `separator/border`.
  *
  * `layout/separator-width` and `layout/separator-height` are NOT consumed: they
  * are the length of the master in Figma, and the piece's rule is to fill the
@@ -18,7 +18,7 @@
 :host([data-nph-rendered]) {
   display: block;
   flex: none;
-  background-color: var(--nph-color-border);
+  background-color: var(--nph-separator-border);
 }
 
 /* Fills the width in a block parent or a column flex parent. */

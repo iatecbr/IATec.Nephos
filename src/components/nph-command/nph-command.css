@@ -18,7 +18,7 @@
  * (`command/background`, `command/radius`, `command/max-width`), whose values match the default
  * dialog, so the width does not follow the content while the list filters.
  *
- * One token is redefined, with no new value: `color/border`, only on the two lines of the palette,
+ * One token is redefined, with no new value: `separator/border`, only on the two lines of the palette,
  * takes `command/divider` (`color/dialog-separator`), as the dialog does on its own lines.
  */
 
@@ -53,7 +53,7 @@
 
 /* The two lines: `nph-separator` in `command/divider`, full width. */
 .line {
-  --nph-color-border: var(--nph-command-divider);
+  --nph-separator-border: var(--nph-command-divider);
 }
 
 /* ----- the search row ------------------------------------------------------------- */

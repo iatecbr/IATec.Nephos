@@ -69,10 +69,10 @@ describe('drawing', () => {
     expect(separator.getBoundingClientRect().height).toBe(120);
   });
 
-  it('the color is color/border', async () => {
+  it('the color is separator/border', async () => {
     const { separator } = await mountIn('block');
     const probe = document.createElement('div');
-    probe.style.backgroundColor = 'var(--nph-color-border)';
+    probe.style.backgroundColor = 'var(--nph-separator-border)';
     document.body.append(probe);
     expect(getComputedStyle(separator).backgroundColor).toBe(getComputedStyle(probe).backgroundColor);
   });
@@ -107,7 +107,7 @@ describe('token contract', () => {
 
   it('every custom property in the CSS exists in tokens.css', () => {
     const used = [...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1]);
-    expect(new Set(used)).toEqual(new Set(['--nph-color-border', '--nph-border-width']));
+    expect(new Set(used)).toEqual(new Set(['--nph-separator-border', '--nph-border-width']));
     for (const name of used) {
       expect(tokensCss, name).toContain(name + ':');
     }

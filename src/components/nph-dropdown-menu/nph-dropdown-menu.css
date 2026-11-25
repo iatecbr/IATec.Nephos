@@ -75,10 +75,10 @@
 
 /*
  * The separator: the `nph-separator` line in `dropdown/separator`, `space/inline-tight` above
- * and below. The line takes the color from `--nph-color-border`, which this scope redefines.
+ * and below. The line takes the color from `--nph-separator-border`, which this scope redefines.
  */
 .separator {
-  --nph-color-border: var(--nph-dropdown-separator);
+  --nph-separator-border: var(--nph-dropdown-separator);
   display: block;
   margin-block: var(--nph-space-inline-tight);
 }
