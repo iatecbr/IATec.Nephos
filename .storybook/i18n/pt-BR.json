@@ -643,7 +643,14 @@
     "components-nph-accordion-validation--direction": "Direção",
     "components-nph-accordion-validation--interactive": "Interativo",
     "components-nph-accordion-validation--examples": "Exemplos",
-    "components-nph-accordion-validation--brands": "Marcas"
+    "components-nph-accordion-validation--brands": "Marcas",
+    "components-nph-chart-validation": "Validação",
+    "components-nph-chart-validation--types": "Tipos",
+    "components-nph-chart-validation--states": "Estados",
+    "components-nph-chart-validation--examples": "Exemplos",
+    "components-nph-chart-validation--legend": "Legenda",
+    "components-nph-chart-validation--limits": "Limites",
+    "components-nph-chart-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -8871,7 +8878,13 @@
       "components-nph-tree-select-validation--error-row": "A linha de erro nos painéis de 280 e 360: no estreito a mensagem nunca é cortada e Tentar de novo desce para baixo dela, no mesmo início; no de 360 ficam lado a lado, em uma linha.",
       "components-nph-tree-select-validation--interactive": "Um campo de cada modo para experimentar: um clique ou as setas abrem o painel, as setas movem o item ativo enquanto o foco fica no campo, Direita e Esquerda abrem e fecham um ramo, Enter escolhe ou marca, Esc fecha.",
       "components-nph-tree-select-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: escolher um arquivo em uma pasta, arquivos que vão em um envio e achar um contrato em uma árvore grande.",
-      "components-nph-tree-select-validation--brands": "As sete marcas no modo claro e escuro, com o painel aberto em cada quadro: o item escolhido e o foco seguem a marca do quadro."
+      "components-nph-tree-select-validation--brands": "As sete marcas no modo claro e escuro, com o painel aberto em cada quadro: o item escolhido e o foco seguem a marca do quadro.",
+      "components-nph-chart-validation--types": "Os dez tipos do tipo do Figma, um exemplo de cada, dentro de um nph-card: coluna, barra horizontal, agrupada e empilhada nas duas orientações, linha, área, rosca e sparkline.",
+      "components-nph-chart-validation--states": "Os cinco estados da área (padrão, carregando, vazio, sem resultado e erro) sob o mesmo cabeçalho do card, que fica em todos os estados.",
+      "components-nph-chart-validation--examples": "Os exemplos obrigatórios do frame: uma coluna com destaque, meta tracejada e seletor de período; uma agrupada vertical com a legenda abaixo; e uma rosca de quatro fatias com o total no centro.",
+      "components-nph-chart-validation--legend": "Seis séries: a legenda abaixo da área com um botão por série, uma linha por fatia com o valor na rosca, e o grupo das séries menores em chart/muted.",
+      "components-nph-chart-validation--limits": "O que o conjunto não desenha: um valor negativo no eixo zero, uma coluna sem dado, uma categoria longa cortada com reticências e doze categorias com um rótulo a cada dois.",
+      "components-nph-chart-validation--brands": "As sete marcas em claro e escuro: a borda e o halo de foco do item da legenda e dos dados seguem a marca, e as cores das séries ficam as mesmas."
     }
   },
   "multiComboboxDocs": {
@@ -18056,5 +18069,107 @@
     "logo": "Logo.png",
     "readme": "Leia-me.txt",
     "shortWindow": "Janela baixa"
+  },
+  "chartValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "months": [
+      "Jan",
+      "Fev",
+      "Mar",
+      "Abr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Set",
+      "Out",
+      "Nov",
+      "Dez"
+    ],
+    "regions": [
+      "Norte",
+      "Nordeste",
+      "Sudeste",
+      "Sul",
+      "Centro-Oeste"
+    ],
+    "quarters": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "longCategory": "Centro-Oeste e Distrito Federal",
+    "revenue": "Receita",
+    "expense": "Despesa",
+    "margin": "Margem",
+    "taxes": "Impostos",
+    "freight": "Frete",
+    "reserve": "Reserva",
+    "others": "Outros",
+    "card": "Cartão",
+    "pix": "Pix",
+    "slip": "Boleto",
+    "titleRevenue": "Receita por mês",
+    "descriptionRevenue": "R$ mil · meta de 75",
+    "titleQuarter": "Por trimestre",
+    "descriptionQuarter": "R$ mil",
+    "titlePayments": "Formas de pagamento",
+    "descriptionPayments": "Pedidos",
+    "titleCosts": "Receita e custos",
+    "descriptionCosts": "R$ mil por mês",
+    "titleRegion": "Composição por região",
+    "descriptionRegion": "R$ mil",
+    "titleTrend": "Tendência",
+    "descriptionTrend": "R$ mil",
+    "titleSix": "Seis séries",
+    "titleNegative": "Resultado com um mês negativo",
+    "titleMissing": "Mês sem dado",
+    "titleLong": "Categoria longa",
+    "titleMany": "Doze categorias",
+    "periods": {
+      "month": "Mês",
+      "quarter": "Trimestre",
+      "year": "Ano"
+    },
+    "periodLabel": "Período",
+    "unit": "R$ mil",
+    "labels": {
+      "summary": "Receita por mês, de janeiro a junho, com a meta de 75: quatro meses acima e dois abaixo.",
+      "goal": "Meta",
+      "noData": "Sem dado",
+      "noValue": "Sem valor",
+      "category": "Mês",
+      "value": "Valor",
+      "difference": "Diferença",
+      "total": "pedidos",
+      "viewTable": "Ver como tabela",
+      "viewChart": "Ver como gráfico",
+      "retry": "Tentar de novo",
+      "error": "Não foi possível carregar o gráfico.",
+      "loading": "Carregando o gráfico.",
+      "emptyHeading": "Sem dados no período",
+      "emptyDescription": "Escolha outro período para ver os dados.",
+      "noResultHeading": "Nenhum dado para este filtro",
+      "noResultDescription": "Mude ou limpe o filtro para ver os dados.",
+      "noSeriesHeading": "Nenhuma série selecionada",
+      "noSeriesDescription": "Ative uma série na legenda para ver os dados."
+    },
+    "highlightComparison": "vs mês anterior",
+    "typeNames": {
+      "column": "Gráfico de colunas",
+      "horizontal-bar": "Gráfico de barras horizontais",
+      "grouped-vertical": "Gráfico de colunas agrupadas",
+      "grouped-horizontal": "Gráfico de barras horizontais agrupadas",
+      "stacked-vertical": "Gráfico de colunas empilhadas",
+      "stacked-horizontal": "Gráfico de barras horizontais empilhadas",
+      "line": "Gráfico de linhas",
+      "area": "Gráfico de área",
+      "donut": "Gráfico de rosca",
+      "sparkline": "Sparkline"
+    },
+    "seriesLabel": "Séries",
+    "changeLabel": "subiu 12% vs mês anterior"
   }
 }

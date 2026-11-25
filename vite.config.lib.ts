@@ -7,7 +7,8 @@
  * others import it, so no component is defined twice; code that several
  * entries share and that is not a component goes to `dist/shared/`.
  *
- * `lit` and `@fortawesome/*` are peer dependencies and never enter the build.
+ * `lit` and `@fortawesome/*` are peer dependencies and never enter the build. The D3 math modules of
+ * `nph-chart` (`d3-array`, `d3-scale`, `d3-shape`) are dev dependencies and ARE bundled into it (DSA-101).
  * The CSS imported with `?inline` is inlined as a string by Vite itself. The
  * only CSS that is not `?inline`, the global style of `nph-label` (P62.1), is
  * turned into a JavaScript side effect by `injectGlobalCss`, below.

@@ -1,0 +1,335 @@
+---
+piece: nph-chart
+level: component
+status: active
+solves: >-
+  Shows one measure across categories, over time or in parts of a whole, so the person compares, sees the trend and finds the point out of pattern without reading number by number.
+use_when:
+  - "To compare categories: column; with a long label or in a ranking, horizontal-bar."
+  - "To compare series inside each category: grouped-vertical or grouped-horizontal, up to four bars per group."
+  - "To show the total and the parts: stacked-vertical or stacked-horizontal, up to four parts and no negative value."
+  - "To show a trend over time: line, or area for the wash under the curve."
+  - "To show the part of a whole: donut, with the total in the center."
+  - "To show a trend in a small space: sparkline, one series and up to twelve values."
+do_not_use_when:
+  - "For exact values the person looks up: use the nph-table."
+  - "For one value against a goal: use the nph-progress."
+  - "Loose on the page: put it in the content zone of an nph-card, with the title, the unit and the period."
+  - "To paint a series by the situation, green for good and red for bad: the sense goes in the highlight icon."
+api:
+  type:
+    type: enum
+    values: [column, horizontal-bar, grouped-vertical, grouped-horizontal, stacked-vertical, stacked-horizontal, line, area, donut, sparkline]
+    required: false
+    default: column
+    reflects: true
+    constraint: >-
+      The Figma property `tipo`. Column and horizontal-bar take one series. A value outside the list draws nothing and emits console.error in development.
+  state:
+    type: enum
+    values: [default, loading, empty, no-result, error]
+    required: false
+    default: default
+    reflects: true
+    constraint: >-
+      The Figma property `estado` of the area. Only default draws data; the card header is the consumer's and stays in every state. The sparkline has only default.
+  categories:
+    type: array
+    required: false
+    default: "empty list"
+    reflects: false
+    constraint: >-
+      Property only. The label of each value on the category axis, in the order of the values. Required with data in every type but the donut and the sparkline.
+  series:
+    type: array
+    required: true
+    default: "empty list"
+    reflects: false
+    constraint: >-
+      Property only. Each series is name, values and others. values has one number or null per category; null is a category with no data. In the donut each series is one slice and its first value is the size. Up to six series keep their color; from the seventh on the component groups them, and any series with others set, into one series named by others-label, with the values summed per category, drawn in chart/muted.
+  goal:
+    type: number
+    required: false
+    default: "null"
+    reflects: false
+    constraint: >-
+      The dashed goal line of the vertical types, labeled with goal-label. The horizontal types, the donut and the sparkline do not draw it and warn in development.
+  goal-label:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The label of the goal, already localized. Also the header of the goal column of the table.
+  highlight:
+    type: object
+    required: false
+    default: "null"
+    reflects: false
+    constraint: >-
+      Property only. The value and the change above the area: value, change, changeLabel (the whole change as a sentence for a screen reader), direction (up, down or steady), sense (neutral, positive or negative, declared by the screen) and comparison. The icon takes the color of the sense; the number and the text stay neutral.
+  show-values:
+    type: boolean
+    required: false
+    default: false
+    reflects: false
+    constraint: >-
+      Writes the value at the end of each bar of the column, the horizontal-bar and the grouped types, up to four series.
+  unit:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The unit written in the headers of the table alternative. The card description says it for the sighted reader.
+  locale:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The locale of the numbers and the percentages. Empty takes the one of the browser.
+  summary:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The text summary of what the data means, the accessible name of the area (WCAG 1.1.1). Without it the chart renders and emits console.warn once in development.
+  labels:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      Every visible text is its own string property, already localized, with no default: total-label, others-label, type-label, series-label, no-data-label, no-value-label, category-label, value-label, difference-label, view-table-label, view-chart-label, retry-label, error-message, loading-label, empty-heading, empty-description, no-result-heading, no-result-description, no-series-heading and no-series-description.
+variants:
+  column:
+    axis: appearance
+    choose_when: "Comparing categories, the default."
+    do_not_combine_with: ["a second series"]
+  horizontal-bar:
+    axis: appearance
+    choose_when: "A long category label or a ranking."
+    do_not_combine_with: ["a goal", "a second series"]
+  grouped-vertical:
+    axis: appearance
+    choose_when: "Comparing series inside each category."
+    do_not_combine_with: ["more than four bars per group"]
+  grouped-horizontal:
+    axis: appearance
+    choose_when: "Comparing series with long labels or in a ranking."
+    do_not_combine_with: ["a goal"]
+  stacked-vertical:
+    axis: appearance
+    choose_when: "The total and the parts."
+    do_not_combine_with: ["a negative value"]
+  stacked-horizontal:
+    axis: appearance
+    choose_when: "The total and the parts with long labels."
+    do_not_combine_with: ["a negative value", "a goal"]
+  line:
+    axis: appearance
+    choose_when: "A trend over time."
+    do_not_combine_with: []
+  area:
+    axis: appearance
+    choose_when: "A trend over time with the wash under the curve."
+    do_not_combine_with: []
+  donut:
+    axis: appearance
+    choose_when: "The part of a whole."
+    do_not_combine_with: ["more than six slices", "a goal"]
+  sparkline:
+    axis: appearance
+    choose_when: "A trend in a card, with one series and up to twelve values."
+    do_not_combine_with: ["an axis", "a tooltip", "the table alternative"]
+states:
+  default:
+    token: chart/1
+    changes_for_user: "The data, with the series colors in a fixed order from chart/1."
+  loading:
+    token: chart/plot-height
+    changes_for_user: "An nph-skeleton block holds the area at the reference height, with aria-busy."
+  empty:
+    token: chart/plot-height
+    changes_for_user: "An nph-empty with the empty heading and description in the area."
+  no-result:
+    token: chart/plot-height
+    changes_for_user: "An nph-empty with the no result heading and description in the area."
+  error:
+    token: chart/error-icon-foreground
+    changes_for_user: "The alert icon, the sentence and the Try again button, which fires nph-retry."
+  hover:
+    token: chart/tooltip-background
+    changes_for_user: "The data tooltip opens above the data; on a line or an area the crosshair shows."
+  focus:
+    token: chart/focus-border
+    changes_for_user: "A ring centered on the focused data, 2 px apart, with a border and a halo; the tooltip opens."
+  hidden:
+    token: chart/legend-marker-hidden
+    changes_for_user: "The legend marker turns hollow, the name is struck through and the series leaves the plot, the scale and the table."
+business_rules:
+  - "The series colors follow the order from chart/1, never the active brand and never the situation; a generic series carries no meaning."
+  - "Color is never alone: a direct label from two to four series, the legend above that and in the grouped vertical, a marker shape per series in line and area, and the table alternative."
+  - "The baseline is the zero axis: a negative value grows down, or to the left, from it; the stacked types take no negative value."
+  - "Hiding a series recomputes everything over the visible ones: the grouping, the stack, the total of the donut and the Y scale."
+  - "With every series hidden the axes, the grid and the legend stay and the area shows the no series selected message."
+  - "A column with no data is drawn in chart/empty with the no data label; a line breaks."
+  - "The area goes through loading after Try again and after a period change: the consumer sets state to loading and gives the data back."
+domain_errors: []
+tokens:
+  plot: [chart/plot-height, chart/sparkline-height, chart/y-label-gap, chart/x-label-gap, chart/data-label-gap, chart/series-label-gap, chart/section-gap]
+  text: [chart/label-foreground, chart/foreground]
+  marks: [chart/1, chart/2, chart/3, chart/4, chart/5, chart/6, chart/muted, chart/empty, chart/bar-radius, chart/segment-gap, chart/separator, chart/line-width, chart/marker-size]
+  axes: [chart/grid, chart/grid-width, chart/axis, chart/axis-width, chart/crosshair, chart/crosshair-width, chart/reference, chart/reference-width, chart/reference-dash, chart/reference-dash-gap]
+  legend: [chart/legend-gap, chart/legend-row-gap, chart/legend-item-height, chart/legend-item-padding, chart/legend-item-gap, chart/legend-item-radius, chart/legend-item-foreground, chart/legend-item-foreground-hover, chart/legend-value-gap, chart/legend-marker-hidden, chart/legend-marker-hidden-width]
+  focus: [chart/focus-border, chart/focus-border-width, chart/focus-border-radius, chart/focus-halo, chart/focus-halo-width, chart/focus-halo-radius, chart/focus-point-radius, chart/focus-offset, chart/legend-item-focus-border-radius, chart/legend-item-focus-halo-radius]
+  tooltip: [chart/tooltip-background, chart/tooltip-foreground, chart/tooltip-label-foreground, chart/tooltip-border, chart/tooltip-border-width, chart/tooltip-radius, chart/tooltip-padding, chart/tooltip-gap, chart/tooltip-item-gap, chart/tooltip-value-gap, chart/tooltip-offset, chart/tooltip-enter-duration, chart/tooltip-exit-duration]
+  highlight: [chart/highlight-gap, chart/delta-gap, chart/delta-icon-size, chart/delta-icon-positive, chart/delta-icon-negative, chart/delta-icon-neutral]
+  error: [chart/error-icon-foreground, chart/error-icon-size, chart/error-gap, chart/error-stack-gap]
+ai_hints:
+  - "Use nph-chart inside the content zone of an nph-card base, with the title, the unit and the period in the card; never loose on the page."
+  - "Pass categories and series as properties and every visible text as its own string property, already localized."
+  - "Write a summary: what the data means, so a person who does not see the chart still reads it."
+  - "Use a column to compare categories, a line for a trend, a donut for a part of a whole and a sparkline for a trend in a small space."
+  - "Pass every series; the component groups the seventh on into Others, and others-label names the group."
+  - "Declare the sense of the highlight (positive or negative) on the screen; never paint a series by the situation."
+  - "Listen to nph-retry to load the data again and set state to loading while it comes; nph-series-visibility-change reports the legend."
+accessibility:
+  semantics: "The plot is a group named by summary; each mark is an image with a name made of the series, the category and the value, and one of them is the Tab stop (roving tabindex). The legend item is a button with aria-pressed. A live region announces loading, empty, no result and error."
+  accessible_name: "The summary names the area, and the component describes it: the chart type, the visible series and the range of the categories. The card title and description stay in the card. The marks name themselves; markers and decorative icons are aria-hidden."
+  keyboard: ["Tab enters the plot at one mark and the next Tab goes to the legend and to View as table", "Left and Right move along the series, Up and Down between the visible series; in the horizontal types the two pairs swap", "Home and End go to the first and the last item of the series", "Esc closes the tooltip without moving the focus", "Enter and Space on a legend item turn its series on and off"]
+  focus: "The focused data takes a ring 2 px apart in the card color, with a 1 px border in chart/focus-border and a 4 px halo in chart/focus-halo; the legend item takes the same border and halo outside it."
+  contrast: "Labels and values pass 4.5:1 on the card in both modes; the focus border passes 3:1. chart/2 is 1.92:1 in light by choice, with color never alone."
+  color_alternative: "Direct label or legend, a marker shape per series, a dashed and labeled goal, an arrow and a number in the highlight, and the table alternative."
+invalid_combinations:
+  - "A type or a state outside the lists, or no series in the default state: the chart draws nothing."
+  - "More than one series in column, horizontal-bar or sparkline: the chart draws nothing."
+  - "A series with a number of values different from the number of categories, a value that is not a finite number or null, or a negative value in a stacked type: the chart draws nothing."
+  - "A donut slice that is not a number of zero or more, and a sparkline with more than twelve values."
+relations:
+  combines_with: [nph-card, nph-toggle-group, nph-select, nph-button, nph-table, nph-skeleton, nph-empty, nph-icon]
+  parents: ["nph-card"]
+  children: [nph-button, nph-table, nph-skeleton, nph-empty, nph-icon]
+  complements_block: []
+  appears_in: ["dashboard", "report"]
+anti_patterns:
+  - "Painting the series by the situation."
+  - "Using the nph-togglebutton as a legend item."
+  - "Putting the chart loose on the page, with no card."
+  - "Starting the axis above zero."
+sources:
+  design_md: "design.md, the chart rules and the chart tokens"
+  decision: "P139 — nph-chart: API and semantics"
+  tests: "src/components/nph-chart/nph-chart.test.ts"
+  usage_evidence: "none yet"
+  storybook: "src/components/nph-chart/nph-chart.stories.ts"
+  figma: "DS-IA-NEPHOS 5.0, nph-chart set 7653:286, documentation frame 7817:4454"
+---
+
+# nph-chart
+
+## Function
+
+**The problem it solves:** shows one measure across categories, over time or in parts of a whole, inside an `nph-card`, so the person compares, sees the trend and finds the point out of pattern without reading number by number.
+
+**When to use:**
+
+- To compare categories, a column; to compare series inside each category, a grouped type; for the total and the parts, a stacked type; for a trend, a line or an area; for a part of a whole, a donut; for a trend in a small space, a sparkline.
+
+**When NOT to use:**
+
+- **For exact values** — use the `nph-table`.
+- **For one value against a goal** — use the `nph-progress`.
+- **Loose on the page** — use it in the content zone of an `nph-card`.
+
+## Variants
+
+| Type | Reads | Choose when |
+|---|---|---|
+| `column` (default) | one series, from the zero axis up | comparing categories |
+| `horizontal-bar` | one series, from the zero axis to the right | a long label or a ranking |
+| `grouped-vertical`, `grouped-horizontal` | a bar per series in each category | comparing series inside each category |
+| `stacked-vertical`, `stacked-horizontal` | the parts that sum to the total | the total and the parts |
+| `line`, `area` | a trend over time | up to four lines labeled directly, up to six with a legend |
+| `donut` | slices of a whole, ring at 75% | the part of a whole, with the total in the center |
+| `sparkline` | one line, up to twelve values | a trend in a small space |
+
+**Size and density:** `not_applicable`. The height follows the container, with `chart/plot-height` as the reference.
+
+**Do not combine with:** a goal in the horizontal types, the donut and the sparkline; a second series in column and horizontal-bar.
+
+## States
+
+| State | Token | What changes for the person |
+|---|---|---|
+| Default | `chart/1` to `chart/6` | The data, colors in a fixed order |
+| Loading | `chart/plot-height` | The `nph-skeleton` block, `aria-busy` |
+| Empty, no result | `chart/plot-height` | The `nph-empty` with the text of the case |
+| Error | `chart/error-icon-foreground` | The alert, the sentence and Try again |
+| Hover and focus | `chart/tooltip-background`, `chart/focus-border` | The tooltip, the crosshair in line and area, and the focus ring |
+| Hidden series | `chart/legend-marker-hidden` | The hollow marker, the struck-through name, the series out of the plot |
+
+**Feedback and focus:** the tooltip leaves by opacity only, stays while the pointer or the focus is on the data, can be reached by the pointer, and Esc closes it.
+
+**Business rule the piece carries:** the baseline is the zero axis; hiding a series recomputes the grouping, the stack, the donut total and the Y scale; every series hidden shows the no series selected message with the axes and the legend; a column with no data is drawn in `chart/empty`.
+
+**Domain error states:** none.
+
+## Accessibility
+
+| Criterion | Rule |
+|---|---|
+| Semantics | A group named by `summary`; each mark an image with its series, category and value; the legend item a button with `aria-pressed` |
+| Accessible name | `summary`, besides the card title and description |
+| Keyboard and focus | One Tab stop in the plot; arrows, Home, End and Esc as in the keyboard list above |
+| Contrast | Text 4.5:1 and focus border 3:1; `chart/2` is 1.92:1 in light by choice |
+| Alternative to color | Direct label or legend, marker shapes, the table alternative |
+| Touch target | The legend item is 24 px high, the minimum of WCAG 2.5.8 |
+| Motion | No entry animation of the data; the tooltip fades by opacity |
+
+## Relations
+
+**Combines with:** `nph-card`, which frames it; `nph-toggle-group` or `nph-select` for the period, in the card header action; `nph-button` for View as table and Try again; `nph-table` for the alternative; `nph-skeleton` and `nph-empty` for the states.
+
+**What is the parent:** the `nph-card`. **What is the child:** the buttons, the table, the skeleton, the empty and the icons it draws.
+
+**Which block this piece complements:** none. **Appears in layouts:** dashboards and reports.
+
+## Tokens, intent and AI hints
+
+| Part | Token |
+|---|---|
+| Series | `chart/1` to `chart/6`, `chart/N-soft`, `chart/muted`, `chart/empty` |
+| Axes and goal | `chart/grid`, `chart/axis`, `chart/crosshair`, `chart/reference` |
+| Text | `chart/label-foreground`, `chart/foreground` |
+| Tooltip | `chart/tooltip-*` |
+| Legend | `chart/legend-*` |
+| Focus | `chart/focus-*` |
+
+**Usage restrictions:** the component consumes the `chart/*` tokens and the foundation chart colors only, never the semantic or the core a token points to.
+
+**AI hints:** see the YAML.
+
+## Examples
+
+**Recommended case:** revenue per month, a column with a highlight, a dashed goal and a period selector in the card header.
+
+**Alternative case:** a grouped vertical by quarter with the legend below; a donut of four slices with the total in the center.
+
+## Anti-patterns
+
+- **Do not paint a series by the situation** — the sense goes in the highlight icon.
+- **Do not use the `nph-togglebutton` as a legend item** — the legend item has the marker and no background.
+- **Do not put the chart loose on the page** — use an `nph-card`.
+- **Do not start the axis above zero** — a bar that does not start at zero exaggerates the difference.
+
+## Sources and decisions
+
+- **The repository `design.md`:** `chart_regras` and `tokens_chart`.
+- **The decision that originated it:** P139.
+- **Tests:** `src/components/nph-chart/nph-chart.test.ts`.
+- **Usage evidence:** none in code yet.
+- **Storybook:** `src/components/nph-chart/nph-chart.stories.ts`.
+- **Figma:** set `7653:286` and frame `7817:4454` in `DS-IA-NEPHOS 5.0`.

@@ -1,0 +1,522 @@
+/**
+ * Internal style of `nph-chart`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties this file consumes (`--nph-chart-*` and the semantic ones the evidence of DSA-101
+ * names). The component exposes no `::part`.
+ *
+ * No literal design value goes in here. The written quantities are box relations: `100%`,
+ * `0` and `50%`; `.5turn` turns the arrow of a downward change until `arrow-down` enters the
+ * `nph-icon` (evidence of DSA-101, "Icon and image"). The geometry of the marks is computed in
+ * `nph-chart.layout.ts` from the same tokens, read in pixels through the probes below.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+  color: var(--nph-chart-foreground);
+}
+
+.chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-chart-section-gap);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+/* The tokens in pixels and the text lines the layout measures; never visible. */
+.probes {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.probe,
+.font {
+  display: block;
+  block-size: 0;
+}
+
+.font {
+  block-size: auto;
+  white-space: nowrap;
+}
+
+.font-caption,
+.label {
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+.font-label-sm,
+.value-label {
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.font-heading-md,
+.total {
+  font-family: var(--nph-text-heading-md-font-family);
+  font-size: var(--nph-text-heading-md-font-size);
+  font-weight: var(--nph-text-heading-md-font-weight);
+  line-height: var(--nph-text-heading-md-line-height);
+  letter-spacing: var(--nph-text-heading-md-letter-spacing);
+}
+
+/* The word for the screen reader: clipped, not `display: none`, which the browser does not read. */
+.live,
+.sr {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* ---------------------------------------------------------------- highlight */
+
+.highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nph-chart-highlight-gap);
+}
+
+.highlight p {
+  margin: 0;
+}
+
+.highlight-value {
+  color: var(--nph-chart-foreground);
+  font-family: var(--nph-text-heading-lg-font-family);
+  font-size: var(--nph-text-heading-lg-font-size);
+  font-weight: var(--nph-text-heading-lg-font-weight);
+  line-height: var(--nph-text-heading-lg-line-height);
+  letter-spacing: var(--nph-text-heading-lg-letter-spacing);
+}
+
+.highlight-change {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-chart-delta-gap);
+}
+
+.delta {
+  color: var(--nph-chart-delta-icon-neutral);
+}
+
+.highlight[data-sense='positive'] .delta {
+  color: var(--nph-chart-delta-icon-positive);
+}
+
+.highlight[data-sense='negative'] .delta {
+  color: var(--nph-chart-delta-icon-negative);
+}
+
+.delta[data-direction='down'] {
+  transform: rotate(0.5turn);
+}
+
+.delta-number {
+  color: var(--nph-chart-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.delta-comparison {
+  color: var(--nph-chart-label-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+.highlight-loading {
+  inline-size: 50%;
+}
+
+/* ---------------------------------------------------------------- the area */
+
+.area {
+  position: relative;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.skeleton-plot {
+  block-size: var(--nph-chart-plot-height);
+}
+
+.area.state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--nph-chart-plot-height);
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nph-chart-error-stack-gap);
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-chart-error-gap);
+  margin: 0;
+  color: var(--nph-chart-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.error-icon {
+  color: var(--nph-chart-error-icon-foreground);
+}
+
+.table {
+  display: block;
+}
+
+.plot {
+  position: relative;
+  inline-size: 100%;
+}
+
+svg {
+  display: block;
+  overflow: visible;
+  max-inline-size: 100%;
+}
+
+/* ---------------------------------------------------------------- marks */
+
+.label {
+  fill: var(--nph-chart-label-foreground);
+}
+
+.value-label {
+  fill: var(--nph-chart-foreground);
+}
+
+.total {
+  fill: var(--nph-chart-foreground);
+}
+
+.grid {
+  stroke: var(--nph-chart-grid);
+  stroke-width: var(--nph-chart-grid-width);
+}
+
+.axis {
+  stroke: var(--nph-chart-axis);
+  stroke-width: var(--nph-chart-axis-width);
+}
+
+.goal {
+  stroke: var(--nph-chart-reference);
+  stroke-width: var(--nph-chart-reference-width);
+  stroke-dasharray: var(--nph-chart-reference-dash) var(--nph-chart-reference-dash-gap);
+}
+
+.crosshair {
+  stroke: var(--nph-chart-crosshair);
+  stroke-width: var(--nph-chart-crosshair-width);
+}
+
+.bar,
+.slice,
+.marker-point {
+  fill: var(--series);
+}
+
+.bar[data-separated],
+.slice {
+  stroke: var(--nph-chart-separator);
+  stroke-width: var(--nph-chart-segment-gap);
+}
+
+.bar[data-empty] {
+  fill: var(--nph-chart-empty);
+}
+
+.line {
+  fill: none;
+  stroke: var(--series);
+  stroke-width: var(--nph-chart-line-width);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wash {
+  fill: var(--series-soft);
+  stroke: none;
+}
+
+/* The legend item under the pointer puts the other series in `chart/muted`. */
+.bar[data-dim],
+.slice[data-dim],
+.marker-point[data-dim] {
+  fill: var(--nph-chart-muted);
+}
+
+.line[data-dim] {
+  stroke: var(--nph-chart-muted);
+}
+
+.wash[data-dim] {
+  fill: transparent;
+}
+
+/* The focus is the ring drawn around the mark, not the browser outline. */
+.mark:focus,
+.mark:focus-visible {
+  outline: none;
+}
+
+.ring {
+  fill: none;
+  pointer-events: none;
+}
+
+.ring-halo {
+  stroke: var(--nph-chart-focus-halo);
+  stroke-width: var(--nph-chart-focus-halo-width);
+  rx: var(--nph-chart-focus-halo-radius);
+}
+
+.ring-border {
+  stroke: var(--nph-chart-focus-border);
+  stroke-width: var(--nph-chart-focus-border-width);
+  rx: var(--nph-chart-focus-border-radius);
+}
+
+.ring-separator {
+  stroke: var(--nph-chart-separator);
+  stroke-width: var(--nph-chart-focus-offset);
+  rx: var(--nph-chart-focus-border-radius);
+}
+
+.sparkline .line {
+  stroke: var(--series);
+}
+
+/* ---------------------------------------------------------------- tooltip */
+
+.tooltip {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-chart-tooltip-gap);
+  box-sizing: border-box;
+  inline-size: max-content;
+  max-inline-size: 100%;
+  padding: var(--nph-chart-tooltip-padding);
+  border: var(--nph-chart-tooltip-border-width) solid var(--nph-chart-tooltip-border);
+  border-radius: var(--nph-chart-tooltip-radius);
+  background: var(--nph-chart-tooltip-background);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-chart-tooltip-foreground);
+  opacity: 0;
+  pointer-events: none;
+  /* It leaves by opacity only (DSA-42 D5). */
+  transition: opacity var(--nph-chart-tooltip-exit-duration);
+}
+
+.tooltip[data-open] {
+  opacity: 1;
+  pointer-events: auto;
+  transition-duration: var(--nph-chart-tooltip-enter-duration);
+}
+
+.tooltip p {
+  margin: 0;
+}
+
+.tooltip-title {
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.tooltip-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nph-chart-tooltip-value-gap);
+}
+
+.tooltip-label {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-chart-tooltip-item-gap);
+}
+
+.tooltip-name {
+  color: var(--nph-chart-tooltip-label-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+.tooltip-value {
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.all-hidden {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------------------------------------------------------------- marker, legend and bottom line */
+
+.marker {
+  flex: none;
+  inline-size: var(--nph-chart-marker-size);
+  block-size: var(--nph-chart-marker-size);
+  fill: var(--series);
+}
+
+.marker[data-hollow] path {
+  fill: none;
+  stroke: var(--nph-chart-legend-marker-hidden);
+  stroke-width: var(--nph-chart-legend-marker-hidden-width);
+  vector-effect: non-scaling-stroke;
+}
+
+.bottom {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-chart-legend-gap);
+}
+
+.view-toggle {
+  flex: none;
+  margin-inline-start: auto;
+}
+
+.legend {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-chart-legend-row-gap) var(--nph-chart-legend-gap);
+  min-inline-size: 0;
+}
+
+.legend[data-values] {
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+
+.legend-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nph-chart-legend-value-gap);
+  box-sizing: border-box;
+  block-size: var(--nph-chart-legend-item-height);
+  margin: 0;
+  padding: 0 var(--nph-chart-legend-item-padding);
+  border: 0;
+  border-radius: var(--nph-chart-legend-item-radius);
+  background: none;
+  color: var(--nph-chart-legend-item-foreground);
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
+}
+
+.legend-item:hover {
+  color: var(--nph-chart-legend-item-foreground-hover);
+}
+
+.legend-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-chart-legend-item-gap);
+}
+
+.legend-name {
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+.legend-value {
+  color: var(--nph-chart-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.legend-item[data-hidden] .legend-name,
+.legend-item[data-hidden] .legend-value {
+  text-decoration: line-through;
+}
+
+.legend-item:focus-visible {
+  outline: none;
+}
+
+/* The focus border and the halo sit outside the item, with their own corners. */
+.legend-item:focus-visible::before,
+.legend-item:focus-visible::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.legend-item:focus-visible::before {
+  inset: calc(-1 * var(--nph-chart-focus-border-width));
+  border: var(--nph-chart-focus-border-width) solid var(--nph-chart-focus-border);
+  border-radius: var(--nph-chart-legend-item-focus-border-radius);
+}
+
+.legend-item:focus-visible::after {
+  inset: calc(-1 * (var(--nph-chart-focus-border-width) + var(--nph-chart-focus-halo-width)));
+  border: var(--nph-chart-focus-halo-width) solid var(--nph-chart-focus-halo);
+  border-radius: var(--nph-chart-legend-item-focus-halo-radius);
+}
