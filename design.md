@@ -2172,12 +2172,12 @@ tokens_layout:
     css: '--nph-layout-multiline-min-height'
     alias: core/layout-height/textarea-min
     valor: 76
-    use: "Minimum height of a multi-line text area: three lines of text/body-md plus the padding of the field. USE on the text area of the nph-rich-text-editor (rich-text-editor/content-min-height). Same value as layout/textarea-min-height, with a general name; the nph-textarea moves here in a task of its own (DSA-107)."
+    use: "Minimum height of a multi-line text area: three lines of text/body-md plus the padding of the field. USE on the text area of the nph-rich-text-editor (rich-text-editor/content-min-height) and of the nph-textarea (DSA-107). Same value as layout/textarea-min-height, which no piece reads any more."
   layout/multiline-max-height:
     css: '--nph-layout-multiline-max-height'
     alias: core/layout-height/textarea-max
     valor: 216
-    use: "Maximum height of a multi-line text area: ten lines; above it, the text scrolls inside. USE on the text area of the nph-rich-text-editor (rich-text-editor/content-max-height). Same value as layout/textarea-max-height, with a general name; the nph-textarea moves here in a task of its own (DSA-107)."
+    use: "Maximum height of a multi-line text area: ten lines; above it, the text scrolls inside. USE on the text area of the nph-rich-text-editor (rich-text-editor/content-max-height) and of the nph-textarea (DSA-107). Same value as layout/textarea-max-height, which no piece reads any more."
   layout/dialog-min-width:
     css: '--nph-layout-dialog-min-width'
     alias: core/layout-width/dialog-min

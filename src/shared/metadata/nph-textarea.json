@@ -151,7 +151,7 @@
     }
   },
   "business_rules": [
-    "The field grows with the text from layout/textarea-min-height and stops at layout/textarea-max-height; above it, the text scrolls inside. There is no resize handle.",
+    "The field grows with the text from layout/multiline-min-height and stops at layout/multiline-max-height; above it, the text scrolls inside. There is no resize handle.",
     "Enter writes a new line; it does not submit the form.",
     "The footer shows when there is a counter or an action, and never in readonly.",
     "The piece counts nothing: the consumer writes the counter text on input, and a limit warns without blocking typing.",
@@ -163,14 +163,14 @@
   ],
   "tokens": {
     "width": "layout/input-width",
-    "height": "layout/textarea-min-height to layout/textarea-max-height, on the scroll area",
+    "height": "layout/multiline-min-height to layout/multiline-max-height, on the scroll area",
     "radius": "radius/control",
     "border": "border/width, in color/input, color/input-hover, focus/border or status/error",
     "background": "color/background; color/muted when disabled",
     "padding": "space/control-padding on the sides, space/inline at the top and bottom (D-1)",
     "value": "text/body-md in color/foreground",
     "placeholder": "text/body-md in color/muted-foreground",
-    "footer": "space/stack below the text; space/inline between the actions",
+    "footer": "space/stack below the text; space/inline-loose between the actions",
     "counter": "text/caption in color/muted-foreground",
     "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control",
     "disabled": "state/disabled-opacity"
@@ -226,7 +226,7 @@
     "Using the placeholder as the only label."
   ],
   "sources": {
-    "design_md": "design.md, layout/textarea-min-height, layout/textarea-max-height, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6",
+    "design_md": "design.md, layout/multiline-min-height, layout/multiline-max-height, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6",
     "decision": "P93 — API and semantics of nph-textarea, on the form shape of P80 and the field contract of P83",
     "tests": "src/components/nph-textarea/nph-textarea.test.ts",
     "usage_evidence": "the Examples section of the nph-textarea Docs page",

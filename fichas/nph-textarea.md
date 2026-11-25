@@ -168,7 +168,7 @@ states:
     token: state/disabled-opacity
     changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the color/input border and the actions disabled; it does not respond and wins over readonly and the error."
 business_rules:
-  - "The field grows with the text from layout/textarea-min-height and stops at layout/textarea-max-height; above it, the text scrolls inside. There is no resize handle."
+  - "The field grows with the text from layout/multiline-min-height and stops at layout/multiline-max-height; above it, the text scrolls inside. There is no resize handle."
   - "Enter writes a new line; it does not submit the form."
   - "The footer shows when there is a counter or an action, and never in readonly."
   - "The piece counts nothing: the consumer writes the counter text on input, and a limit warns without blocking typing."
@@ -178,14 +178,14 @@ domain_errors:
   - "invalid: the value needs correction, such as a passed limit; nph-field writes the sentence and passes it as description."
 tokens:
   width: layout/input-width
-  height: "layout/textarea-min-height to layout/textarea-max-height, on the scroll area"
+  height: "layout/multiline-min-height to layout/multiline-max-height, on the scroll area"
   radius: radius/control
   border: "border/width, in color/input, color/input-hover, focus/border or status/error"
   background: "color/background; color/muted when disabled"
   padding: "space/control-padding on the sides, space/inline at the top and bottom (D-1)"
   value: "text/body-md in color/foreground"
   placeholder: "text/body-md in color/muted-foreground"
-  footer: "space/stack below the text; space/inline between the actions"
+  footer: "space/stack below the text; space/inline-loose between the actions"
   counter: "text/caption in color/muted-foreground"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control"
   disabled: state/disabled-opacity
@@ -225,7 +225,7 @@ anti_patterns:
   - "Using it for a one-line value."
   - "Using the placeholder as the only label."
 sources:
-  design_md: "design.md, layout/textarea-min-height, layout/textarea-max-height, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6"
+  design_md: "design.md, layout/multiline-min-height, layout/multiline-max-height, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6"
   decision: "P93 — API and semantics of nph-textarea, on the form shape of P80 and the field contract of P83"
   tests: "src/components/nph-textarea/nph-textarea.test.ts"
   usage_evidence: "the Examples section of the nph-textarea Docs page"
@@ -268,7 +268,7 @@ comment or a message, a footer with a counter and actions.
 in the `actions` slot. There is no `footer` property and no variant axis.
 
 **By size:** `not_applicable`. The height comes from the text, between
-`layout/textarea-min-height` and `layout/textarea-max-height`.
+`layout/multiline-min-height` and `layout/multiline-max-height`.
 
 **By density:** `not_applicable`.
 
@@ -298,8 +298,8 @@ also in `readonly` (D-2). The halo stays outside the clipping of the scroll area
 
 **Business rule the piece carries:**
 
-- The field grows with the text from `layout/textarea-min-height` and stops at
-  `layout/textarea-max-height`; above it, the text scrolls inside. There is no resize
+- The field grows with the text from `layout/multiline-min-height` and stops at
+  `layout/multiline-max-height`; above it, the text scrolls inside. There is no resize
   handle.
 - Enter writes a new line; it does not submit the form.
 - The footer shows when there is a counter or an action, and never in `readonly`.
@@ -322,7 +322,7 @@ also in `readonly` (D-2). The halo stays outside the clipping of the scroll area
 | Focus | The border takes `focus/border` with the halo outside, without changing the size, also in `readonly` |
 | Contrast | The `color/input` border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration |
 | Alternative to color | The error is said by the sentence of `nph-field`, read as the description; the border color is not the only signal |
-| Known limits | The growth uses `field-sizing: content`: a browser without it keeps the field at `layout/textarea-min-height`, scrolling inside. Forced colors and right-to-left are not treated yet |
+| Known limits | The growth uses `field-sizing: content`: a browser without it keeps the field at `layout/multiline-min-height`, scrolling inside. Forced colors and right-to-left are not treated yet |
 
 ## Relations
 
@@ -343,15 +343,15 @@ in the footer actions.
 | Part | Token |
 |---|---|
 | Box | Width `layout/input-width`; radius `radius/control`; border `border/width`; background `color/background` |
-| Scroll area | From `layout/textarea-min-height` to `layout/textarea-max-height`; padding `space/control-padding` on the sides and `space/inline` at the top and bottom (D-1) |
+| Scroll area | From `layout/multiline-min-height` to `layout/multiline-max-height`; padding `space/control-padding` on the sides and `space/inline` at the top and bottom (D-1) |
 | Value | `text/body-md`, `color/foreground` |
 | Placeholder | `text/body-md`, `color/muted-foreground` |
-| Footer | `space/stack` below the text, inside the box; counter at the start, actions at the end, `space/inline` apart (D-3) |
+| Footer | `space/stack` below the text, inside the box; counter at the start, actions at the end, `space/inline-loose` apart (D-3, DSA-107) |
 | Counter | `text/caption`, `color/muted-foreground` |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
 | Disabled | `state/disabled-opacity` on `color/muted` |
 
-**Usage restrictions:** `layout/textarea-min-height` and `layout/textarea-max-height` serve
+**Usage restrictions:** `layout/multiline-min-height` and `layout/multiline-max-height` serve
 only this piece. `color/muted` is only the disabled background. The width may stretch to the
 parent, with no minimum (D-4). There is no motion.
 
@@ -394,7 +394,7 @@ and `solid` "Send".
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `layout/textarea-min-height`, `layout/textarea-max-height`,
+- **The repository `design.md`:** `layout/multiline-min-height`, `layout/multiline-max-height`,
   `color/input`, `color/input-hover`, `status/error`, `focus/*`, `state/disabled-opacity`,
   `layout/input-width`, `text/body-md`, `text/caption` and rule 6.
 - **The decision that originated it:** P93, the API and semantics of `nph-textarea`, on the

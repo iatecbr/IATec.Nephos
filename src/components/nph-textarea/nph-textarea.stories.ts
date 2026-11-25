@@ -4,7 +4,7 @@
  * They prove the contract accepted in Figma (frame `1632:24`, documentation `1922:642`,
  * set `1632:22`) and P93: the `state` matrix of the set, with the placeholder and a value;
  * the footer with counter and actions, and its absence in `readonly`; the growth between
- * `layout/textarea-min-height` and `layout/textarea-max-height`; the form association
+ * `layout/multiline-min-height` and `layout/multiline-max-height`; the form association
  * (name, required, submit, reset, a disabled fieldset and Enter, which writes a line);
  * the width; the field–control contract inside `nph-field`; and the three required
  * examples of the frame — "Comment", "Description in a form" and "Long text". Every story
@@ -162,7 +162,7 @@ export const Footer: Story = {
   },
 };
 
-/** The height: layout/textarea-min-height empty, it grows with the text and stops at layout/textarea-max-height, where the text scrolls inside. */
+/** The height: layout/multiline-min-height empty, it grows with the text and stops at layout/multiline-max-height, where the text scrolls inside. */
 export const Height: Story = {
   name: 'Height',
   render: (_args, context: GlobalsContext) => {
@@ -172,9 +172,9 @@ export const Height: Story = {
       page('height'),
       inBothModes(context, 'height', (label) =>
         matrix(label, [], [
-          { label: 'layout/textarea-min-height', cells: [html`<nph-textarea label=${v.notesLabel} placeholder=${v.notesPlaceholder}></nph-textarea>`] },
+          { label: 'layout/multiline-min-height', cells: [html`<nph-textarea label=${v.notesLabel} placeholder=${v.notesPlaceholder}></nph-textarea>`] },
           { label: 'value', cells: [html`<nph-textarea label=${v.notesLabel} value=${v.notesValue}></nph-textarea>`] },
-          { label: 'layout/textarea-max-height', cells: [longText({ label: v.notesLabel, value: v.longValue })] },
+          { label: 'layout/multiline-max-height', cells: [longText({ label: v.notesLabel, value: v.longValue })] },
         ]),
       ),
     );

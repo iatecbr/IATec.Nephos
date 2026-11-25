@@ -3057,7 +3057,7 @@
     ],
     "statesCaption": "Valor, invalid, readonly y disabled. Pasa el ratón sobre un campo para ver el hover y haz clic para ver el foco.",
     "footerTitle": "Pie",
-    "footerText": "El pie sirve solo a un comentario o a un mensaje, donde las acciones quedan junto al texto. Aparece cuando hay contador o acción, dentro de la caja, space/stack debajo del texto: el contador al inicio y las acciones al final, a space/inline una de otra.",
+    "footerText": "El pie sirve solo a un comentario o a un mensaje, donde las acciones quedan junto al texto. Aparece cuando hay contador o acción, dentro de la caja, space/stack debajo del texto: el contador al inicio y las acciones al final, a space/inline-loose una de otra.",
     "footerCaption": "Un comentario con el contador y las acciones Adjuntar y Enviar.",
     "footerHeader": [
       "Parte",
@@ -3076,7 +3076,7 @@
     "readOnlyTitle": "Sin pie en readonly.",
     "readOnlyText": "Un texto que la persona no edita no tiene nada que enviar: en readonly, el contador y las acciones no se dibujan, y un aviso lo dice en desarrollo. En un formulario común, el contador va en la línea de apoyo del nph-field.",
     "heightTitle": "Altura",
-    "heightText": "Vacío, el campo tiene layout/textarea-min-height, que muestra que cabe un texto largo. Crece con el texto y se detiene en layout/textarea-max-height; por encima, el texto se desplaza por dentro. No hay tirador para redimensionar arrastrando.",
+    "heightText": "Vacío, el campo tiene layout/multiline-min-height, que muestra que cabe un texto largo. Crece con el texto y se detiene en layout/multiline-max-height; por encima, el texto se desplaza por dentro. No hay tirador para redimensionar arrastrando.",
     "heightCaption": "Vacío en la altura mínima, y un texto largo que se detiene en el máximo y se desplaza por dentro.",
     "anatomyTitle": "Anatomía",
     "anatomyHeader": [
@@ -3090,7 +3090,7 @@
       ],
       [
         "Área de desplazamiento",
-        "El campo nativo: de layout/textarea-min-height a layout/textarea-max-height, relleno space/control-padding a los lados y space/inline arriba y abajo; por encima del máximo, el texto se desplaza por dentro."
+        "El campo nativo: de layout/multiline-min-height a layout/multiline-max-height, relleno space/control-padding a los lados y space/inline arriba y abajo; por encima del máximo, el texto se desplaza por dentro."
       ],
       [
         "Valor o placeholder",
@@ -3148,7 +3148,7 @@
     "references": [
       "Ficha del nph-textarea — propósito, estados, pie, altura, accesibilidad, tokens y antipatrones.",
       "docs/decisoes-tecnicas.md — P93 (API y semántica), P80 (los controles de formulario), P83 (el contrato campo–control), P01 y P02.",
-      "design.md — layout/textarea-min-height, layout/textarea-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground y color/muted-foreground.",
+      "design.md — layout/multiline-min-height, layout/multiline-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground y color/muted-foreground.",
       "Figma DS-IA-NEPHOS 5.0 — frame nph-textarea (1632:24), documentación 1922:642 y set 1632:22.",
       "Storybook — Validation, en la carpeta de al lado."
     ],
@@ -8506,7 +8506,7 @@
       "components-nph-input-validation--brands": "Las siete marcas en claro y oscuro: el borde y el halo de foco siguen la marca del marco con Tab, en el campo y en su botón de borrar.",
       "components-nph-textarea-validation--matrix": "Los estados del set: placeholder y valor, error, readonly, disabled, y la precedencia de disabled sobre readonly y de readonly sobre el error. Pasa el ratón para el hover, haz clic para el foco.",
       "components-nph-textarea-validation--footer": "El pie aparece con contador o acción, el contador al inicio y las acciones al final; disabled llega a las acciones; readonly no dibuja pie.",
-      "components-nph-textarea-validation--height": "Vacío, el campo tiene layout/textarea-min-height; crece con el texto y se detiene en layout/textarea-max-height, donde el texto se desplaza por dentro.",
+      "components-nph-textarea-validation--height": "Vacío, el campo tiene layout/multiline-min-height; crece con el texto y se detiene en layout/multiline-max-height, donde el texto se desplaza por dentro.",
       "components-nph-textarea-validation--form-association": "El host participa del formulario: el envío manda name=value con sus saltos de línea, Enter escribe una línea y no envía, el reset restaura el atributo value y un fieldset deshabilitado lo deja fuera.",
       "components-nph-textarea-validation--in-field": "Dentro del nph-field, el campo da la etiqueta, la ayuda, el error y el contador de la línea de apoyo, y el pie queda apagado.",
       "components-nph-textarea-validation--width": "El ancho es layout/input-width por defecto; se estira hasta el padre, sin mínimo.",

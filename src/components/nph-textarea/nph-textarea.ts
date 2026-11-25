@@ -25,8 +25,8 @@
  * - events: the native ones. `input` from the inner field crosses the shadow root;
  *   `change` does not, so the host fires it again. Setting `value` from code fires
  *   nothing. Enter writes a new line: it does not submit the form;
- * - the field grows with the text from `layout/textarea-min-height` and scrolls inside
- *   above `layout/textarea-max-height`. There is no resize handle;
+ * - the field grows with the text from `layout/multiline-min-height` and scrolls inside
+ *   above `layout/multiline-max-height`. There is no resize handle;
  * - no `::part`, no color property, no size, no event of its own.
  *
  * There is no invalid input that draws nothing: the piece has no enumerated property. A

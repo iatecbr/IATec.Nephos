@@ -3057,7 +3057,7 @@
     ],
     "statesCaption": "Valor, invalid, readonly e disabled. Passe o mouse sobre um campo para ver o hover e clique para ver o foco.",
     "footerTitle": "Rodapé",
-    "footerText": "O rodapé serve só a um comentário ou a uma mensagem, onde as ações ficam junto do texto. Ele aparece quando há contador ou ação, dentro da caixa, space/stack abaixo do texto: o contador no início e as ações no fim, a space/inline uma da outra.",
+    "footerText": "O rodapé serve só a um comentário ou a uma mensagem, onde as ações ficam junto do texto. Ele aparece quando há contador ou ação, dentro da caixa, space/stack abaixo do texto: o contador no início e as ações no fim, a space/inline-loose uma da outra.",
     "footerCaption": "Um comentário com o contador e as ações Anexar e Enviar.",
     "footerHeader": [
       "Parte",
@@ -3076,7 +3076,7 @@
     "readOnlyTitle": "Sem rodapé em readonly.",
     "readOnlyText": "Um texto que a pessoa não edita não tem o que enviar: em readonly, o contador e as ações não são desenhados, e um aviso diz isso em desenvolvimento. Em um formulário comum, o contador vai na linha de apoio do nph-field.",
     "heightTitle": "Altura",
-    "heightText": "Vazio, o campo tem layout/textarea-min-height, que mostra que um texto longo cabe. Ele cresce com o texto e para em layout/textarea-max-height; acima disso, o texto rola por dentro. Não há alça para redimensionar arrastando.",
+    "heightText": "Vazio, o campo tem layout/multiline-min-height, que mostra que um texto longo cabe. Ele cresce com o texto e para em layout/multiline-max-height; acima disso, o texto rola por dentro. Não há alça para redimensionar arrastando.",
     "heightCaption": "Vazio na altura mínima, e um texto longo que para no máximo e rola por dentro.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
@@ -3090,7 +3090,7 @@
       ],
       [
         "Área de rolagem",
-        "O campo nativo: de layout/textarea-min-height a layout/textarea-max-height, recuo space/control-padding nos lados e space/inline em cima e embaixo; acima do máximo, o texto rola por dentro."
+        "O campo nativo: de layout/multiline-min-height a layout/multiline-max-height, recuo space/control-padding nos lados e space/inline em cima e embaixo; acima do máximo, o texto rola por dentro."
       ],
       [
         "Valor ou placeholder",
@@ -3148,7 +3148,7 @@
     "references": [
       "Ficha do nph-textarea — propósito, estados, rodapé, altura, acessibilidade, tokens e antipadrões.",
       "docs/decisoes-tecnicas.md — P93 (API e semântica), P80 (os controles de formulário), P83 (o contrato campo–controle), P01 e P02.",
-      "design.md — layout/textarea-min-height, layout/textarea-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground e color/muted-foreground.",
+      "design.md — layout/multiline-min-height, layout/multiline-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground e color/muted-foreground.",
       "Figma DS-IA-NEPHOS 5.0 — frame nph-textarea (1632:24), documentação 1922:642 e set 1632:22.",
       "Storybook — Validation, na pasta ao lado."
     ],
@@ -8506,7 +8506,7 @@
       "components-nph-input-validation--brands": "As sete marcas no claro e no escuro: a borda e o halo de foco seguem a marca do quadro no Tab, no campo e no botão de limpar.",
       "components-nph-textarea-validation--matrix": "Os estados do set: placeholder e valor, erro, readonly, disabled, e a precedência de disabled sobre readonly e de readonly sobre erro. Passe o mouse para o hover, clique para o foco.",
       "components-nph-textarea-validation--footer": "O rodapé aparece com contador ou ação, o contador no início e as ações no fim; disabled chega às ações; readonly não desenha rodapé.",
-      "components-nph-textarea-validation--height": "Vazio, o campo tem layout/textarea-min-height; cresce com o texto e para em layout/textarea-max-height, onde o texto rola por dentro.",
+      "components-nph-textarea-validation--height": "Vazio, o campo tem layout/multiline-min-height; cresce com o texto e para em layout/multiline-max-height, onde o texto rola por dentro.",
       "components-nph-textarea-validation--form-association": "O host participa do formulário: o envio manda name=value com as quebras de linha, Enter quebra a linha e não envia, o reset restaura o atributo value e um fieldset desabilitado o deixa de fora.",
       "components-nph-textarea-validation--in-field": "Dentro do nph-field, o campo dá o rótulo, a ajuda, o erro e o contador da linha de apoio, e o rodapé fica desligado.",
       "components-nph-textarea-validation--width": "A largura é layout/input-width por padrão; estica até o pai, sem mínimo.",

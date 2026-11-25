@@ -3057,7 +3057,7 @@
     ],
     "statesCaption": "Value, invalid, readonly and disabled. Move the mouse over a field to see hover and click it to see focus.",
     "footerTitle": "Footer",
-    "footerText": "The footer serves only a comment or a message, where the actions stay next to the text. It shows when there is a counter or an action, inside the box, space/stack below the text: the counter at the start and the actions at the end, space/inline apart.",
+    "footerText": "The footer serves only a comment or a message, where the actions stay next to the text. It shows when there is a counter or an action, inside the box, space/stack below the text: the counter at the start and the actions at the end, space/inline-loose apart.",
     "footerCaption": "A comment with the counter and the actions Attach and Send.",
     "footerHeader": [
       "Part",
@@ -3076,7 +3076,7 @@
     "readOnlyTitle": "No footer in readonly.",
     "readOnlyText": "A text the person does not edit has nothing to send: in readonly, the counter and the actions are not drawn, and a warning says so in development. In a common form, the counter goes in the support line of nph-field.",
     "heightTitle": "Height",
-    "heightText": "Empty, the field has layout/textarea-min-height, which shows that a long text fits. It grows with the text and stops at layout/textarea-max-height; above it, the text scrolls inside. There is no handle to resize by dragging.",
+    "heightText": "Empty, the field has layout/multiline-min-height, which shows that a long text fits. It grows with the text and stops at layout/multiline-max-height; above it, the text scrolls inside. There is no handle to resize by dragging.",
     "heightCaption": "Empty at the minimum height, and a long text that stops at the maximum and scrolls inside.",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
@@ -3090,7 +3090,7 @@
       ],
       [
         "Scroll area",
-        "The native field: from layout/textarea-min-height to layout/textarea-max-height, padding space/control-padding on the sides and space/inline at the top and bottom; above the maximum, the text scrolls inside."
+        "The native field: from layout/multiline-min-height to layout/multiline-max-height, padding space/control-padding on the sides and space/inline at the top and bottom; above the maximum, the text scrolls inside."
       ],
       [
         "Value or placeholder",
@@ -3148,7 +3148,7 @@
     "references": [
       "nph-textarea spec sheet — purpose, states, footer, height, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P93 (API and semantics), P80 (the form controls), P83 (the field–control contract), P01 and P02.",
-      "design.md — layout/textarea-min-height, layout/textarea-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground and color/muted-foreground.",
+      "design.md — layout/multiline-min-height, layout/multiline-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground and color/muted-foreground.",
       "DS-IA-NEPHOS 5.0 Figma — frame nph-textarea (1632:24), documentation 1922:642 and set 1632:22.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -8506,7 +8506,7 @@
       "components-nph-input-validation--brands": "The seven brands in light and dark: the focus border and halo follow the brand of the frame on Tab, in the field and in its clear button.",
       "components-nph-textarea-validation--matrix": "The states of the set: placeholder and value, error, readonly, disabled, and the precedence of disabled over readonly and of readonly over error. Move the mouse for hover, click for focus.",
       "components-nph-textarea-validation--footer": "The footer shows with a counter or an action, the counter at the start and the actions at the end; disabled reaches the actions; readonly draws no footer.",
-      "components-nph-textarea-validation--height": "Empty, the field has layout/textarea-min-height; it grows with the text and stops at layout/textarea-max-height, where the text scrolls inside.",
+      "components-nph-textarea-validation--height": "Empty, the field has layout/multiline-min-height; it grows with the text and stops at layout/multiline-max-height, where the text scrolls inside.",
       "components-nph-textarea-validation--form-association": "The host takes part in the form: submit sends name=value with its line breaks, Enter writes a line and does not send, reset restores the value attribute and a disabled fieldset leaves it out.",
       "components-nph-textarea-validation--in-field": "Inside nph-field, the field gives the label, the help, the error and the support-line counter, and the footer stays off.",
       "components-nph-textarea-validation--width": "The width is layout/input-width by default; it stretches to the parent, with no minimum.",

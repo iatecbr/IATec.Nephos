@@ -588,9 +588,9 @@ describe('events', () => {
 });
 
 describe('growth and scroll', () => {
-  it('empty, the field has layout/textarea-min-height: three lines of text/body-md plus the padding (D-1)', async () => {
+  it('empty, the field has layout/multiline-min-height: three lines of text/body-md plus the padding (D-1)', async () => {
     const element = await mount();
-    const min = px('--nph-layout-textarea-min-height');
+    const min = px('--nph-layout-multiline-min-height');
     expect(field(element).getBoundingClientRect().height).toBeCloseTo(min, 1);
     expect(min).toBe(3 * Number.parseFloat(resolved('line-height', '--nph-text-body-md-line-height')) + 2 * px('--nph-space-inline'));
   });
@@ -608,10 +608,10 @@ describe('growth and scroll', () => {
     expect(field(element).getBoundingClientRect().height).toBeGreaterThan(before);
   });
 
-  it('stops at layout/textarea-max-height, and the text scrolls inside', async () => {
+  it('stops at layout/multiline-max-height, and the text scrolls inside', async () => {
     const element = await mount({ label: 'Notes', value: lines(40) });
     const textarea = field(element);
-    expect(textarea.getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-textarea-max-height'), 1);
+    expect(textarea.getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-multiline-max-height'), 1);
     expect(textarea.scrollHeight).toBeGreaterThan(textarea.clientHeight);
     expect(getComputedStyle(textarea).overflowY).toBe('auto');
   });
@@ -640,7 +640,7 @@ describe('footer: counter and actions', () => {
   it('is not drawn with no counter and no action', async () => {
     const element = await mount();
     expect(shown(footer(element))).toBe(false);
-    expect(container(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-textarea-min-height') + 2 * px('--nph-border-width'), 1);
+    expect(container(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-multiline-min-height') + 2 * px('--nph-border-width'), 1);
   });
 
   it('the counter turns it on and shows its text as it comes', async () => {
@@ -710,7 +710,7 @@ describe('footer: counter and actions', () => {
     expect(getComputedStyle(footer(element)).paddingInlineEnd).toBe(resolved('padding-left', '--nph-space-control-padding'));
   });
 
-  it('counter at the start, actions at the end, space/inline between the actions (D-3)', async () => {
+  it('counter at the start, actions at the end, space/inline-loose between the actions (D-3, DSA-107)', async () => {
     const { element, attach, send } = await withActions({ label: 'Comment', counter: '0/280' });
     const part = footer(element).getBoundingClientRect();
     const count = (counter(element) as HTMLElement).getBoundingClientRect();
@@ -718,7 +718,7 @@ describe('footer: counter and actions', () => {
     const b = send.getBoundingClientRect();
     expect(count.left).toBeCloseTo(part.left + px('--nph-space-control-padding'), 1);
     expect(b.right).toBeCloseTo(part.right - px('--nph-space-control-padding'), 1);
-    expect(b.left - a.right).toBeCloseTo(px('--nph-space-inline'), 1);
+    expect(b.left - a.right).toBeCloseTo(px('--nph-space-inline-loose'), 1);
     expect(a.left).toBeGreaterThan(count.right);
   });
 
@@ -1042,9 +1042,10 @@ describe('token contract', () => {
         '--nph-radius-control',
         '--nph-color-background',
         '--nph-color-muted-foreground',
-        '--nph-layout-textarea-min-height',
-        '--nph-layout-textarea-max-height',
+        '--nph-layout-multiline-min-height',
+        '--nph-layout-multiline-max-height',
         '--nph-space-inline',
+        '--nph-space-inline-loose',
         '--nph-space-control-padding',
         '--nph-space-stack',
         '--nph-color-foreground',
@@ -1084,9 +1085,9 @@ describe('token contract', () => {
     expect(cssWithoutComments).not.toMatch(/\btransition/);
   });
 
-  it('design.md says what the two height tokens are for, and only for nph-textarea', () => {
-    expect(designMd).toMatch(/layout\/textarea-min-height:[\s\S]{0,400}DO NOT USE outside nph-textarea/);
-    expect(designMd).toMatch(/layout\/textarea-max-height:[\s\S]{0,400}DO NOT USE outside nph-textarea/);
+  it('design.md says what the two multi-line height tokens are for, and names the nph-textarea', () => {
+    expect(designMd).toMatch(/layout\/multiline-min-height:[\s\S]{0,700}nph-textarea/);
+    expect(designMd).toMatch(/layout\/multiline-max-height:[\s\S]{0,700}nph-textarea/);
   });
 });
 
