@@ -154,7 +154,7 @@ business_rules:
   - "The search field keeps its own Tab stop and its arrow keys (pending decision D-2)."
   - "The bar never removes a chip: the consumer takes the filter away on nph-remove and keeps the strip in the page while it is empty."
   - "After a chip leaves by its X, the focus goes to the next chip, else to the previous one, else to trigger; after Clear filters empties the strip, to trigger."
-  - "The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer drops the text of the buttons first, then sends the actions at the back to More (pending decision D-5). Only the applied filters strip wraps."
+  - "The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer drops the text of the buttons first, then sends the actions at the back to More (pending decision D-5). A button whose text is a value (the current choice of a menu, such as the block style of the nph-rich-text-editor) keeps its text: on a narrow screen it goes whole to More, as its labeled group with the current value checked, instead of becoming icon only (DSA-106; precedent: nph-rich-text-editor, DSA-105). Only the applied filters strip wraps."
 domain_errors: []
 tokens:
   background: toolbar/background
@@ -296,6 +296,9 @@ The icon of the ghost buttons becomes solid on hover and when checked.
   else to `trigger`; after Clear filters empties the strip, to `trigger`.
 - The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer
   drops the text of the buttons first, then sends the actions at the back to More (D-5).
+  A button whose text is a value (the current choice of a menu, such as the block style of the
+  `nph-rich-text-editor`) keeps its text: on a narrow screen it goes whole to More, as its labeled group
+  with the current value checked, instead of becoming icon only (DSA-106; precedent: DSA-105).
   Only the applied filters strip wraps.
 
 **Domain error states:** none.

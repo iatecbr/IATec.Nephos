@@ -5672,7 +5672,9 @@ emits `console.warn` only in development, once while it lasts, as P76. The names
 
 7. **The narrow bar is composition (D-5).** The bar does not collapse by itself: on a narrow screen
    the consumer drops the text of the buttons first, then sends the actions at the back to More,
-   which opens `nph-dropdown-menu`.
+   which opens `nph-dropdown-menu`. **Exception (DSA-106):** a button whose text is a value (the current
+   choice of a menu, such as the block style of the `nph-rich-text-editor`) keeps its text and goes whole
+   to More, as its labeled group with the current value checked. D-5 stays open.
 
 8. **Tokens.** The fourteen `toolbar/*` tokens of the evidence, each in its part: the bar in
    `toolbar/background`, `toolbar/border` in `toolbar/border-width`, `toolbar/radius` and
