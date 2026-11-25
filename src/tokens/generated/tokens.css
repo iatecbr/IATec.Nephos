@@ -1431,7 +1431,7 @@
   --nph-notification-loading-surface: var(--nph-color-popover);
   --nph-notification-neutral-close-background-hover: var(--nph-color-inverse-foreground);
   --nph-notification-neutral-close-focus-border: var(--nph-color-inverse-foreground);
-  --nph-progress-track-background: var(--nph-color-muted);
+  --nph-progress-track-background: var(--nph-color-secondary);
   --nph-progress-indicator-background-success: var(--nph-status-success);
   --nph-progress-indicator-background-error: var(--nph-status-error);
   --nph-progress-label-foreground: var(--nph-color-foreground);
@@ -1440,7 +1440,7 @@
   --nph-progress-help-foreground-error: var(--nph-status-error);
   --nph-progress-icon-success: var(--nph-status-success);
   --nph-progress-icon-error: var(--nph-status-error);
-  --nph-progress-segment-background-pending: var(--nph-color-muted);
+  --nph-progress-segment-background-pending: var(--nph-color-secondary);
   --nph-progress-segment-background-success: var(--nph-status-success);
   --nph-progress-segment-background-error: var(--nph-status-error);
   --nph-breadcrumb-link-foreground: var(--nph-color-muted-foreground);

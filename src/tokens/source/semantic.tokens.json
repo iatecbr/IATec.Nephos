@@ -4921,7 +4921,7 @@
   "progress": {
     "track-background": {
       "$type": "color",
-      "$value": "{color.muted}"
+      "$value": "{color.secondary}"
     },
     "indicator-background": {
       "$type": "color",
@@ -5009,7 +5009,7 @@
     },
     "segment-background-pending": {
       "$type": "color",
-      "$value": "{color.muted}"
+      "$value": "{color.secondary}"
     },
     "segment-background-success": {
       "$type": "color",
