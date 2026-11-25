@@ -999,12 +999,12 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
   });
 
   /*
-   * Known limit recorded in design.md (focus/border): the focus border meets 3:1 against
-   * the halo in every brand and scheme except the default brand in light mode, at 2.92:1. The test pins
-   * the exact list: if a token changes, it fails and the limit is rewritten.
+   * The focus border meets 3:1 against the halo in every brand and scheme (the default brand
+   * uses tone 600 in light mode since DSA-92). The test pins the empty list: if a token
+   * changes, it fails.
    */
-  it('known limit: focus/border against focus/halo is under 3:1 only in the default brand, in light mode', () => {
-    expect(below(3, (area) => [resolved('color', '--nph-focus-border', area), resolved('color', '--nph-focus-halo', area)])).toEqual([`light ${DEFAULT_BRAND}`]);
+  it('focus/border against focus/halo is at least 3:1 in every brand and scheme', () => {
+    expect(below(3, (area) => [resolved('color', '--nph-focus-border', area), resolved('color', '--nph-focus-halo', area)])).toEqual([]);
   });
 });
 

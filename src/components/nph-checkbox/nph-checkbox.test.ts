@@ -1295,13 +1295,12 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
     expect(under.map(([brand, scheme]) => `${brand} ${scheme}`)).toEqual(['gerencial dark', 'rh dark']);
   });
 
-  it('known limit: focus/border under 3:1 against the halo is exactly the one design.md names', () => {
+  it('focus/border is at least 3:1 against the halo in every brand and scheme', () => {
     const under = pairs.filter(([brand, scheme]) => {
       const c = palette(brand, scheme);
       return contrast(c['focus-border'] as string, c['focus-halo'] as string) < 3;
     });
-    expect(under.map(([brand, scheme]) => `${brand} ${scheme}`)).toEqual(['sistemas light']);
-    expect(designMd).toContain('in light mode, the border measures 2,92:1 against the halo');
+    expect(under.map(([brand, scheme]) => `${brand} ${scheme}`)).toEqual([]);
   });
 
   it('known limit: the error border against focus/halo-error is under 3:1 in dark, in every brand', () => {

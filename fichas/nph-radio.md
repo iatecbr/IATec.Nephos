@@ -167,7 +167,7 @@ accessibility:
     - "Space checks the focused radio."
     - "A disabled radio is out of the Tab order and the arrow keys skip it; so is a radio hidden by display: none, on itself or on an ancestor."
   focus: "Keyboard only: the circle border turns focus/border and a focus/halo halo covers the 24 by 24 touch area, fully round. With error, the border stays status/error and the halo is focus/halo-error. A mouse click does not show it."
-  contrast: "The circle outline in color/input: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. The test measures the dot on the checked fill and the error border in every brand and scheme. Known limit: in light mode of the default brand, focus/border measures 2.92:1 against the halo, as design.md records."
+  contrast: "The circle outline in color/input: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. The test measures the dot on the checked fill and the error border in every brand and scheme. focus/border measures at least 3:1 against the halo in every brand and scheme."
   color_alternative: "The border says the state and the fill and the dot say the choice; the error has the sentence in nph-field."
 invalid_combinations:
   - "No text, no label, no aria-label and no aria-labelledby — the radio draws nothing."
@@ -303,8 +303,6 @@ changes. Width, height and position never animate. The focus shows only for the 
   position ("1 of 3"): that comes from `nph-field`.
 - `invalid` is not announced on the radio: `aria-invalid` is not supported on the `radio`
   role, and it belongs to the group.
-- In light mode of the default brand, `focus/border` measures 2.92:1 against the halo, as `design.md`
-  records.
 - The piece owns the `tabindex` of the host: a `tabindex` the consumer writes is replaced.
 - The arrow keys are physical; there is no right-to-left mirroring, and `forced-colors` is
   not treated.

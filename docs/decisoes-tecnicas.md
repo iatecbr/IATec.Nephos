@@ -2487,7 +2487,7 @@ by its own decision, as in P66, P68, P73 and P76. The names follow P64.
   `color/background` on `color/input` 3.23:1 in light and 6.58:1 in dark; `color/primary-foreground`
   on `color/primary` at least 4.96:1. The error outline, `status/error` on `color/background`,
   6.88:1 in light and 5.01:1 in dark. **Known limit, already recorded in `design.md`:**
-  `focus/border` against `focus/halo` is 2.92:1 in `Sistemas`, in light mode; the test pins that list.
+  `focus/border` against `focus/halo` is 2.92:1 in `Sistemas`, in light mode; the test pins that list. **Update (DSA-92):** `brand-focus` in `Sistemas` moved to tone 600 and the border now measures 4.26:1 against the halo; the test pins an empty list. The measure above stays as history.
 
 **Known limits.** A forced-colors mode is not handled: there the `box-shadow` and the
 backgrounds give way to system colors and the knob may not show; handling it takes system color
@@ -2846,7 +2846,7 @@ controls of P83, and records here only what differs.
   the checked fill against the background in dark gerencial (2.71:1) and dark rh (2.88:1), where
   the box border keeps the box visible; `focus/border` against the halo in light `sistemas`
   (2.92:1), as `design.md` already records; and `status/error` against `focus/halo-error` in dark,
-  in every brand (1.96:1), which `design.md` does not record.
+  in every brand (1.96:1), which `design.md` does not record. **Update (DSA-92):** `brand-focus` in `Sistemas` moved to tone 600 and the border now measures 4.26:1 against the halo; the test pins an empty list. The `focus/border` measure above stays as history.
 
 **Source.** Frame `nph-checkbox` (`1194:1033`, set `740:18776`) of the Figma file
 `DS-IA-NEPHOS 5.0`, accepted by Indiane on 01/10/2026, with the Figma UX QA and the textual audit
@@ -3005,7 +3005,7 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
   3:1 and 4.5:1 in both schemes. The dot, `color/primary-foreground` on `color/primary`, and the error
   border, `status/error` on `color/background`, pass 3:1 in all 14 brand and scheme pairs. The focus
   border, `focus/border`, is below 3:1 against the halo only in light Sistemas (2.92:1), the known
-  limit `design.md` records; the test pins that list.
+  limit `design.md` records; the test pins that list. **Update (DSA-92):** `brand-focus` in `Sistemas` moved to tone 600 and the border now measures 4.26:1 against the halo; the test pins an empty list. The measure above stays as history.
 
 **Known limits.**
 
@@ -10061,7 +10061,7 @@ only in development, once per cause: the rule of P21. The names follow P64.
   in Chromium only.
 - The control inside the card shows no hover on card hover (DSA-45 D-3).
 - The card has no `forced-colors` or right-to-left treatment; the arrow keys are physical.
-- In light mode of the default brand, `focus/border` measures 2.92:1 against the halo, as `design.md` records.
+- In light mode of the default brand, `focus/border` measured 2.92:1 against the halo, as `design.md` recorded; since DSA-92 it is 4.26:1 and the limit is gone.
 - The outer pixel of the halo of the rich option is clipped at the edge of the list.
 - The piece owns the `tabindex` of the host: a `tabindex` the consumer writes is replaced.
 

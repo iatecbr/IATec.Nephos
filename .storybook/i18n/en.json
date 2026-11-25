@@ -1481,7 +1481,7 @@
     "accessibility": [
       [
         "contrast",
-        "The text uses color/foreground: 21:1 in light and 14.73:1 in dark, above 4.5:1 (WCAG 1.4.3). The asterisk, in status/error, has 6.88:1 and 5.01:1. The information icon, in color/muted-foreground, has 6.69:1 and 9.81:1, and the focus border, in focus/border, 3.68:1 and 8.98:1, above 3:1 (WCAG 1.4.11)."
+        "The text uses color/foreground: 21:1 in light and 14.73:1 in dark, above 4.5:1 (WCAG 1.4.3). The asterisk, in status/error, has 6.88:1 and 5.01:1. The information icon, in color/muted-foreground, has 6.69:1 and 9.81:1, and the focus border, in focus/border, 5.37:1 and 8.98:1, above 3:1 (WCAG 1.4.11)."
       ],
       [
         "visible focus",
@@ -4221,7 +4221,7 @@
       ],
       [
         "Known limit",
-        "focus/border against focus/halo is below 3:1 only in the default brand in light mode, at 2.92:1, as design.md records; in every other brand and scheme it passes. A forced-colors mode and a right-to-left page are not handled yet. The error sentence outside the piece cannot be tied to it by aria-describedby across the shadow root."
+        "focus/border against focus/halo passes 3:1 in every brand and scheme. A forced-colors mode and a right-to-left page are not handled yet. The error sentence outside the piece cannot be tied to it by aria-describedby across the shadow root."
       ],
       [
         "Color is not the only signal",
@@ -5806,7 +5806,7 @@
       ],
       [
         "Known limits",
-        "The checked fill, color/primary, is below 3:1 on the background in dark mode in the gerencial and rh brands; the box border meets it. focus/border is below 3:1 against the halo in light mode in the sistemas brand, as design.md records. With error and focus, status/error is below 3:1 against focus/halo-error in dark mode."
+        "The checked fill, color/primary, is below 3:1 on the background in dark mode in the gerencial and rh brands; the box border meets it. With error and focus, status/error is below 3:1 against focus/halo-error in dark mode."
       ]
     ],
     "examplesTitle": "Examples",
@@ -6092,7 +6092,7 @@
       ],
       [
         "Known limits",
-        "Outside a radiogroup, the screen reader does not announce the group name or the position. invalid is not announced on the radio: aria-invalid belongs to the group. In light Sistemas, focus/border measures 2.92:1 against the halo."
+        "Outside a radiogroup, the screen reader does not announce the group name or the position. invalid is not announced on the radio: aria-invalid belongs to the group."
       ]
     ],
     "examplesTitle": "Examples",
@@ -17973,7 +17973,7 @@
       ],
       [
         "Contrast",
-        "The title and the second line pass 4.5:1 in light and dark. The boundary that meets 3:1 is the control inside the card. In light mode of the default brand, focus/border measures 2.92:1 against the halo."
+        "The title and the second line pass 4.5:1 in light and dark. The boundary that meets 3:1 is the control inside the card. focus/border measures at least 3:1 against the halo in every brand and scheme."
       ],
       [
         "Alternative to color",

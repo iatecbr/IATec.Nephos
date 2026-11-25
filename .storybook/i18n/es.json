@@ -1481,7 +1481,7 @@
     "accessibility": [
       [
         "contraste",
-        "El texto usa color/foreground: 21:1 en claro y 14,73:1 en oscuro, por encima de 4,5:1 (WCAG 1.4.3). El asterisco, en status/error, tiene 6,88:1 y 5,01:1. El icono de información, en color/muted-foreground, tiene 6,69:1 y 9,81:1, y el borde de foco, en focus/border, 3,68:1 y 8,98:1, por encima de 3:1 (WCAG 1.4.11)."
+        "El texto usa color/foreground: 21:1 en claro y 14,73:1 en oscuro, por encima de 4,5:1 (WCAG 1.4.3). El asterisco, en status/error, tiene 6,88:1 y 5,01:1. El icono de información, en color/muted-foreground, tiene 6,69:1 y 9,81:1, y el borde de foco, en focus/border, 5,37:1 y 8,98:1, por encima de 3:1 (WCAG 1.4.11)."
       ],
       [
         "foco visible",
@@ -4221,7 +4221,7 @@
       ],
       [
         "Límite conocido",
-        "focus/border contra focus/halo queda por debajo de 3:1 solo en la marca por defecto en modo claro, con 2,92:1, como registra design.md; en las demás marcas y esquemas pasa. El modo de colores forzados y la página de derecha a izquierda aún no se tratan. La frase de error fuera de la pieza no se vincula a ella por aria-describedby a través del shadow root."
+        "focus/border contra focus/halo pasa 3:1 en todas las marcas y esquemas. El modo de colores forzados y la página de derecha a izquierda aún no se tratan. La frase de error fuera de la pieza no se vincula a ella por aria-describedby a través del shadow root."
       ],
       [
         "El color no es la única señal",
@@ -5806,7 +5806,7 @@
       ],
       [
         "Límites conocidos",
-        "El relleno marcado, color/primary, queda por debajo de 3:1 sobre el fondo en el modo oscuro en las marcas gerencial y rh; el borde de la casilla lo alcanza. focus/border queda por debajo de 3:1 frente al halo en el modo claro en la marca sistemas, como registra design.md. Con error y foco, status/error queda por debajo de 3:1 frente a focus/halo-error en el modo oscuro."
+        "El relleno marcado, color/primary, queda por debajo de 3:1 sobre el fondo en el modo oscuro en las marcas gerencial y rh; el borde de la casilla lo alcanza. Con error y foco, status/error queda por debajo de 3:1 frente a focus/halo-error en el modo oscuro."
       ]
     ],
     "examplesTitle": "Ejemplos",
@@ -6092,7 +6092,7 @@
       ],
       [
         "Límites conocidos",
-        "Fuera de un radiogroup, el lector de pantalla no anuncia el nombre del grupo ni la posición. El invalid no se anuncia en el radio: el aria-invalid es del grupo. En Sistemas claro, focus/border mide 2,92:1 contra el halo."
+        "Fuera de un radiogroup, el lector de pantalla no anuncia el nombre del grupo ni la posición. El invalid no se anuncia en el radio: el aria-invalid es del grupo."
       ]
     ],
     "examplesTitle": "Ejemplos",
@@ -17973,7 +17973,7 @@
       ],
       [
         "Contraste",
-        "El título y la segunda línea superan 4,5:1 en claro y oscuro. El límite que alcanza 3:1 es el control dentro de la tarjeta. En el modo claro de la marca predeterminada, focus/border mide 2,92:1 contra el halo."
+        "El título y la segunda línea superan 4,5:1 en claro y oscuro. El límite que alcanza 3:1 es el control dentro de la tarjeta. focus/border mide al menos 3:1 frente al halo en todas las marcas y esquemas."
       ],
       [
         "Alternativa al color",
