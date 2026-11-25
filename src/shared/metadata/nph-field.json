@@ -161,7 +161,7 @@
       "The keyboard of the control is the control's own."
     ],
     "focus": "The field takes no focus. The focus shows on the wrapped control; a click on the label text moves the focus to the control. In a group, a click on the label moves no focus.",
-    "contrast": "The label uses color/foreground, 21:1 in light and 14.73:1 in dark; the control border is color/input, which meets 3:1.",
+    "contrast": "The label uses color/foreground, 21:1 in light and 14.73:1 in dark; the bottom line of the control border is input/border-bottom, which meets 3:1.",
     "color_alternative": "The error state always brings the written message; the field is never only red."
   },
   "invalid_combinations": [

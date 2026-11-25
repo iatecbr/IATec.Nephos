@@ -318,7 +318,7 @@ tokens:
   panel: "sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius (collapsed: sidebar/rail-radius)"
   width: "sidebar/panel-width expanded and mobile; layout/sidebar-collapsed collapsed"
   spacing: "sidebar/panel-spacing on the sides (collapsed: sidebar/rail-padding) and between top, middle and foot; space/section at top and bottom; sidebar/section-gap between the search, the separator and the navigation"
-  search: "sidebar/search-background, sidebar/search-border"
+  search: "sidebar/search-background, sidebar/search-border on top and sides (redefines input/border); the bottom line keeps input/border-bottom; height input/height"
   separator: "sidebar/separator"
   logo: "sidebar/logo-max-height; sidebar/logo-mark-size in the collapsed mode"
   group_label: "sidebar/group-label, text/heading-2xs, no uppercase"
@@ -504,7 +504,7 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
 | Focus | `focus/border` and `focus/halo` on every focusable piece of the menu, and `panel-menu/focus-border` and `panel-menu/focus-ring`, the same tokens, on the subgroup. It measures at least 3.38:1 in light and 4.81:1 in dark against the panel, and 4.32:1 and 4.91:1 against the flyout panel, in every brand |
 | Contrast | Every text of the menu passes 4.5:1 on its background in light and dark, in the seven brands. In some brands, in dark, the background of the active rail button stays below 3:1 against the panel; the solid icon marks it |
 | Alternative to color | The active item uses the brand color, `text/label-md` and a solid icon; the active rail button turns its icon solid; the open option uses the same color with the arrow, and the weight separates active from open. The open subgroup uses a heavier label and the arrow up; the group line is decoration, the indent and the order show the level |
-| Touch target | Item and rail button at `sidebar/item-height` and `sidebar/rail-button-size`; subitem, subgroup, option, search, collapse button and corner button at `control/height-default`; all above 24 × 24 |
+| Touch target | Item and rail button at `sidebar/item-height` and `sidebar/rail-button-size`; subitem, subgroup, option, collapse button and corner button at `control/height-default`; the search at `input/height` (38); all above 24 × 24 |
 | Movement | In the panel menu the arrow of a group and of a subgroup turns 180 degrees and the block grows in place in `panel-menu/expand-duration` and `panel-menu/expand-easing`; with reduced motion nothing moves. The flyout panel and the mobile menu keep `motion/enter-*` and `motion/exit-*` |
 | Known limits | Forced colors and right-to-left are not treated yet. A browser that does not interpolate `grid-template-rows` opens and closes the panel menu with no movement |
 
@@ -531,7 +531,7 @@ left; in the mobile mode it floats over the screen.
 | Panel | `sidebar/panel-background`, `sidebar/panel-border`, `sidebar/panel-radius`; collapsed `sidebar/rail-radius` |
 | Width | `sidebar/panel-width`; collapsed `layout/sidebar-collapsed` |
 | Spacing | `sidebar/panel-spacing`, `sidebar/rail-padding`, `space/section`, `sidebar/section-gap` |
-| Search | `sidebar/search-background`, `sidebar/search-border`, `sidebar/separator` |
+| Search | `sidebar/search-background`, `sidebar/search-border` on top and sides, `input/border-bottom` on the bottom line, `input/height`, `sidebar/separator` |
 | Logo | `sidebar/logo-max-height`, `sidebar/logo-mark-size` |
 | Group label | `sidebar/group-label`, `text/heading-2xs` |
 | Collapse button | `control/height-default`, `icon/size-md`, `focus/border` |

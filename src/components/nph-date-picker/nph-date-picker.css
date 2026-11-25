@@ -29,6 +29,16 @@
   gap: var(--nph-date-picker-trigger-gap);
 }
 
+/*
+ * The text field of each date (one field, or start and end in a range): its split border and its default height are those of
+ * the date picker, set by redefining the three tokens the `nph-input` reads. The calendar button keeps `control/height-default`.
+ */
+.text {
+  --nph-input-border: var(--nph-date-picker-border);
+  --nph-input-border-bottom: var(--nph-date-picker-border-bottom);
+  --nph-input-height: var(--nph-date-picker-height);
+}
+
 /* The calendar icon is `color/muted-foreground`, light, as the icons of the field; the solid icon comes with the button's own hover. */
 .calendar-button {
   --nph-color-secondary-foreground: var(--nph-color-muted-foreground);

@@ -35,7 +35,7 @@ api:
     default: default
     reflects: true
     constraint: >-
-      large changes only the height: control/height-default or
+      large changes only the height: input/height (default) or
       control/height-large. compact changes the height, input/height-compact, and
       the end padding, input/clear-padding-end. Reflects because the internal CSS
       selects the measures by it. One size per form, the same as the button next
@@ -174,17 +174,17 @@ variants:
     do_not_combine_with: []
 states:
   default:
-    token: color/input
-    changes_for_user: "The resting border, on color/background."
+    token: "input/border, input/border-bottom"
+    changes_for_user: "The resting border, on color/background: the top and the sides in input/border, the bottom line in input/border-bottom."
   hover:
     token: color/input-hover
-    changes_for_user: "The border goes one step darker under the pointer."
+    changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
     changes_for_user: "The border takes focus/border with the focus/halo attached outside, at focus/radius-control and focus/ring-width."
   focus-clear:
     token: focus/border
-    changes_for_user: "Keyboard focus on the clear button: the container keeps color/input, and the border and the halo sit around the 24 by 24 target. In compact the ring goes past the field while the button has focus."
+    changes_for_user: "Keyboard focus on the clear button: the container keeps the resting split border (input/border and input/border-bottom), and the border and the halo sit around the 24 by 24 target. In compact the ring goes past the field while the button has focus."
   error:
     token: status/error
     changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
@@ -193,7 +193,7 @@ states:
     changes_for_user: "The border stays status/error and the halo is focus/halo-error."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the color/input border; it does not respond and wins over the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input; it does not respond and wins over the error."
 business_rules:
   - "The end icon always clears the value; swapping the icon changes only the art."
   - "The clear button shows only when there is a value; after clearing, the focus goes back to the field."
@@ -203,10 +203,10 @@ business_rules:
 domain_errors:
   - "invalid: the value needs correction; nph-field writes the sentence and passes it as description."
 tokens:
-  height: "control/height-default, control/height-large or input/height-compact"
+  height: "input/height, control/height-large or input/height-compact"
   width: layout/input-width
   radius: radius/control
-  border: "border/width, in color/input, color/input-hover, focus/border or status/error"
+  border: "border/width, in input/border (top and sides) and input/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border"
   background: "color/background; color/muted when disabled"
   padding: "space/control-padding; the end one is input/clear-padding-end in compact"
   gap: space/inline
@@ -233,7 +233,7 @@ accessibility:
     - "Enter in the field submits the form."
     - "Enter or Space on the clear button clears the value and brings the focus back to the field."
   focus: "The field shows the focus border and the halo whenever it has the focus, by pointer or keyboard; the clear button shows its own only for the keyboard."
-  contrast: "The color/input border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration."
+  contrast: "The bottom line of the resting border, input/border-bottom, meets 3:1 against the background (WCAG 1.4.11); the top and the sides are lighter on purpose; the halo is decoration."
   color_alternative: "The error is said by the sentence of nph-field, read as the description of the field; the border color is not the only signal."
 invalid_combinations:
   - "A type outside text, email, tel, url and search — the field draws nothing."
@@ -257,7 +257,7 @@ anti_patterns:
   - "Using compact on a touch screen."
   - "Clipping the overflow of a compact field: the focus ring of the clear button goes past it."
 sources:
-  design_md: "design.md, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact and input/clear-padding-end in the token source"
+  design_md: "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact, input/clear-padding-end, input/border, input/border-bottom and input/height in the token source"
   decision: "P80 — API and semantics of nph-input, the reference of the form controls; its amendment of 28/10/2026 (DSA-59) adds compact"
   tests: "src/components/nph-input/nph-input.test.ts"
   usage_evidence: "the Examples section of the nph-icon Docs page"
@@ -297,7 +297,7 @@ the help and the error message belong to `nph-field`; the input shows only the `
 **By appearance:** the start icon and the end icon, each turned on by a property; they do
 not create a variant.
 
-**By size:** `compact` (`input/height-compact`), `default` (`control/height-default`) and
+**By size:** `compact` (`input/height-compact`), `default` (`input/height`, 38) and
 `large` (`control/height-large`). `large` changes only the height; `compact` also changes the
 end padding to `input/clear-padding-end`, in every state, so the 24 × 24 clear target fits and
 the X sits 12 px from the end border, as the start icon does from the start border.
@@ -318,13 +318,13 @@ the X sits 12 px from the end border, as the start icon does from the start bord
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `color/input` | The resting border, on `color/background` |
-| `hover` | `color/input-hover` | The border goes one step darker under the pointer |
+| `default` | `input/border`, `input/border-bottom` | The resting border, on `color/background`: top and sides in `input/border`, the bottom line in `input/border-bottom` |
+| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | The border takes `focus/border`, with the halo attached outside at `focus/radius-control` |
-| `foco-limpar` | `focus/border`, `focus/halo` | The container keeps `color/input`; the border at `focus/border-radius-control` and the halo at `focus/radius-control-with-border` sit around the 24 × 24 clear target. In `compact` the halo goes 3 px past the top and the bottom of the field, only while the button has focus |
+| `foco-limpar` | `focus/border`, `focus/halo` | The container keeps the resting split border (`input/border`, `input/border-bottom`); the border at `focus/border-radius-control` and the halo at `focus/radius-control-with-border` sit around the 24 × 24 clear target. In `compact` the halo goes 3 px past the top and the bottom of the field, only while the button has focus |
 | `erro` | `status/error` | The border is `status/error`, also on hover |
 | `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the `color/input` border |
+| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the whole border in `color/input` |
 
 **Feedback and focus:** `disabled` wins over everything; `erro` keeps its border on hover and
 on focus; with `erro` and the focus on the clear button, the container is `status/error` and
@@ -353,7 +353,7 @@ sentence and passes it to the input as `description`.
 | Description | `description`, read when the field takes focus: the help or the error sentence of `nph-field` |
 | Keyboard | Tab enters the field and, when there is a value, the clear button. Enter in the field submits the form. Enter or Space on the clear button clears the value and brings the focus back |
 | Focus | The border takes `focus/border` with the halo outside, without changing the size |
-| Contrast | The `color/input` border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration |
+| Contrast | The bottom line, `input/border-bottom`, meets 3:1 against the background (WCAG 1.4.11); the top and the sides are lighter on purpose; the halo is decoration |
 | Alternative to color | The error is said by the sentence of `nph-field`, read as the description; the border color is not the only signal |
 | Touch target | The field itself; `large` guarantees 44 px. `compact`, 28 px, is for mouse and keyboard only, never for touch. The clear button has its own 24 × 24 target in the three sizes |
 | Focus outside the field | In `compact` the focus ring of the clear button goes past the field; it is not clipped (WCAG 2.4.13, 2.4.11). A wrapper must not clip the overflow of the field |
@@ -377,7 +377,7 @@ which names it on its own with `for`; `nph-icon`, through the start and end icon
 
 | Part | Token |
 |---|---|
-| Container | Height `control/height-default`, `control/height-large` or `input/height-compact`; width `layout/input-width`; radius `radius/control`; border `border/width`; side padding `space/control-padding`, with the end one `input/clear-padding-end` in `compact`; gap `space/inline`; background `color/background` |
+| Container | Height `input/height`, `control/height-large` or `input/height-compact`; width `layout/input-width`; radius `radius/control`; border `border/width`, with `input/border` on top and sides and `input/border-bottom` below at rest; side padding `space/control-padding`, with the end one `input/clear-padding-end` in `compact`; gap `space/inline`; background `color/background` |
 | Value | `text/body-md`, `color/foreground` |
 | Placeholder | `text/body-md`, `color/muted-foreground` |
 | Start and end icons | `icon/size-sm`, `color/muted-foreground` |
@@ -430,10 +430,11 @@ with `name` and `autocomplete` for the form.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `color/input`, `color/input-hover`, `status/error`,
+- **The repository `design.md`:** `color/input`, `color/field-border`,
+  `color/field-border-bottom`, `color/input-hover`, `status/error`,
   `focus/*`, `state/disabled-opacity`, `control/height-*`, `layout/input-width`,
-  `text/body-md` and rule 6. `input/height-compact` and `input/clear-padding-end` are in
-  `src/tokens/source/semantic.tokens.json`.
+  `text/body-md` and rule 6. `input/height-compact`, `input/clear-padding-end`, `input/border`, `input/border-bottom` and
+  `input/height` are in `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P80, the API and semantics of `nph-input`, the
   reference of the form controls, and its amendment of 28/10/2026 (DSA-59), the size
   `compact`; the field contract is P83.

@@ -1387,7 +1387,7 @@ describe('token contract', () => {
   });
 
   it('design.md ties the tokens of the evidence to the checkbox', () => {
-    expect(designMd).toContain('use: "Field border: input, select, textarea, checkbox.');
+    expect(designMd).toMatch(/color\/input:[\s\S]{0,200}use: "Border of a form control with a full outline: nph-checkbox, nph-radio/);
     expect(designMd).toMatch(/radius\/inner[\s\S]{0,200}USE on an element nested inside a control or container \(checkbox/);
     /* The entry of `focus/border` in design.md, from its key to the next key. Other pieces append their own
        sentence to the `use` of a token, so a fixed window after the key goes stale; the sentence of this

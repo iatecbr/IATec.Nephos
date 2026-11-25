@@ -1180,31 +1180,32 @@ describe('the list in the top layer', () => {
 });
 
 describe('measures and anatomy', () => {
-  it('width layout/input-width; height control/height-default and large', async () => {
+  it('width layout/input-width; height combobox/height and control/height-large', async () => {
     const element = await mount();
     expect(element.getBoundingClientRect().width).toBeCloseTo(px('--nph-layout-input-width'), 0);
-    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 0);
+    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-combobox-height'), 0);
     element.size = 'large';
     await settle();
     expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-large'), 0);
   });
 
   for (const size of ['default', 'large'] as const) {
-    it(`${size}: the arrow area is control/height-${size} wide, the divider outside it, and as tall as the field minus its borders`, async () => {
+    it(`${size}: the arrow area is control/height-${size} wide, with no divider, and as tall as the field minus its borders`, async () => {
       const element = await mount(`label="Country" size="${size}"`);
       const arrow = (element.shadowRoot?.querySelector('.arrow') as HTMLElement).getBoundingClientRect();
       const border = px('--nph-border-width');
-      expect(arrow.width).toBeCloseTo(px(`--nph-control-height-${size}`) + border, 0);
-      expect(arrow.height).toBeCloseTo(px(`--nph-control-height-${size}`) - 2 * border, 0);
+      const field = size === 'default' ? '--nph-combobox-height' : '--nph-control-height-large';
+      expect(arrow.width).toBeCloseTo(px(`--nph-control-height-${size}`), 0);
+      expect(arrow.height).toBeCloseTo(px(field) - 2 * border, 0);
       expect(arrow.right).toBeCloseTo(control(element).getBoundingClientRect().right - border, 0);
     });
   }
 
-  it('the arrow area: color/accent, the color/border divider before it, radius/control-inner on the right', async () => {
+  it('the arrow area: no background, no divider, radius/control-inner on the right', async () => {
     const element = await mount();
     const style = getComputedStyle(element.shadowRoot?.querySelector('.arrow') as HTMLElement);
-    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
-    expect(style.borderLeftColor).toBe(resolved('color', '--nph-color-border'));
+    expect(style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(style.borderLeftWidth).toBe('0px');
     expect(style.borderTopRightRadius).toBe(resolved('border-top-right-radius', '--nph-radius-control-inner'));
     expect(style.borderTopLeftRadius).toBe('0px');
   });
@@ -1228,10 +1229,20 @@ describe('measures and anatomy', () => {
 });
 
 describe('states and precedence', () => {
+  const bottom = (element: NphCombobox): string => getComputedStyle(control(element)).borderBottomColor;
+  it('rest: combobox/border on top and sides, combobox/border-bottom below; hover is color/input-hover, whole', async () => {
+    const element = await mount();
+    expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-combobox-border'));
+    expect(bottom(element)).toBe(resolved('color', '--nph-combobox-border-bottom'));
+    await userEvent.hover(control(element));
+    expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-color-input-hover'));
+    expect(bottom(element)).toBe(resolved('color', '--nph-color-input-hover'));
+  });
   it('focus: focus/border and the focus/halo outside; open keeps it', async () => {
     const element = await mount();
     await focus(element);
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
+    expect(bottom(element)).toBe(resolved('color', '--nph-focus-border'));
     expect(getComputedStyle(control(element), '::after').borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     await press(element, '{ArrowDown}');
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
@@ -1240,8 +1251,10 @@ describe('states and precedence', () => {
   it('error: status/error at rest and on focus; focus/halo-error on focus', async () => {
     const element = await mount('label="Country" invalid');
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-status-error'));
+    expect(bottom(element)).toBe(resolved('color', '--nph-status-error'));
     await focus(element);
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-status-error'));
+    expect(bottom(element)).toBe(resolved('color', '--nph-status-error'));
     expect(getComputedStyle(control(element), '::after').borderTopColor).toBe(resolved('color', '--nph-focus-halo-error'));
   });
 
@@ -1249,6 +1262,7 @@ describe('states and precedence', () => {
     const element = await mount('label="Country" invalid disabled');
     expect(getComputedStyle(control(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(bottom(element)).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
   });
 
@@ -1360,6 +1374,9 @@ describe('token contract', () => {
       '--nph-layout-input-width',
       '--nph-color-background',
       '--nph-color-input',
+      '--nph-combobox-border',
+      '--nph-combobox-border-bottom',
+      '--nph-combobox-height',
       '--nph-color-border-subtle',
       '--nph-border-width',
       '--nph-radius-control',
@@ -1367,8 +1384,6 @@ describe('token contract', () => {
       '--nph-control-height-large',
       '--nph-space-control-padding',
       '--nph-space-inline',
-      '--nph-color-border',
-      '--nph-color-accent',
       '--nph-radius-control-inner',
       '--nph-radius-none',
       '--nph-color-input-hover',

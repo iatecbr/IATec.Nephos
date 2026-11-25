@@ -26,7 +26,7 @@
       "required": false,
       "default": "default",
       "reflects": true,
-      "constraint": "The height of the trigger and the width of the arrow area: control/height-default or control/height-large. Reflects because the internal CSS selects the height by it. Any other value draws nothing and emits console.error in development."
+      "constraint": "The height of the trigger (select/height or control/height-large) and the width of the arrow area (control/height-default or control/height-large): Reflects because the internal CSS selects the height by it. Any other value draws nothing and emits console.error in development."
     },
     "value": {
       "type": "string",
@@ -151,12 +151,12 @@
   },
   "states": {
     "default": {
-      "token": "color/input",
-      "changes_for_user": "The resting border, on color/background, with the arrow area in color/accent."
+      "token": "select/border, select/border-bottom",
+      "changes_for_user": "The resting border, on color/background: the top and the sides in select/border, the bottom line in select/border-bottom; the arrow area has no background and no divider."
     },
     "hover": {
       "token": "color/input-hover",
-      "changes_for_user": "The border goes one step darker under the pointer."
+      "changes_for_user": "The whole border, on all four sides, goes one step darker under the pointer."
     },
     "focus": {
       "token": "focus/border",
@@ -176,7 +176,7 @@
     },
     "disabled": {
       "token": "state/disabled-opacity",
-      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the color/input border, and the arrow area on color/muted too, with the divider kept; it does not open and wins over the error."
+      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input; the arrow area has no background of its own, so the color/muted of the field shows through it; it does not open and wins over the error."
     }
   },
   "business_rules": [
@@ -191,18 +191,18 @@
     "invalid: the choice needs correction, such as a required field with no choice; nph-field writes the sentence and passes it as description."
   ],
   "tokens": {
-    "height": "control/height-default or control/height-large",
+    "height": "select/height or control/height-large",
     "width": "layout/input-width",
     "radius": "radius/control",
-    "border": "border/width, in color/input, color/input-hover, focus/border or status/error",
+    "border": "border/width, in select/border (top and sides) and select/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border",
     "background": "color/background; color/muted when disabled",
     "padding": "space/control-padding on the left; 0 on the right",
     "gap": "space/inline",
     "value": "text/body-md in color/foreground",
     "placeholder": "text/body-md in color/muted-foreground",
     "start": "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm",
-    "divider": "border/width in color/border",
-    "arrow_area": "color/accent (color/muted when disabled), control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground",
+    "divider": "none: the arrow area has no divider",
+    "arrow_area": "no background, control/height-default or control/height-large wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground",
     "list": "color/popover, border/width in color/border-subtle, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height",
     "list_offset": "space/inline-tight",
     "motion": "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion",
@@ -227,7 +227,7 @@
       "Open: Enter, Space and Alt+ArrowUp choose the active option and close; Escape closes without choosing; Tab closes without choosing and the focus moves on."
     ],
     "focus": "The focus stays on the trigger; the active option is pointed to by aria-activedescendant. The trigger shows the focus border and the halo for the keyboard and while the list is open.",
-    "contrast": "The text of the trigger and of the option meets 4.5:1 and the border of the trigger meets 3:1, in light and dark mode; the arrow keeps 3:1 on color/accent; the check on color/primary-surface measures 4.78:1 and 6.26:1 (D8). The disabled state is exempt.",
+    "contrast": "The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger meets 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, select/border-bottom, is the one that meets 3:1 (the top and the sides are lighter on purpose); the check on color/primary-surface measures 4.78:1 and 6.26:1 (D8). The disabled state is exempt.",
     "color_alternative": "The error is said by the sentence of nph-field; the selected option has a background and the check; the dot goes with the written state; the arrow turns up when the list opens."
   },
   "invalid_combinations": [
@@ -266,7 +266,7 @@
     "Using the status dot without a written state."
   ],
   "sources": {
-    "design_md": "design.md, color/input, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, elevation/dropdown and motion/*",
+    "design_md": "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, elevation/dropdown and motion/*; select/border, select/border-bottom and select/height in the token source",
     "decision": "P91 — API and semantics of nph-select and nph-option; the form pattern is P80 and the field contract is P83",
     "tests": "src/components/nph-select/nph-select.test.ts and src/components/nph-option/nph-option.test.ts",
     "usage_evidence": "the Examples section of the nph-select Docs page",

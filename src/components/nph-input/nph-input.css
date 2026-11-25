@@ -37,7 +37,8 @@
 
 /* The container: border, radius, height, side padding and the gap between the parts. */
 .control {
-  --_border: var(--nph-color-input);
+  --_border: var(--nph-input-border);
+  --_border-bottom: var(--nph-input-border-bottom);
 
   position: relative;
   box-sizing: border-box;
@@ -46,10 +47,11 @@
   align-items: center;
   gap: var(--nph-space-inline);
   min-inline-size: 0;
-  block-size: var(--nph-control-height-default);
+  block-size: var(--nph-input-height);
   padding-block: 0;
   padding-inline: var(--nph-space-control-padding);
   border: var(--nph-border-width) solid var(--_border);
+  border-block-end-color: var(--_border-bottom);
   border-radius: var(--nph-radius-control);
   background-color: var(--nph-color-background);
   color: var(--nph-color-muted-foreground);
@@ -149,19 +151,22 @@
   pointer-events: none;
 }
 
-/* Hover: one step above the resting border. */
+/* Hover: the whole border, on all four sides, in `color/input-hover`. */
 .control:hover {
   --_border: var(--nph-color-input-hover);
+  --_border-bottom: var(--nph-color-input-hover);
 }
 
-/* `foco-limpar`: keep the resting container border, even when the pointer is over it. */
+/* `foco-limpar`: keep the resting split border, even when the pointer is over it. */
 .control:has(.clear:focus-visible) {
-  --_border: var(--nph-color-input);
+  --_border: var(--nph-input-border);
+  --_border-bottom: var(--nph-input-border-bottom);
 }
 
 /* `foco`: focus on the inner field. The border takes `focus/border` and the halo is attached outside it. */
 .control:has(.field:focus) {
   --_border: var(--nph-focus-border);
+  --_border-bottom: var(--nph-focus-border);
 }
 
 .control:has(.field:focus)::after {
@@ -197,16 +202,18 @@
 :host([invalid]) .control:hover,
 :host([invalid]) .control:has(.field:focus) {
   --_border: var(--nph-status-error);
+  --_border-bottom: var(--nph-status-error);
 }
 
 :host([invalid]) .control:has(.field:focus)::after {
   border-color: var(--nph-focus-halo-error);
 }
 
-/* Disabled wins: the resting border, the `color/muted` background, no hover and no error look. */
+/* Disabled wins: the whole border in `color/input`, the `color/muted` background, no hover and no error look. */
 :host(:disabled) .control,
 :host(:disabled) .control:hover {
   --_border: var(--nph-color-input);
+  --_border-bottom: var(--nph-color-input);
 
   background-color: var(--nph-color-muted);
 }

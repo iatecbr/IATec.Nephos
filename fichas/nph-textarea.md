@@ -147,11 +147,11 @@ variants:
       - "A counter in the footer and another in the nph-field support line."
 states:
   default:
-    token: color/input
-    changes_for_user: "The resting border, on color/background."
+    token: "textarea/border, textarea/border-bottom"
+    changes_for_user: "The resting border, on color/background: the top and the sides in textarea/border, the bottom line in textarea/border-bottom."
   hover:
     token: color/input-hover
-    changes_for_user: "The border goes one step darker under the pointer."
+    changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
     changes_for_user: "The border takes focus/border with the focus/halo attached outside, at focus/radius-control and focus/ring-width."
@@ -162,11 +162,11 @@ states:
     token: focus/halo-error
     changes_for_user: "The border stays status/error and the halo is focus/halo-error."
   readonly:
-    token: color/input
-    changes_for_user: "The resting border, also on hover, with no error look and no footer; the focus stays visible."
+    token: "textarea/border, textarea/border-bottom"
+    changes_for_user: "The resting split border, also on hover, with no error look and no footer; the focus stays visible."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the color/input border and the actions disabled; it does not respond and wins over readonly and the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input and the actions disabled; it does not respond and wins over readonly and the error."
 business_rules:
   - "The field grows with the text from layout/multiline-min-height and stops at layout/multiline-max-height; above it, the text scrolls inside. There is no resize handle."
   - "Enter writes a new line; it does not submit the form."
@@ -180,7 +180,7 @@ tokens:
   width: layout/input-width
   height: "layout/multiline-min-height to layout/multiline-max-height, on the scroll area"
   radius: radius/control
-  border: "border/width, in color/input, color/input-hover, focus/border or status/error"
+  border: "border/width, in textarea/border (top and sides) and textarea/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border"
   background: "color/background; color/muted when disabled"
   padding: "space/control-padding on the sides, space/inline at the top and bottom (D-1)"
   value: "text/body-md in color/foreground"
@@ -204,7 +204,7 @@ accessibility:
     - "Tab enters the field and then the footer actions."
     - "Enter in the field writes a new line; it does not submit the form."
   focus: "The field shows the focus border and the halo whenever it has the focus, by pointer or keyboard, also in readonly (D-2)."
-  contrast: "The color/input border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration."
+  contrast: "The bottom line of the resting border, textarea/border-bottom, meets 3:1 against the background (WCAG 1.4.11); the top and the sides are lighter on purpose; the halo is decoration."
   color_alternative: "The error is said by the sentence of nph-field, read as the description of the field; the border color is not the only signal."
 invalid_combinations:
   - "readonly with a counter or an action — the footer is not drawn, with one warning in development."
@@ -225,7 +225,7 @@ anti_patterns:
   - "Using it for a one-line value."
   - "Using the placeholder as the only label."
 sources:
-  design_md: "design.md, layout/multiline-min-height, layout/multiline-max-height, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6"
+  design_md: "design.md, layout/multiline-min-height, layout/multiline-max-height, color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6; textarea/border and textarea/border-bottom in the token source"
   decision: "P93 — API and semantics of nph-textarea, on the form shape of P80 and the field contract of P83"
   tests: "src/components/nph-textarea/nph-textarea.test.ts"
   usage_evidence: "the Examples section of the nph-textarea Docs page"
@@ -284,13 +284,13 @@ counter for the same text.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `color/input` | The resting border, on `color/background` |
-| `hover` | `color/input-hover` | The border goes one step darker under the pointer |
+| `default` | `textarea/border`, `textarea/border-bottom` | The resting border, on `color/background`: top and sides in `textarea/border`, the bottom line in `textarea/border-bottom` |
+| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | The border takes `focus/border`, with the halo attached outside at `focus/radius-control` |
 | `erro` | `status/error` | The border is `status/error`, also on hover |
 | `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
-| `leitura` (`readonly`) | `color/input` | The resting border, also on hover, with no error look and no footer; the focus stays visible |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the `color/input` border and the actions disabled |
+| `leitura` (`readonly`) | `textarea/border`, `textarea/border-bottom` | The resting split border, also on hover, with no error look and no footer; the focus stays visible |
+| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the whole border in `color/input` and the actions disabled |
 
 **Feedback and focus:** `disabled` wins over everything; `readonly` wins over `invalid`;
 `erro` keeps its border on hover and on focus. The field shows its focus whenever it has it,
@@ -320,7 +320,7 @@ also in `readonly` (D-2). The halo stays outside the clipping of the scroll area
 | Description | `description`, read when the field takes focus: the help or the error sentence of `nph-field`. The footer counter is not part of it |
 | Keyboard | Tab enters the field and then the footer actions. Enter writes a new line; it does not submit the form |
 | Focus | The border takes `focus/border` with the halo outside, without changing the size, also in `readonly` |
-| Contrast | The `color/input` border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration |
+| Contrast | The bottom line, `textarea/border-bottom`, meets 3:1 against the background (WCAG 1.4.11); the top and the sides are lighter on purpose; the halo is decoration |
 | Alternative to color | The error is said by the sentence of `nph-field`, read as the description; the border color is not the only signal |
 | Known limits | The growth uses `field-sizing: content`: a browser without it keeps the field at `layout/multiline-min-height`, scrolling inside. Forced colors and right-to-left are not treated yet |
 
@@ -342,7 +342,7 @@ in the footer actions.
 
 | Part | Token |
 |---|---|
-| Box | Width `layout/input-width`; radius `radius/control`; border `border/width`; background `color/background` |
+| Box | Width `layout/input-width`; radius `radius/control`; border `border/width`, with `textarea/border` on top and sides and `textarea/border-bottom` below at rest; background `color/background` |
 | Scroll area | From `layout/multiline-min-height` to `layout/multiline-max-height`; padding `space/control-padding` on the sides and `space/inline` at the top and bottom (D-1) |
 | Value | `text/body-md`, `color/foreground` |
 | Placeholder | `text/body-md`, `color/muted-foreground` |
@@ -395,8 +395,10 @@ and `solid` "Send".
 ## Sources and decisions
 
 - **The repository `design.md`:** `layout/multiline-min-height`, `layout/multiline-max-height`,
-  `color/input`, `color/input-hover`, `status/error`, `focus/*`, `state/disabled-opacity`,
-  `layout/input-width`, `text/body-md`, `text/caption` and rule 6.
+    `color/input`, `color/field-border`, `color/field-border-bottom`, `color/input-hover`,
+  `status/error`, `focus/*`, `state/disabled-opacity`, `layout/input-width`, `text/body-md`,
+  `text/caption` and rule 6. `textarea/border` and `textarea/border-bottom` are in
+  `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P93, the API and semantics of `nph-textarea`, on the
   form shape of P80 and the field contract of P83.
 - **Tests:** `src/components/nph-textarea/nph-textarea.test.ts`.

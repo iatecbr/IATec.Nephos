@@ -37,7 +37,8 @@ api:
       The Figma property `tamanho`: compact, default or large. The bar has no height of
       its own: it writes size on every direct child that has one — nph-button,
       nph-togglebutton, nph-toggle-group and nph-input — so they are 28, 36 or 44 px
-      high, and a size set on such a child is overwritten. nph-chip, which has two
+      high (the nph-input search is 28, 38 or 44: the default height of a field is
+      input/height), and a size set on such a child is overwritten. nph-chip, which has two
       sizes, takes compact in the compact bar and default in the other two. Any other
       value draws nothing and emits console.error in development.
   label:
@@ -164,7 +165,7 @@ tokens:
   bulk: "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x and toolbar/bulk-action-background-hover"
   floating: "toolbar/floating-background, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown"
   count: text/label-md
-  height: "from the pieces: control/height-compact, control/height-default or control/height-large"
+  height: "from the pieces: control/height-compact, control/height-default or control/height-large; the search nph-input takes input/height-compact, input/height (38) or control/height-large"
 ai_hints:
   - "Pick type by the situation and size by the density of the screen; on a touch screen, use large."
   - "Name the bar with label, after the area it acts on, such as Table actions."
@@ -339,7 +340,7 @@ sits over the content, near the selection, or pinned to the foot of the area.
 | Count | `text/label-md`, in `toolbar/bulk-count-foreground` or `toolbar/floating-count-foreground` |
 | Space | `toolbar/gap` between the items and between the zones |
 | Applied filters strip | No background and no border; `toolbar/gap` between the items and the lines, `toolbar/padding` at the start only |
-| Height | From the pieces: `control/height-compact`, `control/height-default` or `control/height-large` |
+| Height | From the pieces: `control/height-compact`, `control/height-default` or `control/height-large`; the search `nph-input` takes `input/height-compact`, `input/height` (38) or `control/height-large` |
 
 **Usage restrictions:** the bar consumes only the `toolbar/*` tokens, `elevation/dropdown` and
 `text/label-md`. In the bulk bar it points the secondary ghost hover tokens of `nph-button` at

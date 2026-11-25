@@ -924,7 +924,7 @@ describe('measures and anatomy', () => {
   it('the container: height, radius, border, side padding and gap come from tokens', async () => {
     const element = await mount({ label: 'Search', iconStart: 'magnifying-glass' });
     const style = getComputedStyle(container(element));
-    expect(container(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 2);
+    expect(container(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-input-height'), 2);
     expect(style.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-control'));
     expect(style.borderTopWidth).toBe(resolved('width', '--nph-border-width'));
     expect(style.paddingInlineStart).toBe(resolved('padding-left', '--nph-space-control-padding'));
@@ -1063,15 +1063,18 @@ describe('measures and anatomy', () => {
 
 describe('states and precedence (D4, D5)', () => {
   const border = (element: NphInput): string => getComputedStyle(container(element)).borderTopColor;
+  const borderBottom = (element: NphInput): string => getComputedStyle(container(element)).borderBottomColor;
   const halo = (element: NphInput): CSSStyleDeclaration => getComputedStyle(container(element), '::after');
 
   for (const scheme of ['light', 'dark'] as const) {
-    it(`${scheme}: default border color/input; hover color/input-hover`, async () => {
+    it(`${scheme}: default border input/border on top and sides, input/border-bottom below; hover color/input-hover, whole`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const element = await mount();
-      expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+      expect(border(element)).toBe(resolved('color', '--nph-input-border'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-input-border-bottom'));
       await userEvent.hover(container(element));
       expect(border(element)).toBe(resolved('color', '--nph-color-input-hover'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input-hover'));
     });
   }
 
@@ -1079,6 +1082,7 @@ describe('states and precedence (D4, D5)', () => {
     const element = await mount();
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
     const ring = halo(element);
     expect(ring.content).not.toBe('none');
     expect(ring.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
@@ -1102,14 +1106,15 @@ describe('states and precedence (D4, D5)', () => {
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
   });
 
-  it('focus on the clear button under hover: the container keeps color/input; border and halo sit around the 24 x 24 target', async () => {
+  it('focus on the clear button under hover: the container keeps the resting split border; border and halo sit around the 24 x 24 target', async () => {
     const element = await mount({ label: 'Search', iconEnd: 'xmark', clearLabel: 'Clear', value: 'lamp' });
     await userEvent.hover(container(element));
     field(element).focus();
     await userEvent.tab();
     const button = clearButton(element) as HTMLButtonElement;
     expect(element.shadowRoot?.activeElement).toBe(button);
-    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(border(element)).toBe(resolved('color', '--nph-input-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-input-border-bottom'));
     expect(halo(element).content).toBe('none');
     const before = getComputedStyle(button, '::before');
     const after = getComputedStyle(button, '::after');
@@ -1154,11 +1159,13 @@ describe('states and precedence (D4, D5)', () => {
     expect(getComputedStyle(button, '::before').content).toBe('none');
   });
 
-  it('error: border status/error, also on hover', async () => {
+  it('error: border status/error, bottom line included, also on hover', async () => {
     const element = await mount({ label: 'Email', invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
   });
 
   it('error with focus: border status/error, halo focus/halo-error at focus/radius-control', async () => {
@@ -1184,6 +1191,7 @@ describe('states and precedence (D4, D5)', () => {
     document.body.append(before);
     const element = await mount({ label: 'Email', disabled: true, value: 'a' });
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(container(element)).backgroundColor).toBe(resolved('color', '--nph-color-muted'));
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
     expect(field(element).disabled).toBe(true);
@@ -1195,8 +1203,10 @@ describe('states and precedence (D4, D5)', () => {
   it('disabled with error: disabled wins, no error look (D5)', async () => {
     const element = await mount({ label: 'Email', disabled: true, invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
   });
 
   it('an enabled piece is at full opacity, with no transition (D4)', async () => {
@@ -1304,8 +1314,10 @@ describe('token contract', () => {
         '--nph-layout-input-width',
         '--nph-state-disabled-opacity',
         '--nph-color-input',
+        '--nph-input-border',
+        '--nph-input-border-bottom',
+        '--nph-input-height',
         '--nph-space-inline',
-        '--nph-control-height-default',
         '--nph-control-height-large',
         '--nph-input-height-compact',
         '--nph-input-clear-padding-end',
@@ -1350,8 +1362,10 @@ describe('token contract', () => {
   });
 
   it('design.md says what the tokens of the piece are for', () => {
-    expect(designMd).toMatch(/color\/input:[\s\S]{0,200}use: "Field border: input/);
-    expect(designMd).toMatch(/color\/input-hover:[\s\S]{0,200}Border of the form field when the pointer is over it/);
+    expect(designMd).toMatch(/color\/input:[\s\S]{0,200}use: "Border of a form control with a full outline/);
+    expect(designMd).toMatch(/color\/field-border:[\s\S]{0,200}use: "Top and sides of the resting border of a form field/);
+    expect(designMd).toMatch(/color\/field-border-bottom:[\s\S]{0,200}use: "Bottom line of the resting border of a form field/);
+    expect(designMd).toMatch(/color\/input-hover:[\s\S]{0,200}The whole border of the form field when the pointer is over it, on all four sides/);
     expect(designMd).toMatch(/focus\/halo-error:[\s\S]{0,200}Focus HALO when the field is invalid/);
     expect(designMd).toMatch(/focus\/radius-control:[\s\S]{0,200}Radius of the focus halo around a control with radius\/control/);
     expect(designMd).toMatch(/state\/disabled-opacity:[\s\S]{0,200}applied to the WHOLE control/);

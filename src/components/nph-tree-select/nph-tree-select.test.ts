@@ -700,7 +700,8 @@ describe('the form', () => {
 describe('disabled and error', () => {
   it('a disabled field does not open and takes no focus', async () => {
     const element = await mount({ disabled: true, value: 'readme' });
-    await userEvent.click(control(element)).catch(() => {});
+    /* `force`: the field is aria-disabled, so the click must not wait for it to become enabled. */
+    await userEvent.click(control(element), { force: true });
     await settle(element);
     expect(element.open).toBe(false);
     expect(control(element).hasAttribute('tabindex')).toBe(false);
@@ -895,11 +896,68 @@ describe('the whole label of a cut item', () => {
   });
 });
 
+describe('the resting border, the heights and the arrow area, by mode', () => {
+  const MODES = [
+    ['single', 'select'],
+    ['search', 'combobox'],
+    ['multiple', 'multi-combobox'],
+  ] as const;
+  for (const [mode, mirrored] of MODES) {
+    it(`${mode}: the resting border is ${mirrored}/border on top and sides and ${mirrored}/border-bottom below; hover, focus and error paint the whole border`, async () => {
+      const element = await mount({ mode });
+      const style = (): CSSStyleDeclaration => getComputedStyle(control(element));
+      expect(style().borderTopColor).toBe(resolved('color', `--nph-${mirrored}-border`));
+      expect(style().borderLeftColor).toBe(resolved('color', `--nph-${mirrored}-border`));
+      expect(style().borderBottomColor).toBe(resolved('color', `--nph-${mirrored}-border-bottom`));
+      expect(control(element).getBoundingClientRect().height).toBeCloseTo(px(`--nph-${mirrored}-height`), 1);
+      await userEvent.hover(control(element));
+      expect(style().borderTopColor).toBe(resolved('color', '--nph-color-input-hover'));
+      expect(style().borderBottomColor).toBe(resolved('color', '--nph-color-input-hover'));
+      await userEvent.unhover(control(element));
+      element.invalid = true;
+      await element.updateComplete;
+      expect(style().borderTopColor).toBe(resolved('color', '--nph-status-error'));
+      expect(style().borderBottomColor).toBe(resolved('color', '--nph-status-error'));
+      element.invalid = false;
+      element.disabled = true;
+      await element.updateComplete;
+      expect(style().borderTopColor).toBe(resolved('color', '--nph-color-input'));
+      expect(style().borderBottomColor).toBe(resolved('color', '--nph-color-input'));
+    });
+  }
+  it('focus paints the whole border in focus/border', async () => {
+    const element = await mount({ mode: 'search' });
+    field(element).focus();
+    await element.updateComplete;
+    expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-focus-border'));
+  });
+  it('the modes keep their own height in large: control/height-large, as a minimum in multiple', async () => {
+    for (const mode of ['single', 'search', 'multiple'] as const) {
+      const element = await mount({ mode, size: 'large' });
+      expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-large'), 1);
+    }
+  });
+  for (const mode of ['single', 'search'] as const) {
+    it(`${mode}: the arrow area has no background and no divider, also disabled, and is control/height-default wide`, async () => {
+      const element = await mount({ mode });
+      const arrow = root(element).querySelector('.arrow') as HTMLElement;
+      const style = getComputedStyle(arrow);
+      expect(style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      expect(style.borderLeftWidth).toBe('0px');
+      expect(arrow.getBoundingClientRect().width).toBeCloseTo(px('--nph-control-height-default'), 1);
+      element.disabled = true;
+      await element.updateComplete;
+      expect(getComputedStyle(arrow).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      expect(getComputedStyle(control(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
+    });
+  }
+});
 describe('sizes', () => {
   it('large changes the height of the field and not the panel', async () => {
     const normal = await mount();
     const large = await mount({ size: 'large' });
-    expect(control(normal).getBoundingClientRect().height).toBe(px('--nph-control-height-default'));
+    expect(control(normal).getBoundingClientRect().height).toBe(px('--nph-select-height'));
     expect(control(large).getBoundingClientRect().height).toBe(px('--nph-control-height-large'));
     await open(large);
     expect(row(large, 'docs').getBoundingClientRect().height).toBe(px('--nph-tree-item-height'));

@@ -7,7 +7,7 @@
  * has its own), `nph-input`, an icon-only `nph-button` as the calendar button, `nph-tooltip` (the name of that button),
  * `nph-calendar` (the date grid), `nph-option` (the shortcuts), `nph-separator` and `nph-button` (the footer).
  * - `mode`: `single` (default; one field, one month; picking a day applies and closes) or `range` (Start and End fields,
- *   shortcuts, two months and a footer with Apply). Reflects. `size`: `compact` (28), `default` (36) or `large` (44), the
+ *   shortcuts, two months and a footer with Apply). Reflects. `size`: `compact` (28), `default` (38 the field, 36 the calendar button) or `large` (44), the
  *   height of the field and of the calendar button; the compact field opens the default panel. Reflects;
  * - `value` (single) and `start` and `end` (range): the date, or the period, as text `YYYY-MM-DD`. The person's choice writes
  *   them; setting them from code fires no event. `min` and `max` limit them; `unavailable` is a list of dates, or a function, for

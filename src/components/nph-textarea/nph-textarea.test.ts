@@ -812,16 +812,19 @@ describe('footer: counter and actions', () => {
 
 describe('states and precedence', () => {
   const border = (element: NphTextarea): string => getComputedStyle(container(element)).borderTopColor;
+  const borderBottom = (element: NphTextarea): string => getComputedStyle(container(element)).borderBottomColor;
   const halo = (element: NphTextarea): CSSStyleDeclaration => getComputedStyle(container(element), '::after');
 
   for (const scheme of ['light', 'dark'] as const) {
-    it(`${scheme}: default border color/input on color/background; hover color/input-hover`, async () => {
+    it(`${scheme}: default border textarea/border on top and sides, textarea/border-bottom below, on color/background; hover color/input-hover, whole`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const element = await mount();
-      expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+      expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
       expect(getComputedStyle(container(element)).backgroundColor).toBe(resolved('color', '--nph-color-background'));
       await userEvent.hover(container(element));
       expect(border(element)).toBe(resolved('color', '--nph-color-input-hover'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input-hover'));
     });
   }
 
@@ -843,6 +846,7 @@ describe('states and precedence', () => {
     const element = await mount();
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
     const ring = halo(element);
     expect(ring.content).not.toBe('none');
     expect(ring.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
@@ -857,30 +861,37 @@ describe('states and precedence', () => {
     await userEvent.click(field(element));
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
   });
 
   it('focus on an action: the box keeps its border and draws no halo', async () => {
     const { element, attach } = await withActions();
     attach.focus();
-    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
     expect(halo(element).content).toBe('none');
   });
 
   it('error: border status/error, also on hover; with focus, the halo focus/halo-error', async () => {
     const element = await mount({ label: 'Notes', invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     expect(halo(element).borderTopColor).toBe(resolved('color', '--nph-focus-halo-error'));
   });
 
-  it('readonly: the resting border, also on hover, and no error look', async () => {
+  it('readonly: the resting split border, also on hover, and no error look', async () => {
     const element = await mount({ label: 'Notes', readOnly: true, invalid: true, value: 'x' });
-    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
     await userEvent.hover(container(element));
-    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
     expect(getComputedStyle(element).opacity).toBe('1');
   });
 
@@ -888,6 +899,7 @@ describe('states and precedence', () => {
     const element = await mount({ label: 'Notes', readOnly: true, invalid: true, value: 'x' });
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
     expect(halo(element).borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
   });
 
@@ -896,6 +908,7 @@ describe('states and precedence', () => {
     document.body.append(before);
     const element = await mount({ label: 'Notes', disabled: true, value: 'a' });
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(container(element)).backgroundColor).toBe(resolved('color', '--nph-color-muted'));
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
     expect(field(element).disabled).toBe(true);
@@ -907,11 +920,13 @@ describe('states and precedence', () => {
   it('disabled wins over readonly and invalid', async () => {
     const element = await mount({ label: 'Notes', disabled: true, readOnly: true, invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(container(element)).backgroundColor).toBe(resolved('color', '--nph-color-muted'));
     expect(field(element).disabled).toBe(true);
     expect(field(element).readOnly).toBe(false);
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
   });
 
   it('an enabled piece is at full opacity, with no transition', async () => {
@@ -1038,6 +1053,8 @@ describe('token contract', () => {
         '--nph-layout-input-width',
         '--nph-state-disabled-opacity',
         '--nph-color-input',
+        '--nph-textarea-border',
+        '--nph-textarea-border-bottom',
         '--nph-border-width',
         '--nph-radius-control',
         '--nph-color-background',

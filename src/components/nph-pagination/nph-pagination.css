@@ -58,10 +58,14 @@
 }
 
 #page-size {
+  --nph-select-height: var(--nph-pagination-field-height);
+
   inline-size: var(--nph-pagination-page-size-width);
 }
 
 #go-to {
+  --nph-input-height: var(--nph-pagination-field-height);
+
   inline-size: var(--nph-pagination-page-input-width);
 }
 

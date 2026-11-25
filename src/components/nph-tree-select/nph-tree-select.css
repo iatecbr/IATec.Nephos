@@ -36,7 +36,12 @@
 }
 /* ----- the field ----------------------------------------------------------------- */
 .control {
-  --_border: var(--nph-color-input);
+  /* The resting split border and height are those of the field this mode mirrors (`select/*`; the modes below override the resting variables only, so hover and focus still win). */
+  --_rest: var(--nph-select-border);
+  --_rest-bottom: var(--nph-select-border-bottom);
+  --_border: var(--_rest);
+  --_border-bottom: var(--_rest-bottom);
+
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -44,11 +49,12 @@
   align-items: center;
   gap: var(--nph-space-inline);
   min-inline-size: 0;
-  block-size: var(--nph-control-height-default);
+  block-size: var(--nph-select-height);
   padding-block: 0;
   padding-inline-start: var(--nph-space-control-padding);
   padding-inline-end: 0;
   border: var(--nph-border-width) solid var(--_border);
+  border-block-end-color: var(--_border-bottom);
   border-radius: var(--nph-radius-control);
   background-color: var(--nph-color-background);
   color: var(--nph-color-muted-foreground);
@@ -59,13 +65,23 @@
 :host([mode='single']) .control {
   cursor: pointer;
 }
+:host([mode='search']) .control {
+  --_rest: var(--nph-combobox-border);
+  --_rest-bottom: var(--nph-combobox-border-bottom);
+
+  block-size: var(--nph-combobox-height);
+}
+
 :host([size='large']) .control {
   block-size: var(--nph-control-height-large);
 }
 /* The multiple choice grows when the chips go to another line: the height is a minimum. */
 :host([mode='multiple']) .control {
+  --_rest: var(--nph-multi-combobox-border);
+  --_rest-bottom: var(--nph-multi-combobox-border-bottom);
+
   block-size: auto;
-  min-block-size: var(--nph-control-height-default);
+  min-block-size: var(--nph-multi-combobox-height);
   padding-block: var(--nph-space-inline-tight);
   padding-inline-end: var(--nph-space-control-padding);
 }
@@ -197,8 +213,8 @@
   appearance: none;
 }
 /*
- * The arrow area of the single choice and of the single choice with search: `color/accent`, `control/height-*`
- * wide, as tall as the field minus its borders, the divider beside it. In the multiple choice there is only the
+ * The arrow area of the single choice and of the single choice with search: no background and no divider,
+ * `control/height-*` wide, as tall as the field minus its borders. In the multiple choice there is only the
  * arrow, at the end.
  */
 .arrow {
@@ -208,12 +224,10 @@
   justify-content: center;
   align-self: stretch;
   inline-size: var(--nph-control-height-default);
-  border-inline-start: var(--nph-border-width) solid var(--nph-color-border);
   border-start-start-radius: var(--nph-radius-none);
   border-end-start-radius: var(--nph-radius-none);
   border-start-end-radius: var(--nph-radius-control-inner);
   border-end-end-radius: var(--nph-radius-control-inner);
-  background-color: var(--nph-color-accent);
   color: var(--nph-color-muted-foreground);
   cursor: pointer;
 }
@@ -253,15 +267,18 @@
 }
 .control:hover {
   --_border: var(--nph-color-input-hover);
+  --_border-bottom: var(--nph-color-input-hover);
 }
 .control:has(.remove:focus-visible, .clear:focus-visible) {
-  --_border: var(--nph-color-input);
+  --_border: var(--_rest);
+  --_border-bottom: var(--_rest-bottom);
 }
 /* `foco`, and `aberto`, which is `foco` with the panel open. */
 .control:focus-visible,
 .control:has(.field:focus),
 :host([open]) .control {
   --_border: var(--nph-focus-border);
+  --_border-bottom: var(--nph-focus-border);
 }
 .control:focus-visible::after,
 .control:has(.field:focus)::after,
@@ -296,18 +313,20 @@
 :host([invalid]) .control:has(.field:focus),
 :host([invalid][open]) .control {
   --_border: var(--nph-status-error);
+  --_border-bottom: var(--nph-status-error);
 }
 :host([invalid]) .control:focus-visible::after,
 :host([invalid]) .control:has(.field:focus)::after,
 :host([invalid][open]) .control::after {
   border-color: var(--nph-focus-halo-error);
 }
-/* Disabled wins: the resting border, the `color/muted` background, no hover, no error look and no focus look. */
+/* Disabled wins: the whole border in `color/input`, the `color/muted` background, no hover, no error look and no focus look. */
 :host(:disabled) .control,
 :host(:disabled) .control:hover,
 :host(:disabled) .control:focus-visible,
 :host(:disabled) .control:has(.field:focus) {
   --_border: var(--nph-color-input);
+  --_border-bottom: var(--nph-color-input);
   background-color: var(--nph-color-muted);
   cursor: default;
 }
@@ -315,7 +334,6 @@
   content: none;
 }
 :host(:disabled) .arrow {
-  background-color: var(--nph-color-muted);
   cursor: default;
 }
 :host(:disabled) .chip {

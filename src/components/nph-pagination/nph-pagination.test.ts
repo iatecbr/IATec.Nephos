@@ -480,6 +480,7 @@ describe('items per page', () => {
     const label = root(pagination).querySelector('label[for="page-size"]') as HTMLLabelElement;
     expect(label.textContent?.trim()).toBe('Items per page');
     expect(select.getBoundingClientRect().width).toBeCloseTo(px('--nph-pagination-page-size-width'), 0);
+    expect((select.shadowRoot?.querySelector('.trigger') as HTMLElement).getBoundingClientRect().height).toBeCloseTo(px('--nph-pagination-field-height'), 0);
   });
 
   it('choosing another size keeps the first item on screen and fires the event with the size', async () => {
@@ -520,6 +521,7 @@ describe('go to page', () => {
     expect(order).toEqual(['bar', 'field']);
     const field = root(pagination).querySelector('nph-input') as NphInput;
     expect(field.getBoundingClientRect().width).toBeCloseTo(px('--nph-pagination-page-input-width'), 0);
+    expect((field.shadowRoot?.querySelector('.control') as HTMLElement).getBoundingClientRect().height).toBeCloseTo(px('--nph-pagination-field-height'), 0);
     expect((root(pagination).querySelector('label[for="go-to"]') as HTMLElement).textContent?.trim()).toBe('Go to page');
   });
 

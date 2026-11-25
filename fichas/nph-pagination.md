@@ -222,8 +222,8 @@ tokens:
   arrow: "pagination/item-size square, radius pagination/item-radius, background pagination/arrow-background, stroke pagination/arrow-border-width in pagination/arrow-border, icon/size-md; hover pagination/item-background-hover"
   written-arrow: "in numbered, space/control-padding on the sides and space/inline-tight between icon and text, as the nph-button with text"
   disabled: pagination/disabled-opacity
-  items-per-page: "nph-select in pagination/page-size-width"
-  go-to-page: "nph-input in pagination/page-input-width"
+  items-per-page: "nph-select in pagination/page-size-width, height pagination/field-height (36, the height of the buttons)"
+  go-to-page: "nph-input in pagination/page-input-width, height pagination/field-height (36)"
   focus: "border border/width in focus/border, focus/border-radius-control; halo focus/ring-width in focus/halo, focus/radius-control-with-border"
 ai_hints:
   - "Use nph-pagination below a list or table that does not fit on one screen; to filter or search, use the filter or the search."
@@ -389,8 +389,8 @@ built yet; today the consumer places the bar below an `nph-table` or a list.
 | Number | At least `pagination/item-size`, radius `pagination/item-radius`, `space/inline-tight` on the sides, `pagination/text-foreground` in `text/label-md` (D-2), tabular figures; every number and ellipsis reserves the width of the widest number; hover `pagination/item-background-hover`; current `pagination/item-background-active` and `text/label-md-strong` |
 | Arrow | `pagination/item-size` square, radius `pagination/item-radius`, `pagination/arrow-background`, stroke `pagination/arrow-border-width` in `pagination/arrow-border`, icon `icon/size-md`; hover `pagination/item-background-hover`. In `numbered`, `space/control-padding` on the sides and `space/inline-tight` between icon and text |
 | Disabled | `pagination/disabled-opacity` |
-| Items per page | `nph-select` in `pagination/page-size-width` |
-| Go to page | `nph-input` in `pagination/page-input-width` |
+| Items per page | `nph-select` in `pagination/page-size-width`, height `pagination/field-height` (36) |
+| Go to page | `nph-input` in `pagination/page-input-width`, height `pagination/field-height` (36) |
 | Focus | Border `border/width` in `focus/border`, `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, `focus/radius-control-with-border` |
 
 **Usage restrictions:** the numbers and the arrows are native buttons painted with the
