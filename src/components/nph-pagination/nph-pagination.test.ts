@@ -5,7 +5,7 @@
  *
  * They prove the contract accepted in Figma (board `1640:196`, set `1640:194`), recorded in
  * the evidence of the `figma-docs-accepted` gate of DSA-54, with the pending decisions D-1 to
- * D-5 in their default: the API, the invalid input, the six types, the window of numbers, the
+ * D-4 in their default: the API, the invalid input, the six types, the window of numbers, the
  * position text, the arrows and their destinations, the event, items per page, go to page,
  * the roles and names the browser computes, the colors and measures of each state, the focus,
  * and the token contract.
@@ -720,11 +720,11 @@ describe('colors and measures', () => {
     expect(getComputedStyle(first).backgroundColor).toBe(resolved('background-color', '--nph-pagination-arrow-background'));
   });
 
-  it('the bar: pagination/border in pagination/border-width, pagination/radius, padding and item gap', async () => {
+  it('the bar: no outer border, pagination/radius, padding and item gap (D-5, DSA-118)', async () => {
     const pagination = await mount({ page: 5 });
     const style = getComputedStyle(bar(pagination));
-    expect(style.borderTopColor).toBe(resolved('color', '--nph-pagination-border'));
-    expect(Number.parseFloat(style.borderTopWidth)).toBeCloseTo(px('--nph-pagination-border-width'), 1);
+    expect(Number.parseFloat(style.borderTopWidth)).toBe(0);
+    expect(style.borderTopStyle).toBe('none');
     expect(style.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-pagination-radius'));
     expect(Number.parseFloat(style.paddingLeft)).toBeCloseTo(px('--nph-pagination-padding-x'), 1);
     expect(Number.parseFloat(style.paddingTop)).toBeCloseTo(px('--nph-pagination-padding-y'), 1);
@@ -897,8 +897,6 @@ describe('token contract', () => {
       expect(tokensCss, name).toContain(`${name}:`);
     }
     for (const name of [
-      '--nph-pagination-border',
-      '--nph-pagination-border-width',
       '--nph-pagination-radius',
       '--nph-pagination-padding-x',
       '--nph-pagination-padding-y',

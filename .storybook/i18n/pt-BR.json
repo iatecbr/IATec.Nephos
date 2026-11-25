@@ -8656,7 +8656,7 @@
       "components-nph-chip-validation--examples": "Os três exemplos obrigatórios da documentação: filtros aplicados na linha da barra de ferramentas, valores escolhidos em um campo com um inválido, e filtros rápidos que a pessoa marca e desmarca, cada um em modo claro e escuro.",
       "components-nph-chip-validation--brands": "As sete marcas no claro e no escuro: o fundo, a borda, o estado selecionado e o contador do chip seguem a marca do quadro, e o anel de foco no Tab também.",
       "components-nph-label-validation--brands": "As sete marcas no claro e no escuro: o rótulo em si não muda; só o anel de foco do ícone de informação segue a marca do quadro no Tab.",
-      "components-nph-toolbar-validation--matrix": "Os cinco tipos nos três tamanhos, as quinze variantes do conjunto: em massa, página, ferramentas, flutuante e a faixa de filtros aplicados abaixo da barra de página. A barra pinta fundo, borda, raio e espaço; toda peça dentro dela recebe o tamanho da barra, 28, 36 ou 44 px de altura.",
+      "components-nph-toolbar-validation--matrix": "Os cinco tipos nos três tamanhos, as quinze variantes do conjunto: em massa, página, ferramentas, flutuante e a faixa de filtros aplicados abaixo da barra de página. A barra pinta fundo, raio e espaço; toda peça dentro dela recebe o tamanho da barra, 28, 36 ou 44 px de altura.",
       "components-nph-toolbar-validation--options": "Os booleanos do Figma como composição: a barra em massa com e sem a caixa de seleção, com a troca de visualização no centro e com limpar só em ícone; a barra de página com o centro; e a barra flutuante compacta.",
       "components-nph-toolbar-validation--piece-states": "Os estados pertencem às peças: a ação principal da barra de página desabilitada e carregando. Hover e foco são estados de interação: passe o mouse sobre uma ação, entre na barra com Tab e ande com as setas para vê-los.",
       "components-nph-toolbar-validation--applied-filters": "A faixa de filtros aplicados abaixo da barra de página, nos três tamanhos. Tire um chip pelo X: o foco vai para o próximo chip, senão para o anterior, senão para Filtrar, e a remoção é anunciada. Limpar filtros tira todos e manda o foco para Filtrar.",
@@ -9788,7 +9788,7 @@
     "summary": "A barra que leva a pessoa de uma página a outra numa lista longa e mostra onde ela está na lista.",
     "onThisPage": "Nesta página",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-pagination, o design.md para os tokens e os ícones, e a P99 para a API. Cinco decisões esperam a responsável pelo design (D-1 a D-5 da DSA-54) e aparecem aqui no padrão.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-pagination, o design.md para os tokens e os ícones, e a P99 para a API. Quatro decisões esperam a responsável pelo design (D-1 a D-4 da DSA-54) e aparecem aqui no padrão; a D-5 foi respondida em 24/11/2026: a barra não tem contorno (DSA-118).",
     "sourceLabel": "Fonte:",
     "sourceFrame": "Figma, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
     "sourceApi": "ficha do nph-pagination; docs/decisoes-tecnicas.md › P99",
@@ -9966,7 +9966,7 @@
     "anatomy": [
       [
         "1. Barra",
-        "Contorno pagination/border em pagination/border-width, raio pagination/radius, espaçamento pagination/padding-x e pagination/padding-y (D-5)."
+        "Sem contorno; raio pagination/radius, espaçamento pagination/padding-x e pagination/padding-y (D-5)."
       ],
       [
         "2. Setas",
@@ -10037,7 +10037,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
       "fichas/nph-pagination.md",
       "docs/decisoes-tecnicas.md › P99",
-      "Tarefa DSA-54, decisões pendentes D-1 a D-5"
+      "Tarefa DSA-54, decisões pendentes D-1 a D-4"
     ],
     "labels": {
       "label": "Paginação",
@@ -10524,7 +10524,7 @@
     "api": [
       [
         "type",
-        "bulk (padrão), page, tools, floating ou applied-filters, o tipo do Figma. Refletida: escolhe o fundo, a borda e o layout."
+        "bulk (padrão), page, tools, floating ou applied-filters, o tipo do Figma. Refletida: escolhe o fundo e o layout."
       ],
       [
         "size",
@@ -10580,7 +10580,7 @@
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "sourceUsage": "Figma, documentação 2944:6528; docs/decisoes-tecnicas.md › P70",
     "typesTitle": "Tipos",
-    "typesText": "O tipo é escolhido pela situação. A barra controla fundo, borda, raio e espaço; cada peça mantém a própria cor, estado e foco.",
+    "typesText": "O tipo é escolhido pela situação. A barra controla fundo, raio e espaço; cada peça mantém a própria cor, estado e foco.",
     "typesHeader": [
       "Tipo",
       "O que faz"
@@ -10683,7 +10683,7 @@
     "anatomy": [
       [
         "Barra",
-        "toolbar/background, toolbar/border em toolbar/border-width, toolbar/radius e toolbar/padding. Em massa: toolbar/bulk-background, sem borda, laterais em toolbar/bulk-padding-x. Flutuante: toolbar/floating-background, toolbar/floating-border, toolbar/floating-radius e elevation/dropdown."
+        "toolbar/background, toolbar/radius e toolbar/padding, sem borda. Em massa: toolbar/bulk-background, sem borda, laterais em toolbar/bulk-padding-x. Flutuante: toolbar/floating-background, toolbar/floating-radius e elevation/dropdown."
       ],
       [
         "Início",

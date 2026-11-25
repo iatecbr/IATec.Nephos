@@ -26,7 +26,7 @@ api:
     constraint: >-
       The Figma property `tipo`: bulk (`em massa`), page (`página`), tools
       (`ferramentas`), floating (`flutuante`) or applied-filters (`filtros aplicados`). It picks the
-      background, the border and the layout. Any other value draws nothing and emits
+      background and the layout. Any other value draws nothing and emits
       console.error in development.
   size:
     type: string
@@ -148,7 +148,7 @@ states:
     token: toolbar/gap
     changes_for_user: "With no chip, the strip is not shown and the page bar keeps its usual height. Clear filters shows from the first chip."
 business_rules:
-  - "The bar controls background, border, radius and space; each piece controls its own color, state and focus."
+  - "The bar controls background, radius and space; each piece controls its own color, state and focus."
   - "The bar is the source of the height: it writes size on every direct child that has one."
   - "The actions are one Tab stop: the left and right arrows move between them, wrapping at the ends, and Home and End go to the first and the last (pending decision D-2)."
   - "The search field keeps its own Tab stop and its arrow keys (pending decision D-2)."
@@ -158,12 +158,11 @@ business_rules:
 domain_errors: []
 tokens:
   background: toolbar/background
-  border: "toolbar/border in toolbar/border-width"
   radius: toolbar/radius
   padding: toolbar/padding
   gap: toolbar/gap
   bulk: "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x and toolbar/bulk-action-background-hover"
-  floating: "toolbar/floating-background, toolbar/floating-border, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown"
+  floating: "toolbar/floating-background, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown"
   count: text/label-md
   height: "from the pieces: control/height-compact, control/height-default or control/height-large"
 ai_hints:
@@ -276,7 +275,7 @@ The icon of the ghost buttons becomes solid on hover and when checked.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Bar | `toolbar/background` | The pieces sit on the bar's background, border and radius |
+| Bar | `toolbar/background` | The pieces sit on the bar's background and radius |
 | Bulk action hover | `toolbar/bulk-action-background-hover` | The hover of the secondary ghost actions stays visible over the highlighted background (D-1) |
 | Applied filters, empty | `toolbar/gap` | No chip: the strip is not shown and the page bar keeps its height |
 
@@ -284,7 +283,7 @@ The icon of the ghost buttons becomes solid on hover and when checked.
 
 **Business rule the bar carries:**
 
-- The bar controls background, border, radius and space; each piece controls its own color,
+- The bar controls background, radius and space; each piece controls its own color,
   state and focus.
 - The bar is the source of the height: it writes `size` on every direct child that has one.
 - The actions are one Tab stop: the left and right arrows move between them, wrapping at the
@@ -334,9 +333,9 @@ sits over the content, near the selection, or pinned to the foot of the area.
 
 | Part | Token |
 |---|---|
-| Bar | `toolbar/background`, `toolbar/border` in `toolbar/border-width`, `toolbar/radius`, `toolbar/padding` |
+| Bar | `toolbar/background`, `toolbar/radius`, `toolbar/padding`; no outer border (DSA-118) |
 | Bulk bar | `toolbar/bulk-background`, no border, sides in `toolbar/bulk-padding-x`; actions hover in `toolbar/bulk-action-background-hover` |
-| Floating bar | `toolbar/floating-background`, `toolbar/floating-border`, `toolbar/floating-radius`, `elevation/dropdown` |
+| Floating bar | `toolbar/floating-background`, `toolbar/floating-radius`, `elevation/dropdown`; no outer border (DSA-118) |
 | Count | `text/label-md`, in `toolbar/bulk-count-foreground` or `toolbar/floating-count-foreground` |
 | Space | `toolbar/gap` between the items and between the zones |
 | Applied filters strip | No background and no border; `toolbar/gap` between the items and the lines, `toolbar/padding` at the start only |

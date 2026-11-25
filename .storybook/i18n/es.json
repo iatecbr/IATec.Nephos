@@ -8656,7 +8656,7 @@
       "components-nph-chip-validation--examples": "Los tres ejemplos obligatorios de la documentación: filtros aplicados en la línea de la barra de herramientas, valores elegidos en un campo con uno no válido, y filtros rápidos que la persona marca y desmarca, cada uno en modo claro y oscuro.",
       "components-nph-chip-validation--brands": "Las siete marcas en claro y oscuro: el fondo, el borde, el estado seleccionado y el contador del chip siguen la marca del marco, y el anillo de foco con Tab también.",
       "components-nph-label-validation--brands": "Las siete marcas en claro y oscuro: la etiqueta en sí no cambia; solo el anillo de foco del icono de información sigue la marca del marco con Tab.",
-      "components-nph-toolbar-validation--matrix": "Los cinco tipos en los tres tamaños, las quince variantes del conjunto: en masa, página, herramientas, flotante y la franja de filtros aplicados debajo de la barra de página. La barra pinta fondo, borde, radio y espacio; cada pieza dentro de ella toma el tamaño de la barra, 28, 36 o 44 px de alto.",
+      "components-nph-toolbar-validation--matrix": "Los cinco tipos en los tres tamaños, las quince variantes del conjunto: en masa, página, herramientas, flotante y la franja de filtros aplicados debajo de la barra de página. La barra pinta fondo, radio y espacio; cada pieza dentro de ella toma el tamaño de la barra, 28, 36 o 44 px de alto.",
       "components-nph-toolbar-validation--options": "Los booleanos de Figma como composición: la barra en masa con y sin la casilla, con el cambio de vista en el centro y con limpiar solo en icono; la barra de página con el centro; y la barra flotante compacta.",
       "components-nph-toolbar-validation--piece-states": "Los estados pertenecen a las piezas: la acción principal de la barra de página deshabilitada y cargando. Hover y foco son estados de interacción: pasa el ratón sobre una acción, entra en la barra con Tab y muévete con las flechas para verlos.",
       "components-nph-toolbar-validation--applied-filters": "La franja de filtros aplicados debajo de la barra de página, en los tres tamaños. Quita un chip con su X: el foco va al chip siguiente, si no al anterior, si no a Filtrar, y la eliminación se anuncia. Limpiar filtros los quita todos y manda el foco a Filtrar.",
@@ -9788,7 +9788,7 @@
     "summary": "La barra que lleva a la persona de una página a otra en una lista larga y muestra dónde está en la lista.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-pagination, design.md para los tokens y los íconos, y la P99 para la API. Cinco decisiones esperan a la responsable del diseño (D-1 a D-5 de DSA-54) y aparecen aquí con su valor predeterminado.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-pagination, design.md para los tokens y los íconos, y la P99 para la API. Cuatro decisiones esperan a la responsable del diseño (D-1 a D-4 de DSA-54) y aparecen aquí con su valor predeterminado; la D-5 se respondió el 24/11/2026: la barra no tiene contorno (DSA-118).",
     "sourceLabel": "Fuente:",
     "sourceFrame": "Figma, página NPH — Pagination, documentación 1640:196, conjunto 1640:194",
     "sourceApi": "ficha de nph-pagination; docs/decisoes-tecnicas.md › P99",
@@ -9966,7 +9966,7 @@
     "anatomy": [
       [
         "1. Barra",
-        "Contorno pagination/border en pagination/border-width, radio pagination/radius, relleno pagination/padding-x y pagination/padding-y (D-5)."
+        "Sin contorno; radio pagination/radius, relleno pagination/padding-x y pagination/padding-y (D-5)."
       ],
       [
         "2. Flechas",
@@ -10037,7 +10037,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Pagination, documentación 1640:196, conjunto 1640:194",
       "fichas/nph-pagination.md",
       "docs/decisoes-tecnicas.md › P99",
-      "Tarea DSA-54, decisiones pendientes D-1 a D-5"
+      "Tarea DSA-54, decisiones pendientes D-1 a D-4"
     ],
     "labels": {
       "label": "Paginación",
@@ -10524,7 +10524,7 @@
     "api": [
       [
         "type",
-        "bulk (por defecto), page, tools, floating o applied-filters, el tipo de Figma. Reflejada: elige el fondo, el borde y el diseño."
+        "bulk (por defecto), page, tools, floating o applied-filters, el tipo de Figma. Reflejada: elige el fondo y el diseño."
       ],
       [
         "size",
@@ -10580,7 +10580,7 @@
     "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
     "sourceUsage": "Figma, documentación 2944:6528; docs/decisoes-tecnicas.md › P70",
     "typesTitle": "Tipos",
-    "typesText": "El tipo se elige por la situación. La barra controla fondo, borde, radio y espacio; cada pieza mantiene su propio color, estado y foco.",
+    "typesText": "El tipo se elige por la situación. La barra controla fondo, radio y espacio; cada pieza mantiene su propio color, estado y foco.",
     "typesHeader": [
       "Tipo",
       "Qué hace"
@@ -10683,7 +10683,7 @@
     "anatomy": [
       [
         "Barra",
-        "toolbar/background, toolbar/border en toolbar/border-width, toolbar/radius y toolbar/padding. En masa: toolbar/bulk-background, sin borde, laterales en toolbar/bulk-padding-x. Flotante: toolbar/floating-background, toolbar/floating-border, toolbar/floating-radius y elevation/dropdown."
+        "toolbar/background, toolbar/radius y toolbar/padding, sin borde. En masa: toolbar/bulk-background, sin borde, laterales en toolbar/bulk-padding-x. Flotante: toolbar/floating-background, toolbar/floating-radius y elevation/dropdown."
       ],
       [
         "Inicio",

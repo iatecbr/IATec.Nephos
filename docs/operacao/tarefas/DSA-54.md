@@ -54,12 +54,6 @@
       "question": "The evidence lists the parts of the simple, compact and range types (arrows and the position text) but not their order. The code puts the previous arrow, the position text and the next arrow, in this order, inside the bar; in the table type the order is the anatomy one: items per page, range, bar. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-28"
-    },
-    {
-      "id": "D-5",
-      "question": "The evidence gives the bar an outline but does not say whether the items per page, the range and go to page sit inside it. The code draws the outline only around the arrows, the numbers and the position text between the arrows; the other groups sit beside it, at pagination/group-gap. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
     }
   ],
   "evidence": [
@@ -103,6 +97,9 @@ Indiane answered D-1 in the chat on 2026-11-23, in lot A of the pending decision
 | ID | Answer | What the code does |
 |---|---|---|
 | D-1 | Accepted: the numbers and the arrows are native buttons of the pagination itself, painted by the `pagination/*` tokens, with the focus of the secondary nph-button and the tooltip of the icon-only button (P99). MUI builds its pagination from an item of its own, not from its Button (https://mui.com/material-ui/api/pagination-item/ ). | Nothing changes. |
+
+## Decision answered on 2026-11-24
+Indiane answered D-5 on 2026-11-24: the bar of the pagination has no outline. The code change is in DSA-118.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

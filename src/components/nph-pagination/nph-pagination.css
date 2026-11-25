@@ -35,14 +35,13 @@
   letter-spacing: var(--nph-text-label-md-letter-spacing);
 }
 
-/* The bar: the outline around the arrows and the numbers or the position text (D-5). */
+/* The bar groups the arrows and the numbers or the position text, without an outline (D-5, DSA-118). */
 .bar {
   display: inline-flex;
   align-items: center;
   gap: var(--nph-pagination-item-gap);
   padding-block: var(--nph-pagination-padding-y);
   padding-inline: var(--nph-pagination-padding-x);
-  border: var(--nph-pagination-border-width) solid var(--nph-pagination-border);
   border-radius: var(--nph-pagination-radius);
 }
 

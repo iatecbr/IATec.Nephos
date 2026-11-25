@@ -5266,6 +5266,7 @@ is a mount: nothing, no error (P66). The names follow P64.
    label and its field at `pagination/control-gap`. The last arrow is the first one with only its
    icon turned half a turn, not the button, its focus or its balloon.
 
+   **Revision (DSA-118, 24/11/2026):** D-5 is answered: the bar has no outline. The text above stays as history.
 10. **Tokens.** The tokens of the evidence, each in its part: the bar in `pagination/border`,
     `pagination/border-width`, `pagination/radius`, `pagination/padding-x`, `pagination/padding-y`
     and `pagination/item-gap`; numbers and arrows in `pagination/item-size` and
@@ -5287,7 +5288,7 @@ scroll. A size, forced colors and right-to-left. A new token. The Usage section 
 DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
 DSA-32).
 
-**Status.** Anatomy and behavior accepted by Indiane on 27/10/2026. D-1 to D-5 wait for Indiane.
+**Status.** Anatomy and behavior accepted by Indiane on 27/10/2026. D-1 to D-4 wait for Indiane; D-5 was answered on 24/11/2026 (DSA-118).
 API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -5682,7 +5683,7 @@ emits `console.warn` only in development, once while it lasts, as P76. The names
    `toolbar/bulk-count-foreground` and `toolbar/bulk-action-background-hover`; the floating bar in
    `toolbar/floating-background`, `toolbar/floating-border`, `toolbar/floating-radius`,
    `toolbar/floating-count-foreground` and `elevation/dropdown`; the space in `toolbar/gap`. The count
-   is `text/label-md`.
+   is `text/label-md`. **Revision (DSA-118, 24/11/2026):** since then the bar and the floating bar have no outer border, so `toolbar/border`, `toolbar/border-width` and `toolbar/floating-border` stay in the source and no CSS reads them; the list above stays as history.
 
 **Source.** Documentation `2944:6528`, set `2105:426` and page `1626:44` of the Figma file
 `DS-IA-NEPHOS 5.0`, accepted by Indiane on 27/10/2026 and again on 28/10/2026 with the applied

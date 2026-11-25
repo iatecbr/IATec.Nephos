@@ -8656,7 +8656,7 @@
       "components-nph-chip-validation--examples": "The three mandatory examples of the documentation: applied filters in the line of the toolbar, values chosen in a field with one invalid, and quick filters that the person checks and unchecks, each in light and dark mode.",
       "components-nph-chip-validation--brands": "The seven brands in light and dark: the background, border, selected state and counter of the chip follow the brand of the frame, and so does the focus ring on Tab.",
       "components-nph-label-validation--brands": "The seven brands in light and dark: the label itself does not change; only the focus ring of the information icon follows the brand of the frame on Tab.",
-      "components-nph-toolbar-validation--matrix": "The five types in the three sizes, the fifteen variants of the set: bulk, page, tools, floating and the applied filters strip below the page bar. The bar paints background, border, radius and space; every piece inside it takes the size of the bar, 28, 36 or 44 px high.",
+      "components-nph-toolbar-validation--matrix": "The five types in the three sizes, the fifteen variants of the set: bulk, page, tools, floating and the applied filters strip below the page bar. The bar paints background, radius and space; every piece inside it takes the size of the bar, 28, 36 or 44 px high.",
       "components-nph-toolbar-validation--options": "The Figma booleans as composition: the bulk bar with and without the checkbox, with the view switch in the center and with clear as an icon only; the page bar with the center; and the compact floating bar.",
       "components-nph-toolbar-validation--piece-states": "The states belong to the pieces: the main action of the page bar disabled and loading. Hover and focus are interaction states: move the mouse over an action, enter the bar with Tab and move with the arrow keys to see them.",
       "components-nph-toolbar-validation--applied-filters": "The applied filters strip below the page bar, in the three sizes. Remove a chip with its X: the focus goes to the next chip, else to the previous one, else to Filter, and the removal is announced. Clear filters takes them all away and sends the focus to Filter.",
@@ -9788,7 +9788,7 @@
     "summary": "The bar that takes the person from one page to another in a long list and shows where in the list they are.",
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
-    "derivedText": "In case of divergence, the canonical sources prevail: the nph-pagination spec sheet, design.md for the tokens and icons, and P99 for the API. Five decisions wait for the design owner (D-1 to D-5 of DSA-54) and show here in their default.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-pagination spec sheet, design.md for the tokens and icons, and P99 for the API. Four decisions wait for the design owner (D-1 to D-4 of DSA-54) and show here in their default; D-5 was answered on 2026-11-24: the bar has no outline (DSA-118).",
     "sourceLabel": "Source:",
     "sourceFrame": "Figma, page NPH — Pagination, documentation 1640:196, set 1640:194",
     "sourceApi": "nph-pagination spec sheet; docs/decisoes-tecnicas.md › P99",
@@ -9966,7 +9966,7 @@
     "anatomy": [
       [
         "1. Bar",
-        "Outline pagination/border in pagination/border-width, radius pagination/radius, padding pagination/padding-x and pagination/padding-y (D-5)."
+        "No outline; radius pagination/radius, padding pagination/padding-x and pagination/padding-y (D-5)."
       ],
       [
         "2. Arrows",
@@ -10037,7 +10037,7 @@
       "Figma DS-IA-NEPHOS 5.0, page NPH — Pagination, documentation 1640:196, set 1640:194",
       "fichas/nph-pagination.md",
       "docs/decisoes-tecnicas.md › P99",
-      "Task DSA-54, pending decisions D-1 to D-5"
+      "Task DSA-54, pending decisions D-1 to D-4"
     ],
     "labels": {
       "label": "Pagination",
@@ -10524,7 +10524,7 @@
     "api": [
       [
         "type",
-        "bulk (default), page, tools, floating or applied-filters, the Figma tipo. Reflected: it picks the background, the border and the layout."
+        "bulk (default), page, tools, floating or applied-filters, the Figma tipo. Reflected: it picks the background and the layout."
       ],
       [
         "size",
@@ -10580,7 +10580,7 @@
     "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
     "sourceUsage": "Figma, documentation 2944:6528; docs/decisoes-tecnicas.md › P70",
     "typesTitle": "Types",
-    "typesText": "The type is chosen by the situation. The bar controls background, border, radius and space; each piece keeps its own color, state and focus.",
+    "typesText": "The type is chosen by the situation. The bar controls background, radius and space; each piece keeps its own color, state and focus.",
     "typesHeader": [
       "Type",
       "What it does"
@@ -10683,7 +10683,7 @@
     "anatomy": [
       [
         "Bar",
-        "toolbar/background, toolbar/border in toolbar/border-width, toolbar/radius and toolbar/padding. Bulk: toolbar/bulk-background, no border, sides in toolbar/bulk-padding-x. Floating: toolbar/floating-background, toolbar/floating-border, toolbar/floating-radius and elevation/dropdown."
+        "toolbar/background, toolbar/radius and toolbar/padding, no border. Bulk: toolbar/bulk-background, no border, sides in toolbar/bulk-padding-x. Floating: toolbar/floating-background, toolbar/floating-radius and elevation/dropdown."
       ],
       [
         "Start",

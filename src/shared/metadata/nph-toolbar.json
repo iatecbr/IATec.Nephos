@@ -22,7 +22,7 @@
       "required": false,
       "default": "bulk",
       "reflects": true,
-      "constraint": "The Figma property `tipo`: bulk (`em massa`), page (`página`), tools (`ferramentas`), floating (`flutuante`) or applied-filters (`filtros aplicados`). It picks the background, the border and the layout. Any other value draws nothing and emits console.error in development."
+      "constraint": "The Figma property `tipo`: bulk (`em massa`), page (`página`), tools (`ferramentas`), floating (`flutuante`) or applied-filters (`filtros aplicados`). It picks the background and the layout. Any other value draws nothing and emits console.error in development."
     },
     "size": {
       "type": "string",
@@ -128,7 +128,7 @@
     }
   },
   "business_rules": [
-    "The bar controls background, border, radius and space; each piece controls its own color, state and focus.",
+    "The bar controls background, radius and space; each piece controls its own color, state and focus.",
     "The bar is the source of the height: it writes size on every direct child that has one.",
     "The actions are one Tab stop: the left and right arrows move between them, wrapping at the ends, and Home and End go to the first and the last (pending decision D-2).",
     "The search field keeps its own Tab stop and its arrow keys (pending decision D-2).",
@@ -139,12 +139,11 @@
   "domain_errors": [],
   "tokens": {
     "background": "toolbar/background",
-    "border": "toolbar/border in toolbar/border-width",
     "radius": "toolbar/radius",
     "padding": "toolbar/padding",
     "gap": "toolbar/gap",
     "bulk": "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x and toolbar/bulk-action-background-hover",
-    "floating": "toolbar/floating-background, toolbar/floating-border, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown",
+    "floating": "toolbar/floating-background, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown",
     "count": "text/label-md",
     "height": "from the pieces: control/height-compact, control/height-default or control/height-large"
   },
