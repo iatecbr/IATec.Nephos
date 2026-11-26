@@ -15,7 +15,8 @@ import '@fontsource/noto-sans/latin-400.css';
 import '@fontsource/noto-sans/latin-500.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
-import componentCss from './nph-collapsible.css?raw';
+import componentOwnCss from './nph-collapsible.css?raw';
+import disclosureCss from './nph-collapsible.disclosure.css?raw';
 import {
   NPH_COLLAPSIBLE_APPEARANCES,
   NPH_COLLAPSIBLE_INDICATORS,
@@ -29,6 +30,9 @@ import type { NphCollapsibleToggleDetail } from './nph-collapsible';
 import type { NphButton } from '../nph-button/nph-button';
 import '../nph-avatar/nph-avatar';
 import '../nph-badge/nph-badge';
+
+/** The style of the piece: its own and the growth it shares with every block that grows in place (DSA-98). */
+const componentCss = `${componentOwnCss}\n${disclosureCss}`;
 
 beforeAll(async () => {
   await document.fonts.load('400 14px "Noto Sans"');

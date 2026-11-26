@@ -10,8 +10,9 @@
  * receives; the search, the corner button and the options fill the width of their column),
  * `transparent` (no background at rest), `nowrap` and `ellipsis` (one line), `calc(-1 * ...)`
  * (the room of the focus halo around the scrolling list; the slide of the panels) and the
- * `max-content` width of the flyout panel, which the label decides. The panel menu (DSA-76, P124) adds `0fr`
- * and `1fr`, the closed and the open track of a block that grows in place.
+ * `max-content` width of the flyout panel, which the label decides. The `0fr` and `1fr` tracks of a block that
+ * grows in place are in `nph-collapsible.disclosure.css`, which the piece shares with the `nph-collapsible`
+ * (DSA-98).
  */
 
 /* The menu fills the height of the column the product gives it; invalid input takes no room. */
@@ -598,31 +599,13 @@ dialog.panel[data-open] {
 }
 
 /*
- * A block grows in place: the grid track goes from nothing to its content in `panel-menu/expand-*`. The
- * clip cuts while the block moves and when it is closed; open and steady it lets the focus halo of the
- * lines inside show. The content carries `hidden` when closed, and `inert` while it closes.
+ * A block grows in place with the part it shares with the `nph-collapsible` (DSA-98): the grid track, the clip and
+ * the reduced-motion rule are in `nph-collapsible.disclosure.css`, and the time and the curve are
+ * `collapsible/expand-*`. Here the clip only gives up the width its content would hold it to. The content carries
+ * `hidden` when closed, and `inert` while it closes.
  */
-.block {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition-property: grid-template-rows;
-  transition-duration: var(--nph-panel-menu-expand-duration);
-  transition-timing-function: var(--nph-panel-menu-expand-easing);
-}
-
-.block[data-state='opening'],
-.block[data-state='open'] {
-  grid-template-rows: 1fr;
-}
-
 .clip {
-  min-block-size: 0;
   min-inline-size: 0;
-  overflow: hidden;
-}
-
-.block[data-state='open'] > .clip {
-  overflow: visible;
 }
 
 /* The indent, the group line and the column of items. The line stretches to the height of the column. */
@@ -770,10 +753,6 @@ dialog.panel[data-open] {
     translate: none;
   }
 
-  /* The panel menu: the block opens and closes with no movement. */
-  .block {
-    transition: none;
-  }
 
   dialog.panel,
   dialog.panel::backdrop,

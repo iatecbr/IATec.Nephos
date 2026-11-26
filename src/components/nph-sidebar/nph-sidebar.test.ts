@@ -15,6 +15,7 @@ import '@fontsource/noto-sans/latin-500.css';
 import '@fontsource/noto-sans/latin-600.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
+import disclosureCss from '../nph-collapsible/nph-collapsible.disclosure.css?raw';
 import componentCss from './nph-sidebar.css?raw';
 import { NPH_SIDEBAR_MODES, NPH_SIDEBAR_NAVIGATION_MODES, NphSidebar } from './nph-sidebar';
 import type { NphSidebarEntry } from './nph-sidebar';
@@ -1776,16 +1777,25 @@ describe('the panel menu: the measures', () => {
 });
 
 describe('the panel menu: the block grows in place', () => {
-  it('opens in panel-menu/expand-duration and panel-menu/expand-easing, animating only the rows of the grid', async () => {
+  it('opens in collapsible/expand-duration and collapsible/expand-easing, animating only the rows of the grid (DSA-98)', async () => {
     const sidebar = await mountMenu();
     const block = blockOf(sidebar, 'group:settings');
     const style = getComputedStyle(block);
     expect(style.transitionProperty).toBe('grid-template-rows');
-    expect(style.transitionDuration).toBe(resolved('transition-duration', '--nph-panel-menu-expand-duration'));
-    expect(style.transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-panel-menu-expand-easing'));
-    const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(style.transitionDuration).toBe(resolved('transition-duration', '--nph-collapsible-expand-duration'));
+    expect(style.transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-collapsible-expand-easing'));
+    const cssWithoutComments = disclosureCss.replace(/\/\*[\s\S]*?\*\//g, '');
     const properties = [...cssWithoutComments.matchAll(/transition-property:\s*([^;]+);/g)].map((match) => (match[1] ?? '').trim());
     expect(properties.filter((value) => value.includes('grid-template-rows'))).toEqual(['grid-template-rows']);
+  });
+
+  it('shares the growth with the nph-collapsible: the block carries the shared hook and the piece writes no growth of its own', () => {
+    const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(cssWithoutComments).not.toMatch(/transition-property:\s*[^;]*grid-template-rows/);
+    expect(cssWithoutComments).not.toMatch(/grid-template-rows\s*:/);
+    expect(cssWithoutComments).not.toMatch(/panel-menu-expand/);
+    expect(disclosureCss).toContain('[data-disclosure]');
+    expect(NphSidebar.styles).toHaveLength(2);
   });
 
   it('goes through opening to open and through closing to closed; visible while it moves, hidden and inert only when steady or closing', async () => {
@@ -1861,7 +1871,7 @@ describe('the panel menu: the block grows in place', () => {
     await sidebar.updateComplete;
     expect(arrow.getAnimations().length).toBeGreaterThan(0);
     const timing = (arrow.getAnimations()[0] as Animation).effect?.getTiming();
-    expect(Number(timing?.duration)).toBeCloseTo(Number.parseFloat(resolved('transition-duration', '--nph-panel-menu-expand-duration')) * 1000, 0);
+    expect(Number(timing?.duration)).toBeCloseTo(Number.parseFloat(resolved('transition-duration', '--nph-collapsible-expand-duration')) * 1000, 0);
     await steady(sidebar);
   });
 
@@ -1876,7 +1886,7 @@ describe('the panel menu: the block grows in place', () => {
     const animation = arrow.getAnimations()[0] as Animation;
     const keyframes = (animation.effect as KeyframeEffect).getKeyframes();
     expect(keyframes.map((frame) => frame['transform'])).toEqual(['rotate(180deg)', 'rotate(0deg)']);
-    expect(Number(animation.effect?.getTiming().duration)).toBeCloseTo(Number.parseFloat(resolved('transition-duration', '--nph-panel-menu-expand-duration')) * 1000, 0);
+    expect(Number(animation.effect?.getTiming().duration)).toBeCloseTo(Number.parseFloat(resolved('transition-duration', '--nph-collapsible-expand-duration')) * 1000, 0);
     await steady(sidebar);
     await userEvent.click(innerControl(item(sidebar, 4)));
     await sidebar.updateComplete;
@@ -1998,7 +2008,9 @@ describe('the default navigation is untouched by the panel menu', () => {
 
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
-  const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)/g)].map((match) => match[1] ?? ''));
+  /* What the piece reads is its own style and the growth it shares with the nph-collapsible (DSA-98). */
+  const readCss = `${cssWithoutComments}\n${disclosureCss.replace(/\/\*[\s\S]*?\*\//g, '')}`;
+  const used = new Set([...readCss.matchAll(/var\((--nph-[a-z0-9-]+)/g)].map((match) => match[1] ?? ''));
   const defined = new Set([...cssWithoutComments.matchAll(/(--nph-[a-z0-9-]+)\s*:/g)].map((match) => match[1] ?? ''));
 
   it('every custom property read exists in tokens.css, or is the one the component defines on its search or its close button', () => {
@@ -2049,6 +2061,8 @@ describe('token contract', () => {
       '--nph-icon-size-md',
       '--nph-elevation-dropdown',
       '--nph-motion-expand-duration',
+      '--nph-collapsible-expand-duration',
+      '--nph-collapsible-expand-easing',
       '--nph-motion-enter-duration',
       '--nph-motion-exit-duration',
     ]) {

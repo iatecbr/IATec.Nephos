@@ -324,7 +324,7 @@ tokens:
   group_label: "sidebar/group-label, text/heading-2xs, no uppercase"
   collapse_button: "control/height-default; icon/size-md place; focus/border"
   corner_button: "nph-button primary solid; nph-button icon-only plus when collapsed"
-  panel_menu: "panel-menu/subgroup-height, panel-menu/subgroup-padding-x and -y, panel-menu/subgroup-gap, panel-menu/subgroup-radius, panel-menu/subgroup-icon-size, panel-menu/subgroup-foreground and -open, panel-menu/subgroup-background-hover, panel-menu/subgroup-disabled-opacity; panel-menu/focus-border, -border-width, -border-radius, panel-menu/focus-ring, -ring-width, panel-menu/focus-radius; panel-menu/nest-padding, panel-menu/nest-gap, panel-menu/guide-background, panel-menu/guide-width; panel-menu/item-gap, panel-menu/section-gap, panel-menu/label-gap; panel-menu/expand-duration and -easing; panel-menu/skeleton-row-height, -row-padding, -gap and -icon-size; text/body-md closed and text/label-md open"
+  panel_menu: "panel-menu/subgroup-height, panel-menu/subgroup-padding-x and -y, panel-menu/subgroup-gap, panel-menu/subgroup-radius, panel-menu/subgroup-icon-size, panel-menu/subgroup-foreground and -open, panel-menu/subgroup-background-hover, panel-menu/subgroup-disabled-opacity; panel-menu/focus-border, -border-width, -border-radius, panel-menu/focus-ring, -ring-width, panel-menu/focus-radius; panel-menu/nest-padding, panel-menu/nest-gap, panel-menu/guide-background, panel-menu/guide-width; panel-menu/item-gap, panel-menu/section-gap, panel-menu/label-gap; collapsible/expand-duration and -easing (the growth of the block, shared with nph-collapsible); panel-menu/skeleton-row-height, -row-padding, -gap and -icon-size; text/body-md closed and text/label-md open"
   flyout: "sidebar/flyout-background, sidebar/flyout-border, sidebar/flyout-radius, elevation/dropdown, sidebar/flyout-title, sidebar/flyout-foreground, sidebar/flyout-option-hover"
   flyout_option: "control/height-default, sidebar/item-padding, sidebar/item-radius, sidebar/item-foreground-active, sidebar/item-foreground-open, state/disabled-opacity"
   mobile: "sidebar/mobile-offset, sidebar/scrim"
@@ -505,7 +505,7 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
 | Contrast | Every text of the menu passes 4.5:1 on its background in light and dark, in the seven brands. In some brands, in dark, the background of the active rail button stays below 3:1 against the panel; the solid icon marks it |
 | Alternative to color | The active item uses the brand color, `text/label-md` and a solid icon; the active rail button turns its icon solid; the open option uses the same color with the arrow, and the weight separates active from open. The open subgroup uses a heavier label and the arrow up; the group line is decoration, the indent and the order show the level |
 | Touch target | Item and rail button at `sidebar/item-height` and `sidebar/rail-button-size`; subitem, subgroup, option, collapse button and corner button at `control/height-default`; the search at `input/height` (38); all above 24 × 24 |
-| Movement | In the panel menu the arrow of a group and of a subgroup turns 180 degrees and the block grows in place in `panel-menu/expand-duration` and `panel-menu/expand-easing`; with reduced motion nothing moves. The flyout panel and the mobile menu keep `motion/enter-*` and `motion/exit-*` |
+| Movement | In the panel menu the arrow of a group and of a subgroup turns 180 degrees and the block grows in place in `collapsible/expand-duration` and `collapsible/expand-easing`, with the same growth as the content of the `nph-collapsible`; with reduced motion nothing moves. The flyout panel and the mobile menu keep `motion/enter-*` and `motion/exit-*` |
 | Known limits | Forced colors and right-to-left are not treated yet. A browser that does not interpolate `grid-template-rows` opens and closes the panel menu with no movement |
 
 ## Relations
@@ -513,7 +513,8 @@ already uses `focus/border` in `nph-input`; the item, the subitem and the rail b
 **Combines with:** `nph-sidebar-item`, `nph-sidebar-subitem` and `nph-sidebar-rail-button`, by
 instance; `nph-input`, the search; `nph-button`, the close button and the corner button;
 `nph-skeleton`, the loading list; `nph-tooltip`, the balloon of the rail buttons and of the
-collapse button; `nph-icon`.
+collapse button; `nph-icon`; `nph-collapsible`, whose growth in place the block of the panel menu shares in the code
+(no property, slot or part of the `nph-collapsible` is used).
 
 **What is the parent:** none. The product places it in the application shell, in the column on the
 left; in the mobile mode it floats over the screen.
@@ -539,7 +540,7 @@ left; in the mobile mode it floats over the screen.
 | Panel menu subgroup | `panel-menu/subgroup-height`, `panel-menu/subgroup-padding-x`, `panel-menu/subgroup-padding-y`, `panel-menu/subgroup-gap`, `panel-menu/subgroup-radius`, `panel-menu/subgroup-icon-size`, `panel-menu/subgroup-foreground`, `panel-menu/subgroup-foreground-open`, `panel-menu/subgroup-background-hover`, `panel-menu/subgroup-disabled-opacity`; `text/body-md` closed, `text/label-md` open |
 | Panel menu focus | `panel-menu/focus-border`, `panel-menu/focus-border-width`, `panel-menu/focus-border-radius`, `panel-menu/focus-ring`, `panel-menu/focus-ring-width`, `panel-menu/focus-radius` |
 | Panel menu levels | `panel-menu/nest-padding`, `panel-menu/nest-gap`, `panel-menu/guide-background`, `panel-menu/guide-width`, `panel-menu/item-gap`, `panel-menu/section-gap`, `panel-menu/label-gap` |
-| Panel menu motion and loading | `panel-menu/expand-duration`, `panel-menu/expand-easing`; `panel-menu/skeleton-row-height`, `panel-menu/skeleton-row-padding`, `panel-menu/skeleton-gap`, `panel-menu/skeleton-icon-size` |
+| Panel menu motion and loading | `collapsible/expand-duration`, `collapsible/expand-easing` (the growth of the block, shared with the `nph-collapsible`); `panel-menu/skeleton-row-height`, `panel-menu/skeleton-row-padding`, `panel-menu/skeleton-gap`, `panel-menu/skeleton-icon-size` |
 | Flyout option | `sidebar/flyout-foreground`, `sidebar/flyout-option-hover`, `sidebar/item-foreground-active`, `sidebar/item-foreground-open`, `sidebar/item-padding`, `sidebar/item-radius` |
 | Mobile | `sidebar/mobile-offset`, `sidebar/scrim` |
 | Focus | `focus/border`, `focus/halo`, `focus/ring-width`, `focus/border-radius-sidebar-item`, `focus/radius-sidebar-item` |

@@ -8846,8 +8846,8 @@ nothing and emits `console.error` only in development, once per cause (P21).
    at once on focus and is cancelled by a click. The group of the first level keeps its `nph-sidebar-item`, whose
    button now points to its block with `aria-controls`.
 
-6. **Growing in place.** A block is a grid track that goes from `0fr` to `1fr` in `panel-menu/expand-duration` and
-   `panel-menu/expand-easing`, inside a clip, around the content that `aria-controls` points to. The content
+6. **Growing in place.** A block is a grid track that goes from `0fr` to `1fr` in `collapsible/expand-duration` and
+   `collapsible/expand-easing`, inside a clip, around the content that `aria-controls` points to. The content
    carries `hidden` only when the block is closed and steady, and `inert` while it closes: the machine of phases
    of `nph-collapsible` (P121), `closed`, `opening`, `open` and `closing`, which ends on `transitionend` of the
    track with a safety timer, and goes straight to the end when the browser resolves no duration. The clip cuts
@@ -8922,6 +8922,17 @@ records the other answers):
   turns the arrow of a first-level group as it turns the one of a subgroup, in the duration and the curve of the block
   (the arrow is in the shadow root of the open `nph-sidebar-item`, which the menu reaches; the item gets no new property,
   and the flyout navigation keeps the swap without turning).
+
+**Amended by DSA-98 (26/11/2026), decision of Indiane of 19/11/2026.** The block of a group and of a subgroup is built
+with the part it shares with the `nph-collapsible`, so there is one piece that grows in place. The grid track, the clip,
+the reduced-motion rule and the machine of phases of P121 are in `nph-collapsible.disclosure.css` and
+`nph-collapsible.disclosure.ts`, in the folder of the `nph-collapsible`, which both pieces import. No property,
+attribute, slot or part of the `nph-collapsible` is added, and its contract (P121) does not change. The time and the
+curve of the growth, and the turn of the arrows, are `collapsible/expand-duration` and `collapsible/expand-easing`, which
+point to `motion/expand-*` as the expansion tokens of the panel menu did, so the time and the curve do not change. Those
+two tokens leave the code; their removal from the token source is the next step, by Claude. The text of
+item 6 above is the current one; the look, the focus halo, `hidden` when closed and `inert` while it closes stay as they
+were.
 
 **Status.** Anatomy and behavior accepted by Indiane on 11/11/2026. D-2 was answered on the previews (16/11/2026) and D-1
 and D-3 in the chat (D-3 decided by Claude by her delegation), as above. API and
