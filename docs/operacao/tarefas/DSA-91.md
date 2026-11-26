@@ -40,14 +40,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-4",
-      "question": "The anatomy says the parts are aligned to the top and the control to the first line of the title, but not where the 20 px icon sits. The provisional rule: the icon is centered on the first line of the title, with the same lowering as the title (the touch area of the control is 24 and the line is 20). If the icon should sit flush at the top with the control, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-91/figma-docs-accepted-2026-11-18.md",
     "docs/operacao/evidencias/DSA-91/review-and-merge-2026-11-19.md"
@@ -57,7 +50,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md and 2026-11-18.md, nph-rich-option: adjustment rounds with the corrections of the design owner (soft outline, no brand border on the checked card, hover layer at 50 percent, selected option with no background)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-rich-option: green light (visual acceptance) and the 17 approval items answered by the design owner in three rounds, all as recommended: documentation accepted, core/opacity/50, the rich option as an extension of the nph-select option with select/option-* tokens, description in 12 Regular, a keyboard focus on the active option, selected option with no background, radius 4, disabled option skipped, descriptions of four semantics, a task of its own for the plain select option and a foundation task for the dark error halo",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-rich-option: D-1 to D-3 answered by the design owner, all as recommended (Figma preview 7297:18398, light and dark); D-3 applied to the four disabled rich option variants with marker=checkbox",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-rich-option: the design owner corrected item 9: the option active by the keyboard takes the focus of the list items (nph-dropdown-menu, nph-menubar, nph-panel-menu), a 1 px focus border and a 4 px halo outside, in place of the 2 px ring inside copied from the nph-tree (Figma preview 7303:62870, option A, light and dark); the select task (item 10) takes the same pattern"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-rich-option: the design owner corrected item 9: the option active by the keyboard takes the focus of the list items (nph-dropdown-menu, nph-menubar, nph-panel-menu), a 1 px focus border and a 4 px halo outside, in place of the 2 px ring inside copied from the nph-tree (Figma preview 7303:62870, option A, light and dark); the select task (item 10) takes the same pattern",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-4, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -73,7 +67,7 @@
     "pr": 187
   },
   "context": null,
-  "updated_at": "2026-11-19"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -143,6 +137,13 @@ The design owner answered D-1 to D-3 in chat, all as recommended, after a Figma 
 
 ## Why it is ready
 The `rich-option/*` and `select/option-*` tokens and `core/opacity/50` came with this task and are on `v/5.0.0`: they alias semantics, except the two hover opacities on the new primitive `core/opacity/50` and `select/option-padding` and `select/option-dot-size` straight to `core/space/200` by decision (the evidence says why). The focus of the active option, corrected on 2026-11-18, aliases semantics, in the same way as the list items. Four semantics gained a new description, with no value change. Every piece it uses is done: `nph-icon` (DSA-03), `nph-kbd` (DSA-11), `nph-checkbox` (DSA-17), `nph-radio` (DSA-18), `nph-avatar` (DSA-24), `nph-switch` (DSA-27), `nph-field` (DSA-28), `nph-select` and `nph-option` (DSA-29), `nph-multi-combobox` and the box marker (DSA-31), `nph-combobox` (DSA-46).
+
+## Decision answered on 2026-11-26
+Indiane answered D-4 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-4 | Option 1: the 20 px icon is centered on the first line of the title; icon and title both drop 2 px. Material aligns the icon with the main line of the text (https://m1.material.io/components/lists.html ). | Nothing changes. Figma follows in a later change (sets 6910:6828, 774:154 and 6910:7093 draw icon and title at y 0). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

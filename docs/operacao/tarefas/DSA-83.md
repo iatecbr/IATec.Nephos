@@ -34,14 +34,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "A top item that is open and in keyboard focus at once is reached by the arrows, with a panel open (the focus stays on the top item, APG), and Figma draws `hover-aberto` and `foco` apart. The code composes the two accepted looks: the background and the label of the open item, with the focus border and the halo. If the combination needs its own look, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-16"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-83/figma-docs-accepted-2026-11-16.md",
     "docs/operacao/evidencias/DSA-83/review-and-merge-2026-11-17.md"
@@ -50,7 +43,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-14.md, nph-menubar: post-goal round with the corrections of the design owner (top item open and in hover on the primary palette; the panel is the approved nph-dropdown-menu)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, nph-menubar: green light (visual acceptance), documentation accepted, and the 8 approval items answered as recommended: top item hover pair, focus/border on the nph-dropdown-menu item, solid submenu arrow in focus in Figma, dropdown/submenu-offset, narrow screen button, 4 px from the window edge in code, and the design rule for bar triggers",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-2 to D-4 in the chat, all as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-2 to D-4 in the chat, all as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -62,7 +56,7 @@
   },
   "git_review": { "branch": "feat/dsa-83-menubar", "commit": "bc55cec201975a1891bd1b7e51d96ba60eb60db8", "pr": 178 },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -106,6 +100,13 @@ Indiane answered D-2 to D-4 in the chat on 2026-11-23, in lot B of the pending d
 | D-2 | Confirmed: a click closes the panel on a common item and on a single choice and keeps it open on a multiple choice, as nph-dropdown-menu and nph-context-menu do, so the three menus behave the same. The APG speaks only of keys (https://www.w3.org/WAI/ARIA/apg/patterns/menubar/ ). | Nothing changes. |
 | D-3 | Confirmed: by click, the panel opens with the first item focused and the focus ring not shown (P92, P113). The APG and Radix put the focus on the first item when the menu opens (https://www.w3.org/WAI/ARIA/apg/patterns/menubar/ , https://www.radix-ui.com/primitives/docs/components/menubar ). | Nothing changes. |
 | D-4 | Accepted: the nph-menubar draws its own panel, with the same dropdown tokens and look (P126). Radix also builds its menubar from parts of its own, without reusing its dropdown menu (https://www.radix-ui.com/primitives/docs/components/menubar ). | Nothing changes. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-1 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 1: an open item with focus sums the open fill, the 1 px border and the 4 px halo, as the items of `nph-dropdown-menu`. The APG keeps focus on the menubar item while its submenu is open (https://www.w3.org/WAI/ARIA/apg/patterns/menubar/ ). | Nothing changes. Figma draws `hover-aberto` and `foco` separately (node 6402:4299); nothing to update. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, with the focus border of the `nph-dropdown-menu` item and the submenu gap of the `nph-context-menu`.

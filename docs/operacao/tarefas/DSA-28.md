@@ -31,30 +31,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "In the `erro` state, the counter sits 'on a line below the message', but the evidence does not say how that line aligns or the vertical space between the message and the counter. The code puts the counter at the end of its own line, `space/stack-tight` below the message. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D-2",
-      "question": "With help text and counter on the same line, the evidence does not give the minimum space between them or what happens when the help text does not fit. The code keeps `space/inline` between them, wraps the help text to more lines and keeps the counter at the top of the end side. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D-3",
-      "question": "D8 says `disabled` hides the error. It does not say whether the help text comes back to the message line then. The code shows the help text again, as in the default state. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence calls the help text 'one line of explanation'. It does not say what the field does with a help text or an error longer than the field width. The code wraps both to more lines, with no ellipsis. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
       "id": "D-5",
       "question": "`layout/field-width` and `layout/input-width` have no `use:` line in `design.md`, unlike their neighbors. The code consumes `layout/field-width` as D6 says and does not change `design.md`. It does not block the pull request.",
       "decider": "indiane",
@@ -67,7 +43,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D8 of the nph-field"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D8 of the nph-field",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1 to D-4, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -83,7 +60,7 @@
     "pr": "105"
   },
   "context": null,
-  "updated_at": "2026-10-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -120,20 +97,26 @@ sets a contract for the controls of DSA-16, DSA-17, DSA-18 and DSA-29.
 
 The field also has the counter decided on 15-10-2026; see the evidence.
 
+## Decision answered on 2026-11-26
+Indiane answered D-1 to D-4 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 1: the counter stays below the error, at the end, `space/stack-tight` (4) away. Material keeps the counter at the end (https://raw.githubusercontent.com/material-components/material-web/main/field/internal/_supporting-text.scss ). | Nothing changes. Figma already draws it (node 655:32). |
+| D-2 | Option 1: 8 px (`space/inline`) between help and counter; long help wraps; the counter stays at the top right. Same Material source as D-1. | Nothing changes. Figma already draws it (node 655:2). |
+| D-3 | Option 1: when disabled, the help text comes back, as in the default state. In Carbon an error only replaces the help (https://carbondesignsystem.com/components/text-input/usage/ ). | Nothing changes. Figma draws only the default and error states (set 657:50); nothing to update. |
+| D-4 | Option 1: long help or error wraps to more lines, with no ellipsis. WCAG 1.4.10 asks for content without loss of information (https://www.w3.org/WAI/WCAG22/Understanding/reflow.html ). | Nothing changes. Figma already draws it (messages as wide as the field, no ellipsis). |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Pending decisions
-The evidence gives the contract, so the code can start. Five points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule each.
+The evidence gives the contract, so the code can start. One point remains for Indiane (D-5); D-1 to D-4 were answered on 2026-11-26, see the section below; the code follows the stated default meanwhile, and the answer only adjusts one rule each.
 
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
 |---|---|---|---|
-| D-1 | In `erro`, the counter goes on a line below the message. | The alignment of that line and the space above it. | Counter at the end of its own line, `space/stack-tight` below the message. |
-| D-2 | The counter sits on the right of the help line. | The minimum space between help text and counter, and what happens when the help text does not fit. | `space/inline` between them; the help text wraps and the counter stays at the top. |
-| D-3 | `disabled` hides the error (D8). | Whether the help text comes back. | The help text comes back, as in the default state. |
-| D-4 | The help text is one line of explanation. | What happens with a longer help text or error. | Both wrap, with no ellipsis. |
 | D-5 | D6 names `layout/field-width`. | A `use:` line for `layout/field-width` and `layout/input-width` in `design.md`. | Nothing: `design.md` is not changed. |
 
 ## What this task does not do

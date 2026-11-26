@@ -36,26 +36,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-2",
-      "question": "The evidence gives the current page text/label-md-strong, but no text role for the other numbers, the position text and the labels of items per page and go to page. The code uses text/label-md, the role of the nph-button text. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence names the icon of the first and last arrows, arrow-left-to-line, but not the icon of the previous and next arrows. The code uses chevron-left and chevron-right, and in the numbered type the icon sits beside the written Previous and Next. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence lists the parts of the simple, compact and range types (arrows and the position text) but not their order. The code puts the previous arrow, the position text and the next arrow, in this order, inside the bar; in the table type the order is the anatomy one: items per page, range, bar. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-54/documentacao-figma-aceita-2026-10-27.md",
     "docs/operacao/evidencias/DSA-54/review-and-merge-2026-10-28.md"
@@ -64,7 +45,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-pagination v3 approved, Figma UX QA and textual audit approved, documentation accepted; approved_order 530",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, decision 9 (closes D-1): the first and last arrows use arrow-left-to-line from Font Awesome Pro 6, an arrow with a bar; the last arrow is the same icon rotated",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-1 in the chat, as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-1 in the chat, as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-2, D-3, D-4, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -76,7 +58,7 @@
   },
   "git_review": { "branch": "claude/dsa-54-nph-pagination-4a7569", "commit": "41b9cec6ec691f53a1d263e6117345dbdf78a182", "pr": "131" },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -100,6 +82,15 @@ Indiane answered D-1 in the chat on 2026-11-23, in lot A of the pending decision
 
 ## Decision answered on 2026-11-24
 Indiane answered D-5 on 2026-11-24: the bar of the pagination has no outline, and the Figma set `1640:194` already draws it without one. The answer and the Figma change are recorded in `docs/operacao/tarefas/DSA-118.md`, sections "Goal" and "What changed in Figma"; the code change is in DSA-118.
+
+## Decision answered on 2026-11-26
+Indiane answered D-2, D-3, D-4 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Option 1: `text/label-md` for every number, the position text and the labels, except the current page. No market source; the basis is `design.md` (`text/label-md` is the button and field label role). | Nothing changes. Figma updated on 2026-11-26: set 1640:194, 12 auxiliary texts in `text/label-md`. |
+| D-3 | Option 1: `chevron-left` and `chevron-right`, with the icon outside the text. shadcn puts the chevron before Previous and after Next (https://ui.shadcn.com/docs/components/pagination ). | Nothing changes. Figma already draws it (nodes 2888:87972 and 2888:88013). |
+| D-4 | Option 1: previous arrow, position text and next arrow, in this order. The simple mode of Ant shows the position between the arrows (https://ant.design/components/pagination ). | Nothing changes. Figma already draws it (node 2888:88121). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

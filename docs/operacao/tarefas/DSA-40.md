@@ -29,20 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D2",
-      "question": "The light illustration is 240 × 174 and fits the 120 × 87 box; the dark one is 240 × 180, another proportion (until 2026-11-23 they were 2048 × 1487 and 2048 × 1538; D1, DSA-115). In Figma, is the dark one cut (fill) or fitted (fit) in the box, or should it be exported again with the same frame as the light one? The code fits it whole, with object-fit: contain, so it is about 116 px wide. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D3",
-      "question": "The evidence gives the box the width layout/input-width. In a narrower container, does the box shrink to it, or keep its width? The code shrinks it (max-inline-size: 100%), so the text wraps instead of overflowing. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-40/documentacao-figma-aceita-2026-10-16.md",
     "docs/operacao/evidencias/DSA-40/review-and-merge-2026-10-23.md"
@@ -50,7 +37,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, nph-empty visual acceptance, Figma UX QA approved, documentation accepted, textual audit approved and the scheme/is-light and scheme/is-dark names",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D1 and D4 in the chat, all as recommended, after market research with sources; both change in DSA-115"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D1 and D4 in the chat, all as recommended, after market research with sources; both change in DSA-115",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D2, D3, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -66,7 +54,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/100"
   },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -95,6 +83,14 @@ Indiane answered D1 and D4 in the chat on 2026-11-23, in lot A of the pending de
 | D1 | Export at 2× the drawing: 240 × 174 for the box of 120 × 87. An image much larger than the space it fills costs two to four times more data (https://web.dev/articles/serve-responsive-images ). | Changes in DSA-115: the two files are replaced. |
 | D4 | Option (c): the illustrations are embedded in the package, so the product sets nothing up. Carbon ships its pictograms inside its package (https://carbondesignsystem.com/elements/pictograms/code/ ). | Changes in DSA-115; the known limit of P84 goes with it. |
 
+## Decision answered on 2026-11-26
+Indiane answered D2, D3 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D2 | Option 3: export the dark illustration again with the same frame as the light one (2048 x 1487), so both fill 120 x 87. Atlassian fixes the image size so the screen does not jump (https://atlassian.design/components/empty-state/examples ). | The code does not change; the dark file is replaced. Figma follows in a later change (node 1993:56). |
+| D3 | Option 1: `nph-empty` shrinks with its container (`max-inline-size: 100%`) and the text wraps. Carbon says to use just text when space is limited (https://carbondesignsystem.com/patterns/empty-states-pattern/ ). | Nothing changes. Figma does not draw a narrow container; nothing to update. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
@@ -106,12 +102,7 @@ tests, stories and spec pass the proof commands in
   use the `nph-empty`.
 
 ## Pending decisions
-The evidence gives the whole contract, so the code could start. D1 and D4 were answered on 2026-11-23 (section "Decisions answered on 2026-11-23"); D2 and D3 remain for Indiane. The code follows the stated default meanwhile, and the answer only adjusts one file or one rule each.
-
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D2 | The box of 120 × 87, which fits the light file. | Whether the dark file, of another proportion, is cut or fitted. | Fits it whole. If the answer is to cut, one CSS declaration changes; if it is a new export, nothing changes. |
-| D3 | The width `layout/input-width`. | What the box does in a narrower container. | Shrinks to the container. If the answer is to keep the width, one CSS declaration goes. |
+Answered on 2026-11-26: see the section below.
 
 ## What this task does not do
 It does not create a token or change a token value: `scheme/is-light` and

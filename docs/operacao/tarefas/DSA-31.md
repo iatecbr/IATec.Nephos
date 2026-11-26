@@ -29,26 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The evidence says each list option uses `marcador=checkbox` with an `nph-checkbox` instance, but not where the box sits in the option. The code puts it at the start of the option, before the option's own start, as the multiple choice of `nph-dropdown-menu` (P92). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence says the chip start icon repeats the icon of the option in the list, with `tag` as the default instance, but not what a chip shows for an option with no icon. The code shows `tag` for it. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence does not say where the typed text sits in `conteúdo=contador`. The code keeps the text field after the counter, on the same line, so the person still searches the list. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-31/documentacao-figma-aceita-2026-10-15.md",
     "docs/operacao/evidencias/DSA-31/review-and-merge-2026-10-26.md"
@@ -57,7 +38,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, pill chip and chip start icon decided; documentation accepted and textual audit approved",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, D1, D2 and D3 answered by Indiane",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-2 in the chat, as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-2 in the chat, as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1, D-3, D-4, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -69,7 +51,7 @@
   },
   "git_review": { "branch": "claude/dsa-31-nph-multi-combobox-4b7aff", "commit": "3f633ba3aedce3f8ce9c49bf935a44b38d10f319", "pr": "125" },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -101,16 +83,7 @@ PR.
 | D3 | A long chip label stays on one line with an ellipsis; the chip stops before the end of the field. The full name is in the list. | Sets one line, `text-overflow: ellipsis` and a maximum chip width inside the field. |
 
 ## Pending decisions
-The evidence gives the contract, so the code could start. D-2 was answered on
-2026-11-23 (section "Decision answered on 2026-11-23"); D-1, D-3 and D-4 remain for
-Indiane. The code follows the stated default meanwhile, and each answer only
-adjusts one rule.
-
-| ID | What the evidence gives | What is missing | What the code does meanwhile |
-|---|---|---|---|
-| D-1 | Each option uses `marcador=checkbox`, with an `nph-checkbox`. | Where the box sits in the option. | At the start, before the option's own start, as `nph-dropdown-menu`. |
-| D-3 | The chip icon repeats the option icon; the default instance is `tag`. | A chip for an option with no icon. | `tag`. |
-| D-4 | `conteúdo=contador` stays on one line. | Where the typed text sits. | The text field after the counter, on the same line. |
+Answered on 2026-11-26: see the section below.
 
 ## Decision answered on 2026-11-23
 Indiane answered D-2 in the chat on 2026-11-23, in lot A of the pending decisions of the v1 closing, as recommended, after market research with sources.
@@ -118,6 +91,15 @@ Indiane answered D-2 in the chat on 2026-11-23, in lot A of the pending decision
 | ID | Answer | What the code does |
 |---|---|---|
 | D-2 | Accepted: in counter mode, with nothing chosen, the field shows the placeholder, as `conteúdo=placeholder`; the subject and the counter come from the first choice on. It follows the placeholder mode of the field itself and avoids a counter at 0. | Nothing changes. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-1, D-3, D-4 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 1: [checkbox] [icon] text, the checkbox before the icon, as in `nph-dropdown-menu`. Carbon puts the checkbox on the left of the text (https://carbondesignsystem.com/components/dropdown/usage/ ). | Nothing changes. Figma already draws it (node 1467:947). |
+| D-3 | Option 2: the chip of an option without icon shows text only, with `space/inline` (8) at the start. In Carbon the chip icon is decorative and optional (https://carbondesignsystem.com/components/tag/usage/ ). | The chip stops showing the `tag` icon when the option has no icon. Figma already draws it (node 1467:24861). |
+| D-4 | Option 1: in counter mode the search stays after the counter, on the same line. Same Carbon dropdown source as D-1. | Nothing changes. Figma does not draw typing in counter mode (node 1758:32140); nothing to update. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, chip,

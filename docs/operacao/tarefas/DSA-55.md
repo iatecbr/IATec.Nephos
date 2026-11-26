@@ -45,14 +45,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The evidence says that in the em massa bar the hover of the actions uses toolbar/bulk-action-background-hover, without saying which actions. The code points the hover of the secondary ghost actions, with text and icon only, at that token inside the bulk bar; the danger ghost action keeps its own destructive hover, which stays visible over the highlighted background. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md",
     "docs/operacao/evidencias/DSA-55/review-and-merge-2026-10-29.md"
@@ -63,7 +56,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-toolbar documentation accepted again with the tipo filtros aplicados: the applied filters go in a strip below the page bar, option A of the preview, with one nph-chip per filter and Limpar filtros after the last one, shown from the first chip; after a chip is removed the focus goes to the next chip, else the previous, else the button that opens the filters; no new token",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-input documentation with the compact size accepted; its tokens and DSA-59 are on v/5.0.0, which closes B1",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-29.md, nph-togglebutton and nph-toggle-group documentation with the size and the new states accepted; their tokens and DSA-61 are on v/5.0.0, which closes B2",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-2 to D-5 in the chat, all as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-2 to D-5 in the chat, all as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -75,7 +69,7 @@
   },
   "git_review": { "branch": "feat/dsa-55-toolbar", "commit": "7655294", "pr": 146 },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -101,6 +95,13 @@ Indiane answered D-2 to D-5 in the chat on 2026-11-23, in lot B of the pending d
 | D-3 | Confirmed: the applied filters strip is a group named by its label, with no arrow keys; the X of each chip and Limpar filtros are Tab stops of their own. An applied filter is not an action of the bar, and the APG keeps the toolbar for controls (https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/ ). | Nothing changes. |
 | D-4 | Confirmed: when Limpar filtros takes every filter away, the status region announces the text the product gives, and the focus goes to the button that opens the filters. WCAG 4.1.3 asks for the result of an action to be announced with no change of focus (https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html ). | Nothing changes. |
 | D-5 | Kept for v1: the product composes the narrow bar with icon-only buttons and the More menu; the bar does not collapse by itself. In Spectrum, collapsing into a More menu is an option turned on by hand, and the default wraps (https://react-spectrum.adobe.com/react-spectrum/ActionGroup.html ). | Nothing changes. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-1 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 3: the danger ghost action in the bulk bar uses `color/destructive-surface-hover` on hover, with no new color. No market source on the hover of a destructive action in a bulk bar; the base is the Carbon bulk bar (https://carbondesignsystem.com/components/data-table/style/ ). | The component token `toolbar/bulk-danger-action-background-hover`, an alias of `color/destructive-surface-hover`, is used for that hover. Figma updated on 2026-11-26: variable `toolbar/bulk-danger-action-background-hover` (VariableID:8473:64055). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

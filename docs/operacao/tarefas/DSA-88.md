@@ -39,32 +39,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "A long key or a long value in the key-value list of the section type is not drawn in Figma. The code wraps the text (overflow-wrap: anywhere), key at the start and value at the end of the row, so nothing leaves the card. If Figma should truncate with an ellipsis instead, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-2",
-      "question": "Figma draws the loading state without media. The code draws no media while a card with media loads, and the card keeps the body and footer skeleton. If the media place should show a skeleton of its own while loading, she decides in Figma. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-3",
-      "question": "Figma shows the side media in the wide case only. The code moves it to the top when the card is narrower than 30rem (480 px), a length in a container query. If another width should apply, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence measures the focus border of the clickable card over color/background (5.37:1 in light in the default brand). design.md, after DSA-91, measures the 3:1 of the focus border against the halo, with a known limit in the `Sistemas` brand in light (2.92:1 with the code value). The code draws focus/border and focus/halo as the evidence says and changes no token. If the card contrast needs another reading or value, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-88/figma-docs-accepted-2026-11-17.md",
     "docs/operacao/evidencias/DSA-88/review-and-merge-2026-11-18.md"
@@ -72,7 +47,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-14.md, nph-card: redesign round with the corrections of the design owner (soft outline on every card, divider before the footer, tonal icon box, start with icon, avatar or image, hover by the outline, assembly model)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md, nph-card: green light (visual acceptance) and a test round with the 21 approval items taken as recommended: documentation accepted, 30 card tokens, focus radii 15 and 19 with two core primitives, space/surface-padding, radius/inset, descriptions of color/border-subtle, color/border, color/border-strong, color/primary-surface, space/container-padding and radius/inner, footer padding, start image 48 px, title styles, media and export, nothing interactive inside the clickable card, divider on by default with actions, types out of v1, assembly model, names, default behavior"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md, nph-card: green light (visual acceptance) and a test round with the 21 approval items taken as recommended: documentation accepted, 30 card tokens, focus radii 15 and 19 with two core primitives, space/surface-padding, radius/inset, descriptions of color/border-subtle, color/border, color/border-strong, color/primary-surface, space/container-padding and radius/inner, footer padding, start image 48 px, title styles, media and export, nothing interactive inside the clickable card, divider on by default with actions, types out of v1, assembly model, names, default behavior",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1 to D-4, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -88,7 +64,7 @@
     "pr": 183
   },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -130,6 +106,16 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 30 `card/*` tokens came with this task and are on `v/5.0.0`: 29 aliases of semantics and 1 straight to the core by decision (`card/icon-container-padding`, `core/space/200`: no semantic has the function of breathing room inside a small box). New with this task: the semantics `focus/border-radius-surface`, `focus/radius-surface-with-border`, `space/surface-padding` and `radius/inset`, and the primitives `core/radius/off-scale/15` and `core/radius/off-scale/19`. Every piece it uses is done: `nph-icon` (DSA-03), `nph-separator` (DSA-10), `nph-badge` (DSA-12), `nph-button` (DSA-13, DSA-43, DSA-64), `nph-avatar` (DSA-24), `nph-skeleton` (DSA-26), `nph-image` (DSA-51).
+
+## Decision answered on 2026-11-26
+Indiane answered D-1 to D-4 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 1: the key and value text wraps to more lines; nothing is cut. WCAG 1.4.10 accepts a cut only with a way to see the rest (https://www.w3.org/WAI/WCAG22/Understanding/reflow.html ). | Nothing changes. Figma does not draw long text; nothing to update. |
+| D-2 | Option 2: a skeleton block in the place of the media, with the same proportion (16:9 on top, 40% on the side), in `skeleton/background`. MUI swaps the image for a rectangular skeleton of the same size (https://mui.com/material-ui/react-skeleton/ ). | The card draws that block while loading, with no new token. Figma follows in a later change (set 6478:6673 has only `carregando` without media). |
+| D-3 | Option 1: the side media moves to the top below 30rem (480 px). No market source for the value; the text keeps 240 px. | Nothing changes. Figma draws the side media only in the wide case; nothing to update. |
+| D-4 | The decision already exists: the focus border moves to tone 600 (4.26:1 against brand-100), decided on 2026-10-26 and carried to the code by DSA-92. The G3 research marks it as needing no new decision (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | Nothing changes in the card: it uses `focus/border` and `focus/halo` and inherits the DSA-92 change. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

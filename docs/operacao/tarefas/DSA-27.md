@@ -29,20 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D5",
-      "question": "The track is icon/size-lg high (24) and the label line is text/label-md (20). The evidence says the track sits at the top, aligned with the first line, but not how a one-line label aligns: tops aligned, or the track centered on the first line. The code aligns the tops (align-items: flex-start), the literal reading. Which one holds? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D6",
-      "question": "The set draws no hover with an error. The outline stays status/error; the code also moves the fill to color/input-hover (off) or color/primary-hover (on) on hover with an error, as without one. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-27/documentacao-figma-aceita-2026-10-08.md",
     "docs/operacao/evidencias/DSA-27/review-and-merge-2026-10-23.md"
@@ -50,7 +37,8 @@
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p79",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D2, D4 and the label side of D1 read from the accepted Figma set; the wrap of D1 and D3 answered by Indiane"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D2, D4 and the label side of D1 read from the accepted Figma set; the wrap of D1 and D3 answered by Indiane",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D5, D6, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -66,7 +54,7 @@
     "pr": "108"
   },
   "context": null,
-  "updated_at": "2026-10-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -93,6 +81,14 @@ wrapping of D1 and D3 was answered by Indiane.
 | D2 | The focus border is the track's own outline, `border/width` in `focus/border`, with `radius/full`. The halo is `focus/ring-width` in `focus/halo`, outside the track, also `radius/full`. With an error and focus, the outline stays `status/error` and the halo is `focus/halo-error`. | Sets the focus outline and halo with `radius/full`. |
 | D3 | The change from off to on, and back, animates: the knob slides by transform, not by layout position, and the track fill and outline change over `motion/state-duration` with `motion/state-easing`. Under `prefers-reduced-motion`, the knob does not slide: it changes side with an opacity transition over `core/duration/100`; the color change also uses `core/duration/100`, so the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
 | D4 | The outline is `border/width`, drawn inside the track box. On: `color/primary-border` by default, on hover (fill `color/primary-hover`) and disabled. Off: no outline by default, on hover (fill `color/input-hover`) and disabled. Error: `status/error`, on or off. Focus: `focus/border`, on or off. | Sets the outline of the track in each state. |
+
+## Decision answered on 2026-11-26
+Indiane answered D5, D6 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D5 | Option 2: the track is centered on the first line; the label drops (24 - 20) / 2 = 2 px, as checkbox and radio. Spectrum gives the label its own offset from the top (https://raw.githubusercontent.com/adobe/spectrum-css/main/components/switch/index.css ). | Replaces the top alignment (`align-items: flex-start`) with the 2 px drop on the label in the default size; the small size already centers. Figma follows in a later change (set 1548:56). |
+| D6 | Option 1: with an error the outline stays `status/error` and the hover still changes the fill (`color/input-hover` off, `color/primary-hover` on). Material keeps hover feedback on a field with error (https://raw.githubusercontent.com/material-components/material-web/main/field/internal/_outlined-field.scss ). | Nothing changes. Figma draws no error with hover; nothing to update. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

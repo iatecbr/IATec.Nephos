@@ -35,26 +35,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The evidence gives the rail button a counter, but not where it sits on the button. The code puts it on the top end corner, over the button. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-2",
-      "question": "The evidence says the counter of the active rail button gains an outline in sidebar/panel-background, but not its width. The code uses border/width. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence makes more actions an nph-icon-button ghost and compact, but does not name its severity. The code keeps the default of nph-button, primary. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-53/documentacao-figma-aceita-2026-10-26.md",
     "docs/operacao/evidencias/DSA-53/review-and-merge-2026-10-26.md"
@@ -63,7 +44,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, nph-sidebar-item visual acceptance and sidebar tokens delivered in Figma",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-26.md, textual audit approved after 5 rounds; visual acceptance confirmed; approved_order 520",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-4 in the chat, as recommended, after market research with sources; the code already does it (P116)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-4 in the chat, as recommended, after market research with sources; the code already does it (P116)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1 to D-3, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -75,7 +57,7 @@
   },
   "git_review": { "branch": "claude/dsa-53-nph-sidebar-item", "commit": "41cdc12ab8e877352cd08d96dab47b08058a59a2", "pr": "128" },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -96,6 +78,15 @@ Indiane answered D-4 in the chat on 2026-11-23, in lot A of the pending decision
 | ID | Answer | What the code does |
 |---|---|---|
 | D-4 | Confirmed: a subitem with options is a button that opens and closes its list, with `aria-expanded`, as the disclosure navigation pattern of the APG (https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/ ). The code already does it since P116: the `nph-sidebar-subitem` with `options` is a native button with `aria-expanded`, `expanded` and `nph-toggle`, with no `href` (`fichas/nph-sidebar-subitem.md`). | Nothing changes. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-1 to D-3 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 1: the counter sits on the top end corner of the collapsed button, over it. Material puts the badge on the top right corner of the icon (https://developer.android.com/develop/ui/compose/components/badges ). | Nothing changes. Figma already draws it (node 2251:51328). |
+| D-2 | Option 1: the outline of the active counter is 4 px (`space/inline-tight`). No market source; the basis is P116 item 7 and the accepted Figma. | Nothing changes. Figma already draws it (node 2278:54770). The older text of the task, `border/width`, is superseded. |
+| D-3 | Option 1: the More action is a secondary ghost compact `nph-button`. Carbon shows the row action as a discreet button (https://carbondesignsystem.com/components/data-table/usage/ ). | Nothing changes. Figma already draws it (node 2251:51271). The older text of the task, primary, is superseded. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

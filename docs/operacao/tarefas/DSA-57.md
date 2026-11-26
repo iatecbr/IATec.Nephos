@@ -34,26 +34,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-2",
-      "question": "The evidence puts an nph-avatar before the text but does not give its size. The code uses the sm size of nph-avatar (avatar/size-sm), which fits the compact height. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence leaves the X of the invalid chip without hover and focus tokens. The code uses the error pair, chip/error-remove-background-hover for the hover and active background and chip/error-focus-border with chip/error-focus-halo for the focus ring, to match the red border. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    },
-    {
-      "id": "D-5",
-      "question": "The evidence shows the selected selectable chip with the X and the counter, but not their order. The code draws icon, text, counter and X, in this order, and the end padding is the one of the X (chip/padding-end-remove or chip/padding-end-remove-default). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-28"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-57/documentacao-figma-aceita-2026-10-28.md",
     "docs/operacao/evidencias/DSA-57/review-and-merge-2026-10-28.md"
@@ -61,7 +42,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-chip visual acceptance, Figma UX QA and textual audit approved, documentation accepted; X ring in the status color; smaller counter; counter background on hover; border on every chip with a status border in the status colors; approved_order 560",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-1 and D-3 in the chat, all as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D-1 and D-3 in the chat, all as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-2, D-4, D-5, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -73,7 +55,7 @@
   },
   "git_review": { "branch": "claude/dsa-57-nph-chip", "commit": "53b18ed3753b06474530eb6993413d0283a3c7d2", "pr": "134" },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -97,6 +79,15 @@ Indiane answered D-1 and D-3 in the chat on 2026-11-23, in lot A of the pending 
 |---|---|---|
 | D-1 | Accepted: the counter is a pill of the chip itself, painted by the `chip/counter-*` tokens with the `text/label-sm` role, not an nph-badge, as nph-pagination (P99) and nph-sidebar-item (P98). MUI also builds such an inner part on its own, as the item of its pagination (https://mui.com/material-ui/api/pagination-item/ ). | Nothing changes. |
 | D-3 | Accepted: in the removable chip, a cut label takes the focus (tabindex 0) and shows the whole text in the tooltip; a label that is not cut takes no focus. The APG asks the tooltip to open on keyboard focus too, not only on hover (https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/ ). | Nothing changes. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-2, D-4, D-5 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Option 1: `nph-avatar` sm (24 px) in both chip sizes. Fluent warns that a small avatar loses detail (https://fluent2.microsoft.design/components/web/react/core/avatar/usage ). | Nothing changes. Figma already draws it (node 3076:574). |
+| D-4 | Option 1: the error pair for hover and focus of the X of an invalid chip, with no new token. WCAG 1.4.11 asks 3:1 for the focus indicator (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | Nothing changes. Figma already draws it (nodes 3076:698 and 3076:704). |
+| D-5 | Option 1: icon, text, counter and X, in this order. Material ends the chip with the remove icon (https://m3.material.io/components/chips/guidelines ). | Nothing changes. Figma already draws it (selection with counter variant). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

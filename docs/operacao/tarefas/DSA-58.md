@@ -45,26 +45,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-2",
-      "question": "The evidence says the sortable header carries an icon that shows the sort direction, without naming the glyphs. The code uses arrow-up-arrow-down for a column that sorts and is not sorted, arrow-up for ascending and arrow-up turned half a turn for descending, because arrow-down is not in the nph-icon core; nph-pagination turns its arrow the same way. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-5",
-      "question": "The evidence puts nph-skeleton in the cells while carregando, without saying how many rows. The code draws as many skeleton rows as the rows already shown, or the page size when there are none, with the header visible. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    },
-    {
-      "id": "D-6",
-      "question": "The evidence describes the ajuste column, with an nph-switch, without saying where it goes. The code puts it at the end of the row, before the actions column. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-29"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-58/documentacao-figma-aceita-2026-10-28.md",
     "docs/operacao/evidencias/DSA-58/review-and-merge-2026-10-29.md"
@@ -72,7 +53,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-data-table: toolbar as nph-toolbar, footer by width with nph-pagination, focus ring inside the sortable header cell, unchecked box border on color/input-hover; Figma UX QA and textual audit approved, documentation accepted",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-1, D-3 and D-4 in the chat, all as recommended, after market research with sources; D-3 changes the code in DSA-115"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-1, D-3 and D-4 in the chat, all as recommended, after market research with sources; D-3 changes the code in DSA-115",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-2, D-5, D-6, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,7 +66,7 @@
   },
   "git_review": { "branch": "feat/dsa-58-data-table", "commit": "0dc524b", "pr": 147 },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -109,6 +91,15 @@ Indiane answered D-1, D-3 and D-4 in the chat on 2026-11-23, in lot B of the pen
 | D-1 | Kept for v1: the product chooses the footer with `pagination-layout`; the footer does not switch by itself. There is no breakpoint token for 850 or 420 px, and a literal width is forbidden in the component; Carbon defines no responsive footer either (https://carbondesignsystem.com/components/data-table/usage/ ). | Nothing changes. |
 | D-3 | Changed: a click on a sortable header goes ascending, descending and back to unsorted. MUI and AG Grid cycle this way, and Carbon has the unsorted state (https://mui.com/x/react-data-grid/sorting/ , https://www.ag-grid.com/javascript-data-grid/row-sorting/ , https://carbondesignsystem.com/components/data-table/usage/ ). | Changes in DSA-115. |
 | D-4 | Confirmed: Selecionar todas checks and unchecks only the rows drawn on the current page; rows selected on other pages stay selected. MUI and AG Grid offer this mode, and checking rows the person does not see is a risk in a bulk action (https://mui.com/x/react-data-grid/row-selection/ , https://www.ag-grid.com/javascript-data-grid/row-selection-multi-row/ ). | Nothing changes. If a product asks for every row, a "select all" notice comes in a task of its own. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-2, D-5, D-6 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-2 | Option 1: ascending `arrow-up`, descending `arrow-up` turned half a turn, with no new icon. The APG uses arrows for direction and a different shape for not sorted (https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/sortable-table/ ). | Nothing changes. Figma updated on 2026-11-26: header 1371:37, 8 icons (`arrow-up` and `arrow-up` turned 180 degrees). |
+| D-5 | Option 1: as many skeleton rows as the rows already on screen, or the page size on the first load. Contentful matches the number of rows to what arrives (https://f36.contentful.com/components/skeleton ). | Nothing changes. Figma updated on 2026-11-26: node 2633:69471, one row added (4 rows in the loading variants). |
+| D-6 | Option 1: the adjustment column stays before the actions column. shadcn keeps the actions as the last column (https://ui.shadcn.com/docs/components/data-table ). | Nothing changes. Figma draws only the adjustment cell alone (node 2633:69761); nothing to update. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

@@ -31,14 +31,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-18",
-      "question": "How a day that cannot be the End looks while only the Start is chosen (D-10, answered without a drawing). Until she answers, it is disabled like a day outside the min or the max: faded under state/disabled-opacity, skipped by the focus. If it should look unavailable, or differently, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-19"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-96/design-decision-2026-11-18.md",
     "docs/operacao/evidencias/DSA-96/review-and-merge-2026-11-19.md"
@@ -46,7 +39,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-18.md, nph-date-picker: the design owner answered D-1 to D-11 of DSA-90 and the header of the large grid as recommended, after previews in light and dark; Figma changed the same day",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-15 to D-17 in the chat, all as recommended, after market research with sources; D-15 changes the code in DSA-115"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-15 to D-17 in the chat, all as recommended, after market research with sources; D-15 changes the code in DSA-115",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-18, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -58,7 +52,7 @@
   },
   "git_review": { "branch": "feat/dsa-96-date-picker", "commit": "475790c", "pr": 188 },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -117,13 +111,20 @@ Indiane answered D-15 to D-17 in the chat on 2026-11-23, in lot B of the pending
 | D-16 | Confirmed: in the range, the first column is the year of the first month shown (or the block of twelve years that starts at the decade of that year); the arrows are only on the outer edges and move one year or twelve years per click; the cells of both columns are one sequence for the arrow keys and one Tab stop. The APG date picker has one Tab stop in the grid and the arrow keys to move in it (https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/ ). | Nothing changes. |
 | D-17 | Confirmed: with a min inside the month, This month is disabled, by the general rule of D-6. In MUI a shortcut that fails validation is disabled by default (https://mui.com/x/react-date-pickers/shortcuts/ ). | Nothing changes. |
 
+## Decision answered on 2026-11-26
+Indiane answered D-18 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-18 | Option 1: the day that cannot be the end is disabled like the days outside the min or max, at 0.5 opacity and out of focus. MUI X shows every invalid value as disabled (https://mui.com/x/react-date-pickers/validation/ ). | Nothing changes. Figma already draws it (node 4015:28020, `estado=desabilitado`). |
+
 ## How it is proved
 - `npm run test:operacao`, `npm run test:naming`, `npm run test:tokens`.
 - The unit tests of `nph-calendar` and `nph-date-picker` cover the new rules: views at the day height, one arrow per edge in the range, shortcuts without today and disabled outside the limit, the year title icon, both columns switching in the range, the unavailable day inside a period, the large header height.
 - The stories show the large views, the range in the month view and a period stopped by an unavailable day.
 
 ## What this task does not do
-It does not create a token or change a token value. It does not change Figma. It does not answer D-12 and D-14 of DSA-90, which stay open with the design owner (D-13 was answered on 2026-11-23, with no change to the code). It does not change a typed period or a shortcut that holds an unavailable day: that is DSA-115 (D-15).
+It does not create a token or change a token value. It does not change Figma. It does not answer D-12 of DSA-90, which stays open with the design owner (D-14 was answered on 2026-11-26; D-13 was answered on 2026-11-23, with no change to the code). It does not change a typed period or a shortcut that holds an unavailable day: that is DSA-115 (D-15).
 
 ## Sources
 https://raw.githubusercontent.com/react-component/picker/master/src/PickerPanel/DatePanel/index.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/DateCalendar/DayCalendar.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/PickerControl/PickerControl.module.css ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/internals/constants/dimensions.ts ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers-pro/src/PickersRangeCalendarHeader/PickersRangeCalendarHeader.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/internals/components/PickersArrowSwitcher/PickersArrowSwitcher.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/MonthLevelGroup/MonthLevelGroup.tsx ; https://github.com/Shopify/polaris/blob/main/polaris.shopify.com/content/patterns/date-picking/variants/date-range.mdx ; https://developers.google.com/google-ads/api/docs/query/date-ranges ; https://mui.com/x/react-date-pickers/shortcuts/ ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Calendar/Calendar.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/PickersCalendarHeader/PickersCalendarHeader.tsx ; https://raw.githubusercontent.com/adobe/react-spectrum/main/packages/react-stately/src/calendar/useRangeCalendarState.ts ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/CalendarHeader/CalendarHeader.module.css ; https://raw.githubusercontent.com/carbon-design-system/carbon/main/packages/styles/scss/components/date-picker/_flatpickr.scss ; https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html

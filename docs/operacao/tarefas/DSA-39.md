@@ -29,32 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "With several parts beside the track, the evidence does not give their order. The code draws `[start field] [minus] [minimum] track [maximum] [plus] [end field]`; in `single`, the only field is at the end. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    },
-    {
-      "id": "D3",
-      "question": "The evidence gives the default width (`layout/input-width`) but not the length of the vertical track. The code uses `layout/input-width` as its height. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    },
-    {
-      "id": "D4",
-      "question": "`marcas` shows 'steps under the track'. The evidence does not say whether there is one mark per step or a subset. The code draws one label per step, from `min` to `max`, and the thumb always stops on the step. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    },
-    {
-      "id": "D5",
-      "question": "`campo` is an `nph-input` at `space/inline` from the track, with no width of its own in the evidence and no token for it. The code lets the field share the line with the track, one part for the field and three for the track. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-39/documentacao-figma-aceita-2026-10-15.md",
     "docs/operacao/evidencias/DSA-39/review-and-merge-2026-10-24.md"
@@ -63,7 +38,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, slider modernization accepted, Figma UX QA approved, documentation accepted and textual audit approved",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane sends the nph-slider to code",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D2 in the chat, as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:0x), lot A of the pending decisions of the v1 closing: Indiane answered D2 in the chat, as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D1, D3, D4, D5, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -79,7 +55,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/112"
   },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -109,23 +85,23 @@ Indiane answered D2 in the chat on 2026-11-23, in lot A of the pending decisions
 |---|---|---|
 | D2 | Accepted: in `tipo=intervalo`, minus and plus move the thumb used or focused last, the start one by default. In the APG each thumb of a range slider has its own focus; moving the last one used respects it (https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/ ). | Nothing changes. |
 
+## Decision answered on 2026-11-26
+Indiane answered D1, D3, D4, D5 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Option 1: keep the order `[start field] [minus] [minimum] track [maximum] [plus] [end field]`. Carbon keeps the limits next to the track and the field at the end (https://carbondesignsystem.com/components/slider/usage/ ). | Nothing changes. Figma updated on 2026-11-26: set 1636:44, the variants with a field. |
+| D3 | Option 1: the vertical track is `layout/input-width` (280) tall, symmetric with the horizontal one, with no new token. Material and Ant do not fix a height (https://mui.com/material-ui/react-slider/ ). | Nothing changes. Figma already draws it (node 1911:491). |
+| D4 | Option 2: labels only at the values the user chooses (for example 0, 25, 50, 75, 100). MUI and Ant let the user pick the subset (https://mui.com/material-ui/react-slider/ ). | A new property chooses the labelled values; the code owner adds it. Figma already draws it (marks 1911:46). |
+| D5 | Option 1: keep one part for the field and three for the track (68 and 204 in 280). It needs no new token and is close to the 64 of Carbon (https://raw.githubusercontent.com/carbon-design-system/carbon/main/packages/styles/scss/components/slider/_slider.scss ). | Nothing changes. Figma follows in a later change (instances 1911:38781 and 1911:38783 hug the field). |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Pending decisions
-The evidence gives the contract, so the code could start. D2 was answered on
-2026-11-23 (section "Decision answered on 2026-11-23"); D1 and D3 to D5 remain for
-Indiane. The code follows the stated default meanwhile, and the answer only
-adjusts one rule each. They are recorded in P94.
-
-| ID | What the evidence gives | What is missing | What the code does meanwhile |
-|---|---|---|---|
-| D1 | The parts beside the track sit at `space/inline` from it. | Their order when several are on. | `[start field] [minus] [minimum] track [maximum] [plus] [end field]`. |
-| D3 | The default width is `layout/input-width`. | The length of the vertical track. | `layout/input-width` as its height. |
-| D4 | `marcas` shows the steps under the track. | One mark per step, or a subset. | One label per step. |
-| D5 | `campo` is an `nph-input` at `space/inline` from the track. | Its width; there is no token for it. | The field shares the line with the track: one part for the field, three for the track. |
+Answered on 2026-11-26: see the section below.
 
 ## Relations with other tasks
 - The value balloon is an `nph-tooltip` (DSA-08).

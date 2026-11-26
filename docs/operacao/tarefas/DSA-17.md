@@ -29,21 +29,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D7",
-      "question": "D2 says that a checked or indeterminate box on hover also takes state/hover-opacity, but not on what. The code applies it to the box only (fill, border and mark), not to the text. Does Indiane confirm, or want it on the whole piece? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-17/documentacao-figma-aceita-2026-10-01.md",
     "docs/operacao/evidencias/DSA-17/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D1 to D4 read from the accepted Figma set; D5 and D6 answered by Indiane"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D1 to D4 read from the accepted Figma set; D5 and D6 answered by Indiane",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D7, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -59,7 +53,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/117"
   },
   "context": null,
-  "updated_at": "2026-10-24"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -90,11 +84,14 @@ the second half of D5 and D6 were answered by the design decision of the piece.
 | D6 | The text is plain; a link, such as the terms of use, stays outside the piece. | Keeps a plain text property. |
 
 ## Pending decisions
-The evidence gives the whole contract, so the code can start. One point remains for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule.
+Answered on 2026-11-26: see the section below.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D7 | D2: a checked or indeterminate box on hover also takes `state/hover-opacity`. | On which part the opacity goes. | Applies it to the box only: fill, border and mark. If the answer is the whole piece, one CSS rule moves to the host. |
+## Decision answered on 2026-11-26
+Indiane answered D7 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D7 | Option 1: `state/hover-opacity` (0.95) goes on the box only (fill, border and mark); the text stays at 100%. Material changes only the control on hover (https://raw.githubusercontent.com/material-components/material-web/main/checkbox/internal/_checkbox.scss ). | Nothing changes. Figma already draws it (nodes 740:26 and 740:18729). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

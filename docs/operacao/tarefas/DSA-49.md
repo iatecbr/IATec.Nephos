@@ -41,48 +41,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D1",
-      "question": "The evidence lists the `categoria` content of the composite cell but does not describe it: no piece, text or token. What is the category cell, or the category row of the example \"Items grouped by category\"? Until the answer, nph-table has no category content, and the example shows the group rows as level 1 of the tree, open, with the total in the footer. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D2",
-      "question": "The evidence names the typography of the header only. The code uses text/heading-sm for the caption title, text/body-md for the caption description and the cell, and text/body-sm for the second line of the cell and the labels of the expanded item. The evidence also says the caption text is in table/caption-foreground: the code draws the title in table/foreground and the description in table/caption-foreground. Are these the roles? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D3",
-      "question": "The thumbnail without a photo should hide the photo and show the `image` icon over table/muted-background, but `image` is not in the nph-icon core, and the empty nph-image draws the frame only (D1 of DSA-51). Until then, the thumbnail without a photo is the empty frame of nph-image. Which glyph enters the core? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D4",
-      "question": "The icon-only Edit of the `ações` content uses `pen-to-square` from the core action icons. Is it `pen-to-square` or `pen`? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D5",
-      "question": "The `status` content uses `circle-check` for success and `circle-xmark` for error, the two status tokens of the table (table/status-success-icon and table/status-error-icon). Are these the glyphs, and are success and error the only statuses? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D6",
-      "question": "The `avaliação` content draws one `star`, in the solid style, in table/rating-foreground, and the score as a number beside it. Is it one star, and solid (the general rule is light)? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D7",
-      "question": "The total of the caption is an nph-badge secondary. The code uses the default emphasis (solid); the `selo` content of the cell is light. Which emphasis does the total use? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
       "id": "D8",
       "question": "design.md has no usage entry for the table/* tokens. May the entries be added, as the other component tokens have? The code consumes them as the evidence binds them. It does not block the pull request.",
       "decider": "indiane",
@@ -98,7 +56,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, nph-table visual acceptance, focus ring at 2 px, rating star kept with the WCAG 1.4.11 exception, link in dark on theme/brand-200, header in dark on color/muted, thumbnail on image/size-sm, selection left to the nph-data-table, Figma UX QA approved and documentation accepted",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-23.md, textual audit approved; underlined cell link, actions with Edit and ⋮ as icons, generic photo in thumbnail and expanded item; approved_order 490",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-25.md, fixed-header line on color/border in both modes (Figma and tokens); the table ships the ⋮ as the nph-icon-button and wires the nph-dropdown-menu when DSA-45 is done"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-25.md, fixed-header line on color/border in both modes (Figma and tokens); the table ships the ⋮ as the nph-icon-button and wires the nph-dropdown-menu when DSA-45 is done",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D1 to D7, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -110,7 +69,7 @@
   },
   "git_review": { "branch": "claude/dsa-49-nph-table-8d2ed2", "commit": "72fb0c28c7b37c70ef3bdfcdc9a31817a5c22f27", "pr": "119" },
   "context": null,
-  "updated_at": "2026-10-26"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -143,6 +102,19 @@ The pieces it composes:
 - `nph-icon-button` (DSA-43) — the chevron, the icon-only Edit and the ⋮.
 - `nph-tooltip` (DSA-48) — the truncated text.
 - `nph-image` (DSA-51) — the photo of the thumbnail and of the expanded item.
+
+## Decision answered on 2026-11-26
+Indiane answered D1 to D7 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Option 2: a full-width group row with chevron, name in `text/heading-xs` and the count in an `nph-badge` secondary light, on `table/header-background`. AG Grid draws a full-width group row with name, count and chevron (https://www.ag-grid.com/javascript-data-grid/grouping-group-rows/ ). | The code draws the category group as that full-width row, with no new token. Figma follows in a later change (example 2428:1280 and the category 2425:984). |
+| D2 | Option 1: keep the roles of today: caption title `text/heading-sm`, description and cell `text/body-md`, second line `text/body-sm`. No market source; the basis is `design.md`. | Nothing changes. Figma updated on 2026-11-26: caption in node 1370:21 and its 9 variants (title `text/heading-sm`, description `text/body-md`). |
+| D3 | Option 2: `image` (Font Awesome light and solid) enters the core and shows centered, 16 px, in `table/muted-foreground`, on a thumbnail without a photo (https://fontawesome.com/icons/image?s=light ). | Adds `image` to the `nph-icon` core and the empty thumbnail shows it. Figma already draws it (node 2571:65008). |
+| D4 | Option 1: `pen-to-square` for every Edit in Nephos. In Font Awesome it has the official alias edit (https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/js-packages/@fortawesome/free-regular-svg-icons/faPenToSquare.js ). | Every Edit action uses `pen-to-square`. Figma updated on 2026-11-26: `nph-context-menu` 4819:15828, 12 instances from `pen` to `pen-to-square`. |
+| D5 | Option 1: only success and error, with `circle-check` and `circle-xmark`. Carbon asks for shape and text, not only color (https://carbondesignsystem.com/patterns/status-indicator-pattern/ ). | Nothing changes. Figma already draws it (node 2571:65296). |
+| D6 | Option 1: one solid `star` and the number beside it. WCAG 1.4.11 spares the graphic when the text beside it carries the same information (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | Nothing changes. Figma updated on 2026-11-26: rating in node 2571:65620, 12 variants, with one solid star and the number. |
+| D7 | Option 2: the total in the caption is an `nph-badge` secondary light, as the `selo` of the cell. Atlassian keeps the bold badge for very important items (https://atlassian.design/components/badge/usage ). | The total badge of the caption changes from solid to light. Figma already draws it (node 2571:66346). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

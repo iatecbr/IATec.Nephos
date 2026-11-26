@@ -116,12 +116,6 @@
       "question": "Three measures drawn in Figma have no token: the shortcut column is 192 wide, the grid header is 40 high and the month and year cell is 84 wide. The code derives them from tokens, with no literal value: the column is 12 steps of date-picker/panel-padding, the header is control/height-default plus space/inline-tight, and the cell is 3 of 7 of the default week row. If these measures should be tokens, she decides in Figma, through Claude. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-14",
-      "question": "D-7 asks for the panel width plus the page margin, and no page margin is drawn. Until she answers, the code uses space/container-padding on each side of the viewport, and reads the viewport width when the panel opens. If the margin or the width it is measured against should be another, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
     }
   ],
   "evidence": [
@@ -132,7 +126,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-15.md and 2026-11-16.md, nph-date-picker: redesign with the corrections of the design owner (soft style, rounder corners, range mode with shortcuts and two months, solid icon on the calendar button hover, calendar icon color)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md, nph-date-picker: green light (visual acceptance) and the 10 approval items approved as recommended: documentation accepted, calendar/day-radius, calendar/day-focus-radius, date-picker/panel-radius and date-picker/panel-offset straight to the core by decision, the floating layer radius semantic as a later foundation task, the scheduler day radius in a later adjustment task, today and the current month on color/primary-text in the owner grid, a date unavailable by rule focusable and never chosen, and the calendar button unchanged on field hover",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-13 in the chat, as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-13 in the chat, as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-14, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -144,7 +139,7 @@
   },
   "git_review": { "branch": "feat/dsa-90-date-picker", "commit": "4906ba6", "pr": 186 },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -172,8 +167,8 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Decisions open with the design owner
 
-> **Superseded on 2026-11-18.** The design owner answered D-1 to D-11 as recommended (evidence of DSA-96, `design-decision-2026-11-18.md`); DSA-96 and P135 bring the code to the answers that change it. D-13 was answered on 2026-11-23, as the code does (section "Decision answered on 2026-11-23"); D-12 and D-14 stay open.
-The reviews of 17-11 and 18-11 found the first eleven of these questions; the code added D-12 to D-14. They are questions with no drawing or rule in Figma. Each of the first eleven has a recommendation from market research with sources, and each says what the code does until the design owner answers (last column): the recommendation, or the accepted drawing where the recommendation would change it (D-2, D-5 and the year title icon of D-9); D-1 follows the recommendation, six rows, because the five drawn rows cannot hold a six-week month. None blocks the pull request. The ones marked preview need a Figma preview, in light and dark, before the design owner decides.
+> **Superseded on 2026-11-18.** The design owner answered D-1 to D-11 as recommended (evidence of DSA-96, `design-decision-2026-11-18.md`); DSA-96 and P135 bring the code to the answers that change it. D-13 was answered on 2026-11-23, as the code does (section "Decision answered on 2026-11-23"); D-12 stays open; D-14 was answered on 2026-11-26 (section "Decision answered on 2026-11-26").
+The reviews of 17-11 and 18-11 found the first eleven of these questions; the code added D-12 to D-14 (D-14 answered on 2026-11-26: see the section below). They are questions with no drawing or rule in Figma. Each of the first eleven has a recommendation from market research with sources, and each says what the code does until the design owner answers (last column): the recommendation, or the accepted drawing where the recommendation would change it (D-2, D-5 and the year title icon of D-9); D-1 follows the recommendation, six rows, because the five drawn rows cannot hold a six-week month. None blocks the pull request. The ones marked preview need a Figma preview, in light and dark, before the design owner decides.
 
 | ID | Question | Recommended | Preview | Until the design owner answers, the code |
 |---|---|---|---|---|
@@ -190,7 +185,6 @@ The reviews of 17-11 and 18-11 found the first eleven of these questions; the co
 | D-11 | Days outside the month and the two grids of the range | Picking it chooses the date; one Tab stop per grid; arrows cross between the grids | no | The recommendation |
 | D-12 | Measures with no token: shortcut column 192, header 40, month and year cell 84 | Tokens for them, if she wants | no | Derived from tokens: 12 steps of `date-picker/panel-padding`, `control/height-default` plus `space/inline-tight`, 3 of 7 of the default week row |
 | D-13 | A typed Start or End with the panel closed | Not covered by the evidence | no | Each field commits when the person leaves it; a Start without an End can stay (decided on 2026-11-23) |
-| D-14 | The page margin of D-7 | Not drawn | no | `space/container-padding` on each side of the viewport |
 
 Sources: https://raw.githubusercontent.com/react-component/picker/master/src/PickerPanel/DatePanel/index.tsx ; https://mui.com/x/api/date-pickers/date-calendar/ ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Calendar/Calendar.tsx ; https://raw.githubusercontent.com/react-component/picker/master/src/PickerPanel/index.tsx ; https://react-spectrum.adobe.com/react-spectrum/DateRangePicker.html ; https://design-system.service.gov.uk/components/date-input/ ; https://mui.com/x/react-date-pickers/validation/ ; https://react-aria.adobe.com/DateRangePicker ; https://ant.design/components/date-picker ; https://mantine.dev/dates/date-picker/ ; https://mui.com/x/react-date-pickers/shortcuts/ ; https://mui.com/x/react-date-pickers/custom-components/ ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/hooks/use-dates-state/use-dates-state.ts ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers-pro/src/internals/utils/date-range-manager.ts ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/YearCalendar/YearCalendar.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Month/Month.tsx ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/Month/get-date-in-tab-order/get-date-in-tab-order.ts ; https://raw.githubusercontent.com/mantinedev/mantine/master/packages/@mantine/dates/src/components/MonthLevelGroup/MonthLevelGroup.tsx ; https://raw.githubusercontent.com/mui/mui-x/master/packages/x-date-pickers/src/DateCalendar/DayCalendar.tsx ; https://raw.githubusercontent.com/adobe/react-spectrum/main/packages/react-aria/src/calendar/useCalendarCell.ts
 
@@ -212,6 +206,13 @@ Indiane answered D-13 in the chat on 2026-11-23, in lot B of the pending decisio
 | ID | Answer | What the code does |
 |---|---|---|
 | D-13 | Confirmed: with the panel closed, each typed field commits when the person leaves it, so a Start without an End can stay, and change fires for each one. In React Spectrum the change fires on each edit of the start or the end (https://react-spectrum.adobe.com/react-spectrum/DateRangePicker.html ). | Nothing changes. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-14 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-14 | Option 3: the page margin follows the breakpoint, `layout/margin-compact` (16) below 768 and `layout/margin-default` (24) from 768, as `nph-toast-region`. Carbon uses 16 px margins on medium and large breakpoints and 24 at the maximum (https://carbondesignsystem.com/elements/2x-grid/overview/ ). | Replaces `space/container-padding` with that margin; the period becomes one month below 810 px (922 px for the large panel). Figma does not draw the margin; nothing to update. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

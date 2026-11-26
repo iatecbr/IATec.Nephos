@@ -34,20 +34,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The collapse button on a touch screen (tablet, above the breakpoint) stays compact, 28 px, by the T4 exception of the handle. If it should grow to default on touch, as the nph-popover footer does, she decides in the next approval round. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-17"
-    },
-    {
-      "id": "D-2",
-      "question": "The evidence gives no width for the handle with the collapse button off. The code keeps the handle column at control/height-compact (28 px), because the handle has one size and the drag area stays above 24 px, so the panels do not move when the button is turned off. If Figma should draw it narrower, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-17"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-86/figma-docs-accepted-2026-11-16.md",
     "docs/operacao/evidencias/DSA-86/review-and-merge-2026-11-17.md"
@@ -55,7 +42,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-14.md, nph-resizable: adjustment round with the corrections of the design owner (lighter colors on the handle; focus as a 2 px line with no halo)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, nph-resizable: green light (visual acceptance), documentation accepted, and the 9 approval items answered as recommended: color/border-strong, resizable/focus-border-width, rotated grip, 24 px hit area in code, T4 exception for the compact collapse button, collapsed as example, out of mobile in v1, collapse button on by default with a one-tap way out"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, nph-resizable: green light (visual acceptance), documentation accepted, and the 9 approval items answered as recommended: color/border-strong, resizable/focus-border-width, rotated grip, 24 px hit area in code, T4 exception for the compact collapse button, collapsed as example, out of mobile in v1, collapse button on by default with a one-tap way out",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1, D-2, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -67,7 +55,7 @@
   },
   "git_review": { "branch": "feat/dsa-86-resizable", "commit": "d94bd7717b6ceaeb93d7277b455e4fa79f3a1115", "pr": 181 },
   "context": null,
-  "updated_at": "2026-11-17"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -111,10 +99,18 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - Motion of collapse and restore: if animated, use the `motion/*` tokens of `design.md` and drop the animation under `prefers-reduced-motion`; no animation is also valid.
 
 ## Open point for the design owner (non-blocking)
-- Collapse button on a touch screen (tablet, above the breakpoint): the T4 exception keeps it compact (28, above 24). Whether it grows to `default` on touch, as the nph-popover footer does, goes to the design owner in the next approval round; until then it stays compact.
+Answered on 2026-11-26: see the section below.
 
 ## Why it is ready
 The 10 `resizable/*` tokens and the semantic `color/border-strong` came with this task and are on `v/5.0.0`: 9 aliases of semantics (one of them, `color/border-strong`, new in this task), and `resizable/focus-border-width` straight to `core/focus-width/sm` by decision (no semantic has the function of a 2 px focus border), as `tree/focus-border-width`. No new value entered the core. Every piece it uses is done: `nph-icon` (DSA-03), `nph-button` (DSA-13), the icon-only nph-button (DSA-43), the secondary icon-only nph-button (DSA-64). The examples use nph-skeleton (DSA-26, done) as panel content only.
+
+## Decision answered on 2026-11-26
+Indiane answered D-1, D-2 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 1: the collapse button stays at 28 px on touch, above the 24 x 24 minimum of WCAG 2.5.8 (https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html ). | Nothing changes. Figma already draws it (node 5099:172). |
+| D-2 | Option 1: the handle column stays at `control/height-compact` (28 px), so the panels do not move. Same WCAG 2.5.8 source as D-1. | Nothing changes. Figma already draws it (handle 28 x 200). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

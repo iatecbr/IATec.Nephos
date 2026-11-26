@@ -37,20 +37,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The accepted frame shows the loading state as an avatar sm and a line, with no number of rows. The code draws three skeleton rows (an avatar sm and two lines each). If Figma should show another number, or lines of other widths, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    },
-    {
-      "id": "D-2",
-      "question": "On the last batch of Show more the button goes away and the focus moves to the first new item, as the accepted behavior asks. The item takes no focus in the contract and no focus token exists for it, so the code draws no ring on that list item (tabindex -1 only while it holds the focus). If a visible mark is wanted there, she decides which one. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-18"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-89/figma-docs-accepted-2026-11-17.md",
     "docs/operacao/evidencias/DSA-89/review-and-merge-2026-11-18.md"
@@ -59,7 +46,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-14.md and 2026-11-16.md, nph-timeline: adjustment rounds with the corrections of the design owner (brand palette on the details: history dot, connector line and neutral circle; lighter pending outline)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-17.md, nph-timeline: green light (visual acceptance) and a test round with the 16 approval items taken as recommended: documentation accepted, 27 timeline tokens with four straight to the core by decision, connector line on color/primary-border, pending outline on color/input, tonal marker, descriptions with additions only, connector line on a whole pixel, history in columns in the nph-table, rich content in the nph-card base or section, default behavior",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-3 in the chat, as recommended, after market research with sources"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-23.md (15:1x), lot B of the pending decisions of the v1 closing: Indiane answered D-3 in the chat, as recommended, after market research with sources",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1, D-2, after market research with sources"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -75,7 +63,7 @@
     "pr": 185
   },
   "context": null,
-  "updated_at": "2026-11-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -121,6 +109,14 @@ Indiane answered D-3 in the chat on 2026-11-23, in lot B of the pending decision
 | ID | Answer | What the code does |
 |---|---|---|
 | D-3 | Confirmed: in the history type, an item with the current status takes the current look (strong title and center dot) with no `aria-current`. `aria-current` marks where the person is in a navigation or a process, and a history is neither (https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current ). | Nothing changes. |
+
+## Decision answered on 2026-11-26
+Indiane answered D-1, D-2 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 2: three loading rows with bars that imitate real text, title at 60% and meta at 35%, as the skeleton of `nph-card`. Fluent keeps the skeleton simple, reflecting title and subtitle (https://fluent2.microsoft.design/components/web/react/core/skeleton/usage ). | The loading rows draw two bars of 60% and 35%. Figma updated on 2026-11-26: examples 5238:570 and 5238:601, light and dark. |
+| D-2 | Option 2: the new item that receives focus after the last Show more shows the standard focus mark: 1 px `focus/border` and 4 px `focus/halo`, corner `radius/control`, with no new token. WCAG 1.4.11 asks 3:1 for a focus mark (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | The new item draws that mark while it has focus. Figma follows in a later change (item 5216:304 has no focus state). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
