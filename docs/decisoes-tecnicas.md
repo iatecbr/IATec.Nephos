@@ -4440,7 +4440,7 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
    opens nothing, by click or by key; a press on it still closes an open menu, except on an `nph-button`
    that went into `loading` while the menu was open (see the known limits).
 6. **Placement and motion.** `space/inline-tight` below the trigger (D-1, as the list of
-   `nph-select`), aligned to its start edge; it turns up when it does not fit below and fits above,
+   `nph-select`), aligned to its start edge (or to its end edge, by `align`, DSA-111); it turns up when it does not fit below and fits above,
    never leaves the window and follows the trigger on scroll and resize, also a trigger set by `for` while
    open, and its own size: content that changes while open places it again. `layout/input-width` is the
    preferred width: a narrower window, or a larger font, holds the panel inside it. Only a menu taller
@@ -4457,6 +4457,18 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
    frame, no valid item, and a `size` outside the two draw nothing and emit `console.error` in
    development. An invalid entry (no `value`, no `text`, an unknown `severity` or `selection`, a
    switch with a selection, a submenu with a switch or a selection) is left out, one error per cause.
+
+**Amendment (DSA-111, 26/11/2026): the `align` of the panel.** The `nph-split-button` (DSA-109) opens its
+menu on the end edge of the group, which is the end edge of its arrow, and item 9 of its approval (Indiane,
+23/11/2026) asked the menu for an end alignment, as the `align` of `nph-popover` (P111). The menu gains a
+seventh property, `align`: `start` (default) or `end`, reflected, naming the edge of the trigger the panel
+lines up with. The edges are logical: in a right-to-left page the start is the right and the end is the
+left. Only the horizontal edge changes; the rest of item 6 holds (4 px below, turning up when it does not
+fit below and fits above, held inside the window, following the trigger on scroll and resize). Unlike the
+popover, `center` is not offered: no accepted drawing centers a menu under its trigger, and an alignment
+without a use is not added (the code owner's choice, left open by the task). A value outside the two draws
+nothing and emits `console.error` in development, one per cause (item 9). Every menu that does not set it
+stays as it was. No token is created.
 
 **Known limits.**
 

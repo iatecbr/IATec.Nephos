@@ -24,6 +24,9 @@
  * - `header`: `{ name, status, src }` or `null` (the Figma `cabeçalho`, off by default);
  * - `size`: `default` or `compact` (the Figma `tamanho` of the item), for the whole menu.
  *   Reflects, because the internal CSS selects the rows by it;
+ * - `align`: the edge of the trigger the panel lines up with, `start` (default) or `end`, as
+ *   the `align` of `nph-popover` without `center` (DSA-111). The edges are logical: in a
+ *   right-to-left page the start is the right and the end is the left. Reflects;
  * - `label`: the accessible name of the menu. Empty: the name comes from the trigger;
  * - the event `nph-item-select` (bubbles), with `detail: { value, checked }`, fired only when
  *   the person activates an item: `checked` is the new state of a single choice, a multiple
@@ -40,14 +43,14 @@
  *   is the focused item, as in Radix), and the keyboard goes on from it. A disabled or loading
  *   item does not take it from the pointer; leaving the panel does not blur;
  * - invalid input does not render and emits `console.error` only in development, one per
- *   cause (P21 rule): `for` empty or matching no element in the same root, no valid item and
- *   a `size` outside the two. An invalid entry is left out, with one error per cause.
+ *   cause (P21 rule): `for` empty or matching no element in the same root, no valid item, a
+ *   `size` outside the two and an `align` outside the two. An invalid entry is left out, with one error per cause.
  *
  * LAYER — the panel is a `popover="manual"`, so it lives in the top layer, as the
  * `nph-tooltip` balloon (P77) and the `nph-select` list (P91): no `z-index` and no clipping
  * by an ancestor. It opens `space/inline-tight` below the trigger, aligned to its start
- * edge, turns up when it does not fit below and fits above, never leaves the window, and
- * follows the trigger on scroll and resize.
+ * edge (or its end edge, with `align="end"`), turns up when it does not fit below and fits
+ * above, never leaves the window, and follows the trigger on scroll and resize.
  *
  * INNER PIECES — `nph-checkbox` (multiple choice) and `nph-switch` are drawn `inert`: the
  * item carries the role, the state and the focus, and the pieces only show it. They never
@@ -74,6 +77,10 @@ const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 /** The two sizes of the item (the Figma `tamanho`: `padrão` and `compacto`). */
 export const NPH_DROPDOWN_MENU_SIZES = ['default', 'compact'] as const;
 export type NphDropdownMenuSize = (typeof NPH_DROPDOWN_MENU_SIZES)[number];
+
+/** The two alignments of the panel to its trigger: its start edge (default) or its end edge (DSA-111). */
+export const NPH_DROPDOWN_MENU_ALIGNMENTS = ['start', 'end'] as const;
+export type NphDropdownMenuAlignment = (typeof NPH_DROPDOWN_MENU_ALIGNMENTS)[number];
 
 /** The two types of the item (the Figma `tipo`). */
 export const NPH_DROPDOWN_MENU_SEVERITIES = ['default', 'destructive'] as const;
@@ -232,6 +239,8 @@ export class NphDropdownMenu extends LitElement {
     header: { attribute: false },
     /* `size` reflects because the internal CSS selects the rows by it. */
     size: { type: String, reflect: true },
+    /* `align` reflects, as the `align` of `nph-popover`. */
+    align: { type: String, reflect: true },
     label: { type: String },
   };
 
@@ -244,6 +253,8 @@ export class NphDropdownMenu extends LitElement {
   /** The profile header, or `null`. */
   declare header: NphDropdownMenuHeader | null;
   declare size: NphDropdownMenuSize;
+  /** The edge of the trigger the panel lines up with. `start` by default. */
+  declare align: NphDropdownMenuAlignment;
   /** Accessible name of the menu. Empty: the name comes from the trigger. */
   declare label: string;
 
@@ -271,6 +282,7 @@ export class NphDropdownMenu extends LitElement {
     this.items = [];
     this.header = null;
     this.size = 'default';
+    this.align = 'start';
     this.label = '';
   }
 
@@ -694,6 +706,9 @@ export class NphDropdownMenu extends LitElement {
     if (!oneOf(NPH_DROPDOWN_MENU_SIZES, this.size)) {
       causes.push(`size "${String(this.size)}" does not exist. Use ${NPH_DROPDOWN_MENU_SIZES.join(', ')}.`);
     }
+    if (!oneOf(NPH_DROPDOWN_MENU_ALIGNMENTS, this.align)) {
+      causes.push(`align "${String(this.align)}" does not exist. Use ${NPH_DROPDOWN_MENU_ALIGNMENTS.join(', ')}.`);
+    }
     /* An invalid entry is left out and reported; it does not stop the rest of the menu. */
     const entryCauses: string[] = [];
     const entries = Array.isArray(this.items) ? this.items : [];
@@ -859,7 +874,7 @@ export class NphDropdownMenu extends LitElement {
   }
 
   /**
-   * Below the trigger, aligned to its start edge; above it when it does not fit below and
+   * Below the trigger, aligned to its start edge or, with `align="end"`, to its end edge; above it when it does not fit below and
    * fits above. When it fits on neither side, it takes the side with more room and scrolls.
    */
   private place(panel: HTMLElement): void {
@@ -896,7 +911,9 @@ export class NphDropdownMenu extends LitElement {
       shownHeight = panel.getBoundingClientRect().height;
     }
     const rtl = getComputedStyle(trigger).direction === 'rtl';
-    let x = rtl ? anchor.right - width : anchor.left;
+    /* The edges are logical: the start is the left in left-to-right writing and the right in right-to-left. */
+    const fromLeft = (this.align === 'end') === rtl;
+    let x = fromLeft ? anchor.left : anchor.right - width;
     let y = side === 'bottom' ? anchor.bottom + gap : anchor.top - gap - shownHeight;
     x = Math.min(Math.max(x, 0), Math.max(view.width - width, 0));
     y = Math.min(Math.max(y, 0), Math.max(view.height - shownHeight, 0));

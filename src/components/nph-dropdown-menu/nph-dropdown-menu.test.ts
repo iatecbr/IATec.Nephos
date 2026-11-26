@@ -18,7 +18,7 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-dropdown-menu.css?raw';
-import { NPH_DROPDOWN_MENU_SIZES, NphDropdownMenu, groupsOf } from './nph-dropdown-menu';
+import { NPH_DROPDOWN_MENU_ALIGNMENTS, NPH_DROPDOWN_MENU_SIZES, NphDropdownMenu, groupsOf } from './nph-dropdown-menu';
 import type { NphDropdownMenuEntry, NphDropdownMenuItemSelectDetail } from './nph-dropdown-menu';
 import '../nph-button/nph-button';
 
@@ -121,6 +121,7 @@ describe('registration and API', () => {
     const menu = document.createElement('nph-dropdown-menu');
     expect(menu.open).toBe(false);
     expect(menu.size).toBe('default');
+    expect(menu.align).toBe('start');
     expect(menu.header).toBeNull();
     expect(menu.items).toEqual([]);
     expect(menu.label).toBe('');
@@ -128,15 +129,18 @@ describe('registration and API', () => {
 
   it('the public API is exactly P92', () => {
     const declared = [...(NphDropdownMenu as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared.sort()).toEqual(['for', 'header', 'items', 'label', 'open', 'size']);
+    expect(declared.sort()).toEqual(['align', 'for', 'header', 'items', 'label', 'open', 'size']);
     expect(NPH_DROPDOWN_MENU_SIZES).toEqual(['default', 'compact']);
+    expect(NPH_DROPDOWN_MENU_ALIGNMENTS).toEqual(['start', 'end']);
   });
 
-  it('reflects for, open and size', async () => {
+  it('reflects for, open, size and align', async () => {
     const { menu } = await mount();
     menu.open = true;
     menu.size = 'compact';
+    menu.align = 'end';
     await settle(menu);
+    expect(menu.getAttribute('align')).toBe('end');
     expect(menu.getAttribute('for')).toBe('actions');
     expect(menu.hasAttribute('open')).toBe(true);
     expect(menu.getAttribute('size')).toBe('compact');
@@ -218,6 +222,7 @@ describe('invalid input', () => {
     ],
     ['no valid item', () => mount([{ type: 'label', text: 'Alone' }]), /no valid item/],
     ['a size outside the two', () => mount(ITEMS, { size: 'large' as never }), /size "large" does not exist/],
+    ['an align outside the two', () => mount(ITEMS, { align: 'center' as never }), /align "center" does not exist/],
   ];
 
   for (const [name, build, message] of cases) {
@@ -1125,6 +1130,63 @@ describe('anatomy, measures and colors', () => {
     const box = panel(menu).getBoundingClientRect();
     expect(box.top - anchor.bottom).toBeCloseTo(px('--nph-space-inline-tight'), 0);
     expect(box.left).toBeCloseTo(anchor.left, 0);
+  });
+
+  it('align="end" lines the panel up with the end edge of the trigger, 4 px below, and the default stays at the start', async () => {
+    const { menu, trigger } = await mount();
+    /* Wide enough that both edges leave the panel (280 px) inside the window. */
+    trigger.style.marginInlineStart = '40px';
+    trigger.style.width = '320px';
+    menu.align = 'end';
+    menu.open = true;
+    await settle(menu);
+    await vi.waitFor(() => expect(getComputedStyle(panel(menu)).translate).toBe('none'));
+    const anchor = trigger.getBoundingClientRect();
+    const box = panel(menu).getBoundingClientRect();
+    expect(box.top - anchor.bottom).toBeCloseTo(px('--nph-space-inline-tight'), 0);
+    expect(box.right).toBeCloseTo(anchor.right, 0);
+    expect(box.left).not.toBeCloseTo(anchor.left, 0);
+    menu.align = 'start';
+    await settle(menu);
+    await vi.waitFor(() => expect(panel(menu).getBoundingClientRect().left).toBeCloseTo(anchor.left, 0));
+  });
+
+  it('align="end" in a right-to-left page lines the panel up with the left edge of the trigger, and start with the right', async () => {
+    const { menu, trigger } = await mount();
+    document.body.dir = 'rtl';
+    try {
+      trigger.style.marginInlineStart = '40px';
+      trigger.style.width = '320px';
+      menu.align = 'end';
+      menu.open = true;
+      await settle(menu);
+      await vi.waitFor(() => expect(getComputedStyle(panel(menu)).translate).toBe('none'));
+      const anchor = trigger.getBoundingClientRect();
+      expect(panel(menu).getBoundingClientRect().left).toBeCloseTo(anchor.left, 0);
+      menu.align = 'start';
+      await settle(menu);
+      await vi.waitFor(() => expect(panel(menu).getBoundingClientRect().right).toBeCloseTo(anchor.right, 0));
+    } finally {
+      document.body.removeAttribute('dir');
+    }
+  });
+
+  it('align="end" also turns up near the bottom of the window and stays inside it near the edge', async () => {
+    const { menu, trigger } = await mount();
+    trigger.style.position = 'fixed';
+    trigger.style.bottom = '0px';
+    trigger.style.left = '0px';
+    menu.align = 'end';
+    menu.open = true;
+    await settle(menu);
+    await vi.waitFor(() => expect(getComputedStyle(panel(menu)).translate).toBe('none'));
+    const anchor = trigger.getBoundingClientRect();
+    const box = panel(menu).getBoundingClientRect();
+    expect(panel(menu).getAttribute('data-side')).toBe('top');
+    expect(anchor.top - box.bottom).toBeCloseTo(px('--nph-space-inline-tight'), 0);
+    /* The trigger is narrower than the panel and sits at the left edge: the end edge would leave the window. */
+    expect(box.left).toBeGreaterThanOrEqual(0);
+    expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
   });
 
   it('turns up when it does not fit below and fits above', async () => {

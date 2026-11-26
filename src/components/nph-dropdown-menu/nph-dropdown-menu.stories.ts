@@ -5,7 +5,7 @@
  * `1365:57`, parts `1365:58`, `1365:60` and `2359:47364`) and P92: the item types and choices
  * (`severity` × `selection`); every item option (icon, avatar, description, shortcut, counter,
  * tag, switch and submenu arrow); the states that are data (disabled and loading); the two
- * sizes; the profile header with group labels and separators; the trigger that opens the menu
+ * sizes; the two alignments of the panel to its trigger; the profile header with group labels and separators; the trigger that opens the menu
  * and the event `nph-item-select`; and the three required examples of the board. Every story
  * shows the same menu in light and in dark mode, in the same story, through
  * `data-nph-color-scheme` on the frame (P20, P67): the open menu lives in the top layer and
@@ -175,6 +175,25 @@ export const Sizes: Story = {
   },
 };
 
+/** The two alignments to the trigger: the panel on its start edge (default) and on its end edge (DSA-111). */
+export const Alignment: Story = {
+  name: 'Alignment',
+  parameters: SUPPLEMENTARY_TEXT_EXCEPTION,
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const items = [
+      { value: 'rename', text: v.rename, icon: 'pen-to-square' },
+      { value: 'duplicate', text: v.duplicate, icon: 'share-from-square', shortcut: v.shortcutDuplicate },
+      { value: 'delete', text: v.delete, icon: 'trash', severity: 'destructive' as const },
+    ];
+    return validationPage(
+      context,
+      page('alignment'),
+      html`${inBothModes(context, () => menuWith({ trigger: v.trigger, open: true, items }), 'align: start')}
+      ${inBothModes(context, () => menuWith({ trigger: v.trigger, open: true, items, align: 'end' }), 'align: end')}`,
+    );
+  },
+};
 /** The profile header, group labels and separators: the account menu. */
 export const Header: Story = {
   name: 'Header',

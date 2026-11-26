@@ -16,7 +16,7 @@ import type { TemplateResult } from 'lit';
 
 import '../nph-button/nph-button';
 import './nph-dropdown-menu';
-import type { NphDropdownMenuEntry, NphDropdownMenuHeader, NphDropdownMenuSize } from './nph-dropdown-menu';
+import type { NphDropdownMenuAlignment, NphDropdownMenuEntry, NphDropdownMenuHeader, NphDropdownMenuSize } from './nph-dropdown-menu';
 
 export type Scheme = 'light' | 'dark';
 
@@ -47,6 +47,8 @@ export interface MenuOptions {
   items: NphDropdownMenuEntry[];
   header?: NphDropdownMenuHeader | null;
   size?: NphDropdownMenuSize;
+  /** The edge of the trigger the panel lines up with; `end` also puts the trigger at the end of its frame. */
+  align?: NphDropdownMenuAlignment;
   open?: boolean;
 }
 
@@ -56,15 +58,15 @@ let nextId = 0;
  * An `nph-button` and its menu. The room below the trigger holds the open menu, so it
  * does not cover the next example: one row per entry, plus the header.
  */
-export function menuWith({ trigger, items, header = null, size = 'default', open = false }: MenuOptions): TemplateResult {
+export function menuWith({ trigger, items, header = null, size = 'default', align = 'start', open = false }: MenuOptions): TemplateResult {
   const id = `nph-dropdown-menu-demo-${++nextId}`;
   const rows = items.length + (header === null ? 0 : 2);
   const room = open
     ? `calc(var(--nph-control-height-default) + ${rows} * (var(--nph-icon-size-md) + 2 * var(--nph-space-inline)) + var(--nph-space-section))`
     : 'auto';
-  return html`<div style="display: flex; flex-direction: column; align-items: flex-start; min-block-size: ${room}; inline-size: var(--nph-layout-input-width); max-inline-size: 100%;">
+  return html`<div style="display: flex; flex-direction: column; align-items: ${align === 'end' ? 'flex-end' : 'flex-start'}; min-block-size: ${room}; inline-size: var(--nph-layout-input-width); max-inline-size: 100%;">
     <nph-button id=${id} severity="primary" emphasis="outline" icon-end="chevron-down" text=${trigger}></nph-button>
-    <nph-dropdown-menu for=${id} size=${size} ?open=${open} .items=${items} .header=${header}></nph-dropdown-menu>
+    <nph-dropdown-menu for=${id} size=${size} align=${align} ?open=${open} .items=${items} .header=${header}></nph-dropdown-menu>
   </div>`;
 }
 
