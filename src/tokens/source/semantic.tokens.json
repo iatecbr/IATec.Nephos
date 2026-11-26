@@ -2472,15 +2472,7 @@
     },
     "border": {
       "$type": "color",
-      "$value": "{core.slate.200}",
-      "$extensions": {
-        "com.iatec.nephos": {
-          "modes": {
-            "light": "{core.slate.200}",
-            "dark": "{core.slate.400}"
-          }
-        }
-      }
+      "$value": "{color.border}"
     },
     "foreground": {
       "$type": "color",
