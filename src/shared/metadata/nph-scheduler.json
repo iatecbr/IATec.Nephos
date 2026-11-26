@@ -473,7 +473,7 @@
   "tokens": {
     "container": "scheduler/background, scheduler/border, scheduler/border-width, scheduler/radius, scheduler/padding, scheduler/foreground",
     "toolbar": "scheduler/toolbar-padding-y, scheduler/toolbar-gap, scheduler/sidebar-gap",
-    "day": "scheduler/day-label-foreground, scheduler/day-label-padding-y, scheduler/day-header-gap, scheduler/day-padding, scheduler/day-radius, scheduler/today-foreground, scheduler/today-indicator, scheduler/today-indicator-width",
+    "day": "scheduler/day-label-foreground, scheduler/day-label-padding-y, scheduler/day-header-gap, scheduler/day-padding, scheduler/day-radius (read only by the compact month day), scheduler/today-foreground, scheduler/today-indicator, scheduler/today-indicator-width",
     "time_grid": "scheduler/time-column-width, scheduler/hour-height, scheduler/time-foreground, scheduler/grid-line, scheduler/now-indicator, scheduler/now-indicator-width, scheduler/now-indicator-size, scheduler/now-foreground",
     "event_primary": "scheduler/event-background, scheduler/event-foreground, scheduler/event-background-hover, scheduler/event-foreground-hover, scheduler/event-indicator, scheduler/event-indicator-width",
     "event_shape": "scheduler/event-radius, scheduler/event-min-height, scheduler/event-padding-x, scheduler/event-padding-y, scheduler/event-gap, scheduler/event-icon-size, scheduler/event-border-width",
@@ -484,7 +484,7 @@
     "list": "scheduler/list-gap, scheduler/list-day-gap, scheduler/list-item-gap, scheduler/list-item-padding, scheduler/list-time-width, scheduler/list-time-width-compact",
     "compact_month": "scheduler/mini-month-cell-size, scheduler/event-dot, scheduler/event-dot-size, scheduler/event-dot-selected, scheduler/day-selected-background, scheduler/day-selected-foreground",
     "empty": "scheduler/empty-gap, scheduler/empty-icon-size",
-    "focus": "scheduler/focus-border, scheduler/focus-border-width, scheduler/focus-border-radius, scheduler/focus-halo, scheduler/focus-halo-width, scheduler/focus-halo-radius",
+    "focus": "scheduler/focus-border, scheduler/focus-border-width, scheduler/focus-border-radius, scheduler/focus-halo, scheduler/focus-halo-width, scheduler/focus-halo-radius, scheduler/day-focus-border-radius and scheduler/day-focus-halo-radius for the compact month day",
     "typography": "text/label-sm (the event title), text/caption (the event time), text/label-md and text/label-md-strong (the day numbers and the title of the chosen day), text/heading-sm (the month label on a phone), text/body-md (the list row and the container)",
     "other_semantic": "the CSS also reads control/height-default, icon/size-sm, icon/size-md, radius/control, radius/full, space/inline-tight, space/stack-snug, color/secondary-foreground and icon-button/secondary-ghost-background-hover directly, for the sidebar button and the calendar dot, where no scheduler/* token has the role"
   },
