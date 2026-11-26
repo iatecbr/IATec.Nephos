@@ -3258,7 +3258,9 @@ ships a raster asset**.
    style query (`@container style(...)`), whose support was not verified in every target browser,
    and reading the scheme in JavaScript, which does not see an attribute change on an ancestor.
 
-4. **The asset ships as a file of the package.** In library mode Vite inlines every imported asset
+4. **The asset ships as a file of the package.** *(Superseded by D4 of DSA-40, answered on
+   23/11/2026 and applied in DSA-115: the illustrations are embedded, see item 8. The original
+   text follows.)* In library mode Vite inlines every imported asset
    as base64, whatever its size. The two PNG files would become about 1 MB of JavaScript. The
    component imports them with `?no-inline`, and `vite.config.lib.ts` changes in two lines:
    `base: './'`, so the emitted URL is `new URL('../assets/<file>', import.meta.url)` and resolves
@@ -3273,22 +3275,35 @@ ships a raster asset**.
    the text group and `space/inline-tight` between the heading and the description, padding
    `space/container-padding` on the four sides, `inline-size` `layout/input-width` with
    `box-sizing: border-box`, no background and no border. `max-inline-size: 100%`: in a narrower
-   container the box shrinks to it and the text wraps (WCAG 1.4.10; D3 of DSA-40 asks Indiane to
-   confirm). The heading is `text/heading-xs` in `color/foreground`, the description `text/body-sm`
+   container the box shrinks to it and the text wraps (WCAG 1.4.10; D3 of DSA-40, answered by
+   Indiane on 26/11/2026, option 1: nothing changes). The heading is `text/heading-xs` in `color/foreground`, the description `text/body-sm`
    in `color/muted-foreground`; a word longer than the line breaks instead of overflowing.
 
 6. **Size of the illustration.** 120 × 87 is the size of the asset, not a token (evidence of
    DSA-40). It is written as the `width` and `height` attributes of the images, not in the CSS,
-   with `object-fit: contain`: the dark file has another proportion (2048 × 1538 against
-   2048 × 1487) and is fitted whole, not cut nor stretched (D2 of DSA-40).
+   with `object-fit: contain`. *(Changed by D1 and D2 of DSA-40, answered on 23/11/2026 and
+   26/11/2026: both files are now 240 × 174, twice the drawing, with the same frame, so the dark
+   one has the proportion of the light one. The first files were 2048 px wide, and the dark one
+   2048 × 1538 against 2048 × 1487 of the light one.)*
 
 7. **Invalid input.** Without `heading`, with an empty one or with only spaces, the piece draws
    nothing, takes no space, leaves `data-nph-rendered` out and emits one `console.error` in
    development. An empty `description` is not an error: it is the heading-only case.
 
+8. **The illustrations are embedded in the package (D4 of DSA-40, option (c)).** *(Added on
+   23/11/2026, applied in DSA-115; it replaces item 4.)* The component imports each PNG with
+   `?inline`, so the library build writes it as a data URI inside the JavaScript of the piece. The
+   product copies no file and sets no base path, and an application published in a subdirectory,
+   such as `/my-app/`, shows them. `vite.config.lib.ts` loses the two lines of item 4 (`base: './'`
+   and `assetFileNames`), because no asset is emitted any more, and `dist/assets/` is not written.
+   No JavaScript of the package reads `import.meta.url` now. The weight stays small because each
+   file is 240 × 174 (about 27 KB, so about 36 KB in base64) and not 2048 px wide: the first files
+   were about 390 KB each (D1 of DSA-40). Carbon ships its pictograms inside its package.
 **Known limits.**
 
-- **Angular application in a subdirectory.** The Angular application builder (checked with
+- **Angular application in a subdirectory.** *(Gone with D4 of DSA-40, applied in DSA-115: the
+  illustrations are embedded, item 8, so an application in a subdirectory shows them and the
+  consumer copies no file. The original text follows.)* The Angular application builder (checked with
   Angular 22 and the installed package) keeps the URL `new URL('../assets/<file>', import.meta.url)`
   and writes its bundles at the root of the browser output. An application published in a
   subdirectory, such as `/my-app/`, therefore resolves the illustrations to `/assets/` at the root
@@ -3296,15 +3311,16 @@ ships a raster asset**.
   the site, the asset glob of `docs/consuming.md` is enough; Blazor with esbuild resolves them inside
   the application (`wwwroot/assets/`). Decided by Elvys on 23/10/2026: the delivery of this decision
   stays, and the limit is recorded here and in the guide.
-- **Follow-up, after D1.** A new task is needed for (b) or (c) once D1 settles the weight of the
-  illustrations: (b) the consumer gives the base of the assets, or (c) the illustrations are
-  embedded in the package. It is recorded in `pending_decisions` of DSA-40 (D4, decider Indiane).
+- **Follow-up, after D1.** *(Done: Indiane chose (c) on 23/11/2026, D4 of DSA-40, item 8.)* A new
+  task was needed for (b) the consumer gives the base of the assets, or (c) the illustrations
+  embedded in the package.
 
 **Points for review.**
 
 - **`vite.config.lib.ts`**, the first change of the library build since P75, and the first file of
   the package that is not code.
-- **Both illustrations downloaded**, until D1 of DSA-40 brings lighter files.
+- **Both illustrations downloaded**, as data URIs in the JavaScript of the piece, each file about
+  27 KB (D1 of DSA-40, 23/11/2026).
 - **The name `heading`**, shared with `nph-dialog` (DSA-44).
 
 **Source.** Board `nph-empty` (`1463:25260`, frame `2003:688`, component `1463:25238`) of the
@@ -3319,10 +3335,10 @@ one by hand. Announcing the result of a search. The `nph-combobox` itself (DSA-4
 Storybook pages show its list in a frame. The Usage section of the page (P70, DSA-35), the page
 lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
-**Pending for Indiane (DSA-40, D1 to D4), none of them blocks.** Lighter illustration files (the
-current ones are 2048 px wide for a drawing of 120); whether the dark illustration is fitted or cut
-in the 120 × 87 box; whether the box shrinks in a narrower container; and, after D1, the new task
-for (b) or (c) of the known limit above.
+**Answered by Indiane (DSA-40, D1 to D4).** D1 and D4 on 23/11/2026: lighter files, 240 × 174 for
+the box of 120 × 87, and the illustrations embedded in the package, option (c). D2 and D3 on
+26/11/2026: the dark illustration exported again with the same frame as the light one, so both
+fill 120 × 87, and the box shrinks with its container, the text wrapping. Nothing is pending.
 
 **Status.** Anatomy and behavior accepted by Indiane on 16/10/2026. API and semantics are reviewed
 in the pull request that brings them; the merge is the approval.
@@ -3757,7 +3773,7 @@ rule of P21, adopted here by its own decision, as in P66, P74 and P78. The names
   accessibility rule "loading, empty and error change the drawing, not only the color": the
   parent's text and the `error` event carry the difference. The tokens
   `image/illustration-light` and `image/illustration-dark` stay unconsumed until then, and the
-  files, once they arrive, follow the asset delivery of P84.
+  files, once they arrive, follow the asset delivery of P84 (embedded in the package, item 8).
 - **`design.md` has no usage entry for the `image/*` tokens** (D2 of DSA-51); the component
   consumes them either way.
 - **The loading state of the Validation and Docs pages is held by the demo frame**, which takes

@@ -15,6 +15,8 @@ import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-empty.css?raw';
 import componentSource from './nph-empty.ts?raw';
+import lightFile from '../../../assets/illustrations/empty-no-option-found.png?inline';
+import darkFile from '../../../assets/illustrations/empty-no-option-found-dark.png?inline';
 import { NphEmpty } from './nph-empty';
 
 const HEADING = 'No option found';
@@ -279,15 +281,32 @@ describe('illustration', () => {
     expect([art.width, art.height]).toEqual([120, 87]);
   });
 
-  it('the light image is the light asset and the dark image is the dark asset', async () => {
+  it('the light image is the light asset and the dark image is the dark asset, embedded in the package (D4 of DSA-40)', async () => {
     const { empty } = await mount({ heading: HEADING });
     await loaded(empty);
     const light = part<HTMLImageElement>(empty, '.light');
     const dark = part<HTMLImageElement>(empty, '.dark');
-    expect(new URL(light.src).pathname).toMatch(/empty-no-option-found\.png$/);
-    expect(new URL(dark.src).pathname).toMatch(/empty-no-option-found-dark\.png$/);
+    /* A data URI of the very file in `assets/illustrations/`: no URL to resolve, so no base path to set. */
+    expect(light.src).toBe(lightFile);
+    expect(dark.src).toBe(darkFile);
+    expect(light.src).toMatch(/^data:image\/png;base64,/);
+    expect(dark.src).toMatch(/^data:image\/png;base64,/);
+    expect(light.src).not.toBe(dark.src);
     expect(light.naturalWidth).toBeGreaterThan(0);
     expect(dark.naturalWidth).toBeGreaterThan(0);
+  });
+
+  it('both files are exported at twice the drawing, 240 × 174 for the box of 120 × 87, with the same frame (D1 and D2 of DSA-40)', async () => {
+    const { empty } = await mount({ heading: HEADING });
+    await loaded(empty);
+    for (const image of empty.shadowRoot?.querySelectorAll('img') ?? []) {
+      expect([image.naturalWidth, image.naturalHeight]).toEqual([240, 174]);
+    }
+  });
+
+  it('the piece reads no file by URL: nothing resolves against the module or the page', () => {
+    expect(componentSource).not.toMatch(/import\.meta\.url|new URL\(/);
+    expect(componentSource).not.toMatch(/\?no-inline/);
   });
 
   it('with no scheme attribute (the root is light): the light one shows', async () => {

@@ -48,6 +48,7 @@ business_rules:
   - "The piece has no action: no button and no link."
   - "The piece that receives the nph-empty gives the background and the position; the nph-empty gives only its own inner space."
   - "Loading is the state of the piece that receives it, not of the nph-empty."
+  - "The two illustrations are embedded in the package, as data URIs inside the JavaScript of the piece: nothing to copy, no base path to set, and an application published in a subdirectory shows them. Each file is 240 × 174, twice the drawing, and both have the same frame."
 domain_errors: []
 tokens:
   padding: space/container-padding
@@ -242,4 +243,5 @@ another term.
 - **Figma:** `nph-empty` board (`1463:25260`), frame `2003:688` and component `1463:25238`
   in `DS-IA-NEPHOS 5.0`.
 - **Assets:** `assets/illustrations/empty-no-option-found.png` and
-  `empty-no-option-found-dark.png`.
+  `empty-no-option-found-dark.png`, both 240 × 174 with the same frame, embedded in the
+  package by `?inline`.

@@ -44,7 +44,8 @@
     "The illustration switches by itself with the color scheme, through scheme/is-light and scheme/is-dark; it is never chosen by hand.",
     "The piece has no action: no button and no link.",
     "The piece that receives the nph-empty gives the background and the position; the nph-empty gives only its own inner space.",
-    "Loading is the state of the piece that receives it, not of the nph-empty."
+    "Loading is the state of the piece that receives it, not of the nph-empty.",
+    "The two illustrations are embedded in the package, as data URIs inside the JavaScript of the piece: nothing to copy, no base path to set, and an application published in a subdirectory shows them. Each file is 240 × 174, twice the drawing, and both have the same frame."
   ],
   "domain_errors": [],
   "tokens": {

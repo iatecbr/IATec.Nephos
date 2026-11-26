@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=0bea0809bc9c263579fc717504841a3363d4270ff97bac2955b55f758b3862af | status=rascunho -->
+<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=f1230928f99d386d33a9b7dcd39b45f8d7dbe98e7b915ffc17e5efe131afd8c4 | status=rascunho -->
 
 # Consumindo o Nephos
 
@@ -162,48 +162,7 @@ Carregue os tokens no `angular.json`, em `projects.<app>.architect.build.options
 ]
 ```
 
-Ao agrupar o `nph-empty`, as imagens continuam relativas ao módulo JavaScript
-emitido: `new URL("../assets/empty-no-option-found.png", import.meta.url)`. O
-application builder mantém essa URL como está e não copia os PNGs do pacote. Inclua-os
-na saída do build com um glob de assets no `angular.json`, ao lado das entradas que já
-existem:
-
-```json
-"assets": [
-  {
-    "glob": "empty-no-option-found*.png",
-    "input": "node_modules/@iatec/nephos/dist/assets",
-    "output": "assets"
-  }
-]
-```
-
-Confira se as duas imagens existem no pacote instalado antes da compilação e
-na saída do navegador depois de `ng build`:
-
-```bash
-set -e
-test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
-test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
-test -f dist/my-app/browser/assets/empty-no-option-found.png
-test -f dist/my-app/browser/assets/empty-no-option-found-dark.png
-```
-
-Substitua `dist/my-app/browser` pelo diretório de saída do navegador configurado
-em `outputPath` no `angular.json`.
-
-O builder grava os bundles na raiz da saída do navegador, ao lado do `index.html`, e
-por isso as imagens são resolvidas para `assets/`, um nível acima do bundle. Numa
-aplicação servida na raiz do site, isso é `/assets/`, onde o glob as copiou.
-
-> **Limite conhecido: aplicação em subdiretório.** Numa aplicação publicada num
-> subdiretório, como `--base-href /my-app/`, a mesma URL é resolvida para `/assets/`
-> na raiz do site, fora da aplicação: copie os dois PNG também para lá. O `deployUrl`
-> não muda isso: ele só reescreve as URLs de script e de folha de estilo no
-> `index.html` e deixa os bundles na raiz da saída, de modo que um host estático que
-> serve essa pasta como está deixa de encontrá-los. O limite está registrado na P84,
-> em `docs/decisoes-tecnicas.md`.
-
+O `nph-empty` carrega as duas ilustrações dentro do próprio JavaScript, como data URIs. Não há nada para copiar: nem glob de assets no `angular.json`, nem caminho base para definir, e uma aplicação publicada num subdiretório, como `--base-href /my-app/`, também as mostra.
 Defina uma propriedade no template com `[prop]`: `<nph-button [text]="label">`
 define a propriedade, `text="..."` define o atributo. Os dois funcionam.
 
@@ -310,37 +269,17 @@ compilação.
    import '@iatec/nephos/nph-togglebutton';
    ```
 
-2. Confirme se o pacote instalado contém os dois arquivos de ilustração e,
-   então, empacote os componentes em `wwwroot` e copie os tokens ao lado:
-
+2. Empacote os componentes em `wwwroot` e copie os tokens ao lado:
    ```bash
    set -e
-   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
-   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
    npx esbuild Frontend/nephos-entry.js --bundle --format=esm --minify --outfile=wwwroot/js/nephos.js
    cp Frontend/node_modules/@iatec/nephos/dist/tokens.css wwwroot/css/nephos-tokens.css
    cp Frontend/node_modules/@iatec/nephos/dist/scrollbar.css wwwroot/css/nephos-scrollbar.css
-   mkdir -p wwwroot/assets
-   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png wwwroot/assets/
-   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png wwwroot/assets/
    ```
-
    Rode esses comandos a partir de um target do MSBuild, ou da sua CI, antes de
-   publicar com `dotnet publish`. O `nph-empty` referencia as ilustrações em relação ao módulo
-   empacotado, que resolve para `wwwroot/assets/`; o esbuild não copia esses
-   assets do pacote para esse padrão de importação. O bundle carrega o `lit` e
-   os ícones: não precisa de import map.
-
-   Publique em um diretório conhecido e confirme se os dois arquivos estão nos
-   assets publicados:
-
-   ```bash
-   set -e
-   dotnet publish -c Release -o publish
-   test -f publish/wwwroot/assets/empty-no-option-found.png
-   test -f publish/wwwroot/assets/empty-no-option-found-dark.png
-   ```
-
+   publicar com `dotnet publish`. O `nph-empty` carrega as duas ilustrações dentro do
+   próprio JavaScript, então o esbuild as empacota junto e não há arquivo de imagem
+   para copiar. O bundle carrega o `lit` e os ícones: não precisa de import map.
 3. Carregue-os uma vez, em `App.razor` (ou `wwwroot/index.html` no WebAssembly):
 
    ```html

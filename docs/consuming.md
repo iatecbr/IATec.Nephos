@@ -159,48 +159,7 @@ Load the tokens in `angular.json`, under `projects.<app>.architect.build.options
 ]
 ```
 
-When `nph-empty` is bundled, its images stay relative to the emitted JavaScript
-module: `new URL("../assets/empty-no-option-found.png", import.meta.url)`. The
-application builder keeps that URL as it is and does not copy the package PNGs. Add
-them to the build output with an asset glob in `angular.json`, next to the entries
-already there:
-
-```json
-"assets": [
-  {
-    "glob": "empty-no-option-found*.png",
-    "input": "node_modules/@iatec/nephos/dist/assets",
-    "output": "assets"
-  }
-]
-```
-
-Check that both images exist in the installed package before building, then in the
-browser output after `ng build`:
-
-```bash
-set -e
-test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
-test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
-test -f dist/my-app/browser/assets/empty-no-option-found.png
-test -f dist/my-app/browser/assets/empty-no-option-found-dark.png
-```
-
-Replace `dist/my-app/browser` with the browser output directory configured by
-`outputPath` in `angular.json`.
-
-The builder writes the bundles at the root of the browser output, next to
-`index.html`, so the images resolve to `assets/` one level above the bundle. For an
-application served at the site root, that is `/assets/`, where the glob copied them.
-
-> **Known limit: an application in a subdirectory.** For an application published
-> in a subdirectory, such as `--base-href /my-app/`, the same URL resolves to
-> `/assets/` at the root of the site, outside the application: copy the two PNG
-> files there too. `deployUrl` does not change this: it only rewrites the script and
-> stylesheet URLs in `index.html` and leaves the bundles at the root of the output,
-> so a static host that serves that folder as it is no longer finds them. The limit
-> is recorded in P84, in `docs/decisoes-tecnicas.md`.
-
+`nph-empty` carries its two illustrations inside its own JavaScript, as data URIs. There is nothing to copy: no asset glob in `angular.json`, no base path to set, and an application published in a subdirectory, such as `--base-href /my-app/`, shows them too.
 Set a property from the template with `[prop]`: `<nph-button [text]="label">`
 sets the property, `text="..."` sets the attribute. Both work.
 
@@ -306,37 +265,19 @@ step turns them into one ES module, once, at build time.
    import '@iatec/nephos/nph-togglebutton';
    ```
 
-2. Confirm the installed package contains both illustration files, then bundle
-   the components into `wwwroot` and copy the tokens beside them:
+2. Bundle the components into `wwwroot` and copy the tokens beside them:
 
    ```bash
    set -e
-   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
-   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
    npx esbuild Frontend/nephos-entry.js --bundle --format=esm --minify --outfile=wwwroot/js/nephos.js
    cp Frontend/node_modules/@iatec/nephos/dist/tokens.css wwwroot/css/nephos-tokens.css
    cp Frontend/node_modules/@iatec/nephos/dist/scrollbar.css wwwroot/css/nephos-scrollbar.css
-   mkdir -p wwwroot/assets
-   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png wwwroot/assets/
-   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png wwwroot/assets/
    ```
 
    Run these commands from an MSBuild target, or from your CI, before publishing
-   with `dotnet publish`. `nph-empty` references its illustrations relative to the bundled
-   module, which resolves to `wwwroot/assets/`; esbuild does not copy those
-   package assets for this import pattern. The bundle carries `lit` and the
-   icons: it does not need an import map.
-
-   Publish to a known output directory and confirm both files are in the
-   published static assets:
-
-   ```bash
-   set -e
-   dotnet publish -c Release -o publish
-   test -f publish/wwwroot/assets/empty-no-option-found.png
-   test -f publish/wwwroot/assets/empty-no-option-found-dark.png
-   ```
-
+   with `dotnet publish`. `nph-empty` carries its two illustrations inside its own
+   JavaScript, so esbuild bundles them with it and there is no image file to copy.
+   The bundle carries `lit` and the icons: it does not need an import map.
 3. Load them once, in `App.razor` (or `wwwroot/index.html` in WebAssembly):
 
    ```html
