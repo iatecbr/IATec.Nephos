@@ -6548,7 +6548,7 @@
       ],
       [
         "open",
-        "El estado. El menú lo activa y desactiva; el consumidor puede definirlo, y un menú abierto por código queda en la esquina superior de inicio del objeto y lo sigue en el scroll. Reflejada en el atributo."
+        "El estado. El menú lo activa y desactiva; quien lo usa puede definirlo, y un menú abierto por código queda en la esquina superior inicial del objeto y lo sigue al desplazarse. Reflejado en el atributo. Definirlo por código no dispara evento."
       ],
       [
         "items",
@@ -6569,6 +6569,14 @@
       [
         "nph-item-select",
         "El evento, que burbujea, con detail value, checked y origin: el elemento que estaba bajo el puntero cuando el menú se abrió. Cambiar items u open por código nunca lo dispara."
+      ],
+      [
+        "nph-open",
+        "El evento, que burbujea y no se puede cancelar, cuando la persona abre el menú, con detail origin: el elemento que estaba bajo el puntero, como en nph-item-select. Abrir por código, o mover un menú ya abierto, nunca lo dispara."
+      ],
+      [
+        "nph-close",
+        "El evento, que burbujea y no se puede cancelar, cuando el menú se cierra por acción de la persona o de la página, con detail source: escape, outside, focus-out, tab, select o scroll. Cerrar por código nunca lo dispara."
       ],
       [
         "color y partes",

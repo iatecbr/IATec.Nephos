@@ -6548,7 +6548,7 @@
       ],
       [
         "open",
-        "The state. The menu turns it on and off; the consumer may set it, and a menu opened from code sits at the start top corner of the object and follows it on scroll. Reflected to the attribute."
+        "The state. The menu turns it on and off; the consumer may set it, and a menu opened from code sits at the start top corner of the object and follows it on scroll. Reflected to the attribute. Setting it from code fires no event."
       ],
       [
         "items",
@@ -6569,6 +6569,14 @@
       [
         "nph-item-select",
         "The event, which bubbles, with detail value, checked and origin: the element that was under the pointer when the menu opened. Changing items or open from code never fires it."
+      ],
+      [
+        "nph-open",
+        "The event, which bubbles and cannot be cancelled, when the person opens the menu, with detail origin: the element that was under the pointer, as in nph-item-select. Opening from code, or moving an open menu, never fires it."
+      ],
+      [
+        "nph-close",
+        "The event, which bubbles and cannot be cancelled, when the menu closes by what the person or the page does, with detail source: escape, outside, focus-out, tab, select or scroll. Closing from code never fires it."
       ],
       [
         "color and parts",

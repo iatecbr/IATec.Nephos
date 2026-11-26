@@ -6548,7 +6548,7 @@
       ],
       [
         "open",
-        "O estado. O menu o liga e desliga; o consumidor pode defini-lo, e um menu aberto por código fica no canto superior de início do objeto e o acompanha no scroll. Refletida no atributo."
+        "O estado. O menu o liga e desliga; quem usa pode defini-lo, e um menu aberto por código fica no canto superior inicial do objeto e o acompanha na rolagem. Refletido no atributo. Defini-lo por código não dispara evento."
       ],
       [
         "items",
@@ -6569,6 +6569,14 @@
       [
         "nph-item-select",
         "O evento, que borbulha, com detail value, checked e origin: o elemento que estava sob o ponteiro quando o menu abriu. Mudar items ou open por código nunca o dispara."
+      ],
+      [
+        "nph-open",
+        "O evento, que borbulha e não pode ser cancelado, quando a pessoa abre o menu, com detail origin: o elemento que estava sob o ponteiro, como no nph-item-select. Abrir por código, ou mover um menu já aberto, nunca o dispara."
+      ],
+      [
+        "nph-close",
+        "O evento, que borbulha e não pode ser cancelado, quando o menu fecha por ação da pessoa ou da página, com detail source: escape, outside, focus-out, tab, select ou scroll. Fechar por código nunca o dispara."
       ],
       [
         "cor e partes",

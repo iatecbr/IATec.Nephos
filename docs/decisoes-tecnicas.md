@@ -6876,8 +6876,10 @@ cause: the rule of P21. The names follow P64.
    `detail: { value, checked, origin }`: `checked` is the new state of a single or multiple choice
    and `null` on a common item; `origin` is the element that was under the pointer when the menu
    opened (`composedPath()[0]`), or `null` when the menu was opened from code. It is what lets a row of
-   a table act only on itself (D-1). Opening and closing fire no event (D-2). The menu then replaces
+   a table act only on itself (D-1). The menu then replaces
    `items` with a new list, also inside a submenu, and never changes the objects of the consumer.
+   *(Opening and closing fired no event in the first version; D-2, answered by Indiane on 23/11/2026,
+   asks for them, and they are applied in DSA-115: see item 13.)*
 
 8. **Choices and closing (Q5, Q8).** Single choice is `menuitemradio` with the check, exclusive inside
    its group; multiple choice is `menuitemcheckbox` with an inert `nph-checkbox`. A common item and a
@@ -6908,6 +6910,22 @@ cause: the rule of P21. The names follow P64.
     the two, no valid item, and the invalid items above each render nothing (or leave the item out)
     and emit `console.error` only in development, once per cause while it lasts.
 
+13. **The events of opening and closing (D-2, DSA-115).** *(Added on 23/11/2026.)* The menu fires
+    `nph-open` when it goes from closed to open and `nph-close` when it goes from open to closed, as
+    Radix (`onOpenChange`) and AG Grid (`contextMenuVisibleChanged`) give a signal. The names follow
+    `nph-close` of `nph-dialog` and `nph-popover` and the `nph-toggle` of the pieces that open and
+    close content; there is no `open` in the detail because the name already says it. Both bubble,
+    are not composed and **cannot be cancelled**: the menu owns its `open` and has already closed
+    when `nph-close` fires (the dialog and the popover only ask to close, and the consumer decides).
+    `nph-open` carries `detail: { origin }`, the element under the pointer, or the object when the
+    menu opened by keyboard, the same `origin` as `nph-item-select` (D-1), so a consumer that
+    prepares the items for the row under the pointer sets `items` in it, before the first draw.
+    `nph-close` carries `detail: { source }`: `escape`, `outside`, `focus-out`, `tab`, `select` or
+    `scroll`, the six ways the menu closes by itself. An item that closes the menu fires
+    `nph-item-select` first. Both fire only for what the person or the page does: setting `open`
+    from code, in either direction, fires nothing, as for every property of the piece, and a menu
+    that is already open and moves to a new point fires no second `nph-open`. Nothing enters
+    `HTMLElementEventMap`, as `nph-item-select`, because `nph-close` is typed by the dialog.
 **Source.** Documentation `4838:27591` and set `4819:15828` of the Figma file `DS-IA-NEPHOS 5.0`,
 accepted by Indiane on 06/11/2026 with the Figma UX QA and the textual audit approved, and the 18
 points of its approval page. The property names, the way the object is bound, the gestures, the
@@ -6928,7 +6946,7 @@ now resolves to `color/border-subtle`, so the outline of the `nph-navigation-men
 loading `nph-notification` changes color with no code change.
 
 **Out of scope.** A second level of submenu. A description, an avatar, a tag, a counter, a switch, a
-loading state or a header on an item. An event of opening or closing. A token. A directive over
+loading state or a header on an item. A token. A directive over
 `nph-dropdown-menu`. A forced-colors mode.
 
 **Pending decisions for Indiane.**
@@ -6937,9 +6955,8 @@ loading state or a header on an item. An event of opening or closing. A token. A
   row and acts only on it" and does not say how the code knows the row. The code names one object with
   `for` and reports the element under the pointer in `detail.origin`. If the menu should instead be
   one per row, or `origin` should be the row itself, it is her call.
-- **D-2 — no event of opening or closing.** The contract has none, so the code fires none; a consumer
-  that must prepare the items for the row under the pointer listens to `contextmenu` on the object
-  before the menu does, or sets `items` on its own `contextmenu`.
+- **D-2 — an event of opening and closing.** *(Answered by Indiane on 23/11/2026, as recommended, and
+  applied in DSA-115: the menu fires them, item 13. The first text said the contract had none.)*
 - **D-3 — the long press.** The evidence says about 700 ms. The code uses 700 ms and a movement limit of
   10 px, which have no token, and cancels the touch `contextmenu` of the browser.
 - **D-4 — the icon color at rest.** `color/muted-foreground` (DSA-69) or the color of the label
@@ -6947,8 +6964,9 @@ loading state or a header on an item. An event of opening or closing. A token. A
 - **D-5 — Esc in the submenu.** The code closes the submenu first and the menu on the second press; the
   evidence says Esc closes the menu.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-5 wait for Indiane. API
-and semantics are reviewed in the pull request that brings them; the merge is the approval.
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-5 answered by Indiane
+(D-4 and D-5 on 09/11/2026, D-1 and D-2 on 23/11/2026; D-3 is the long press, with its tokens since
+the lot of 09/11/2026). API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 

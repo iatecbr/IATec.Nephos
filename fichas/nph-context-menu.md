@@ -36,8 +36,8 @@ api:
     constraint: >-
       The state. The menu turns it on and off by itself; the consumer may set it to show the menu
       open, at the start top corner of the object, with no focus move. A menu opened from code
-      follows the object on scroll and stays until the consumer closes it. Opening and closing
-      fire no event.
+      follows the object on scroll and stays until the consumer closes it. Setting it from code,
+      in either direction, fires no event; what the person does fires nph-open and nph-close.
   items:
     type: array
     required: true
@@ -73,6 +73,28 @@ api:
     default: "empty"
     reflects: false
     constraint: "Accessible name of the menu, already localized. Empty: the menu has no name."
+  nph-open:
+    type: event
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      Fired, bubbling and not cancelable, when the person opens the menu (the right click, Shift+F10,
+      the Menu key or a long press), with detail { origin }: the element that was under the pointer,
+      or the object when opened by keyboard, the same origin that nph-item-select reports. It fires
+      once: a right click that moves a menu already open fires no second one. Setting open from code
+      fires nothing. A consumer that prepares the items for the row under the pointer sets items in
+      this event, before the first draw.
+  nph-close:
+    type: event
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      Fired, bubbling and not cancelable, when the menu closes by what the person or the page does,
+      with detail { source }: escape, outside (a press outside), focus-out, tab, select (an item that
+      closes the menu; nph-item-select fires first) or scroll. The menu has already closed, so it
+      cannot be cancelled. Setting open to false from code fires nothing.
 variants:
   severity:
     axis: appearance
@@ -114,6 +136,7 @@ business_rules:
   - "The panel opens with its start top corner at the point of the click, and turns to the other side of the point (to the left, or above) when it does not fit. It never leaves the window. Only a menu taller than the window scrolls inside. Opened by keyboard, it opens below the object, at its start edge."
   - "The submenu opens to the right of the item, with its first item on the same line as the item that opened it, and opens to the left only when there is no room on the right. A gap of dropdown/submenu-offset (4 px) separates the panel from the submenu, on the side that faces the panel; the code reads the token from the computed style, with no literal fallback. In right-to-left writing, everything mirrors: the corner of the point is the top end one and the submenu opens to the left by default."
   - "When the person activates an item, the menu fires nph-item-select, which bubbles, with detail value, checked and origin: checked is the new state of a single or multiple choice and null on a common item; origin is the element that was under the pointer when the menu opened, so a row acts only on itself, and null when the menu was opened from code. A single choice already checked fires again with checked true. Changing items or open from code fires nothing."
+  - "The menu fires nph-open when the person opens it, with detail origin, and nph-close when it closes, with detail source (escape, outside, focus-out, tab, select or scroll); both bubble and cannot be cancelled. Opening or closing from code fires nothing, and a menu already open that moves to a new point fires no second nph-open. When an item closes the menu, nph-item-select comes first."
   - "After an activation, the menu replaces items with a new list that carries the new checked, also inside a submenu; the objects of the consumer are never changed. Single choice is exclusive inside its group."
   - "A common item and a single choice close the whole menu and give the focus back to the object; a multiple choice keeps it open. An item with a submenu opens its submenu when activated."
   - "It closes with Esc (the submenu first, then the menu, which gives the focus back to the object and does not reach a dialog around it), a press outside the menu, Tab, the focus leaving it, or a scroll of the page or of a container around the object. A menu opened from code stays on scroll."
@@ -278,6 +301,11 @@ is light at rest and when disabled, and solid on highlight, in every type, selec
 - When the person activates an item, the menu fires `nph-item-select`, which bubbles, with
   `detail.value`, `detail.checked` (`null` on a common item) and `detail.origin`, the element that was
   under the pointer. Changing `items` or `open` from code fires nothing.
+- The menu fires `nph-open` when the person opens it, with `detail.origin`, and `nph-close` when it
+  closes, with `detail.source` (`escape`, `outside`, `focus-out`, `tab`, `select` or `scroll`); both
+  bubble and cannot be cancelled. Opening or closing from code fires nothing, and a menu already open
+  that moves to a new point fires no second `nph-open`. When an item closes the menu,
+  `nph-item-select` comes first.
 - After an activation, the menu replaces `items` with a new list that carries the new `checked`; the
   objects of the consumer are never changed.
 - A common item and a single choice close the menu and give the focus back to the object; a multiple

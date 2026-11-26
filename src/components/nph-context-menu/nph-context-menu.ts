@@ -32,6 +32,15 @@
  *   multiple choice and `null` on a common item; `origin` is the element under the pointer when
  *   the menu opened, so a table row acts only on itself. The menu then replaces `items` with a
  *   new list that carries the new `checked`; it never changes the objects of the consumer;
+ * - the events `nph-open` and `nph-close` (D-2 of DSA-69, DSA-115), both bubbling and not
+ *   cancelable, fired when the menu goes from closed to open and from open to closed, so a
+ *   consumer can follow it, as Radix `onOpenChange` and AG Grid `contextMenuVisibleChanged` do.
+ *   `nph-open` carries `detail: { origin }`, the same element under the pointer as the `origin`
+ *   of `nph-item-select` (by keyboard, the object). `nph-close` carries `detail: { source }`:
+ *   `escape`, `outside`, `focus-out`, `tab`, `select` (the item that closes the menu fires
+ *   `nph-item-select` first) or `scroll`. Both fire only for what the person or the page does:
+ *   setting `open` from code, in either direction, fires nothing, as for every property of the
+ *   piece. A menu that is already open and moves to a new point fires no second `nph-open`;
  * - invalid input does not render and emits `console.error` only in development, one per cause
  *   (P21 rule): `for` empty or matching no element in the same root, no valid item, a `size`
  *   outside the two, and an invalid entry, which is left out.
@@ -110,6 +119,23 @@ export interface NphContextMenuItemSelectDetail {
   readonly checked: boolean | null;
   /** The element under the pointer when the menu opened; `null` when it opened from code. */
   readonly origin: Element | null;
+}
+
+/** The event the menu fires when the person opens it. */
+export const NPH_CONTEXT_MENU_OPEN_EVENT = 'nph-open';
+/** The event the menu fires when the person, or the page, closes it. */
+export const NPH_CONTEXT_MENU_CLOSE_EVENT = 'nph-close';
+/** Why the menu closed. */
+export const NPH_CONTEXT_MENU_CLOSE_SOURCES = ['escape', 'outside', 'focus-out', 'tab', 'select', 'scroll'] as const;
+export type NphContextMenuCloseSource = (typeof NPH_CONTEXT_MENU_CLOSE_SOURCES)[number];
+/** `nph-open`: the menu opened where the person asked. */
+export interface NphContextMenuOpenDetail {
+  /** The element under the pointer, as the `origin` of `nph-item-select`. */
+  readonly origin: Element | null;
+}
+/** `nph-close`: the menu closed. */
+export interface NphContextMenuCloseDetail {
+  readonly source: NphContextMenuCloseSource;
 }
 
 /** A typed search keeps its characters together for this long, as in `nph-dropdown-menu`. */
@@ -551,13 +577,18 @@ export class NphContextMenu extends LitElement {
     this.origin = origin;
     this.openSubmenu = '';
     this.pendingFocus = focus;
+    const wasOpen = this.open;
     this.open = true;
     /* Already open: it moves to the new point and takes the focus again. */
     this.requestUpdate();
+    if (!wasOpen) {
+      this.dispatchEvent(new CustomEvent<NphContextMenuOpenDetail>(NPH_CONTEXT_MENU_OPEN_EVENT, { bubbles: true, detail: { origin } }));
+    }
   }
 
-  /** Closes the menu; with `returnFocus`, the focus goes back to the object. */
-  private close(returnFocus: boolean): void {
+  /** Closes the menu; with `returnFocus`, the focus goes back to the object. `source` says why, in `nph-close`. */
+  private close(returnFocus: boolean, source: NphContextMenuCloseSource): void {
+    const wasOpen = this.open;
     this.pendingFocus = null;
     this.pendingSubFocus = null;
     this.clearTyped();
@@ -566,6 +597,9 @@ export class NphContextMenu extends LitElement {
     this.open = false;
     if (returnFocus) {
       this.target?.focus({ preventScroll: true });
+    }
+    if (wasOpen) {
+      this.dispatchEvent(new CustomEvent<NphContextMenuCloseDetail>(NPH_CONTEXT_MENU_CLOSE_EVENT, { bubbles: true, detail: { source } }));
     }
   }
 
@@ -615,13 +649,13 @@ export class NphContextMenu extends LitElement {
       return;
     }
     const inside = this.renderRoot.contains(this.shadowRoot?.activeElement ?? null);
-    this.close(inside);
+    this.close(inside, 'escape');
   };
 
   /** A press outside the menu closes it, without moving the focus. The object's own press is a new click. */
   private readonly onDocumentPointerdown = (event: PointerEvent): void => {
     if (!event.composedPath().includes(this)) {
-      this.close(false);
+      this.close(false, 'outside');
     }
   };
 
@@ -632,7 +666,7 @@ export class NphContextMenu extends LitElement {
       return;
     }
     if (this.open) {
-      this.close(false);
+      this.close(false, 'focus-out');
     }
   }
 
@@ -716,7 +750,7 @@ export class NphContextMenu extends LitElement {
        * Tab closes, and the focus moves on from the object, wherever the menu sits in the
        * DOM: the focus goes back to the object before the default action runs.
        */
-      this.close(true);
+      this.close(true, 'tab');
       handled = false;
     } else if (key.length === 1 && !altKey && !ctrlKey && !metaKey) {
       this.focusItem(level, this.typeahead(level, key, current) ?? elements[current] ?? null);
@@ -942,7 +976,7 @@ export class NphContextMenu extends LitElement {
       }),
     );
     if (!toggles) {
-      this.close(true);
+      this.close(true, 'select');
     }
   }
 
@@ -1247,7 +1281,7 @@ export class NphContextMenu extends LitElement {
       this.onViewportChange();
       return;
     }
-    this.close(false);
+    this.close(false, 'scroll');
   };
 
   private readonly onViewportChange = (event?: unknown): void => {
