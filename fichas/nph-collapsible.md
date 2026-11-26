@@ -132,6 +132,34 @@ api:
       The default slot is the content, free: any piece goes inside it, such as text, fields,
       actions or an nph-skeleton while it loads. It starts at collapsible/content-padding-top below
       the trigger and has no component token for its text.
+  start:
+    type: slot
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The media at the start of the row trigger, before the title, such as an nph-avatar or an
+      nph-icon. For the line type only; hidden while empty. It is decorative, so it is not read in
+      the name of the trigger. The trigger is the only interactive element, so nothing clickable
+      goes in it.
+  tag:
+    type: slot
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      A short tag next to the title, such as an nph-badge, collapsible/tag-gap from it. For the line
+      type only; hidden while empty. It is read in the name of the trigger, after the title. Nothing
+      clickable goes in it.
+  end:
+    type: slot
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      A status at the end of the row trigger, before the indicator, such as an nph-badge. For the line
+      type only; hidden while empty. It is read in the name of the trigger, after the tag. It is a
+      status, never a button: anything clickable goes outside the trigger.
   nph-toggle:
     type: event
     required: false
@@ -186,7 +214,7 @@ domain_errors:
   - "An indicator, size, description or icon in the button or preview type, or an open-label in the line type: the piece ignores it and emits console.warn in development, one per cause."
 tokens:
   trigger: "collapsible/trigger-height, collapsible/trigger-height-compact, collapsible/trigger-height-large, collapsible/trigger-padding-x, collapsible/trigger-padding-y, collapsible/trigger-padding-y-compact, collapsible/trigger-gap, collapsible/trigger-radius, collapsible/trigger-background-hover"
-  text: "collapsible/title-foreground, collapsible/title-gap, collapsible/description-foreground"
+  text: "collapsible/title-foreground, collapsible/title-gap, collapsible/tag-gap, collapsible/description-foreground, collapsible/content-foreground"
   icons: "collapsible/indicator-foreground, collapsible/indicator-size, collapsible/icon-foreground, collapsible/icon-size"
   content: "collapsible/content-padding-x, collapsible/content-padding-top, collapsible/content-padding-bottom, collapsible/content-gap, collapsible/preview-gap"
   card: "collapsible/card-background, collapsible/card-border, collapsible/card-border-width, collapsible/card-radius, collapsible/card-padding"
@@ -400,7 +428,7 @@ collapsible later, after both are accepted, and the vertical stepper is built on
 | Part | Token |
 |---|---|
 | Trigger | `collapsible/trigger-height`, `collapsible/trigger-height-compact`, `collapsible/trigger-height-large`, `collapsible/trigger-padding-x`, `collapsible/trigger-padding-y`, `collapsible/trigger-padding-y-compact`, `collapsible/trigger-gap`, `collapsible/trigger-radius`, `collapsible/trigger-background-hover` |
-| Text | `collapsible/title-foreground`, `collapsible/title-gap`, `collapsible/description-foreground` |
+| Text | `collapsible/title-foreground`, `collapsible/title-gap`, `collapsible/tag-gap` (title to tag), `collapsible/description-foreground`, `collapsible/content-foreground` |
 | Icons | `collapsible/indicator-foreground`, `collapsible/indicator-size`, `collapsible/icon-foreground`, `collapsible/icon-size` |
 | Content | `collapsible/content-padding-x`, `collapsible/content-padding-top`, `collapsible/content-padding-bottom`, `collapsible/content-gap`, `collapsible/preview-gap` |
 | Card | `collapsible/card-background`, `collapsible/card-border`, `collapsible/card-border-width`, `collapsible/card-radius`, `collapsible/card-padding` |

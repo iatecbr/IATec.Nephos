@@ -10,9 +10,11 @@
  * an import in the preview type, closed. Every visible text comes from the dictionary, passed in by the
  * page that calls this file.
  */
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import '../nph-avatar/nph-avatar';
+import '../nph-badge/nph-badge';
 import '../nph-button/nph-button';
 import './nph-collapsible';
 import type { NphCollapsibleAppearance, NphCollapsibleIndicator, NphCollapsibleSize, NphCollapsibleType } from './nph-collapsible';
@@ -21,6 +23,9 @@ export type Scheme = 'light' | 'dark';
 
 /** The texts of the examples, from the `collapsibleValidation` dictionary. */
 export interface ExampleTexts {
+  slotTag: string;
+  slotStatus: string;
+  slotAvatar: string;
   title: string;
   support: string;
   body: string;
@@ -94,6 +99,8 @@ export interface CollapsibleOptions {
   icon?: string;
   /** What goes in the content slot. */
   content?: TemplateResult;
+  /** Fills the start, tag and end slots of the row trigger: an avatar, a tag and a status. */
+  slots?: boolean;
   /** The width of the frame, to force the wrap of a long title. */
   width?: string;
 }
@@ -112,6 +119,7 @@ export function collapsible(texts: ExampleTexts, options: CollapsibleOptions = {
     description = '',
     icon = '',
     content = type === 'button' ? html`<p style="margin: 0;">${texts.detailsBody}</p>` : html`<p style="margin: 0;">${texts.body}</p>`,
+    slots = false,
     width = MATRIX_WIDTH,
   } = options;
   return html`<div style="inline-size: ${width}; max-inline-size: 100%;">
@@ -126,7 +134,11 @@ export function collapsible(texts: ExampleTexts, options: CollapsibleOptions = {
       icon=${icon}
       ?open=${open}
       ?disabled=${disabled}
-      >${content}</nph-collapsible
+      >${slots
+        ? html`<nph-avatar slot="start" name=${texts.slotAvatar} size="sm"></nph-avatar>
+            <nph-badge slot="tag" text=${texts.slotTag} severity="primary" emphasis="light"></nph-badge>
+            <nph-badge slot="end" text=${texts.slotStatus} severity="success" emphasis="light"></nph-badge>`
+        : nothing}${content}</nph-collapsible
     >
   </div>`;
 }

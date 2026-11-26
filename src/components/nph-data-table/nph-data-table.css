@@ -16,6 +16,14 @@
  * `data-table/pagination-gap`, the label `data-table/page-size-label-foreground` and the
  * `nph-select` `data-table/page-size-width`.
  *
+ * The parts the data table draws itself read its own colors: the header row
+ * `data-table/header-background` and `data-table/border`, the title `data-table/foreground`, the
+ * description `data-table/caption-foreground`, the frame, the loading cells of the selection and
+ * actions columns and the empty body `data-table/border`, the stripe
+ * `data-table/row-striped-background`, the line under the fixed header
+ * `data-table/sticky-divider-color` and the hover of the selection cell
+ * `data-table/row-background-hover`. The body cells of the `nph-table` stay with `table/*`.
+ *
  * The only written quantities are box relations, not visual decisions: `0` (no padding, no
  * margin, no offset), `100%` (the sort button fills its cell), `-1` (the ring drawn inside the
  * cell, the mark cast to the inline start in a right-to-left page) and `0.5turn` (descending is
@@ -32,6 +40,39 @@
 
 .caption {
   margin-block-end: 0;
+}
+
+/*
+ * The colors of the parts the data table draws itself. The header, the description, the stripe and
+ * the line under the fixed header are read by `nph-table` from one variable each, so the host
+ * points them at the copies of the data table; the body cells keep `table/*`.
+ */
+:host([data-nph-rendered]) {
+  --nph-table-header-background: var(--nph-data-table-header-background);
+  --nph-table-caption-foreground: var(--nph-data-table-caption-foreground);
+  --nph-table-row-striped-background: var(--nph-data-table-row-striped-background);
+  --nph-table-sticky-divider-color: var(--nph-data-table-sticky-divider-color);
+}
+
+.title {
+  color: var(--nph-data-table-foreground);
+}
+
+:host([framed]) .scroll {
+  border-color: var(--nph-data-table-border);
+}
+
+thead th,
+thead td,
+tbody tr.loading > td.select,
+tbody tr.loading > td.actions,
+tbody tr.empty > td {
+  border-block-end-color: var(--nph-data-table-border);
+}
+
+/* The hover of the selection cell, which the data table draws; a selected row keeps its own. */
+:host([data-nph-rendered]) tbody tr.row:not(.selected):hover > td.select {
+  background: var(--nph-data-table-row-background-hover);
 }
 
 /* The bar that is not shown takes up no space. */

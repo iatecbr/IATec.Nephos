@@ -814,6 +814,13 @@ describe('token contract', () => {
         '--nph-data-table-pagination-gap',
         '--nph-data-table-page-size-label-foreground',
         '--nph-data-table-page-size-width',
+        '--nph-data-table-header-background',
+        '--nph-data-table-border',
+        '--nph-data-table-foreground',
+        '--nph-data-table-caption-foreground',
+        '--nph-data-table-row-striped-background',
+        '--nph-data-table-sticky-divider-color',
+        '--nph-data-table-row-background-hover',
         '--nph-table-cell-gap',
         '--nph-table-cell-padding-block',
         '--nph-table-cell-padding-inline',
@@ -830,8 +837,8 @@ describe('token contract', () => {
   });
 
   it('every data-table/* token is consumed', () => {
-    const declared = [...tokensCss.matchAll(/(--nph-data-table-[a-z0-9-]+):/g)].map((match) => match[1] as string);
-    expect(declared).toHaveLength(13);
+    const declared = [...new Set([...tokensCss.matchAll(/(--nph-data-table-[a-z0-9-]+):/g)].map((match) => match[1] as string))];
+    expect(declared).toHaveLength(20);
     for (const name of declared) {
       expect(cssWithoutComments, name).toContain(`var(${name})`);
     }
@@ -849,5 +856,56 @@ describe('token contract', () => {
     expect(withoutRelations).not.toMatch(/\b(rgb|rgba|hsl|hsla)\(/i);
     expect(withoutRelations).not.toMatch(/\d(px|rem|em|ms|s|deg|turn|%)/);
     expect(withoutRelations).not.toMatch(/\b(animation|transition|@keyframes)\b/);
+  });
+});
+describe('the colors of the parts the data table draws itself (DSA-120)', () => {
+  const background = (token: string): string => resolved('background-color', token);
+  it('the header row is data-table/header-background, with its line in data-table/border', async () => {
+    const element = await mount({ ...SELECTION });
+    const cells = [...root(element).querySelectorAll<HTMLElement>('thead th, thead td')];
+    expect(cells.length).toBeGreaterThan(3);
+    for (const cell of cells) {
+      const style = getComputedStyle(cell);
+      expect(style.backgroundColor).toBe(background('--nph-data-table-header-background'));
+      expect(style.borderBottomColor).toBe(resolved('border-bottom-color', '--nph-data-table-border'));
+    }
+  });
+  it('the title is data-table/foreground and the description data-table/caption-foreground', async () => {
+    const element = await mount({ description: 'Headcount by unit' });
+    expect(getComputedStyle(root(element).querySelector('.title') as HTMLElement).color).toBe(color('--nph-data-table-foreground'));
+    expect(getComputedStyle(root(element).querySelector('.description') as HTMLElement).color).toBe(
+      color('--nph-data-table-caption-foreground'),
+    );
+  });
+  it('the frame is data-table/border', async () => {
+    const element = await mount({ framed: true });
+    const scroll = getComputedStyle(root(element).querySelector('.scroll') as HTMLElement);
+    expect(scroll.borderTopColor).toBe(resolved('border-top-color', '--nph-data-table-border'));
+  });
+  it('the stripe is data-table/row-striped-background', async () => {
+    const element = await mount({ striped: true });
+    const cell = root(element).querySelector('tbody tr.row.striped > td') as HTMLElement;
+    expect(getComputedStyle(cell).backgroundColor).toBe(background('--nph-data-table-row-striped-background'));
+  });
+  it('the line under the fixed header is data-table/sticky-divider-color', async () => {
+    const element = await mount({ stickyHeader: true });
+    const cell = root(element).querySelector('thead th') as HTMLElement;
+    expect(getComputedStyle(cell).boxShadow).toContain(color('--nph-data-table-sticky-divider-color'));
+  });
+  it('the selection cell in hover is data-table/row-background-hover', async () => {
+    const element = await mount({ ...SELECTION });
+    const cell = root(element).querySelector('tbody tr.row > td.select') as HTMLElement;
+    await userEvent.hover(cell);
+    await vi.waitFor(() => expect(getComputedStyle(cell).backgroundColor).toBe(background('--nph-data-table-row-background-hover')));
+  });
+  it('the loading cells of the selection and actions columns and the empty body take data-table/border', async () => {
+    const loading = await mount({ ...SELECTION, ...MORE, loading: true });
+    for (const cell of root(loading).querySelectorAll<HTMLElement>('tbody tr.loading > td.select, tbody tr.loading > td.actions')) {
+      expect(getComputedStyle(cell).borderBottomColor).toBe(resolved('border-bottom-color', '--nph-data-table-border'));
+    }
+    document.body.replaceChildren();
+    const empty = await mount({ rows: [], emptyHeading: 'Nothing found', clearLabel: 'Clear search' });
+    const cell = root(empty).querySelector('tbody tr.empty > td') as HTMLElement;
+    expect(getComputedStyle(cell).borderBottomColor).toBe(resolved('border-bottom-color', '--nph-data-table-border'));
   });
 });

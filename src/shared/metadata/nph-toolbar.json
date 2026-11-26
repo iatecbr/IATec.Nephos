@@ -122,6 +122,10 @@
       "token": "toolbar/bulk-action-background-hover",
       "changes_for_user": "In the bulk bar, the hover of the secondary ghost actions uses the bar's own hover background, so it stays visible over the highlighted background (pending decision D-1)."
     },
+    "bulk-danger-action-hover": {
+      "token": "toolbar/bulk-danger-action-background-hover",
+      "changes_for_user": "In the bulk bar, the hover of the danger ghost action uses its own hover background, one step darker than the button's, so it stays visible over the highlighted background."
+    },
     "applied-filters-empty": {
       "token": "toolbar/gap",
       "changes_for_user": "With no chip, the strip is not shown and the page bar keeps its usual height. Clear filters shows from the first chip."
@@ -142,7 +146,7 @@
     "radius": "toolbar/radius",
     "padding": "toolbar/padding",
     "gap": "toolbar/gap",
-    "bulk": "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x and toolbar/bulk-action-background-hover",
+    "bulk": "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x, toolbar/bulk-action-background-hover and toolbar/bulk-danger-action-background-hover",
     "floating": "toolbar/floating-background, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown",
     "count": "text/label-md",
     "height": "from the pieces: control/height-compact, control/height-default or control/height-large; the search nph-input takes input/height-compact, input/height (38) or control/height-large"
