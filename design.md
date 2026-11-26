@@ -1539,42 +1539,406 @@ tokens_control:
     valor: 44
     use: "Main form and touch-sensitive screen. Guarantees the 44px minimum target recommended by WCAG 2.2. Also the minimum height of the nph-collapsible trigger in the large size (collapsible/trigger-height-large)."
 
+# ---------------------------------------------------------------
+# HOW A COMPONENT TOKEN IS DOCUMENTED. A component token is documented in
+# its own block `tokens_<piece>`, with `use:` and `nao_use:` per token; the
+# semantic token says only its general role and stops listing consumers.
+# Same practice as Carbon (component token documented in the Style tab of
+# each piece: https://carbondesignsystem.com/elements/color/tokens/),
+# Primer (description, uses and rules per token:
+# https://unpkg.com/@primer/primitives@11.10.0/DESIGN_TOKENS_SPEC.md) and
+# Salesforce SLDS (the hooks of a piece listed on its page:
+# https://developer.salesforce.com/docs/platform/lwc/guide/create-components-css-custom-properties.html).
+# ---------------------------------------------------------------
 tokens_avatar:
   avatar/size-sm:
     css: '--nph-avatar-size-sm'
     alias: core/avatar-size/100
     valor: 24
-    use: "Avatar of 24. USE in a list option (nph-select, nph-combobox) and next to 14px text. DO NOT USE as an icon size."
+    use: "Avatar of 24. USE in a list option (nph-select, nph-combobox) and next to 14px text. DO NOT USE as an icon size. and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
   avatar/size-md:
     css: '--nph-avatar-size-md'
     alias: core/avatar-size/200
     valor: 32
-    use: "Avatar of 32. USE in a header, card and table row. DO NOT USE as an icon size."
+    use: "Avatar of 32. USE in a header, card and table row. DO NOT USE as an icon size. and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
   avatar/size-lg:
     css: '--nph-avatar-size-lg'
     alias: core/avatar-size/300
     valor: 40
-    use: "Avatar of 40. USE in a profile and to highlight a person. DO NOT USE as an icon size."
+    use: "Avatar of 40. USE in a profile and to highlight a person. DO NOT USE as an icon size. and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
   avatar/radius-sm:
     css: '--nph-avatar-radius-sm'
     alias: core/radius/300
     valor: 6
-    use: "Corner of the 24 avatar. USE only on nph-avatar sm. The avatar is a square with rounded corners, never a circle."
+    use: "Corner of the 24 avatar. USE only on nph-avatar sm. The avatar is a square with rounded corners, never a circle. Also the corner of the nph-skeleton that imitates the avatar, and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
   avatar/radius-md:
     css: '--nph-avatar-radius-md'
     alias: core/radius/400
     valor: 8
-    use: "Corner of the 32 avatar. USE only on nph-avatar md."
+    use: "Corner of the 32 avatar. USE only on nph-avatar md. Also the corner of the nph-skeleton that imitates the avatar, and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
   avatar/radius-lg:
     css: '--nph-avatar-radius-lg'
     alias: core/radius/450
     valor: 10
-    use: "Corner of the 40 avatar. USE only on nph-avatar lg."
+    use: "Corner of the 40 avatar. USE only on nph-avatar lg. Also the corner of the nph-skeleton that imitates the avatar, and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
   avatar/overlap:
     css: '--nph-avatar-overlap'
     alias: core/avatar-overlap/100
     valor: -8
     use: "Overlap between neighboring avatars: -8. USE only in the space between items of nph-avatar-stack. DO NOT USE as space between other components."
+  avatar/background:
+    css: '--nph-avatar-background'
+    alias: color/muted
+    use: "Background of the nph-avatar without a photo (initials or icon). USE only on nph-avatar. DO NOT USE on another piece."
+  avatar/border:
+    css: '--nph-avatar-border'
+    alias: color/border
+    use: "Border of the nph-avatar, 1 px in border/width. USE only on nph-avatar. DO NOT USE on another piece."
+  avatar/icon:
+    css: '--nph-avatar-icon'
+    alias: color/muted-foreground
+    use: "Color of the icon inside the nph-avatar without photo (the avatar has no initials). USE only on nph-avatar. DO NOT USE on another piece."
+
+tokens_avatar-stack:
+  avatar-stack/overflow-background:
+    css: '--nph-avatar-stack-overflow-background'
+    alias: color/muted
+    use: "Background of the +N counter of the nph-avatar-stack. USE only on the counter."
+    nao_use: "Another piece: color/muted."
+  avatar-stack/overflow-border:
+    css: '--nph-avatar-stack-overflow-border'
+    alias: color/border
+    use: "Border of the +N counter of the nph-avatar-stack, 1 px in border/width. USE only on the counter."
+  avatar-stack/overflow-foreground:
+    css: '--nph-avatar-stack-overflow-foreground'
+    alias: color/muted-foreground
+    use: "Color of the number in the +N counter of the nph-avatar-stack. USE only on the counter."
+
+tokens_table:
+  table/background:
+    css: '--nph-table-background'
+    alias: color/background
+    use: "Background of the nph-table and of its frame."
+  table/foreground:
+    css: '--nph-table-foreground'
+    alias: color/foreground
+    use: "Text of the cell and of the header."
+  table/muted-foreground:
+    css: '--nph-table-muted-foreground'
+    alias: color/muted-foreground
+    use: "Second line of the cell."
+    nao_use: "The caption text: table/caption-foreground."
+  table/caption-foreground:
+    css: '--nph-table-caption-foreground'
+    alias: color/muted-foreground
+    use: "Text of the caption of the nph-table."
+  table/muted-background:
+    css: '--nph-table-muted-background'
+    alias: color/muted
+    use: "Neutral background behind the thumbnail and the photo of the expanded item."
+  table/header-background:
+    css: '--nph-table-header-background'
+    alias: core/surface/25
+    use: "Background of the header and of the footer. In dark it follows color/muted."
+  table/row-striped-background:
+    css: '--nph-table-row-striped-background'
+    alias: core/surface/25
+    use: "Background of the even row in the stripe state (faixa)."
+    nao_use: "Row hover: table/row-hover-background."
+  table/row-hover-background:
+    css: '--nph-table-row-hover-background'
+    alias: color/primary-surface
+    use: "Background of the whole row under the pointer."
+    nao_use: "Stripe: table/row-striped-background."
+  table/border:
+    css: '--nph-table-border'
+    alias: color/border
+    use: "Border of the frame, divider between rows and the vertical line of the grid."
+    nao_use: "The line under the fixed header: table/sticky-divider-color."
+  table/border-width:
+    css: '--nph-table-border-width'
+    alias: border/width
+    valor: 1
+    use: "Thickness of the frame, of the row divider and of the grid."
+  table/radius:
+    css: '--nph-table-radius'
+    alias: radius/container
+    use: "Corner of the frame of the nph-table (moldura com)."
+    nao_use: "The thumbnail corner: table/thumbnail-radius."
+  table/link-foreground:
+    css: '--nph-table-link-foreground'
+    alias: color/link
+    use: "Link inside the cell, always underlined. In dark it follows theme/brand-200."
+  table/status-success-icon:
+    css: '--nph-table-status-success-icon'
+    alias: status/success
+    use: "Icon of the positive status in the cell, always with the status name beside it."
+    nao_use: "The error status: table/status-error-icon."
+  table/rating-foreground:
+    css: '--nph-table-rating-foreground'
+    alias: brand/educacao
+    use: "Star of the rating in the cell, with the score as a number beside it. Accepted exception to WCAG 1.4.11 in light, because the number carries the same information."
+  table/row-height:
+    css: '--nph-table-row-height'
+    alias: core/space/800
+    valor: 40
+    use: "Height of the row at size default."
+    nao_use: "Size large: table/row-height-large."
+  table/row-height-large:
+    css: '--nph-table-row-height-large'
+    alias: control/height-large
+    valor: 44
+    use: "Height of the row at size large, for touch or more relaxed reading."
+  table/cell-padding-block:
+    css: '--nph-table-cell-padding-block'
+    alias: space/inline
+    valor: 8
+    use: "Space above and below the composite cell."
+    nao_use: "A cell with a button: table/action-cell-padding-block."
+  table/cell-padding-inline:
+    css: '--nph-table-cell-padding-inline'
+    alias: space/control-padding
+    valor: 12
+    use: "Space on the sides of the cell at size default."
+    nao_use: "Size large: table/container-padding."
+  table/action-cell-padding-block:
+    css: '--nph-table-action-cell-padding-block'
+    alias: space/control-padding
+    valor: 12
+    use: "Space above and below a cell that holds a button."
+  table/container-padding:
+    css: '--nph-table-container-padding'
+    alias: space/container-padding
+    valor: 16
+    use: "Space on the sides of the cell at size large."
+  table/cell-gap:
+    css: '--nph-table-cell-gap'
+    alias: space/inline
+    valor: 8
+    use: "Space between the pieces of the cell, mixed actions included. Added to the tree indent."
+    nao_use: "The space between the icons of the actions: table/cell-gap-tight."
+  table/cell-gap-tight:
+    css: '--nph-table-cell-gap-tight'
+    alias: space/inline-tight
+    valor: 4
+    use: "Space between the icons of the actions in the cell."
+  table/stack-gap:
+    css: '--nph-table-stack-gap'
+    alias: space/stack-tight
+    valor: 4
+    use: "Space between the caption and the table."
+  table/empty-padding:
+    css: '--nph-table-empty-padding'
+    alias: space/section
+    valor: 32
+    use: "Space above and below the empty body, which holds the nph-empty with the header visible."
+  table/caption-max-width:
+    css: '--nph-table-caption-max-width'
+    alias: layout/max-reading
+    valor: 560
+    use: "Width limit of the caption text."
+  table/body-max-height:
+    css: '--nph-table-body-max-height'
+    alias: layout/max-list-height
+    valor: 296
+    use: "Height of the body before it scrolls. With the fixed header, the header stays in place."
+  table/expand-indent:
+    css: '--nph-table-expand-indent'
+    alias: control/height-compact
+    valor: 28
+    use: "Indent of each level of the tree, plus table/cell-gap. A row without children keeps the space of the chevron, so the text aligns."
+  table/icon-size:
+    css: '--nph-table-icon-size'
+    alias: icon/size-sm
+    valor: 16
+    use: "Icon inside the cell."
+  table/thumbnail-size:
+    css: '--nph-table-thumbnail-size'
+    alias: image/size-sm
+    valor: 32
+    use: "Thumbnail in the cell."
+    nao_use: "The photo of the expanded item: table/thumbnail-size-large."
+  table/thumbnail-size-large:
+    css: '--nph-table-thumbnail-size-large'
+    alias: image/size-lg
+    valor: 64
+    use: "Photo of the expanded item."
+  table/thumbnail-radius:
+    css: '--nph-table-thumbnail-radius'
+    alias: radius/inner
+    valor: 4
+    use: "Corner of the thumbnail and of the photo of the expanded item."
+  table/focus-ring-width:
+    css: '--nph-table-focus-ring-width'
+    alias: core/focus-width/sm
+    valor: 2
+    use: "Thickness of the focus ring of the scroll area and of the truncated-text cell. USE only in the nph-table."
+    nao_use: "The focus of every other piece: focus/ring-width."
+  table/sticky-divider-color:
+    css: '--nph-table-sticky-divider-color'
+    alias: color/border
+    use: "Color of the line under the fixed header."
+  table/sticky-divider-width:
+    css: '--nph-table-sticky-divider-width'
+    alias: core/shadow-y/100
+    valor: 1
+    use: "Thickness of the line under the fixed header, drawn as a shadow."
+  table/sticky-divider-spread:
+    css: '--nph-table-sticky-divider-spread'
+    alias: core/shadow-spread/0
+    valor: 0
+    use: "Spread of the line under the fixed header."
+  table/sticky-divider-blur:
+    css: '--nph-table-sticky-divider-blur'
+    alias: core/shadow-blur/0
+    valor: 0
+    use: "Blur of the line under the fixed header: none, so it stays a line."
+  table/caption-action-gap:
+    css: '--nph-table-caption-action-gap'
+    alias: space/inline
+    valor: 8
+    use: "Space between the caption and its main action."
+  table/max-width:
+    css: '--nph-table-max-width'
+    alias: layout/max-app
+    valor: 1440
+    use: "Width of the wide table inside the horizontal scroll area."
+  table/scrollbar-radius:
+    css: '--nph-table-scrollbar-radius'
+    alias: radius/full
+    valor: 9999
+    use: "Corner of the scrollbar thumb and track."
+  table/scrollbar-thumb:
+    css: '--nph-table-scrollbar-thumb'
+    alias: scrollbar/thumb
+    use: "Color of the scrollbar thumb."
+  table/scrollbar-track:
+    css: '--nph-table-scrollbar-track'
+    alias: scrollbar/track
+    use: "Background of the scrollbar track."
+  table/scrollbar-width:
+    css: '--nph-table-scrollbar-width'
+    alias: space/inline-tight
+    valor: 4
+    use: "Width of the vertical scrollbar and height of the horizontal one."
+  table/status-error-icon:
+    css: '--nph-table-status-error-icon'
+    alias: status/error
+    use: "Icon of the error status in the cell, always with the status name beside it."
+    nao_use: "The positive status: table/status-success-icon."
+
+tokens_image:
+  image/size-xs:
+    css: '--nph-image-size-xs'
+    alias: core/image-size/100
+    valor: 24
+    use: "Side of the nph-image at size xs, in the set but with no usage rule yet."
+  image/size-sm:
+    css: '--nph-image-size-sm'
+    alias: core/image-size/200
+    valor: 32
+    use: "Side of the nph-image at size sm. Also the thumbnail of the nph-table (table/thumbnail-size)."
+  image/size-md:
+    css: '--nph-image-size-md'
+    alias: core/image-size/300
+    valor: 48
+    use: "Side of the nph-image at size md."
+  image/size-lg:
+    css: '--nph-image-size-lg'
+    alias: core/image-size/400
+    valor: 64
+    use: "Side of the nph-image at size lg. Also the photo of the expanded item of the nph-table (table/thumbnail-size-large)."
+  image/size-xl:
+    css: '--nph-image-size-xl'
+    alias: core/image-size/500
+    valor: 96
+    use: "Side of the nph-image at size xl."
+  image/size-2xl:
+    css: '--nph-image-size-2xl'
+    alias: core/image-size/600
+    valor: 128
+    use: "Side of the nph-image at size 2xl."
+  image/radius-sm:
+    css: '--nph-image-radius-sm'
+    alias: radius/inner
+    valor: 4
+    use: "Corner of the nph-image at sizes xs and sm."
+  image/radius-md:
+    css: '--nph-image-radius-md'
+    alias: core/radius/300
+    valor: 6
+    use: "Corner of the nph-image at sizes md and lg."
+  image/radius-lg:
+    css: '--nph-image-radius-lg'
+    alias: core/radius/400
+    valor: 8
+    use: "Corner of the nph-image at sizes xl, 2xl and media."
+  image/background:
+    css: '--nph-image-background'
+    alias: color/muted
+    use: "Fill of the nph-image area, kept even without the image."
+  image/foreground:
+    css: '--nph-image-foreground'
+    alias: color/muted-foreground
+    use: "Spinner of the nph-image while it loads."
+  image/border:
+    css: '--nph-image-border'
+    alias: color/border
+    use: "Border of the nph-image. The loading state has no border."
+  image/border-width:
+    css: '--nph-image-border-width'
+    alias: border/width
+    valor: 1
+    use: "Thickness of the border of the nph-image."
+  image/focus-border:
+    css: '--nph-image-focus-border'
+    alias: focus/border
+    use: "Focus ring of the nph-image, in focus/ring-width. The image only takes focus when it is clickable."
+  image/overlay:
+    css: '--nph-image-overlay'
+    alias: overlay/on-media-strong
+    use: "Veil over the nph-image in the hover state."
+  image/on-overlay:
+    css: '--nph-image-on-overlay'
+    alias: overlay/on-media-foreground
+    use: "Eye icon over the veil of the nph-image in the hover state."
+  image/gap:
+    css: '--nph-image-gap'
+    alias: space/inline
+    valor: 8
+    use: "Space between the nph-image and the text beside it."
+  image/media-width:
+    css: '--nph-image-media-width'
+    alias: core/layout-width/media
+    valor: 256
+    use: "Width of the nph-image at size media, which accepts the proportions 1:1, 4:3 and 16:9."
+  image/icon-size-sm:
+    css: '--nph-image-icon-size-sm'
+    alias: icon/size-sm
+    valor: 16
+    use: "Eye icon of the hover veil on the small nph-image."
+  image/icon-size-md:
+    css: '--nph-image-icon-size-md'
+    alias: icon/size-md
+    valor: 20
+    use: "Eye icon of the hover veil on the medium nph-image."
+  image/icon-size-lg:
+    css: '--nph-image-icon-size-lg'
+    alias: icon/size-lg
+    valor: 24
+    use: "Eye icon of the hover veil on the large nph-image."
+  image/illustration-light:
+    css: '--nph-image-illustration-light'
+    use: "Switch that shows the empty and error illustration of the light scheme: 1 in light, 0 in dark."
+    nao_use: "Reading it as a size or a color."
+  image/illustration-dark:
+    css: '--nph-image-illustration-dark'
+    use: "Switch that shows the empty and error illustration of the dark scheme: 0 in light, 1 in dark."
+    nao_use: "Reading it as a size or a color."
+  image/illustration-background:
+    css: '--nph-image-illustration-background'
+    alias: core/slate/100
+    use: "Background of the gray line illustration of the nph-image, in empty and error."
 
 tokens_switch:
   switch/track-width:
@@ -1678,7 +2042,7 @@ tokens_radius:
     css: '--nph-radius-inner'
     alias: core/radius/200
     valor: 4
-    use: "USE on an element nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item), on nph-tooltip, on the tab inside the segmented nph-tabs rail (tabs/item-radius) and on the inner corner of the junction of the parts of a control (split-button/inner-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on a surface or box fitted inside a card or a floating layer (the tonal section and the icon box of the nph-card, the icon box of the nph-popconfirm): there it is radius/inset. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius. Also the corner of the rich option and of its hover layer (select/option-radius), as the nph-select option (T6)."
+    use: "USE on an element nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item), on nph-tooltip, on the tab inside the segmented nph-tabs rail (tabs/item-radius) and on the inner corner of the junction of the parts of a control (split-button/inner-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on a surface or box fitted inside a card or a floating layer (the tonal section and the icon box of the nph-card, the icon box of the nph-popconfirm): there it is radius/inset. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius. Also the corner of the rich option and of its hover layer (select/option-radius), as the nph-select option (T6). Also the shape of the nph-skeleton that imitates a piece with this radius."
   radius/inset:
     css: '--nph-radius-inset'
     alias: core/radius/400
@@ -1689,7 +2053,7 @@ tokens_radius:
     css: '--nph-radius-control'
     alias: core/radius/300
     valor: 6
-    use: "SYSTEM DEFAULT. USE on button, field, select, textarea and anything that is operated. When in doubt, it is this one. Also the corner of the nph-tree item (tree/item-radius). Also the corner of the nph-scheduler event (scheduler/event-radius). Also the corner of the nph-collapsible trigger (collapsible/trigger-radius). Also the corner of the nph-menubar top item (menubar/trigger-radius). Also the corners of the nph-rich-text-editor box and the top corners of its toolbar (rich-text-editor/radius)."
+    use: "SYSTEM DEFAULT. USE on button, field, select, textarea and anything that is operated. When in doubt, it is this one. Also the corner of the nph-tree item (tree/item-radius). Also the corner of the nph-scheduler event (scheduler/event-radius). Also the corner of the nph-collapsible trigger (collapsible/trigger-radius). Also the corner of the nph-menubar top item (menubar/trigger-radius). Also the corners of the nph-rich-text-editor box and the top corners of its toolbar (rich-text-editor/radius). Also the shape of the nph-skeleton that imitates that control."
   radius/control-inner:
     css: '--nph-radius-control-inner'
     alias: core/radius/off-scale/5
@@ -2013,6 +2377,18 @@ tokens_alpha:
     claro: 'rgba(0,0,0,0.40)'
     escuro: 'rgba(0,0,0,0.40)'
     use: "Dark scrim over an image, so the text on top stays legible. USE on a cover, a card with a background photo and a gallery. Equal in both modes: legibility over the image does not depend on the theme."
+  overlay/on-media-strong:
+    css: '--nph-overlay-on-media-strong'
+    alias: core/alpha/black-60
+    claro: 'rgba(0,0,0,0.60)'
+    escuro: 'rgba(0,0,0,0.60)'
+    use: "Stronger dark veil over an image, for a layer that carries an icon or text over the media: the hover veil of the nph-image (image/overlay). Equal in both modes. For a plain scrim that only keeps text legible, use overlay/on-media."
+  overlay/on-media-foreground:
+    css: '--nph-overlay-on-media-foreground'
+    alias: core/base/white
+    claro: '#ffffff'
+    escuro: '#ffffff'
+    use: "Color of the icon or text drawn over overlay/on-media-strong: the eye icon of the nph-image on hover (image/on-overlay). Equal in both modes, because the veil does not change with the theme."
   focus/ring-width:
     css: '--nph-focus-ring-width'
     alias: core/focus-width/default
@@ -2228,6 +2604,8 @@ tokens_layout:
     css: '--nph-layout-field-width'
     alias: core/layout-width/field
     valor: 320
+    use: "Default width of the nph-field. The field stretches in its container, and the control fills the field (DSA-28 D6)."
+    nao_use: "The control itself (nph-input, nph-select, nph-combobox): layout/input-width."
   layout/input-width:
     css: '--nph-layout-input-width'
     alias: core/layout-width/input
@@ -2461,12 +2839,12 @@ tokens_icon:
     css: '--nph-icon-size-md'
     alias: core/icon-size/200
     valor: 20
-    use: "Menu item, tab and highlighted action, where 16 is small next to the label. DO NOT USE inside a button with text. On the icon-only nph-button, the icon follows the box: md in default. Also the icon place of the nph-panel-menu loading row (panel-menu/skeleton-icon-size). Also the optional icon of the nph-rich-option choice card and the start box of the rich option, which also holds the start dot (rich-option/icon-size, select/option-icon-size)."
+    use: "Menu item, tab and highlighted action, where 16 is small next to the label. DO NOT USE inside a button with text. On the icon-only nph-button, the icon follows the box: md in default. Also the icon place of the nph-panel-menu loading row (panel-menu/skeleton-icon-size). Also the optional icon of the nph-rich-option choice card and the start box of the rich option, which also holds the start dot (rich-option/icon-size, select/option-icon-size). Also the icon inside the nph-avatar without photo (the inner nph-icon takes icon/size-* by the same size), at the md avatar."
   icon/size-lg:
     css: '--nph-icon-size-lg'
     alias: core/icon-size/300
     valor: 24
-    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list, except on the start tile of the nph-accordion item in the large size (accordion/tile-icon-size-large). Also the icon of the nph-file-upload drop zone (file-upload/icon-size); the zone is a section area, not a list. Also the start icon of the nph-card in the default density (card/icon-size), also when cards form a collection list: the card is a surface, not a list row; a dense list uses the compact card. Also the type icon of the nph-popconfirm in the md size (popconfirm/icon-size-md), inside its 40 px box: a floating layer with one icon that carries the type, not a list."
+    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list, except on the start tile of the nph-accordion item in the large size (accordion/tile-icon-size-large). Also the icon of the nph-file-upload drop zone (file-upload/icon-size); the zone is a section area, not a list. Also the start icon of the nph-card in the default density (card/icon-size), also when cards form a collection list: the card is a surface, not a list row; a dense list uses the compact card. Also the type icon of the nph-popconfirm in the md size (popconfirm/icon-size-md), inside its 40 px box: a floating layer with one icon that carries the type, not a list. Also the icon inside the nph-avatar without photo (the inner nph-icon takes icon/size-* by the same size), at the lg avatar."
 
 icones_nucleo:
   navegacao_e_menus:
