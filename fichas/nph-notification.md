@@ -254,7 +254,7 @@ tokens:
   elevation: elevation/modal
   touch: control/height-large
   focus: [focus/border, focus/halo]
-  region: "toast-region/gap, toast-region/inset and toast-region/inset-compact, read by the nph-toast-region and not by the piece; notification/stack-gap has no consumer and leaves in a foundation task"
+  region: "toast-region/gap, toast-region/inset and toast-region/inset-compact, read by the nph-toast-region and not by the piece"
 ai_hints:
   - "Use nph-notification to report a result, a risk or a piece of guidance; what needs an answer before going on is nph-dialog and the error of a field stays in nph-field."
   - "Use inline for a message tied to an area of the page and toast to confirm an action or report the end of a task."
@@ -520,7 +520,7 @@ action does and removes the element after `nph-close`. The `nph-toast-region` pl
 | Elevation | `elevation/modal`, used directly: there is no `notification` token for it. In dark mode `shadow/color` is transparent, so the toast has no shadow and separates from the page by its surface and its border |
 | Touch | `control/height-default` and `control/height-large` |
 | Focus | `focus/border` and `focus/halo`, which the close on solid points at its own values |
-| Region | `toast-region/gap`, `toast-region/inset` and `toast-region/inset-compact`, read by the `nph-toast-region`, not by the piece. `notification/stack-gap` has no consumer and leaves in a foundation task |
+| Region | `toast-region/gap`, `toast-region/inset` and `toast-region/inset-compact`, read by the `nph-toast-region`, not by the piece |
 
 **Usage restrictions:** `nph-button` has no color property and no `::part`. The colors of the
 contract that its own tokens do not give go through the public custom properties it already

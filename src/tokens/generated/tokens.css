@@ -975,7 +975,6 @@
   --nph-notification-actions-gap: var(--nph-space-inline);
   --nph-notification-actions-padding-top: var(--nph-space-stack-snug);
   --nph-notification-icon-size: var(--nph-icon-size-md);
-  --nph-notification-stack-gap: var(--nph-space-stack-snug);
   --nph-progress-track-gap: var(--nph-space-inline-tight);
   --nph-progress-gap: var(--nph-space-stack-tight);
   --nph-progress-label-gap: var(--nph-space-inline);

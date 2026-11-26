@@ -6062,6 +6062,8 @@ Item 4 gains one pause condition: the `paused` property, which the region sets f
 an open modal dialog. Item 5 changes only for the toast inside the region, which has no role of its own because the region
 announces it; the inline toast keeps it. Item 3 gains the source `escape`. This note is a supersession record; the items above stay
 as the history of P108.
+**Amendment of 26/11/2026 (DSA-103).** `notification/stack-gap` left the tokens: the region reads `toast-region/gap`, so the token had no
+reader. The mentions of it above, in the amendment of 25/11/2026 and in P140 are the history of the decision. Nothing else of P108 changes.
 
 ---
 

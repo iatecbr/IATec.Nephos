@@ -316,8 +316,7 @@ decides what each one says and removes it after `nph-close`.
 
 **Usage restrictions:** the region has no color, radius, border, shadow or layer token of its own. It
 lives in the top layer of the browser, as the balloon of `nph-tooltip` (P77), with no `z-index`, and
-reserves no space in the page. It uses no token of the `nph-notification` and not
-`notification/stack-gap`, which leaves in a foundation task. The curves and the reduced motion duration are
+reserves no space in the page. It uses no token of the `nph-notification`. The curves and the reduced motion duration are
 used straight, as in `nph-hover-card` (P112). The slide is half the height of the toast, a percentage and
 not a token. The only literal breakpoint is `md`, 768 px, written in `rem` in a media query, as in
 `nph-dialog` (P87).
@@ -370,7 +369,7 @@ toast that turns from loading into success in place; the stack in right-to-left 
   `overlay/scrim`. The tokens are in `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P140, and the answer to D-1 of DSA-63.
 - **Pending decisions:** none. The ring of the scrolling list is not drawn in Figma: the code uses `color/foreground`, which does not follow the brand, and the design owner can ask for another through Figma. The slide has no token: a fixed distance would need one, and the design
-  owner can ask for it through Figma. `notification/stack-gap` leaves in the foundation task DSA-103.
+  owner can ask for it through Figma.
 - **Tests:** `src/components/nph-toast-region/nph-toast-region.test.ts`.
 - **Usage evidence:** the three required examples of the `nph-toast-region` Examples story and the real
   region of the Live story.
