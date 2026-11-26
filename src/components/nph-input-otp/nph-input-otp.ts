@@ -18,7 +18,11 @@
  * - `masked`: the Figma `ocultar dígito`, brought to the host because the cells are not
  *   public. Every filled cell shows a dot. The mask is visual only: the input stays
  *   `type="text"`, so a screen reader reads the code;
- * - `value`: the code. Only ASCII letters and digits are kept, up to `length`. The
+ * - `numeric` (D2 of DSA-41, DSA-115): restricts the field to digits. Each cell takes only 0 to
+ *   9 and the inner input carries `inputmode="numeric"`, so a phone shows the numeric
+ *   keyboard. Without it the field keeps letters and digits, with `inputmode="text"`.
+ *   Turning it on cleans the current value;
+ * - `value`: the code. Only ASCII letters and digits are kept (only digits with `numeric`), up to `length`. The
  *   attribute `value` is the initial value and the value of `form.reset()`; the
  *   property is the current value, as in a native input;
  * - `label` and `description`: the accessible name and description, as text, that the
@@ -56,8 +60,9 @@ export type NphInputOtpSize = (typeof NPH_INPUT_OTP_SIZES)[number];
 /** The character a masked cell shows in place of the one typed. */
 export const NPH_INPUT_OTP_MASK = '•';
 
-/** What the code may hold: ASCII letters and digits. */
+/** What the code may hold: ASCII letters and digits, or only digits with `numeric`. */
 const NOT_ALLOWED = /[^A-Za-z0-9]/g;
+const NOT_DIGIT = /[^0-9]/g;
 
 /** Development messages; outside a bundler with `import.meta.env`, they stay silent. */
 function devError(message: string): void {
@@ -80,9 +85,9 @@ function isSize(value: string): value is NphInputOtpSize {
   return (NPH_INPUT_OTP_SIZES as readonly string[]).includes(value);
 }
 
-/** Keeps only letters and digits; case stays as typed. */
-function clean(value: string): string {
-  return value.replace(NOT_ALLOWED, '');
+/** Keeps only letters and digits, or only digits; case stays as typed. */
+function clean(value: string, numeric = false): string {
+  return value.replace(numeric ? NOT_DIGIT : NOT_ALLOWED, '');
 }
 
 /** The first submit button whose form owner is the form, as the default button of HTML (P80). */
@@ -122,6 +127,7 @@ export class NphInputOtp extends LitElement {
     invalid: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
     masked: { type: Boolean, reflect: true },
+    numeric: { type: Boolean, reflect: true },
     required: { type: Boolean, reflect: true },
     name: { type: String, reflect: true },
     value: { attribute: false },
@@ -137,6 +143,8 @@ export class NphInputOtp extends LitElement {
   declare disabled: boolean;
   /** Shows a dot in place of each character. */
   declare masked: boolean;
+  /** Takes digits only and asks the phone for the numeric keyboard. */
+  declare numeric: boolean;
   /** Announced as `aria-required`; no constraint validation. */
   declare required: boolean;
   /** The name of the entry in the form data. */
@@ -169,6 +177,7 @@ export class NphInputOtp extends LitElement {
     this.invalid = false;
     this.disabled = false;
     this.masked = false;
+    this.numeric = false;
     this.required = false;
     this.name = null;
     this.label = '';
@@ -240,9 +249,9 @@ export class NphInputOtp extends LitElement {
   /** Cleans a value and cuts it at `length`; from code, what was dropped is reported. */
   private fit(value: string, fromCode: boolean): string {
     const max = isLength(this.length) ? this.length : NPH_INPUT_OTP_LENGTHS[0];
-    const fitted = clean(value).slice(0, max);
+    const fitted = clean(value, this.numeric).slice(0, max);
     if (fromCode && fitted !== value) {
-      devWarn(`value "${value}" keeps only letters and digits, up to ${max}: it became "${fitted}".`);
+      devWarn(`value "${value}" keeps only ${this.numeric ? 'digits' : 'letters and digits'}, up to ${max}: it became "${fitted}".`);
     }
     return fitted;
   }
@@ -310,6 +319,11 @@ export class NphInputOtp extends LitElement {
       }
       this.valid = valid;
       this.toggleAttribute(RENDERED_ATTRIBUTE, valid);
+    }
+    if (changed.has('numeric')) {
+      /* Turning the restriction on cleans what was already typed; the cut is not a change the person made. */
+      this.current = this.fit(this.current, false);
+      this.committed = this.fit(this.committed, false);
     }
     if (isLength(this.length)) {
       /* Whenever the length is valid, even while the size is not: the value never outgrows the
@@ -406,7 +420,7 @@ export class NphInputOtp extends LitElement {
    * as a native input. Autofill keeps its own path.
    */
   private onBeforeInput(event: InputEvent): void {
-    if (event.inputType === 'insertText' && event.data !== null && clean(event.data) !== event.data) {
+    if (event.inputType === 'insertText' && event.data !== null && clean(event.data, this.numeric) !== event.data) {
       event.preventDefault();
     }
     if (event.inputType === 'insertFromPaste') {
@@ -518,7 +532,7 @@ export class NphInputOtp extends LitElement {
         class="native"
         type="text"
         autocomplete="one-time-code"
-        inputmode="text"
+        inputmode=${this.numeric ? 'numeric' : 'text'}
         autocapitalize="off"
         autocorrect="off"
         spellcheck="false"

@@ -7,13 +7,14 @@
     "To confirm access with a code sent by SMS or e-mail: length 6 or 4, by the length of the code.",
     "On a touch screen, where the code is usually typed on the phone: size large; on other screens, size default.",
     "When the code is typed in a public place: masked.",
-    "For a code with letters and numbers, such as A7K2Q9: the field takes it and the cell does not change."
+    "For a code with letters and numbers, such as A7K2Q9: the field takes it and the cell does not change.",
+    "For a code with only digits, such as 482913: numeric, so each cell takes only 0 to 9 and a phone shows the numeric keyboard."
   ],
   "do_not_use_when": [
     "For free one-line text: use nph-input.",
     "Without nph-field: the label, the help and the error belong to nph-field.",
     "With cells of different sizes: use the same size in the whole field.",
-    "To paint the resend action with a loose color: the resend is an nph-button below the field, with the label in color/link."
+    "To paint the resend action with a link look: the resend is a common ghost nph-button below the field, with no link color and no underline."
   ],
   "api": {
     "length": {
@@ -51,6 +52,13 @@
       "reflects": true,
       "constraint": "The Figma cell property that hides the character, on the host because the cells are not public: every filled cell shows a dot in place of the character. The mask is visual only: the input stays a text input and a screen reader reads the code."
     },
+    "numeric": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "Restricts the field to digits: each cell takes only 0 to 9, and the inner input carries inputmode=\"numeric\", so a phone shows the numeric keyboard. Without it, the field keeps letters and digits, with inputmode=\"text\". Turning it on cleans the code already typed."
+    },
     "required": {
       "type": "boolean",
       "required": false,
@@ -70,7 +78,7 @@
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The code: only ASCII letters and digits, up to length, with the case as typed. The value attribute is the initial value and the value of form reset; the property is the current value. A value set from code with other characters or longer than length is cleaned, cut and reported with console.warn in development. Setting it from code never fires an event."
+      "constraint": "The code: only ASCII letters and digits (only digits with numeric), up to length, with the case as typed. The value attribute is the initial value and the value of form reset; the property is the current value. A value set from code with other characters or longer than length is cleaned, cut and reported with console.warn in development. Setting it from code never fires an event."
     },
     "label": {
       "type": "string",
@@ -118,6 +126,11 @@
       "axis": "appearance",
       "choose_when": "Only when the code is typed in a public place; elsewhere seeing the character helps the person check it.",
       "do_not_combine_with": []
+    },
+    "numeric": {
+      "axis": "content",
+      "choose_when": "When the code has only digits, as most codes sent by SMS; the phone shows the numeric keyboard.",
+      "do_not_combine_with": []
     }
   },
   "states": {
@@ -147,8 +160,8 @@
     }
   },
   "business_rules": [
-    "The field takes only ASCII letters and digits; any other character typed is dropped and fires nothing.",
-    "A pasted code is cleaned and replaces the whole value, cut at length; a paste with no letter or digit changes nothing.",
+    "The field takes only ASCII letters and digits, or only digits with numeric; any other character typed is dropped and fires nothing.",
+    "A pasted code is cleaned and replaces the whole value, cut at length; a paste with no letter or digit (no digit with numeric) changes nothing.",
     "Focus puts the caret on the next empty cell; a click on a cell puts the caret on it, or at the end of the code.",
     "Enter submits the form that owns the field, through its default button, or the form itself with none; a disabled default button stops it, and a consumer that cancels Enter keeps the form.",
     "Setting value from code never fires input or change.",
@@ -174,8 +187,9 @@
     "Set length to the length of the code; 6 is the default.",
     "Use size large on a touch screen and the same size in the whole field.",
     "Set masked only when the code is typed in a public place.",
+    "Set numeric when the code has only digits, so a phone shows the numeric keyboard.",
     "Give it a name inside a form; read the code from value on input or change.",
-    "Put the resend action below the field, as a separate nph-button; it is not part of the field."
+    "Put the resend action below the field, as a common ghost nph-button with no link color; it is not part of the field."
   ],
   "accessibility": {
     "semantics": "One native text input inside the shadow root, laid over the cells. The cells only draw and are aria-hidden: the code is one value, with one name.",
@@ -214,12 +228,12 @@
     "Leaving the field without nph-field, with no label, help or error.",
     "Mixing cells of different sizes.",
     "Showing the dot and the character at the same time.",
-    "Painting the resend action with a loose color instead of color/link.",
+    "Painting the resend action with a link color or an underline instead of a common ghost nph-button.",
     "Using it for free text, where nph-input is the choice.",
     "Using it for a code whose length is not known in advance."
   ],
   "sources": {
-    "design_md": "design.md, color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code, state/disabled-opacity, and color/link for the resend action",
+    "design_md": "design.md, color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code and state/disabled-opacity",
     "decision": "P85 — API and semantics of nph-input-otp; P80 for the form pattern and P83 for the contract with nph-field",
     "tests": "src/components/nph-input-otp/nph-input-otp.test.ts",
     "usage_evidence": "none in code yet",

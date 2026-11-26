@@ -7,9 +7,9 @@
  * the `nph-badge` page: it opens with the labelled matrix, and the two lists of "When to use" are
  * the ones of the sheet. The required examples close it, each in light and dark mode.
  *
- * Deferred, not fulfilled here:
- * - the resend action, a ghost `nph-button` with the label in `color/link`, waits for D4 of
- *   DSA-41: the `nph-button` has no way to draw that look yet.
+ * The resend action is shown as D4 of DSA-41 decided (DSA-115): a common ghost `nph-button`
+ * below the field, with no link color and no underline, and the same button disabled during
+ * the countdown. The `nph-button` gains no link look.
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
  * `inputOtpDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the
@@ -21,7 +21,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-input-otp';
-import { field, inField, inScheme } from './nph-input-otp.demo';
+import { field, inField, inScheme, withResend } from './nph-input-otp.demo';
 import type { Scheme } from './nph-input-otp.demo';
 import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
@@ -54,6 +54,7 @@ const SECTIONS = {
   size: 'length-and-size',
   states: 'states',
   masked: 'masked',
+  numeric: 'numeric',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
   examples: 'examples',
@@ -106,6 +107,7 @@ export const Documentation: Story = {
           { id: SECTIONS.size, title: d.sizeTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.masked, title: d.maskedTitle },
+          { id: SECTIONS.numeric, title: d.numericTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
@@ -183,6 +185,19 @@ export const Documentation: Story = {
         )}
 
         ${section(
+          SECTIONS.numeric,
+          d.numericTitle,
+          html`
+            ${text(d.numericText)}
+            ${demo(
+              html`<div style=${stack}>${field({ label, value: d.numericCode, numeric: true })}</div>`,
+              d.numericCaption,
+            )}
+            ${source(d.sourceLabel, d.sourceSpec)}
+          `,
+        )}
+
+        ${section(
           SECTIONS.anatomy,
           d.anatomyTitle,
           html`${table(d.anatomyHeader, d.anatomy.map(pair), 'text')} ${source(d.sourceLabel, d.sourceAnatomy)}`,
@@ -201,6 +216,11 @@ export const Documentation: Story = {
             ${demo(bothModes(d, () => inField({ label, help: d.emailHelp })), d.exampleEmail)}
             ${demo(bothModes(d, () => inField({ label, error: d.wrongError, value: d.numericCode })), d.exampleWrong)}
             ${demo(bothModes(d, () => field({ label, size: 'large' })), d.exampleTouch)}
+            ${demo(bothModes(d, () => withResend({ label, help: d.emailHelp, resend: d.resendText })), d.exampleResend)}
+            ${demo(
+              bothModes(d, () => withResend({ label, help: d.emailHelp, resend: d.countdownText, waiting: true })),
+              d.exampleCountdown,
+            )}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}

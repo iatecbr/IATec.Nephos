@@ -10,11 +10,12 @@ use_when:
   - "On a touch screen, where the code is usually typed on the phone: size large; on other screens, size default."
   - "When the code is typed in a public place: masked."
   - "For a code with letters and numbers, such as A7K2Q9: the field takes it and the cell does not change."
+  - "For a code with only digits, such as 482913: numeric, so each cell takes only 0 to 9 and a phone shows the numeric keyboard."
 do_not_use_when:
   - "For free one-line text: use nph-input."
   - "Without nph-field: the label, the help and the error belong to nph-field."
   - "With cells of different sizes: use the same size in the whole field."
-  - "To paint the resend action with a loose color: the resend is an nph-button below the field, with the label in color/link."
+  - "To paint the resend action with a link look: the resend is a common ghost nph-button below the field, with no link color and no underline."
 api:
   length:
     type: "number: 6 or 4"
@@ -59,6 +60,15 @@ api:
       The Figma cell property that hides the character, on the host because the cells are not public: every
       filled cell shows a dot in place of the character. The mask is visual only: the
       input stays a text input and a screen reader reads the code.
+  numeric:
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
+      Restricts the field to digits: each cell takes only 0 to 9, and the inner input carries
+      inputmode="numeric", so a phone shows the numeric keyboard. Without it, the field keeps
+      letters and digits, with inputmode="text". Turning it on cleans the code already typed.
   required:
     type: boolean
     required: false
@@ -81,7 +91,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The code: only ASCII letters and digits, up to length, with the case as typed.
+      The code: only ASCII letters and digits (only digits with numeric), up to length, with the case as typed.
       The value attribute is the initial value and the value of form reset; the
       property is the current value. A value set from code with other characters or
       longer than length is cleaned, cut and reported with console.warn in
@@ -135,6 +145,10 @@ variants:
     axis: appearance
     choose_when: "Only when the code is typed in a public place; elsewhere seeing the character helps the person check it."
     do_not_combine_with: []
+  numeric:
+    axis: content
+    choose_when: "When the code has only digits, as most codes sent by SMS; the phone shows the numeric keyboard."
+    do_not_combine_with: []
 states:
   default:
     token: "color/input border, color/background background"
@@ -155,8 +169,8 @@ states:
     token: "color/muted and state/disabled-opacity"
     changes_for_user: "The field cannot be focused or edited and is drawn lighter, on the muted background."
 business_rules:
-  - "The field takes only ASCII letters and digits; any other character typed is dropped and fires nothing."
-  - "A pasted code is cleaned and replaces the whole value, cut at length; a paste with no letter or digit changes nothing."
+  - "The field takes only ASCII letters and digits, or only digits with numeric; any other character typed is dropped and fires nothing."
+  - "A pasted code is cleaned and replaces the whole value, cut at length; a paste with no letter or digit (no digit with numeric) changes nothing."
   - "Focus puts the caret on the next empty cell; a click on a cell puts the caret on it, or at the end of the code."
   - "Enter submits the form that owns the field, through its default button, or the form itself with none; a disabled default button stops it, and a consumer that cancels Enter keeps the form."
   - "Setting value from code never fires input or change."
@@ -179,8 +193,9 @@ ai_hints:
   - "Set length to the length of the code; 6 is the default."
   - "Use size large on a touch screen and the same size in the whole field."
   - "Set masked only when the code is typed in a public place."
+  - "Set numeric when the code has only digits, so a phone shows the numeric keyboard."
   - "Give it a name inside a form; read the code from value on input or change."
-  - "Put the resend action below the field, as a separate nph-button; it is not part of the field."
+  - "Put the resend action below the field, as a common ghost nph-button with no link color; it is not part of the field."
 accessibility:
   semantics: "One native text input inside the shadow root, laid over the cells. The cells only draw and are aria-hidden: the code is one value, with one name."
   accessible_name: "The label of nph-field, written as label. A label associated with the host names the inner input first, by element reference. With no name, the field renders and warns in development."
@@ -208,11 +223,11 @@ anti_patterns:
   - "Leaving the field without nph-field, with no label, help or error."
   - "Mixing cells of different sizes."
   - "Showing the dot and the character at the same time."
-  - "Painting the resend action with a loose color instead of color/link."
+  - "Painting the resend action with a link color or an underline instead of a common ghost nph-button."
   - "Using it for free text, where nph-input is the choice."
   - "Using it for a code whose length is not known in advance."
 sources:
-  design_md: "design.md, color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code, state/disabled-opacity, and color/link for the resend action"
+  design_md: "design.md, color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code and state/disabled-opacity"
   decision: "P85 — API and semantics of nph-input-otp; P80 for the form pattern and P83 for the contract with nph-field"
   tests: "src/components/nph-input-otp/nph-input-otp.test.ts"
   usage_evidence: "none in code yet"
@@ -238,14 +253,16 @@ action is an `nph-button` below the field and is not part of it.
 - When the code is typed in a public place: `masked`.
 - For a code with letters and numbers, such as `A7K2Q9`: the field takes it and the cell
   does not change.
+- For a code with only digits, such as `482913`: `numeric`, so each cell takes only 0 to 9
+  and a phone shows the numeric keyboard.
 
 **When NOT to use:**
 
 - **For free one-line text** — use `nph-input`.
 - **Without `nph-field`** — the label, the help and the error belong to `nph-field`.
 - **With cells of different sizes** — use the same `size` in the whole field.
-- **To paint the resend action with a loose color** — the resend is an `nph-button` below
-  the field, with the label in `color/link`.
+- **To paint the resend action with a link look** — the resend is a common ghost
+  `nph-button` below the field, with no link color and no underline.
 
 ## Variants
 
@@ -256,6 +273,7 @@ action is an `nph-button` below the field and is not part of it.
 | `size` `default` (36 px) | Most screens |
 | `size` `large` (44 px) | A touch screen, where the code is usually typed on the phone |
 | `masked` | The code is typed in a public place |
+| `numeric` | The code has only digits; each cell takes only 0 to 9 and a phone shows the numeric keyboard |
 
 **By size:** `default` and `large`, the same in every cell.
 
@@ -284,8 +302,8 @@ empty cell; with the code full, the last cell is active. `disabled` wins over `i
 
 **Business rule the field carries:**
 
-- It takes only ASCII letters and digits; any other character typed is dropped and fires
-  nothing.
+- It takes only ASCII letters and digits, or only digits with `numeric`; any other
+  character typed is dropped and fires nothing.
 - A pasted code is cleaned and replaces the whole value, cut at `length`.
 - Enter submits the form that owns the field, as a native input does.
 - Setting `value` from code never fires `input` or `change`.
@@ -335,8 +353,8 @@ the field, disabled during the countdown.
 | Error | `status/error`, `focus/halo-error` |
 | Disabled | `color/muted`, `state/disabled-opacity` |
 
-**Usage restrictions:** the field does not consume `color/link`, which belongs to the
-resend action. In a part of the screen with another brand, `data-nph-brand` and
+**Usage restrictions:** the resend action is a common ghost `nph-button`: it takes no link
+color and no underline, and the field consumes none of its tokens. In a part of the screen with another brand, `data-nph-brand` and
 `data-nph-color-scheme` go on the same element (P67).
 
 **AI hints:**
@@ -348,8 +366,9 @@ resend action. In a part of the screen with another brand, `data-nph-brand` and
 - Use `size` `large` on a touch screen and the same `size` in the whole field.
 - Set `masked` only when the code is typed in a public place.
 - Give it a `name` inside a form; read the code from `value` on `input` or `change`.
-- Put the resend action below the field, as a separate `nph-button`; it is not part of the
-  field.
+- Set `numeric` when the code has only digits, so a phone shows the numeric keyboard.
+- Put the resend action below the field, as a common ghost `nph-button` with no link color;
+  it is not part of the field.
 
 ## Examples
 
@@ -366,19 +385,17 @@ a touch screen, with `size` `large`.
 - **Do not mix cells of different sizes** — use the same `size` in the whole field.
 - **Do not show the dot and the character at the same time** — `masked` replaces the
   character.
-- **Do not paint the resend action with a loose color** — use `color/link`.
+- **Do not paint the resend action with a link look** — use a common ghost `nph-button`.
 - **Do not use it for free text** — use `nph-input`.
 - **Do not use it for a code whose length is not known in advance.**
 - **Invalid combinations:** a `length` other than 6 or 4; a `size` other than `default` or
   `large`; `disabled` with `invalid`, where `disabled` wins.
 - **Do not create without a decision:** a color property, a separator between groups of
-  cells, a `readonly`, a placeholder, a way to restrict the field to digits or the resend
-  action inside the field.
+  cells, a `readonly`, a placeholder or the resend action inside the field.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** the tokens of the table above, and `color/link` for the
-  resend action.
+- **The repository `design.md`:** the tokens of the table above.
 - **The decision that originated it:** P85, with the form pattern of P80 and the contract
   with `nph-field` of P83.
 - **Tests:** `src/components/nph-input-otp/nph-input-otp.test.ts`.

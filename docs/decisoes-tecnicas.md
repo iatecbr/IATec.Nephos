@@ -3807,8 +3807,8 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 
 1. **One native input, cells that only draw.** The shadow root holds one native
    `<input type="text">`, transparent and laid over the row of cells, with
-   `autocomplete="one-time-code"`, `maxlength` equal to `length`, `inputmode="text"` and
-   `autocapitalize`, `autocorrect` and `spellcheck` off. The cells are `aria-hidden` and draw the
+   `autocomplete="one-time-code"`, `maxlength` equal to `length`, `inputmode="text"` (`"numeric"`
+   with `numeric`, item 10) and `autocapitalize`, `autocorrect` and `spellcheck` off. The cells are `aria-hidden` and draw the
    characters of `value`. The board says that the name comes from the field and that "the digit
    is only the value": one input gives one name, one value and one Tab stop, and leaves paste
    and the code the browser offers to the input itself. One input per cell was discarded: it
@@ -3826,6 +3826,7 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    | `state=erro` | `invalid`, Boolean, reflected; `aria-invalid` on the input |
    | `state=disabled` | `disabled`, Boolean, reflected; a disabled `<fieldset>` does the same |
    | `ocultar dígito` (on the cell) | `masked`, Boolean, reflected, on the host |
+   | not in the board *(D2 of DSA-41, DSA-115)* | `numeric`, Boolean, reflected, on the host |
    | `dígito` and `mostrar dígito` (on the cell) | not API: the character comes from `value`, and a cell is empty while the code does not reach it |
    | the code | `value`, String |
    | the name and the description from the field | `label` and `description`, String (P83) |
@@ -3833,8 +3834,8 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    | the form entry | `name`, String, reflected |
 
    `masked` sits on the host because the cells are not public in code: without it, a code typed
-   in a public place, which the board shows, could not be hidden (D3 of DSA-41 asks Indiane to
-   confirm). `form` and `labels` are read-only getters, as in P80.
+   in a public place, which the board shows, could not be hidden (D3 of DSA-41, accepted by
+   Indiane on 23/11/2026). `form` and `labels` are read-only getters, as in P80.
 
 3. **Characters, typing and paste.** The field keeps only ASCII letters and digits, with the case
    as typed: the board says that the field takes a number or a letter, as behavior. Any other
@@ -3905,6 +3906,16 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    development, when `length` is not 4 or 6 and when `size` is not `default` or `large`. The
    check runs again only when `length` or `size` changes.
 
+10. **Digits only (D2 of DSA-41).** *(Added on 23/11/2026, applied in DSA-115.)* `numeric` restricts
+    the field to digits: each cell takes only 0 to 9, a typed character that is not a digit is
+    refused in `beforeinput`, a pasted or offered code keeps only its digits, and the inner input
+    carries `inputmode="numeric"`, so a phone shows the numeric keyboard. Without it, the field
+    keeps letters and digits with `inputmode="text"`, as before. A value set from code or by the
+    `value` attribute is cleaned by the same rule, whatever the order of the attributes, and
+    turning `numeric` on cleans the code already typed; the cut fires no `change`. Turning it off
+    keeps what is there. GOV.UK uses `inputmode="numeric"` for a security code and shadcn has a
+    digits-only mode for codes.
+
 **Written literals, and why.** `transparent` (the input draws no text, caret, background or
 selection), `absolute`, `inset: 0` and `100%` (the input covers the row of cells, and the
 description stays inside the field, so a long text adds no scroll), `:not([hidden])` (an author
@@ -3930,26 +3941,30 @@ clipping). None is a visual value.
   reads the name and the description the field writes from the accessibility tree of Chromium.
 - **The resend action.** The board puts a ghost `nph-button` with the label in `color/link` and
   underlined below the field. The `nph-button` has no color property and no `::part`, and a
-  link-looking button is out of its scope (P68): the delivery does not show the resend action,
-  and D4 of DSA-41 asks Indiane how that look reaches the `nph-button`.
+  link-looking button is out of its scope (P68). Indiane decided on 23/11/2026 (D4 of DSA-41,
+  as recommended): no new look. The resend is an action on the same screen, so it is a common
+  ghost `nph-button`, with no link color and no underline, below the field and disabled during
+  the countdown. The Docs page shows it, with the countdown. The `nph-button` gains no link look.
+  The row of `color/link` in `design.md` still names this action: it is token documentation,
+  which comes from Figma.
 - **Only digits.** The board makes letters and numbers behavior, so a phone shows the text
-  keyboard. D2 of DSA-41 asks Indiane whether a field restricted to digits, with the numeric
-  keyboard, is wanted.
+  keyboard. Indiane decided on 23/11/2026 (D2 of DSA-41, as recommended) that a mode that takes
+  digits only, with the numeric keyboard, is wanted: `numeric`, item 10.
 
 **Source.** Board `nph-input-otp` (`1633:122`, set `1633:120`, cell set `1633:29`) of the Figma
 file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/10/2026, with the Figma UX QA and the textual
 audit approved. The single input, the names `length`, `size`, `invalid`, `disabled`, `masked`,
-`required`, `name`, `value`, `label` and `description`, the character rule, the paste rule, the
+`numeric`, `required`, `name`, `value`, `label` and `description`, the character rule, the paste rule, the
 caret rule, the form behavior and the invalid input rule are a technical proposal of this
 implementation, reviewed with the plan on 22/10/2026.
 
-**Out of scope.** A field restricted to digits, a separator between groups of cells, `readonly`,
-a placeholder, constraint validation, the WebOTP API, the resend action, the Usage section of the
+**Out of scope.** A separator between groups of cells, `readonly`,
+a placeholder, constraint validation, the WebOTP API, the resend action inside the field, the Usage section of the
 page (P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate
 (P72, DSA-32).
 
-**Status.** Anatomy and behavior accepted by Indiane on 16/10/2026; D1 to D4 of DSA-41 are open
-with her and do not block. API and semantics are reviewed in the pull request that brings them;
+**Status.** Anatomy and behavior accepted by Indiane on 16/10/2026; D2 to D4 of DSA-41 answered
+on 23/11/2026 and applied in DSA-115; D1 is still open with her and does not block. API and semantics are reviewed in the pull request that brings them;
 the merge is the approval.
 
 ---

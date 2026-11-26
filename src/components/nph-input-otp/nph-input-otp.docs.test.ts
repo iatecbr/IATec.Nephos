@@ -125,7 +125,7 @@ describe('nph-input-otp Documentation', () => {
       const d = translations(locale).inputOtpDocs;
       const examples = target.querySelector('section#examples') as HTMLElement;
       const demos = [...examples.querySelectorAll('[data-nph-demo]')];
-      expect(demos).toHaveLength(3);
+      expect(demos).toHaveLength(5);
       for (const entry of demos) {
         const schemes = [...entry.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme'));
         expect(schemes).toEqual(['light', 'dark']);
@@ -143,7 +143,19 @@ describe('nph-input-otp Documentation', () => {
         { field: { label: d.fieldLabel, help: d.emailHelp, error: '' }, size: 'default', invalid: false },
         { field: { label: d.fieldLabel, help: '', error: d.wrongError }, size: 'default', invalid: true },
         { field: null, size: 'large', invalid: false },
+        { field: { label: d.fieldLabel, help: d.emailHelp, error: '' }, size: 'default', invalid: false },
+        { field: { label: d.fieldLabel, help: d.emailHelp, error: '' }, size: 'default', invalid: false },
       ]);
+      /* D4 of DSA-41: the resend action is a common ghost button, enabled, then disabled in the countdown. */
+      const resend = demos.slice(3).map((entry) => {
+        const button = entry.querySelector('nph-button') as HTMLElement;
+        return { emphasis: button.getAttribute('emphasis'), text: button.getAttribute('text'), disabled: button.hasAttribute('disabled') };
+      });
+      expect(resend).toEqual([
+        { emphasis: 'ghost', text: d.resendText, disabled: false },
+        { emphasis: 'ghost', text: d.countdownText, disabled: true },
+      ]);
+      expect(examples.querySelector('nph-button[style]')).toBeNull();
     });
 
     it(`${locale}: the states and masked sections show what they name`, () => {
@@ -154,6 +166,8 @@ describe('nph-input-otp Documentation', () => {
       const masked = target.querySelector('section#masked') as HTMLElement;
       expect(masked.querySelectorAll('nph-input-otp[masked]').length).toBe(1);
       expect(masked.querySelectorAll('nph-input-otp:not([masked])').length).toBe(1);
+      const numeric = target.querySelector('section#numeric') as HTMLElement;
+      expect(numeric.querySelectorAll('nph-input-otp[numeric]').length).toBe(1);
     });
 
     it(`${locale}: the accessibility section names one-time-code and the known limits`, () => {
@@ -409,6 +423,7 @@ describe('nph-input-otp documentation — order of the model', () => {
         'length-and-size',
         'states',
         'masked',
+        'numeric',
         'anatomy',
         'accessibility',
         'examples',

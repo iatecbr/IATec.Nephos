@@ -5112,16 +5112,17 @@
       "Para confirmar o acesso com um código enviado por SMS ou e-mail: length 6 ou 4, pelo tamanho do código.",
       "Em tela de toque, onde o código costuma ser digitado no celular: size large; nas outras telas, size default.",
       "Quando o código é digitado em lugar público: masked.",
-      "Para um código com letras e números, como A7K2Q9: o campo aceita e a casa não muda."
+      "Para um código com letras e números, como A7K2Q9: o campo aceita e a casa não muda.",
+      "Para um código só com dígitos, como 482913: numeric, para que cada casa aceite só de 0 a 9 e o celular mostre o teclado numérico."
     ],
     "whenNotToUse": [
       "Para texto livre de uma linha: use nph-input.",
       "Sem o nph-field: o rótulo, a ajuda e o erro são do nph-field.",
       "Com casas de tamanhos diferentes: use o mesmo size no campo inteiro.",
-      "Para pintar a ação de reenviar com uma cor solta: o reenviar é um nph-button abaixo do campo, com o rótulo em color/link."
+      "Para pintar a ação de reenviar com visual de link: o reenviar é um nph-button ghost comum abaixo do campo, sem cor de link e sem sublinhado."
     ],
     "whenNotToUseTitle": "Quando não usar",
-    "relationsText": "O nph-field traz o rótulo, a ajuda e o erro, e escreve label, description, invalid e required no campo. A ação de reenviar é um nph-button abaixo do campo, desabilitado durante a contagem: não faz parte do campo. Para texto livre de uma linha, use nph-input.",
+    "relationsText": "O nph-field traz o rótulo, a ajuda e o erro, e escreve label, description, invalid e required no campo. A ação de reenviar é um nph-button ghost comum abaixo do campo, sem cor de link e sem sublinhado, desabilitado durante a contagem: não faz parte do campo. Para texto livre de uma linha, use nph-input.",
     "apiTitle": "API",
     "apiHeader": [
       "Propriedade",
@@ -5147,6 +5148,10 @@
       [
         "masked",
         "Um ponto no lugar de cada caractere, para um código digitado em lugar público. Só visual: o leitor de tela lê o código."
+      ],
+      [
+        "numeric",
+        "Restringe o campo a dígitos: cada casa aceita só de 0 a 9, e o celular mostra o teclado numérico. Sem ela, o campo aceita letras e dígitos."
       ],
       [
         "required",
@@ -5217,6 +5222,9 @@
     "maskedTitle": "Mascarado",
     "maskedText": "masked mostra um ponto no lugar de cada caractere, para um código digitado em lugar público. Nos outros casos, ver o caractere ajuda a pessoa a conferir. O campo aceita letras e números nos dois casos, e a casa não muda.",
     "maskedCaption": "Um código com letras e números, e o mesmo código mascarado.",
+    "numericTitle": "Só dígitos",
+    "numericText": "numeric restringe o campo a dígitos: cada casa aceita só de 0 a 9, e o input interno pede ao celular o teclado numérico. Sem ela, o campo aceita letras e números. Use quando o código tem só dígitos, como a maioria dos códigos enviados por SMS.",
+    "numericCaption": "Um código só com dígitos, com numeric ligado.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
       "Parte",
@@ -5291,6 +5299,10 @@
     "exampleEmail": "Código enviado por e-mail, no nph-field: o rótulo, o campo e o texto de apoio.",
     "exampleWrong": "Código errado: a mensagem de erro do nph-field, e todas as casas no estado de erro.",
     "exampleTouch": "Tela de toque: size large, seis casas.",
+    "exampleResend": "Ação de reenviar: um nph-button ghost comum abaixo do campo, sem cor de link e sem sublinhado.",
+    "exampleCountdown": "Contagem: o mesmo botão desabilitado enquanto a pessoa espera para pedir um novo código.",
+    "resendText": "Reenviar código",
+    "countdownText": "Reenviar código em 30 s",
     "lightCaption": "Modo claro",
     "darkCaption": "Modo escuro",
     "fieldLabel": "Código de verificação",

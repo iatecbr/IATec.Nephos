@@ -5112,16 +5112,17 @@
       "To confirm access with a code sent by SMS or e-mail: length 6 or 4, by the length of the code.",
       "On a touch screen, where the code is usually typed on the phone: size large; on other screens, size default.",
       "When the code is typed in a public place: masked.",
-      "For a code with letters and numbers, such as A7K2Q9: the field takes it and the cell does not change."
+      "For a code with letters and numbers, such as A7K2Q9: the field takes it and the cell does not change.",
+      "For a code with only digits, such as 482913: numeric, so each cell takes only 0 to 9 and a phone shows the numeric keyboard."
     ],
     "whenNotToUse": [
       "For free one-line text: use nph-input.",
       "Without nph-field: the label, the help and the error belong to nph-field.",
       "With cells of different sizes: use the same size in the whole field.",
-      "To paint the resend action with a loose color: the resend is an nph-button below the field, with the label in color/link."
+      "To paint the resend action with a link look: the resend is a common ghost nph-button below the field, with no link color and no underline."
     ],
     "whenNotToUseTitle": "When not to use",
-    "relationsText": "nph-field carries the label, the help and the error, and writes label, description, invalid and required on the field. The resend action is an nph-button below the field, disabled during the countdown: it is not part of the field. For free one-line text, use nph-input.",
+    "relationsText": "nph-field carries the label, the help and the error, and writes label, description, invalid and required on the field. The resend action is a common ghost nph-button below the field, with no link color and no underline, disabled during the countdown: it is not part of the field. For free one-line text, use nph-input.",
     "apiTitle": "API",
     "apiHeader": [
       "Property",
@@ -5147,6 +5148,10 @@
       [
         "masked",
         "A dot in place of each character, for a code typed in a public place. Visual only: a screen reader reads the code."
+      ],
+      [
+        "numeric",
+        "Restricts the field to digits: each cell takes only 0 to 9, and a phone shows the numeric keyboard. Without it, the field takes letters and digits."
       ],
       [
         "required",
@@ -5217,6 +5222,9 @@
     "maskedTitle": "Masked",
     "maskedText": "masked shows a dot in place of each character, for a code typed in a public place. Elsewhere, seeing the character helps the person check it. The field takes letters and numbers in both cases, and the cell does not change.",
     "maskedCaption": "A code with letters and numbers, and the same code masked.",
+    "numericTitle": "Digits only",
+    "numericText": "numeric restricts the field to digits: each cell takes only 0 to 9, and the inner input asks the phone for the numeric keyboard. Without it, the field takes letters and numbers. Use it when the code has only digits, as most codes sent by SMS.",
+    "numericCaption": "A code with only digits, with numeric on.",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
       "Part",
@@ -5291,6 +5299,10 @@
     "exampleEmail": "Code sent by e-mail, in the nph-field: label, the field and the help text.",
     "exampleWrong": "Wrong code: the error message of the nph-field, and every cell in the error state.",
     "exampleTouch": "Touch screen: size large, six cells.",
+    "exampleResend": "Resend action: a common ghost nph-button below the field, with no link color and no underline.",
+    "exampleCountdown": "Countdown: the same button disabled while the person waits to ask for a new code.",
+    "resendText": "Resend code",
+    "countdownText": "Resend code in 30 s",
     "lightCaption": "Light mode",
     "darkCaption": "Dark mode",
     "fieldLabel": "Verification code",

@@ -15,7 +15,7 @@
  * dictionary (`validationPages.claims`). The accessible names, the codes and the captions
  * come from the language dictionary, under the key `inputOtpValidation` (`docs/i18n.md`,
  * "Storybook"); the row and column names of the matrices are the technical attributes,
- * the same in any language. The resend action waits for D4 of DSA-41.
+ * the same in any language.
  *
  * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand` and
  * `data-nph-color-scheme` on the same element (DSA-36).
@@ -136,6 +136,7 @@ export const Characters: Story = {
           { label: `value: ${v.numericCode}`, cells: [field({ label: v.fieldLabel, value: v.numericCode })] },
           { label: `value: ${v.alphanumericCode}`, cells: [field({ label: v.fieldLabel, value: v.alphanumericCode })] },
           { label: `value: ${v.partialCode}`, cells: [field({ label: v.fieldLabel, value: v.partialCode })] },
+          { label: `numeric · value: ${v.numericCode}`, cells: [field({ label: v.fieldLabel, value: v.numericCode, numeric: true })] },
           { label: `masked · value: ${v.alphanumericCode}`, cells: [field({ label: v.fieldLabel, value: v.alphanumericCode, masked: true })] },
         ]),
       ),
