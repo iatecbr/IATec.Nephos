@@ -35,21 +35,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The accepted documentation describes a toast region at the bottom-right corner, with up to three toasts, but it is not a component set in Figma and the task builds no new piece. The code leaves the region to the consuming application: the sheet teaches how to build it and the Storybook shows it as a frame. Should the region become a piece of its own? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-06"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-63/figma-docs-accepted-2026-11-04.md",
     "docs/operacao/evidencias/DSA-63/review-and-merge-2026-11-07.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-04.md, nph-notification: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, style proposals 2 and 3 approved and 1 and 4 rejected, the other appendix points answered as recommended"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-04.md, nph-notification: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, style proposals 2 and 3 approved and 1 and 4 rejected, the other appendix points answered as recommended",
+    "D-1 closed on 2026-11-26 by DSA-100: the toast region became the piece nph-toast-region, accepted by the design owner on 2026-11-22 (docs/operacao/evidencias/DSA-100/figma-docs-accepted-2026-11-22.md) and merged in PR #198"
   ],
   "external_origin": {
     "classification": "internal-allowed",
