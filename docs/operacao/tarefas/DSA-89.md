@@ -116,7 +116,7 @@ Indiane answered D-1, D-2 on 2026-11-26, in the approval round of the pending it
 | ID | Answer | What the code does |
 |---|---|---|
 | D-1 | Option 2: three loading rows with bars that imitate real text, title at 60% and meta at 35%, as the skeleton of `nph-card`. Fluent keeps the skeleton simple, reflecting title and subtitle (https://fluent2.microsoft.design/components/web/react/core/skeleton/usage ). | The loading rows draw two bars of 60% and 35%. Figma updated on 2026-11-26: examples 5238:570 and 5238:601, light and dark. |
-| D-2 | Option 2: the new item that receives focus after the last Show more shows the standard focus mark: 1 px `focus/border` and 4 px `focus/halo`, corner `radius/control`, with no new token. WCAG 1.4.11 asks 3:1 for a focus mark (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | The new item draws that mark while it has focus. Figma follows in a later change (item 5216:304 has no focus state). |
+| D-2 | Option 2: the new item that receives focus after the last Show more shows the standard focus mark: 1 px `focus/border` and 4 px `focus/halo`, corner `radius/control`, with no new token. WCAG 1.4.11 asks 3:1 for a focus mark (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | The new item draws that mark while it has focus. Figma updated on 2026-11-26: boolean `foco` on the set `nph-timeline / item` 5216:304, the focus border and halo, hidden by default (item 5216:304 has no focus state). |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
