@@ -51,9 +51,16 @@
  *   text itself, hidden, inside its own root and gives the native button an `aria-describedby` to it. Empty by
  *   default and strictly additive: without it the button draws and behaves as before. With the icon only it
  *   describes the button next to the name the balloon gives;
- * - one public focus hook, `--nph-button-focus-border` (DSA-72, P116): the color of the focus
- *   border, which the severity sets when the hook is unset. `nph-sidebar` sets it to
- *   `focus/border` on its close button; the default focus does not change;
+ * - public focus hooks, `--nph-button-focus-border` (DSA-72, P116) and `--nph-button-focus-halo` (DSA-110): the
+ *   color of the focus border and of the halo, which the severity sets when the hook is unset.
+ *   `nph-sidebar` sets the border one to `focus/border` on its close button; the default focus does not change;
+ * - junction corners (DSA-110): `--nph-button-radius-inline-start` and `--nph-button-radius-inline-end` for the
+ *   button, `--nph-button-focus-border-radius-inline-*` for its focus border and
+ *   `--nph-button-focus-halo-radius-inline-*` for its halo. Each sets the two corners of one logical side, so right
+ *   to left mirrors. Set on the button at the junction only; unset, the four corners are the ones of the shape;
+ * - the tooltip of an icon-only button that opens a menu (DSA-110): with `aria-haspopup="menu"` and
+ *   `aria-expanded="true"` on the host, the balloon stays hidden while the menu is open and does not reopen when
+ *   the focus comes back as the menu closes. It comes back on a new hover or a new keyboard focus;
  * - invalid input does not render and emits `console.error` only in
  *   development, one per cause and accumulating (P68, P21 rule). No text and
  *   no icon is a mount: nothing, no error (precedent of `nph-kbd`, P66).
@@ -192,6 +199,11 @@ export class NphButton extends LitElement {
 
   private valid = false;
   private iconOnly = false;
+  /** The balloon stays hidden: the menu is open, or it closed and no new hover or keyboard focus has come (DSA-110). */
+  private held = false;
+  /** Watches the `open` of the own tooltip while it is held: the tooltip opens itself on the focus return. */
+  private holdObserver: MutationObserver | undefined;
+  private heldTooltip: Element | null = null;
 
   constructor() {
     super();
@@ -288,6 +300,72 @@ export class NphButton extends LitElement {
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
     this.toggleAttribute(ICON_ONLY_ATTRIBUTE, this.valid && this.iconOnly);
     this.toggleAttribute(OPEN_ATTRIBUTE, this.valid && this.popupKind !== null && this.expanded);
+
+    /* The balloon of an icon-only menu trigger: held from the moment the menu opens (DSA-110). */
+    const menuTrigger = this.valid && this.iconOnly && this.popupKind === 'menu';
+    if (!menuTrigger) {
+      this.tooltipHeld = false;
+    } else if (this.expanded) {
+      this.tooltipHeld = true;
+    }
+  }
+
+  /** Not a reactive property, so it stays out of the public API: a change asks for its own render. */
+  private get tooltipHeld(): boolean {
+    return this.held;
+  }
+
+  private set tooltipHeld(value: boolean) {
+    if (this.held !== value) {
+      this.held = value;
+      this.requestUpdate();
+    }
+  }
+
+  /** A new hover ends the hold, before the tooltip hears the same event and waits its delay. */
+  private readonly onPointerEnter = (): void => {
+    this.tooltipHeld = false;
+  };
+
+  /** The focus leaving the button after the menu closed ends the hold: the next keyboard focus is a new one. */
+  private readonly onFocusOut = (): void => {
+    if (!this.expanded) {
+      this.tooltipHeld = false;
+    }
+  };
+
+  /** While held, the tooltip is closed whenever it opens itself (the focus return, a key press). */
+  private closeHeldTooltip = (): void => {
+    const tooltip = this.heldTooltip as (Element & { open: boolean }) | null;
+    if (this.tooltipHeld && tooltip !== null && tooltip.open) {
+      tooltip.open = false;
+    }
+  };
+
+  private syncTooltipHold(): void {
+    const tooltip = this.renderRoot.querySelector('nph-tooltip');
+    if (tooltip !== this.heldTooltip) {
+      this.holdObserver?.disconnect();
+      this.heldTooltip = tooltip;
+      if (tooltip !== null) {
+        this.holdObserver ??= new MutationObserver(this.closeHeldTooltip);
+        this.holdObserver.observe(tooltip, { attributes: true, attributeFilter: ['open'] });
+      }
+    }
+    this.closeHeldTooltip();
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.holdObserver?.disconnect();
+    this.heldTooltip = null;
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (this.hasUpdated) {
+      this.requestUpdate();
+    }
   }
 
   /** The `aria-haspopup` of a popover (`dialog`) or of a menu (`menu`) trigger on the host, or `null` (P111, DSA-67). */
@@ -318,6 +396,7 @@ export class NphButton extends LitElement {
     if (native !== null) {
       native.ariaControlsElements = this.controls === null || this.controls === undefined ? null : [this.controls];
     }
+    this.syncTooltipHold();
   }
 
   /*
@@ -373,10 +452,17 @@ export class NphButton extends LitElement {
       aria-expanded=${this.expandedForNative ?? nothing}
       aria-describedby=${description === '' ? nothing : DESCRIPTION_ID}
       @click=${(event: Event) => this.blockInactive(event)}
+      @pointerenter=${this.onPointerEnter}
+      @focusout=${this.onFocusOut}
     >
       ${content}
     </button>${description === '' ? nothing : html`<span id=${DESCRIPTION_ID} hidden>${description}</span>`}${this.iconOnly
-      ? html`<nph-tooltip for=${CONTROL_ID} relation="name" .text=${label}></nph-tooltip>`
+      ? html`<nph-tooltip
+          for=${CONTROL_ID}
+          relation="name"
+          .text=${label}
+          ?hidden=${this.tooltipHeld}
+        ></nph-tooltip>`
       : nothing}`;
   }
 }

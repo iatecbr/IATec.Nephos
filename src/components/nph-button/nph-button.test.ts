@@ -1465,6 +1465,231 @@ describe('the description of the button (DSA-74 D-2, P127, amends P68)', () => {
   });
 });
 
+describe('junction corners and focus halo hook (DSA-110)', () => {
+  const INNER = '--nph-split-button-inner-radius';
+  const INNER_BORDER = '--nph-split-button-focus-border-inner-radius';
+  const INNER_HALO = '--nph-split-button-focus-halo-inner-radius';
+
+  const corners = (style: CSSStyleDeclaration): string[] => [
+    style.borderTopLeftRadius,
+    style.borderTopRightRadius,
+    style.borderBottomRightRadius,
+    style.borderBottomLeftRadius,
+  ];
+
+  /** The four corners, top-left first, clockwise, with one token on the sides named and another on the rest. */
+  const expected = (property: string, rest: string, sides: { left?: string; right?: string }): string[] => {
+    const left = resolved(property, sides.left ?? rest);
+    const right = resolved(property, sides.right ?? rest);
+    return [left, right, right, left];
+  };
+
+  async function focused(element: NphButton): Promise<void> {
+    const before = document.createElement('input');
+    document.body.prepend(before);
+    before.focus();
+    await userEvent.tab();
+    expect(element.shadowRoot?.activeElement).toBe(control(element));
+  }
+
+  it('unset, the four corners, the focus border and the halo are the ones of the control', async () => {
+    const element = await mount({ text: 'Save' });
+    await focused(element);
+    const all = (token: string): string[] => expected('border-radius', token, {});
+    expect(corners(getComputedStyle(control(element)))).toEqual(all('--nph-radius-control'));
+    expect(corners(getComputedStyle(control(element), '::before'))).toEqual(all('--nph-focus-border-radius-control'));
+    expect(corners(getComputedStyle(control(element), '::after'))).toEqual(all('--nph-focus-radius-control-with-border'));
+  });
+
+  it('the end hooks change the two end corners of the button, its focus border and its halo, and no other', async () => {
+    const element = await mount({ text: 'Save' });
+    element.style.setProperty('--nph-button-radius-inline-end', `var(${INNER})`);
+    element.style.setProperty('--nph-button-focus-border-radius-inline-end', `var(${INNER_BORDER})`);
+    element.style.setProperty('--nph-button-focus-halo-radius-inline-end', `var(${INNER_HALO})`);
+    await focused(element);
+    expect(corners(getComputedStyle(control(element)))).toEqual(
+      expected('border-radius', '--nph-radius-control', { right: INNER }),
+    );
+    expect(corners(getComputedStyle(control(element), '::before'))).toEqual(
+      expected('border-radius', '--nph-focus-border-radius-control', { right: INNER_BORDER }),
+    );
+    expect(corners(getComputedStyle(control(element), '::after'))).toEqual(
+      expected('border-radius', '--nph-focus-radius-control-with-border', { right: INNER_HALO }),
+    );
+  });
+
+  it('the start hooks change the two start corners', async () => {
+    const element = await mount({ iconStart: 'chevron-down', label: 'More' });
+    element.style.setProperty('--nph-button-radius-inline-start', `var(${INNER})`);
+    element.style.setProperty('--nph-button-focus-border-radius-inline-start', `var(${INNER_BORDER})`);
+    element.style.setProperty('--nph-button-focus-halo-radius-inline-start', `var(${INNER_HALO})`);
+    await focused(element);
+    expect(corners(getComputedStyle(control(element)))).toEqual(
+      expected('border-radius', '--nph-radius-control', { left: INNER }),
+    );
+    expect(corners(getComputedStyle(control(element), '::before'))).toEqual(
+      expected('border-radius', '--nph-focus-border-radius-control', { left: INNER_BORDER }),
+    );
+    expect(corners(getComputedStyle(control(element), '::after'))).toEqual(
+      expected('border-radius', '--nph-focus-radius-control-with-border', { left: INNER_HALO }),
+    );
+  });
+
+  it('the sides are logical: right to left mirrors them', async () => {
+    const element = await mount({ text: 'Save' });
+    element.dir = 'rtl';
+    element.style.setProperty('--nph-button-radius-inline-end', `var(${INNER})`);
+    await element.updateComplete;
+    expect(corners(getComputedStyle(control(element)))).toEqual(
+      expected('border-radius', '--nph-radius-control', { left: INNER }),
+    );
+  });
+
+  it('the circular shape keeps its round corners on the side no hook names', async () => {
+    const element = await mount({ iconStart: 'chevron-down', label: 'More', shape: 'circular' });
+    element.style.setProperty('--nph-button-radius-inline-start', `var(${INNER})`);
+    await element.updateComplete;
+    expect(corners(getComputedStyle(control(element)))).toEqual(
+      expected('border-radius', '--nph-radius-full', { left: INNER }),
+    );
+  });
+
+  it('the hook --nph-button-focus-halo recolors the halo only, in every severity', async () => {
+    for (const severity of NPH_BUTTON_SEVERITIES) {
+      const element = await mount({ severity, size: 'default', text: 'Save' });
+      element.style.setProperty('--nph-button-focus-halo', 'var(--nph-focus-halo)');
+      await focused(element);
+      const border = getComputedStyle(control(element), '::before');
+      const halo = getComputedStyle(control(element), '::after');
+      expect(halo.borderTopColor, severity).toBe(resolved('color', '--nph-focus-halo'));
+      expect(border.borderTopColor, severity).toBe(resolved('color', FOCUS[severity][0]));
+      document.body.replaceChildren();
+    }
+  });
+});
+
+describe('the tooltip of an icon-only button that opens a menu (DSA-110)', () => {
+  const TRIGGER = { severity: 'secondary', emphasis: 'ghost', iconStart: 'chevron-down', label: 'More options' } as const;
+
+  /** A trigger between two fields, so Tab and Shift+Tab reach it as a keyboard user does. */
+  async function trigger(popup: string | null = 'menu'): Promise<{ element: NphButton; menu: HTMLInputElement }> {
+    const before = document.createElement('input');
+    const menu = document.createElement('input');
+    const element = document.createElement('nph-button');
+    Object.assign(element, TRIGGER);
+    if (popup !== null) element.setAttribute('aria-haspopup', popup);
+    element.setAttribute('aria-expanded', 'false');
+    document.body.append(before, element, menu);
+    await element.updateComplete;
+    before.focus();
+    await userEvent.keyboard('{Tab}');
+    expect(element.shadowRoot?.activeElement).toBe(control(element));
+    return { element, menu };
+  }
+
+  async function setExpanded(element: NphButton, value: boolean): Promise<void> {
+    element.setAttribute('aria-expanded', String(value));
+    await element.updateComplete;
+    await tooltipOf(element).updateComplete;
+  }
+
+  it('closed, the balloon opens on the keyboard focus as before', async () => {
+    const { element } = await trigger();
+    await vi.waitFor(() => expect(tooltipOf(element).open).toBe(true));
+  });
+
+  it('opening the menu closes the balloon, and it stays hidden while the menu is open', async () => {
+    const { element, menu } = await trigger();
+    const tooltip = tooltipOf(element);
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
+    await setExpanded(element, true);
+    await vi.waitFor(() => expect([tooltip.open, isShown(tooltip)]).toEqual([false, false]), { timeout: 2000 });
+    expect(tooltip.hidden).toBe(true);
+    /* A key press with the focus still on the button does not bring it back. */
+    await userEvent.keyboard('{ArrowDown}');
+    await vi.waitFor(() => expect([tooltip.open, isShown(tooltip)]).toEqual([false, false]), { timeout: 2000 });
+    menu.focus();
+    await pause(50);
+    expect(tooltip.open).toBe(false);
+  });
+
+  it('keeps the accessible name while the balloon is held', async () => {
+    const { element } = await trigger();
+    await setExpanded(element, true);
+    expect(await axName(control(element))).toBe('More options');
+  });
+
+  it('does not reopen when the focus comes back as the menu closes', async () => {
+    const { element, menu } = await trigger();
+    const tooltip = tooltipOf(element);
+    await setExpanded(element, true);
+    menu.focus();
+    await setExpanded(element, false);
+    control(element).focus();
+    await pause(100);
+    expect(element.shadowRoot?.activeElement).toBe(control(element));
+    await vi.waitFor(() => expect([tooltip.open, isShown(tooltip)]).toEqual([false, false]), { timeout: 2000 });
+    await userEvent.keyboard('{ArrowDown}');
+    await pause(50);
+    expect(tooltip.open).toBe(false);
+  });
+
+  it('comes back on a new keyboard focus', async () => {
+    const { element, menu } = await trigger();
+    const tooltip = tooltipOf(element);
+    await setExpanded(element, true);
+    menu.focus();
+    await setExpanded(element, false);
+    control(element).focus();
+    await pause(50);
+    await userEvent.keyboard('{Tab}');
+    expect(document.activeElement).toBe(menu);
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    expect(element.shadowRoot?.activeElement).toBe(control(element));
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
+    expect(tooltip.hidden).toBe(false);
+  });
+
+  it('comes back on a new hover, after motion/hover-delay', async () => {
+    const { element, menu } = await trigger();
+    const tooltip = tooltipOf(element);
+    await userEvent.hover(control(element));
+    await setExpanded(element, true);
+    menu.focus();
+    await setExpanded(element, false);
+    expect(tooltip.open).toBe(false);
+    await userEvent.unhover(control(element));
+    await userEvent.hover(control(element));
+    expect(tooltip.hidden).toBe(false);
+    await vi.waitFor(() => expect(tooltip.open).toBe(true), { timeout: 2000 });
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(true);
+  });
+
+  it('a popover trigger (aria-haspopup="dialog") keeps its balloon', async () => {
+    const { element } = await trigger('dialog');
+    await setExpanded(element, true);
+    await vi.waitFor(() => expect(tooltipOf(element).open).toBe(true));
+    expect(tooltipOf(element).hidden).toBe(false);
+  });
+
+  it('a button with no aria-haspopup keeps its balloon, expanded or not', async () => {
+    const { element } = await trigger(null);
+    await setExpanded(element, true);
+    await vi.waitFor(() => expect(tooltipOf(element).open).toBe(true));
+    expect(tooltipOf(element).hidden).toBe(false);
+  });
+
+  it('losing aria-haspopup="menu" ends the hold', async () => {
+    const { element } = await trigger();
+    await setExpanded(element, true);
+    expect(tooltipOf(element).hidden).toBe(true);
+    element.removeAttribute('aria-haspopup');
+    await element.updateComplete;
+    expect(tooltipOf(element).hidden).toBe(false);
+  });
+});
+
 describe('what the button does not have', () => {
   it('has no slot or part', async () => {
     const element = await mount();
@@ -1472,11 +1697,23 @@ describe('what the button does not have', () => {
   });
 });
 
+/** The public custom properties of the button: hooks the host sets, not tokens (DSA-72, DSA-110). */
+const PUBLIC_HOOKS = [
+  '--nph-button-focus-border',
+  '--nph-button-focus-halo',
+  '--nph-button-radius-inline-start',
+  '--nph-button-radius-inline-end',
+  '--nph-button-focus-border-radius-inline-start',
+  '--nph-button-focus-border-radius-inline-end',
+  '--nph-button-focus-halo-radius-inline-start',
+  '--nph-button-focus-halo-radius-inline-end',
+] as const;
+
 describe('token contract', () => {
   it('every consumed token exists in the generated CSS', () => {
     /* The focus hook is the one public custom property that is not a token (DSA-72, P116). */
     const consumed = new Set(componentCss.match(/--nph-[a-z0-9-]+/g) ?? []);
-    consumed.delete('--nph-button-focus-border');
+    for (const hook of PUBLIC_HOOKS) consumed.delete(hook);
     for (const token of consumed) {
       expect(tokensCss, token).toContain(`${token}:`);
     }
@@ -1485,7 +1722,7 @@ describe('token contract', () => {
   it('the focus hook is read once, on the border, and is not a token (DSA-72)', () => {
     expect(tokensCss).not.toContain('--nph-button-focus-border:');
     const rules = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
-    expect(rules.match(/--nph-button-focus-border/g)?.length).toBe(1);
+    expect(rules.match(/--nph-button-focus-border(?![\w-])/g)?.length).toBe(1);
     expect(rules).toMatch(/solid var\(--nph-button-focus-border, var\(--_focus-border\)\)/);
   });
 

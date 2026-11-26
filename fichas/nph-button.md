@@ -236,7 +236,8 @@ accessibility:
     - "Enter activates."
     - "Space activates."
     - "In the icon-only button, keyboard focus opens the tooltip at once and Esc closes it; Enter and Space leave it alone."
-  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item. One public hook, the custom property --nph-button-focus-border, sets the color of the border where a piece needs focus/border on its surface (nph-sidebar, DSA-72); unset, it changes nothing."
+    - "In the icon-only button that opens a menu (aria-haspopup menu), the tooltip stays hidden while the menu is open and does not reopen when the focus returns; it comes back on a new hover or a new keyboard focus."
+  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item. One public hook, the custom property --nph-button-focus-border, sets the color of the border where a piece needs focus/border on its surface (nph-sidebar, DSA-72); unset, it changes nothing. Sibling hooks: --nph-button-focus-halo for the halo color and, per logical side, --nph-button-radius-inline-start|end, --nph-button-focus-border-radius-inline-start|end and --nph-button-focus-halo-radius-inline-start|end for the corners at a junction (P142, DSA-110); unset, they change nothing."
   contrast: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.78:1, in primary outline and light of the light scheme. The primary and danger outline borders pass 3:1; the secondary outline border is 1.93:1 in the light scheme and 4.18:1 in the dark one, an accepted exception because the text, or the icon with its label and tooltip, identifies the button. The focus border of primary has the limit described in `focus`."
   color_alternative: "The text says what happens on click; color is never the only sign of intent, focus or state."
 invalid_combinations:
@@ -263,7 +264,7 @@ anti_patterns:
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-solid-*, button/secondary-outline-*, button/secondary-ghost-background-hover and their icon-button/* twins are in src/tokens/source/semantic.tokens.json"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64); P111 — the trigger of an open popover draws hover-active and hands aria-haspopup and aria-expanded to the native button; P121 — the trigger of a disclosure hands aria-expanded to the native button with no new look, and controls gives it aria-controls; P127 — description, a text drawn hidden in its own root and pointed to by aria-describedby of the native button, strictly additive (DSA-82)"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64); P111 — the trigger of an open popover draws hover-active and hands aria-haspopup and aria-expanded to the native button; P121 — the trigger of a disclosure hands aria-expanded to the native button with no new look, and controls gives it aria-controls; P142 — the corner hooks, the halo hook and the tooltip of an icon-only menu trigger (DSA-110); P127 — description, a text drawn hidden in its own root and pointed to by aria-describedby of the native button, strictly additive (DSA-82)"
   tests: "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -343,7 +344,10 @@ keeps its square box.
 **Tooltip:** every icon-only button renders its own `nph-tooltip` next to the native button, with the
 `label` as its text. It opens at once on keyboard focus and after `motion/hover-delay` on hover, never
 on touch, and a disabled button gets none; in `loading` the button keeps the focus and the tooltip. The
-tooltip names the button (`relation` `name`), so the action name is announced once.
+tooltip names the button (`relation` `name`), so the action name is announced once. On an icon-only
+button whose host carries `aria-haspopup="menu"`, the balloon stays hidden while `aria-expanded` is `true`
+and does not reopen when the focus comes back as the menu closes; it returns on a new hover or a new
+keyboard focus. It holds for every icon-only button that opens a menu (P142, extends P77; DSA-110).
 
 **Do not combine with:** another `primary` `solid` action in the same block; `compact` as the main
 target on a touch screen; a size different from the field beside it.
@@ -369,6 +373,15 @@ border is the indicator; the halo is the second layer. Known limit: in dark mode
 3:1 sets it on that button to `focus/border`, as `nph-sidebar` does on its close button. Unset, the
 border is the one of the type, as always; the halo does not change. Set it on the button, never on
 a host that holds other buttons, because a custom property inherits.
+
+**Hooks for a junction (P142, DSA-110):** the halo has its own sibling hook, `--nph-button-focus-halo`, with the
+same rule as the border one. The corners have one hook per logical side and per layer:
+`--nph-button-radius-inline-start` and `-inline-end` for the button,
+`--nph-button-focus-border-radius-inline-start` and `-inline-end` for its focus border, and
+`--nph-button-focus-halo-radius-inline-start` and `-inline-end` for its halo. Each sets the two corners of
+one side, so right to left mirrors, and the circular shape keeps `radius/full` on the other side. A piece that
+joins two buttons, such as `nph-split-button`, sets them on the button at the junction only. Unset, every
+button draws as before.
 
 **Business rule the piece carries:** `not_applicable`. The button fires the action the
 screen defines.
@@ -416,8 +429,9 @@ screen defines.
 | Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` and `focus/halo-<matiz>` |
 
 **Usage restrictions:** the component does not choose height, color, radius or typography: everything
-comes from a token. The one exception is the focus hook `--nph-button-focus-border`, which is not a
-token and recolors the focus border only. In a part of the screen with another brand,
+comes from a token. The exceptions are the hooks `--nph-button-focus-border`, `--nph-button-focus-halo` and
+the corner hooks `--nph-button-radius-inline-*`, `--nph-button-focus-border-radius-inline-*` and
+`--nph-button-focus-halo-radius-inline-*`, which are not tokens (P142). In a part of the screen with another brand,
 `data-nph-brand` and `data-nph-color-scheme` go on the same element (P67). The limit L-b is
 in P68: the `use` of some tokens in `design.md` does not cite this usage yet.
 

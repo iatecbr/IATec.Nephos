@@ -97,6 +97,7 @@ P62.4 subsection for the detail).
 | **P139** | API and semantics of `nph-chart`, and D3 as a math utility | 24/11/2026 | Low now. No piece consumes the chart yet; a dashboard card, a report and a trend line in a card will, and changing `type`, `state`, the shape of `categories` and `series` (a donut slice is a series), `highlight`, `goal`, the string properties, the events `nph-retry` and `nph-series-visibility-change`, the keyboard on the data or the D3 modules later requires redoing every consumer. | Documentation accepted by the design owner on 22/11/2026; D-1 to D-5 answered the same day; chart library chosen by the architect on 23/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P140** | API, announcement, keyboard and queue of `nph-toast-region` | 25/11/2026 | Low now. Every toast of an application will go through the region, and changing the declarative API (children and `nph-close`), the limit of three and the queue, the `paused` property and the `escape` source of the `nph-notification`, F6 and Esc, or the live regions later requires redoing every consumer and the announcement of every toast. | Documentation accepted by the design owner on 22/11/2026; D-1 of DSA-100 answered the same day. API and semantics reviewed in the pull request that brings them |
 | **P141** | API and semantics of `nph-tree-table`, built on `nph-data-table` | 26/11/2026 | Low now. No piece consumes the tree table yet; a units by region list, an account plan and a project with stages will, and changing the rows (`children`, `branch`, `error`), `nph-row-load`, the cascade of `selected`, the error row and its roles, the Tab stop of the row or the protected members `nph-table` and `nph-data-table` now offer later requires redoing every consumer. | Documentation accepted by the design owner on 22/11/2026; D-1 and D-2 of DSA-102 answered the same day. API and semantics reviewed in the pull request that brings them |
+| **P142** | `nph-button`: the corners at a junction, the focus halo hook and the tooltip of an icon-only menu trigger (extends P116 and P77) | 26/11/2026 | Low now. No piece consumes the hooks yet; `nph-split-button` (DSA-109) will, and renaming a hook or changing the rule of the tooltip later requires redoing the consumer. | Pend. 2, 7, 12 and 13 of the `nph-split-button` accepted by the design owner on 22/11/2026 and kept on 23/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -10603,6 +10604,35 @@ rule of P21.
 level and a row for a first load that fails.
 **Status.** Documentation accepted by the design owner on 22/11/2026; D-1 and D-2 answered the same day. API and semantics are
 reviewed in the pull request that brings them; the merge is the approval.
+
+## P142 — `nph-button`: the corners at a junction, the focus halo hook and the tooltip of an icon-only menu trigger (extends P116 and P77)
+
+**Technical conflict.** The `nph-split-button` (DSA-109) joins two `nph-button`s and asks for three things the button does not do: 4 px inner corners at the
+junction, with a focus border of 5 px and a halo of 9 px there (Pend. 2 and 7); the same focus border and halo color in every type (Pend. 12); and a
+tooltip of the arrow that stays hidden while the menu is open and does not reopen when the focus comes back (Pend. 13). The button drew `radius/control` on
+four corners, `focus/border-radius-control` and `focus/radius-control-with-border` on its focus, and had one focus hook, `--nph-button-focus-border` (P116).
+
+**Decision.** **No token is created or changed.** Every hook is unset by default and, unset, the button draws and behaves as before.
+
+1. **Corner hooks, per logical side.** `--nph-button-radius-inline-start` and `--nph-button-radius-inline-end` set the two corners of one side of the
+   button; `--nph-button-focus-border-radius-inline-start` and `-inline-end` set those of its focus border; `--nph-button-focus-halo-radius-inline-start`
+   and `-inline-end` set those of its halo. The sides are logical, so right to left mirrors. The circular shape (P86) keeps `radius/full` on the side no
+   hook names. The host sets them on the button at the junction only, with `split-button/inner-radius`, `split-button/focus-border-inner-radius` and
+   `split-button/focus-halo-inner-radius`.
+2. **Halo color hook.** `--nph-button-focus-halo` recolors the halo only, as `--nph-button-focus-border` does the border. Set on the button, never on a host that
+   holds other buttons: a custom property inherits.
+3. **Tooltip of a menu trigger.** On an icon-only button whose host carries `aria-haspopup="menu"`, the balloon is held from the moment `aria-expanded` is
+   `true`. While held, the tooltip host is `hidden` and the button closes it whenever it opens itself (the focus return, a key press). The hold ends on a new
+   pointer entry or when the focus leaves the button with the menu closed, so the balloon comes back only on a new hover or a new keyboard focus. The native
+   button keeps its `aria-label` and the `aria-labelledby` the tooltip writes, so the name is announced as before. Another `aria-haspopup` value, or none,
+   changes nothing. The `nph-tooltip` is not changed.
+
+**Why not the alternatives.** One hook for the three corner layers cannot work, because their values differ (4, 5 and 9 px). Taking `for` away from the
+tooltip while the menu is open would drop the name reference, and the new tooltip would open on the focus it finds already on the button.
+
+**Out of scope.** The `nph-split-button` itself (DSA-109), the focus of the primary `nph-button` alone in dark, and the stacking of the part with focus.
+
+**Status.** Foundation decision recorded in `docs/operacao/evidencias/DSA-110/`. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 

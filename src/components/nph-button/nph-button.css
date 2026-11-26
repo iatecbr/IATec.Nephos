@@ -32,6 +32,22 @@
   --_height: var(--nph-control-height-large);
 }
 
+/*
+ * The three corner radii of the button, its focus border and its halo. The circular shape
+ * (P86) changes the three; the hooks of a junction (DSA-110) change one logical side of each.
+ */
+:host {
+  --_radius: var(--nph-radius-control);
+  --_focus-border-radius: var(--nph-focus-border-radius-control);
+  --_focus-halo-radius: var(--nph-focus-radius-control-with-border);
+}
+
+:host([data-nph-icon-only][shape='circular']) {
+  --_radius: var(--nph-radius-full);
+  --_focus-border-radius: var(--nph-radius-full);
+  --_focus-halo-radius: var(--nph-radius-full);
+}
+
 /* Disabled: the whole button loses opacity, in the resting colors. */
 :host([disabled]) {
   opacity: var(--nph-state-disabled-opacity);
@@ -49,7 +65,7 @@
   padding-block: 0;
   padding-inline: var(--nph-space-control-padding);
   border: none;
-  border-radius: var(--nph-radius-control);
+  border-radius: var(--_radius);
   background-color: var(--_bg);
   box-shadow: var(--_outline, none);
   color: var(--_fg);
@@ -76,9 +92,17 @@
   padding-inline: 0;
 }
 
-/* Circular shape (P86): only the corners change; the box keeps its size. */
-:host([data-nph-icon-only][shape='circular']) .control {
-  border-radius: var(--nph-radius-full);
+/*
+ * Junction corners (DSA-110): `--nph-button-radius-inline-start` and `--nph-button-radius-inline-end`
+ * set the two corners of one logical side, so right to left mirrors. A host that joins two buttons,
+ * as `nph-split-button` does, sets them on the button at the junction only, never on a host that
+ * holds other buttons: custom properties inherit. Unset, the four corners follow `--_radius`.
+ */
+.control {
+  border-start-start-radius: var(--nph-button-radius-inline-start, var(--_radius));
+  border-end-start-radius: var(--nph-button-radius-inline-start, var(--_radius));
+  border-start-end-radius: var(--nph-button-radius-inline-end, var(--_radius));
+  border-end-end-radius: var(--nph-button-radius-inline-end, var(--_radius));
 }
 
 .icon {
@@ -123,19 +147,23 @@
 .control:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
   border: var(--nph-border-width) solid var(--nph-button-focus-border, var(--_focus-border));
-  border-radius: var(--nph-focus-border-radius-control);
+  border-start-start-radius: var(--nph-button-focus-border-radius-inline-start, var(--_focus-border-radius));
+  border-end-start-radius: var(--nph-button-focus-border-radius-inline-start, var(--_focus-border-radius));
+  border-start-end-radius: var(--nph-button-focus-border-radius-inline-end, var(--_focus-border-radius));
+  border-end-end-radius: var(--nph-button-focus-border-radius-inline-end, var(--_focus-border-radius));
 }
 
+/*
+ * `--nph-button-focus-halo` is the sibling hook of the halo color (DSA-110), with the same rule as
+ * the border hook. The corner hooks of the border and of the halo work as the ones of the button.
+ */
 .control:focus-visible::after {
   inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
-  border: var(--nph-focus-ring-width) solid var(--_focus-halo);
-  border-radius: var(--nph-focus-radius-control-with-border);
-}
-
-/* In the circular shape, the focus border and halo follow the round corners. */
-:host([data-nph-icon-only][shape='circular']) .control:focus-visible::before,
-:host([data-nph-icon-only][shape='circular']) .control:focus-visible::after {
-  border-radius: var(--nph-radius-full);
+  border: var(--nph-focus-ring-width) solid var(--nph-button-focus-halo, var(--_focus-halo));
+  border-start-start-radius: var(--nph-button-focus-halo-radius-inline-start, var(--_focus-halo-radius));
+  border-end-start-radius: var(--nph-button-focus-halo-radius-inline-start, var(--_focus-halo-radius));
+  border-start-end-radius: var(--nph-button-focus-halo-radius-inline-end, var(--_focus-halo-radius));
+  border-end-end-radius: var(--nph-button-focus-halo-radius-inline-end, var(--_focus-halo-radius));
 }
 
 /* Focus color per severity (the same in all emphases). */
