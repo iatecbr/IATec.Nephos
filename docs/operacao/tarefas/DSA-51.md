@@ -94,8 +94,8 @@ tests, stories and spec pass the proof commands in
 ## What this task does not do
 It does not create a token or change a token value. It does not build the
 `nph-table`, `nph-avatar` or any dependent component. It does not change Figma.
-The gray line illustrations of loading, empty and error are image assets that are
-not in the repository; ask the design owner before choosing how to ship them.
+The empty and error states need no image asset: they use the vector icon on
+`image/illustration-background` (D1, answered on 2026-11-25).
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, board `2573:66090`, `Documentação` frame `2677:465`
