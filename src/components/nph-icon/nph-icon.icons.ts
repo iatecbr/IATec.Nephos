@@ -487,7 +487,7 @@ const GLYPHS = {
   italic: glyph(lItalic, sItalic),
   underline: glyph(lUnderline, sUnderline),
   'rotate-left': glyph(lRotateLeft, sRotateLeft),
-  'strikethrough': glyph(lStrikethrough, sStrikethrough),
+  strikethrough: glyph(lStrikethrough, sStrikethrough),
   'list-ul': glyph(lListUl, sListUl),
   'list-ol': glyph(lListOl, sListOl),
   'block-quote': glyph(lBlockQuote, sBlockQuote),
