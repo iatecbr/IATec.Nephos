@@ -225,8 +225,8 @@ describe('nph-dropdown-menu Validation: text only from the dictionary', () => {
     return target;
   }
 
-  it('the stories are the eight pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'Header', 'Interactive', 'Options', 'Sizes', 'States', 'Variants']);
+  it('the stories are the nine pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual(['Alignment', 'Brands', 'Examples', 'Header', 'Interactive', 'Options', 'Sizes', 'States', 'Variants']);
   });
 
   for (const [name, story] of stories) {
@@ -237,7 +237,7 @@ describe('nph-dropdown-menu Validation: text only from the dictionary', () => {
         const target = draw(story, locale);
         const frames = [...target.querySelectorAll('[data-nph-color-scheme]')];
         const schemes = frames.map((el) => el.getAttribute('data-nph-color-scheme'));
-        const pairs = name === 'Examples' ? 3 : name === 'Sizes' ? 2 : 1;
+        const pairs = name === 'Examples' ? 3 : name === 'Sizes' || name === 'Alignment' ? 2 : 1;
         expect(schemes, `${name} ${locale}`).toEqual(Array.from({ length: pairs }, () => ['light', 'dark']).flat());
         const expected = translations(locale).dropdownMenuValidation;
         const captions = [...target.querySelectorAll('figcaption')].map((el) => el.textContent?.trim() ?? '');
@@ -266,7 +266,7 @@ describe('nph-dropdown-menu Validation: text only from the dictionary', () => {
     it(`${name}: every text of a menu comes from the dictionary, and every menu renders`, async () => {
       for (const locale of LOCALES) {
         const target = draw(story, locale);
-        const allowed = new Set([...Object.values(translations(locale).dropdownMenuValidation), 'size: default', 'size: compact']);
+        const allowed = new Set([...Object.values(translations(locale).dropdownMenuValidation), 'size: default', 'size: compact', 'align: start', 'align: end']);
         const menus = await settled(target);
         expect(menus.length, name).toBeGreaterThan(0);
         for (const value of menuTexts(menus)) {

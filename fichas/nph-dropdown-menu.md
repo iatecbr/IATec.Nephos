@@ -66,6 +66,18 @@ api:
       The size of the item in Figma, set on the whole menu: a dense list is dense as a
       whole. Reflects because the internal CSS selects the rows by it. Any other value
       draws nothing and emits console.error in development.
+  align:
+    type: enum
+    values: [start, end]
+    required: false
+    default: start
+    reflects: true
+    constraint: >-
+      The edge of the trigger the panel lines up with, as the align of nph-popover without
+      center. start, the default, lines it up with the start edge of the trigger; end, with
+      its end edge, so a trigger on the right opens the menu toward the inside of the window.
+      The edges are logical: in a right-to-left page the start is the right and the end is
+      the left. Any other value draws nothing and emits console.error in development.
   label:
     type: string
     required: false
@@ -88,6 +100,10 @@ variants:
   size:
     axis: density
     choose_when: "compact (28 px rows) for a long, dense list; default (36 px rows) in the other cases."
+    do_not_combine_with: []
+  align:
+    axis: placement
+    choose_when: "start, the default, when the trigger sits at the start of its line; end when the trigger sits at the end of a group or of a row, such as the arrow of a split button, so the menu opens on the same edge."
     do_not_combine_with: []
 states:
   rest:
@@ -114,7 +130,7 @@ business_rules:
   - "A common item and a single choice close the menu and give the focus back to the trigger; a multiple choice and a switch keep it open. A submenu item activates as a common item: the nested menu is out of scope."
   - "The switch of the item is the small nph-switch, without a label, in a slot of icon/size-md: the track no longer overflows the slot and the row keeps its height in every size of the item."
   - "A disabled or loading item takes the focus but does not activate. In loading, the spinner takes the end of the item, in place of shortcut, counter, tag, switch, arrow and check."
-  - "The menu opens space/inline-tight below the trigger, aligned to its start edge, turns up when it does not fit below and fits above, never leaves the window and follows the trigger on scroll and resize. layout/input-width is the preferred width; a narrower window, or a larger font, holds the panel inside it. Only a menu taller than the room scrolls inside."
+  - "The menu opens space/inline-tight below the trigger, aligned to its start edge (or to its end edge, with align end), turns up when it does not fit below and fits above, never leaves the window and follows the trigger on scroll and resize. layout/input-width is the preferred width; a narrower window, or a larger font, holds the panel inside it. Only a menu taller than the room scrolls inside."
   - "A trigger that is disabled, aria-disabled or an nph-button in loading opens nothing, by click or by key."
   - "Opening fades in and slides space/inline-tight on motion/enter-duration and motion/enter-easing; closing on motion/exit-duration and motion/exit-easing. Under reduced motion, opacity only, on motion/hover-duration."
 domain_errors: []
@@ -232,6 +248,10 @@ screen.
 **By density:** `size`, on the whole menu: `compact` (28 px rows) for a long, dense list,
 `default` (36 px rows) in the other cases. A multiple choice row is 40 px, the touch area of
 the box.
+
+**By placement:** `align`, on the whole menu: `start` (default) lines the panel up with the
+start edge of the trigger, `end` with its end edge. The edges are logical, so in a
+right-to-left page they swap sides. The rest of the placement does not change.
 
 **Item options:** `icon` (start icon), `avatar`, `description`, `shortcut`, `count`, `tag`,
 `switch` and `submenu`. The menu option is `header`.
