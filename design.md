@@ -345,7 +345,7 @@ tokens_semantic:
     css: '--nph-color-border'
     claro: core/slate/200
     escuro: core/slate/400
-    use: "Divider, outline of an area, table row. Also the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color). Also the outline of the clickable nph-card in hover (card/border-hover): only the outline rises one step; background and shadow stay. Also the divider at the base of the nph-tree-table branch error row (tree-table/border), as the rows of the nph-data-table. Also the bar at the start of a quote in the nph-rich-text-editor (rich-text-editor/quote-border), decorative: 1.72:1 light and 4.09:1 dark. Also the connector line of the pending nph-timeline item (timeline/connector-border-pending), decorative."
+    use: "Divider, outline of an area, table row. Also the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative. Also the outline of the nph-collapsible card appearance (collapsible/card-border); the default flush appearance has no outline. Also the line of the nph-resizable handle at rest and disabled (resizable/handle-color). Also the outline of the clickable nph-card in hover (card/border-hover): only the outline rises one step; background and shadow stay. Also the divider at the base of the nph-tree-table branch error row (tree-table/border), as the rows of the nph-data-table. Also the bar at the start of a quote in the nph-rich-text-editor (rich-text-editor/quote-border), decorative: 1.72:1 light and 4.09:1 dark. Also the connector line of the pending nph-timeline item (timeline/connector-border-pending), decorative. Also the line that separates the nph-sidebar from the content (sidebar/border)."
     nao_use: "The line of the nph-separator (separator/border, which points to color/border-subtle). Form field border: there it is color/field-border and color/field-border-bottom (the bottom line meets 3:1); on checkbox and radio, color/input. The arrow area of nph-select, nph-combobox and nph-tree-select has no divider. The border and divider of nph-popover and nph-hover-card, the outline and the divider of the nph-popconfirm (popconfirm/border, popconfirm/divider), the outline and the divider of the nph-accordion (accordion/border, accordion/divider), the resting outline and the divider of the nph-card (card/border, card/divider), the divider between the toolbar and the text area of the nph-rich-text-editor (rich-text-editor/divider), and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle. The line of the nph-resizable handle in hover and dragging: there it is color/border-strong (the hover line of the underline nph-tabs stays here)."
   color/border-subtle:
     css: '--nph-color-border-subtle'
@@ -678,8 +678,8 @@ tokens_semantic:
     use: "Text of the active item."
   sidebar/border:
     css: '--nph-sidebar-border'
-    claro: core/slate/200
-    escuro: core/slate/400
+    claro: color/border
+    escuro: color/border
     use: "Separates the sidebar from the content."
   sidebar/ring:
     css: '--nph-sidebar-ring'
