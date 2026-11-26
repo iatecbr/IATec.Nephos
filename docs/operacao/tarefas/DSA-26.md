@@ -77,7 +77,7 @@ Indiane answered D1 and D2 on 2026-11-26, in the approval round of the pending i
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D1 | Option 2: the 16 px bar is centered in a box as tall as the line of the text (20 for `text/body-md`, 16 for `text/body-sm`), with no new token. MUI ties the text skeleton height to the typography (https://mui.com/material-ui/react-skeleton/ ). | The line skeleton gets a box with the line height of the text, with the bar centered. Figma follows in a later change (node 1578:31). |
+| D1 | Option 2: the 16 px bar is centered in a box as tall as the line of the text (20 for `text/body-md`, 16 for `text/body-sm`). On 2026-11-26 the design owner named the box: `skeleton/line-box-height` → `core/line-height/200` (20). MUI ties the text skeleton height to the typography (https://mui.com/material-ui/react-skeleton/ ). | The line skeleton gets a box with the line height of the text, with the bar centered: box `--nph-skeleton-line-box-height` (20), bar `--nph-skeleton-line-height` (16). Figma updated on 2026-11-26: the line shape `1578:31` is a 20 px box (`skeleton/line-box-height`) with the 16 px bar `barra` centered; usages that already had their own height keep it (a 16 px box stands for `text/body-sm`). |
 | D2 | Answered by the contract (A3): the use of `radius/control`, `radius/inner` and `avatar/radius-*` names the nph-skeleton shape that imitates that piece, until the radius review. | Nothing changes. |
 
 ## How it is proved

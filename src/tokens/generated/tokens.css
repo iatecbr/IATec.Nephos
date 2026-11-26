@@ -653,6 +653,7 @@
   --nph-sidebar-logo-mark-size: var(--nph-core-layout-height-sidebar-logo-mark);
   --nph-sidebar-mobile-offset: var(--nph-core-space-200);
   --nph-skeleton-line-height: var(--nph-core-line-height-100);
+  --nph-skeleton-line-box-height: var(--nph-core-line-height-200);
   --nph-space-container-padding: var(--nph-core-space-400);
   --nph-space-surface-padding: var(--nph-core-space-600);
   --nph-space-control-padding: var(--nph-core-space-300);
@@ -668,6 +669,7 @@
   --nph-switch-track-width-sm: var(--nph-core-layout-width-switch-track-sm);
   --nph-switch-thumb-size-sm: var(--nph-core-icon-size-50);
   --nph-switch-track-padding-sm: var(--nph-core-space-50);
+  --nph-switch-label-offset: var(--nph-core-space-50);
   --nph-table-row-height: var(--nph-core-space-800);
   --nph-table-focus-ring-width: var(--nph-core-focus-width-sm);
   --nph-table-sticky-divider-width: var(--nph-core-shadow-y-100);
@@ -798,6 +800,7 @@
   --nph-timeline-content-gap: var(--nph-core-space-300);
   --nph-rich-option-background-hover-opacity: var(--nph-core-opacity-50);
   --nph-rich-option-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-rich-option-text-offset: var(--nph-core-space-50);
   --nph-select-option-padding: var(--nph-core-space-200);
   --nph-select-option-background-hover-opacity: var(--nph-core-opacity-50);
   --nph-select-option-disabled-opacity: var(--nph-state-disabled-opacity);
@@ -829,6 +832,8 @@
   --nph-rich-text-editor-list-indent: var(--nph-core-space-600);
   --nph-rich-text-editor-quote-padding-start: var(--nph-core-space-400);
   --nph-split-button-gap: var(--nph-core-space-50);
+  --nph-checkbox-label-offset: var(--nph-core-space-50);
+  --nph-radio-label-offset: var(--nph-core-space-50);
   --nph-chart-y-label-gap: var(--nph-space-inline);
   --nph-chart-x-label-gap: var(--nph-space-stack-tight);
   --nph-chart-grid-width: var(--nph-border-width);
@@ -872,6 +877,9 @@
   --nph-sidebar-flyout-radius: var(--nph-radius-overlay-anchored);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
+  --nph-sidebar-flyout-item-radius: var(--nph-radius-inset);
+  --nph-sidebar-flyout-item-focus-border-radius: var(--nph-focus-border-radius-container);
+  --nph-sidebar-flyout-item-focus-halo-radius: var(--nph-focus-radius-container);
   --nph-switch-track-height-sm: var(--nph-icon-size-sm);
   --nph-table-border-width: var(--nph-border-width);
   --nph-table-radius: var(--nph-radius-container);

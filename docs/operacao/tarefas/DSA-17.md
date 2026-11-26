@@ -86,6 +86,9 @@ the second half of D5 and D6 were answered by the design decision of the piece.
 ## Pending decisions
 Answered on 2026-11-26: see the section below.
 
+## Token added on 2026-11-26
+The 2 px drop of the label from the top, which centers the first 20 px line on the 24 px target (D5), is now the token `checkbox/label-offset` → `core/space/50` (2), generated `--nph-checkbox-label-offset`, on v/5.0.0. It is a declared exception to the half-step rule in `design.md`. The code can read it in place of the calculation `(icon/size-sm + 2 × space/inline-tight − text/label-md line height) / 2`, with the same value; nothing changes on screen. Figma updated on 2026-11-26: in the 18 variants of set `740:18776` the label sits in a `recuo do rótulo` frame with `checkbox/label-offset` on top.
+
 ## Decision answered on 2026-11-26
 Indiane answered D7 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
 

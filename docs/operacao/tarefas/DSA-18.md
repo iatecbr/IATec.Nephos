@@ -101,7 +101,7 @@ Indiane answered D6 on 2026-11-26, in the approval round of the pending items, a
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D6 | Option 1: the circle stays centered on the first line; the text starts at y 2 and the circle at y 4 to 20, as the checkbox. Aetna aligns the control to the first line of the label (https://design.aetna.com/web/radio-button.html ). | Nothing changes. Figma follows in a later change (set 848:66 draws the label at y 0, 2 px higher). |
+| D6 | Option 1: the circle stays centered on the first line; the text starts at y 2 and the circle at y 4 to 20, as the checkbox. Aetna aligns the control to the first line of the label (https://design.aetna.com/web/radio-button.html ). | Nothing changes in the result. The 2 px is now the token `radio/label-offset` → `core/space/50`, generated `--nph-radio-label-offset`, on v/5.0.0 since 2026-11-26; the code can read it in place of the calculation `(icon/size-sm + 2 × space/inline-tight − text/label-md line height) / 2`, with the same value. Figma updated on 2026-11-26: in the 12 variants of set `848:66` the label sits in a `recuo do rótulo` frame with `radio/label-offset` on top. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
