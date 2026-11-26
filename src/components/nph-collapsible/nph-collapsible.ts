@@ -23,6 +23,12 @@
  *   localized by the consuming application: the piece writes no word of its own;
  * - `description`: the support line under the title; it is the accessible description. `icon`: the name of
  *   the start icon, a core name of `nph-icon`; empty draws none. Both for `line` only;
+ * - the `start`, `tag` and `end` slots, for the `line` type only and hidden while empty: the media at the start,
+ *   before the title (an `nph-icon`, an `nph-avatar`), a tag next to the title (an `nph-badge`) and a status at the
+ *   end, before the indicator (an `nph-badge`). They are part of the trigger, which stays the only interactive
+ *   element: what goes in them is never a button or a link, and what is clickable goes outside the trigger. The
+ *   tag and the end content are read in the name of the trigger, after the title; the start is decorative. The
+ *   `button` and `preview` types ignore the three slots;
  * - the default slot is the content, free: any piece goes inside it;
  * - `nph-toggle`: `bubbles` and `composed`, with `detail: { open }`, fired only when the person opens or
  *   closes the content (click, Enter, Space or the search of the page), never for an `open` set by the
@@ -67,6 +73,8 @@ const TRIGGER_ID = 'trigger';
 const CONTENT_ID = 'content';
 const TITLE_ID = 'title';
 const DESCRIPTION_ID = 'description';
+const TAG_ID = 'tag';
+const END_ID = 'end';
 
 /** The event fired when the person opens or closes the content. */
 export const NPH_COLLAPSIBLE_TOGGLE_EVENT = 'nph-toggle';
@@ -87,6 +95,9 @@ export type NphCollapsibleSize = (typeof NPH_COLLAPSIBLE_SIZES)[number];
 export interface NphCollapsibleToggleDetail {
   open: boolean;
 }
+
+/** The three slots of the row trigger. Internal, not API. */
+type RowSlot = 'start' | 'tag' | 'end';
 
 /** Where the content is: steady, or growing or shrinking. Internal, not API. */
 type Phase = 'closed' | 'opening' | 'open' | 'closing';
@@ -135,6 +146,7 @@ export class NphCollapsible extends LitElement {
     icon: { type: String },
     phase: { state: true },
     fits: { state: true },
+    filled: { state: true },
   };
 
   declare type: NphCollapsibleType;
@@ -156,6 +168,8 @@ export class NphCollapsible extends LitElement {
   declare protected phase: Phase;
   /** The preview text fits in its three lines, so nothing is cut and there is no button. Internal. */
   declare protected fits: boolean;
+  /** Which of the `start`, `tag` and `end` slots hold content. Internal. */
+  declare protected filled: Readonly<Record<RowSlot, boolean>>;
 
   private valid = false;
   private reported = new Set<string>();
@@ -181,6 +195,7 @@ export class NphCollapsible extends LitElement {
     this.icon = '';
     this.phase = 'closed';
     this.fits = false;
+    this.filled = { start: false, tag: false, end: false };
   }
 
   /* The host takes no focus of its own: `delegatesFocus` would send a click on the content to the trigger. */
@@ -475,6 +490,16 @@ export class NphCollapsible extends LitElement {
     );
   }
 
+  /** A slot holds content when something is assigned to it that is an element or text that is not blank. */
+  private onSlotChange = (event: Event): void => {
+    const slot = event.target as HTMLSlotElement;
+    const name = slot.name as RowSlot;
+    const has = slot
+      .assignedNodes({ flatten: true })
+      .some((node) => node.nodeType === Node.ELEMENT_NODE || (node.nodeType === Node.TEXT_NODE && (node.textContent ?? '').trim() !== ''));
+    if (this.filled[name] !== has) this.filled = { ...this.filled, [name]: has };
+  };
+
   /* ----- render ------------------------------------------------------------ */
 
   private renderLineTrigger(): TemplateResult {
@@ -495,16 +520,21 @@ export class NphCollapsible extends LitElement {
       ?disabled=${this.disabled}
       aria-expanded=${String(this.open)}
       aria-controls=${CONTENT_ID}
-      aria-labelledby=${TITLE_ID}
+      aria-labelledby=${[TITLE_ID, this.filled.tag ? TAG_ID : '', this.filled.end ? END_ID : ''].filter((id) => id !== '').join(' ')}
       aria-describedby=${description !== '' ? DESCRIPTION_ID : nothing}
       @click=${this.activate}
     >
       ${atStart ? indicator : nothing}
       ${icon !== '' ? html`<nph-icon class="icon" name=${icon} size="sm" aria-hidden="true"></nph-icon>` : nothing}
+      <span class="start" ?hidden=${!this.filled.start} aria-hidden="true"><slot name="start" @slotchange=${this.onSlotChange}></slot></span>
       <span class="text">
-        <span class="title" id=${TITLE_ID}>${title}</span>
+        <span class="title-row">
+          <span class="title" id=${TITLE_ID}>${title}</span>
+          <span class="tag" id=${TAG_ID} ?hidden=${!this.filled.tag}><slot name="tag" @slotchange=${this.onSlotChange}></slot></span>
+        </span>
         ${description !== '' ? html`<span class="description" id=${DESCRIPTION_ID}>${description}</span>` : nothing}
       </span>
+      <span class="end" id=${END_ID} ?hidden=${!this.filled.end}><slot name="end" @slotchange=${this.onSlotChange}></slot></span>
       ${atStart ? nothing : indicator}
     </button>`;
   }
