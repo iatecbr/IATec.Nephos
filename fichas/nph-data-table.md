@@ -478,6 +478,9 @@ tokens:
   selected_row: "data-table/row-selected-background, data-table/row-selected-indicator in data-table/row-selected-indicator-width"
   sort: "data-table/sort-icon-foreground, data-table/sort-icon-active-foreground, at table/icon-size"
   actions: data-table/action-column-width
+  header: "data-table/header-background, data-table/border"
+  title: "data-table/foreground, data-table/caption-foreground"
+  stripe: "data-table/row-striped-background, data-table/sticky-divider-color, data-table/row-background-hover (the selection cell)"
   empty: data-table/empty-gap
   pagination: "data-table/pagination-gap, data-table/page-size-label-foreground, data-table/page-size-width"
   focus: "focus/border in table/focus-ring-width"
@@ -671,6 +674,9 @@ table, the pieces of `nph-table` and the boxes, the more with its menu and the s
 | Selected row | `data-table/row-selected-background`, the mark `data-table/row-selected-indicator` in `data-table/row-selected-indicator-width` |
 | Sort | `data-table/sort-icon-foreground`, `data-table/sort-icon-active-foreground`, at `table/icon-size` |
 | Actions | `data-table/action-column-width` |
+| Header and borders | `data-table/header-background` and `data-table/border`: the header row, the frame, the loading cells of the selection and actions columns and the empty body |
+| Title and description | `data-table/foreground` and `data-table/caption-foreground` |
+| Stripe and fixed header | `data-table/row-striped-background` and `data-table/sticky-divider-color`; `data-table/row-background-hover` on the selection cell. The body cells keep `table/*` |
 | Empty by search | `data-table/empty-gap` |
 | Footer | `data-table/pagination-gap`, `data-table/page-size-label-foreground`, `data-table/page-size-width` |
 | Focus | `focus/border` in `table/focus-ring-width` |
