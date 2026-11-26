@@ -13,7 +13,7 @@ solves: >-
 use_when:
   - "To give a form control a visible name, on its own or inside an nph-field."
   - "required=true when filling in the field is mandatory, with the asterisk explained in a legend on the form."
-  - "info=true to show the information icon after the text."
+  - "info with info-label to show the information icon after the text: info is the help text and info-label its accessible name."
   - "Keep the label in color/foreground, even when the field has an error."
 do_not_use_when:
   - "Using it for a sentence with a verb and a period: that is body text."

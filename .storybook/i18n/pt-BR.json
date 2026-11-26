@@ -1582,7 +1582,7 @@
     "whenToUse": [
       "Para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field.",
       "required=true quando o preenchimento é obrigatório, com o asterisco explicado numa legenda do formulário.",
-      "info=true para mostrar o ícone de informação depois do texto.",
+      "info com info-label para mostrar o ícone de informação depois do texto: info é o texto da ajuda e info-label, o nome acessível.",
       "Manter o rótulo em color/foreground, mesmo com o campo em erro."
     ],
     "examplesTitle": "Exemplos obrigatórios",
