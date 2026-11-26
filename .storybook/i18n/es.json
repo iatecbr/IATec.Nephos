@@ -1886,7 +1886,7 @@
     "shapesUse": [
       {
         "value": "line",
-        "label": "El lugar de una línea de texto. Tiene su propio skeleton/line-height; el espacio entre líneas viene de quien la usa."
+        "label": "El lugar de una línea de texto. Una caja de skeleton/line-box-height con la barra de skeleton/line-height centrada en ella; el espacio entre líneas viene de quien la usa."
       },
       {
         "value": "block",
@@ -1928,7 +1928,7 @@
       ],
       [
         "Medida",
-        "El avatar en avatar/size-*; el alto de la línea en skeleton/line-height. El ancho de la línea y del bloque viene del contenedor, y el alto del bloque sigue al contenido que va a entrar."
+        "El avatar en avatar/size-*; la caja de la línea en skeleton/line-box-height y su barra en skeleton/line-height. El ancho de la línea y del bloque viene del contenedor, y el alto del bloque sigue al contenido que va a entrar."
       ]
     ],
     "accessibilityTitle": "Accesibilidad",
@@ -1972,7 +1972,7 @@
     "references": [
       "ficha nph-skeleton — función, formas, accesibilidad, tokens y antipatrones.",
       "docs/decisoes-tecnicas.md — P69 (API y semántica), P01, P02 y P03.",
-      "design.md — skeleton/background, skeleton/line-height, radius/inner, radius/control, avatar/size-* y avatar/radius-*.",
+      "design.md — skeleton/background, skeleton/line-box-height, skeleton/line-height, radius/inner, radius/control, avatar/size-* y avatar/radius-*.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Skeleton, marco nph-skeleton (1578:38) y conjunto 1578:37.",
       "Storybook — Validación, en la carpeta de al lado."
     ],
@@ -4170,7 +4170,7 @@
     ],
     "statesCaption": "apagado, encendido, inválido, deshabilitado y deshabilitado con inválido. Pase el ratón sobre una pieza para ver el hover y use Tab para ver el foco.",
     "labelTitle": "Etiqueta",
-    "labelText": "La etiqueta va después del riel, a space/inline de él, en text/label-md y color/foreground. Se ajusta al ancho disponible; con dos líneas, el riel queda arriba, alineado con la primera línea. Sin texto, la pieza es solo el riel, y label le da nombre.",
+    "labelText": "La etiqueta va después del riel, a space/inline de él, en text/label-md y color/foreground. Se ajusta al ancho disponible; en el tamaño predeterminado baja switch/label-offset, y la primera línea queda centrada en el riel; con dos líneas, el riel queda arriba, con la primera línea. Sin texto, la pieza es solo el riel, y label le da nombre.",
     "labelCaption": "Con etiqueta, solo el riel con label y una etiqueta larga en dos líneas.",
     "sizesTitle": "Tamaños",
     "sizesText": "default es el tamaño de todo interruptor. small tiene el riel de 32 por 16, la perilla de 12 y un espacio de 2, en una pieza de 20 de alto con el riel centrado; el recorrido de la perilla es el ancho del riel menos la perilla y los dos espacios, como en default. Sirve solo al espacio del interruptor del ítem del nph-dropdown-menu, sin etiqueta: solo, su área de toque queda por debajo de 24 por 24 (WCAG 2.5.8). Colores, estados y foco no cambian.",

@@ -81,3 +81,19 @@ export const Paragraph: Story = {
   name: 'Paragraph',
   render: (_args, context: GlobalsContext) => inBothModes(context, paragraphLoading),
 };
+/**
+ * The line against the box of a text line: the outline marks `skeleton/line-box-height` (20), and the bar of
+ * `skeleton/line-height` (16) sits centered in it (DSA-127). The outline belongs to the scenery, not to the piece.
+ */
+export const LineBox: Story = {
+  name: 'Line box',
+  render: (_args, context: GlobalsContext) =>
+    inBothModes(
+      context,
+      () => html`<div
+        style="box-sizing: content-box; block-size: var(--nph-skeleton-line-box-height); outline: var(--nph-border-width) solid var(--nph-color-border);"
+      >
+        <nph-skeleton></nph-skeleton>
+      </div>`,
+    ),
+};

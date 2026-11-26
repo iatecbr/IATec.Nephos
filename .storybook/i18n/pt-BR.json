@@ -1886,7 +1886,7 @@
     "shapesUse": [
       {
         "value": "line",
-        "label": "O lugar de uma linha de texto. Tem o próprio skeleton/line-height; o espaço entre linhas vem de quem usa."
+        "label": "O lugar de uma linha de texto. Uma caixa de skeleton/line-box-height com a barra de skeleton/line-height centralizada nela; o espaço entre linhas vem de quem usa."
       },
       {
         "value": "block",
@@ -1928,7 +1928,7 @@
       ],
       [
         "Medida",
-        "O avatar em avatar/size-*; a altura da linha em skeleton/line-height. A largura da linha e do bloco vem do contêiner, e a altura do bloco acompanha o conteúdo que vai entrar."
+        "O avatar em avatar/size-*; a caixa da linha em skeleton/line-box-height e a barra dela em skeleton/line-height. A largura da linha e do bloco vem do contêiner, e a altura do bloco acompanha o conteúdo que vai entrar."
       ]
     ],
     "accessibilityTitle": "Acessibilidade",
@@ -1972,7 +1972,7 @@
     "references": [
       "ficha nph-skeleton — função, formas, acessibilidade, tokens e anti-padrões.",
       "docs/decisoes-tecnicas.md — P69 (API e semântica), P01, P02 e P03.",
-      "design.md — skeleton/background, skeleton/line-height, radius/inner, radius/control, avatar/size-* e avatar/radius-*.",
+      "design.md — skeleton/background, skeleton/line-box-height, skeleton/line-height, radius/inner, radius/control, avatar/size-* e avatar/radius-*.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Skeleton, quadro nph-skeleton (1578:38) e conjunto 1578:37.",
       "Storybook — Validação, na pasta ao lado."
     ],
@@ -4170,7 +4170,7 @@
     ],
     "statesCaption": "desligado, ligado, inválido, desabilitado e desabilitado com inválido. Passe o mouse sobre uma peça para ver o hover e use Tab para ver o foco.",
     "labelTitle": "Rótulo",
-    "labelText": "O rótulo fica depois do trilho, a space/inline dele, em text/label-md e color/foreground. Quebra na largura disponível; com duas linhas, o trilho fica no topo, alinhado à primeira linha. Sem texto, a peça é só o trilho, e label dá o nome.",
+    "labelText": "O rótulo fica depois do trilho, a space/inline dele, em text/label-md e color/foreground. Quebra na largura disponível; no tamanho padrão ele desce switch/label-offset, e a primeira linha fica centrada no trilho; com duas linhas, o trilho fica no topo, com a primeira linha. Sem texto, a peça é só o trilho, e label dá o nome.",
     "labelCaption": "Com rótulo, só o trilho com label e um rótulo longo em duas linhas.",
     "sizesTitle": "Tamanhos",
     "sizesText": "default é o tamanho de todo interruptor. small tem o trilho de 32 por 16, o botão de 12 e espaço de 2, numa peça de 20 de altura com o trilho centralizado; o curso do botão é a largura do trilho menos o botão e os dois espaços, como no default. Serve apenas ao espaço do interruptor do item do nph-dropdown-menu, sem rótulo: sozinho, o alvo de toque fica abaixo de 24 por 24 (WCAG 2.5.8). Cores, estados e foco não mudam.",

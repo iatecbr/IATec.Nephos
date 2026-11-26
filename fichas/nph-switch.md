@@ -137,6 +137,7 @@ business_rules:
   - "The knob slides by transform, never by layout position, and the track fill and outline change on motion/state-duration and motion/state-easing."
   - "Under reduced motion the knob does not slide: it changes side by opacity on motion/hover-duration, and the color still changes."
   - "Inside nph-field, the piece is one option of a group: nphFieldRole is option, and the field writes invalid and disabled on it."
+  - "In the default size the label drops by switch/label-offset (2), so its first line is centered on the 24 track; the track stays at the top, so a label that wraps keeps the track on the first line. The small size has no offset."
   - "The small size changes only the measures: the track, the knob and the gap, in a piece icon/size-md high with the track centered. Colors, states, focus, radius and the knob travel rule (track width minus the knob minus twice the gap) are the same."
 domain_errors:
   - "invalid: the value of the setting is not accepted by the screen. The piece shows the outline; the sentence is written outside it."
@@ -289,6 +290,9 @@ remove the feedback.
   control. The new value is read from `event.target.checked`. There is no `nph-*` event.
 - Inside `nph-field`, the piece is one option of a group: `nphFieldRole` is `option`, and the
   field writes `invalid` and `disabled` on it.
+- In the default size the label drops by `switch/label-offset` (2), so its first line is centered on
+  the 24 track; the track stays at the top, so a label that wraps keeps the track on the first line.
+  The small size has no offset.
 - The small size changes only the measures; the knob travel is the track width minus the knob
   and the two gaps, in both sizes.
 

@@ -34,7 +34,7 @@ async function mountIn(display: string, shape?: string, style = ''): Promise<{ p
 }
 
 /** Resolves a token to what the browser computes, through a probe element. */
-function resolved(property: 'backgroundColor' | 'borderTopLeftRadius' | 'width', token: string, scope: HTMLElement = document.body): string {
+function resolved(property: 'backgroundColor' | 'borderTopLeftRadius' | 'width' | 'height', token: string, scope: HTMLElement = document.body): string {
   const probe = document.createElement('div');
   probe.style[property] = `var(${token})`;
   scope.append(probe);
@@ -65,11 +65,32 @@ describe('registration and API', () => {
 });
 
 describe('line', () => {
-  it('takes the container width and skeleton/line-height', async () => {
+  it('takes the container width and skeleton/line-box-height', async () => {
     const { skeleton } = await mountIn('block');
     const box = skeleton.getBoundingClientRect();
     expect(box.width).toBe(200);
-    expect(box.height).toBe(16);
+    expect(box.height).toBe(Number.parseFloat(resolved('height', '--nph-skeleton-line-box-height')));
+    expect(box.height).toBe(20);
+  });
+
+  it('draws the bar of skeleton/line-height centered in the box (DSA-127)', async () => {
+    const { skeleton } = await mountIn('block');
+    const box = skeleton.getBoundingClientRect();
+    const bar = skeleton.shadowRoot?.querySelector('.bar');
+    if (!(bar instanceof HTMLElement)) throw new Error('the line has no bar');
+    const barBox = bar.getBoundingClientRect();
+    expect(barBox.height).toBe(Number.parseFloat(resolved('height', '--nph-skeleton-line-height')));
+    expect(barBox.height).toBe(16);
+    expect(barBox.width).toBe(200);
+    expect(barBox.top - box.top).toBe(2);
+    expect(box.bottom - barBox.bottom).toBe(2);
+  });
+
+  it('the box has no fill: only the bar is skeleton/background', async () => {
+    const { skeleton } = await mountIn('block');
+    expect(getComputedStyle(skeleton).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    const bar = skeleton.shadowRoot?.querySelector('.bar');
+    expect(getComputedStyle(bar as Element).backgroundColor).toBe(resolved('backgroundColor', '--nph-skeleton-background'));
   });
 
   it('takes the container width in a column flex parent', async () => {
@@ -80,13 +101,19 @@ describe('line', () => {
   it('keeps its own height inside a taller text line box (D1: the consumer gives the space)', async () => {
     const { parent, skeleton } = await mountIn('block');
     parent.style.fontSize = '14px';
-    parent.style.lineHeight = '20px';
+    parent.style.lineHeight = '40px';
+    expect(skeleton.getBoundingClientRect().height).toBe(20);
+  });
+
+  it('takes the box the consumer gives for smaller text', async () => {
+    const { skeleton } = await mountIn('block', 'line', 'block-size: 16px;');
     expect(skeleton.getBoundingClientRect().height).toBe(16);
   });
 
-  it('the radius is radius/inner', async () => {
+  it('the radius of the bar is radius/inner', async () => {
     const { skeleton } = await mountIn('block');
-    expect(getComputedStyle(skeleton).borderTopLeftRadius).toBe(resolved('borderTopLeftRadius', '--nph-radius-inner'));
+    const bar = skeleton.shadowRoot?.querySelector('.bar');
+    expect(getComputedStyle(bar as Element).borderTopLeftRadius).toBe(resolved('borderTopLeftRadius', '--nph-radius-inner'));
   });
 });
 
@@ -134,7 +161,8 @@ describe('appearance', () => {
   it('every shape is skeleton/background, with no border', async () => {
     for (const shape of NPH_SKELETON_SHAPES) {
       const { skeleton } = await mountIn('block', shape, 'block-size: 40px;');
-      const style = getComputedStyle(skeleton);
+      const painted = skeleton.shadowRoot?.querySelector('.bar') ?? skeleton;
+      const style = getComputedStyle(painted);
       expect(style.backgroundColor, shape).toBe(resolved('backgroundColor', '--nph-skeleton-background'));
       expect(style.borderTopWidth, shape).toBe('0px');
       document.body.replaceChildren();
@@ -148,11 +176,12 @@ describe('appearance', () => {
     scope.append(skeleton);
     document.body.append(scope);
     await skeleton.updateComplete;
-    const dark = getComputedStyle(skeleton).backgroundColor;
+    const bar = skeleton.shadowRoot?.querySelector('.bar') as Element;
+    const dark = getComputedStyle(bar).backgroundColor;
     expect(dark).toBe(resolved('backgroundColor', '--nph-skeleton-background', scope));
     expect(dark).not.toBe(resolved('backgroundColor', '--nph-color-popover', scope));
     scope.setAttribute('data-nph-color-scheme', 'light');
-    expect(getComputedStyle(skeleton).backgroundColor).not.toBe(dark);
+    expect(getComputedStyle(bar).backgroundColor).not.toBe(dark);
   });
 
   it('is still: no animation and no transition, so there is no pulse to reduce', async () => {
@@ -162,10 +191,15 @@ describe('appearance', () => {
     expect(style.transitionDuration).toBe('0s');
   });
 
-  it('draws nothing inside: no text, no child', async () => {
+  it('draws nothing inside but the bar of the line: no text, no other child', async () => {
     const { skeleton } = await mountIn('block');
     expect(skeleton.shadowRoot?.textContent?.trim()).toBe('');
-    expect(skeleton.shadowRoot?.querySelector(':not(style)')).toBeNull();
+    expect([...(skeleton.shadowRoot?.querySelectorAll(':not(style)') ?? [])].map((node) => node.className)).toEqual(['bar']);
+    for (const shape of NPH_SKELETON_SHAPES.filter((value) => value !== 'line')) {
+      skeleton.setAttribute('shape', shape);
+      await skeleton.updateComplete;
+      expect(skeleton.shadowRoot?.querySelector(':not(style)'), shape).toBeNull();
+    }
   });
 });
 
@@ -229,6 +263,7 @@ describe('token contract', () => {
     expect(new Set(used)).toEqual(
       new Set([
         '--nph-skeleton-background',
+        '--nph-skeleton-line-box-height',
         '--nph-skeleton-line-height',
         '--nph-radius-inner',
         '--nph-radius-control',

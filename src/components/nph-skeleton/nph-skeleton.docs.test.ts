@@ -116,7 +116,7 @@ describe('nph-skeleton Validation: text only from the dictionary', () => {
   ) as Array<[string, Renderable]>;
 
   it('the stories are the shapes and the three required examples', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Card', 'Paragraph', 'PeopleList', 'Shapes']);
+    expect(stories.map(([name]) => name).sort()).toEqual(['Card', 'LineBox', 'Paragraph', 'PeopleList', 'Shapes']);
   });
 
   for (const [name, story] of stories) {
