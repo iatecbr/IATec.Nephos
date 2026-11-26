@@ -4495,9 +4495,17 @@ stays as it was. No token is created.
 
 **Known limits.**
 
-- **The inner box and track do not take their own hover** on item hover (D-3): `nph-checkbox` and
-  `nph-switch` hover only through `:hover` in their own shadow root. A follow-up task gives them a
-  way.
+- **The inner box and track and the hover of the item** *(D-3 of DSA-45, answered by Indiane on
+  23/11/2026 and applied in DSA-115)*. `nph-checkbox` and `nph-switch` hover only through `:hover`
+  in their own shadow root, and the item draws them `inert`, so without a way the box border would
+  lose contrast on the item background (WCAG 1.4.11 asks 3:1 for the parts that show the state of a
+  control). Both pieces gain `hover`, a reflected Boolean that draws the same look as their own
+  `:hover` from outside: the box border in `color/input-hover` and `state/hover-opacity` when
+  checked or indeterminate; the track fill in `color/input-hover` off and `color/primary-hover`
+  on. It reads the tokens each piece already reads, creates none, moves no state and fires nothing,
+  and `disabled`, focus and `invalid` still win over it. The menu turns it on in the piece of the
+  item under the pointer, on `pointermove`, and off on `pointerout` and when it closes; a disabled
+  or loading item and a touch pointer never turn it on.
 - **`aria-haspopup` and `aria-expanded` on an `nph-button`** sit on its host and do not reach its
   inner `<button>`, which has the focus. With a native `<button>` as the trigger they work.
 - **A trigger that changes its `id`, or moves, after the lookup** is not followed; setting `for`
@@ -6997,8 +7005,8 @@ brands and both schemes. The story of `nph-context-menu` keeps it, because its c
 
 **Left out.** The row of `nph-table` that points `table/link-foreground` in dark to `color/link`: it
 changes a token value, and the code agent never creates or changes a token. It waits for Indiane, in
-Figma, and DSA-70 stays open until it comes. DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2
-stay open.
+Figma, and DSA-70 stays open until it comes. DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2
+stay open *(DSA-45 D-3 was answered on 23/11/2026 and is applied in DSA-115; DSA-69 D-2 is applied there too)*.
 
 **Status.** The answers come from Indiane, recorded in the tasks. The technical choices above are
 reviewed in the pull request that brings them; the merge is the approval.

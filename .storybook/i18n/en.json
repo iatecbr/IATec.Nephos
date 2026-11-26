@@ -4116,6 +4116,10 @@
         "The track outline becomes status/error, on or off, and on focus the halo becomes focus/halo-error. Reflected to the attribute; it sets aria-invalid. The error sentence stays outside the piece. disabled wins over it."
       ],
       [
+        "hover",
+        "Shows the hover look from outside, for a host that owns the pointer, such as the item of nph-dropdown-menu: the track in color/input-hover off and color/primary-hover on. It moves no state and fires nothing; disabled wins over it."
+      ],
+      [
         "disabled",
         "Turns the piece off: it leaves the Tab order, does not toggle, fires nothing and stays at state/disabled-opacity. Reflected to the attribute. A disabled fieldset around it does the same, except inside its first legend."
       ],
@@ -5670,6 +5674,10 @@
         "The error state: status/error border and aria-invalid. The error sentence stays outside the piece."
       ],
       [
+        "hover",
+        "Shows the hover look from outside, for a host that owns the pointer, such as the item of nph-dropdown-menu: the box border in color/input-hover and state/hover-opacity when checked. It moves no state and fires nothing; disabled, focus and invalid win over it."
+      ],
+      [
         "disabled",
         "The whole piece at state/disabled-opacity, out of the Tab order and out of the form data. A disabled fieldset has the same effect. It wins over invalid."
       ],
@@ -6415,7 +6423,7 @@
       ],
       [
         "Known limits",
-        "On item hover, the box and the track do not take their own hover. The nested menu is out of scope."
+        "The nested menu is out of scope."
       ]
     ],
     "examplesTitle": "Examples",

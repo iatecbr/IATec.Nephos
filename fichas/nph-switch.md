@@ -71,6 +71,16 @@ api:
       on or off, and on focus the halo becomes focus/halo-error. It sets aria-invalid
       on the native button. The error sentence stays outside the piece, written by
       whoever uses it. disabled wins over it.
+  hover:
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
+      Shows the hover look from outside, for a host that owns the pointer, such as the item of
+      nph-dropdown-menu: the track takes color/input-hover when off and color/primary-hover
+      when on, as on its own hover. It is not state: it moves no value and fires nothing.
+      disabled still wins over it.
   disabled:
     type: boolean
     required: false
@@ -116,6 +126,9 @@ states:
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole piece loses opacity, leaves the Tab order and stops responding."
+  hover_from_outside:
+    token: "color/input-hover when off and color/primary-hover when on"
+    changes_for_user: "With hover set by the host that owns the pointer, the track looks as it does under the pointer, so it keeps its contrast on the hovered item background."
 business_rules:
   - "The piece holds one boolean, checked. Only a click, Enter or Space by the person toggles it and fires input and then change; setting checked from code fires nothing."
   - "input bubbles and crosses shadow roots; change bubbles and does not, as on a native control. The new value is read from event.target.checked. There is no nph event."

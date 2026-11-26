@@ -64,6 +64,16 @@ api:
       The error state of the Figma. The box border becomes status/error, checked or not, and the
       inner checkbox takes aria-invalid. Reflects because the internal CSS selects the
       border by it. The error sentence stays outside the piece. disabled wins over it.
+  hover:
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
+      Shows the hover look from outside, for a host that owns the pointer, such as the item of
+      nph-dropdown-menu: the box takes color/input-hover for the border, and state/hover-opacity
+      when checked or indeterminate, as on its own hover. It is not state: it moves no value
+      and fires nothing. disabled, focus and invalid still win over it.
   disabled:
     type: boolean
     required: false
@@ -122,6 +132,9 @@ states:
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole piece loses opacity, leaves the Tab order, stops responding and is not submitted."
+  hover_from_outside:
+    token: "color/input-hover; state/hover-opacity when checked or indeterminate"
+    changes_for_user: "With hover set by the host that owns the pointer, the box looks as it does under the pointer, so the border keeps its contrast on the hovered item background."
 business_rules:
   - "Only a click on the box or on the text, or Space, by the person toggles the piece; Enter does not. The native input event crosses the shadow root and the host fires change, which bubbles and is not composed. Setting checked or indeterminate from code fires nothing. click() on the host dispatches one cancelable click and toggles only when nothing cancels it."
   - "The checked attribute is the default state and the property is the current state, with the dirty flag of the native checkbox. A form reset goes back to the attribute, clears indeterminate and fires nothing."

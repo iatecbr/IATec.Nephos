@@ -102,12 +102,18 @@
  * are written with growing specificity and in this order, so each one wins over the ones
  * before it.
  */
-:host(:not(:disabled)) .control:hover .box {
+/*
+ * `hover` (DSA-45 D-3) shows the same look from outside, for a host that owns the pointer.
+ * Its selectors are lower than the focus and error ones, so those still win.
+ */
+:host(:not(:disabled)) .control:hover .box,
+:host([hover]:not(:disabled)) .box {
   border-color: var(--nph-color-input-hover);
 }
 
 /* Hover on a checked or indeterminate box also takes `state/hover-opacity`, on the box (D2, D7). */
-:host(:not(:disabled)) .control:hover .native:is(:checked, :indeterminate) + .box {
+:host(:not(:disabled)) .control:hover .native:is(:checked, :indeterminate) + .box,
+:host([hover]:not(:disabled)) .native:is(:checked, :indeterminate) + .box {
   opacity: var(--nph-state-hover-opacity);
 }
 

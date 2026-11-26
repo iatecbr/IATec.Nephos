@@ -4116,6 +4116,10 @@
         "O contorno do trilho vira status/error, ligado ou desligado, e no foco o halo vira focus/halo-error. Refletida no atributo; põe aria-invalid. A frase de erro fica fora da peça. disabled vence."
       ],
       [
+        "hover",
+        "Mostra o visual de hover de fora, para um host que tem o ponteiro, como o item do nph-dropdown-menu: o trilho em color/input-hover desligado e color/primary-hover ligado. Não move estado nem dispara evento; disabled vence."
+      ],
+      [
         "disabled",
         "Desliga a peça: sai da ordem do Tab, não alterna, não dispara nada e fica em state/disabled-opacity. Refletida no atributo. Um fieldset desabilitado em volta faz o mesmo, menos dentro do primeiro legend."
       ],
@@ -5670,6 +5674,10 @@
         "O estado de erro: borda status/error e aria-invalid. A frase de erro fica fora da peça."
       ],
       [
+        "hover",
+        "Mostra o visual de hover de fora, para um host que tem o ponteiro, como o item do nph-dropdown-menu: a borda da caixa em color/input-hover e state/hover-opacity quando marcada. Não move estado nem dispara evento; disabled, foco e invalid vencem."
+      ],
+      [
         "disabled",
         "A peça inteira em state/disabled-opacity, fora da ordem do Tab e fora dos dados do formulário. Um fieldset desabilitado tem o mesmo efeito. Vence invalid."
       ],
@@ -6415,7 +6423,7 @@
       ],
       [
         "Limites conhecidos",
-        "No hover do item, a caixa e o trilho não tomam o próprio hover. O menu aninhado fica fora de escopo."
+        "O menu aninhado fica fora de escopo."
       ]
     ],
     "examplesTitle": "Exemplos",

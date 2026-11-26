@@ -4116,6 +4116,10 @@
         "El contorno del riel pasa a status/error, encendido o apagado, y en el foco el halo pasa a focus/halo-error. Reflejada en el atributo; pone aria-invalid. La frase de error queda fuera de la pieza. disabled gana."
       ],
       [
+        "hover",
+        "Muestra el aspecto de hover desde fuera, para un host que tiene el puntero, como el ítem del nph-dropdown-menu: el riel en color/input-hover apagado y color/primary-hover encendido. No mueve estado ni dispara evento; disabled gana."
+      ],
+      [
         "disabled",
         "Apaga la pieza: sale del orden del Tab, no alterna, no dispara nada y queda en state/disabled-opacity. Reflejada en el atributo. Un fieldset deshabilitado alrededor hace lo mismo, salvo dentro de su primer legend."
       ],
@@ -5670,6 +5674,10 @@
         "El estado de error: borde status/error y aria-invalid. La frase de error queda fuera de la pieza."
       ],
       [
+        "hover",
+        "Muestra el aspecto de hover desde fuera, para un host que tiene el puntero, como el ítem del nph-dropdown-menu: el borde de la casilla en color/input-hover y state/hover-opacity cuando está marcada. No mueve estado ni dispara evento; disabled, el foco e invalid ganan."
+      ],
+      [
         "disabled",
         "La pieza entera en state/disabled-opacity, fuera del orden del Tab y fuera de los datos del formulario. Un fieldset deshabilitado tiene el mismo efecto. Gana a invalid."
       ],
@@ -6415,7 +6423,7 @@
       ],
       [
         "Límites conocidos",
-        "En el hover del ítem, la casilla y el riel no toman su propio hover. El menú anidado queda fuera de alcance."
+        "El menú anidado queda fuera de alcance."
       ]
     ],
     "examplesTitle": "Ejemplos",

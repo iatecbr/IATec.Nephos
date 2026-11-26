@@ -419,6 +419,7 @@ export class NphDropdownMenu extends LitElement {
   private close(returnFocus: boolean): void {
     this.pendingFocus = null;
     this.clearTyped();
+    this.setHoveredItem(null);
     this.open = false;
     if (returnFocus) {
       this.trigger?.focus();
@@ -585,10 +586,36 @@ export class NphDropdownMenu extends LitElement {
       return;
     }
     const item = event.composedPath().find((target): target is HTMLElement => target instanceof HTMLElement && target.classList.contains('item'));
+    this.setHoveredItem(item !== undefined && !item.hasAttribute('aria-disabled') ? item : null);
     if (item === undefined || item.hasAttribute('aria-disabled') || this.shadowRoot?.activeElement === item) {
       return;
     }
     item.focus({ preventScroll: true });
+  }
+  /**
+   * The item the pointer is on shows the hover of its inner `nph-checkbox` or `nph-switch`
+   * (DSA-45 D-3): the pieces are `inert`, so their own `:hover` never fires, and without it the
+   * border would lose contrast on the hovered item background (WCAG 1.4.11). The pieces take the
+   * `hover` attribute, which only draws; it moves no state.
+   */
+  private hoveredItem: HTMLElement | null = null;
+  private setHoveredItem(item: HTMLElement | null): void {
+    if (item === this.hoveredItem) {
+      return;
+    }
+    for (const [element, on] of [[this.hoveredItem, false], [item, true]] as const) {
+      for (const piece of element?.querySelectorAll('.checkbox, .switch') ?? []) {
+        piece.toggleAttribute('hover', on);
+      }
+    }
+    this.hoveredItem = item;
+  }
+  /** The pointer left the item, or the panel: the hover goes with it. */
+  private onPointerout(event: PointerEvent): void {
+    const next = event.relatedTarget;
+    if (this.hoveredItem !== null && !(next instanceof Node && this.hoveredItem.contains(next))) {
+      this.setHoveredItem(null);
+    }
   }
 
   /** A press on the panel outside an item keeps the focus where it is, so the menu stays open. */
@@ -1042,6 +1069,7 @@ export class NphDropdownMenu extends LitElement {
       @focusout=${this.onFocusout}
       @mousedown=${this.onMousedown}
       @pointermove=${this.onPointermove}
+      @pointerout=${this.onPointerout}
     >
       ${this.renderHeader()}
       <div class="menu" role="menu" aria-label=${name === '' ? nothing : name}>

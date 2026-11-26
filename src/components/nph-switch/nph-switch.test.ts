@@ -24,7 +24,7 @@ import componentCss from './nph-switch.css?raw';
 import { NPH_SWITCH_SIZES, NphSwitch } from './nph-switch';
 import '../nph-field/nph-field';
 
-type Props = Partial<Pick<NphSwitch, 'checked' | 'invalid' | 'disabled' | 'size' | 'text' | 'label'>>;
+type Props = Partial<Pick<NphSwitch, 'checked' | 'invalid' | 'hover' | 'disabled' | 'size' | 'text' | 'label'>>;
 
 beforeAll(async () => {
   await document.fonts.load('500 14px "Noto Sans"');
@@ -136,7 +136,7 @@ describe('registration and API', () => {
 
   it('the public API is exactly the one in P79', () => {
     const declared = [...(NphSwitch as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared).toEqual(['checked', 'invalid', 'disabled', 'size', 'text', 'label']);
+    expect(declared).toEqual(['checked', 'invalid', 'hover', 'disabled', 'size', 'text', 'label']);
     expect(NPH_SWITCH_SIZES).toEqual(['default', 'small']);
   });
 
@@ -349,6 +349,35 @@ describe('colors, off and on, at rest and on hover, in both schemes', () => {
     }
   }
 
+  it('hover from outside draws the hover fill with no pointer on it, off and on (DSA-45 D-3)', async () => {
+    for (const checked of [false, true]) {
+      const element = await mount({ text: 'Wi-Fi', checked, hover: true });
+      const outline = insetColor(track(element));
+      expect(element.hasAttribute('hover')).toBe(true);
+      expect(getComputedStyle(track(element)).backgroundColor).toBe(
+        resolved('background-color', checked ? '--nph-color-primary-hover' : '--nph-color-input-hover'),
+      );
+      expect(insetColor(track(element))).toBe(outline);
+      element.hover = false;
+      await element.updateComplete;
+      await vi.waitFor(() =>
+        expect(getComputedStyle(track(element)).backgroundColor).toBe(
+          resolved('background-color', checked ? '--nph-color-primary' : '--nph-color-input'),
+        ),
+      );
+      document.body.replaceChildren();
+    }
+  });
+  it('hover from outside moves no state, fires nothing and never wins over disabled', async () => {
+    const element = await mount({ text: 'Wi-Fi', hover: true });
+    const heard = vi.fn();
+    element.addEventListener('input', heard);
+    element.addEventListener('change', heard);
+    expect(element.checked).toBe(false);
+    expect(heard).not.toHaveBeenCalled();
+    const disabled = await mount({ text: 'Off', disabled: true, hover: true });
+    expect(getComputedStyle(track(disabled)).backgroundColor).toBe(resolved('background-color', '--nph-color-input'));
+  });
   it('hovering the label changes the track too: the whole piece is the target', async () => {
     const element = await mount();
     await userEvent.hover(part(element, '.text'));
