@@ -62,6 +62,12 @@ import '../nph-icon/nph-icon';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import type { NphButton } from '../nph-button/nph-button';
 import collapsibleCss from './nph-collapsible.css?inline';
+import disclosureCss from './nph-collapsible.disclosure.css?inline';
+import { endsGrowth, growthDuration, isMoving, longestDuration, phaseFor, settleDelay, settledPhase, steadyPhase } from './nph-collapsible.disclosure';
+import type { DisclosurePhase } from './nph-collapsible.disclosure';
+
+/* The part this piece shares with every block that grows in place (DSA-98): the phases and the reading of the time. */
+export { longestDuration };
 
 const TAG = 'nph-collapsible';
 
@@ -99,9 +105,6 @@ export interface NphCollapsibleToggleDetail {
 /** The three slots of the row trigger. Internal, not API. */
 type RowSlot = 'start' | 'tag' | 'end';
 
-/** Where the content is: steady, or growing or shrinking. Internal, not API. */
-type Phase = 'closed' | 'opening' | 'open' | 'closing';
-
 /** Development message; outside a bundler with `import.meta.env`, it stays silent. */
 function devMessage(kind: 'error' | 'warn', message: string): void {
   if (import.meta.env?.DEV) {
@@ -117,20 +120,9 @@ function text(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-/** The longest time of a `transition-duration` value (`0.25s`, `250ms`, `0s, 0.2s`), in milliseconds. */
-export function longestDuration(value: string): number {
-  let longest = 0;
-  for (const part of value.split(',')) {
-    const trimmed = part.trim();
-    const amount = Number.parseFloat(trimmed);
-    if (!Number.isFinite(amount)) continue;
-    longest = Math.max(longest, trimmed.endsWith('ms') ? amount : amount * 1000);
-  }
-  return longest;
-}
-
 export class NphCollapsible extends LitElement {
-  static override styles = unsafeCSS(collapsibleCss);
+  /* The shared growth first, so the style of this piece reads after it. */
+  static override styles = [unsafeCSS(disclosureCss), unsafeCSS(collapsibleCss)];
 
   static override properties = {
     /* The reflected ones are read by the internal CSS. */
@@ -165,7 +157,7 @@ export class NphCollapsible extends LitElement {
   /** The name of the start icon, a core name of `nph-icon`, in `line`. Empty draws none. */
   declare icon: string;
   /** Growing or shrinking, or steady. Internal. */
-  declare protected phase: Phase;
+  declare protected phase: DisclosurePhase;
   /** The preview text fits in its three lines, so nothing is cut and there is no button. Internal. */
   declare protected fits: boolean;
   /** Which of the `start`, `tag` and `end` slots hold content. Internal. */
@@ -300,8 +292,7 @@ export class NphCollapsible extends LitElement {
 
   /** The time the content takes to grow, from the style the browser resolved: 0 with reduced motion. */
   private growDuration(): number {
-    const panel = this.renderRoot.querySelector<HTMLElement>('.panel');
-    return panel === null ? 0 : longestDuration(getComputedStyle(panel).transitionDuration);
+    return growthDuration(this.renderRoot.querySelector<HTMLElement>('.panel'));
   }
 
   private stopSettling(): void {
@@ -318,19 +309,14 @@ export class NphCollapsible extends LitElement {
       this.refocus = this.shadowRoot?.activeElement?.id === TRIGGER_ID;
     }
 
-    const steady: Phase = this.open ? 'open' : 'closed';
+    const steady = steadyPhase(this.open);
     if (!this.hasUpdated || !this.valid || changed.has('type')) {
       this.stopSettling();
       this.phase = steady;
     } else if (changed.has('open')) {
-      if (!this.growing || this.instant || this.growDuration() === 0) {
-        this.stopSettling();
-        this.phase = steady;
-      } else {
-        /* A new direction while the content still moves: the transition reverses and ends once, in the new direction. */
-        this.stopSettling();
-        this.phase = this.open ? 'opening' : 'closing';
-      }
+      /* A new direction while the content still moves: the transition reverses and ends once, in the new direction. */
+      this.stopSettling();
+      this.phase = !this.growing || this.instant ? steady : phaseFor(this.open, this.growDuration());
     }
   }
 
@@ -340,7 +326,7 @@ export class NphCollapsible extends LitElement {
     this.watchFit();
     if (this.instant) this.openWithoutMovement();
 
-    if (this.phase === 'opening' || this.phase === 'closing') {
+    if (isMoving(this.phase)) {
       this.settleSoon();
     }
     if (changed.has('open') && !this.open && this.hasUpdated && this.matches(':focus-within')) {
@@ -428,20 +414,17 @@ export class NphCollapsible extends LitElement {
   /** A safety net for the end of the growth: a transition never ends in a box that is not rendered. */
   private settleSoon(): void {
     if (this.settleTimer !== undefined) return;
-    const wait = this.growDuration();
-    this.settleTimer = setTimeout(() => this.settle(), wait + 50);
+    this.settleTimer = setTimeout(() => this.settle(), settleDelay(this.renderRoot.querySelector<HTMLElement>('.panel')));
   }
 
   /** The growth is over: the content is steady, open or closed. */
   private settle(): void {
     this.stopSettling();
-    if (this.phase === 'opening') this.phase = 'open';
-    else if (this.phase === 'closing') this.phase = 'closed';
+    this.phase = settledPhase(this.phase);
   }
 
   private onTransitionEnd(event: TransitionEvent): void {
-    if (event.target !== event.currentTarget || event.propertyName !== 'grid-template-rows') return;
-    this.settle();
+    if (endsGrowth(event)) this.settle();
   }
 
   /**
@@ -560,7 +543,7 @@ export class NphCollapsible extends LitElement {
   /** The content: free, in the default slot, indented to the title when the indicator or the icon come first. */
   private renderPanel(): TemplateResult {
     const line = this.type === 'line';
-    return html`<div class="panel" data-state=${this.phase} @transitionend=${this.onTransitionEnd}>
+    return html`<div class="panel" data-disclosure data-state=${this.phase} @transitionend=${this.onTransitionEnd}>
       <div class="clip" id=${CONTENT_ID} @beforematch=${this.onFound}>
         <div class="content">
           ${line && this.indicator === 'start' ? html`<span class="indent indent-indicator" aria-hidden="true"></span>` : nothing}

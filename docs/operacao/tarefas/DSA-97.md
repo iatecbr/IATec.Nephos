@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 960,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "done",
   "piece": "nph-accordion",
   "dependencies": [
     "DSA-03",
@@ -28,17 +28,18 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 7da6d8df43fee2f042a600ed0df4dcd82c5b30cc origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-97/review-and-merge-2026-11-26.md",
+      "result": "passed",
+      "verified_at": "2026-11-26",
+      "verified_by": "helifiora"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-97/figma-docs-accepted-2026-11-19.md"
+    "docs/operacao/evidencias/DSA-97/figma-docs-accepted-2026-11-19.md",
+    "docs/operacao/evidencias/DSA-97/review-and-merge-2026-11-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -53,9 +54,9 @@
     "excerpt": null,
     "converted_decision": "The nph-accordion documentation (7428:43770, page 1626:29) was accepted as the API and behavior specification of the nph-accordion, with the visual acceptance of the root (7227:25867). Accordion set 7227:26169, 18 variants; item set 7227:26332, 48 variants; start set 7227:26993, 24 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-97-accordion", "commit": null, "pr": null },
-  "context": "docs/operacao/contextos/DSA-97.md",
-  "updated_at": "2026-11-23"
+  "git_review": { "branch": "feat/dsa-97-accordion", "commit": "eab7749c", "pr": 191 },
+  "context": null,
+  "updated_at": "2026-11-26"
 }
 ```
 

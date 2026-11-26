@@ -13735,7 +13735,7 @@
       ],
       [
         "Movimiento",
-        "La flecha de un grupo y la de un subgrupo giran 180 grados y el bloque crece en su lugar en panel-menu/expand-duration y panel-menu/expand-easing. Con movimiento reducido, nada se mueve."
+        "La flecha de un grupo y la de un subgrupo giran 180 grados y el bloque crece en su lugar en collapsible/expand-duration y collapsible/expand-easing, el crecimiento que el nph-collapsible comparte con el menú en panel. Con movimiento reducido, nada se mueve."
       ],
       [
         "Teclado y roles",

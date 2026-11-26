@@ -143,7 +143,7 @@ Indiane answered D-4 on 2026-11-26, in the approval round of the pending items, 
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D-4 | Option 1: the 20 px icon is centered on the first line of the title; icon and title both drop 2 px. Material aligns the icon with the main line of the text (https://m1.material.io/components/lists.html ). | Nothing changes. Figma follows in a later change (sets 6910:6828, 774:154 and 6910:7093 draw icon and title at y 0). |
+| D-4 | Option 1: the 20 px icon is centered on the first line of the title; icon and title both drop 2 px. Material aligns the icon with the main line of the text (https://m1.material.io/components/lists.html ). | Nothing changes in the result. The text drop is now the token `rich-option/text-offset` → `core/space/50`, generated `--nph-rich-option-text-offset`, on v/5.0.0 since 2026-11-26; the code can read it in place of the calculation, with the same value. Figma updated on 2026-11-26: in the 36 variants of set `6910:6828` the `textos` block has `rich-option/text-offset` on top. On the same day the older card set `774:154` (24 variants) got the same `rich-option/text-offset` on top of its `textos` block. Still open, waiting for a design decision (preview `8504:35292` on the Figma Rascunho page): the icon of `6910:6828`, which still draws at y 0, and the rich option of the select and combobox list `6910:7093`, which is still centered on the text block. Both need a new token, so the code keeps them as they are in Figma until that decision. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

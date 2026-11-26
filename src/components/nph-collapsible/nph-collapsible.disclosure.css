@@ -1,0 +1,45 @@
+/**
+ * Internal style of a block that grows in place, shared by `nph-collapsible` and `nph-sidebar` (DSA-98).
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties consumed
+ * here: `collapsible/expand-duration` and `collapsible/expand-easing`, which alias `motion/expand-*`. The
+ * block is the element that carries `data-disclosure`, and where it is, from `data-state`
+ * (`closed`, `opening`, `open`, `closing`). Its `.clip` child is the one that cuts.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `0fr` and `1fr` (the closed
+ * and the open track of the growth) and `none`.
+ */
+
+/*
+ * The grid track goes from nothing to its content. The clip has no padding: a box with padding does not
+ * shrink below it, so the padding lives on the content inside.
+ */
+[data-disclosure] {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition-property: grid-template-rows;
+  transition-duration: var(--nph-collapsible-expand-duration);
+  transition-timing-function: var(--nph-collapsible-expand-easing);
+}
+
+[data-disclosure][data-state='opening'],
+[data-disclosure][data-state='open'] {
+  grid-template-rows: 1fr;
+}
+
+/* It cuts while the block moves and when it is closed; steady and open it lets the focus halo of what is inside show. */
+[data-disclosure] > .clip {
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+[data-disclosure][data-state='open'] > .clip {
+  overflow: visible;
+}
+
+/* Reduced motion: the block opens and closes at once. */
+@media (prefers-reduced-motion: reduce) {
+  [data-disclosure] {
+    transition: none;
+  }
+}

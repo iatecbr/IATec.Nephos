@@ -1416,7 +1416,7 @@ tokens_texto_destaque:
 espacamento_regras:
   unidade_base: 4
   meio_passo: 2
-  meio_passo_use: "Only chip, icon and table cell. It has no semantic token. Declared exception, by decision: the gap between the title line and the description of the nph-accordion trigger (accordion/title-gap, straight to core/space/50, DSA-97), the same gap in the nph-collapsible trigger (collapsible/title-gap, straight to core/space/50) and the gap between the two parts of the nph-split-button (split-button/gap, straight to core/space/50, DSA-109). Also by decision, in the nph-chart (DSA-101): the 2 px stroke between neighbor colors and the 2 px gap between the mark and the data focus border (chart/segment-gap, chart/focus-offset, straight to core/space/50), drawn lines, not a gap between boxes."
+  meio_passo_use: "Only chip, icon and table cell. It has no semantic token. Declared exception, by decision: the gap between the title line and the description of the nph-accordion trigger (accordion/title-gap, straight to core/space/50, DSA-97), the same gap in the nph-collapsible trigger (collapsible/title-gap, straight to core/space/50) and the gap between the two parts of the nph-split-button (split-button/gap, straight to core/space/50, DSA-109). Also by decision, in the nph-chart (DSA-101): the 2 px stroke between neighbor colors and the 2 px gap between the mark and the data focus border (chart/segment-gap, chart/focus-offset, straight to core/space/50), drawn lines, not a gap between boxes. Also by decision, the 2 px drop of the label from the top of the nph-checkbox, nph-radio and nph-switch (default size) and of the text block of the nph-rich-option (checkbox/label-offset, radio/label-offset, switch/label-offset, rich-option/text-offset, straight to core/space/50): it centers the first 20 px line on the 24 px target; space/inline-tight (4) has the function of a gap, not the value, and radius/subtle (2) is a radius."
   unidade_css: rem, root 16px
   padding_vs_gap: "Padding is the breathing room inside a box. Gap is the distance between boxes. Different tokens because the decisions are different."
   passo_por_vez: "If a step is tight, go up one. Skipping a step is a symptom of a grouping problem, not of space."
@@ -1437,7 +1437,7 @@ tokens_core_space:
   '1100': { valor: 80, rem: '5rem',     css: '--nph-core-space-1100' }
   '1200': { valor: 96, rem: '6rem',     css: '--nph-core-space-1200' }
   '1500': { valor: 144, rem: '9rem',    css: '--nph-core-space-1500' }
-  direto_por_decisao: 'A component token aliases a core space straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. In the nph-timeline: 100 above and below the connector line (timeline/connector-gap), 200 on the history dot and the center dot (timeline/dot-size, as carousel/indicator-size) and 300 between the marker column and the text (timeline/content-gap). In the rich option: 200 on its padding and its start dot (select/option-padding, select/option-dot-size): space/inline and space/stack-snug are gaps, radius/container, radius/inset and focus/radius-inner are radii. In the nph-date-picker: 100 between the field and the open panel, below or above (date-picker/panel-offset, as popover/offset). In the nph-tree-select: 100 between the field and the panel (tree-select/panel-offset), as popover/offset: space/inline-tight and space/stack-tight are the gap of a unit and of a dense line, radius/inner is a radius and focus/ring-width the width of the halo; none names the distance from the anchor. In the nph-accordion: 50 between the title line and the description of the trigger (accordion/title-gap), a declared exception to the half-step rule above: space/stack-tight (4) and space/stack-snug (8) have the function and not the requested value, and radius/subtle (2) is a radius; it leaves when the accordion item becomes an instance of the nph-collapsible. 200 and 100 on the padding of the start tile (accordion/tile-padding, accordion/tile-padding-compact): no semantic token is the inner padding of a small piece; space/inline-tight, space/stack-tight, space/inline and space/stack-snug are gaps, radius/inner, radius/container and radius/inset are radii, focus/ring-width and focus/radius-inner are focus. In the nph-toast-region: 600 and 400 from the region to the edge of the screen, at the bottom and at the end on the default screen from 768 px (toast-region/inset), and at the bottom and on both sides on the compact screen below 768 px (toast-region/inset-compact): layout/margin-default, layout/margin-compact and layout/gutter are the side margin of the page and the gutter between columns, space/overlay-padding, space/surface-padding and space/container-padding are inner padding, space/stack is the gap between stacked items, and icon/size-lg and icon/size-sm are icon sizes, and the text/* sizes are type and line height. In the nph-chart (DSA-101): 50 on the 2 px stroke between neighbor colors and on the gap between the mark and the focus border (chart/segment-gap, chart/focus-offset): radius/subtle, the only general semantic of 2, is the radius of a small marker (switch/track-padding-sm belongs to another piece). 200 on the marker, the side padding of the legend item, the gap between the rows of a wrapped legend, the tooltip padding and the gap between the error sentence and its button (chart/marker-size, chart/legend-item-padding, chart/legend-row-gap, chart/tooltip-padding, chart/error-stack-gap): space/inline and space/stack-snug are gaps between pieces, radius/container, radius/inset and focus/radius-inner are radii. 600 on the height of the `sparkline` type, for a table cell (chart/sparkline-height): layout/gutter, layout/margin-default, icon/size-lg, space/overlay-padding and space/surface-padding have other functions. In the nph-tree-table branch error row: 300 on the sides of the error cell and above and below the row (tree-table/cell-padding-inline, tree-table/row-padding-block): space/control-padding is the inner horizontal padding of a button, field and select and does not cover the vertical breathing room, space/inline-loose is the gap between footer actions and layout/columns the grid count, and the text role sizes of 12 are typography; 800 on the minimum height of the row (tree-table/row-height), as table/row-height: no semantic token is a row height, and avatar/size-lg is an avatar, switch/track-width the switch track and icon/duotone-opacity (Figma only) an opacity. In the nph-popconfirm (DSA-99): 100 between the trigger and the surface (popconfirm/offset), as popover/offset; 400 on the arrow base and on its inset from the corner (popconfirm/arrow-width, popconfirm/arrow-inset) and 200 on its height (popconfirm/arrow-height), as popover/arrow-*; 600 on the content and actions padding in the md size (popconfirm/padding-md, popconfirm/footer-padding-md): space/surface-padding is the card, space/overlay-padding the layer that blocks the page, layout/gutter and layout/margin-default the page and icon/size-lg an icon; 200 on the padding of the icon box (popconfirm/icon-box-padding), as card/icon-container-padding. In the nph-rich-text-editor (DSA-105): 200 above and below the text area and below the footer (rich-text-editor/content-padding-y): space/inline is the gap between side-by-side elements and space/stack-snug the gap between a title and its description, and radius/container, radius/inset and focus/radius-inner are radii; 400 on the start padding of the quote text, after its bar (rich-text-editor/quote-padding-start): space/stack is the gap between stacked siblings, space/container-padding the padding of a panel, popover and dialog, layout/margin-compact the page margin and icon/size-sm an icon box; 600 on the list indent (rich-text-editor/list-indent): layout/gutter is the gutter between columns, layout/margin-default the page margin, icon/size-lg an icon box, space/overlay-padding the layer that blocks the page and space/surface-padding the card. In the nph-split-button (DSA-109): 50 between the main part and the arrow (split-button/gap), a declared exception to the half-step rule above: radius/subtle, the only general semantic of 2, is the radius of a small marker, not a gap, and in the space family the smallest is space/inline-tight, 4. In the nph-collapsible: 50 between the title line and the description of the trigger (collapsible/title-gap), the same as accordion/title-gap and for the same reason: space/stack-tight (4) and space/stack-snug (8) have the function, not the value.'
+  direto_por_decisao: 'A component token aliases a core space straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. In the nph-timeline: 100 above and below the connector line (timeline/connector-gap), 200 on the history dot and the center dot (timeline/dot-size, as carousel/indicator-size) and 300 between the marker column and the text (timeline/content-gap). In the rich option: 200 on its padding and its start dot (select/option-padding, select/option-dot-size): space/inline and space/stack-snug are gaps, radius/container, radius/inset and focus/radius-inner are radii. In the nph-date-picker: 100 between the field and the open panel, below or above (date-picker/panel-offset, as popover/offset). In the nph-tree-select: 100 between the field and the panel (tree-select/panel-offset), as popover/offset: space/inline-tight and space/stack-tight are the gap of a unit and of a dense line, radius/inner is a radius and focus/ring-width the width of the halo; none names the distance from the anchor. In the nph-accordion: 50 between the title line and the description of the trigger (accordion/title-gap), a declared exception to the half-step rule above: space/stack-tight (4) and space/stack-snug (8) have the function and not the requested value, and radius/subtle (2) is a radius; it leaves when the accordion item becomes an instance of the nph-collapsible. 200 and 100 on the padding of the start tile (accordion/tile-padding, accordion/tile-padding-compact): no semantic token is the inner padding of a small piece; space/inline-tight, space/stack-tight, space/inline and space/stack-snug are gaps, radius/inner, radius/container and radius/inset are radii, focus/ring-width and focus/radius-inner are focus. In the nph-toast-region: 600 and 400 from the region to the edge of the screen, at the bottom and at the end on the default screen from 768 px (toast-region/inset), and at the bottom and on both sides on the compact screen below 768 px (toast-region/inset-compact): layout/margin-default, layout/margin-compact and layout/gutter are the side margin of the page and the gutter between columns, space/overlay-padding, space/surface-padding and space/container-padding are inner padding, space/stack is the gap between stacked items, and icon/size-lg and icon/size-sm are icon sizes, and the text/* sizes are type and line height. In the nph-chart (DSA-101): 50 on the 2 px stroke between neighbor colors and on the gap between the mark and the focus border (chart/segment-gap, chart/focus-offset): radius/subtle, the only general semantic of 2, is the radius of a small marker (switch/track-padding-sm belongs to another piece). 200 on the marker, the side padding of the legend item, the gap between the rows of a wrapped legend, the tooltip padding and the gap between the error sentence and its button (chart/marker-size, chart/legend-item-padding, chart/legend-row-gap, chart/tooltip-padding, chart/error-stack-gap): space/inline and space/stack-snug are gaps between pieces, radius/container, radius/inset and focus/radius-inner are radii. 600 on the height of the `sparkline` type, for a table cell (chart/sparkline-height): layout/gutter, layout/margin-default, icon/size-lg, space/overlay-padding and space/surface-padding have other functions. In the nph-tree-table branch error row: 300 on the sides of the error cell and above and below the row (tree-table/cell-padding-inline, tree-table/row-padding-block): space/control-padding is the inner horizontal padding of a button, field and select and does not cover the vertical breathing room, space/inline-loose is the gap between footer actions and layout/columns the grid count, and the text role sizes of 12 are typography; 800 on the minimum height of the row (tree-table/row-height), as table/row-height: no semantic token is a row height, and avatar/size-lg is an avatar, switch/track-width the switch track and icon/duotone-opacity (Figma only) an opacity. In the nph-popconfirm (DSA-99): 100 between the trigger and the surface (popconfirm/offset), as popover/offset; 400 on the arrow base and on its inset from the corner (popconfirm/arrow-width, popconfirm/arrow-inset) and 200 on its height (popconfirm/arrow-height), as popover/arrow-*; 600 on the content and actions padding in the md size (popconfirm/padding-md, popconfirm/footer-padding-md): space/surface-padding is the card, space/overlay-padding the layer that blocks the page, layout/gutter and layout/margin-default the page and icon/size-lg an icon; 200 on the padding of the icon box (popconfirm/icon-box-padding), as card/icon-container-padding. In the nph-rich-text-editor (DSA-105): 200 above and below the text area and below the footer (rich-text-editor/content-padding-y): space/inline is the gap between side-by-side elements and space/stack-snug the gap between a title and its description, and radius/container, radius/inset and focus/radius-inner are radii; 400 on the start padding of the quote text, after its bar (rich-text-editor/quote-padding-start): space/stack is the gap between stacked siblings, space/container-padding the padding of a panel, popover and dialog, layout/margin-compact the page margin and icon/size-sm an icon box; 600 on the list indent (rich-text-editor/list-indent): layout/gutter is the gutter between columns, layout/margin-default the page margin, icon/size-lg an icon box, space/overlay-padding the layer that blocks the page and space/surface-padding the card. In the nph-split-button (DSA-109): 50 between the main part and the arrow (split-button/gap), a declared exception to the half-step rule above: radius/subtle, the only general semantic of 2, is the radius of a small marker, not a gap, and in the space family the smallest is space/inline-tight, 4. In the nph-collapsible: 50 between the title line and the description of the trigger (collapsible/title-gap), the same as accordion/title-gap and for the same reason: space/stack-tight (4) and space/stack-snug (8) have the function, not the value. In the nph-checkbox, nph-radio, nph-switch (default size) and nph-rich-option: 50 on the drop of the label or text block from the top (checkbox/label-offset, radio/label-offset, switch/label-offset, rich-option/text-offset), a declared exception to the half-step rule above: no semantic token is a 2 px offset; space/inline-tight (4) and space/stack-tight (4) are gaps with another value, and radius/subtle (2) is a radius.'
 
 tokens_space:
   space/inline-tight:
@@ -1966,17 +1966,73 @@ tokens_switch:
     alias: core/space/50
     valor: 2
     use: "Gap between the track and the knob of the small nph-switch: 2. USE only on the track of the small size. DO NOT USE on another piece."
+  switch/label-offset:
+    css: '--nph-switch-label-offset'
+    alias: core/space/50
+    valor: 2
+    use: "Drop of the nph-switch label from the top in the default size: 2. It centers the first 20 px line of the label on the 24 px track; a label of two lines keeps the track on the first line."
+    nao_use: "Not in the small size, which already centers. Not as a gap between the track and the label (space/inline)."
 
 tokens_skeleton:
   skeleton/line-height:
     css: '--nph-skeleton-line-height'
     alias: core/line-height/100
     valor: 16
-    use: "Height of the nph-skeleton line: 16. USE only on the line shape of nph-skeleton. DO NOT USE on another piece."
+    use: "Height of the nph-skeleton line bar: 16, centered in the skeleton/line-box-height box. USE only on the line shape of nph-skeleton. DO NOT USE on another piece."
+  skeleton/line-box-height:
+    css: '--nph-skeleton-line-box-height'
+    alias: core/line-height/200
+    valor: 20
+    use: "Height of the box of the nph-skeleton line shape: 20, the line height of the text it stands for, with the 16 px bar (skeleton/line-height) centered in it."
+    nao_use: "Not on the block or avatar shapes. Not as the height of the bar itself (skeleton/line-height)."
   skeleton/background:
     css: '--nph-skeleton-background'
     alias: color/skeleton
     use: "Background of the nph-skeleton shape: line, block and circle (DSA-94). USE only on nph-skeleton. DO NOT USE on another piece."
+
+tokens_checkbox:
+  checkbox/label-offset:
+    css: '--nph-checkbox-label-offset'
+    alias: core/space/50
+    valor: 2
+    use: "Drop of the nph-checkbox label from the top: 2. It centers the first 20 px line of the label on the 24 px target; a label of two lines keeps the box on the first line."
+    nao_use: "Not as a gap between the box and the label (space/inline)."
+
+tokens_radio:
+  radio/label-offset:
+    css: '--nph-radio-label-offset'
+    alias: core/space/50
+    valor: 2
+    use: "Drop of the nph-radio label from the top: 2. It centers the first 20 px line of the label on the 24 px target; a label of two lines keeps the circle on the first line."
+    nao_use: "Not as a gap between the circle and the label (space/inline)."
+
+tokens_rich-option:
+  rich-option/text-offset:
+    css: '--nph-rich-option-text-offset'
+    alias: core/space/50
+    valor: 2
+    use: "Drop of the text block (title and second line) of the nph-rich-option card from the top: 2. It centers the first 20 px line of the title on the 24 px control."
+    nao_use: "Not as the gap between the title and the second line (rich-option/text-gap)."
+
+tokens_sidebar:
+  sidebar/flyout-item-radius:
+    css: '--nph-sidebar-flyout-item-radius'
+    alias: radius/inset
+    valor: 8
+    use: "Corner of the option of the nph-sidebar floating panel (2nd level when collapsed and 3rd level): 8, the same as the panel (sidebar/flyout-radius). Declared exception to the nested radius rule, by decision of the design owner."
+    nao_use: "Not on the item and subitem of the fixed menu, which keep sidebar/item-radius (12)."
+  sidebar/flyout-item-focus-border-radius:
+    css: '--nph-sidebar-flyout-item-focus-border-radius'
+    alias: focus/border-radius-container
+    valor: 9
+    use: "Corner of the 1 px focus border around the floating panel option: sidebar/flyout-item-radius + 1."
+    nao_use: "Not on the focus of the fixed menu item (focus/border-radius-sidebar-item, 13). It aliases focus/border-radius-container because that semantic is the focus border around a base of 8, the same base as the option; focus/radius-inner-with-border (9) is the halo of a base of 4."
+  sidebar/flyout-item-focus-halo-radius:
+    css: '--nph-sidebar-flyout-item-focus-halo-radius'
+    alias: focus/radius-container
+    valor: 13
+    use: "Corner of the focus halo around the focus border of the floating panel option: sidebar/flyout-item-radius + 5."
+    nao_use: "Not on the focus of the fixed menu item (focus/radius-sidebar-item, 17). It aliases focus/radius-container because that semantic is the focus halo around a base of 8; focus/border-radius-sidebar-item (13) is the border of a base of 12."
 
 tokens_scheme:
   scheme/is-light:
@@ -2004,7 +2060,7 @@ raio_regras:
   padrao_do_sistema: radius/control
   unidade_css: px
   por_que_px: "Radius in rem would grow with the user font and a 6px button would become a capsule. Shape does not follow text size."
-  aninhado: "Inner radius = outer radius - padding. If it gives zero or less, use radius/none. Inner NEVER equal to outer."
+  aninhado: "Inner radius = outer radius - padding. If it gives zero or less, use radius/none. Inner NEVER equal to outer. Declared exception, by decision of the design owner: the option of the nph-sidebar floating panel (2nd level when collapsed and 3rd level) keeps 8, the same as the panel (sidebar/flyout-item-radius), with its focus at 9 and 13; the subtraction would give a square option (8 - 8 at the top and 8 - 10 on the sides, zero or less)."
   varia_por_modo: false
 
 tokens_core_radius:
@@ -2856,7 +2912,7 @@ icones_nucleo:
     nota: 'ellipsis (horizontal) means OMITTED ITEMS - pagination, breadcrumb. Do not confuse with ellipsis-vertical, which means MORE ACTIONS ON THIS ROW and lives in action.'
   acao:
     familia: 'Classic Light'
-    icones: [align-center, align-left, align-right, arrow-down-arrow-up, arrow-up-arrow-down, arrow-up-from-bracket, bold, check, circle-half-stroke, cloud-arrow-up, download, ellipsis-vertical, filter, filter-slash, gear, grid-2, grip-vertical, italic, link, list, magnifying-glass, minus, paper-plane, paperclip, pen, pen-to-square, plus, print, repeat, right-from-bracket, right-to-bracket, rotate-right, share, share-from-square, thumbs-down, thumbs-up, thumbtack, thumbtack-slash, trash, trash-can, underline, user-circle-minus, user-circle-plus, user-minus, xmark]
+    icones: [align-center, align-left, align-right, arrow-down-arrow-up, arrow-up-arrow-down, arrow-up-from-bracket, block-quote, bold, check, circle-half-stroke, cloud-arrow-up, download, ellipsis-vertical, filter, filter-slash, gear, grid-2, grip-vertical, italic, link, list, list-ol, list-ul, magnifying-glass, minus, paper-plane, paperclip, pen, pen-to-square, plus, print, repeat, right-from-bracket, right-to-bracket, rotate-left, rotate-right, share, share-from-square, strikethrough, text-slash, thumbs-down, thumbs-up, thumbtack, thumbtack-slash, trash, trash-can, underline, user-circle-minus, user-circle-plus, user-minus, xmark]
   estado_e_comunicacao:
     familia: 'Classic Light'
     icones: [alarm-clock, badge-check, bell, circle-check, circle-info, circle-notch, circle-question, circle-xmark, heart, lock, question, star, triangle-exclamation]
@@ -3205,7 +3261,7 @@ The curve says what the piece is. The question is not how much to round.
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
 | `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target. Button and field are never a pill. |
 
-**Nested radius:** inner = outer − padding. Container at 8 with padding 4 → inner 4. With padding 8 → inner 0 (`radius/none`). Inner never equal to outer. Exception: `radius/inset` (8) inside the card (14) and inside the nph-popconfirm surface (14) is a fixed value of the soft style, not the subtraction (DSA-88, DSA-99).
+**Nested radius:** inner = outer − padding. Container at 8 with padding 4 → inner 4. With padding 8 → inner 0 (`radius/none`). Inner never equal to outer. Exception: `radius/inset` (8) inside the card (14) and inside the nph-popconfirm surface (14) is a fixed value of the soft style, not the subtraction (DSA-88, DSA-99). Exception: the option of the nph-sidebar floating panel keeps 8, the same as the panel (sidebar/flyout-item-radius), by decision of the design owner.
 
 **Radius is px, not rem.** Shadow too — they are the two foundations like this, and both for the same reason. In rem, the corner would grow with the user font and the piece would change shape.
 
