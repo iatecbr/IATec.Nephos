@@ -145,6 +145,9 @@ states:
   bulk-action-hover:
     token: toolbar/bulk-action-background-hover
     changes_for_user: "In the bulk bar, the hover of the secondary ghost actions uses the bar's own hover background, so it stays visible over the highlighted background (pending decision D-1)."
+  bulk-danger-action-hover:
+    token: toolbar/bulk-danger-action-background-hover
+    changes_for_user: "In the bulk bar, the hover of the danger ghost action uses its own hover background, one step darker than the button's, so it stays visible over the highlighted background."
   applied-filters-empty:
     token: toolbar/gap
     changes_for_user: "With no chip, the strip is not shown and the page bar keeps its usual height. Clear filters shows from the first chip."
@@ -162,7 +165,7 @@ tokens:
   radius: toolbar/radius
   padding: toolbar/padding
   gap: toolbar/gap
-  bulk: "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x and toolbar/bulk-action-background-hover"
+  bulk: "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x, toolbar/bulk-action-background-hover and toolbar/bulk-danger-action-background-hover"
   floating: "toolbar/floating-background, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown"
   count: text/label-md
   height: "from the pieces: control/height-compact, control/height-default or control/height-large; the search nph-input takes input/height-compact, input/height (38) or control/height-large"
@@ -278,6 +281,7 @@ The icon of the ghost buttons becomes solid on hover and when checked.
 |---|---|---|
 | Bar | `toolbar/background` | The pieces sit on the bar's background and radius |
 | Bulk action hover | `toolbar/bulk-action-background-hover` | The hover of the secondary ghost actions stays visible over the highlighted background (D-1) |
+| Bulk danger action hover | `toolbar/bulk-danger-action-background-hover` | The hover of the danger ghost action stays visible over the highlighted background |
 | Applied filters, empty | `toolbar/gap` | No chip: the strip is not shown and the page bar keeps its height |
 
 **Feedback and focus:** each piece shows its own focus; the bar draws none.

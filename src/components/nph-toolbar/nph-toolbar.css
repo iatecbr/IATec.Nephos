@@ -23,9 +23,12 @@
  * Bulk bar: the hover of the secondary ghost actions, with text and icon only, uses the
  * bar's own hover token, so it stays visible over the highlighted background (D-1). The
  * tokens of `nph-button` are pointed at it here and inherited by the pieces in the bar,
- * as `nph-dialog` does with the secondary color of its buttons.
+ * as `nph-dialog` does with the secondary color of its buttons. The hover of the danger ghost
+ * action, which the button paints with `color/destructive-surface`, takes its own bar token the
+ * same way, by the semantic color the button reads.
  */
 :host([type='bulk']) {
+  --nph-color-destructive-surface: var(--nph-toolbar-bulk-danger-action-background-hover);
   --nph-button-secondary-ghost-background-hover: var(--nph-toolbar-bulk-action-background-hover);
   --nph-icon-button-secondary-ghost-background-hover: var(--nph-toolbar-bulk-action-background-hover);
 }

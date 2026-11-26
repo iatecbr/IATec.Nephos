@@ -384,6 +384,22 @@ describe('the hover of the bulk bar (D-1)', () => {
     );
   });
 
+  it('the hovered danger ghost action paints the bulk danger hover background', async () => {
+    const bar = await mount(BULK);
+    const button = bar.querySelector('#delete') as HTMLElement;
+    await userEvent.hover(button);
+    const control = button.shadowRoot?.querySelector('button') as HTMLElement;
+    await vi.waitFor(() =>
+      expect(getComputedStyle(control).backgroundColor).toBe(color('--nph-toolbar-bulk-danger-action-background-hover')),
+    );
+  });
+  it('the other bars keep the danger hover of the button', async () => {
+    const bar = await mount(`<nph-toolbar type="page" label="People"><nph-button id="remove" severity="danger" emphasis="ghost" text="Remove"></nph-button></nph-toolbar>`);
+    const button = bar.querySelector('#remove') as HTMLElement;
+    expect(getComputedStyle(button).getPropertyValue('--nph-color-destructive-surface').trim()).toBe(
+      getComputedStyle(document.documentElement).getPropertyValue('--nph-color-destructive-surface').trim(),
+    );
+  });
   it('the other bars keep the hover of the pieces', async () => {
     const bar = await mount(PAGE);
     const button = bar.querySelector('#filter') as HTMLElement;
@@ -952,8 +968,8 @@ describe('token contract', () => {
 
   /* The bar has no outer border since DSA-118: these three stay in the source and no CSS reads them. */
   const notRead = ['--nph-toolbar-border', '--nph-toolbar-border-width', '--nph-toolbar-floating-border'];
-  it('the source has the 14 toolbar tokens of the evidence, and each is consumed here except the 3 of the outer border', () => {
-    expect(toolbarTokens).toHaveLength(14);
+  it('the source has the 15 toolbar tokens of the evidence, and each is consumed here except the 3 of the outer border', () => {
+    expect(toolbarTokens).toHaveLength(15);
     for (const property of toolbarTokens) {
       expect(tokensCss, property).toContain(`${property}:`);
       expect(used.has(property), property).toBe(!notRead.includes(property));
@@ -977,9 +993,13 @@ describe('token contract', () => {
     }
   });
 
-  it('points only the secondary ghost hover of nph-button at a toolbar token', () => {
+  it('points only the secondary ghost hover and the danger ghost hover of nph-button at a toolbar token', () => {
     const declared = [...cssWithoutComments.matchAll(/(--nph-[a-z0-9-]+)\s*:/g)].map((match) => match[1]);
-    expect(declared).toEqual(['--nph-button-secondary-ghost-background-hover', '--nph-icon-button-secondary-ghost-background-hover']);
+    expect(declared).toEqual([
+      '--nph-color-destructive-surface',
+      '--nph-button-secondary-ghost-background-hover',
+      '--nph-icon-button-secondary-ghost-background-hover',
+    ]);
     for (const name of declared) {
       expect(tokensCss, name).toContain(`${name ?? ''}:`);
     }
