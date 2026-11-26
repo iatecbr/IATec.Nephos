@@ -1933,11 +1933,17 @@ P74. The names follow P64.
    controls that choose. **Known limit:** the screen reader reads the state of each button and
    does not announce that the choice is exclusive.
 
-7. **Keyboard.** One Tab stop per button, in order, with no arrow keys and no roving tabindex.
-   A disabled button leaves the order. The accepted frame says each button shows its own focus
-   and that the group does not receive focus, and it asks for no arrow keys; a roving tabindex
-   across several groups is the work of a toolbar (WAI-ARIA Authoring Practices, Toolbar). The
-   group has no `tabindex` and no `delegatesFocus`. D5 of the task asks Indiane to confirm.
+7. **Keyboard.** *(Changed by D5 of DSA-23, answered by Indiane on 2026-11-23 and applied in
+   DSA-115: the first version of this item gave one Tab stop per button and no arrow keys.)* The
+   group is one Tab stop, with a roving tabindex, as Radix Toggle Group does. Tab enters on the
+   first checked button, or on the first enabled one when none is checked, and the next Tab
+   leaves the group. The left and right arrows move the focus between the buttons and wrap
+   (mirrored in a right-to-left page), Home and End go to the first and the last, and a disabled
+   button is skipped. The arrows only move the focus; Enter and Space toggle. Inside an
+   `nph-toolbar` the group steps aside: the bar keeps one roving for the whole bar (WAI-ARIA
+   Authoring Practices, Toolbar), so the group writes no `tabindex` and handles no arrow key
+   there. Each button still shows its own focus and the group does not receive focus: it has no
+   `tabindex` of its own and no `delegatesFocus`.
 
 8. **Box.** `display: inline-flex` with `gap` `space/inline` (8 px), `align-items: stretch`,
    no wrap, no background, border, outline, opacity or transition. The height comes from each
@@ -1986,8 +1992,10 @@ no longer holds that choice alone. The code follows D3.
 - **Use and do-not-use lists.** "For a single option, use `nph-togglebutton`, without a
   group" is listed under "When to use" in the accepted frame; the sheet and the page put it in
   "When not to use", where a redirection reads as what it is.
-- **Pending decisions D4 and D5**, with Indiane: what the group does when text and icon only
-  are mixed, and arrow keys. The code follows the defaults above meanwhile.
+- **Decisions D4 and D5**, answered by Indiane on 23/11/2026 (DSA-23), both as recommended: D4,
+  when text and icon-only buttons are mixed the group warns in the console in development and
+  renders; D5, the group is one Tab stop with a roving tabindex and arrow keys (item 7, applied
+  in DSA-115).
 
 **Source.** Frame `nph-toggle-group` (`1580:61`, set `1580:60`) of the Figma file
 `DS-IA-NEPHOS 5.0`, accepted by Indiane on 08/10/2026, with the Figma UX QA and the textual
@@ -1996,7 +2004,7 @@ audit approved; D1 to D3 answered on 19/10/2026. The names `label`, `selection` 
 capture rule for the click and the invalid input and composition rules are a technical proposal
 of this implementation.
 
-**Out of scope.** A toolbar and the roving tabindex across groups. `nph-switch` and
+**Out of scope.** A toolbar and the roving tabindex across groups (the group steps aside inside a toolbar, item 7). `nph-switch` and
 `nph-checkbox`, which are planned. A `size` *(added by the amendment of 29/10/2026, DSA-61)*,
 `disabled` or `invalid` property on the group, a maximum, an orientation, a form association and a color property. Moving `value` into
 `nph-togglebutton`. The Usage section of the page (P70, DSA-35), the page lists read from the

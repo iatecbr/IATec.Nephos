@@ -2383,7 +2383,7 @@
       ],
       [
         "Keyboard",
-        "One Tab stop per button, in order; a disabled button is skipped. Enter and Space toggle. There are no arrow keys: a roving tabindex across groups belongs to a toolbar."
+        "The group is one Tab stop: Tab enters on the first checked button, or on the first one when none is checked, and the next Tab leaves. The arrows move the focus between the buttons and wrap, Home and End go to the first and the last, and a disabled button is skipped. Enter and Space toggle. Inside a toolbar, the bar keeps the one stop for all its actions."
       ],
       [
         "Visible focus",

@@ -12,7 +12,7 @@
  * `data-nph-color-scheme` on the frame (P20, P67).
  *
  * Hover and focus belong to `nph-togglebutton`: they show up by moving the mouse over a
- * button and by navigating with Tab, one stop per button; the component test measures
+ * button and by navigating with Tab (one stop for the group) and the arrow keys; the component test measures
  * the space between buttons. Each page opens with what it proves, from the dictionary
  * (`validationPages.claims`). The example text and the captions come from the language
  * dictionary, under the key `toggleGroupValidation` (`docs/i18n.md`, "Storybook"); the

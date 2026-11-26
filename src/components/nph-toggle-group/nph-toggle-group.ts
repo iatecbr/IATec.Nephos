@@ -24,6 +24,14 @@
  * - own event `nph-value-change` (bubbles, composed, not cancelable) with
  *   `detail: { value }`, fired only when the person changes the selection. Setting
  *   `value` from code never fires it. The `nph-change` of each button is not stopped;
+ * - keyboard (D5 of DSA-23, DSA-115), the roving tabindex of Radix Toggle Group: the group
+ *   is one Tab stop. Tab enters on the first checked button, or on the first enabled one
+ *   when none is checked, and the next Tab leaves the group. The left and right arrows move
+ *   the focus between the buttons and wrap (mirrored in a right-to-left page), Home and End
+ *   go to the first and the last, and a disabled button is skipped. The arrows only move the
+ *   focus; Enter and Space toggle. Inside an `nph-toolbar` the group steps aside: the bar
+ *   keeps one roving for the whole bar (the APG toolbar), so the group writes no tabindex and
+ *   handles no arrow key there;
  * - no `disabled` or `invalid` (they stay on each button), no `::part`, no
  *   color property, no form association, and the group itself is never focusable;
  * - invalid input does not render and emits `console.error` only in development, one
@@ -45,6 +53,9 @@ import toggleGroupCss from './nph-toggle-group.css?inline';
 const TAG = 'nph-toggle-group';
 
 const BUTTON_TAG = 'nph-togglebutton';
+
+/** The bar that owns the roving tabindex of a group placed directly in it. */
+const TOOLBAR_TAG = 'nph-toolbar';
 
 /** Internal marker, not API: present only when the input is valid. */
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
@@ -148,6 +159,10 @@ export class NphToggleGroup extends LitElement {
   private accessibleNameChanged = false;
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
+  /** The button that holds the Tab stop. */
+  private activeButton: NphTogglebutton | undefined;
+  /** The buttons whose `tabindex` the group wrote, so it can give them back. */
+  private managedButtons = new Set<NphTogglebutton>();
   /**
    * Watches the `value` and `size` attributes of the direct children, which raise no
    * `slotchange`: a new `value` moves the selection, and a `size` set on a button is
@@ -163,6 +178,8 @@ export class NphToggleGroup extends LitElement {
     this.value = [];
     this.addEventListener('click', (event) => this.guardCheckedClick(event), { capture: true });
     this.addEventListener(BUTTON_CHANGE_EVENT, (event) => this.onButtonChange(event));
+    this.addEventListener('keydown', (event) => this.onKeydown(event));
+    this.addEventListener('focusin', (event) => this.onFocusin(event));
   }
 
   override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
@@ -181,16 +198,21 @@ export class NphToggleGroup extends LitElement {
     super.connectedCallback();
     /* One observer on the host covers the current set of children: the records are
        filtered to the direct buttons, so a child added or removed later needs no wiring. */
-    this.childValueObserver.observe(this, { attributes: true, attributeFilter: ['value', 'size'], subtree: true });
+    this.childValueObserver.observe(this, {
+      attributes: true,
+      attributeFilter: ['value', 'size', 'disabled', RENDERED_ATTRIBUTE],
+      subtree: true,
+    });
     this.requestUpdate();
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.childValueObserver.disconnect();
+    this.releaseButtons(new Set());
   }
 
-  /** A direct button got a new `value` or `size` attribute: the group settles and checks again. */
+  /** A direct button got a new `value`, `size` or `disabled` attribute: the group settles and checks again. */
   private onChildValueMutation(records: MutationRecord[]): void {
     const changed = records.some(
       (record) => record.target instanceof Element && record.target.parentElement === this && isButton(record.target),
@@ -278,6 +300,98 @@ export class NphToggleGroup extends LitElement {
       button.pressed = selectable.has(button) && this.value.includes(value);
       button.size = this.size;
     }
+    this.syncRoving();
+  }
+
+  /** Inside an `nph-toolbar` the bar owns the roving tabindex, one for the whole bar. */
+  private get inToolbar(): boolean {
+    return this.parentElement?.localName === TOOLBAR_TAG;
+  }
+
+  /** The buttons that can hold the Tab stop: drawn and not disabled. */
+  private focusableButtons(): NphTogglebutton[] {
+    return this.buttons().filter((button) => button.hasAttribute(RENDERED_ATTRIBUTE) && !button.disabled);
+  }
+
+  /**
+   * The roving tabindex: one button holds the Tab stop, the others take `-1`. While the focus
+   * is outside the group the stop goes to the first checked button, else to the first enabled
+   * one; while the focus is inside, it stays on the focused button.
+   */
+  private syncRoving(): void {
+    if (!this.valid || this.inToolbar) {
+      this.releaseButtons(new Set());
+      return;
+    }
+    const enabled = this.focusableButtons();
+    const focused = enabled.find((button) => button.matches(':focus-within'));
+    if (focused !== undefined) {
+      this.activeButton = focused;
+    } else {
+      this.activeButton = enabled.find((button) => button.pressed) ?? enabled[0];
+    }
+    const buttons = this.buttons();
+    for (const button of buttons) {
+      if (button === this.activeButton) {
+        button.removeAttribute('tabindex');
+      } else {
+        button.setAttribute('tabindex', '-1');
+      }
+      this.managedButtons.add(button);
+    }
+    this.releaseButtons(new Set(buttons));
+  }
+
+  /** A button that left the group, or a group that stopped roving, gives the Tab order back. */
+  private releaseButtons(keep: Set<NphTogglebutton>): void {
+    for (const button of this.managedButtons) {
+      if (!keep.has(button)) {
+        button.removeAttribute('tabindex');
+        this.managedButtons.delete(button);
+      }
+    }
+    if (this.activeButton !== undefined && !keep.has(this.activeButton)) {
+      this.activeButton = undefined;
+    }
+  }
+
+  /** The focus entered a button: it holds the Tab stop until the focus leaves the group. */
+  private onFocusin(event: FocusEvent): void {
+    const button = this.buttonOf(event.composedPath().find((node) => this.buttonOf(node) !== undefined) ?? null);
+    if (button !== undefined && this.valid && !this.inToolbar && button !== this.activeButton) {
+      this.syncRoving();
+    }
+  }
+
+  /** The arrows, Home and End move the focus only; Enter and Space toggle, as the button does. */
+  private onKeydown(event: KeyboardEvent): void {
+    if (!this.valid || this.inToolbar || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
+      return;
+    }
+    const current = event.composedPath().map((node) => this.buttonOf(node)).find((found) => found !== undefined);
+    const enabled = this.focusableButtons();
+    const position = current === undefined ? -1 : enabled.indexOf(current);
+    if (position === -1) {
+      return;
+    }
+    const rtl = getComputedStyle(this).direction === 'rtl';
+    const forward = rtl ? 'ArrowLeft' : 'ArrowRight';
+    const backward = rtl ? 'ArrowRight' : 'ArrowLeft';
+    let target: NphTogglebutton | undefined;
+    if (event.key === forward) {
+      target = enabled[(position + 1) % enabled.length];
+    } else if (event.key === backward) {
+      target = enabled[(position - 1 + enabled.length) % enabled.length];
+    } else if (event.key === 'Home') {
+      target = enabled[0];
+    } else if (event.key === 'End') {
+      target = enabled[enabled.length - 1];
+    } else {
+      return;
+    }
+    event.preventDefault();
+    /* The focus event of the target moves the Tab stop with it. */
+    target?.focus();
   }
 
   /** Composition problems: they render anyway, and each shows once while it lasts. */
@@ -383,6 +497,8 @@ export class NphToggleGroup extends LitElement {
     if (this.valid) {
       this.syncButtons();
       this.checkComposition();
+    } else {
+      this.releaseButtons(new Set());
     }
   }
 

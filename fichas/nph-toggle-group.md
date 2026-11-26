@@ -128,10 +128,11 @@ accessibility:
   semantics: "The host is role group, named by label. Each button is the native button of nph-togglebutton, with aria-pressed. In single selection it is not a radio group: P73 fixes aria-pressed and never aria-checked, so the screen reader reads the state of each button and does not announce that the choice is exclusive. Known limit."
   accessible_name: "The group is named with the subject. Each icon-only button gets its own label, an aria-label on its native button."
   keyboard:
-    - "Tab moves through the buttons, one stop each, in order; a disabled button is skipped."
+    - "The group is one Tab stop, with a roving tabindex: Tab enters on the first checked button, or on the first enabled one when none is checked, and the next Tab leaves the group."
+    - "The left and right arrows move the focus between the buttons and wrap at the ends (mirrored in a right-to-left page); Home and End go to the first and the last; a disabled button is skipped. The arrows only move the focus, they never check a button."
     - "Enter toggles the focused button."
     - "Space toggles the focused button."
-    - "There are no arrow keys: a roving tabindex across several groups belongs to a toolbar."
+    - "Inside an nph-toolbar the group steps aside: the bar keeps one roving for the whole bar, so the group writes no tabindex and handles no arrow key there."
   focus: "Each button shows its own focus, as nph-togglebutton does; the group does not receive focus. space/inline is wider than the border and the halo of one button, so the focus of a button is not covered by its neighbor."
   contrast: "Comes from nph-togglebutton: the label and the icon on their own background in both schemes. The group adds no color. The known limit of the focus border of nph-togglebutton, color/primary, holds here unchanged."
   color_alternative: "The pressed button changes its background, its label color and its icon, not only the text color."
@@ -257,7 +258,7 @@ message is written outside the group, by whoever uses it.
 |---|---|
 | Semantics | The host is `role` group, named by `label`. Each button is the native button of `nph-togglebutton`, with `aria-pressed`. In single selection it is not a radio group: `P73` fixes `aria-pressed` and never `aria-checked`, so the screen reader reads the state of each button and does not announce that the choice is exclusive. Known limit |
 | Accessible name | The group is named with the subject (`label`, or `aria-label` or `aria-labelledby` on the host). Each icon-only button gets its own `label` |
-| Keyboard | Tab moves through the buttons, one stop each, in order; a disabled button is skipped. Enter and Space toggle the focused button. There are no arrow keys: a roving tabindex across several groups belongs to a toolbar |
+| Keyboard | The group is one Tab stop (roving tabindex): Tab enters on the first checked button, or on the first enabled one, and the next Tab leaves. The left and right arrows move the focus and wrap, Home and End go to the first and the last, a disabled button is skipped, and the arrows never check a button. Enter and Space toggle the focused button. Inside an `nph-toolbar` the bar keeps one roving for the whole bar |
 | Focus | Each button shows its own focus, as `nph-togglebutton` does. The group does not receive focus |
 | Contrast | Comes from `nph-togglebutton`. The group adds no color. The known limit of the focus border of `nph-togglebutton`, `color/primary`, holds here unchanged |
 | Alternative to color | The pressed button changes its background, its label color and its icon, not only the text color |

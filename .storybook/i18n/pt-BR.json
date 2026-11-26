@@ -2383,7 +2383,7 @@
       ],
       [
         "Teclado",
-        "Uma parada de Tab por botão, em ordem; um botão desabilitado é pulado. Enter e Espaço alternam. Não há setas: um tabindex móvel entre grupos é de uma barra de ferramentas."
+        "O grupo é uma parada de Tab: o Tab entra no primeiro botão marcado, ou no primeiro quando nenhum está marcado, e o próximo Tab sai. As setas movem o foco entre os botões e dão a volta, Home e End vão ao primeiro e ao último, e um botão desabilitado é pulado. Enter e Espaço alternam. Dentro de uma barra de ferramentas, a barra mantém a única parada para todas as suas ações."
       ],
       [
         "Foco visível",

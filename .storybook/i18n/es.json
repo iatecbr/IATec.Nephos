@@ -2383,7 +2383,7 @@
       ],
       [
         "Teclado",
-        "Una parada de Tab por botón, en orden; un botón deshabilitado se salta. Enter y Espacio alternan. No hay flechas: un tabindex móvil entre grupos es de una barra de herramientas."
+        "El grupo es una parada de Tab: el Tab entra en el primer botón marcado, o en el primero cuando ninguno está marcado, y el siguiente Tab sale. Las flechas mueven el foco entre los botones y dan la vuelta, Home y End van al primero y al último, y un botón deshabilitado se salta. Enter y Espacio alternan. Dentro de una barra de herramientas, la barra mantiene la única parada para todas sus acciones."
       ],
       [
         "Foco visible",
