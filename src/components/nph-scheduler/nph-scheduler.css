@@ -233,6 +233,13 @@ button {
   border: var(--nph-scheduler-focus-halo-width) solid var(--_focus-halo, var(--nph-scheduler-focus-halo));
   border-radius: var(--nph-scheduler-focus-halo-radius);
 }
+/* The compact month day has a 10 px corner, so its ring is 1 px (border) and 4 px (halo) larger. */
+.grid-cell:focus-visible::before {
+  border-radius: var(--nph-scheduler-day-focus-border-radius);
+}
+.grid-cell:focus-visible::after {
+  border-radius: var(--nph-scheduler-day-focus-halo-radius);
+}
 
 /* ----- the colors: the roles of one color, by data-color ------------------------------- */
 
@@ -521,7 +528,6 @@ button {
   gap: var(--nph-scheduler-day-header-gap);
   min-inline-size: 0;
   padding: var(--nph-scheduler-day-padding);
-  border-radius: var(--nph-scheduler-day-radius);
   color: var(--nph-scheduler-day-label-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
@@ -760,7 +766,6 @@ button {
   padding-inline: var(--nph-scheduler-month-cell-padding-x);
   border-block-start: var(--nph-scheduler-border-width) solid var(--nph-scheduler-grid-line);
   border-inline-start: var(--nph-scheduler-border-width) solid var(--nph-scheduler-grid-line);
-  border-radius: var(--nph-scheduler-day-radius);
 }
 
 .cell:nth-child(7n + 1) {
