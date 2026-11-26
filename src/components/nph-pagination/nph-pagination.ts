@@ -25,8 +25,8 @@
  *   are written in the language of the page (`lang`);
  * - the numbers and the arrows are native buttons drawn by the piece with the `pagination/*`
  *   tokens, with the focus of the secondary `nph-button` and, on the icon-only arrows, the
- *   `nph-tooltip` of the icon-only button (`relation="name"`, P86). Pending decision D-1 of
- *   DSA-54: the evidence calls them `nph-button` and `nph-icon-button`, which have no color
+ *   `nph-tooltip` of the icon-only button (`relation="name"`, P86). Decision D-1 of
+ *   DSA-54, accepted on 2026-11-23: the evidence calls them `nph-button` and `nph-icon-button`, which have no color
  *   property, and gives them their own paint tokens (P99). An arrow without a destination is
  *   disabled and gives no balloon;
  * - the event `nph-page-change` (bubbles, composed), with `detail: { page, pageSize }`, fired

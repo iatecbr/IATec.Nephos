@@ -51,9 +51,9 @@
  * ANSWERED after that: DSA-96 D-15 (a shortcut across an unavailable day is off, and a typed period across one is an error, while the
  * property of D-10 is off; applied in DSA-115), D-16 (the views of a range), D-17 (This month with a min inside it) and D-18 (a day that
  * cannot be the End looks like one outside the limits), and DSA-90 D-13 (a typed Start or End with the panel closed commits when the field is
- * left).
+ * left). D-14 (the page margin of D-7 follows the breakpoint) was answered on 2026-11-26 and is not in the code yet.
  *
- * STILL OPEN with the design owner: DSA-90 D-12 (the measures with no token) and D-14 (the page margin of D-7).
+ * STILL OPEN with the design owner: DSA-90 D-12 (the measures with no token).
  *
  * Invalid input does not render and emits `console.error` only in development, one per cause while it lasts (the rule of P21): a `mode`,
  * a `size` or a `week-start` outside the lists, a date that does not exist, and `labels` with no key at all. A label missing from a

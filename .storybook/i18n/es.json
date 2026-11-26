@@ -8949,7 +8949,7 @@
     "sourceLabel": "Fuente:",
     "sourceFrame": "Figma, tablero nph-multi-combobox (1467:25660), conjunto 1467:25652, chip 1467:24879",
     "sourceApi": "Ficha del nph-multi-combobox; docs/decisoes-tecnicas.md › P96",
-    "sourceDecisions": "Tarea DSA-31, decisiones D1 a D3 y decisiones pendientes D-1 a D-4; docs/decisoes-tecnicas.md › P96",
+    "sourceDecisions": "Tarea DSA-31, decisiones D1 a D3 y D-1 a D-4; docs/decisoes-tecnicas.md › P96",
     "sourceAccessibility": "Figma, tablero nph-multi-combobox (1467:25660); nph-multi-combobox.test.ts",
     "matrixLabel": "size × estado",
     "description": "Use el nph-multi-combobox cuando la persona elige más de una opción de una lista conocida y necesita ver lo que ya eligió sin abrir la lista. Cada elección se vuelve un chip con un botón para quitarla. No reemplaza al nph-select ni al nph-combobox, que se quedan con una sola opción, y no acepta texto fuera de la lista.",
@@ -9833,11 +9833,11 @@
     "summary": "La barra que lleva a la persona de una página a otra en una lista larga y muestra dónde está en la lista.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-pagination, design.md para los tokens y los íconos, y la P99 para la API. Cuatro decisiones esperan a la responsable del diseño (D-1 a D-4 de DSA-54) y aparecen aquí con su valor predeterminado; la D-5 se respondió el 24/11/2026: la barra no tiene contorno (DSA-118).",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-pagination, design.md para los tokens y los íconos, y la P99 para la API. Las cuatro decisiones de DSA-54 (D-1 a D-4) están respondidas, la D-1 el 23/11/2026 y las demás el 26/11/2026; la D-5 se respondió el 24/11/2026: la barra no tiene contorno (DSA-118).",
     "sourceLabel": "Fuente:",
     "sourceFrame": "Figma, página NPH — Pagination, documentación 1640:196, conjunto 1640:194",
     "sourceApi": "ficha de nph-pagination; docs/decisoes-tecnicas.md › P99",
-    "sourceStates": "Figma, página 2888:87682 y puntos suspensivos 2888:87798; tarea DSA-54, decisiones pendientes D-1 y D-2",
+    "sourceStates": "Figma, página 2888:87682 y puntos suspensivos 2888:87798; tarea DSA-54, decisiones D-1 y D-2",
     "sourceFields": "Figma, ir a la página 2888:87805; fichas de nph-select y nph-input",
     "sourceAccessibility": "Figma, documentación 1640:196; nph-pagination.test.ts",
     "matrixLabel": "type × posición",
@@ -10082,7 +10082,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Pagination, documentación 1640:196, conjunto 1640:194",
       "fichas/nph-pagination.md",
       "docs/decisoes-tecnicas.md › P99",
-      "Tarea DSA-54, decisiones pendientes D-1 a D-4"
+      "Tarea DSA-54, decisiones D-1 a D-4"
     ],
     "labels": {
       "label": "Paginación",
@@ -10205,14 +10205,14 @@
     "summary": "La pieza pequeña y redondeada que muestra un filtro aplicado, un valor elegido en un campo o un filtro rápido que la persona marca y desmarca.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-chip, design.md para los tokens y los íconos, y la P100 para la API. Cinco decisiones esperan a la responsable del diseño (D-1 a D-5 de DSA-57) y aparecen aquí con su valor predeterminado: el contador dibujado como una píldora propia, el avatar en el tamaño sm, la etiqueta cortada enfocable con su globo, la X del chip no válido con el par de error, y el orden ícono, texto, contador y X.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-chip, design.md para los tokens y los íconos, y la P100 para la API. Las cinco decisiones de DSA-57 (D-1 a D-5) están respondidas, la D-1 y la D-3 el 23/11/2026 y las demás el 26/11/2026: el contador dibujado como una píldora propia, el avatar en el tamaño sm, la etiqueta cortada enfocable con su globo, la X del chip no válido con el par de error, y el orden ícono, texto, contador y X.",
     "sourceLabel": "Fuente:",
     "sourceFrame": "Figma, página NPH — Chip, documentación 3077:2240, conjunto 3076:1439, tablero 3077:807",
     "sourceApi": "ficha de nph-chip; docs/decisoes-tecnicas.md › P100",
     "sourceUsage": "Figma, documentación 3077:2240; docs/decisoes-tecnicas.md › P70",
-    "sourceStates": "Figma, documentación 3077:2240, tokens de cada estado; tarea DSA-57, decisión pendiente D-4",
-    "sourceContent": "Figma, documentación 3077:2240; tarea DSA-57, decisiones pendientes D-1, D-2 y D-5",
-    "sourceLongText": "Figma, documentación 3077:2240; tarea DSA-57, decisión pendiente D-3",
+    "sourceStates": "Figma, documentación 3077:2240, tokens de cada estado; tarea DSA-57, decisión D-4",
+    "sourceContent": "Figma, documentación 3077:2240; tarea DSA-57, decisiones D-1, D-2 y D-5",
+    "sourceLongText": "Figma, documentación 3077:2240; tarea DSA-57, decisión D-3",
     "sourceAccessibility": "Figma, documentación 3077:2240; nph-chip.test.ts",
     "matrixLabel": "tipo, severidad, contenido y estado",
     "description": "Use nph-chip para los filtros aplicados en nph-toolbar, para los valores elegidos dentro de un campo y para filtros rápidos que la persona marca y desmarca. No sustituye a nph-badge, que muestra un estado del sistema sin acción, ni a nph-button, que ejecuta una acción.",
@@ -10497,7 +10497,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Chip, documentación 3077:2240, conjunto 3076:1439, tablero 3077:807",
       "fichas/nph-chip.md",
       "docs/decisoes-tecnicas.md › P100",
-      "Tarea DSA-57, decisiones pendientes D-1 a D-5"
+      "Tarea DSA-57, decisiones D-1 a D-5"
     ],
     "removeLabel": "Quitar filtro",
     "plain": "Situación: En espera",
@@ -10554,7 +10554,7 @@
     "summary": "La barra que reúne, en una sola línea, las acciones de un área de la pantalla, y la franja de filtros aplicados debajo de ella.",
     "matrixLabel": "tipo de barra",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-toolbar, design.md para los tokens y P104 para la API. Cinco decisiones esperan a la responsable del diseño (D-1 a D-5 de DSA-55) y aparecen aquí con su valor por defecto: el hover en masa solo en las acciones secondary ghost, las flechas que dan la vuelta con la búsqueda fuera de ellas, la franja de filtros aplicados como grupo con paradas de Tab, el anuncio de Limpiar filtros y la barra estrecha que queda al consumidor.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-toolbar, design.md para los tokens y P104 para la API. Las cinco decisiones de DSA-55 (D-1 a D-5) están respondidas, la D-2 a D-5 el 23/11/2026 y la D-1 el 26/11/2026: el hover en masa solo en las acciones secondary ghost, las flechas que dan la vuelta con la búsqueda fuera de ellas, la franja de filtros aplicados como grupo con paradas de Tab, el anuncio de Limpiar filtros y la barra estrecha que queda al consumidor.",
     "onThisPage": "En esta página",
     "whenToUseTitle": "Cuándo usar",
     "whenNotToUseTitle": "Cuándo no usar",
@@ -10807,7 +10807,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Toolbar 1626:44, documentación 2944:6528, conjunto 2105:426",
       "fichas/nph-toolbar.md",
       "docs/decisoes-tecnicas.md › P104",
-      "Tarea DSA-55, decisiones pendientes D-1 a D-5",
+      "Tarea DSA-55, decisiones D-1 a D-5",
       "W3C ARIA Authoring Practices, patrón toolbar"
     ],
     "whenToUse": [
@@ -11265,7 +11265,7 @@
         "Solo el nph-pagination del tipo intervalo. Debajo de 420 px o en el móvil."
       ]
     ],
-    "sourceFooter": "Figma, documentación 2875:17577; tarea DSA-58, decisión pendiente D-1",
+    "sourceFooter": "Figma, documentación 2875:17577; tarea DSA-58, decisión D-1",
     "relationsTitle": "Relaciones y contexto",
     "relations": [
       "Es un nph-table: las celdas, el chevron y el elemento expandido mantienen sus propias reglas.",
@@ -11371,7 +11371,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Data Table 1371:2, documentación 2875:17577, set 2633:69628",
       "fichas/nph-data-table.md",
       "docs/decisoes-tecnicas.md › P105",
-      "Tarea DSA-58, decisiones pendientes D-1 a D-6",
+      "Tarea DSA-58, decisiones D-1 a D-6",
       "W3C ARIA Authoring Practices, tabla ordenable"
     ],
     "whenToUse": [
@@ -17421,7 +17421,7 @@
     "onThisPage": "En esta página",
     "matrixLabel": "Matriz del componente",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133 y la P135. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las respuestas del diseño del 18-11-2026 están en la P135; las que llegaron después (un atajo o un período escrito con un día no disponible, las vistas del rango, Este mes con un min y el día que no puede ser el final) están en la DSA-96. Las dos medidas sin token y el margen de la página siguen abiertas, con la regla que sigue el código.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133 y la P135. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las respuestas del diseño del 18-11-2026 están en la P135; las que llegaron después (un atajo o un período escrito con un día no disponible, las vistas del rango, Este mes con un min y el día que no puede ser el final) están en la DSA-96. Las medidas sin token (D-12 de DSA-90) siguen abiertas, con la regla que sigue el código; el margen de la página se respondió el 26/11/2026 y aún no está en el código.",
     "sourceLabel": "Fuente:",
     "whenToUseTitle": "Cuándo usar",
     "whenNotToUseTitle": "Cuándo no usar",

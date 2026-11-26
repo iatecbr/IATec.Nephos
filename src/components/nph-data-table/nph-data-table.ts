@@ -77,7 +77,7 @@ export type NphDataTableSortDirection = (typeof NPH_DATA_TABLE_SORT_DIRECTIONS)[
 export const NPH_DATA_TABLE_PAGINATION_LAYOUTS = ['wide', 'middle', 'narrow'] as const;
 export type NphDataTablePaginationLayout = (typeof NPH_DATA_TABLE_PAGINATION_LAYOUTS)[number];
 
-/** The core icons of the sortable header (pending decision D-2): descending turns `ascending`. */
+/** The core icons of the sortable header (D-2, answered on 2026-11-26): descending turns `ascending`. */
 export const NPH_DATA_TABLE_ICONS = {
   sortable: 'arrow-up-arrow-down',
   ascending: 'arrow-up',
@@ -668,7 +668,7 @@ export class NphDataTable extends NphTable {
   protected override renderBody(): TemplateResult {
     const columns = this.validColumns;
     if (this.loading) {
-      /* As many skeleton rows as the rows shown, or the page size (pending decision D-5). */
+      /* As many skeleton rows as the rows shown, or the page size (D-5, answered on 2026-11-26). */
       const count = Math.max(1, this.visibleRows.length || (whole(this.pageSize, 1) ?? 1));
       const chevron = this.columnCount - this.leadingColumns - columns.length - this.trailingColumns;
       const empty = (length: number, name: string) => Array.from({ length }, () => html`<td class=${name}></td>`);

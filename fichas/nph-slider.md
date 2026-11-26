@@ -522,8 +522,8 @@ height (D3). There is no motion of its own.
 - **The decision that originated it:** P94, the API and semantics of `nph-slider`; the form
   pattern is P80 and the field contract is P83. D1 to D5 of P94 — the order of the parts beside
   the track, the thumb that minus and plus move in `range`, the vertical length, one mark per
-  step and the width of the field — are defaults of this implementation, provisional until
-  Indiane answers them.
+  step and the width of the field — are defaults of this implementation that Indiane answered: D2 on 23/11/2026 and
+  D1, D3, D4 and D5 on 26/11/2026.
 - **Tests:** `src/components/nph-slider/nph-slider.test.ts`.
 - **Usage evidence:** the Examples section of the `nph-slider` Docs page.
 - **Storybook:** `src/components/nph-slider/nph-slider.stories.ts` (Validation) and

@@ -2,7 +2,7 @@
  * VALIDATION stories of `nph-chip`.
  *
  * They prove the contract accepted in Figma (page `NPH — Chip`, documentation `3077:2240`, set
- * `3076:1439`), the pending decisions D-1 to D-5 of DSA-57 in their default and P100, through
+ * `3076:1439`), the decisions D-1 to D-5 of DSA-57, answered, and P100, through
  * the public attributes only: the removable chip by content, size and state; the status
  * severities by size, at rest and disabled; the selectable chip by content, size and state,
  * with the counter and the selected one; a long label cut with an ellipsis; the invalid input;

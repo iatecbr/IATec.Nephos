@@ -2228,8 +2228,8 @@ three findings of the last Copilot review of PR #94 that were missed before its 
    (a text field matches `:focus-visible` on a mouse click) does not open the balloon either; the next
    key press makes the keyboard count again. If the balloon opens by focus or by `open` while a wait
    is pending, the wait ends and the pointer hold is taken at once, so a blur does not let the timer
-   open it again. Esc during the wait cancels it too, without being intercepted. Whether a click
-   during the wait should cancel it is open with Indiane (DSA-48, D2), with this as the default.
+   open it again. Esc during the wait cancels it too, without being intercepted. Indiane
+   accepted this on 23/11/2026 (DSA-48, D2, as recommended): nothing changes.
 4. **Only an element that receives focus.** The balloon opens, by hover, focus or `open`, only when
    the element is not disabled (`:disabled`, or a `disabled` attribute on a custom element) and is
    in the Tab order (`tabIndex >= 0`, or a `contenteditable` element that is the editing root and has
@@ -2274,8 +2274,8 @@ balloon; the component that owns it renders the tooltip inside, as item 2 alread
 limits stay.
 
 **Pending for Indiane.** DSA-42 D2 to D6 are unchanged; this amendment answers none of them. Rules 4
-and 5 remove the two cases behind DSA-42 D7, and Indiane confirms whether D7 closes. DSA-48 D2 asks
-whether a click during the wait cancels it.
+and 5 remove the two cases behind DSA-42 D7, and Indiane confirms whether D7 closes. DSA-48 D2, whether
+a click during the wait cancels it, was answered on 23/11/2026: it does.
 
 **Source.** `docs/operacao/tarefas/DSA-48.md` and its `figma-docs-accepted` evidence; the last
 Copilot review of PR #94 on `d82d2c3`, recorded in
@@ -3420,8 +3420,8 @@ root cannot be described from outside, so the component that owns that root rend
 **Known limits.**
 
 - **Esc inside a dialog.** With keyboard focus on an icon-only button, the balloon is open, and the
-  first Esc closes the balloon, not the dialog around it (P77 item 4). It is pending with Indiane
-  (DSA-43, D2).
+  first Esc closes the balloon, not the dialog around it (P77 item 4). Indiane accepted
+  it on 23/11/2026 (DSA-43, D2, as recommended; the APG tooltip closes first).
 - **No visible name on touch**, by rule 6 of DSA-48: the tooltip never opens there.
 - **The distance of the balloon** is the one of the tooltip, `space/inline`; the DSA-43 evidence
   shows `space/inline-tight`. It is DSA-42 D2, with Indiane; the button does not override it.
@@ -4401,9 +4401,10 @@ vertical length of its own and a width of its own for the field are not in v1.
 - **The balloon repeats the value in the description**, already given by `aria-valuetext`
   (item 5).
 - **The inner field and buttons inert, not disabled, when the slider is disabled** (item 7).
-- **D1 to D5** are defaults of this implementation, provisional until Indiane answers them: the
+- **D1 to D5** were defaults of this implementation, provisional until Indiane answered them: the
   order of the side parts, the thumb that minus and plus move in `range`, the vertical length,
-  one mark per step and the width of the field.
+  one mark per step and the width of the field. DSA-39 D2 was answered on 23/11/2026 (accepted: the
+  thumb used or focused last) and D1, D3, D4 and D5 on 26/11/2026, all as recommended.
 
 **Source.** Board `nph-slider` (`1636:46`), frame `Documentação` (`1925:642`) and set `1636:44`
 of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 15/10/2026, with the Figma UX QA and
@@ -5075,7 +5076,7 @@ rule of P21, as in P80. The names follow P64.
 
 **Pending decisions (Indiane), with the default the code follows.** D-1 the checkbox at the start
 of the option, before its own start. D-2 the counter mode with nothing chosen shows the
-placeholder. D-3 a chip for an option with no icon shows `tag`. D-4 in the counter mode, the text
+placeholder *(accepted by Indiane on 23/11/2026; D-1, D-3 and D-4 were answered on 26/11/2026, see DSA-31)*. D-3 a chip for an option with no icon shows `tag`. D-4 in the counter mode, the text
 field sits after the counter, on the same line.
 
 **Known limits.**
@@ -5229,7 +5230,8 @@ its own `id` already there and adds nothing, so the label is still announced onc
 no balloon, the `aria-label` holds the label and the counter. Reviewed in the pull request that
 brings it; the merge is the approval.
 
-**Status.** Anatomy and behavior accepted by Indiane on 26/10/2026. D-1 to D-4 wait for Indiane.
+**Status.** Anatomy and behavior accepted by Indiane on 26/10/2026. D-1 to D-4 of DSA-53 are answered: D-4 on 23/11/2026
+(confirmed: a subitem with options is a disclosure button) and D-1 to D-3 on 26/11/2026.
 API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -5349,7 +5351,7 @@ scroll. A size, forced colors and right-to-left. A new token. The Usage section 
 DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
 DSA-32).
 
-**Status.** Anatomy and behavior accepted by Indiane on 27/10/2026. D-1 to D-4 wait for Indiane; D-5 was answered on 24/11/2026 (DSA-118).
+**Status.** Anatomy and behavior accepted by Indiane on 27/10/2026. D-1 of DSA-54 was answered on 23/11/2026, D-5 on 24/11/2026 (DSA-118) and D-2 to D-4 on 26/11/2026; none waits for Indiane.
 API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -5487,11 +5489,10 @@ render and the invalid input rules are a technical proposal of this implementati
 `nph-toolbar` and its line of applied filters (DSA-55). A horizontal scroll of the line, which the
 evidence forbids. A size, forced colors and right-to-left. A new token.
 
-**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 of DSA-57 are answered: D-1 and D-3 on
+23/11/2026 (accepted) and D-2, D-4 and D-5 on 26/11/2026. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
-
 ---
-
 ## P101 — `nph-table`: the tree as a treegrid
 
 **Technical conflict.** P97 writes `aria-level` on the rows of a tree, and ARIA 1.2 gives
@@ -5734,9 +5735,9 @@ emits `console.warn` only in development, once while it lasts, as P76. The names
 
 7. **The narrow bar is composition (D-5).** The bar does not collapse by itself: on a narrow screen
    the consumer drops the text of the buttons first, then sends the actions at the back to More,
-   which opens `nph-dropdown-menu`. **Exception (DSA-106):** a button whose text is a value (the current
+   which opens `nph-dropdown-menu`. *(D-5 was kept for v1 by Indiane on 23/11/2026.)* **Exception (DSA-106):** a button whose text is a value (the current
    choice of a menu, such as the block style of the `nph-rich-text-editor`) keeps its text and goes whole
-   to More, as its labeled group with the current value checked. D-5 stays open.
+   to More, as its labeled group with the current value checked.
 
 8. **Tokens.** The fourteen `toolbar/*` tokens of the evidence, each in its part: the bar in
    `toolbar/background`, `toolbar/border` in `toolbar/border-width`, `toolbar/radius` and
@@ -5756,11 +5757,10 @@ implementation.
 **Out of scope.** A vertical bar, which the evidence forbids. A bar that collapses by itself. The
 pagination, a sibling piece. `nph-data-table`, which places the bar above the table. A new token.
 
-**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 of DSA-55 are answered: D-2 to D-5 on
+23/11/2026 (confirmed, and the narrow bar kept as composition) and D-1 on 26/11/2026. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
-
 ---
-
 ## P105 — `nph-data-table`: API and semantics
 
 **Technical conflict.** The accepted documentation (frame `2875:17577`, set `2633:69628`, board
@@ -6415,7 +6415,9 @@ as the task says. A new token. A change in `nph-dropdown-menu`, `nph-icon-button
   trigger, Indiane decides.
 - **D-2 — who turns on the current state of a trigger.** The evidence has the state `atual` for the top
   item of both types. The code derives it from the current link in the panel. If a trigger should be
-  marked current on its own, a new field would be needed.
+  marked current on its own, a new field would be needed. **Confirmed by Indiane on 23/11/2026
+  (DSA-62, D-2):** a trigger is current when its panel holds the current link, with no field of its own; only the
+  page carries `aria-current`.
 - **D-3 — motion.** The evidence has no motion for the arrow or the panel. The code has none: the arrow
   does not turn and the panel enters and leaves with no transition.
 - **D-4 — the closing wait.** The evidence says 0.5 s to close and the token `motion/hover-delay` is
@@ -6428,7 +6430,8 @@ as the task says. A new token. A change in `nph-dropdown-menu`, `nph-icon-button
   the dropdown menu did for the same token (DSA-36, D2). **Answered on 2026-11-09:** the token is
   `color/primary-text` and the exception left the story (P114).
 
-**Status.** Anatomy and behavior accepted by Indiane on 03/11/2026. D-1 to D-5 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 03/11/2026. D-1 to D-5 of DSA-62 are answered: D-4 and D-5 and D-1 and
+D-3 on 09/11/2026 (P114) and D-2 on 23/11/2026. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -6592,16 +6595,16 @@ its own. `nph-label` keeps `status/error` on the required asterisk, as `design.m
   are scoped to `aria-haspopup="dialog"`. If the trigger of `nph-dropdown-menu` should look open
   too, she decides, and it belongs to a round of that piece.
 - **D-3 — `aria-controls`.** It points to the popover host, because an id reference does not cross a
-  shadow root. It does not block the pull request.
+  shadow root. It does not block the pull request. **Noted by Indiane on 23/11/2026 (DSA-67, D-3):** it stays
+  so, to be reviewed when the browsers ship a way for a reference to cross a shadow root.
 - **D-4 — the title role.** The title is drawn in `text/label-lg`, which matches the accepted values
   exactly, while `design.md` says that role is not for titles. A role or tokens for the popover title
   is hers to give.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 of DSA-67 are answered: D-1, D-2 and D-4 on
+09/11/2026 (P114) and D-3 on 23/11/2026. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
-
 ---
-
 ## P112 — `nph-hover-card`: API and semantics
 
 **Technical conflict.** The accepted documentation (frame `4422:2418`, component set `4406:1105`) gives the
@@ -7676,8 +7679,8 @@ change in `nph-icon`, `nph-tooltip` or `nph-progress`. The contrast of the brand
   focusable span with no role, but a focusable element with a role and `aria-disabled`, so the screen reader names it (APG,
   focusability of disabled controls); the balloon comes from the change in `nph-tooltip` (item 1 of P127). In the code
   since 17/11/2026 (DSA-82, item 4 of P127): the step is a `span` with `role="button"` (`role="link"` when the step has
-  `href`), `aria-disabled="true"` and `tabindex="0"`, only while its label is cut; the role is a choice of the code owner
-  and is recorded as a pending decision of the task.
+  `href`), `aria-disabled="true"` and `tabindex="0"`, only while its label is cut; the role was a choice of the code owner,
+  and Indiane confirmed it on 23/11/2026 (DSA-82, D-1).
 
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
@@ -9164,7 +9167,8 @@ D-2) and to the ellipsis of `nph-breadcrumb`. A forced-colors mode.
 - **D-4 — the panel is not an instance in code.** The code draws the panel in the bar with the same `dropdown/*`
   tokens, as P113 does for the context menu. She confirms the look is the accepted one.
 
-**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 to D-4 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 to D-4 of DSA-83 are answered: D-2 to D-4 on 23/11/2026
+(confirmed: the keys and the click, the click opens with no item shown, the panel drawn by the bar) and D-1 on 26/11/2026. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -9519,10 +9523,12 @@ token, new or changed. A slide component. Persistence inside the component.
 **Pending decisions for Indiane.**
 
 - **D-1 — the disabled arrow at the ends.** The appendix keeps it focusable (APG, focusability of disabled controls),
-  and that needs a focusable disabled mode in `nph-button`, a change to that component in its own task. Until she
-  decides, the arrow is natively disabled and the focus moves as item 9 says.
+  and that needs a focusable disabled mode in `nph-button`, a change to that component in its own task. **Answered by
+  Indiane on 23/11/2026 (DSA-87, D-1):** the arrow stays natively disabled, out of the Tab order, and the focus moves as
+  item 9 says; `nph-button` gets no focusable disabled mode.
 
-**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 waits for Indiane. API and semantics are
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 of DSA-87 was answered on 23/11/2026: the disabled arrow at the
+ends stays natively disabled and out of the Tab order, with no focusable disabled mode in `nph-button`. API and semantics are
 reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -9874,11 +9880,11 @@ history in columns, which is `nph-table`. A vertical stepper, which is `nph-step
   exists for it, so the code draws no ring on that `li`. The design owner decides whether a visible mark is wanted and
   which one.
 - **D-3 — the current status on the history.** The contract denies `aria-current` on the history type but does not say how
-  an item with the current status looks there. The code draws the current look with no `aria-current`. The design owner
-  decides whether the history should take the current status at all.
+  an item with the current status looks there. The code draws the current look with no `aria-current`. **Confirmed by
+  Indiane on 23/11/2026 (DSA-89, D-3).**
 
-**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 wait for the design owner and do not
-block the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 of DSA-89 are answered: D-3 on 23/11/2026
+and D-1 and D-2 on 26/11/2026. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 
@@ -10017,7 +10023,8 @@ on the End.
 A radius semantic for floating layers. Shortcuts of the product. A mask. A read-only state. Locale-aware parsing beyond the order
 of day, month and year and the slash.
 
-**Pending decisions for the design owner.** D-1 to D-11 were answered on 18/11/2026 (P135). The code added three, which stay open:
+**Pending decisions for the design owner.** D-1 to D-11 were answered on 18/11/2026 (P135). The code added three: D-13 was
+confirmed on 23/11/2026 and D-14 answered on 26/11/2026, and D-12 stays open:
 
 - **D-12 — measures with no token.** The shortcut column is 192 wide, the header 40 high and the month and year cell 84 wide in
   Figma, and no token carries them. The code derives them from tokens, with no literal: 12 steps of `date-picker/panel-padding`,
@@ -10025,12 +10032,13 @@ of day, month and year and the slash.
   they get tokens, through Claude in Figma.
 - **D-13 — a typed Start or End with the panel closed.** The evidence says how typing works with the panel open and what Apply
   does; it says nothing about the panel closed. The code commits each field when the person leaves it, so a Start without an End
-  can stay, and fires `change` for each. The design owner decides whether a range commits only when both fields are valid.
+  can stay, and fires `change` for each. **Confirmed by Indiane on 23/11/2026 (DSA-90, D-13).**
 - **D-14 — the page margin of D-7.** The narrow switch needs a margin around the panel; the code uses `space/container-padding` on
-  each side of the viewport. The design owner confirms or gives the margin.
+  each side of the viewport. **Answered by Indiane on 26/11/2026 (DSA-90, D-14, option 3):** the margin follows the breakpoint,
+  `layout/margin-compact` below 768 and `layout/margin-default` from 768, as `nph-toast-region`; it is not in the code yet.
 
 **Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-11 were answered on 18/11/2026 (P135);
-D-12 to D-14 wait for the design owner and do not block the pull request. API and semantics are reviewed in the pull request that
+D-13 was confirmed on 23/11/2026 and D-14 answered on 26/11/2026; D-12 waits for the design owner and does not block the pull request. API and semantics are reviewed in the pull request that
 brings them; the merge is the approval.
 
 ---
@@ -10345,7 +10353,7 @@ follows, recorded in DSA-96:
 **Out of scope.** What P133 leaves out, and a token. The `nph-scheduler`, which keeps its own grid until DSA-77 D-1. D-12 to D-14.
 
 **Status.** The answers of the design owner on 18/11/2026. API and semantics are reviewed in the pull request that brings them; the
-merge is the approval. D-12 and D-14 wait for the design owner and do not block the pull request; D-13 and D-15 to D-18 were answered later, by Indiane on 23/11/2026 and 26/11/2026.
+merge is the approval. D-12 waits for the design owner and does not block the pull request; D-13 and D-15 to D-17 were answered later, by Indiane on 23/11/2026, and D-14 and D-18 on 26/11/2026.
 
 ---
 

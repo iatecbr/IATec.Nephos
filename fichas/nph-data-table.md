@@ -282,7 +282,7 @@ api:
     default: middle
     reflects: true
     constraint: >-
-      The footer for the width of the table's space (pending decision D-1): wide is the
+      The footer for the width of the table's space (D-1): wide is the
       nph-pagination `tipo tabela`; middle, the label and the nph-select of items per page and
       `tipo intervalo`; narrow, `tipo intervalo` only. A value outside the list leaves the footer
       out and emits console.error in development.
@@ -383,7 +383,7 @@ api:
     reflects: false
     constraint: >-
       Fired when the person checks or unchecks a box, with detail { selected }. The header box
-      checks or unchecks the rows drawn (pending decision D-4). Bubbles, not composed.
+      checks or unchecks the rows drawn (D-4). Bubbles, not composed.
   nph-row-action:
     type: event
     required: false
@@ -466,12 +466,12 @@ states:
 business_rules:
   - "The data is controlled: the rows arrive already searched, sorted and paged, and the table says what the person chose in events."
   - "A click on a sortable header goes ascending, descending and back to unsorted; the third click on the same column takes its sort away and fires nph-sort-change with an empty key and direction. A click on another column sorts that one ascending (D-3)."
-  - "The header box checks and unchecks the rows drawn on the page; rows selected on other pages stay selected (pending decision D-4)."
+  - "The header box checks and unchecks the rows drawn on the page; rows selected on other pages stay selected (D-4)."
   - "The bulk bar shows while one row or more is selected, in place of the page bar, with the count."
   - "When the bulk bar leaves, or the footer, with the focus in it, the focus stays in the table: the header box, else a sortable header, the page bar or the scroll area, which takes the focus from code even when it does not scroll."
   - "The footer stays outside the scroll area; with a single page, there is no footer and the total goes to the caption."
-  - "The footer follows pagination-layout, set by the consumer for the width of the space, until the breakpoint tokens exist (pending decision D-1)."
-  - "The `ajuste` column sits at the end of the row, before the actions (pending decision D-6)."
+  - "The footer follows pagination-layout, set by the consumer for the width of the space, until the breakpoint tokens exist (D-1)."
+  - "The `ajuste` column sits at the end of the row, before the actions (D-6)."
 domain_errors: []
 tokens:
   stack: data-table/stack-gap
@@ -588,7 +588,7 @@ rule; so is the row that opens by the chevron (the `expande`), with `detail` and
 | `ações` | `actions` and `actions-label`: the more, an icon-only `nph-button` secondary ghost, opens an `nph-dropdown-menu` |
 | `ajuste` | `switch-header` and `switch-label`, with `switched` in each row |
 
-**The footer:** `pagination-layout`, for the width of the table's space (pending decision D-1):
+**The footer:** `pagination-layout`, for the width of the table's space (D-1):
 
 | Layout | Footer | For |
 |---|---|---|

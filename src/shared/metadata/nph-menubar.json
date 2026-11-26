@@ -122,7 +122,7 @@
     },
     "open_and_focus": {
       "token": "pending: the look is not drawn in Figma. The code composes the two accepted looks: the background and the label of hover_open plus the border and the halo of focus",
-      "changes_for_user": "While the arrows switch menus, the focus stays on the open top item, so it shows both looks. Waits for the design owner (D-1)."
+      "changes_for_user": "While the arrows switch menus, the focus stays on the open top item, so it shows both looks (D-1, answered on 26/11/2026)."
     }
   },
   "business_rules": [
