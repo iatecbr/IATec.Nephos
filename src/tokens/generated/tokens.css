@@ -800,11 +800,12 @@
   --nph-timeline-content-gap: var(--nph-core-space-300);
   --nph-rich-option-background-hover-opacity: var(--nph-core-opacity-50);
   --nph-rich-option-disabled-opacity: var(--nph-state-disabled-opacity);
-  --nph-rich-option-text-offset: var(--nph-core-space-50);
+  --nph-rich-option-content-offset: var(--nph-core-space-50);
   --nph-select-option-padding: var(--nph-core-space-200);
   --nph-select-option-background-hover-opacity: var(--nph-core-opacity-50);
   --nph-select-option-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-select-option-dot-size: var(--nph-core-space-200);
+  --nph-select-option-content-offset: var(--nph-core-space-50);
   --nph-calendar-day-radius: var(--nph-core-radius-450);
   --nph-calendar-day-focus-radius: var(--nph-core-radius-600);
   --nph-date-picker-panel-offset: var(--nph-core-space-100);
