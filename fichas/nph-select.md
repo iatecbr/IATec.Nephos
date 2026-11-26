@@ -255,7 +255,7 @@ anti_patterns:
   - "Changing the color of the arrow area: for an error, use invalid."
   - "Using the status dot without a written state."
 sources:
-  design_md: "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, elevation/dropdown and motion/*; select/border, select/border-bottom and select/height in the token source"
+  design_md: "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/accent, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, elevation/dropdown and motion/*; select/border, select/border-bottom and select/height in the token source"
   decision: "P91 — API and semantics of nph-select and nph-option; the form pattern is P80 and the field contract is P83"
   tests: "src/components/nph-select/nph-select.test.ts and src/components/nph-option/nph-option.test.ts"
   usage_evidence: "the Examples section of the nph-select Docs page"
@@ -438,7 +438,7 @@ writes the error and the select shows `erro`.
 
 - **The repository `design.md`:** `color/input`, `color/field-border`,
   `color/field-border-bottom`, `color/input-hover`, `color/accent`,
-  `color/border`, `color/popover`, `color/primary-surface`, `status/*`, `focus/*`,
+  `color/popover`, `color/primary-surface`, `status/*`, `focus/*`,
   `state/disabled-opacity`, `control/height-*`, `layout/input-width`,
   `layout/max-list-height`, `radius/control-inner`, `elevation/dropdown` and `motion/*`.
   `select/border`, `select/border-bottom` and `select/height` are in

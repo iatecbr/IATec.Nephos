@@ -925,6 +925,42 @@ describe('the resting border, the heights and the arrow area, by mode', () => {
       expect(style().borderBottomColor).toBe(resolved('color', '--nph-color-input'));
     });
   }
+  it('search: with the keyboard focus on the clear target, the field keeps the combobox resting border, also under the pointer', async () => {
+    const element = await mount({ mode: 'search' });
+    field(element).focus();
+    await userEvent.keyboard('Contr');
+    await settle(element);
+    element.open = false;
+    await settle(element);
+    /* The clear target is out of the Tab order (tabindex -1): only code puts the focus on it, after a key. */
+    const clear = root(element).querySelector('.clear') as HTMLElement;
+    clear.focus();
+    expect(root(element).activeElement).toBe(clear);
+    expect(clear.matches(':focus-visible')).toBe(true);
+    const style = (): CSSStyleDeclaration => getComputedStyle(control(element));
+    expect(style().borderTopColor).toBe(resolved('color', '--nph-combobox-border'));
+    expect(style().borderBottomColor).toBe(resolved('color', '--nph-combobox-border-bottom'));
+    await userEvent.hover(control(element));
+    expect(style().borderTopColor).toBe(resolved('color', '--nph-combobox-border'));
+    expect(style().borderBottomColor).toBe(resolved('color', '--nph-combobox-border-bottom'));
+  });
+  it('multiple: with the keyboard focus on the remove button of a chip, the field keeps the multi-combobox resting border, also under the pointer', async () => {
+    const element = await mount({ mode: 'multiple', values: ['readme'] });
+    await settle(element);
+    const remove = root(element).querySelector('.remove') as HTMLElement;
+    field(element).focus();
+    await userEvent.keyboard('{Shift}');
+    remove.focus();
+    expect(root(element).activeElement).toBe(remove);
+    expect(remove.matches(':focus-visible')).toBe(true);
+    const style = (): CSSStyleDeclaration => getComputedStyle(control(element));
+    expect(style().borderTopColor).toBe(resolved('color', '--nph-multi-combobox-border'));
+    expect(style().borderBottomColor).toBe(resolved('color', '--nph-multi-combobox-border-bottom'));
+    await userEvent.hover(control(element));
+    expect(root(element).activeElement).toBe(remove);
+    expect(style().borderTopColor).toBe(resolved('color', '--nph-multi-combobox-border'));
+    expect(style().borderBottomColor).toBe(resolved('color', '--nph-multi-combobox-border-bottom'));
+  });
   it('focus paints the whole border in focus/border', async () => {
     const element = await mount({ mode: 'search' });
     field(element).focus();
