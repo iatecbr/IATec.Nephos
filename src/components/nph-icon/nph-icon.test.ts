@@ -121,6 +121,38 @@ describe('alignment and text formatting icons (DSA-23, D1)', () => {
   });
 });
 
+describe('rich text editor toolbar icons (DSA-108)', () => {
+  const NAMES = [
+    'rotate-left',
+    'strikethrough',
+    'list-ul',
+    'list-ol',
+    'block-quote',
+    'text-slash',
+  ];
+  it('are core names, listed in the action category of design.md (the third list of the block)', () => {
+    const start = designMd.indexOf('icones_nucleo:');
+    const block = designMd.slice(start, designMd.indexOf('icones_segunda_leva:'));
+    const action = [...block.matchAll(/icones:\s*\[([^\]]+)\]/g)][2]?.[1] ?? '';
+    const listed = action.split(',').map((name) => name.trim());
+    for (const name of NAMES) {
+      expect(NPH_ICON_NAMES as readonly string[], name).toContain(name);
+      expect(listed, name).toContain(name);
+    }
+  });
+  it('draw a different artwork in light and in solid', async () => {
+    for (const name of NAMES) {
+      const light = await mount({ name: name, variant: 'light', size: 'sm' });
+      const solid = await mount({ name: name, variant: 'solid', size: 'sm' });
+      expect(pathOf(light).length, name).toBeGreaterThan(0);
+      expect(pathOf(solid).length, name).toBeGreaterThan(0);
+      expect(pathOf(solid), name).not.toBe(pathOf(light));
+      light.remove();
+      solid.remove();
+    }
+    expect(errors).not.toHaveBeenCalled();
+  });
+});
 describe('arrow-pointer (DSA-69)', () => {
   it('is a core name, listed in the direction category of design.md (the second list of the block)', () => {
     const start = designMd.indexOf('icones_nucleo:');
