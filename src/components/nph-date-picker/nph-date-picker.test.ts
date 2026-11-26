@@ -383,12 +383,12 @@ describe('the panel of a single date', () => {
     expect(surface(picker).getAttribute('data-mode')).toBe('single');
   });
 
-  it('draws the surface: color/popover, a 1 px outline in date-picker/panel-border, 14 px corners, no padding', async () => {
+  it('draws the surface: color/popover, a 1 px outline in date-picker/panel-border, 8 px corners, no padding', async () => {
     const { picker } = await mount();
     await open(picker);
     const style = getComputedStyle(surface(picker));
     expect(style.borderTopWidth).toBe('1px');
-    expect(style.borderTopLeftRadius).toBe('14px');
+    expect(style.borderTopLeftRadius).toBe('8px');
     expect(style.paddingTop).toBe('0px');
     const probe = document.createElement('span');
     probe.style.color = 'var(--nph-color-popover)';

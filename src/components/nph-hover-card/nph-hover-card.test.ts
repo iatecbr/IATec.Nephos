@@ -1221,7 +1221,7 @@ describe('the card as a surface', () => {
       expect(style.backgroundColor, scheme).toBe(paint('--nph-color-popover'));
       expect(style.borderTopColor, scheme).toBe(paint('--nph-color-border-subtle'));
       expect(style.borderTopWidth, scheme).toBe('1px');
-      expect(style.borderTopLeftRadius, scheme).toBe('14px');
+      expect(style.borderTopLeftRadius, scheme).toBe('8px');
       expect(style.boxShadow, scheme).toBe(resolved('box-shadow', '--nph-elevation-dropdown'));
       card.remove();
     }
@@ -1380,7 +1380,7 @@ describe('token contract', () => {
   });
 
   it('the radius, the offset and the arrow are the values of the contract', () => {
-    expect(px('--nph-hover-card-radius')).toBe(14);
+    expect(px('--nph-hover-card-radius')).toBe(8);
     expect(px('--nph-hover-card-offset')).toBe(4);
     expect(px('--nph-hover-card-arrow-width')).toBe(16);
     expect(px('--nph-hover-card-arrow-height')).toBe(8);
