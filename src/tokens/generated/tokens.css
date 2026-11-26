@@ -1134,6 +1134,7 @@
   --nph-collapsible-trigger-padding-y: var(--nph-space-inline);
   --nph-collapsible-trigger-padding-y-compact: var(--nph-space-inline-tight);
   --nph-collapsible-trigger-gap: var(--nph-space-inline-tight);
+  --nph-collapsible-tag-gap: var(--nph-space-inline);
   --nph-collapsible-trigger-radius: var(--nph-radius-control);
   --nph-collapsible-indicator-size: var(--nph-icon-size-sm);
   --nph-collapsible-icon-size: var(--nph-icon-size-sm);
@@ -1358,6 +1359,7 @@
   --nph-pagination-arrow-border: var(--nph-color-input);
   --nph-toolbar-background: var(--nph-color-background);
   --nph-toolbar-border: var(--nph-color-border);
+  --nph-toolbar-bulk-danger-action-background-hover: var(--nph-color-destructive-surface-hover);
   --nph-toolbar-floating-background: var(--nph-color-popover);
   --nph-toolbar-floating-border: var(--nph-color-input);
   --nph-toolbar-floating-count-foreground: var(--nph-color-popover-foreground);
