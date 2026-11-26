@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 980,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-popconfirm",
   "dependencies": [
     "DSA-03",
@@ -26,17 +26,18 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor f119d610c4cf2e8b269e1b1813cf41efc3cf37fc origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-99/review-and-merge-2026-11-26.md",
+      "result": "passed",
+      "verified_at": "2026-11-26",
+      "verified_by": "helifiora"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-99/figma-docs-accepted-2026-11-19.md"
+    "docs/operacao/evidencias/DSA-99/figma-docs-accepted-2026-11-19.md",
+    "docs/operacao/evidencias/DSA-99/review-and-merge-2026-11-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -53,8 +54,8 @@
     "converted_decision": "The nph-popconfirm documentation (7389:104, page 4128:35277) was accepted as the API and behavior specification of the nph-popconfirm, with the visual acceptance of the root (7222:3379). Component set 7222:3568, 42 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": "feat/dsa-99-popconfirm", "commit": "2792e20e", "pr": 192 },
-  "context": "docs/operacao/contextos/DSA-99.md",
-  "updated_at": "2026-11-23"
+  "context": null,
+  "updated_at": "2026-11-26"
 }
 ```
 

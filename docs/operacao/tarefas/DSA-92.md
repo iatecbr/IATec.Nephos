@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 910,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-17",
@@ -25,17 +25,18 @@
     {
       "id": "review-and-merge",
       "description": "The token, the tests, the specs, the Storybook texts and design.md change together, pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 9b17f3919bc530cb8a30b975478b3af8da7e108b origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-92/review-and-merge-2026-11-26.md",
+      "result": "passed",
+      "verified_at": "2026-11-26",
+      "verified_by": "helifiora"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-92/foundation-decision-2026-10-26.md"
+    "docs/operacao/evidencias/DSA-92/foundation-decision-2026-10-26.md",
+    "docs/operacao/evidencias/DSA-92/review-and-merge-2026-11-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",

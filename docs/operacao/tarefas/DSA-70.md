@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 690,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "awaiting-decision",
   "piece": null,
   "dependencies": [
     "DSA-27",
@@ -58,7 +58,7 @@
   },
   "git_review": { "branch": "feat/dsa-70-d-itens", "commit": "2984ec2ecaad43884a882d45b8ef8fa791bdb248", "pr": "163" },
   "context": "docs/operacao/contextos/DSA-70.md",
-  "updated_at": "2026-11-09"
+  "updated_at": "2026-11-26"
 }
 ```
 

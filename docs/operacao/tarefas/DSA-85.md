@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 840,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "awaiting-decision",
   "piece": null,
   "dependencies": [
     "DSA-03",
