@@ -96,6 +96,7 @@ P62.4 subsection for the detail).
 | **P138** | API and semantics of `nph-tree-select`, and the rows of `nph-tree` as a module | 24/11/2026 | Low now. No piece consumes the tree select yet; a destination folder, the files of a submission and a contract in a large tree will, and changing `mode`, `value` and `values`, the id as the value, `nph-tree-load` and `nph-tree-toggle` with the detail of `nph-tree`, the rows drawn in the shadow root of the field, or the parent carrying its children in `values` later requires redoing every consumer. | Documentation accepted by the design owner on 18/11/2026; D-1 answered the same day. API and semantics reviewed in the pull request that brings them |
 | **P139** | API and semantics of `nph-chart`, and D3 as a math utility | 24/11/2026 | Low now. No piece consumes the chart yet; a dashboard card, a report and a trend line in a card will, and changing `type`, `state`, the shape of `categories` and `series` (a donut slice is a series), `highlight`, `goal`, the string properties, the events `nph-retry` and `nph-series-visibility-change`, the keyboard on the data or the D3 modules later requires redoing every consumer. | Documentation accepted by the design owner on 22/11/2026; D-1 to D-5 answered the same day; chart library chosen by the architect on 23/11/2026. API and semantics reviewed in the pull request that brings them |
 | **P140** | API, announcement, keyboard and queue of `nph-toast-region` | 25/11/2026 | Low now. Every toast of an application will go through the region, and changing the declarative API (children and `nph-close`), the limit of three and the queue, the `paused` property and the `escape` source of the `nph-notification`, F6 and Esc, or the live regions later requires redoing every consumer and the announcement of every toast. | Documentation accepted by the design owner on 22/11/2026; D-1 of DSA-100 answered the same day. API and semantics reviewed in the pull request that brings them |
+| **P141** | API and semantics of `nph-tree-table`, built on `nph-data-table` | 26/11/2026 | Low now. No piece consumes the tree table yet; a units by region list, an account plan and a project with stages will, and changing the rows (`children`, `branch`, `error`), `nph-row-load`, the cascade of `selected`, the error row and its roles, the Tab stop of the row or the protected members `nph-table` and `nph-data-table` now offer later requires redoing every consumer. | Documentation accepted by the design owner on 22/11/2026; D-1 and D-2 of DSA-102 answered the same day. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -10544,9 +10545,57 @@ the pull request that brings them; the merge is the approval.
 
 ---
 
+## P141 — `nph-tree-table`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `7812:13461`, page `1626:47`, root `7618:6203`, sets `7617:6784` and
+`7604:167`) joins the tree of `nph-table` (P101) with the selection, the sorting, the bars and the footer of `nph-data-table`
+(P105), and leaves to the code how a row declares its children, its loading and its failure, how the selection cascades, where
+the branch error row lives in a treegrid and how the row is the only Tab stop when the box, the more and the switch sit in it.
+Today `nph-data-table` leaves out a row with children and lists a tree of records under "do not create without a decision", and the
+`nph-table` tree has no selection and no error row.
+
+**Decision.** `nph-tree-table` is one Web Component with **open Shadow DOM** (P01) that **extends `nph-data-table`**, as that one
+extends `nph-table`: it takes their whole API, cells, bars and states, and adds the hierarchy. Anatomy only through the
+`tree-table/*` tokens, the `table/*` and `data-table/*` ones it inherits; **no token is created or changed**. No `::part` and no
+color property. What it rejects is left out and emits `console.error` or `console.warn` only in development, once per cause: the
+rule of P21.
+1. **Extension points.** `nph-table` gains protected members that by default draw what it draws today: `opensBranch`, `rowLoading`,
+   `rowBusy`, `afterToggle`, `renderRowExtra`, `extraRowDrawn` and `activateRow`, with `checkCell` and the Tab stop made protected.
+   `nph-data-table` gains `drawsTree` and makes its selection members protected. Neither table changes what it does.
+2. **Rows.** `children` is the next level, up to three in all; `children` empty is a leaf (D-1); `branch` marks a branch whose
+   children are not loaded; `error` marks a failed load; `loading` and `open` are the ones of `nph-table`. As in `nph-tree`, an open
+   `branch` with no `children` and no `error` is loading.
+3. **Load.** `nph-row-load` `{ row, retry }`, bubbling, fires once when a branch that is not loaded opens, and again on Try again.
+   Closing and opening a failed branch shows the error row and does not ask again. The row that loads carries `aria-busy`, and the
+   chevron is the loading button, with no skeleton row. Only the first load of the whole table is the loading state.
+4. **Error row.** A row of the treegrid at the level of its children, with `aria-posinset` and `aria-setsize` 1, outside the count of
+   its siblings, as the `nph-tree` error row. `error-text` and `retry-text` are strings already localized; an empty one warns once.
+   Enter and a click try again, the error row leaves, and a focus it held goes to the branch row.
+5. **Selection.** The box stays in its own column, as in `nph-data-table`. Checking a parent checks its loaded children at any depth;
+   a parent is checked when all of them are and partial (`indeterminate`) when only part is. A parent whose children are not loaded
+   is checked by itself, and the children that arrive under it come checked and are reported in `nph-selection-change`. `selected`
+   lists parents and children, and the bulk bar counts its keys.
+6. **Tab stop.** One row is the Tab stop; the box, the ⋮ and the switch of the other rows leave the Tab order with `tabindex="-1"` on
+   their hosts, and a closed menu leaves no `aria-expanded` on a focusable host. While the pointer is over a cut text its row takes
+   the Tab stop, as `nph-tree` does, and gives it back.
+7. **Focus.** The row takes the halo and the border with corners of `tree-table/focus-*`, drawn as layers of the row so the selected
+   bar stays above them. A focused cell keeps the ring of `nph-table`.
+8. **Colors.** The selected row, the title, the caption and the label of the page size keep the `data-table/*` and `table/*` tokens the
+   accepted contract names; the five colors DSA-120 adds to `tree-table/*` are read by that task.
+9. **Sorting, search and pagination** are the page's, as in `nph-data-table`: the table says what the person chose and the page sends
+   the rows. The sort works inside each level, the search brings the parents, and `total-items` is the number of first level rows.
+10. **Tree column.** The first column is the tree column: its plain text is cut to one line with an ellipsis and a tooltip, its width
+    is the page's and `tree-table/tree-column-min-width` is the floor (D-2).
+**Out of scope.** A disabled row, expand and collapse all, a fixed tree column, a stripe, independent or single selection, a fourth
+level and a row for a first load that fails.
+**Status.** Documentation accepted by the design owner on 22/11/2026; D-1 and D-2 answered the same day. API and semantics are
+reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138, P139 or P140 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138, P139, P140 or P141 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

@@ -1,0 +1,181 @@
+/**
+ * Internal style of `nph-tree-table`, drawn over the style of `nph-table` and of
+ * `nph-data-table`, which come first.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. No literal design value goes in. The table parts keep the tokens of
+ * `nph-table` and `nph-data-table` they already read; this file adds what the tree table
+ * draws or changes: the row focus, the branch error row, the tree column and the colors of its
+ * own: the selected bar.
+ *
+ * - The row focus (accepted proposal, only in the tree table): the halo `tree-table/focus-halo`
+ *   (`tree-table/focus-halo-width`, corners `tree-table/focus-halo-radius`) at the edge of the
+ *   row, and the border `tree-table/focus-border` (`tree-table/focus-border-width`, corners
+ *   `tree-table/focus-border-radius`) inside it, one halo width from the edge; both stop one
+ *   divider (`tree-table/border-width`) above the base of the row. The selected bar stays above
+ *   them. A focused cell keeps the ring of `nph-table`.
+ * - The tree column keeps `tree-table/tree-column-min-width` as a floor (D-2); its width is the
+ *   page's.
+ * - The selected row keeps `data-table/row-selected-background` and its bar
+ *   `data-table/row-selected-indicator` in `data-table/row-selected-indicator-width`, as the
+ *   evidence of the gate says; the title, the caption and the label of the page size keep the
+ *   tokens of `nph-table` and `nph-data-table`. The five colors DSA-120 adds to `tree-table/*`
+ *   are read by that task.
+ * - The branch error row: background `tree-table/row-background` (`-hover` under the pointer),
+ *   divider `tree-table/border` in `tree-table/border-width` at the base, sides
+ *   `tree-table/cell-padding-inline`, above and below `tree-table/row-padding-block` with
+ *   `tree-table/row-height` as a floor, gap `tree-table/cell-gap` between the indents and the
+ *   block, `tree-table/indent` the size of each indent, `tree-table/error-gap` between icon,
+ *   message and action, the icon `tree-table/error-icon-foreground` in `tree-table/error-icon-size`
+ *   and the text `tree-table/error-foreground` (`-hover` under the pointer).
+ *
+ * The only written quantities are box relations, not visual decisions: `0` (no offset, no
+ * padding), `100%` (the focus layers follow the row), `2` (the border is a halo width from each
+ * edge: two of them off the height), `1` (the selected bar over the focus) and `none`.
+ * Motion: none.
+ */
+
+/* The tree column: the page gives its width, the component keeps the floor (D-2). */
+:host([data-nph-rendered]) thead th:first-of-type,
+:host([data-nph-rendered]) tbody td:has(> .tree) {
+  min-inline-size: var(--nph-tree-table-tree-column-min-width);
+}
+
+/* The cut text shortens inside the tree cell, next to the chevron. */
+.tree {
+  min-inline-size: 0;
+}
+
+.tree > .cut {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+/* The selected row: its background over the stripe and the hover, and the bar at the start. */
+:host([data-nph-rendered]) tbody tr.row.selected > td {
+  background: var(--nph-data-table-row-selected-background);
+}
+
+:host([data-nph-rendered]) tbody tr.row.selected > td + td {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-data-table-row-selected-background);
+}
+
+/* The bar is a layer of its own, above the focus layers of the row. */
+:host([data-nph-rendered]) tbody tr.row.selected > td:first-child,
+:host([data-nph-rendered]) tbody tr.row.selected > td:first-child:dir(rtl) {
+  position: relative;
+  box-shadow: none;
+}
+
+:host([data-nph-rendered]) tbody tr.row.selected > td:first-child::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--nph-data-table-row-selected-indicator-width);
+  background: var(--nph-data-table-row-selected-indicator);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The row focus: a halo at the edge and a border inside it, both with corners. */
+tbody tr[data-tree-row] {
+  position: relative;
+}
+
+tbody tr[data-tree-row]:focus-visible {
+  outline: none;
+}
+
+tbody tr[data-tree-row]:focus-visible::before,
+tbody tr[data-tree-row]:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+tbody tr[data-tree-row]:focus-visible::before {
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: calc(100% - var(--nph-tree-table-border-width));
+  border: var(--nph-tree-table-focus-halo-width) solid var(--nph-tree-table-focus-halo);
+  border-radius: var(--nph-tree-table-focus-halo-radius);
+}
+
+tbody tr[data-tree-row]:focus-visible::after {
+  inset-block-start: var(--nph-tree-table-focus-halo-width);
+  inset-inline: var(--nph-tree-table-focus-halo-width);
+  block-size: calc(100% - var(--nph-tree-table-border-width) - 2 * var(--nph-tree-table-focus-halo-width));
+  border: var(--nph-tree-table-focus-border-width) solid var(--nph-tree-table-focus-border);
+  border-radius: var(--nph-tree-table-focus-border-radius);
+}
+
+/* The branch error row, a whole row at the children's level. */
+tbody tr.error-row {
+  cursor: pointer;
+}
+
+tbody tr.error-row > td {
+  background: var(--nph-tree-table-row-background);
+  border-block-end: var(--nph-tree-table-border-width) solid var(--nph-tree-table-border);
+}
+
+tbody tr.error-row > td + td {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-tree-table-row-background);
+}
+
+tbody tr.error-row:hover > td {
+  background: var(--nph-tree-table-row-background-hover);
+}
+
+tbody tr.error-row:hover > td + td {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-tree-table-row-background-hover);
+}
+
+tbody tr.error-row > td.error-cell {
+  min-block-size: var(--nph-tree-table-row-height);
+  padding-inline: var(--nph-tree-table-cell-padding-inline);
+}
+
+/* A table whose cells hold buttons has rows with more air above and below: the error row takes the same. */
+tbody tr.error-row.tall > td.error-cell {
+  padding-block: var(--nph-tree-table-row-padding-block);
+}
+
+.error-line {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-tree-table-cell-gap);
+}
+
+.error-indent {
+  flex: none;
+  inline-size: var(--nph-tree-table-indent);
+  block-size: var(--nph-tree-table-indent);
+}
+
+.error-block {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-tree-table-error-gap);
+  color: var(--nph-tree-table-error-foreground);
+}
+
+tbody tr.error-row:hover .error-block {
+  color: var(--nph-tree-table-error-foreground-hover);
+}
+
+.error-icon {
+  --nph-icon-size-sm: var(--nph-tree-table-error-icon-size);
+  flex: none;
+  color: var(--nph-tree-table-error-icon-foreground);
+}
+
+.error-action {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}

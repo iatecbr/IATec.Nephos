@@ -655,7 +655,15 @@
     "components-nph-toast-region-validation--quantities": "Quantities",
     "components-nph-toast-region-validation--live": "Live",
     "components-nph-toast-region-validation--direction": "Direction",
-    "components-nph-toast-region-validation--examples": "Examples"
+    "components-nph-toast-region-validation--examples": "Examples",
+    "components-nph-tree-table-validation": "Validation",
+    "components-nph-tree-table-validation--matrix": "Matrix",
+    "components-nph-tree-table-validation--rows": "Rows",
+    "components-nph-tree-table-validation--error-row": "Error row",
+    "components-nph-tree-table-validation--footer": "Footer",
+    "components-nph-tree-table-validation--invalid-input": "Invalid input",
+    "components-nph-tree-table-validation--examples": "Examples",
+    "components-nph-tree-table-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -8893,7 +8901,14 @@
       "components-nph-toast-region-validation--quantities": "One, two and three toasts on the default screen and on the compact one, in light and dark mode: the oldest at the top, the newest at the bottom, 16 apart and aligned by the end edge. On the compact screen the toast takes the width of the region.",
       "components-nph-toast-region-validation--live": "The real region at the bottom-right corner of the window, 24 from the bottom edge and from the end edge: three toasts in view, the newest next to the corner, and two waiting in the queue, out of view and not announced.",
       "components-nph-toast-region-validation--direction": "Right-to-left writing: the end edge is the left one, and the toasts end there.",
-      "components-nph-toast-region-validation--examples": "The three required examples, each in light and dark mode: an export in the queue, three notices in a row with a failure that can be fixed at the bottom, and a save in progress above an invitation and a failure."
+      "components-nph-toast-region-validation--examples": "The three required examples, each in light and dark mode: an export in the queue, three notices in a row with a failure that can be fixed at the bottom, and a save in progress above an invitation and a failure.",
+      "components-nph-tree-table-validation--matrix": "The three estado of the set in the two sizes: default with the page bar and the footer, loading with the header in view and the skeleton rows, and empty by search with the way to clear it.",
+      "components-nph-tree-table-validation--rows": "The rows of the tree: open and closed branches, the leaf, the partial parent, the selected rows with their background and bar, the branch that loads with the busy row, the failed one with its error row, and a table with no selection. Enter the table with Tab to see the focus of the row.",
+      "components-nph-tree-table-validation--error-row": "The branch error row at the level of the children: the icon under the text of the sibling rows at level 2 and level 3, the message and Try again, the space of the selection column when there is selection, and the row as tall as the data rows.",
+      "components-nph-tree-table-validation--footer": "The footer counts only the rows of the first level, and a single page draws no footer.",
+      "components-nph-tree-table-validation--invalid-input": "Invalid input: a fourth level is left out; a row that opens with no toggleLabel is left out; an error row with no texts draws empty and warns. Each one with its message in development.",
+      "components-nph-tree-table-validation--examples": "The three required examples, each in light and dark mode: units by region with a partial parent, selected rows, a branch that loads and a branch that failed; a search with no result; and the first load of the table.",
+      "components-nph-tree-table-validation--brands": "The seven brands in light and dark: the focus, the selected rows and the error row follow the brand."
     }
   },
   "multiComboboxDocs": {
@@ -11340,7 +11355,8 @@
       "To only read and compare data, without searching, sorting or selecting: use nph-table.",
       "To lay out the page: the table holds records.",
       "With a search that finds nothing and a blank body: use the empty by search state.",
-      "To mark a row by the background alone: select it, with the box checked too."
+      "To mark a row by the background alone: select it, with the box checked too.",
+      "For records with a parent and child hierarchy and the same columns at every level: use nph-tree-table, which builds on this table."
     ],
     "caption": "People by unit",
     "person": "Person",
@@ -18218,5 +18234,62 @@
         "description": "The new settings are already active."
       }
     }
+  },
+  "treeTableValidation": {
+    "caption": "People by region",
+    "description": "Region, state and city, with the total of people.",
+    "unit": "Unit",
+    "owner": "Owner",
+    "people": "People",
+    "tableActions": "Table actions",
+    "selection": "Selected units",
+    "search": "Filter by unit",
+    "searchValue": "Zeta",
+    "filter": "Filter",
+    "newUnit": "New unit",
+    "clearSelection": "Clear selection",
+    "download": "Download",
+    "edit": "Edit",
+    "selectAll": "Select all",
+    "select": "Select {name}",
+    "more": "More actions for {name}",
+    "open": "Open {name}",
+    "selectedText": "{count} of {total} selected",
+    "noValue": "no value",
+    "errorText": "Couldn't load.",
+    "retryText": "Try again",
+    "emptyHeading": "No unit found for “Zeta”",
+    "emptyDescription": "Check the spelling, or clear the filter to see every unit.",
+    "clearFilter": "Clear filter",
+    "pagination": "Pagination",
+    "page": "Page {page}",
+    "first": "First page",
+    "previous": "Previous page",
+    "next": "Next page",
+    "last": "Last page",
+    "position": "{start}–{end} of {total}",
+    "pageSize": "Items per page",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleUnits": "Units by region, with a partial parent, a branch that loads and a branch that failed",
+    "exampleEmpty": "Search with no result, with the way to clear the filter",
+    "exampleLoading": "First load of the table, with the header in view",
+    "places": {
+      "west": "West Region",
+      "east": "East Region",
+      "oregon": "Oregon",
+      "portland": "Portland",
+      "salem": "Salem",
+      "nevada": "Nevada",
+      "washington": "Washington",
+      "boston": "Boston",
+      "albany": "Albany"
+    },
+    "owners": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Dias",
+      "Diego Rocha"
+    ]
   }
 }
