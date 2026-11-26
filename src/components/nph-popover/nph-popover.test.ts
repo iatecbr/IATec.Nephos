@@ -1399,7 +1399,7 @@ describe('colors and surface, in both schemes', () => {
       expect(style.borderTopColor).toBe(colorOf('--nph-popover-border'));
       expect(style.borderTopWidth).toBe(`${px('--nph-popover-border-width')}px`);
       expect(style.borderTopLeftRadius).toBe(`${px('--nph-popover-radius')}px`);
-      expect(px('--nph-popover-radius')).toBe(14);
+      expect(px('--nph-popover-radius')).toBe(8);
       expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-dropdown'));
       expect(style.color).toBe(colorOf('--nph-popover-foreground'));
     });
