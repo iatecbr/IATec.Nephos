@@ -279,7 +279,7 @@
       "focus/border",
       "focus/halo"
     ],
-    "region": "toast-region/gap, toast-region/inset and toast-region/inset-compact, read by the nph-toast-region and not by the piece; notification/stack-gap has no consumer and leaves in a foundation task"
+    "region": "toast-region/gap, toast-region/inset and toast-region/inset-compact, read by the nph-toast-region and not by the piece"
   },
   "ai_hints": [
     "Use nph-notification to report a result, a risk or a piece of guidance; what needs an answer before going on is nph-dialog and the error of a field stays in nph-field.",

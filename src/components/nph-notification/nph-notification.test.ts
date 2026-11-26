@@ -1196,12 +1196,12 @@ describe('token contract', () => {
     }
   });
 
-  it('every notification token of the contract is read by the CSS, but the one the region no longer needs and the foundation task will remove (DSA-103)', () => {
+  it('every notification token of the contract is read by the CSS', () => {
     const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-notification-[a-z0-9-]+)\)/g)].map((match) => match[1] as string));
     const all = [...new Set([...tokensCss.matchAll(/(--nph-notification-[a-z0-9-]+):/g)].map((match) => match[1] as string))];
     expect(all.length).toBeGreaterThan(50);
     const unused = all.filter((name) => !used.has(name));
-    expect(unused, 'tokens of the contract the CSS does not read').toEqual(['--nph-notification-stack-gap']);
+    expect(unused, 'tokens of the contract the CSS does not read').toEqual([]);
   });
 
   it('the CSS has no literal design value; the written quantities are box relations', () => {
