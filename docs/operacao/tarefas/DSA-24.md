@@ -82,11 +82,7 @@ evidence of the `figma-docs-accepted` gate, sections "Measures and tokens" and
 | D4 | `border/width` in `color/border`, inside the frame and drawn over the photo. | Draws the border above the image, so it stays visible. |
 
 ## Pending decisions
-The evidence gives the whole contract, so the code can start: the task stays in progress. One point remains for Indiane; the code keeps working with the current tokens meanwhile, and the answer only touches the `design.md` text, never a token value.
-
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D5 | The tokens the avatar consumes: `avatar/size-*`, `avatar/radius-*`, `color/muted`, `color/muted-foreground`, `color/border`, `border/width` and `icon/size-*`. | The `use` text in `design.md` does not name the avatar for `color/muted`, `color/muted-foreground`, `color/border` (its do-not-use text says form field border) and `icon/size-*` (`md`: not inside a button with text; `lg`: not on dense screens). `avatar/radius-*` says "only in nph-avatar", but `nph-skeleton` (DSA-26 D2) and the avatar-stack count (DSA-25) also consume it. | Nothing changes in the component: it keeps consuming these tokens. The answer decides whether `design.md` is widened, and the sheet quotes the final text. |
+Answered on 2026-11-26: see the section below.
 
 ## Decision answered on 2026-11-26
 Indiane answered D5 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
