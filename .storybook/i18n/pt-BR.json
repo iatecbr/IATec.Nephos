@@ -17412,6 +17412,7 @@
       "errorMax": "A data deve ser igual ou anterior a {max}.",
       "errorBetween": "Escolha uma data entre {min} e {max}.",
       "errorUnavailable": "Esta data não está disponível, escolha outro dia.",
+      "errorPeriodUnavailable": "O período tem um dia que não está disponível, escolha outro período.",
       "errorEndBeforeStart": "O fim deve ser igual ou posterior ao início ({start})."
     }
   },
@@ -17420,7 +17421,7 @@
     "onThisPage": "Nesta página",
     "matrixLabel": "Matriz do componente",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: as fichas de nph-date-picker e nph-calendar, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P133 e a P135. O Figma DS-IA-NEPHOS 5.0 guarda as decisões visuais. As respostas do design de 18-11-2026 estão na P135; as perguntas ainda abertas estão na tarefa, com a regra provisória que o código segue.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: as fichas de nph-date-picker e nph-calendar, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P133 e a P135. O Figma DS-IA-NEPHOS 5.0 guarda as decisões visuais. As respostas do design de 18-11-2026 estão na P135; as que vieram depois (um atalho ou um período digitado com dia indisponível, as visões do intervalo, Este mês com um min e o dia que não pode ser o fim) estão na DSA-96. As duas medidas sem token e a margem da página seguem abertas, com a regra que o código segue.",
     "sourceLabel": "Fonte:",
     "whenToUseTitle": "Quando usar",
     "whenNotToUseTitle": "Quando não usar",
@@ -17468,7 +17469,7 @@
       ],
       [
         "allows-non-contiguous-ranges",
-        "Desligada por padrão: um período não atravessa um dia indisponível por regra. Enquanto só o início está escolhido, os dias depois do primeiro dia indisponível após ele, ou antes do primeiro antes dele, ficam desabilitados e não podem ser o fim. Ligada, um período pode ter dias indisponíveis. A propriedade é allowsNonContiguousRanges. Um período digitado e os atalhos não são verificados."
+        "Desligada por padrão: um período não cruza um dia indisponível por regra. Enquanto só o início está escolhido, os dias depois do primeiro dia indisponível após ele, ou antes do primeiro antes dele, ficam desabilitados e não podem ser o fim. Um atalho cujo período tem um dia indisponível fica desabilitado, e um período digitado que tem um mostra um erro no campo digitado. Ligada, um período pode ter dias indisponíveis, e um atalho e um período digitado que cruzam um são aceitos. A propriedade é allowsNonContiguousRanges."
       ],
       [
         "label, start-label, end-label",

@@ -10307,11 +10307,23 @@ below; every other rule of P133 stands.
    `max`: the arrows of the months and the month and year cells ignore it, so the navigation is never locked. It is looked for in
    `periodReach` (`nph-calendar.logic.ts`), only as far as the months shown, or the day the keyboard or the pick asks about, so
    a rule given as a function is called a bounded number of times; the rule is not called for a day outside the limits. On, a
-   period may hold unavailable days. A complete period, a typed period and a shortcut are never checked (D-15).
+   period may hold unavailable days. *(A typed period and a shortcut were not checked in the first
+   version; D-15, answered on 23/11/2026, changes that: see item 7.)*
 6. **The header of the large grid is 44.** 40 on default
    (`control/height-default` plus `space/inline-tight`) as before, and `control/height-large` on large, the height of its arrows.
    The large day view is 340 by 392, the large single panel 342 by 394 and the large range panel 874 by 463.
 
+7. **A shortcut or a typed period across an unavailable day (D-15).** *(Added on 23/11/2026, applied in DSA-115.)* D-15
+   follows D-10. While `allowsNonContiguousRanges` is off, a shortcut whose period holds a day unavailable by rule is disabled
+   with the disabled look of `nph-option`, as one outside the limits: it is skipped by the arrows, never marked and never
+   chooses. `This month` is judged cut by the max, as for the limits. A typed Start or End that makes the period hold one
+   shows `errorPeriodUnavailable` on the field typed and is not committed; the unavailable day itself keeps `errorUnavailable`,
+   which comes first. The period is the typed day and the other end, from the draft while the panel is open. A rule given as
+   a function is called once per day of the period. With the property on, both are accepted, as in D-10. `holdsUnavailable` and
+   the `refuses` argument of `shortcutRange`, `shortcutDisabled` and `matchShortcut` carry the rule, and the new label
+   `errorPeriodUnavailable` is the one text the piece gains: a `labels` object written before it renders anyway and says the key
+   is missing, once. React Spectrum asks for an error on a range across an unavailable day, and MUI disables a shortcut that
+   fails validation.
 **Alternatives discarded.** Putting the window of the End in `min` and `max`: the arrows and the cells would lock the navigation
 as soon as a Start is chosen. A `display: flex` on the view rows, or a negative margin on a table with `border-spacing`: the
 first changes the semantics of the table in some browsers, the second would lay a box of one cell over the header, over the
@@ -10320,20 +10332,20 @@ clicks of the arrows. Removing the hidden arrow from the layout: the title would
 **Pending decisions for the design owner.** D-12 to D-14 stay as in P133 and DSA-90. The code adds four, each with the rule it
 follows, recorded in DSA-96:
 
-- **D-15 — a period that is not picked day by day.** A typed period and a shortcut that hold an unavailable day keep the rule of
-  today: they commit and fill their period. The design owner decides whether they follow D-10, a shortcut being disabled and a
-  typed period an error, while `allowsNonContiguousRanges` is off.
-- **D-16 — the views in a range.** The first column is the year of the first month shown, the arrows are only on the outer
+- **D-15 — a period that is not picked day by day.** *(Answered by Indiane on 23/11/2026, as recommended, and applied in
+  DSA-115: item 7.)* The first rule was that a typed period and a shortcut that hold an unavailable day commit and fill their
+  period.
+- **D-16 — the views in a range.** *(Confirmed by Indiane on 23/11/2026.)* The first column is the year of the first month shown, the arrows are only on the outer
   edges and move one unit per click, and the 24 cells are one sequence for the keys. The answer says only that both columns
   switch together and where a chosen month comes back.
-- **D-17 — This month with a min inside the month.** It is disabled by the general rule of D-6; the exception of the answer is
+- **D-17 — This month with a min inside the month.** *(Confirmed by Indiane on 23/11/2026.)* It is disabled by the general rule of D-6; the exception of the answer is
   only for the max.
-- **D-18 — the look of a day that cannot be the End.** It is the disabled look of a day outside the limits; Figma does not draw it.
+- **D-18 — the look of a day that cannot be the End.** *(Answered by Indiane on 26/11/2026, option 1, and drawn in Figma at node 4015:28020.)* It is the disabled look of a day outside the limits.
 
 **Out of scope.** What P133 leaves out, and a token. The `nph-scheduler`, which keeps its own grid until DSA-77 D-1. D-12 to D-14.
 
 **Status.** The answers of the design owner on 18/11/2026. API and semantics are reviewed in the pull request that brings them; the
-merge is the approval. D-12 to D-18 wait for the design owner and do not block the pull request.
+merge is the approval. D-12 and D-14 wait for the design owner and do not block the pull request; D-13 and D-15 to D-18 were answered later, by Indiane on 23/11/2026 and 26/11/2026.
 
 ---
 

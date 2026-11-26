@@ -17412,6 +17412,7 @@
       "errorMax": "The date must be on or before {max}.",
       "errorBetween": "Choose a date between {min} and {max}.",
       "errorUnavailable": "This date is not available, choose another day.",
+      "errorPeriodUnavailable": "The period holds a day that is not available, choose another period.",
       "errorEndBeforeStart": "The end must be on or after the start ({start})."
     }
   },
@@ -17420,7 +17421,7 @@
     "onThisPage": "On this page",
     "matrixLabel": "Component matrix",
     "derivedTitle": "This page is derived.",
-    "derivedText": "In case of divergence, the canonical sources prevail: the nph-date-picker and nph-calendar spec sheets, design.md for the tokens and docs/decisoes-tecnicas.md for P133 and P135. The DS-IA-NEPHOS 5.0 Figma holds the visual decisions. The answers of the design owner of 2026-11-18 are in P135; the questions still open are named in the task, with the provisional rule the code follows.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-date-picker and nph-calendar spec sheets, design.md for the tokens and docs/decisoes-tecnicas.md for P133 and P135. The DS-IA-NEPHOS 5.0 Figma holds the visual decisions. The answers of the design owner of 2026-11-18 are in P135; the answers that came after (a shortcut or a typed period across an unavailable day, the views of a range, This month with a min and the day that cannot be the End) are in DSA-96. The two measures with no token and the page margin are still open, with the rule the code follows.",
     "sourceLabel": "Source:",
     "whenToUseTitle": "When to use",
     "whenNotToUseTitle": "When not to use",
@@ -17468,7 +17469,7 @@
       ],
       [
         "allows-non-contiguous-ranges",
-        "Off by default: a period does not cross a day unavailable by rule. While only the Start is chosen, the days past the first unavailable day after it, or before the first one before it, are disabled and cannot be the End. On, a period may hold unavailable days. The property is allowsNonContiguousRanges. A typed period and the shortcuts are not checked."
+        "Off by default: a period does not cross a day unavailable by rule. While only the Start is chosen, the days past the first unavailable day after it, or before the first one before it, are disabled and cannot be the End. A shortcut whose period holds an unavailable day is disabled, and a typed period that holds one shows an error on the field typed. On, a period may hold unavailable days, and a shortcut and a typed period across one are accepted. The property is allowsNonContiguousRanges."
       ],
       [
         "label, start-label, end-label",

@@ -17412,6 +17412,7 @@
       "errorMax": "La fecha debe ser igual o anterior a {max}.",
       "errorBetween": "Elige una fecha entre {min} y {max}.",
       "errorUnavailable": "Esta fecha no está disponible, elige otro día.",
+      "errorPeriodUnavailable": "El período incluye un día que no está disponible, elige otro período.",
       "errorEndBeforeStart": "El fin debe ser igual o posterior al inicio ({start})."
     }
   },
@@ -17420,7 +17421,7 @@
     "onThisPage": "En esta página",
     "matrixLabel": "Matriz del componente",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133 y la P135. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las respuestas del diseño del 18-11-2026 están en la P135; las preguntas aún abiertas están en la tarea, con la regla provisional que sigue el código.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas de nph-date-picker y nph-calendar, design.md para los tokens y docs/decisoes-tecnicas.md para la P133 y la P135. El Figma DS-IA-NEPHOS 5.0 guarda las decisiones visuales. Las respuestas del diseño del 18-11-2026 están en la P135; las que llegaron después (un atajo o un período escrito con un día no disponible, las vistas del rango, Este mes con un min y el día que no puede ser el final) están en la DSA-96. Las dos medidas sin token y el margen de la página siguen abiertas, con la regla que sigue el código.",
     "sourceLabel": "Fuente:",
     "whenToUseTitle": "Cuándo usar",
     "whenNotToUseTitle": "Cuándo no usar",
@@ -17468,7 +17469,7 @@
       ],
       [
         "allows-non-contiguous-ranges",
-        "Desactivada por defecto: un periodo no cruza un día no disponible por regla. Mientras solo el inicio está elegido, los días después del primer día no disponible tras él, o antes del primero anterior a él, quedan deshabilitados y no pueden ser el fin. Activada, un periodo puede tener días no disponibles. La propiedad es allowsNonContiguousRanges. Un periodo escrito y los atajos no se verifican."
+        "Desactivada por defecto: un período no cruza un día no disponible por regla. Mientras solo el inicio está elegido, los días posteriores al primer día no disponible después de él, o anteriores al primero antes de él, quedan deshabilitados y no pueden ser el final. Un atajo cuyo período incluye un día no disponible queda deshabilitado, y un período escrito que incluye uno muestra un error en el campo escrito. Activada, un período puede incluir días no disponibles, y se aceptan un atajo y un período escrito que cruzan uno. La propiedad es allowsNonContiguousRanges."
       ],
       [
         "label, start-label, end-label",

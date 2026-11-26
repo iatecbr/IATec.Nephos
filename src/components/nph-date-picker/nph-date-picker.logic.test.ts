@@ -11,6 +11,7 @@ import {
   checkTyped,
   dateOrderOf,
   formatDay,
+  holdsUnavailable,
   matchShortcut,
   parseTyped,
   shortcutDisabled,
@@ -179,5 +180,38 @@ describe('the shortcuts (D-6)', () => {
     const limits = { min: null, max: day('2026-10-20') };
     expect(matchShortcut({ start: day('2026-10-01'), end: day('2026-10-20') }, today, limits)).toBe('this-month');
     expect(matchShortcut({ start: day('2026-10-07'), end: day('2026-10-13') }, today, { min: day('2026-10-10'), max: null })).toBe('custom');
+  });
+});
+describe('a period across an unavailable day (D-15)', () => {
+  const today = day('2026-10-14');
+  const holiday = (text: string) => (value: number) => value === day(text);
+  it('holdsUnavailable looks at every day of the period, the two ends included, in either order', () => {
+    expect(holdsUnavailable(day('2026-10-07'), day('2026-10-13'), holiday('2026-10-10'))).toBe(true);
+    expect(holdsUnavailable(day('2026-10-07'), day('2026-10-13'), holiday('2026-10-07'))).toBe(true);
+    expect(holdsUnavailable(day('2026-10-07'), day('2026-10-13'), holiday('2026-10-13'))).toBe(true);
+    expect(holdsUnavailable(day('2026-10-07'), day('2026-10-13'), holiday('2026-10-14'))).toBe(false);
+    expect(holdsUnavailable(day('2026-10-13'), day('2026-10-07'), holiday('2026-10-10'))).toBe(true);
+    expect(holdsUnavailable(day('2026-10-10'), day('2026-10-10'), holiday('2026-10-10'))).toBe(true);
+  });
+  it('turns off a shortcut whose period holds an unavailable day, and keeps the others', () => {
+    const refuses = (start: number, end: number) => holdsUnavailable(start, end, holiday('2026-10-10'));
+    expect(shortcutRange('last-7-days', today, noLimits, refuses)).toBeNull();
+    expect(shortcutRange('last-30-days', today, noLimits, refuses)).toBeNull();
+    expect(shortcutRange('this-month', today, noLimits, refuses)).toBeNull();
+    expect(shortcutRange('today', today, noLimits, refuses)).not.toBeNull();
+    expect(shortcutRange('last-month', today, noLimits, refuses)).not.toBeNull();
+    expect(shortcutDisabled('last-7-days', today, noLimits, refuses)).toBe(true);
+    expect(shortcutDisabled('custom', today, noLimits, refuses)).toBe(false);
+  });
+  it('This month is judged cut by the max: an unavailable day after the max does not turn it off', () => {
+    const refuses = (start: number, end: number) => holdsUnavailable(start, end, holiday('2026-10-25'));
+    expect(shortcutRange('this-month', today, { min: null, max: day('2026-10-20') }, refuses)).not.toBeNull();
+    expect(shortcutRange('this-month', today, { min: null, max: day('2026-10-30') }, refuses)).toBeNull();
+  });
+  it('without a rule, nothing changes, and a period that is off is never matched', () => {
+    expect(shortcutRange('last-7-days', today, noLimits, undefined)).not.toBeNull();
+    const refuses = (start: number, end: number) => holdsUnavailable(start, end, holiday('2026-10-10'));
+    expect(matchShortcut({ start: day('2026-10-07'), end: day('2026-10-13') }, today, noLimits, refuses)).toBe('custom');
+    expect(matchShortcut({ start: day('2026-10-07'), end: day('2026-10-13') }, today, noLimits)).toBe('last-7-days');
   });
 });
