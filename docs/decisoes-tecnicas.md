@@ -7766,7 +7766,9 @@ the rule of P21. An empty `items` is a mount (P68). The names follow P64.
 
 15. **Tokens.** Only `--nph-tree-*` (every one of them), the text roles `--nph-text-body-md-*` and
     `--nph-text-label-md-*`, the motion pair and `--nph-color-primary`. No token was created or
-    changed, and the CSS has no literal measure.
+    changed, and the CSS has no literal measure. **Update (DSA-93, 2026-11-18):** the focus outside the
+    row added `tree/focus-halo`, `tree/focus-halo-width` and `tree/focus-halo-radius`, and pointed
+    `tree/focus-border-width` and `tree/focus-border-radius` to the focus tokens of the list items.
 
 **Source.** Documentation `5876:216753` and sets `5485:350`, `5485:421` and `5485:766` of the Figma
 file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 11/11/2026 with the Figma UX QA and the textual audit
