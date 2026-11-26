@@ -78,7 +78,7 @@ Each change in the table below is in the code of its piece, with its tests, stor
 | nph-popover | DSA-67 D-4 | The title reads `text/heading-sm` instead of `text/label-lg`. |
 | nph-hover-card | DSA-68 D-2 | Without the arrow, the card centers on the link; with the arrow, the 16 px rule stays. |
 | nph-switch, nph-dropdown-menu | DSA-45 D-4 | nph-switch gains the small size; the item switch slot uses it (spec in DSA-45, section 'D-4: the small nph-switch'). |
-| nph-table | Lot 1, item 6 (link of the table) | `table/link-foreground` in dark points to `color/link` (`theme/brand-text-dark`) instead of `theme/brand-200`, as Figma already has it. The token source and the test `link in dark mode` in `nph-table.test.ts` change together, so the suite stays green. |
+| nph-table | Lot 1, item 6 (link of the table) | `table/link-foreground` in dark points to `color/link` (`theme/brand-text-dark`) instead of `theme/brand-200`, as Figma already has it. The token is on `v/5.0.0` since 2026-11-26; what is left is the test `link in dark mode` in `nph-table.test.ts` (see "Status of the rows"). |
 
 
 ## Status of the rows
