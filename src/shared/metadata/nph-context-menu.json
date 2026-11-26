@@ -127,7 +127,7 @@
   "domain_errors": [],
   "tokens": {
     "panel": [
-      "color/popover",
+      "context-menu/background",
       "color/popover-foreground",
       "layout/input-width",
       "dropdown/panel-radius",
@@ -135,7 +135,7 @@
     ],
     "panel_border": [
       "border/width",
-      "color/dropdown-border"
+      "context-menu/border"
     ],
     "panel_padding": "space/inline-tight",
     "group_label": [

@@ -8,7 +8,7 @@
  * - ONE tag, a piece of its own. `nph-dropdown-menu` opens from a visible trigger, below it, in a
  *   single level (P92); the context menu opens at a point and unfolds one submenu, so it draws
  *   its own panels with the item, the group label and the separator of that menu: the same
- *   `dropdown/*` tokens; its only tokens are the two of the long press, read in code;
+ *   `dropdown/*` tokens; its own tokens are the two of the panel, `context-menu/background` and `context-menu/border`, and the two of the long press, read in code;
  * - `for`: the `id` of the object that takes the right click, looked up in the SAME root as the
  *   menu (`getRootNode()`), like `nph-popover` (P111). The menu listens to `contextmenu` there,
  *   to Shift+F10 and the Menu key, and to a touch held for `context-menu/long-press-delay`

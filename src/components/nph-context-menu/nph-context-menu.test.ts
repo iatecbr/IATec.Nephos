@@ -1371,12 +1371,12 @@ describe('roles and names the browser computes', () => {
 });
 
 describe('anatomy, measures and colors', () => {
-  it('the panel: color/popover, color/dropdown-border, dropdown/panel-radius, elevation/dropdown, layout/input-width and space/inline-tight', async () => {
+  it('the panel: context-menu/background, context-menu/border, dropdown/panel-radius, elevation/dropdown, layout/input-width and space/inline-tight', async () => {
     const setup = await mount();
     await openAt(setup);
     const style = getComputedStyle(panel(setup.menu));
-    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-popover'));
-    expect(style.borderTopColor).toBe(resolved('color', '--nph-color-dropdown-border'));
+    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-context-menu-background'));
+    expect(style.borderTopColor).toBe(resolved('color', '--nph-context-menu-border'));
     expect(Number.parseFloat(style.borderTopWidth)).toBeCloseTo(px('--nph-border-width'), 1);
     expect(style.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-dropdown-panel-radius'));
     expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-dropdown'));
@@ -1615,13 +1615,21 @@ describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));
 
-  it('every custom property in the CSS exists in tokens.css; the only context-menu tokens are the two of the long press, read by the code', () => {
+  it('every custom property in the CSS exists in tokens.css; the only context-menu tokens are the two of the panel and the two of the long press', () => {
     for (const name of used) {
       expect(tokensCss, name).toContain(`${name}:`);
     }
-    expect([...used].filter((name) => name.startsWith('--nph-context-menu-'))).toEqual([]);
+    expect([...used].filter((name) => name.startsWith('--nph-context-menu-')).sort()).toEqual([
+      '--nph-context-menu-background',
+      '--nph-context-menu-border',
+    ]);
     const own = [...new Set([...tokensCss.matchAll(/(--nph-context-menu-[a-z0-9-]+):/g)].map((match) => match[1]))];
-    expect(own.sort()).toEqual(['--nph-context-menu-long-press-delay', '--nph-context-menu-long-press-tolerance']);
+    expect(own.sort()).toEqual([
+      '--nph-context-menu-background',
+      '--nph-context-menu-border',
+      '--nph-context-menu-long-press-delay',
+      '--nph-context-menu-long-press-tolerance',
+    ]);
   });
 
   it('uses the dropdown tokens of the item, the panel and the separator', () => {
@@ -1635,7 +1643,8 @@ describe('token contract', () => {
       '--nph-dropdown-item-destructive-hover-foreground',
       '--nph-dropdown-item-destructive-hover-background',
       '--nph-dropdown-item-hover-icon-foreground',
-      '--nph-color-dropdown-border',
+      '--nph-context-menu-background',
+      '--nph-context-menu-border',
     ]) {
       expect(used, name).toContain(name);
     }
