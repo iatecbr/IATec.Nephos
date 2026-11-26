@@ -99,7 +99,7 @@ Indiane answered D-1 in the chat on 2026-11-23, in lot A of the pending decision
 | D-1 | Accepted: the numbers and the arrows are native buttons of the pagination itself, painted by the `pagination/*` tokens, with the focus of the secondary nph-button and the tooltip of the icon-only button (P99). MUI builds its pagination from an item of its own, not from its Button (https://mui.com/material-ui/api/pagination-item/ ). | Nothing changes. |
 
 ## Decision answered on 2026-11-24
-Indiane answered D-5 on 2026-11-24: the bar of the pagination has no outline. The code change is in DSA-118.
+Indiane answered D-5 on 2026-11-24: the bar of the pagination has no outline, and the Figma set `1640:194` already draws it without one. The answer and the Figma change are recorded in `docs/operacao/tarefas/DSA-118.md`, sections "Goal" and "What changed in Figma"; the code change is in DSA-118.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
