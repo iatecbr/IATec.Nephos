@@ -3292,15 +3292,7 @@
     },
     "link-foreground": {
       "$type": "color",
-      "$value": "{color.link}",
-      "$extensions": {
-        "com.iatec.nephos": {
-          "modes": {
-            "light": "{color.link}",
-            "dark": "{theme.brand-200}"
-          }
-        }
-      }
+      "$value": "{color.link}"
     },
     "status-success-icon": {
       "$type": "color",

@@ -519,7 +519,7 @@ tokens_semantic:
     css: '--nph-color-link'
     claro: theme/brand-600
     escuro: theme/brand-text-dark
-    use: "Text of an action that reads as a link inside a composition, such as the resend-code action below the nph-input-otp: a ghost nph-button with the label in color/link and underlined; and the trigger link of nph-hover-card. Meets 4.5:1 on color/background in light and dark in the seven brands. Do not use for the label of a regular nph-button or for body text: those keep their own tokens. Also a link inside the nph-rich-text-editor content, always underlined (rich-text-editor/link-foreground): 4.96:1 light and 8.87:1 dark in the worst brand."
+    use: "Text of an action that reads as a link inside a composition, such as the resend-code action below the nph-input-otp: a ghost nph-button with the label in color/link and underlined; the trigger link of nph-hover-card; and the link inside the nph-table cell (table/link-foreground). Meets 4.5:1 on color/background in light and dark in the seven brands. Do not use for the label of a regular nph-button or for body text: those keep their own tokens. Also a link inside the nph-rich-text-editor content, always underlined (rich-text-editor/link-foreground): 4.96:1 light and 8.87:1 dark in the worst brand."
   color/primary-hover:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
@@ -1668,7 +1668,7 @@ tokens_table:
   table/link-foreground:
     css: '--nph-table-link-foreground'
     alias: color/link
-    use: "Link inside the cell, always underlined. In dark it follows theme/brand-200."
+    use: "Link inside the cell, always underlined. In light and dark it follows color/link, as in Figma: theme/brand-text-dark in dark (DSA-70 T-1)."
   table/status-success-icon:
     css: '--nph-table-status-success-icon'
     alias: status/success

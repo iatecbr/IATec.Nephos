@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 690,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "ready",
   "piece": null,
   "dependencies": [
     "DSA-27",
@@ -31,14 +31,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "T-1",
-      "question": "The nph-table row of this task changes the value of the token table/link-foreground in dark (theme/brand-200 to color/link, theme/brand-text-dark). The code agent never creates or changes a token (CLAUDE.md, rule 1), so the row is not in the code. Indiane, in Figma, brings the token value to v/5.0.0 (or releases the agent to change it); then the source and the test 'link in dark mode' of nph-table.test.ts change together and the task can close.",
-      "decider": "indiane",
-      "opened_at": "2026-11-09"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-70/review-and-merge-partial-2026-11-09.md"
   ],
@@ -46,7 +39,8 @@
     "docs/decisoes-tecnicas.md#p114",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 1 of the pending decisions (Figma frame 5374:10420); tokens on v/5.0.0 (0a27c10)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452) and asked for one new task instead of reopening the done ones"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452) and asked for one new task instead of reopening the done ones",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, lot N1: Claude brought table/link-foreground in dark to color/link, as in Figma (T-1 closed)"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -88,13 +82,13 @@ Each change in the table below is in the code of its piece, with its tests, stor
 
 
 ## Status of the rows
-All the rows are in the code, merged into `v/5.0.0` by PR #163 (evidence `review-and-merge-partial-2026-11-09.md`), except the `nph-table` one. That row changes the value of a token in the token source, and the code agent never creates or changes a token, so it waits for Indiane (pending decision `T-1`). The task stays open until the row is in: it does not go to `done` before. The technical choices of the other rows are in P114 (`docs/decisoes-tecnicas.md`). The open items DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2 stay open.
+All the rows are in the code, merged into `v/5.0.0` by PR #163 (evidence `review-and-merge-partial-2026-11-09.md`), except the `nph-table` one. The token part of that row is on `v/5.0.0` since 2026-11-26 (T-1 closed): `table/link-foreground` is `{color.link}` in light and dark, as in Figma, so in dark it reads `theme/brand-text-dark`. What is left is the test: `link in dark mode` in `nph-table.test.ts` still names and compares `theme/brand-200`. It still passes, because the test runs in the `Sistemas` brand, where both are `core/sistemas/200`; in Gerencial, Igrejas and Recursos Humanos `theme/brand-text-dark` is tone 100, and in `Educacao` tone 300. The code owner renames the test and compares `--nph-theme-brand-text-dark`; then the task can close. It does not go to `done` before. The technical choices of the other rows are in P114 (`docs/decisoes-tecnicas.md`). The open items DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2 stay open.
 
 ## How it is proved
 **`review-and-merge`** passes when each row of the table is in the code, with the tests and stories of each piece updated and its spec in `fichas/` saying the same; the proof commands in `docs/operacao/component-handoff.md` exit 0; and the work is merged into `v/5.0.0`.
 
 ## What this task does not do
-It does not answer the technical points still open in DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2. It does not create or remove tokens: the tokens of the small nph-switch are already in the token source. It only points `table/link-foreground` in dark to another token.
+It does not answer the technical points still open in DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2. It does not create, remove or change tokens: the tokens of the small nph-switch are already in the token source, and `table/link-foreground` already points to `color/link` in dark.
 
 ## Sources
 - `docs/operacao/tarefas/DSA-29.md`, `DSA-36.md`, `DSA-45.md`, `DSA-62.md`, `DSA-64.md`, `DSA-65.md`, `DSA-67.md`, `DSA-68.md`, `DSA-69.md`, sections "Decisions answered on 2026-11-09"

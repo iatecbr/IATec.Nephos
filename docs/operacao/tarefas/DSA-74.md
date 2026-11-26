@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 730,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "ready",
   "piece": "nph-file-upload",
   "dependencies": [
     "DSA-03",
@@ -26,7 +26,7 @@
     },
     {
       "id": "stroke-style-token",
-      "description": "The build accepts the strokeStyle type and the two border-style tokens that exist in Figma are in the repository: core.border-style.dashed (dashed) and file-upload.border-style pointing to {core.border-style.dashed}. Add strokeStyle to HANDLED_TYPES in scripts/tokens-lib.mjs and create the two tokens, as in Figma (approved decision; in Figma the dash is 6 and the gap is 4; in CSS dashed). Until then the drop zone uses border-style: dashed.",
+      "description": "The build accepts the strokeStyle type and the two border-style tokens that exist in Figma are in the repository: core.border-style.dashed (dashed) and file-upload.border-style pointing to {core.border-style.dashed}. Two steps, in this order (section 'What is left'): the code owner adds strokeStyle to HANDLED_TYPES in scripts/tokens-lib.mjs, with no token; then Claude creates the two tokens, as in Figma (approved decision; in Figma the dash is 6 and the gap is 4; in CSS dashed). Until then the drop zone uses border-style: dashed.",
       "command": "npm run build:tokens && npm run test:tokens",
       "evidence": null,
       "result": "pending",
@@ -44,14 +44,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The gate stroke-style-token stays pending: the strokeStyle type in scripts/tokens-lib.mjs and the tokens core.border-style.dashed and file-upload.border-style are token work, which belongs to Claude in Figma, and an agent of the code owner never creates or changes a token. The zone writes border-style: dashed, as this task says, with a comment that points to the gate. Indiane takes the tokens to the build. It does not block the pull request; it blocks the done state of this task.",
-      "decider": "indiane",
-      "opened_at": "2026-11-11"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-74/figma-docs-accepted-2026-11-10.md",
     "docs/operacao/evidencias/DSA-74/review-and-merge-2026-11-11.md"
@@ -60,7 +53,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, nph-file-upload: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 11 of the approval page approved (dashed border style token, spacing straight to core, thumbnail radius, the three uploading and done tokens per theme on the primitive, icon box and uploading icon on the primitive, state borders in dark at 40%, dragging icon on color/primary-on-surface, file-lines and file-image in nph-icon, compact format only in a container of 668 px or more, list with no scroll of its own, the other points of the appendix as recommended)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane answered part of the pending decisions in the chat on 2026-11-16 and delegated the technical rest to Claude, with market research and sources; the visual and foundation points wait for previews in Figma; code changes in DSA-82",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-16.md, Indiane chose the recommended option 1 on the 15 Figma previews (frame 6753:17854, page 988:6952, light and dark) and released recording the answers and opening DSA-84 and DSA-85",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, lot N1: the build refuses the strokeStyle type, and the build script is code, so the type comes first from the code owner and the two tokens from Claude after it (D-1 closed)"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -114,7 +108,7 @@ The size of the `circle-xmark` of the reason and of the icons of the item uses `
 The 64 tokens (`file-upload/*` 28 and `file-upload-item/*` 36) and the three new primitives `core/alpha/danger-400-40`, `core/alpha/success-400-40` and `core/alpha/warn-400-40` came with this task and are on `v/5.0.0`. Two tokens that exist in Figma wait for the build: `core/border-style/dashed` and `file-upload/border-style` (gate `stroke-style-token`). The pieces inside are done: nph-icon (DSA-03), nph-spinner (DSA-09), nph-button (DSA-13), nph-field (DSA-28) and nph-image (DSA-51).
 
 ## Decisions answered on 2026-11-16
-Indiane answered D-4 in the chat on 2026-11-16, after market research with sources. D-2 was decided on that research by Claude, by her delegation. D-3 and D-5 were answered the same day on the previews in Figma: see the next section. D-1 stays open, with the `stroke-style-token` gate.
+Indiane answered D-4 in the chat on 2026-11-16, after market research with sources. D-2 was decided on that research by Claude, by her delegation. D-3 and D-5 were answered the same day on the previews in Figma: see the next section. D-1 was closed on 2026-11-26: see "What is left".
 
 | ID | Answer | What the code does |
 |---|---|---|
@@ -129,11 +123,18 @@ Indiane chose the recommended option 1 on the previews in Figma (parent frame `6
 | D-3 | V5 `6757:18671` | Confirmed: with the zone disabled, the items dim with `file-upload/disabled-opacity`, go back to the ready look, their buttons are disabled and the name has no link (a disabled component is exempt from 3:1, WCAG 1.4.11). | Nothing changes. |
 | D-5 | V6 `6757:18862` | Confirmed the reading of the code: the status takes a third line, under format and size; the ready item has no status (66); the others are 86; in the complete state the name becomes a link to the saved file (Carbon, file uploader). | Nothing changes. |
 
+## What is left (2026-11-26)
+D-1 is closed. On 2026-11-26 Claude read both tokens in Figma (`core/border-style/dashed`, string `dashed`, VariableID `5734:32`; `file-upload/border-style` pointing to it in light and dark, VariableID `5734:45`). The build stops on them: `strokeStyle` is not in `HANDLED_TYPES` (`scripts/build-tokens.mjs`, "$type not handled"). The build script is code, so the order is:
+
+1. **Code owner:** add `strokeStyle` to `HANDLED_TYPES` in `scripts/tokens-lib.mjs`, so the build writes the string as it is (`--nph-core-border-style-dashed: dashed;`), and add its check to `scripts/test-invariance.mjs`. The check uses a fixture name that does not exist in the source, so it still passes when the real tokens come in. Create no token. Then move this task to `blocked`, with a blocker owned by `claude`: "bring the two border-style tokens".
+2. **Claude:** brings the two tokens to the source, as in Figma: `core.border-style.dashed` (`{ "$type": "strokeStyle", "$value": "dashed" }`) and `file-upload.border-style` (`{ "$type": "strokeStyle", "$value": "{core.border-style.dashed}" }`), with the counts per layer, and moves this task back to `ready`.
+3. **Code owner:** the drop zone reads `var(--nph-file-upload-border-style)` instead of the literal `dashed`; the gate `stroke-style-token` passes and the task can close.
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`stroke-style-token`** — `npm run build:tokens` and `npm run test:tokens` pass with `strokeStyle` handled and the two tokens in the source. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## What this task does not do
-The code does not create a token or change a token value, except the two `border-style` tokens of the gate `stroke-style-token`. It does not change Figma. It does not change nph-button, nph-icon-button, nph-spinner or nph-image. It does not build the single-file field (nph-input-file) nor the file list in table columns (that is a composition with nph-data-table).
+The code does not create a token or change a token value: the two `border-style` tokens of the gate `stroke-style-token` come from Claude, after the build takes the type (see "What is left"). It does not change Figma. It does not change nph-button, nph-icon-button, nph-spinner or nph-image. It does not build the single-file field (nph-input-file) nor the file list in table columns (that is a composition with nph-data-table).
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, documentation frame `5311:8328` and the evidence of the `figma-docs-accepted` gate
