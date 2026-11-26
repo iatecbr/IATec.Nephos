@@ -1,0 +1,240 @@
+{
+  "piece": "nph-tree-table",
+  "level": "component",
+  "status": "active",
+  "solves": "Lets the person read, search, sort and select records that have a parent and child hierarchy with the same columns at every level, such as unit and sub-unit, opening each branch in place and loading its children on demand, with the error of a branch shown in its own row.",
+  "use_when": [
+    "Records with parent and child and the same columns at every level: unit and sub-unit, account and sub-account, project and stage.",
+    "A hierarchy the person searches, sorts, selects and acts on, with the toolbar, the bulk bar, the row actions and the pagination of the data table.",
+    "Children that come from the server: the branch opens, shows its loading in the chevron and receives its children or its error row.",
+    "Selecting a whole branch with one box, or only part of it, with the parent shown as partial.",
+    "Size large on a touch screen or for reading with more air; default in the other cases."
+  ],
+  "do_not_use_when": [
+    "For a hierarchy with no data columns: use nph-tree, the navigation tree.",
+    "For a detail that is not a table (text, a record card, a form) under a row: use nph-data-table with the expanded item, which does not become a level.",
+    "For data with no hierarchy: use nph-data-table, or nph-table to only read.",
+    "For a hierarchy deeper than three levels: take the screen back to the UX review.",
+    "For a first load that fails: the table has no row for it; the page shows its own message."
+  ],
+  "api": {
+    "inherits": {
+      "type": "string",
+      "required": false,
+      "default": "nph-data-table",
+      "reflects": false,
+      "constraint": "Every attribute, property, slot and event of nph-data-table, which builds on nph-table: size, framed, sticky-header, striped, grid, caption, description, total, label, no-value-label, empty-heading, empty-description, columns, rows, footer, sort-key, sort-direction, selectable, selected, select-all-label, select-label, selected-text, actions, actions-label, switch-header, switch-label, loading, clear-label, page, page-size, page-sizes, total-items, pagination-layout and the labels of the footer. Same cells, same toolbar and bulk slots, same events."
+    },
+    "rows": {
+      "type": "array",
+      "required": true,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. The rows of nph-data-table, with key, name, cells, open, loading and toggleLabel, plus children, the rows of the next level (up to three levels in all), branch, a branch whose children the page has not loaded, and error, a branch whose load failed. children empty is a leaf. A row that opens needs toggleLabel, the name of its chevron. A row below the third level is left out and emits console.error in development. Rows arrive already searched, sorted and paged; sorting works inside each level, the search brings the parents of what it finds, and total-items counts only the first level."
+    },
+    "error-text": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The phrase of the branch error row, already localized, such as Could not load. Empty with an error row drawn warns once in development."
+    },
+    "retry-text": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The action of the branch error row, already localized, such as Try again. Empty with an error row drawn warns once in development."
+    },
+    "events": {
+      "nph-row-load": "{ row, retry }: a branch that is not loaded was opened (retry false), or Try again was pressed on its error row (retry true). The page answers by replacing rows with the children or with error",
+      "nph-row-toggle": "{ row, open }: the person opened or closed a row. rows is replaced with a new list where that row has the new open",
+      "nph-selection-change": "{ selected }: the keys of every row checked, parents included, with the cascade applied. It also fires when children that arrive under a checked parent come checked",
+      "nph-sort-change": "{ key, direction }: as in nph-data-table",
+      "nph-page-change": "{ page, pageSize }: as in nph-data-table",
+      "nph-row-action": "{ row, action }: as in nph-data-table",
+      "nph-row-switch": "{ row, checked }: as in nph-data-table",
+      "nph-filter-clear": "the person pressed the button that clears the search in the empty body"
+    },
+    "slots": {
+      "toolbar": "the nph-toolbar of the page type above the table",
+      "bulk": "the nph-toolbar of the bulk type that takes the place of the page bar while a row is selected",
+      "action": "the main action of the caption"
+    }
+  },
+  "variants": {
+    "size": {
+      "axis": "size",
+      "choose_when": "Default on a mouse screen; large on a touch screen or for reading with more air. Large gives more air on the sides and a selection column wider than default; the row with actions keeps its height.",
+      "do_not_combine_with": []
+    },
+    "state": {
+      "axis": "appearance",
+      "choose_when": "Default with rows; loading for the first load of the whole table, with the header in view and skeleton rows; empty by search when the toolbar search finds nothing. A branch that loads uses the loading chevron, never the loading state.",
+      "do_not_combine_with": [
+        "state loading to show the load of a branch: the loading stays in the chevron, with no skeleton row."
+      ]
+    }
+  },
+  "states": {
+    "open": {
+      "token": "table/expand-indent",
+      "changes_for_user": "The chevron turns down and the children appear under the parent, one step of table/expand-indent plus table/cell-gap further in per level."
+    },
+    "loading-branch": {
+      "token": "not_applicable",
+      "changes_for_user": "The chevron becomes the loading icon-only button and the row is busy. No skeleton row is drawn. The children or the error row arrive in its place."
+    },
+    "error-row": {
+      "token": "tree-table/row-background, tree-table/error-foreground, tree-table/error-icon-foreground",
+      "changes_for_user": "A whole row at the level of the children shows an alert icon, the message and Try again, in place of the children. The whole row is the target."
+    },
+    "error-row-hover": {
+      "token": "tree-table/row-background-hover, tree-table/error-foreground-hover",
+      "changes_for_user": "The row takes the hover background of the table family and the text keeps its contrast."
+    },
+    "row-focus": {
+      "token": "tree-table/focus-halo, tree-table/focus-border",
+      "changes_for_user": "With the keyboard, the focused row shows a halo at its edge and a border inside it, both with corners and stopping one divider above the base. The selected bar stays above them."
+    },
+    "selected": {
+      "token": "data-table/row-selected-background, data-table/row-selected-indicator",
+      "changes_for_user": "The whole row takes the selected background and a bar at the start; the box is checked."
+    },
+    "partial": {
+      "token": "not_applicable",
+      "changes_for_user": "A parent with only part of its loaded children checked shows the dash in its box and takes no selected background."
+    },
+    "hover": {
+      "token": "table/row-hover-background",
+      "changes_for_user": "The whole row, the tree cell included, takes the hover background. Hover only paints: it does not move the focus."
+    }
+  },
+  "business_rules": [
+    "A row opens only through its chevron or the keyboard. A click on the rest of the row neither opens the branch nor checks the box.",
+    "The tree goes down to three levels. A row below the third is left out and a console.error is emitted in development.",
+    "A branch that loads and comes back with no children becomes a leaf: the chevron leaves, its space stays and the row stops carrying aria-expanded.",
+    "Opening a branch that is not loaded fires nph-row-load once and the row is busy until rows brings its children or its error.",
+    "A failed branch shows the error row in the place of its children. Closing and opening it shows the error row again; only Try again asks for the load.",
+    "Try again takes the error row out, puts the branch back to loading and fires nph-row-load with retry true. A focus on the error row goes to the branch row.",
+    "Selection is by the box only, in a column of its own with no indent. Checking a parent checks its loaded children at any depth, open or not; unchecking it unchecks them.",
+    "A parent whose loaded children are all checked is checked and is in selected; with only part of them checked it is partial and is not in selected.",
+    "A parent whose children are not loaded is checked by itself. Children that arrive later under a checked parent come checked and nph-selection-change reports them.",
+    "The header box checks the rows drawn, open children included; the bulk bar counts the keys of selected, parents and children together.",
+    "The error row is not selectable and is not counted in aria-setsize or aria-posinset of its siblings.",
+    "Sorting, search and pagination are the page's: the table keeps what the person chose and says so in events. total-items is the number of first level rows."
+  ],
+  "domain_errors": [
+    "A branch whose children failed to load: the error row, with Try again.",
+    "A first load of the whole table that fails has no row in the contract; the page shows its own message."
+  ],
+  "tokens": {
+    "error-row": [
+      "tree-table/row-background",
+      "tree-table/row-background-hover",
+      "tree-table/border",
+      "tree-table/border-width",
+      "tree-table/row-padding-block",
+      "tree-table/row-height",
+      "tree-table/cell-padding-inline",
+      "tree-table/cell-gap",
+      "tree-table/indent",
+      "tree-table/error-gap"
+    ],
+    "error-text": [
+      "tree-table/error-foreground",
+      "tree-table/error-foreground-hover",
+      "tree-table/error-icon-foreground",
+      "tree-table/error-icon-size"
+    ],
+    "focus": [
+      "tree-table/focus-halo",
+      "tree-table/focus-halo-width",
+      "tree-table/focus-halo-radius",
+      "tree-table/focus-border",
+      "tree-table/focus-border-width",
+      "tree-table/focus-border-radius"
+    ],
+    "selection": [
+      "data-table/row-selected-background",
+      "data-table/row-selected-indicator",
+      "data-table/row-selected-indicator-width"
+    ],
+    "tree-column": "tree-table/tree-column-min-width",
+    "table": "every token of nph-table and nph-data-table, by composition, with no change"
+  },
+  "ai_hints": [
+    "Use nph-tree-table when records have parent and child and the same columns at every level; use nph-tree for a navigation tree with no columns and nph-data-table for records with no hierarchy.",
+    "Give every row that opens a toggleLabel already localized, such as Open Oregon: it names the chevron.",
+    "Mark a branch whose children are not loaded with branch, listen to nph-row-load and answer by replacing rows with the children, or with error when the load fails.",
+    "On nph-row-load with retry true, load again and answer the same way; do not draw your own error row.",
+    "Give the table error-text and retry-text already localized whenever a branch can fail.",
+    "Give the tree column a width: the page decides it, and the component keeps a floor. A long text is cut with an ellipsis and a tooltip.",
+    "Cut the pages by first level rows and set total-items to their number; the children stay on the page of their parent.",
+    "Do not build a fourth level, a disabled row, a stripe, expand all or a fixed tree column: they are out of this version."
+  ],
+  "accessibility": {
+    "semantics": "The table is a treegrid. Each row carries aria-level, aria-posinset and aria-setsize and, when it opens, aria-expanded. The row that loads its children carries aria-busy. The error row is a row at the level of the children, read as its message and its action together.",
+    "accessible_name": "The caption title names the table, with the description as its description; without a caption, label. The chevron takes its name from toggleLabel of each row, the box from select-label with the name of the record, and the error row from its text.",
+    "keyboard": [
+      "Tab reaches one body row, the last one that had the focus or the first, then its box, its chevron, its buttons and its cut text only, and leaves the table. The sortable header, the toolbar and the footer stay in the Tab order before and after the body.",
+      "On a row: Down and Up go to the next and the previous row, among the visible ones, the error row included; Right opens a closed row or goes to the first cell; Left closes an open row or goes to the parent; Home and End go to the first and the last row; Enter opens and closes the branch.",
+      "On the error row: Enter tries again; Left goes to its branch; Down and Up move among the rows.",
+      "On a cell: Right and Left move along the row, Left on the first cell goes back to the row; Down and Up keep the column; Home and End go to the first and the last cell; Ctrl+Home and Ctrl+End go to that column in the first and the last row.",
+      "Space and Enter on the box check and uncheck it. Opening a branch from the keyboard leaves the focus on its row.",
+      "Esc closes the open tooltip of a cut text, without moving the focus."
+    ],
+    "focus": "The focused row shows tree-table/focus-halo at the edge and tree-table/focus-border inside it, with corners, stopping one divider above the base. A focused cell keeps the ring of nph-table. The chevron, the box and the buttons keep the focus of their own piece. The selected bar stays above the focus.",
+    "contrast": "Text passes 4.5:1; the chevron, the error icon and the focus border pass 3:1, in light and dark, over the row background at rest, in hover and selected. The divider of the error row is decorative.",
+    "color_alternative": "A selected row has its box checked and a bar besides the background. A partial parent shows the dash. An open branch turns its chevron. The error has an icon, a message and an action in text."
+  },
+  "invalid_combinations": [
+    "A fourth level: the row is left out and console.error is emitted in development.",
+    "A row that opens with no toggleLabel: the row is left out and console.error is emitted in development.",
+    "A row with both detail and children: the row is left out and console.error is emitted in development.",
+    "An error row with no error-text or retry-text: it draws empty and warns once in development.",
+    "A row with branch and no children, with no answer from the page: it stays busy."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-toolbar",
+      "nph-pagination",
+      "nph-checkbox",
+      "nph-empty",
+      "nph-tooltip"
+    ],
+    "parents": [
+      "a page or a card that shows records with a hierarchy"
+    ],
+    "children": [
+      "nph-checkbox",
+      "nph-button",
+      "nph-icon",
+      "nph-badge",
+      "nph-skeleton",
+      "nph-empty",
+      "nph-tooltip",
+      "nph-toolbar",
+      "nph-pagination",
+      "nph-select"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "A hierarchy with no data columns in a table.",
+    "A detail that is not a table as a child of a branch.",
+    "A long text that runs into the next column.",
+    "Opening a branch by a click on the row.",
+    "A box inside the indent: the boxes stay in a column of their own.",
+    "Four levels or more."
+  ],
+  "sources": {
+    "design_md": "design.md, the tree-table/* tokens, the table/* and data-table/* tokens, focus/border, focus/halo and status/error",
+    "decision": "P141 — nph-tree-table: API and semantics (DSA-102)",
+    "tests": "src/components/nph-tree-table/nph-tree-table.test.ts",
+    "usage_evidence": "the three required examples of the nph-tree-table Examples story",
+    "storybook": "src/components/nph-tree-table/nph-tree-table.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, page 1626:47, documentation 7812:13461, root 7618:6203, sets 7617:6784 and 7604:167"
+  }
+}

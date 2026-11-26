@@ -16,6 +16,7 @@ do_not_use_when:
   - "To lay out the page: the table holds records."
   - "With a search that finds nothing and a blank body: use the empty by search state."
   - "To mark a row by the background alone: select it, with the box checked too."
+  - "For records with a parent and child hierarchy and the same columns at every level: use nph-tree-table, which builds on this table."
 api:
   size:
     type: enum
@@ -501,7 +502,7 @@ invalid_combinations:
   - "What nph-table rejects — a size outside the list, no column, a column without key or header, a repeated key — draws nothing."
   - "A sort-direction outside ascending and descending — no column is drawn sorted."
   - "A pagination-layout outside wide, middle and narrow — the footer is left out."
-  - "A row with children — the children are left out: the tree is nph-table's."
+  - "A row with children — the children are left out: a tree to read is nph-table's, and a tree to search, sort and select is nph-tree-table."
   - "selectable without select-all-label or select-label, actions without actions-label, switch-header without switch-label — that column is left out."
   - "A row without name next to boxes, more or switches — its controls are left out."
 relations:
@@ -720,7 +721,7 @@ the button that clears the filter.
   `pagination-layout` outside the lists; a row with `children`; a column of controls without
   their names.
 - **Do not create without a decision:** load more, infinite scroll, a color property, a
-  `::part`, a tree of records or a footer that changes by itself before the breakpoint tokens.
+  `::part`, a tree of records (that is `nph-tree-table`) or a footer that changes by itself before the breakpoint tokens.
 
 ## Sources and decisions
 

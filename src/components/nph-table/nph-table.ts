@@ -44,9 +44,9 @@
  *   is left out and an invalid cell is drawn blank; each cause emits one `console.error`
  *   in development. A table with no name, a no-value cell without `no-value-label` and a
  *   truncated cell in a column without `width` render and warn once in development;
- * - `nph-data-table` builds on this class (P105). The protected members below are its
- *   extension points: each one draws, by default, exactly what this table draws, so the
- *   table itself does not change.
+ * - `nph-data-table` builds on this class (P105), and `nph-tree-table` on that one (DSA-102). The
+ *   protected members below are their extension points: each one draws, by default, exactly what
+ *   this table draws, so the table itself does not change.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -241,7 +241,7 @@ export function isSafeHref(href: string): boolean {
 }
 
 /** A cell after the check: the content to draw, or `invalid` for a blank cell. */
-type CheckedCell = { readonly kind: 'text'; readonly text: string } | { readonly kind: 'no-value' } | { readonly kind: 'invalid' } | NphTableCellContent;
+export type CheckedCell = { readonly kind: 'text'; readonly text: string } | { readonly kind: 'no-value' } | { readonly kind: 'invalid' } | NphTableCellContent;
 
 /** A row as drawn: its level in the tree, its position in the path and its checked cells. */
 interface DrawnRow {
@@ -316,16 +316,16 @@ export class NphTable extends LitElement {
   protected validColumns: readonly NphTableColumn[] = [];
   private drawnRows: readonly DrawnRow[] = [];
   private hasDetailColumn = false;
-  private isTree = false;
+  protected isTree = false;
   /** Causes already reported, so a cause is reported once per instance. */
   private readonly reported = new Set<string>();
   /** The scroll area overflows: it becomes a focusable, named region. */
   private scrollable = false;
   private resizeObserver: ResizeObserver | null = null;
   /** The row of the tree the focus was last in: `row <key>` or `detail <key>`. */
-  private activeRow = '';
+  protected activeRow = '';
   /** The row of the tree that is the Tab stop of this render, from `tabStop()`. */
-  private stop = '';
+  protected stop = '';
 
   constructor() {
     super();
@@ -479,7 +479,7 @@ export class NphTable extends LitElement {
     }
     keys.add(key);
     const hasDetail = row.detail !== undefined && row.detail !== null;
-    const hasChildren = Array.isArray(row.children);
+    const hasChildren = this.opensBranch(row);
     if (hasDetail && hasChildren) {
       this.error(`the row "${key}" has both detail and children: a row opens one or the other. The row is left out.`);
       return null;
@@ -505,7 +505,7 @@ export class NphTable extends LitElement {
     return { row, level, cells, hasChildren, open: Boolean(row.open), position: 1, setSize: 1 };
   }
 
-  private checkCell(cell: NphTableCell, row: string, column: NphTableColumn): CheckedCell {
+  protected checkCell(cell: NphTableCell, row: string, column: NphTableColumn): CheckedCell {
     if (cell === null || cell === undefined || cell === '') return { kind: 'no-value' };
     if (typeof cell === 'number') {
       return Number.isFinite(cell) ? { kind: 'text', text: String(cell) } : this.invalidCell(row, column, `the number ${String(cell)} is not finite`);
@@ -626,6 +626,7 @@ export class NphTable extends LitElement {
         bubbles: true,
       }),
     );
+    this.afterToggle(target, open);
   }
 
   private act(row: NphTableRow, action: string): void {
@@ -647,7 +648,7 @@ export class NphTable extends LitElement {
       this.drawnRows.some((row) => {
         const key = row.row.key.trim();
         return id === `row ${key}` || (id === `detail ${key}` && row.open && row.row.detail !== undefined && row.row.detail !== null);
-      });
+      }) || this.extraRowDrawn(id);
     if (this.activeRow !== '' && drawn(this.activeRow)) return this.activeRow;
     const first = this.drawnRows[0];
     return first === undefined ? '' : `row ${first.row.key.trim()}`;
@@ -733,7 +734,7 @@ export class NphTable extends LitElement {
   private toggleFromKey(row: HTMLTableRowElement): boolean {
     const drawn = this.drawnOf(row);
     if (drawn === undefined || !row.hasAttribute('aria-expanded')) return false;
-    if (!drawn.row.loading) this.toggle(drawn.row);
+    if (!this.rowLoading(drawn.row)) this.toggle(drawn.row);
     return true;
   }
 
@@ -771,7 +772,7 @@ export class NphTable extends LitElement {
         rows[rows.length - 1]?.focus();
         return true;
       default:
-        return this.toggleFromKey(row);
+        return this.activateRow(row) || this.toggleFromKey(row);
     }
   }
 
@@ -888,6 +889,39 @@ export class NphTable extends LitElement {
   /** More classes for a row of data, separated by spaces. */
   protected rowClasses(_row: NphTableRow): string {
     return '';
+  }
+
+  /** Whether a row opens a level under it. By default, a row with a list of `children`. */
+  protected opensBranch(row: NphTableRow): boolean {
+    return Array.isArray(row.children);
+  }
+
+  /** Whether the chevron of a row spins. By default, the `loading` of the row. */
+  protected rowLoading(row: NphTableRow): boolean {
+    return Boolean(row.loading);
+  }
+
+  /** Whether a row of the tree carries `aria-busy`. By default, none does. */
+  protected rowBusy(_row: NphTableRow): boolean {
+    return false;
+  }
+
+  /** Called after the person opens or closes a row, once `rows` and the event are out. */
+  protected afterToggle(_row: NphTableRow, _open: boolean): void {}
+
+  /** What a subclass draws after a row of data and its expanded item: a row of its own in the tree. */
+  protected renderRowExtra(_row: NphTableRow, _level: number, _open: boolean): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  /** Whether a row of the tree that a subclass draws, by its Tab stop id, is in the table now. */
+  protected extraRowDrawn(_id: string): boolean {
+    return false;
+  }
+
+  /** Enter on a row a subclass draws. Return `true` when it took the key. */
+  protected activateRow(_row: HTMLTableRowElement): boolean {
+    return false;
   }
 
   /** The rows of data drawn, in order: the valid ones, at the open levels. */
@@ -1007,7 +1041,7 @@ export class NphTable extends LitElement {
           const detailOpen = drawn.row.detail !== undefined && drawn.row.detail !== null && drawn.open;
           return html`${this.renderRow(drawn, position, striped, detailId)}${detailOpen
             ? this.renderDetail(drawn, detailId)
-            : nothing}`;
+            : nothing}${this.renderRowExtra(drawn.row, drawn.level, drawn.open)}`;
         },
       )}
     </tbody>`;
@@ -1023,7 +1057,7 @@ export class NphTable extends LitElement {
       label=${trimmed(drawn.row.toggleLabel)}
       aria-expanded=${this.isTree ? nothing : drawn.open ? 'true' : 'false'}
       aria-controls=${controls}
-      ?loading=${Boolean(drawn.row.loading)}
+      ?loading=${this.rowLoading(drawn.row)}
       tabindex=${this.outOfTab(drawn)}
       @click=${() => this.toggle(drawn.row)}
     ></nph-button>`;
@@ -1045,6 +1079,7 @@ export class NphTable extends LitElement {
       aria-posinset=${tree ? drawn.position : nothing}
       aria-setsize=${tree ? drawn.setSize : nothing}
       aria-expanded=${tree && (drawn.hasChildren || hasDetail) ? String(drawn.open) : nothing}
+      aria-busy=${tree && this.rowBusy(drawn.row) ? 'true' : nothing}
     >
       ${this.renderLeadingCells(drawn.row)}${this.hasDetailColumn
         ? html`<td class="chevron-column" tabindex=${this.isTree ? '-1' : nothing}>

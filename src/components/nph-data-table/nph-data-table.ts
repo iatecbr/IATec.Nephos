@@ -36,9 +36,9 @@
  *   label and the `nph-select` of items per page, and the range type) or `narrow` (the range
  *   type only); a single page draws no footer (`nph-page-change`, `{ page, pageSize }`);
  * - invalid input (P21 rule): what `nph-table` rejects renders nothing. A `sort-direction` or
- *   a `pagination-layout` outside its list, a row with `children` (the tree is `nph-table`'s),
- *   a control without its name: each cause emits one `console.error` in development and only
- *   the part it names is left out.
+ *   a `pagination-layout` outside its list, a row with `children` (the tree is `nph-table`'s,
+ *   and `nph-tree-table`'s, which builds on this class), a control without its name: each cause
+ *   emits one `console.error` in development and only the part it names is left out.
  */
 import { html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -226,9 +226,9 @@ export class NphDataTable extends NphTable {
   /** Causes already reported, so a cause is reported once per instance. */
   private readonly told = new Set<string>();
   /** The parts whose name is missing, left out of this render. */
-  private withSelection = false;
-  private withActions = false;
-  private withSwitch = false;
+  protected withSelection = false;
+  protected withActions = false;
+  protected withSwitch = false;
   /** The place of each drawn row, for the ids of the ⋮ and its menu. */
   private places = new Map<string, number>();
   /** The focus was in the bulk bar before this render. */
@@ -282,9 +282,14 @@ export class NphDataTable extends NphTable {
     }
   }
 
+  /** Whether this table draws a hierarchy. The data table does not: its tree is `nph-table`'s. */
+  protected get drawsTree(): boolean {
+    return false;
+  }
+
   protected override willUpdate(changed: PropertyValues): void {
     /* The tree is nph-table's: a row of the data table does not open children. */
-    if (changed.has('rows') && Array.isArray(this.rows) && this.rows.some((row) => Array.isArray(row?.children))) {
+    if (!this.drawsTree && changed.has('rows') && Array.isArray(this.rows) && this.rows.some((row) => Array.isArray(row?.children))) {
       this.fail('children', 'a row has children: the data table does not draw a tree, which is nph-table\'s. The children are left out.');
       this.rows = this.rows.map((row) => (Array.isArray(row?.children) ? { ...row, children: undefined } : row));
     }
@@ -387,11 +392,11 @@ export class NphDataTable extends NphTable {
 
   /* ----- state ------------------------------------------------------------------- */
 
-  private selectedKeys(): readonly string[] {
+  protected selectedKeys(): readonly string[] {
     return Array.isArray(this.selected) ? this.selected : [];
   }
 
-  private isSelected(key: string): boolean {
+  protected isSelected(key: string): boolean {
     return this.selectedKeys().includes(key);
   }
 
@@ -409,11 +414,11 @@ export class NphDataTable extends NphTable {
   }
 
   /** The rows a control can be drawn for: the ones with a name. */
-  private nameOf(row: NphDataTableRow): string {
+  protected nameOf(row: NphDataTableRow): string {
     return trimmed(row.name);
   }
 
-  private fill(template: string, name: string): string {
+  protected fill(template: string, name: string): string {
     return template.trim().replaceAll('{name}', name);
   }
 
@@ -455,7 +460,7 @@ export class NphDataTable extends NphTable {
     return oneOf(NPH_DATA_TABLE_SORT_DIRECTIONS, this.sortDirection) ? trimmed(this.sortKey) : '';
   }
 
-  private select(keys: readonly string[], checked: boolean): void {
+  protected select(keys: readonly string[], checked: boolean): void {
     const current = this.selectedKeys();
     const next = checked ? [...current, ...keys.filter((key) => !current.includes(key))] : current.filter((key) => !keys.includes(key));
     this.selected = next;
@@ -465,7 +470,7 @@ export class NphDataTable extends NphTable {
   }
 
   /** The keys of the drawn rows that have a box. */
-  private selectableKeys(): string[] {
+  protected selectableKeys(): string[] {
     return (this.visibleRows as readonly NphDataTableRow[]).filter((row) => this.nameOf(row) !== '').map((row) => row.key.trim());
   }
 
@@ -477,7 +482,7 @@ export class NphDataTable extends NphTable {
     this.select(keys, !all);
   }
 
-  private onSelectRow(row: NphDataTableRow, event: Event): void {
+  protected onSelectRow(row: NphDataTableRow, event: Event): void {
     this.select([row.key.trim()], (event.currentTarget as NphCheckbox).checked);
   }
 

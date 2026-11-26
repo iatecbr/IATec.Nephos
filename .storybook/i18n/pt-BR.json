@@ -655,7 +655,15 @@
     "components-nph-toast-region-validation--quantities": "Quantidades",
     "components-nph-toast-region-validation--live": "Ao vivo",
     "components-nph-toast-region-validation--direction": "Direção",
-    "components-nph-toast-region-validation--examples": "Exemplos"
+    "components-nph-toast-region-validation--examples": "Exemplos",
+    "components-nph-tree-table-validation": "Validação",
+    "components-nph-tree-table-validation--matrix": "Matriz",
+    "components-nph-tree-table-validation--rows": "Linhas",
+    "components-nph-tree-table-validation--error-row": "Linha de erro",
+    "components-nph-tree-table-validation--footer": "Rodapé",
+    "components-nph-tree-table-validation--invalid-input": "Entrada inválida",
+    "components-nph-tree-table-validation--examples": "Exemplos",
+    "components-nph-tree-table-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -8893,7 +8901,14 @@
       "components-nph-toast-region-validation--quantities": "Um, dois e três toasts na tela padrão e na compacta, em modo claro e escuro: o mais antigo no alto, o mais novo embaixo, com 16 de distância e alinhados pela borda final. Na tela compacta o toast ocupa a largura da região.",
       "components-nph-toast-region-validation--live": "A região de verdade no canto inferior direito da janela, a 24 da borda de baixo e da borda final: três toasts à vista, o mais novo junto ao canto, e dois esperando na fila, fora da vista e sem anúncio.",
       "components-nph-toast-region-validation--direction": "Escrita da direita para a esquerda: a borda final é a esquerda, e os toasts terminam ali.",
-      "components-nph-toast-region-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: uma exportação na fila, três avisos em sequência com uma falha que pode ser corrigida embaixo, e um salvamento em andamento acima de um convite e de uma falha."
+      "components-nph-toast-region-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: uma exportação na fila, três avisos em sequência com uma falha que pode ser corrigida embaixo, e um salvamento em andamento acima de um convite e de uma falha.",
+      "components-nph-tree-table-validation--matrix": "Os três estado do set nos dois tamanhos: o padrão com a barra de página e o rodapé, o carregando com o cabeçalho visível e as linhas de esqueleto, e o vazio pela busca com o caminho para limpá-la.",
+      "components-nph-tree-table-validation--rows": "As linhas da árvore: galhos abertos e fechados, a folha, o pai parcial, as linhas selecionadas com o seu fundo e a sua barra, o galho que carrega com a linha ocupada, o que falhou com a sua linha de erro, e uma tabela sem seleção. Entre na tabela com Tab para ver o foco da linha.",
+      "components-nph-tree-table-validation--error-row": "A linha de erro do galho no nível dos filhos: o ícone sob o texto das linhas irmãs no nível 2 e no nível 3, a mensagem e Tentar de novo, o espaço da coluna de seleção quando há seleção, e a linha com a altura das linhas de dados.",
+      "components-nph-tree-table-validation--footer": "O rodapé conta só as linhas do primeiro nível, e uma página só não desenha rodapé.",
+      "components-nph-tree-table-validation--invalid-input": "Entrada inválida: um quarto nível fica de fora; uma linha que abre sem toggleLabel fica de fora; uma linha de erro sem textos desenha vazia e avisa. Cada uma com a sua mensagem em desenvolvimento.",
+      "components-nph-tree-table-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: unidades por região com um pai parcial, linhas selecionadas, um galho que carrega e um galho que falhou; uma busca sem resultado; e a primeira carga da tabela.",
+      "components-nph-tree-table-validation--brands": "As sete marcas no claro e no escuro: o foco, as linhas selecionadas e a linha de erro seguem a marca."
     }
   },
   "multiComboboxDocs": {
@@ -11340,7 +11355,8 @@
       "Para só ler e comparar dados, sem buscar, ordenar ou selecionar: use o nph-table.",
       "Para montar o layout da página: a tabela guarda registros.",
       "Com uma busca que não acha nada e o corpo em branco: use o estado vazio pela busca.",
-      "Para marcar uma linha só pelo fundo: selecione-a, com a caixa marcada também."
+      "Para marcar uma linha só pelo fundo: selecione-a, com a caixa marcada também.",
+      "Para registros com hierarquia de pai e filho e as mesmas colunas em todos os níveis: use o nph-tree-table, que se apoia nesta tabela."
     ],
     "caption": "Pessoas por unidade",
     "person": "Pessoa",
@@ -18218,5 +18234,62 @@
         "description": "As novas configurações já estão ativas."
       }
     }
+  },
+  "treeTableValidation": {
+    "caption": "Pessoas por região",
+    "description": "Região, estado e cidade, com o total de pessoas.",
+    "unit": "Unidade",
+    "owner": "Responsável",
+    "people": "Pessoas",
+    "tableActions": "Ações da tabela",
+    "selection": "Unidades selecionadas",
+    "search": "Filtrar por unidade",
+    "searchValue": "Zeta",
+    "filter": "Filtrar",
+    "newUnit": "Nova unidade",
+    "clearSelection": "Limpar seleção",
+    "download": "Baixar",
+    "edit": "Editar",
+    "selectAll": "Selecionar todas",
+    "select": "Selecionar {name}",
+    "more": "Mais ações de {name}",
+    "open": "Abrir {name}",
+    "selectedText": "{count} de {total} selecionadas",
+    "noValue": "sem valor",
+    "errorText": "Não foi possível carregar.",
+    "retryText": "Tentar de novo",
+    "emptyHeading": "Nenhuma unidade encontrada para “Zeta”",
+    "emptyDescription": "Confira a grafia, ou limpe o filtro para ver todas as unidades.",
+    "clearFilter": "Limpar filtro",
+    "pagination": "Paginação",
+    "page": "Página {page}",
+    "first": "Primeira página",
+    "previous": "Página anterior",
+    "next": "Próxima página",
+    "last": "Última página",
+    "position": "{start}–{end} de {total}",
+    "pageSize": "Itens por página",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleUnits": "Unidades por região, com um pai parcial, um galho que carrega e um galho que falhou",
+    "exampleEmpty": "Busca sem resultado, com o caminho para limpar o filtro",
+    "exampleLoading": "Primeira carga da tabela, com o cabeçalho visível",
+    "places": {
+      "west": "Região Oeste",
+      "east": "Região Leste",
+      "oregon": "Oregon",
+      "portland": "Portland",
+      "salem": "Salem",
+      "nevada": "Nevada",
+      "washington": "Washington",
+      "boston": "Boston",
+      "albany": "Albany"
+    },
+    "owners": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Dias",
+      "Diego Rocha"
+    ]
   }
 }
