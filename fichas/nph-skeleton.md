@@ -38,13 +38,14 @@ states:
     changes_for_user: "A still rectangle holds the place of the content; it does not change with interaction."
 business_rules:
   - "The shape always uses skeleton/background (color/skeleton), with no border, no text and no animation: it carries no state."
-  - "The line takes its own skeleton/line-height; the space between lines comes from whoever uses it."
+  - "The line is a box of skeleton/line-box-height with no fill, and the bar of skeleton/line-height is centered in it; the space between lines comes from whoever uses it."
   - "The line and the block stretch to the container width. The block height follows the content that will come in, so whoever uses it gives the height."
   - "The avatar takes avatar/size-* and avatar/radius-*, like nph-avatar, with rounded corners and never a circle."
   - "The wait is announced by the container with aria-busy, not by the piece."
 domain_errors: []
 tokens:
   color: skeleton/background
+  line_box_height: skeleton/line-box-height
   line_height: skeleton/line-height
   line_radius: radius/inner
   block_radius: radius/control
@@ -78,7 +79,7 @@ anti_patterns:
   - "Using one avatar size in place of another."
   - "Animating the shape or painting it with another color."
 sources:
-  design_md: "design.md, skeleton/background, color/skeleton, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*"
+  design_md: "design.md, skeleton/background, color/skeleton, skeleton/line-box-height, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*"
   decision: "P69 — API and semantics of nph-skeleton, 15-10-2026"
   tests: "src/components/nph-skeleton/nph-skeleton.test.ts"
   usage_evidence: "none in code yet; the accepted frame shows a list of people, a card and a paragraph loading"
@@ -136,8 +137,10 @@ still: there is no pulse, so there is nothing to reduce under reduced motion.
 **Business rule the piece carries:**
 
 - The shape always uses `skeleton/background` (`color/skeleton`), with no border, no text and no animation. It is the same as before in light and one step up in dark, so the block does not vanish on a floating panel such as the `nph-tree-select` panel: 1.16:1 in light; in dark 1.29:1 over `color/popover`, 1.62:1 over `color/card` and 1.92:1 over `color/background`. Decorative: the block carries no state and no text.
-- The line takes its own `skeleton/line-height`; the space between lines comes from
-  whoever uses it.
+- The line is a box of `skeleton/line-box-height` (20, the line height of the text it stands for) with no
+  fill, and the bar of `skeleton/line-height` (16) is centered in it, in `skeleton/background` and
+  `radius/inner`. The space between lines comes from whoever uses it, and a smaller box can be given for
+  smaller text.
 - The line and the block stretch to the container width. The block height follows the
   content that will come in, so whoever uses it gives the height.
 - The avatar takes `avatar/size-*` and `avatar/radius-*`, like `nph-avatar`, with
@@ -177,7 +180,8 @@ container carries `aria-busy`.
 | Part | Token |
 |---|---|
 | Color | `skeleton/background` (`color/skeleton`) |
-| Line height | `skeleton/line-height` |
+| Line box height | `skeleton/line-box-height` |
+| Line (bar) height | `skeleton/line-height` |
 | Line radius | `radius/inner` |
 | Block radius | `radius/control` |
 | Avatar size | `avatar/size-sm`, `avatar/size-md`, `avatar/size-lg` |
@@ -217,7 +221,7 @@ place of the text. A paragraph loading takes one line per text line.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `skeleton/background`, `color/skeleton`, `skeleton/line-height`, `radius/inner`,
+- **The repository `design.md`:** `skeleton/background`, `color/skeleton`, `skeleton/line-box-height`, `skeleton/line-height`, `radius/inner`,
   `radius/control`, `avatar/size-*` and `avatar/radius-*`.
 - **The decision that originated it:** P69, of 15-10-2026.
 - **Tests:** `src/components/nph-skeleton/nph-skeleton.test.ts`.

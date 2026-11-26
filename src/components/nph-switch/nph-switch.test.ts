@@ -464,8 +464,25 @@ describe('measures and anatomy', () => {
     expect(text.height).toBeGreaterThanOrEqual(2 * line);
     expect(element.getBoundingClientRect().width).toBeLessThanOrEqual(box.getBoundingClientRect().width);
     const outer = track(element).getBoundingClientRect();
-    expect(outer.top).toBeCloseTo(text.top, 2);
+    expect(text.top - outer.top).toBeCloseTo(px('--nph-switch-label-offset', 'height'), 2);
     expect([outer.width, outer.height]).toEqual([px('--nph-switch-track-width'), px('--nph-icon-size-lg', 'height')]);
+  });
+
+  it('the default label drops by switch/label-offset: the first line is centered on the 24 track (DSA-127)', async () => {
+    const element = await mount({ text: 'Wi-Fi' });
+    const text = part(element, '.text').getBoundingClientRect();
+    const outer = track(element).getBoundingClientRect();
+    const offset = px('--nph-switch-label-offset', 'height');
+    expect(offset).toBe(2);
+    expect(getComputedStyle(part(element, '.text')).marginBlockStart).toBe(`${offset}px`);
+    expect(text.top - outer.top).toBeCloseTo(offset, 2);
+    expect(text.height).toBe(px('--nph-text-label-md-line-height', 'height'));
+    expect(text.top + text.height / 2).toBeCloseTo(outer.top + outer.height / 2, 2);
+  });
+
+  it('the small label has no offset (DSA-127)', async () => {
+    const element = await mount({ text: 'Wi-Fi', size: 'small' });
+    expect(getComputedStyle(part(element, '.text')).marginBlockStart).toBe('0px');
   });
 
   it('a label with a word longer than the available width breaks inside it, with no overflow', async () => {
@@ -1235,6 +1252,7 @@ describe('token contract', () => {
         '--nph-switch-track-height-sm',
         '--nph-switch-thumb-size-sm',
         '--nph-switch-track-padding-sm',
+        '--nph-switch-label-offset',
         '--nph-icon-size-md',
         '--nph-icon-size-sm',
         '--nph-space-inline-tight',

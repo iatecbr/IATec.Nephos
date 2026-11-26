@@ -905,7 +905,10 @@ describe('loading', () => {
     expect(rect(part(card, '.sk-title')).width).toBeLessThan(rect(part(card, '.titles')).width);
     expect(rect(part(card, '.sk-description')).width).toBeLessThan(rect(part(card, '.sk-title')).width);
     expect(rect(part(card, '.sk-action')).height).toBe(px(resolved(card, 'height', '--nph-control-height-default')));
-    expect(rect(part(card, '.sk-title')).height).toBe(px(resolved(card, 'height', '--nph-skeleton-line-height')));
+    // The line is a box of skeleton/line-box-height with the bar of skeleton/line-height centered in it (DSA-127).
+    expect(rect(part(card, '.sk-title')).height).toBe(px(resolved(card, 'height', '--nph-skeleton-line-box-height')));
+    const bar = part(card, '.sk-title').shadowRoot?.querySelector('.bar') as Element;
+    expect(rect(bar).height).toBe(px(resolved(card, 'height', '--nph-skeleton-line-height')));
     expect(rect(root(card).querySelector('nph-skeleton') as Element).width).toBe(px(resolved(card, 'width', '--nph-avatar-size-lg')));
   });
 

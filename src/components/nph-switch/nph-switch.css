@@ -57,9 +57,19 @@
   outline: none;
 }
 
+/*
+ * The default size drops the label by switch/label-offset (DSA-127, a declared exception to the half
+ * step in design.md), so the first line (20) is centered on the 24 track. The track stays at the top,
+ * so a wrapped label keeps the track on the first line. The small size has no offset.
+ */
 .text {
   min-inline-size: 0;
+  margin-block-start: var(--nph-switch-label-offset);
   overflow-wrap: anywhere;
+}
+
+:host([size='small']) .text {
+  margin-block-start: 0;
 }
 
 /*

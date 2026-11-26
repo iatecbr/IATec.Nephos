@@ -3,7 +3,7 @@
  *
  * Classes and selectors here are NOT public API (P02). The contract is the token
  * custom properties consumed here. No literal design value goes in: the color is
- * `skeleton/background` (`color/skeleton`), the measures are `skeleton/line-height` and `avatar/size-*`, and
+ * `skeleton/background` (`color/skeleton`), the measures are `skeleton/line-box-height`, `skeleton/line-height` and `avatar/size-*`, and
  * the radii are `radius/inner`, `radius/control` and `avatar/radius-*`.
  *
  * The piece is still, so there is no `animation` and no reduced-motion rule.
@@ -28,10 +28,24 @@
   inline-size: auto;
 }
 
-/* The line takes only its own height; the space between lines is the consumer's. */
+/*
+ * The line is a box as tall as a text line (`skeleton/line-box-height`, 20) with no fill; the
+ * visible bar (`skeleton/line-height`, 16) is centered in it. The space between lines is the
+ * consumer's, and a consumer can still give a smaller box for smaller text.
+ */
 :host([data-nph-rendered][shape='line']) {
+  display: flex;
+  align-items: center;
+  block-size: var(--nph-skeleton-line-box-height);
+  background-color: transparent;
+}
+
+.bar {
+  flex: auto;
+  min-inline-size: 0;
   block-size: var(--nph-skeleton-line-height);
   border-radius: var(--nph-radius-inner);
+  background-color: var(--nph-skeleton-background);
 }
 
 /* The block height follows the content that will come in: the consumer gives it. */

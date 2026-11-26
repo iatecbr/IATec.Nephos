@@ -1267,11 +1267,12 @@ fallback — the same rule as P21, adopted here by its own decision, as in P66.
 - The width of `line` and `block` comes from the container: both fill it in a block
   parent or a column flex parent. The height of `block` follows the content that
   will come in, so the consumer gives it; without one, the block takes no height.
-- **Line height, literal reading.** The line takes only its own
-  `skeleton/line-height`; the space between lines comes from the consumer. Whether
-  the line should take the whole line box of the text it replaces is an open
-  question of Indiane (D1 of DSA-26), and the answer changes one declaration in the
-  CSS.
+- **Line box (D1 of DSA-26, answered 2026-11-26; code in DSA-127).** The line is a box
+  of `skeleton/line-box-height` (20, the line height of the text it stands for) with no
+  fill, and the bar of `skeleton/line-height` (16) is centered in it, as Figma draws
+  (`1578:31`). The bar is an inner element of the shadow root, because the host cannot
+  carry a pseudo element; the other shapes still paint the host. The space between
+  lines comes from the consumer, who can still give a smaller box for smaller text.
 - The host is `aria-hidden="true"` and has no role: the piece is decorative. The
   loading container, not the piece, carries `aria-busy` while it waits.
 

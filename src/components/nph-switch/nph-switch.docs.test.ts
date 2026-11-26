@@ -340,7 +340,8 @@ describe('nph-switch Validation: text only from the dictionary', () => {
     const text = long.shadowRoot?.querySelector('.text') as HTMLElement;
     const track = long.shadowRoot?.querySelector('.track') as HTMLElement;
     expect(text.getBoundingClientRect().height).toBeGreaterThan(track.getBoundingClientRect().height);
-    expect(track.getBoundingClientRect().top).toBeCloseTo(text.getBoundingClientRect().top, 2);
+    // The label drops by switch/label-offset (2), so its first line is centered on the 24 track (DSA-127).
+    expect(text.getBoundingClientRect().top - track.getBoundingClientRect().top).toBeCloseTo(2, 2);
   });
 
   it('Disabled: a disabled piece with invalid is shown, and it stays disabled', async () => {

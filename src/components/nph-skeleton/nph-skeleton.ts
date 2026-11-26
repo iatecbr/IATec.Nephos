@@ -7,7 +7,8 @@
  *   an image, chart or area, and `avatar-*` of an `nph-avatar` of the same size;
  * - a rectangle in `skeleton/background` (`color/skeleton`), with no border, no text and no animation. The
  *   piece is still: there is no pulse to reduce under reduced motion;
- * - the line takes its own `skeleton/line-height`; the space between lines comes
+ * - the line is a box of `skeleton/line-box-height` with no fill, and the bar of
+ *   `skeleton/line-height` is centered in it (DSA-127, Figma `1578:31`); the space between lines comes
  *   from the consumer. The line and the block stretch to the container width. The
  *   block height follows the content that will come in, so the consumer gives it;
  * - the avatar takes `avatar/size-*` and `avatar/radius-*`, like `nph-avatar`;
@@ -16,7 +17,7 @@
  * - invalid `shape` does not render and emits `console.error` only in
  *   development, with no visual fallback (P69, same rule as P66).
  */
-import { LitElement, unsafeCSS } from 'lit';
+import { LitElement, html, nothing, unsafeCSS, type TemplateResult } from 'lit';
 
 import skeletonCss from './nph-skeleton.css?inline';
 
@@ -67,6 +68,11 @@ export class NphSkeleton extends LitElement {
       devError(`shape "${shape}" does not exist. Use ${NPH_SKELETON_SHAPES.map((value) => `"${value}"`).join(', ')}.`);
     }
     this.toggleAttribute(RENDERED_ATTRIBUTE, valid);
+  }
+
+  /** Only the line draws an inner bar; the other shapes paint the host itself. */
+  protected override render(): TemplateResult | typeof nothing {
+    return this.shape === 'line' ? html`<span class="bar"></span>` : nothing;
   }
 }
 

@@ -1886,7 +1886,7 @@
     "shapesUse": [
       {
         "value": "line",
-        "label": "The place of a text line. It takes its own skeleton/line-height; the space between lines comes from the consumer."
+        "label": "The place of a text line. A box of skeleton/line-box-height with the bar of skeleton/line-height centered in it; the space between lines comes from the consumer."
       },
       {
         "value": "block",
@@ -1928,7 +1928,7 @@
       ],
       [
         "Measure",
-        "The avatar in avatar/size-*; the line height in skeleton/line-height. The width of the line and the block comes from the container, and the block height follows the content that will come in."
+        "The avatar in avatar/size-*; the line box in skeleton/line-box-height and its bar in skeleton/line-height. The width of the line and the block comes from the container, and the block height follows the content that will come in."
       ]
     ],
     "accessibilityTitle": "Accessibility",
@@ -1972,7 +1972,7 @@
     "references": [
       "nph-skeleton spec sheet — purpose, shapes, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P69 (API and semantics), P01, P02 and P03.",
-      "design.md — skeleton/background, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*.",
+      "design.md — skeleton/background, skeleton/line-box-height, skeleton/line-height, radius/inner, radius/control, avatar/size-* and avatar/radius-*.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Skeleton, frame nph-skeleton (1578:38) and set 1578:37.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -4170,7 +4170,7 @@
     ],
     "statesCaption": "off, on, invalid, disabled and disabled with invalid. Move the mouse over a piece to see hover and press Tab to see focus.",
     "labelTitle": "Label",
-    "labelText": "The label sits after the track, space/inline from it, in text/label-md and color/foreground. It wraps to the available width; with two lines, the track sits at the top, aligned with the first line. Without text the piece is only the track, and label gives it a name.",
+    "labelText": "The label sits after the track, space/inline from it, in text/label-md and color/foreground. It wraps to the available width; in the default size it drops by switch/label-offset, so its first line is centered on the track; with two lines, the track sits at the top, with the first line. Without text the piece is only the track, and label gives it a name.",
     "labelCaption": "With a label, only the track with label, and a long label on two lines.",
     "sizesTitle": "Sizes",
     "sizesText": "default is the size for every switch. small has the track 32 by 16, the knob 12 and a gap of 2, in a piece 20 high with the track centered; the knob travel is the track width minus the knob and the two gaps, as in default. It is only for the switch slot of the nph-dropdown-menu item, without a label: alone, its target is below 24 by 24 (WCAG 2.5.8). Colors, states and focus do not change.",
