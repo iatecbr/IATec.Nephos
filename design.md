@@ -1555,17 +1555,17 @@ tokens_avatar:
     css: '--nph-avatar-size-sm'
     alias: core/avatar-size/100
     valor: 24
-    use: "Avatar of 24. USE in a list option (nph-select, nph-combobox) and next to 14px text. DO NOT USE as an icon size. and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
+    use: "Avatar of 24. USE in a list option (nph-select, nph-combobox) and next to 14px text, and on the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review). DO NOT USE as an icon size."
   avatar/size-md:
     css: '--nph-avatar-size-md'
     alias: core/avatar-size/200
     valor: 32
-    use: "Avatar of 32. USE in a header, card and table row. DO NOT USE as an icon size. and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
+    use: "Avatar of 32. USE in a header, card and table row, and on the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review). DO NOT USE as an icon size."
   avatar/size-lg:
     css: '--nph-avatar-size-lg'
     alias: core/avatar-size/300
     valor: 40
-    use: "Avatar of 40. USE in a profile and to highlight a person. DO NOT USE as an icon size. and the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review)."
+    use: "Avatar of 40. USE in a profile and to highlight a person, and on the +N counter of nph-avatar-stack, which has the avatar shape (until the measure review). DO NOT USE as an icon size."
   avatar/radius-sm:
     css: '--nph-avatar-radius-sm'
     alias: core/radius/300
@@ -1589,7 +1589,7 @@ tokens_avatar:
   avatar/background:
     css: '--nph-avatar-background'
     alias: color/muted
-    use: "Background of the nph-avatar without a photo (initials or icon). USE only on nph-avatar. DO NOT USE on another piece."
+    use: "Background of the nph-avatar without a photo (the icon). USE only on nph-avatar. DO NOT USE on another piece."
   avatar/border:
     css: '--nph-avatar-border'
     alias: color/border
@@ -2073,7 +2073,7 @@ tokens_radius:
     css: '--nph-radius-overlay-anchored'
     alias: core/radius/400
     valor: 8
-    use: "USE on a floating layer anchored to a trigger: nph-popover (popover/radius), nph-hover-card (hover-card/radius), the nph-date-picker panel (date-picker/panel-radius), nph-popconfirm (popconfirm/radius), the menu of nph-dropdown-menu, nph-context-menu and nph-menubar (dropdown/panel-radius), the nph-sidebar flyout (sidebar/flyout-radius), the nph-navigation-menu panel (navigation-menu/panel-radius), the option list of nph-select (select/panel-radius), of nph-combobox and nph-multi-combobox (combobox/panel-radius), the nph-tree-select panel (tree-select/panel-radius) and the nph-chart data tooltip (chart/tooltip-radius). One radius for the same function, below the dialog (10), as in shadcn (rounded-md), Atlassian and Radix."
+    use: "USE on a floating layer anchored to a trigger: popover, hover card, menu, flyout, panel and option list that open from a control, and the chart tooltip. One radius for the same function, below the dialog (10), as in shadcn (rounded-md), Atlassian and Radix. Each piece reads it through its own token, listed in its tokens_<piece> block or its task"
     nao_use: "The plain tooltip: radius/inner. Dialog, modal, side panel and toast: radius/overlay. A container inside the page: radius/container."
   radius/surface:
     css: '--nph-radius-surface'

@@ -85,7 +85,7 @@ Indiane answered D-1 on 2026-11-26, in the approval round of the pending items, 
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D-1 | Option 3: the narrow stepper bar shows both: the current segment in `progress/segment-background` and the error segment in `progress/segment-background-error`. Carbon gives the error step its own help text (https://carbondesignsystem.com/components/progress-indicator/usage/ ). No market source for current and error together in one bar. | A new property on `nph-progress`; the code owner adds it, with no new token. Figma follows in a later change (node 4368:1532). |
+| D-1 | Option 3: the narrow stepper bar shows both: the current segment in `progress/segment-background` and the error segment in `progress/segment-background-error`. Carbon gives the error step its own help text (https://carbondesignsystem.com/components/progress-indicator/usage/ ). No market source for current and error together in one bar. | A new property on `nph-progress`; the code owner adds it, with no new token. Figma composes it by overriding the segment colors of the nph-progress instance; no new variant (node 4368:1532). |
 
 ## How it is proved
 **`review-and-merge`** passes when each row of the table is in the code, with the tests and stories of each piece updated and its spec in `fichas/` saying the same; the proof commands in `docs/operacao/component-handoff.md` exit 0; and the work is merged into `v/5.0.0`.
