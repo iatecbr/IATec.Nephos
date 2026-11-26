@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 940,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-29",
@@ -51,9 +51,9 @@
     "excerpt": null,
     "converted_decision": "In the select list set (1357:137) and the combobox list set (1359:141, 7 variants), the stroke moved from color/input to color/border-subtle; the nph-multi-combobox uses the combobox list. The design owner approved item 4 of the nph-tree-select approval page, after a preview in light and dark (7174:35); the decision and the values are in the evidence of the design-decision gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "fix/ajustes-prioridade-3", "commit": "3126d52a", "pr": "199" },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-26"
 }
 ```
 

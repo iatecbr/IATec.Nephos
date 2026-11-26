@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 910,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-17",
@@ -50,9 +50,9 @@
     "excerpt": null,
     "converted_decision": "theme/brand-focus (VariableID:574:2), `Sistemas` mode, moved from core/sistemas/500 to core/sistemas/600 in Figma; the decision and the measures are in the evidence of the foundation-decision gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "fix/ajustes-prioridade-3", "commit": "391110c2", "pr": "199" },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-26"
 }
 ```
 
