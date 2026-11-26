@@ -950,6 +950,7 @@
   --nph-data-table-empty-gap: var(--nph-space-stack);
   --nph-input-height-compact: var(--nph-control-height-compact);
   --nph-input-height: var(--nph-control-height-field);
+  --nph-input-affix-gap: var(--nph-space-inline);
   --nph-combobox-height: var(--nph-control-height-field);
   --nph-combobox-free-text-padding-end: var(--nph-space-control-padding);
   --nph-combobox-panel-radius: var(--nph-radius-overlay-anchored);
@@ -1421,6 +1422,7 @@
   --nph-input-border-error: var(--nph-status-error);
   --nph-input-foreground: var(--nph-color-foreground);
   --nph-input-muted-foreground: var(--nph-color-muted-foreground);
+  --nph-input-affix-foreground: var(--nph-color-muted-foreground);
   --nph-combobox-border: var(--nph-color-field-border);
   --nph-combobox-border-bottom: var(--nph-color-field-border-bottom);
   --nph-combobox-background: var(--nph-color-background);
