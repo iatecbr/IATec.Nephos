@@ -2026,13 +2026,13 @@ tokens_sidebar:
     alias: focus/border-radius-container
     valor: 9
     use: "Corner of the 1 px focus border around the floating panel option: sidebar/flyout-item-radius + 1."
-    nao_use: "Not on the focus of the fixed menu item (focus/border-radius-sidebar-item, 13)."
+    nao_use: "Not on the focus of the fixed menu item (focus/border-radius-sidebar-item, 13). It aliases focus/border-radius-container because that semantic is the focus border around a base of 8, the same base as the option; focus/radius-inner-with-border (9) is the halo of a base of 4."
   sidebar/flyout-item-focus-halo-radius:
     css: '--nph-sidebar-flyout-item-focus-halo-radius'
     alias: focus/radius-container
     valor: 13
     use: "Corner of the focus halo around the focus border of the floating panel option: sidebar/flyout-item-radius + 5."
-    nao_use: "Not on the focus of the fixed menu item (focus/radius-sidebar-item, 17)."
+    nao_use: "Not on the focus of the fixed menu item (focus/radius-sidebar-item, 17). It aliases focus/radius-container because that semantic is the focus halo around a base of 8; focus/border-radius-sidebar-item (13) is the border of a base of 12."
 
 tokens_scheme:
   scheme/is-light:
@@ -2060,7 +2060,7 @@ raio_regras:
   padrao_do_sistema: radius/control
   unidade_css: px
   por_que_px: "Radius in rem would grow with the user font and a 6px button would become a capsule. Shape does not follow text size."
-  aninhado: "Inner radius = outer radius - padding. If it gives zero or less, use radius/none. Inner NEVER equal to outer. Declared exception, by decision of the design owner: the option of the nph-sidebar floating panel (2nd level when collapsed and 3rd level) keeps 8, the same as the panel (sidebar/flyout-item-radius), with its focus at 9 and 13; the subtraction would give a square option (8 - 8 = 0)."
+  aninhado: "Inner radius = outer radius - padding. If it gives zero or less, use radius/none. Inner NEVER equal to outer. Declared exception, by decision of the design owner: the option of the nph-sidebar floating panel (2nd level when collapsed and 3rd level) keeps 8, the same as the panel (sidebar/flyout-item-radius), with its focus at 9 and 13; the subtraction would give a square option (8 - 8 at the top and 8 - 10 on the sides, zero or less)."
   varia_por_modo: false
 
 tokens_core_radius:
