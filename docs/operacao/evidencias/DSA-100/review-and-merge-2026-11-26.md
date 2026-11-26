@@ -64,7 +64,7 @@ Run on `5a4ea02` (the tip of `v/5.0.0`, which contains the PR and the later PR #
 | `npm run build-storybook` | exit 0 |
 | `git diff --check` | exit 0 |
 | `npm test` | **fails**: 10 tests in 8 files; 247 of 255 files and 11277 of 11287 tests pass |
-| `npm run test:naming` | **fails**: 14 words in Portuguese in `design.md` and in the tasks DSA-122 to DSA-125, and one unused exception (`DSA-58.md`, "carregando") |
+| `npm run test:naming` | **fails**: 14 words in Portuguese in `design.md` and in the tasks DSA-122 to DSA-125, and one unused exception, for a word in `DSA-58.md` |
 | `npm run test:spelling` | the 22 configuration probes pass; the full scan did not finish in 600 s. `cspell` on the files of this task (`src/components/nph-toast-region/`, `fichas/nph-toast-region.md`, `DSA-100.md`) reports no issue |
 
 None of the failures is in `nph-toast-region` or in `nph-notification`. The 10 failing tests are token contracts
