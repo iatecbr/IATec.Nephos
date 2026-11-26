@@ -555,10 +555,6 @@
   --nph-control-height-default: var(--nph-core-control-height-default);
   --nph-control-height-field: var(--nph-core-control-height-field);
   --nph-control-height-large: var(--nph-core-control-height-large);
-  --nph-dropdown-panel-radius: var(--nph-core-radius-500);
-  --nph-dropdown-item-radius: var(--nph-core-radius-400);
-  --nph-dropdown-item-focus-border-radius: var(--nph-core-radius-off-scale-9);
-  --nph-dropdown-item-focus-halo-radius: var(--nph-core-radius-off-scale-13);
   --nph-dropdown-submenu-offset: var(--nph-core-space-100);
   --nph-focus-border-radius-control: var(--nph-core-radius-off-scale-7);
   --nph-focus-radius-control: var(--nph-core-radius-450);
@@ -642,9 +638,9 @@
   --nph-radius-inset: var(--nph-core-radius-400);
   --nph-radius-none: var(--nph-core-radius-0);
   --nph-radius-overlay: var(--nph-core-radius-450);
+  --nph-radius-overlay-anchored: var(--nph-core-radius-400);
   --nph-radius-subtle: var(--nph-core-radius-100);
   --nph-radius-surface: var(--nph-core-radius-600);
-  --nph-sidebar-flyout-radius: var(--nph-core-radius-500);
   --nph-sidebar-item-height: var(--nph-core-space-800);
   --nph-sidebar-item-padding: var(--nph-core-space-off-scale-10);
   --nph-sidebar-item-radius: var(--nph-core-radius-500);
@@ -737,7 +733,6 @@
   --nph-breadcrumb-letter-spacing: var(--nph-core-tracking-normal);
   --nph-breadcrumb-link-font-weight: var(--nph-core-weight-regular);
   --nph-breadcrumb-current-font-weight: var(--nph-core-weight-medium);
-  --nph-popover-radius: var(--nph-core-radius-600);
   --nph-popover-header-gap: var(--nph-core-space-300);
   --nph-popover-width-sm: var(--nph-core-layout-width-popover-sm);
   --nph-popover-width-md: var(--nph-core-layout-width-popover-md);
@@ -746,7 +741,6 @@
   --nph-popover-arrow-width: var(--nph-core-space-400);
   --nph-popover-arrow-height: var(--nph-core-space-200);
   --nph-popover-arrow-inset: var(--nph-core-space-400);
-  --nph-hover-card-radius: var(--nph-core-radius-600);
   --nph-hover-card-width: var(--nph-core-layout-width-popover-md);
   --nph-hover-card-offset: var(--nph-core-space-100);
   --nph-hover-card-arrow-width: var(--nph-core-space-400);
@@ -787,6 +781,8 @@
   --nph-scheduler-list-time-width: var(--nph-core-space-1500);
   --nph-scheduler-list-time-width-compact: var(--nph-core-layout-width-list-time-compact);
   --nph-scheduler-month-row-min-height: var(--nph-core-space-1200);
+  --nph-scheduler-day-focus-border-radius: var(--nph-core-radius-off-scale-11);
+  --nph-scheduler-day-focus-halo-radius: var(--nph-core-radius-off-scale-15);
   --nph-collapsible-title-gap: var(--nph-core-space-50);
   --nph-collapsible-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-resizable-focus-border-width: var(--nph-core-focus-width-sm);
@@ -808,7 +804,6 @@
   --nph-select-option-dot-size: var(--nph-core-space-200);
   --nph-calendar-day-radius: var(--nph-core-radius-450);
   --nph-calendar-day-focus-radius: var(--nph-core-radius-600);
-  --nph-date-picker-panel-radius: var(--nph-core-radius-600);
   --nph-date-picker-panel-offset: var(--nph-core-space-100);
   --nph-accordion-title-gap: var(--nph-core-space-50);
   --nph-accordion-tile-padding: var(--nph-core-space-200);
@@ -820,7 +815,6 @@
   --nph-tree-table-row-padding-block: var(--nph-core-space-300);
   --nph-tree-table-row-height: var(--nph-core-space-800);
   --nph-tree-table-tree-column-min-width: var(--nph-core-layout-width-tree-column);
-  --nph-popconfirm-radius: var(--nph-core-radius-600);
   --nph-popconfirm-padding-md: var(--nph-core-space-600);
   --nph-popconfirm-footer-padding-md: var(--nph-core-space-600);
   --nph-popconfirm-icon-box-padding: var(--nph-core-space-200);
@@ -855,7 +849,7 @@
   --nph-chart-focus-point-radius: var(--nph-radius-full);
   --nph-chart-series-label-gap: var(--nph-space-inline-tight);
   --nph-chart-tooltip-border-width: var(--nph-border-width);
-  --nph-chart-tooltip-radius: var(--nph-radius-container);
+  --nph-chart-tooltip-radius: var(--nph-radius-overlay-anchored);
   --nph-chart-tooltip-gap: var(--nph-space-stack-tight);
   --nph-chart-tooltip-item-gap: var(--nph-space-inline-tight);
   --nph-chart-tooltip-value-gap: var(--nph-space-inline);
@@ -867,11 +861,15 @@
   --nph-chart-error-gap: var(--nph-space-inline-tight);
   --nph-chart-tooltip-enter-duration: var(--nph-motion-enter-duration);
   --nph-chart-tooltip-exit-duration: var(--nph-motion-exit-duration);
-  --nph-focus-halo-error: var(--nph-focus-halo-danger);
+  --nph-dropdown-panel-radius: var(--nph-radius-overlay-anchored);
+  --nph-dropdown-item-radius: var(--nph-radius-inner);
+  --nph-dropdown-item-focus-border-radius: var(--nph-focus-border-radius-inner);
+  --nph-dropdown-item-focus-halo-radius: var(--nph-focus-radius-inner-with-border);
   --nph-menubar-bar-gap: var(--nph-space-inline);
   --nph-menubar-trigger-height: var(--nph-control-height-default);
   --nph-menubar-trigger-padding-x: var(--nph-space-control-padding);
   --nph-menubar-trigger-radius: var(--nph-radius-control);
+  --nph-sidebar-flyout-radius: var(--nph-radius-overlay-anchored);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-switch-track-height-sm: var(--nph-icon-size-sm);
@@ -945,6 +943,7 @@
   --nph-input-height: var(--nph-control-height-field);
   --nph-combobox-height: var(--nph-control-height-field);
   --nph-combobox-free-text-padding-end: var(--nph-space-control-padding);
+  --nph-combobox-panel-radius: var(--nph-radius-overlay-anchored);
   --nph-multi-combobox-height: var(--nph-control-height-field);
   --nph-navigation-menu-trigger-padding-x: var(--nph-space-control-padding);
   --nph-navigation-menu-trigger-padding-y: var(--nph-space-inline);
@@ -953,7 +952,7 @@
   --nph-navigation-menu-trigger-icon-size: var(--nph-icon-size-sm);
   --nph-navigation-menu-bar-gap: var(--nph-space-inline-tight);
   --nph-navigation-menu-panel-border-width: var(--nph-border-width);
-  --nph-navigation-menu-panel-radius: var(--nph-radius-container);
+  --nph-navigation-menu-panel-radius: var(--nph-radius-overlay-anchored);
   --nph-navigation-menu-panel-padding: var(--nph-space-inline-tight);
   --nph-navigation-menu-group-gap: var(--nph-space-inline-tight);
   --nph-navigation-menu-item-padding: var(--nph-space-inline);
@@ -990,11 +989,13 @@
   --nph-breadcrumb-item-radius: var(--nph-radius-control);
   --nph-breadcrumb-gap: var(--nph-space-inline);
   --nph-popover-border-width: var(--nph-border-width);
+  --nph-popover-radius: var(--nph-radius-overlay-anchored);
   --nph-popover-padding: var(--nph-space-container-padding);
   --nph-popover-footer-padding: var(--nph-space-container-padding);
   --nph-popover-title-gap: var(--nph-space-inline);
   --nph-popover-footer-gap: var(--nph-space-inline-loose);
   --nph-hover-card-border-width: var(--nph-border-width);
+  --nph-hover-card-radius: var(--nph-radius-overlay-anchored);
   --nph-hover-card-padding: var(--nph-space-container-padding);
   --nph-hover-card-gap: var(--nph-space-stack-snug);
   --nph-hover-card-meta-gap: var(--nph-space-inline-tight);
@@ -1071,7 +1072,7 @@
   --nph-tree-focus-halo-width: var(--nph-focus-ring-width);
   --nph-tree-focus-halo-radius: var(--nph-focus-radius-control-with-border);
   --nph-tree-select-panel-border-width: var(--nph-border-width);
-  --nph-tree-select-panel-radius: var(--nph-radius-container);
+  --nph-tree-select-panel-radius: var(--nph-radius-overlay-anchored);
   --nph-tree-select-panel-max-height: var(--nph-layout-max-list-height);
   --nph-tree-select-panel-width: var(--nph-layout-input-width);
   --nph-tree-select-panel-width-multiple: var(--nph-layout-multi-combobox-width);
@@ -1214,7 +1215,9 @@
   --nph-select-option-focus-border-radius: var(--nph-focus-border-radius-inner);
   --nph-select-option-focus-halo-width: var(--nph-focus-ring-width);
   --nph-select-option-focus-halo-radius: var(--nph-focus-radius-inner-with-border);
+  --nph-select-panel-radius: var(--nph-radius-overlay-anchored);
   --nph-date-picker-height: var(--nph-control-height-field);
+  --nph-date-picker-panel-radius: var(--nph-radius-overlay-anchored);
   --nph-date-picker-panel-padding: var(--nph-space-container-padding);
   --nph-date-picker-trigger-gap: var(--nph-space-inline);
   --nph-date-picker-footer-gap: var(--nph-space-inline-loose);
@@ -1241,6 +1244,7 @@
   --nph-tree-table-border-width: var(--nph-border-width);
   --nph-tree-table-error-icon-size: var(--nph-icon-size-sm);
   --nph-popconfirm-border-width: var(--nph-border-width);
+  --nph-popconfirm-radius: var(--nph-radius-overlay-anchored);
   --nph-popconfirm-padding-sm: var(--nph-space-container-padding);
   --nph-popconfirm-footer-padding-sm: var(--nph-space-container-padding);
   --nph-popconfirm-text-gap: var(--nph-space-stack-snug);
@@ -1267,8 +1271,6 @@
   --nph-split-button-inner-radius: var(--nph-radius-inner);
   --nph-split-button-focus-border-inner-radius: var(--nph-focus-border-radius-inner);
   --nph-split-button-focus-halo-inner-radius: var(--nph-focus-radius-inner-with-border);
-  --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
-  --nph-rich-text-editor-focus-halo-error: var(--nph-focus-halo-error);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1329,7 +1331,6 @@
   --nph-sidebar-toggle-foreground: var(--nph-color-subtle-foreground);
   --nph-sidebar-scrim: var(--nph-overlay-scrim);
   --nph-skeleton-background: var(--nph-color-skeleton);
-  --nph-status-on-solid: var(--nph-color-background);
   --nph-switch-track-background: var(--nph-color-input);
   --nph-switch-track-background-hover: var(--nph-color-input-hover);
   --nph-switch-thumb-background: var(--nph-color-background);
@@ -1759,6 +1760,7 @@
   --nph-calendar-cell-foreground-hover: var(--nph-color-accent-foreground);
   --nph-calendar-cell-foreground-disabled: var(--nph-color-muted-foreground);
   --nph-calendar-weekday-foreground: var(--nph-color-muted-foreground);
+  --nph-calendar-title-foreground: var(--nph-color-foreground);
   --nph-date-picker-border: var(--nph-color-field-border);
   --nph-date-picker-border-bottom: var(--nph-color-field-border-bottom);
   --nph-date-picker-panel-border: var(--nph-color-border-subtle);
@@ -1829,6 +1831,7 @@
   --nph-badge-secondary-foreground: var(--nph-color-secondary-foreground);
   --nph-label-foreground: var(--nph-color-foreground);
   --nph-label-info-icon: var(--nph-color-muted-foreground);
+  --nph-label-required-foreground: var(--nph-status-error);
   --nph-kbd-background: var(--nph-color-muted);
   --nph-kbd-border: var(--nph-color-border);
   --nph-kbd-foreground: var(--nph-color-muted-foreground);
@@ -1910,7 +1913,7 @@
   --nph-button-primary-solid-background: var(--nph-color-primary);
   --nph-button-primary-solid-background-hover: var(--nph-color-primary-hover);
   --nph-button-primary-solid-foreground: var(--nph-color-primary-foreground);
-  --nph-button-primary-focus-border: var(--nph-color-primary);
+  --nph-button-primary-focus-border: var(--nph-focus-border);
   --nph-button-primary-tinted-background: var(--nph-color-primary-surface);
   --nph-button-primary-tinted-background-hover: var(--nph-color-primary-surface-hover);
   --nph-button-primary-tinted-foreground: var(--nph-color-primary-on-surface);
@@ -1924,7 +1927,7 @@
   --nph-icon-button-primary-solid-background: var(--nph-color-primary);
   --nph-icon-button-primary-solid-background-hover: var(--nph-color-primary-hover);
   --nph-icon-button-primary-solid-foreground: var(--nph-color-primary-foreground);
-  --nph-icon-button-primary-focus-border: var(--nph-color-primary);
+  --nph-icon-button-primary-focus-border: var(--nph-focus-border);
   --nph-icon-button-primary-tinted-background: var(--nph-color-primary-surface);
   --nph-icon-button-primary-tinted-background-hover: var(--nph-color-primary-surface-hover);
   --nph-icon-button-primary-tinted-foreground: var(--nph-color-primary-on-surface);
@@ -1936,14 +1939,14 @@
   --nph-icon-button-help-solid-foreground: var(--nph-status-on-solid);
   --nph-icon-button-success-solid-foreground: var(--nph-status-on-solid);
   --nph-togglebutton-background-checked: var(--nph-color-primary-surface-hover);
-  --nph-togglebutton-focus-border: var(--nph-color-primary);
+  --nph-togglebutton-focus-border: var(--nph-focus-border);
   --nph-navigation-menu-trigger-background-hover: var(--nph-color-primary-surface);
   --nph-navigation-menu-panel-border: var(--nph-color-dropdown-border);
   --nph-navigation-menu-item-background-hover: var(--nph-color-primary-surface);
   --nph-navigation-menu-current-foreground: var(--nph-color-primary-text);
   --nph-navigation-menu-current-indicator-background: var(--nph-color-primary);
   --nph-navigation-menu-trigger-current-icon: var(--nph-color-primary-hover);
-  --nph-navigation-menu-focus-border: var(--nph-color-primary);
+  --nph-navigation-menu-focus-border: var(--nph-focus-border);
   --nph-notification-on-solid: var(--nph-status-on-solid);
   --nph-notification-neutral-action-foreground: var(--nph-color-primary-on-surface);
   --nph-notification-neutral-action-background-hover: var(--nph-color-primary-surface);
@@ -2022,6 +2025,7 @@
   --nph-timeline-marker-foreground-primary: var(--nph-color-primary-on-surface);
   --nph-rich-option-focus-border: var(--nph-focus-border);
   --nph-rich-option-focus-halo: var(--nph-focus-halo);
+  --nph-rich-option-focus-halo-error: var(--nph-focus-halo-error);
   --nph-select-option-marker: var(--nph-color-primary);
   --nph-select-option-focus-border: var(--nph-focus-border);
   --nph-select-option-focus-halo: var(--nph-focus-halo);
@@ -2042,6 +2046,7 @@
   --nph-tree-table-row-indicator-selected: var(--nph-color-primary);
   --nph-rich-text-editor-focus-border: var(--nph-focus-border);
   --nph-rich-text-editor-focus-halo: var(--nph-focus-halo);
+  --nph-rich-text-editor-focus-halo-error: var(--nph-focus-halo-error);
   --nph-rich-text-editor-link-foreground: var(--nph-color-link);
   --nph-split-button-focus-border: var(--nph-focus-border);
   --nph-split-button-focus-halo: var(--nph-focus-halo);
@@ -2273,8 +2278,10 @@
   --nph-focus-ring: var(--nph-theme-brand-700);
   --nph-focus-border: var(--nph-theme-brand-focus);
   --nph-focus-halo: var(--nph-theme-brand-halo);
+  --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-panel-border-brand: var(--nph-theme-brand-200);
   --nph-sidebar-search-border: var(--nph-theme-brand-200);
+  --nph-status-on-solid: var(--nph-color-background);
   --nph-chip-counter-background: var(--nph-theme-brand-200);
   --nph-chip-counter-background-hover: var(--nph-theme-brand-300);
   --nph-chip-remove-background-hover: var(--nph-theme-brand-200);
@@ -2385,6 +2392,7 @@
   --nph-color-field-border: var(--nph-core-slate-700);
   --nph-color-field-border-bottom: var(--nph-core-slate-400);
   --nph-focus-ring-error: var(--nph-core-danger-400);
+  --nph-focus-halo-error: var(--nph-core-danger-600);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
   --nph-scrollbar-track: var(--nph-core-slate-800);
   --nph-scrollbar-thumb: var(--nph-core-slate-500);
@@ -2419,6 +2427,7 @@
   --nph-status-warning-foreground: var(--nph-core-warn-100);
   --nph-status-warning-surface: var(--nph-core-warn-900);
   --nph-status-warning: var(--nph-core-warn-400);
+  --nph-status-on-solid: var(--nph-core-slate-950);
   --nph-status-info-hover: var(--nph-core-info-300);
   --nph-status-warning-hover: var(--nph-core-warn-300);
   --nph-status-help-hover: var(--nph-core-help-300);

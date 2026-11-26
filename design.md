@@ -401,24 +401,24 @@ tokens_semantic:
     nao_use: "The border of a field (color/field-border and color/field-border-bottom); the lines of nph-dialog and nph-command (color/dialog-separator)."
   dropdown/panel-radius:
     css: '--nph-dropdown-panel-radius'
-    alias: core/radius/500
-    valor: 12
-    use: "Radius of the panel of nph-dropdown-menu and nph-context-menu, submenu included. Straight to core by decision: radius/container, the container with a medium corner, is 8 and leaves the menus out; no semantic token is 12."
+    alias: radius/overlay-anchored
+    valor: 8
+    use: "Radius of the panel of nph-dropdown-menu, nph-context-menu and nph-menubar, submenu included: a layer anchored to a trigger (radius/overlay-anchored)."
   dropdown/item-radius:
     css: '--nph-dropdown-item-radius'
-    alias: core/radius/400
-    valor: 8
-    use: "Radius of the item of nph-dropdown-menu and nph-context-menu. Straight to core by decision: radius/inner, the nested-piece role, is 4; radius/container, the container with a medium corner, is 8 and leaves the menus out; the other tokens of 8 belong to other pieces (focus halo, avatar, image)."
+    alias: radius/inner
+    valor: 4
+    use: "Radius of the item of nph-dropdown-menu and nph-context-menu: a piece nested in the 8 px panel with 4 px of breathing room (radius/inner)."
   dropdown/item-focus-border-radius:
     css: '--nph-dropdown-item-focus-border-radius'
-    alias: core/radius/off-scale/9
-    valor: 9
-    use: "Radius of the 1 px focus border around the menu item (item 8, border 9). Straight to core by decision: the semantic tokens of 9 belong to the focus of pieces with radius/container or radius/inner."
+    alias: focus/border-radius-inner
+    valor: 5
+    use: "Radius of the 1 px focus border around the menu item (item 4, border 5)."
   dropdown/item-focus-halo-radius:
     css: '--nph-dropdown-item-focus-halo-radius'
-    alias: core/radius/off-scale/13
-    valor: 13
-    use: "Radius of the focus halo around the focus border of the menu item. Straight to core by decision: the semantic tokens of 13 belong to the halo of a piece with radius/container and to the focus border of the nph-sidebar item."
+    alias: focus/radius-inner-with-border
+    valor: 9
+    use: "Radius of the focus halo around the focus border of the menu item (border 5, halo 9)."
   dropdown/item-destructive-foreground:
     css: '--nph-dropdown-item-destructive-foreground'
     claro: color/destructive-text
@@ -642,8 +642,8 @@ tokens_semantic:
   focus/halo-error:
     css: '--nph-focus-halo-error'
     claro: focus/halo-danger
-    escuro: focus/halo-danger
-    use: "Focus HALO when the field is invalid. Decoration; the border meets the contrast, and in this state it is status/error. Light tone in both modes. Renamed from focus/ring-error, for the same reason as focus/border. Also the focus halo around the nph-rich-option choice card in error (rich-option/focus-halo-error). Known limit: the same light tone in both modes weighs more in dark (8.30:1 over color/card, against 1.97:1 of focus/halo); a foundation task gives it its own dark value, in every field at once. Also the focus halo of the invalid nph-rich-text-editor box (rich-text-editor/focus-halo-error)."
+    escuro: core/danger/600
+    use: "Focus HALO when the field is invalid. Decoration; the border meets the contrast, and in this state it is status/error. Light tone in light mode (focus/halo-danger); in dark mode core/danger/600, so the error border shows against the halo (2.49:1 over color/background, 2.53:1 against status/error). The halo of the danger nph-button keeps focus/halo-danger. Renamed from focus/ring-error, for the same reason as focus/border. Also the focus halo around the nph-rich-option choice card in error (rich-option/focus-halo-error). Also the focus halo of the invalid nph-rich-text-editor box (rich-text-editor/focus-halo-error)."
   sidebar/background:
     css: '--nph-sidebar-background'
     claro: core/surface/50
@@ -815,8 +815,8 @@ tokens_semantic:
   status/on-solid:
     css: '--nph-status-on-solid'
     claro: color/background
-    escuro: color/background
-    use: "Text and icon on the solid status background: nph-badge and nph-button in the info, warn, help and success types. DO NOT USE on the light surface of the message — there status/<matiz>-foreground applies. Also the triangle of the nph-stepper step marker with an error, on status/error (stepper/marker-foreground-error)."
+    escuro: core/slate/950
+    use: "Text and icon on the solid status background (in dark mode core/slate/950: 4.99:1 over status/help, the lowest of the five solids): nph-badge and nph-button in the info, warn, help and success types. DO NOT USE on the light surface of the message — there status/<matiz>-foreground applies. Also the triangle of the nph-stepper step marker with an error, on status/error (stepper/marker-foreground-error)."
   status/info-hover:
     css: '--nph-status-info-hover'
     claro: core/info/700
@@ -1661,7 +1661,7 @@ tokens_core_radius:
   off-scale/15: { valor: 15, css: '--nph-core-radius-off-scale-15', alias_de: 'focus/border-radius-surface' }
   off-scale/18: { valor: 18, css: '--nph-core-radius-off-scale-18', alias_de: 'focus/radius-surface' }
   off-scale/19: { valor: 19, css: '--nph-core-radius-off-scale-19', alias_de: 'focus/radius-surface-with-border' }
-  direto_por_decisao: 'A component token aliases a core radius straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. 450 on the day cell and on the month and year cell of the nph-calendar grid (calendar/day-radius): the design owner set the day at 10, radius/control (6) is the system default for what is operated, and the two semantics of 10 have other functions (radius/overlay, a large floating layer; focus/radius-control, the focus halo of a control). 600 on the focus halo of those cells, the cell radius plus focus/ring-width (calendar/day-focus-radius): radius/surface (14) is card, panel and sheet, not a halo, and no focus/radius-* exists for a base of 10. 600 also on the nph-date-picker panel (date-picker/panel-radius), as popover/radius and hover-card/radius: radius/surface says DO NOT USE on a floating layer. 400 on the nph-chart legend item (chart/legend-item-radius, DSA-101): radius/container is the corner of a container and radius/inset a fitted surface; the legend item is a 24 px target with no background. off-scale/9 and off-scale/13 on its focus border and halo (chart/legend-item-focus-border-radius, chart/legend-item-focus-halo-radius): focus/border-radius-container, focus/radius-inner-with-border, focus/border-radius-sidebar-item and focus/radius-container are the focus of other bases. 600 also on the nph-popconfirm surface (popconfirm/radius, DSA-99), for the same reason. 450 also on the day of the compact month of the nph-scheduler (scheduler/day-radius), the same radius as the day of the nph-calendar grid and for the same reason: radius/control (6) would leave two radii for the same piece.'
+  direto_por_decisao: 'A component token aliases a core radius straight only by decision, when no semantic token has the same function; the origin in semantic.tokens.json says why. 450 on the day cell and on the month and year cell of the nph-calendar grid (calendar/day-radius): the design owner set the day at 10, radius/control (6) is the system default for what is operated, and the two semantics of 10 have other functions (radius/overlay, a large floating layer; focus/radius-control, the focus halo of a control). 600 on the focus halo of those cells, the cell radius plus focus/ring-width (calendar/day-focus-radius): radius/surface (14) is card, panel and sheet, not a halo, and no focus/radius-* exists for a base of 10. 400 on the nph-chart legend item (chart/legend-item-radius, DSA-101): radius/container is the corner of a container and radius/inset a fitted surface; the legend item is a 24 px target with no background. off-scale/9 and off-scale/13 on its focus border and halo (chart/legend-item-focus-border-radius, chart/legend-item-focus-halo-radius): focus/border-radius-container, focus/radius-inner-with-border, focus/border-radius-sidebar-item and focus/radius-container are the focus of other bases. 450 also on the day of the compact month of the nph-scheduler (scheduler/day-radius), the same radius as the day of the nph-calendar grid and for the same reason: radius/control (6) would leave two radii for the same piece. off-scale/11 and off-scale/15 on the focus border and halo of that day (scheduler/day-focus-border-radius, scheduler/day-focus-halo-radius): the ring follows the 10 px day (corner + 1 of the border; + 4 of the halo), and the semantic tokens of 11 and 15 are the focus of other bases (focus/radius-control-with-border, the halo of a control; focus/border-radius-surface, the border around a card).'
 
 tokens_radius:
   radius/none:
@@ -1699,17 +1699,23 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel, the option list of nph-select and nph-combobox, the nph-tree-select panel (tree-select/panel-radius) and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface; a box fitted inside a card is radius/inset. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius). Also the nph-chart data tooltip, a small floating box of values (chart/tooltip-radius)."
+    use: "USE on a container with a medium corner inside the page: table, pagination, floating toolbar and notification (except the toast, which is radius/overlay). DO NOT USE on a layer anchored to a trigger (popover, menu, option list, panel): that is radius/overlay-anchored. DO NOT USE on a card or content panel: those are radius/surface; a box fitted inside a card is radius/inset. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
     valor: 10
-    use: "USE on a large floating layer: dialog, modal, side panel, and the floating notice (toast) of nph-notification and the nph-command panel (command/radius). It is the BASE of the reference kit scale (--radius = 10). DO NOT USE on tooltip (radius/inner) nor on popover, hover card or menu, which have their own radius."
+    use: "USE on a large floating layer: dialog, modal, side panel, and the floating notice (toast) of nph-notification and the nph-command panel (command/radius). It is the BASE of the reference kit scale (--radius = 10). DO NOT USE on tooltip (radius/inner) nor on a layer anchored to a trigger (radius/overlay-anchored)."
+  radius/overlay-anchored:
+    css: '--nph-radius-overlay-anchored'
+    alias: core/radius/400
+    valor: 8
+    use: "USE on a floating layer anchored to a trigger: nph-popover (popover/radius), nph-hover-card (hover-card/radius), the nph-date-picker panel (date-picker/panel-radius), nph-popconfirm (popconfirm/radius), the menu of nph-dropdown-menu, nph-context-menu and nph-menubar (dropdown/panel-radius), the nph-sidebar flyout (sidebar/flyout-radius), the nph-navigation-menu panel (navigation-menu/panel-radius), the option list of nph-select (select/panel-radius), of nph-combobox and nph-multi-combobox (combobox/panel-radius), the nph-tree-select panel (tree-select/panel-radius) and the nph-chart data tooltip (chart/tooltip-radius). One radius for the same function, below the dialog (10), as in shadcn (rounded-md), Atlassian and Radix."
+    nao_use: "The plain tooltip: radius/inner. Dialog, modal, side panel and toast: radius/overlay. A container inside the page: radius/container."
   radius/surface:
     css: '--nph-radius-surface'
     alias: core/radius/600
     valor: 14
-    use: "USE on card, panel and sheet - the surface that carries content. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer: dialog and modal are radius/overlay, the tooltip uses radius/inner, and popover, hover card and menu have their own radius. Also the corner of the nph-scheduler container (scheduler/radius). Also the corner of the nph-collapsible card appearance (collapsible/card-radius). Also the corner of the nph-card (card/radius). Also the corner of the nph-rich-option choice card and of its hover layer (rich-option/radius). Also the corner of the grouped nph-accordion and of each separated block (accordion/radius)."
+    use: "USE on card, panel and sheet - the surface that carries content. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer: dialog and modal are radius/overlay, the tooltip uses radius/inner, and a layer anchored to a trigger (popover, hover card, menu) uses radius/overlay-anchored. Also the corner of the nph-scheduler container (scheduler/radius). Also the corner of the nph-collapsible card appearance (collapsible/card-radius). Also the corner of the nph-card (card/radius). Also the corner of the nph-rich-option choice card and of its hover layer (rich-option/radius). Also the corner of the grouped nph-accordion and of each separated block (accordion/radius)."
   radius/full:
     css: '--nph-radius-full'
     alias: core/radius/full
@@ -2804,7 +2810,8 @@ The curve says what the piece is. The question is not how much to round.
 | The piece… | Token |
 |---|---|
 | is **operated** | `radius/control` (6) — system default; the day of the nph-calendar grid has its own radius (`calendar/day-radius`, 10), and so does the day of the nph-scheduler compact month (`scheduler/day-radius`, 10) |
-| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, option list of nph-select and nph-combobox, nph-tree-select panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card, menus, the nph-sidebar flyout panel and the nph-date-picker panel have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`, `sidebar/flyout-radius`, `date-picker/panel-radius`) |
+| **contains** with a medium corner inside the page (table, pagination, floating toolbar, notification) | `radius/container` (8) |
+| **floats anchored** to a trigger (popover, hover card, menus, nph-sidebar flyout, nph-date-picker and nph-navigation-menu panels, option lists, nph-chart tooltip) | `radius/overlay-anchored` (8); the plain tooltip is `radius/inner` (4) |
 | **floats large** | `radius/overlay` (10) |
 | **carries content** without floating | `radius/surface` (14) |
 | is a **marker** | `radius/subtle` (2) for a bar indicator, or `radius/full` for a dot, a pill or a circular target |
@@ -2815,7 +2822,7 @@ The curve says what the piece is. The question is not how much to round.
 | Question | Rule |
 |---|---|
 | `control` × `container` | A button inside a card: the button is `control`, the card is `container`. |
-| `container` × `overlay` | A table or pagination is `container`; popover, hover card, menus and the nph-date-picker panel have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
+| `container` × `overlay-anchored` × `overlay` | A table or pagination is `container`; a layer anchored to a trigger (popover, hover card, menus, panels, option lists) is `overlay-anchored`; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
 | `inset` × `inner` | `inset` is a surface or box fitted inside a card or a floating layer (the nph-card tonal section and icon box, the nph-popconfirm icon box). `inner` is a piece nested inside a control or container (checkbox, thumbnail, the nph-navigation-menu item). |
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
 | `full` × `control` | `full` only on a small piece whose shape communicates a marker, or on a circular target. Button and field are never a pill. |
