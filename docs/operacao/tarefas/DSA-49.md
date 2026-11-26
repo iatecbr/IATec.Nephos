@@ -40,18 +40,13 @@
   ],
   "blockers": [],
   "pending_decisions": [
-    {
-      "id": "D8",
-      "question": "design.md has no usage entry for the table/* tokens. May the entries be added, as the other component tokens have? The code consumes them as the evidence binds them. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    }
   ],
   "evidence": [
     "docs/operacao/evidencias/DSA-49/documentacao-figma-aceita-2026-10-23.md",
     "docs/operacao/evidencias/DSA-49/review-and-merge-2026-10-26.md"
   ],
   "decision_refs": [
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 4 of the pending items (2026-11-26 08:19): the component token contract in design.md, A0 to A6 (Carbon, Primer, Salesforce)",
     "docs/decisoes-tecnicas.md#p97",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, nph-table visual acceptance, focus ring at 2 px, rating star kept with the WCAG 1.4.11 exception, link in dark on theme/brand-200, header in dark on color/muted, thumbnail on image/size-sm, selection left to the nph-data-table, Figma UX QA approved and documentation accepted",
@@ -104,7 +99,7 @@ The pieces it composes:
 - `nph-image` (DSA-51) — the photo of the thumbnail and of the expanded item.
 
 ## Decision answered on 2026-11-26
-Indiane answered D1 to D7 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+Indiane answered D1 to D8 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
 
 | ID | Answer | What the code does |
 |---|---|---|
@@ -115,6 +110,7 @@ Indiane answered D1 to D7 on 2026-11-26, in the approval round of the pending it
 | D5 | Option 1: only success and error, with `circle-check` and `circle-xmark`. Carbon asks for shape and text, not only color (https://carbondesignsystem.com/patterns/status-indicator-pattern/ ). | Nothing changes. Figma already draws it (node 2571:65296). |
 | D6 | Option 1: one solid `star` and the number beside it. WCAG 1.4.11 spares the graphic when the text beside it carries the same information (https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html ). | Nothing changes. Figma updated on 2026-11-26: rating in node 2571:65620, 12 variants, with one solid star and the number. |
 | D7 | Option 2: the total in the caption is an `nph-badge` secondary light, as the `selo` of the cell. Atlassian keeps the bold badge for very important items (https://atlassian.design/components/badge/usage ). | The total badge of the caption changes from solid to light. Figma already draws it (node 2571:66346). |
+| D8 | Answered by the contract (A5): a `tokens_table` block in design.md with every `table/*` token, its alias and its use. | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

@@ -30,18 +30,13 @@
   ],
   "blockers": [],
   "pending_decisions": [
-    {
-      "id": "D5",
-      "question": "May the `use` text in design.md be widened for the tokens the avatar consumes beyond what it names today? These are avatar/radius-* (already also consumed by nph-skeleton, DSA-26 D2, and by the avatar-stack count, DSA-25), color/muted, color/muted-foreground, color/border (its do-not-use text says form field border) and icon/size-sm|md|lg (md says not inside a button with text; lg not on dense screens). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-20"
-    }
   ],
   "evidence": [
     "docs/operacao/evidencias/DSA-24/documentacao-figma-aceita-2026-10-06.md",
     "docs/operacao/evidencias/DSA-24/review-and-merge-2026-10-20.md"
   ],
   "decision_refs": [
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 4 of the pending items (2026-11-26 08:19): the component token contract in design.md, A0 to A6 (Carbon, Primer, Salesforce)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D4 of the nph-avatar"
   ],
@@ -59,7 +54,7 @@
     "pr": "90"
   },
   "context": null,
-  "updated_at": "2026-10-20"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -92,6 +87,13 @@ The evidence gives the whole contract, so the code can start: the task stays in 
 | ID | What the evidence gives | What is missing | What the code does with the answer |
 |---|---|---|---|
 | D5 | The tokens the avatar consumes: `avatar/size-*`, `avatar/radius-*`, `color/muted`, `color/muted-foreground`, `color/border`, `border/width` and `icon/size-*`. | The `use` text in `design.md` does not name the avatar for `color/muted`, `color/muted-foreground`, `color/border` (its do-not-use text says form field border) and `icon/size-*` (`md`: not inside a button with text; `lg`: not on dense screens). `avatar/radius-*` says "only in nph-avatar", but `nph-skeleton` (DSA-26 D2) and the avatar-stack count (DSA-25) also consume it. | Nothing changes in the component: it keeps consuming these tokens. The answer decides whether `design.md` is widened, and the sheet quotes the final text. |
+
+## Decision answered on 2026-11-26
+Indiane answered D5 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D5 | Answered by the component token contract (A1): `tokens_avatar` in design.md has `avatar/background`, `avatar/border` and `avatar/icon`; the use of `icon/size-md` and `icon/size-lg` names the icon inside the nph-avatar. | Nothing changes; DSA-120 moves the CSS to the avatar tokens. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

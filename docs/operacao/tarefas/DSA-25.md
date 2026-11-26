@@ -30,18 +30,13 @@
   ],
   "blockers": [],
   "pending_decisions": [
-    {
-      "id": "D4",
-      "question": "The use text in design.md is narrower than the accepted evidence for the tokens of the +N count: text/label-sm (chip and badge), text/label-md (button, field label, menu item), color/muted (table header, disabled area), color/border (divider, card outline), space/inline-tight (inside a unit), avatar/size-* and avatar/radius-* (the avatar). May that text be widened to name the count of nph-avatar-stack? Same class as D5 of DSA-24. The code consumes them as the evidence binds them. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    }
   ],
   "evidence": [
     "docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md",
     "docs/operacao/evidencias/DSA-25/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 4 of the pending items (2026-11-26 08:19): the component token contract in design.md, A0 to A6 (Carbon, Primer, Salesforce)",
     "docs/decisoes-tecnicas.md#p78",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D3 of the nph-avatar-stack"
@@ -60,7 +55,7 @@
     "pr": "96"
   },
   "context": null,
-  "updated_at": "2026-10-23"
+  "updated_at": "2026-11-26"
 }
 ```
 
@@ -88,6 +83,13 @@ evidence of the `figma-docs-accepted` gate, sections "Measures and tokens" and
 | D1 | The "+N" uses `text/label-sm` in `sm` and `md`, and `text/label-md` in `lg`, in `color/muted-foreground`. | Sets the typography of the count per size. |
 | D2 | The count overlaps the last avatar by `avatar/overlap`, like any neighbor. | Gives the count the same start margin as the avatars. |
 | D3 | Only the avatar's own border, `border/width` in `color/border`, inside. No wider ring. Same answer as DSA-24 D4. | The stack adds no ring; the separation comes from `nph-avatar`. |
+
+## Decision answered on 2026-11-26
+Indiane answered D4 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D4 | Answered by the contract (A2): a `tokens_avatar-stack` block with the three `avatar-stack/overflow-*` colors; `avatar/size-*` and `avatar/radius-*` name the +N counter, which has the avatar shape, until the measure review. | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

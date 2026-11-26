@@ -30,18 +30,13 @@
   ],
   "blockers": [],
   "pending_decisions": [
-    {
-      "id": "D-5",
-      "question": "`layout/field-width` and `layout/input-width` have no `use:` line in `design.md`, unlike their neighbors. The code consumes `layout/field-width` as D6 says and does not change `design.md`. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    }
   ],
   "evidence": [
     "docs/operacao/evidencias/DSA-28/documentacao-figma-aceita-2026-10-01.md",
     "docs/operacao/evidencias/DSA-28/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 4 of the pending items (2026-11-26 08:19): the component token contract in design.md, A0 to A6 (Carbon, Primer, Salesforce)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D8 of the nph-field",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-26.md, approval round 3 of the pending items (2026-11-26 08:18): the design owner accepted the recommended option of D-1 to D-4, after market research with sources"
@@ -98,7 +93,7 @@ sets a contract for the controls of DSA-16, DSA-17, DSA-18 and DSA-29.
 The field also has the counter decided on 15-10-2026; see the evidence.
 
 ## Decision answered on 2026-11-26
-Indiane answered D-1 to D-4 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
+Indiane answered D-1 to D-5 on 2026-11-26, in the approval round of the pending items, as recommended, after market research with sources.
 
 | ID | Answer | What the code does |
 |---|---|---|
@@ -106,6 +101,7 @@ Indiane answered D-1 to D-4 on 2026-11-26, in the approval round of the pending 
 | D-2 | Option 1: 8 px (`space/inline`) between help and counter; long help wraps; the counter stays at the top right. Same Material source as D-1. | Nothing changes. Figma already draws it (node 655:2). |
 | D-3 | Option 1: when disabled, the help text comes back, as in the default state. In Carbon an error only replaces the help (https://carbondesignsystem.com/components/text-input/usage/ ). | Nothing changes. Figma draws only the default and error states (set 657:50); nothing to update. |
 | D-4 | Option 1: long help or error wraps to more lines, with no ellipsis. WCAG 1.4.10 asks for content without loss of information (https://www.w3.org/WAI/WCAG22/Understanding/reflow.html ). | Nothing changes. Figma already draws it (messages as wide as the field, no ellipsis). |
+| D-5 | Answered by the contract (A4): `layout/field-width` (320) is the default width of the nph-field, which stretches in its container; `layout/input-width` is the control. | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
@@ -113,11 +109,7 @@ tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Pending decisions
-The evidence gives the contract, so the code can start. One point remains for Indiane (D-5); D-1 to D-4 were answered on 2026-11-26, see the section below; the code follows the stated default meanwhile, and the answer only adjusts one rule each.
-
-| ID | What the evidence gives | What is missing | What the code does meanwhile |
-|---|---|---|---|
-| D-5 | D6 names `layout/field-width`. | A `use:` line for `layout/field-width` and `layout/input-width` in `design.md`. | Nothing: `design.md` is not changed. |
+Answered on 2026-11-26: see the section "Decision answered on 2026-11-26".
 
 ## What this task does not do
 It does not create a token or change a token value.
