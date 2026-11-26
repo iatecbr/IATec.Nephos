@@ -5,11 +5,11 @@
  * consumed here: the `collapsible/*` ones, which alias a semantic token, and the text roles
  * `text/label-md`, `text/label-lg`, `text/body-sm` and `text/body-md`. The type, the appearance, the
  * size and the indicator are read from the attributes the host reflects; where the content is, from
- * `data-state` on the panel.
+ * `data-state` on the panel. The growth of the panel is in `nph-collapsible.disclosure.css`, shared with the
+ * `nph-sidebar` panel menu (DSA-98).
  *
  * No literal design value goes in here. Written box relations and resets: `0`, `1`, `none`, `100%`,
- * `0fr` and `1fr` (the two rows of the growth), `-1` and `calc(-1 * ...)` (the focus border and halo
- * outside the box, without changing its size), `scaleX(-1)` (the mirror of the chevron in right-to-left
+ * `-1` and `calc(-1 * ...)` (the focus border and halo outside the box, without changing its size), `scaleX(-1)` (the mirror of the chevron in right-to-left
  * writing), `180deg` and `90deg` (the turn of the chevron, which the accepted documentation gives as an
  * angle), and `3`, the line count of the preview: `-webkit-line-clamp` takes a number, not a token.
  */
@@ -244,33 +244,11 @@
 
 /* ----- the content: it grows down and pushes what comes below ----------------------------- */
 
-.panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition-property: grid-template-rows;
-  transition-duration: var(--nph-collapsible-expand-duration);
-  transition-timing-function: var(--nph-collapsible-expand-easing);
-}
-
-.panel[data-state='opening'],
-.panel[data-state='open'] {
-  grid-template-rows: 1fr;
-}
-
 /*
- * The clip has no padding: a box with padding does not shrink below it, so the padding lives on the
- * content inside. It clips while the content moves and when it is closed; steady and open it lets the
- * focus halo of what is inside show.
+ * The growth of the panel (the grid track, the clip and the reduced-motion rule) is the part shared with every block
+ * that grows in place: `nph-collapsible.disclosure.css`, DSA-98. The clip has no padding: a box with padding does not
+ * shrink below it, so the padding lives on the content inside.
  */
-.clip {
-  min-block-size: 0;
-  overflow: hidden;
-}
-
-.panel[data-state='open'] .clip {
-  overflow: visible;
-}
-
 .content {
   display: flex;
   gap: var(--nph-collapsible-trigger-gap);
@@ -333,9 +311,8 @@
   overflow: hidden;
 }
 
-/* Reduced motion: the content opens and the chevron swaps with no movement. */
+/* Reduced motion: the chevron swaps with no movement; the content opens at once by the shared rule. */
 @media (prefers-reduced-motion: reduce) {
-  .panel,
   .indicator {
     transition: none;
   }

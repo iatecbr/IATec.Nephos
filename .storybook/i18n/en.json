@@ -13735,7 +13735,7 @@
       ],
       [
         "Movement",
-        "The arrow of a group and of a subgroup turns 180 degrees and the block grows in place in panel-menu/expand-duration and panel-menu/expand-easing. With reduced motion nothing moves."
+        "The arrow of a group and of a subgroup turns 180 degrees and the block grows in place in collapsible/expand-duration and collapsible/expand-easing, the growth the nph-collapsible shares with the panel menu. With reduced motion nothing moves."
       ],
       [
         "Keyboard and roles",

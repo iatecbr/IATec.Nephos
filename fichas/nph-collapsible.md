@@ -401,6 +401,9 @@ the type is ignored and warned once. No `label` is a mount: nothing is drawn and
 fields, actions, `nph-skeleton` while it loads. The collapsible controls the chevron, the hover
 background, the focus of the trigger and the open state; each piece of the content follows its own
 color and focus rules.
+The growth of the content in place (the grid track, the clip, the reduced-motion rule and the phases of
+the content) is a part inside the piece that the block of the `nph-sidebar` panel menu also uses; it adds no
+property, attribute, slot or part to the collapsible.
 
 | Between | Space |
 |---|---|

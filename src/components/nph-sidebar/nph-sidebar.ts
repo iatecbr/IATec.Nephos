@@ -76,6 +76,9 @@ import '../nph-sidebar-subitem/nph-sidebar-subitem';
 import '../nph-skeleton/nph-skeleton';
 import '../nph-tooltip/nph-tooltip';
 import type { NphDropdownMenuEntry, NphDropdownMenuItemSelectDetail } from '../nph-dropdown-menu/nph-dropdown-menu';
+import disclosureCss from '../nph-collapsible/nph-collapsible.disclosure.css?inline';
+import { endsGrowth, growthDuration, growthEasing, isMoving, phaseFor, settleDelay, steadyPhase } from '../nph-collapsible/nph-collapsible.disclosure';
+import type { DisclosurePhase } from '../nph-collapsible/nph-collapsible.disclosure';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import type { NphInput } from '../nph-input/nph-input';
 import sidebarCss from './nph-sidebar.css?inline';
@@ -216,22 +219,6 @@ function deepActiveElement(): Element | null {
   return active;
 }
 
-/** The longest time in a computed `transition-duration` list, in milliseconds. */
-function longestDuration(value: string): number {
-  let longest = 0;
-  for (const part of value.split(',')) {
-    const text = part.trim();
-    const amount = Number.parseFloat(text);
-    if (Number.isFinite(amount)) {
-      longest = Math.max(longest, text.endsWith('ms') ? amount : amount * 1000);
-    }
-  }
-  return longest;
-}
-
-/** The phases of a block of the panel menu that grows in place (the machine of `nph-collapsible`, P121). */
-type Phase = 'closed' | 'opening' | 'open' | 'closing';
-
 /** A block of the panel menu that opens in place: a group of the first level, or a subgroup of the second. */
 interface Block {
   key: string;
@@ -261,7 +248,8 @@ interface Section {
 }
 
 export class NphSidebar extends LitElement {
-  static override styles = unsafeCSS(sidebarCss);
+  /* The growth of the panel menu block is the part shared with `nph-collapsible` (DSA-98): it comes first. */
+  static override styles = [unsafeCSS(disclosureCss), unsafeCSS(sidebarCss)];
 
   static override properties = {
     /* `mode`, `open` and `loading` reflect: the internal CSS selects the box by them. */
@@ -343,7 +331,7 @@ export class NphSidebar extends LitElement {
   private lastCurrent: string | null = null;
   /* The blocks that grow in place: what each one showed, the phase while it moves, and the end of the move. */
   private shownOpen = new Map<string, boolean>();
-  private phases = new Map<string, Phase>();
+  private phases = new Map<string, DisclosurePhase>();
   private settleTimers = new Map<string, number>();
   private turning = new Set<string>();
 
@@ -893,8 +881,8 @@ export class NphSidebar extends LitElement {
     return this.openRecord.get(key) === true;
   }
 
-  private phaseOf(key: string): Phase {
-    return this.phases.get(key) ?? (this.isOpen(key) ? 'open' : 'closed');
+  private phaseOf(key: string): DisclosurePhase {
+    return this.phases.get(key) ?? steadyPhase(this.isOpen(key));
   }
 
   private blockElement(key: string): HTMLElement | null {
@@ -904,11 +892,11 @@ export class NphSidebar extends LitElement {
   /** The block grows or shrinks in place when it was already drawn and the browser resolves a duration; otherwise it just changes. */
   private startMoving(key: string, open: boolean): void {
     this.stopMoving(key);
-    const block = this.blockElement(key);
-    if (block === null || !(longestDuration(getComputedStyle(block).transitionDuration) > 0)) {
+    const phase = phaseFor(open, growthDuration(this.blockElement(key)));
+    if (!isMoving(phase)) {
       return;
     }
-    this.phases.set(key, open ? 'opening' : 'closing');
+    this.phases.set(key, phase);
     this.turning.add(key);
   }
 
@@ -931,7 +919,7 @@ export class NphSidebar extends LitElement {
   }
 
   private onBlockEnd(event: TransitionEvent, key: string): void {
-    if (event.target === event.currentTarget && event.propertyName === 'grid-template-rows') {
+    if (endsGrowth(event)) {
       this.settle(key);
     }
   }
@@ -940,9 +928,7 @@ export class NphSidebar extends LitElement {
   private settleSoon(): void {
     for (const key of this.phases.keys()) {
       if (!this.settleTimers.has(key)) {
-        const block = this.blockElement(key);
-        const wait = block === null ? 0 : longestDuration(getComputedStyle(block).transitionDuration);
-        this.settleTimers.set(key, window.setTimeout(() => this.settle(key), wait + 50));
+        this.settleTimers.set(key, window.setTimeout(() => this.settle(key), settleDelay(this.blockElement(key))));
       }
     }
   }
@@ -966,10 +952,9 @@ export class NphSidebar extends LitElement {
         arrow = item?.shadowRoot?.querySelector<HTMLElement>('.arrow');
       }
       if (arrow !== null && arrow !== undefined && block !== null && typeof arrow.animate === 'function') {
-        const style = getComputedStyle(block);
         arrow.animate([{ transform: 'rotate(180deg)' }, { transform: 'rotate(0deg)' }], {
-          duration: longestDuration(style.transitionDuration),
-          easing: style.transitionTimingFunction.split(/,(?![^(]*\))/)[0]?.trim() ?? 'ease',
+          duration: growthDuration(block),
+          easing: growthEasing(block),
         });
       }
     }
@@ -1457,7 +1442,7 @@ export class NphSidebar extends LitElement {
   /** A block that grows in place: the grid track, the clip and the content that `aria-controls` points to. */
   private renderBlock(key: string, id: string, children: unknown): TemplateResult {
     const phase = this.phaseOf(key);
-    return html`<div class="block" data-block=${key} data-state=${phase} @transitionend=${(event: TransitionEvent) => this.onBlockEnd(event, key)}>
+    return html`<div class="block" data-disclosure data-block=${key} data-state=${phase} @transitionend=${(event: TransitionEvent) => this.onBlockEnd(event, key)}>
       <div class="clip">
         <div class="content" id=${id} ?hidden=${phase === 'closed'} ?inert=${phase === 'closing'}>
           <div class="nest">

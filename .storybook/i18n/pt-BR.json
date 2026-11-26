@@ -13735,7 +13735,7 @@
       ],
       [
         "Movimento",
-        "A seta de um grupo e a de um subgrupo giram 180 graus e o bloco cresce no lugar em panel-menu/expand-duration e panel-menu/expand-easing. Com movimento reduzido, nada se move."
+        "A seta de um grupo e a de um subgrupo giram 180 graus e o bloco cresce no lugar em collapsible/expand-duration e collapsible/expand-easing, o crescimento que o nph-collapsible compartilha com o menu em painel. Com movimento reduzido, nada se move."
       ],
       [
         "Teclado e papéis",
