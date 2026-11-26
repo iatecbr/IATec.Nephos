@@ -396,7 +396,7 @@ built yet; today the consumer places the bar below an `nph-table` or a list.
 **Usage restrictions:** the numbers and the arrows are native buttons painted with the
 `pagination/*` tokens, not `nph-button`: the evidence calls them `nph-button` and
 `nph-icon-button`, which have no color property, and gives them their own paint tokens
-(pending decision D-1 of DSA-54, P99). First and last use `arrow-left-to-line`; the last one
+(D-1 of DSA-54, accepted on 23/11/2026, P99). First and last use `arrow-left-to-line`; the last one
 turns only its icon half a turn. Previous and next use `chevron-left` and `chevron-right`
 (D-3).
 
@@ -444,7 +444,7 @@ last page, type `compact`.
   `text/label-md-strong`. The `pagination/*` tokens are in
   `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P99.
-- **Pending decisions:** D-1 to D-4 of the task DSA-54: the native buttons instead of
+- **Decisions:** D-1 to D-4 of the task DSA-54, all answered by Indiane (D-1 on 23/11/2026, the others on 26/11/2026): the native buttons instead of
   `nph-button`, the text role of the numbers and the texts, the previous and next icons, and the
   order of the simple, compact and range types. D-5, where the outline of the bar ends, was
   answered on 2026-11-24: the bar has no outline (DSA-118).

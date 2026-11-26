@@ -19,7 +19,7 @@
  * - `name` (single), `start-name` and `end-name` (range) put the date in the form data. The piece is form-associated: required,
  *   a typed date that is not one, and `form.reset()` work as in a native field;
  * - `allows-non-contiguous-ranges` (`allowsNonContiguousRanges`): off by default, a period does not cross a day unavailable by rule
- *   (D-10); on, it may. It goes to the calendar of the panel. A typed period that holds an unavailable day keeps the rule of today;
+ *   (D-10); on, it may. It goes to the calendar of the panel. While it is off, a shortcut whose period holds an unavailable day is off, with the disabled look of `nph-option`, and a typed period that holds one is an error on the field typed, `errorPeriodUnavailable` (D-15); on, both are accepted;
  * - `week-start`: `sunday` (default) or `monday`. `now`: the date of today, for tests and stories. `labels`: every text the
  *   piece writes, already localized, as one object (it writes no word of its own). The names of the months and the weekdays and
  *   the order of day, month and year come from `Intl`, in the language of the nearest `lang`;
@@ -48,9 +48,12 @@
  * both columns together in a range; D-10 a period does not cross an unavailable day by default, a third pick starts over, one day is valid,
  * Apply stays enabled; D-11 a day outside the month can be picked, one Tab stop per grid.
  *
- * STILL OPEN with the design owner: DSA-90 D-12 (the measures with no token), D-13 (a typed Start or End with the panel closed commits when
- * the field is left) and D-14 (the page margin of D-7), and from DSA-96 D-15 to D-18 (a shortcut across an unavailable day, the views of a
- * range, This month with a min inside it, the look of a day that cannot be the End).
+ * ANSWERED after that: DSA-96 D-15 (a shortcut across an unavailable day is off, and a typed period across one is an error, while the
+ * property of D-10 is off; applied in DSA-115), D-16 (the views of a range), D-17 (This month with a min inside it) and D-18 (a day that
+ * cannot be the End looks like one outside the limits), and DSA-90 D-13 (a typed Start or End with the panel closed commits when the field is
+ * left). D-14 (the page margin of D-7 follows the breakpoint) was answered on 2026-11-26 and is not in the code yet.
+ *
+ * STILL OPEN with the design owner: DSA-90 D-12 (the measures with no token).
  *
  * Invalid input does not render and emits `console.error` only in development, one per cause while it lasts (the rule of P21): a `mode`,
  * a `size` or a `week-start` outside the lists, a date that does not exist, and `labels` with no key at all. A label missing from a
@@ -83,12 +86,13 @@ import {
   checkTyped,
   dateOrderOf,
   formatDay,
+  holdsUnavailable,
   matchShortcut,
   parseTyped,
   shortcutDisabled,
   shortcutRange,
 } from './nph-date-picker.logic';
-import type { DateOrder, Shortcut, TypedError } from './nph-date-picker.logic';
+import type { DateOrder, PeriodRefusal, Shortcut, TypedError } from './nph-date-picker.logic';
 
 const TAG = 'nph-date-picker';
 
@@ -133,6 +137,8 @@ export interface NphDatePickerLabels extends NphCalendarLabels {
   /** With `{min}` and `{max}`. */
   readonly errorBetween: string;
   readonly errorUnavailable: string;
+  /** A typed period that holds a day unavailable by rule, while a period may not cross one (D-15). */
+  readonly errorPeriodUnavailable: string;
   /** With `{start}`: the End typed before the Start. */
   readonly errorEndBeforeStart: string;
 }
@@ -172,6 +178,7 @@ export const NPH_DATE_PICKER_LABEL_KEYS = [
   'errorMax',
   'errorBetween',
   'errorUnavailable',
+  'errorPeriodUnavailable',
   'errorEndBeforeStart',
 ] as const satisfies readonly (keyof NphDatePickerLabels)[];
 
@@ -389,6 +396,14 @@ export class NphDatePicker extends LitElement {
     return Array.isArray(rule) && rule.includes(isoDate(day));
   };
 
+  /**
+   * D-15, following D-10: while a period may not cross an unavailable day (`allows-non-contiguous-ranges` off), a shortcut whose period
+   * holds one is off and a typed period that holds one is an error. With the property on, both are accepted.
+   */
+  private get refuses(): PeriodRefusal {
+    return this.allowsNonContiguousRanges ? undefined : (start, end) => holdsUnavailable(start, end, this.isUnavailable);
+  }
+
   private get fieldSize(): 'compact' | 'default' | 'large' {
     const size = trimmed(this.size);
     return size === 'compact' || size === 'large' ? size : 'default';
@@ -422,6 +437,8 @@ export class NphDatePicker extends LitElement {
         return this.text('errorBetween', { min: this.format(min), max: this.format(max) });
       case 'unavailable':
         return this.text('errorUnavailable');
+      case 'periodUnavailable':
+        return this.text('errorPeriodUnavailable');
       default:
         return this.text('errorEndBeforeStart', { start: this.format(error.start) });
     }
@@ -519,6 +536,13 @@ export class NphDatePicker extends LitElement {
       const endOfPeriod = parseDay(this.open ? this.draft.end : trimmed(this.end));
       if (endOfPeriod !== null && parsed.day > endOfPeriod) error = { key: 'endBeforeStart', start: parsed.day };
     }
+    /* D-15: a typed period that holds an unavailable day says what to fix, on the field that was typed. */
+    if (error === null && parsed.kind === 'date' && which !== 'single') {
+      const other = parseDay(which === 'start' ? (this.open ? this.draft.end : trimmed(this.end)) : (this.open ? this.draft.start : trimmed(this.start)));
+      if (other !== null && this.refuses?.(Math.min(parsed.day, other), Math.max(parsed.day, other)) === true) {
+        error = { key: 'periodUnavailable' };
+      }
+    }
     this.errors[which] = error;
     /* A date with a problem is not committed: the value it replaces stays, and the field says what to fix. */
     if (error === null) {
@@ -562,7 +586,7 @@ export class NphDatePicker extends LitElement {
   /* ----- the panel: draft, shortcuts and the announcement ----------------------------------------------- */
 
   private matchDraft(): Shortcut | null {
-    return matchShortcut({ start: parseDay(this.draft.start), end: parseDay(this.draft.end) }, this.today, this.limits);
+    return matchShortcut({ start: parseDay(this.draft.start), end: parseDay(this.draft.end) }, this.today, this.limits, this.refuses);
   }
 
   private announceDraft(): void {
@@ -616,7 +640,7 @@ export class NphDatePicker extends LitElement {
       this.calendar?.focusDate();
       return;
     }
-    const period = shortcutRange(shortcut, this.today, this.limits);
+    const period = shortcutRange(shortcut, this.today, this.limits, this.refuses);
     if (period === null || period.start === null || period.end === null) return;
     this.draft = { start: isoDate(period.start), end: isoDate(period.end) };
     this.shortcut = shortcut;
@@ -627,12 +651,12 @@ export class NphDatePicker extends LitElement {
 
   private readonly onShortcutClick = (event: Event): void => {
     const option = (event.currentTarget as NphOption).value as Shortcut;
-    if (!shortcutDisabled(option, this.today, this.limits)) this.chooseShortcut(option);
+    if (!shortcutDisabled(option, this.today, this.limits, this.refuses)) this.chooseShortcut(option);
   };
 
   private readonly onShortcutHover = (event: Event): void => {
     const option = (event.currentTarget as NphOption).value as Shortcut;
-    if (!shortcutDisabled(option, this.today, this.limits) && this.activeShortcut !== option) {
+    if (!shortcutDisabled(option, this.today, this.limits, this.refuses) && this.activeShortcut !== option) {
       this.activeShortcut = option;
       this.requestUpdate();
     }
@@ -651,7 +675,7 @@ export class NphDatePicker extends LitElement {
   };
 
   private enabledShortcuts(): Shortcut[] {
-    return SHORTCUTS.filter((shortcut) => !shortcutDisabled(shortcut, this.today, this.limits));
+    return SHORTCUTS.filter((shortcut) => !shortcutDisabled(shortcut, this.today, this.limits, this.refuses));
   }
 
   /** The shortcut list is one Tab stop: the arrows move through it, Enter and Space choose. */
@@ -1192,6 +1216,7 @@ export class NphDatePicker extends LitElement {
   private renderShortcuts(): TemplateResult {
     const limits = this.limits;
     const today = this.today;
+    const refuses = this.refuses;
     return html`<div
       class="shortcuts"
       role="listbox"
@@ -1207,7 +1232,7 @@ export class NphDatePicker extends LitElement {
           id=${`shortcut-${shortcut}`}
           class="shortcut"
           .value=${shortcut}
-          ?disabled=${shortcutDisabled(shortcut, today, limits)}
+          ?disabled=${shortcutDisabled(shortcut, today, limits, refuses)}
           .selected=${this.shortcut === shortcut}
           .active=${this.activeShortcut === shortcut}
           @click=${this.onShortcutClick}

@@ -14,6 +14,11 @@
  *   button). With text, the name comes from the text and `label` is not used;
  * - `invalid`: error outline on the track and `aria-invalid` on the inner button. The
  *   error sentence stays outside the piece;
+ * - `hover` (DSA-45 D-3, DSA-115): shows the hover look from outside, for a host that owns the
+ *   pointer, such as the item of `nph-dropdown-menu`: the track takes the fill of its own
+ *   `:hover` (`color/input-hover` off, `color/primary-hover` on). Reflects, because the
+ *   internal CSS reads it. It is not state: it moves no value and fires nothing, and
+ *   `disabled` still wins over it;
  * - `disabled`: the whole piece at `state/disabled-opacity`, native `disabled` on the
  *   inner button (out of the Tab order). A disabled `<fieldset>` around the piece
  *   disables it too, except inside its first `<legend>`, as the browser does: the piece
@@ -71,6 +76,7 @@ export class NphSwitch extends LitElement {
     /* The reflected ones are read by the internal CSS. */
     checked: { type: Boolean, reflect: true },
     invalid: { type: Boolean, reflect: true },
+    hover: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
     size: { type: String, reflect: true },
     text: { type: String },
@@ -80,6 +86,8 @@ export class NphSwitch extends LitElement {
   /** The on state. Changing it from code fires no event. */
   declare checked: boolean;
   declare invalid: boolean;
+  /** Shows the hover look from outside; it is not state. */
+  declare hover: boolean;
   declare disabled: boolean;
   /** `default`, or `small` for the switch slot of the `nph-dropdown-menu` item. */
   declare size: NphSwitchSize;
@@ -94,6 +102,7 @@ export class NphSwitch extends LitElement {
     super();
     this.checked = false;
     this.invalid = false;
+    this.hover = false;
     this.disabled = false;
     this.size = 'default';
     this.text = '';

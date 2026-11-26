@@ -13,8 +13,11 @@
  *   what the person chose — `sort-key` and `sort-direction`, `selected`, `page` and
  *   `page-size` — and says so in events; it never filters, sorts or cuts a list;
  * - sorting: a column with `sortable` draws its header as a button the size of the cell, with
- *   the arrow of the direction; the sorted header carries `aria-sort`. A click sorts another
- *   column ascending and turns the sorted one around (`nph-sort-change`, `{ key, direction }`);
+ *   the arrow of the direction; the sorted header carries `aria-sort`. A click cycles the
+ *   column: ascending, descending and back to unsorted (D-3 of DSA-58, DSA-115). A click on
+ *   another column sorts that one ascending. `nph-sort-change` carries `{ key, direction }`; when
+ *   the third click takes the sort away, it carries `{ key: '', direction: '' }`, the same pair
+ *   that leaves `sort-key` and `sort-direction` empty;
  * - selection: `selectable` adds the column of `nph-checkbox`, the header box named
  *   `select-all-label` and the row box named `select-label` with `{name}` (the row `name`).
  *   `selected` is the list of row keys; the header box checks or unchecks the rows drawn and
@@ -74,7 +77,7 @@ export type NphDataTableSortDirection = (typeof NPH_DATA_TABLE_SORT_DIRECTIONS)[
 export const NPH_DATA_TABLE_PAGINATION_LAYOUTS = ['wide', 'middle', 'narrow'] as const;
 export type NphDataTablePaginationLayout = (typeof NPH_DATA_TABLE_PAGINATION_LAYOUTS)[number];
 
-/** The core icons of the sortable header (pending decision D-2): descending turns `ascending`. */
+/** The core icons of the sortable header (D-2, answered on 2026-11-26): descending turns `ascending`. */
 export const NPH_DATA_TABLE_ICONS = {
   sortable: 'arrow-up-arrow-down',
   ascending: 'arrow-up',
@@ -97,8 +100,10 @@ export interface NphDataTableRow extends NphTableRow {
 }
 
 export interface NphDataTableSortChangeDetail {
+  /** The column that is now sorted; empty when the sort was taken away. */
   readonly key: string;
-  readonly direction: NphDataTableSortDirection;
+  /** The direction; empty when the sort was taken away (the third click on the same column). */
+  readonly direction: NphDataTableSortDirection | '';
 }
 
 export interface NphDataTableSelectionChangeDetail {
@@ -448,8 +453,11 @@ export class NphDataTable extends NphTable {
   /* ----- what the person does ------------------------------------------------------ */
 
   private sortBy(column: NphDataTableColumn): void {
-    const key = column.key.trim();
-    const direction: NphDataTableSortDirection = this.sortedKey() === key && this.sortDirection === 'ascending' ? 'descending' : 'ascending';
+    const clicked = column.key.trim();
+    /* Ascending, descending, then unsorted (D-3): the same column goes on in the cycle. */
+    const same = this.sortedKey() === clicked;
+    const direction: NphDataTableSortDirection | '' = !same ? 'ascending' : this.sortDirection === 'ascending' ? 'descending' : '';
+    const key = direction === '' ? '' : clicked;
     this.sortKey = key;
     this.sortDirection = direction;
     this.dispatchEvent(new CustomEvent<NphDataTableSortChangeDetail>('nph-sort-change', { detail: { key, direction }, bubbles: true }));
@@ -660,7 +668,7 @@ export class NphDataTable extends NphTable {
   protected override renderBody(): TemplateResult {
     const columns = this.validColumns;
     if (this.loading) {
-      /* As many skeleton rows as the rows shown, or the page size (pending decision D-5). */
+      /* As many skeleton rows as the rows shown, or the page size (D-5, answered on 2026-11-26). */
       const count = Math.max(1, this.visibleRows.length || (whole(this.pageSize, 1) ?? 1));
       const chevron = this.columnCount - this.leadingColumns - columns.length - this.trailingColumns;
       const empty = (length: number, name: string) => Array.from({ length }, () => html`<td class=${name}></td>`);

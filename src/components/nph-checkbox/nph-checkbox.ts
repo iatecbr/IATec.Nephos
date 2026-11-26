@@ -18,6 +18,11 @@
  *   With text, it is not used;
  * - `invalid`: error border on the box and `aria-invalid` on the inner input. The error
  *   sentence stays outside the piece;
+ * - `hover` (DSA-45 D-3, DSA-115): shows the hover look from outside, for a host that owns the
+ *   pointer, such as the item of `nph-dropdown-menu`: the box takes the same border and
+ *   opacity as its own `:hover` (`color/input-hover`, `state/hover-opacity` when checked).
+ *   Reflects, because the internal CSS reads it. It is not state: it moves no value and
+ *   fires nothing, and `disabled`, focus and `invalid` still win over it;
  * - `disabled`: the whole piece at `state/disabled-opacity`, out of the Tab order and out of
  *   the form data. A disabled `<fieldset>` has the same effect. `disabled` wins over
  *   `invalid`: the error border and `aria-invalid` are suppressed;
@@ -76,6 +81,7 @@ export class NphCheckbox extends LitElement {
     indeterminate: { type: Boolean },
     /* `invalid` reflects because the internal CSS reads it. */
     invalid: { type: Boolean, reflect: true },
+    hover: { type: Boolean, reflect: true },
     /*
      * `disabled` has its own accessor over the attribute, as the native one: the attribute is
      * set at once, so the host matches `:disabled` and the form hears it outside an update.
@@ -99,6 +105,8 @@ export class NphCheckbox extends LitElement {
   /** Partly checked: the item that summarizes a group checked only in part. */
   declare indeterminate: boolean;
   declare invalid: boolean;
+  /** Shows the hover look from outside; it is not state. */
+  declare hover: boolean;
   /** The text next to the box, already localized by the consuming application. */
   declare text: string;
   /** Accessible name of the piece without text. With text, it is not used. */
@@ -120,6 +128,7 @@ export class NphCheckbox extends LitElement {
     this.internals = this.attachInternals();
     this.indeterminate = false;
     this.invalid = false;
+    this.hover = false;
     this.text = '';
     this.label = '';
     /* In disabled, a click neither toggles nor reaches the consumer, as on a native disabled control. */

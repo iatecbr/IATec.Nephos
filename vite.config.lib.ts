@@ -9,8 +9,9 @@
  *
  * `lit` and `@fortawesome/*` are peer dependencies and never enter the build. The D3 math modules of
  * `nph-chart` (`d3-array`, `d3-scale`, `d3-shape`) are dev dependencies and ARE bundled into it (DSA-101).
- * The CSS imported with `?inline` is inlined as a string by Vite itself. The
- * only CSS that is not `?inline`, the global style of `nph-label` (P62.1), is
+ * The CSS imported with `?inline` is inlined as a string by Vite itself, and so are the
+ * illustrations of `nph-empty` (a data URI, P84 amended by DSA-115): the package emits no
+ * asset file. The only CSS that is not `?inline`, the global style of `nph-label` (P62.1), is
  * turned into a JavaScript side effect by `injectGlobalCss`, below.
  */
 import { readdirSync } from 'node:fs';
@@ -90,13 +91,6 @@ export default defineConfig({
   plugins: [injectGlobalCss()],
   // The output is a library, never a page: nothing to copy from `public/`.
   publicDir: false,
-  /*
-   * A file a component imports with `?no-inline` (the illustrations of `nph-empty`, P84) is
-   * referenced relative to the module, `new URL('../assets/<file>', import.meta.url)`, so it
-   * resolves wherever the package is installed. With the default base it would be the
-   * absolute `/<file>`, a path of the consumer's site.
-   */
-  base: './',
   build: {
     outDir: 'dist',
     emptyOutDir: false,
@@ -112,8 +106,6 @@ export default defineConfig({
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: 'shared/[name]-[hash].js',
-        // Files that are not code, such as an illustration, go to `dist/assets/` under their own name.
-        assetFileNames: 'assets/[name][extname]',
       },
     },
   },

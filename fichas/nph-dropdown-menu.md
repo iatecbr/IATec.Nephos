@@ -128,6 +128,7 @@ business_rules:
   - "When the person activates an item, the menu fires nph-item-select, which bubbles, with detail value and checked: the new state of a single choice, a multiple choice or a switch, and null on a common item. A single choice already checked fires again with checked true. Changing items or open from code fires nothing."
   - "After an activation, the menu replaces items with a new list that carries the new checked; the objects of the consumer are never changed."
   - "A common item and a single choice close the menu and give the focus back to the trigger; a multiple choice and a switch keep it open. A submenu item activates as a common item: the nested menu is out of scope."
+  - "While the pointer is on an item that responds, the nph-checkbox or nph-switch inside it takes hover, which draws its own hover look from outside, so the box border and the track keep their contrast on the hovered item background (WCAG 1.4.11). The pieces are inert and move no state by it; leaving the item, or closing the menu, takes it away."
   - "The switch of the item is the small nph-switch, without a label, in a slot of icon/size-md: the track no longer overflows the slot and the row keeps its height in every size of the item."
   - "A disabled or loading item takes the focus but does not activate. In loading, the spinner takes the end of the item, in place of shortcut, counter, tag, switch, arrow and check."
   - "The menu opens space/inline-tight below the trigger, aligned to its start edge (or to its end edge, with align end), turns up when it does not fit below and fits above, never leaves the window and follows the trigger on scroll and resize. layout/input-width is the preferred width; a narrower window, or a larger font, holds the panel inside it. Only a menu taller than the room scrolls inside."
@@ -324,7 +325,7 @@ takes the destructive item with the color change only.
 | Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`; the checked item of single choice reads `color/primary-text`, at least 4.5:1 on `color/popover` in the seven brands. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
 | Alternative to color | The destructive item has the icon of the action; single choice shows the check; multiple choice the checked box; the switch the knob position; the tag carries text |
 | Touch target | The whole row, above 24 by 24 in every size |
-| Known limits | On item hover, the inner box and track do not take their own hover (D-3). A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides. An `nph-button` that goes into `loading` while the menu is open does not close it by a press. A trigger clipped by a scrolling ancestor, still inside the window, keeps the menu drawn |
+| Known limits | A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides. An `nph-button` that goes into `loading` while the menu is open does not close it by a press. A trigger clipped by a scrolling ancestor, still inside the window, keeps the menu drawn |
 
 ## Relations
 

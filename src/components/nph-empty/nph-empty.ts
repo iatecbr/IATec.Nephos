@@ -23,16 +23,18 @@
  *   emits `console.error` only in development, with no visual fallback (the rule of P21,
  *   adopted by P84 as in P66 and P69).
  *
- * The two illustration files ship as files of the package, not inlined: `?no-inline`
- * makes the library build emit them next to the code and point to them with
- * `new URL(..., import.meta.url)` (P84).
+ * The two illustrations are embedded in the package (D4 of DSA-40, option (c), DSA-115):
+ * `?inline` turns each PNG into a data URI inside the JavaScript of the piece, so the
+ * product copies no file, sets no base path, and an application published in a subdirectory
+ * shows them. Each file is 240 by 174, twice the drawing, to keep that weight small (D1 of
+ * DSA-40, P84).
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import emptyCss from './nph-empty.css?inline';
-import illustrationLight from '../../../assets/illustrations/empty-no-option-found.png?no-inline';
-import illustrationDark from '../../../assets/illustrations/empty-no-option-found-dark.png?no-inline';
+import illustrationLight from '../../../assets/illustrations/empty-no-option-found.png?inline';
+import illustrationDark from '../../../assets/illustrations/empty-no-option-found-dark.png?inline';
 
 const TAG = 'nph-empty';
 

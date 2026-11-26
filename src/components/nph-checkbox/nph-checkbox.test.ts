@@ -23,7 +23,7 @@ import designMd from '../../../design.md?raw';
 import componentCss from './nph-checkbox.css?raw';
 import { NPH_CHECKBOX_DEFAULT_VALUE, NPH_CHECKBOX_MARKS, NphCheckbox } from './nph-checkbox';
 
-type Props = Partial<Pick<NphCheckbox, 'checked' | 'indeterminate' | 'invalid' | 'disabled' | 'text' | 'label' | 'name' | 'value'>>;
+type Props = Partial<Pick<NphCheckbox, 'checked' | 'indeterminate' | 'invalid' | 'hover' | 'disabled' | 'text' | 'label' | 'name' | 'value'>>;
 
 beforeAll(async () => {
   await document.fonts.load('500 14px "Noto Sans"');
@@ -159,7 +159,7 @@ describe('registration and API', () => {
 
   it('the reactive API is exactly the one in P81', () => {
     const declared = Object.keys(Object.fromEntries((NphCheckbox as unknown as { elementProperties: Map<string, unknown> }).elementProperties));
-    expect(new Set(declared)).toEqual(new Set(['checked', 'indeterminate', 'invalid', 'disabled', 'text', 'label', 'name', 'value']));
+    expect(new Set(declared)).toEqual(new Set(['checked', 'indeterminate', 'invalid', 'hover', 'disabled', 'text', 'label', 'name', 'value']));
   });
 
   it('name, value and form are accessors on the host, as on the native checkbox', () => {
@@ -461,6 +461,43 @@ describe('focus (D3)', () => {
     }
   });
 
+  it('hover from outside draws the hover of the piece with no pointer on it (DSA-45 D-3)', async () => {
+    for (const marked of [false, true]) {
+      const element = await mount({ text: 'Remember me', checked: marked, hover: true });
+      expect(element.hasAttribute('hover')).toBe(true);
+      await vi.waitFor(() => {
+        const style = getComputedStyle(box(element));
+        expect(style.borderTopColor).toBe(resolved('color', '--nph-color-input-hover'));
+        expect(style.opacity).toBe(marked ? resolved('opacity', '--nph-state-hover-opacity') : '1');
+      });
+      element.hover = false;
+      await element.updateComplete;
+      await vi.waitFor(() => {
+        const style = getComputedStyle(box(element));
+        expect(style.borderTopColor).toBe(resolved('color', '--nph-color-input'));
+        expect(style.opacity).toBe('1');
+      });
+      document.body.replaceChildren();
+    }
+  });
+  it('hover from outside moves no state and fires nothing', async () => {
+    const element = await mount({ text: 'Remember me' });
+    const heard = vi.fn();
+    element.addEventListener('input', heard);
+    element.addEventListener('change', heard);
+    element.hover = true;
+    await element.updateComplete;
+    expect(element.checked).toBe(false);
+    expect(heard).not.toHaveBeenCalled();
+  });
+  it('hover from outside never wins over disabled, focus or invalid', async () => {
+    const disabled = await mount({ text: 'Off', disabled: true, hover: true });
+    expect(getComputedStyle(box(disabled)).borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    const invalid = await mount({ text: 'Bad', invalid: true, hover: true });
+    expect(getComputedStyle(box(invalid)).borderTopColor).toBe(resolved('color', '--nph-status-error'));
+    const field = await focused({ text: 'Focus', hover: true });
+    await vi.waitFor(() => expect(getComputedStyle(box(field)).borderTopColor).toBe(resolved('color', '--nph-focus-border')));
+  });
   it('focus wins over hover', async () => {
     const element = await focused({ text: 'Remember me' });
     await userEvent.hover(textOf(element) as HTMLElement);

@@ -19,8 +19,21 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-context-menu.css?raw';
 import componentSource from './nph-context-menu.ts?raw';
-import { NPH_CONTEXT_MENU_SIZES, NphContextMenu, groupsOf, keyShortcutsOf } from './nph-context-menu';
-import type { NphContextMenuEntry, NphContextMenuItemSelectDetail } from './nph-context-menu';
+import {
+  NPH_CONTEXT_MENU_CLOSE_EVENT,
+  NPH_CONTEXT_MENU_CLOSE_SOURCES,
+  NPH_CONTEXT_MENU_OPEN_EVENT,
+  NPH_CONTEXT_MENU_SIZES,
+  NphContextMenu,
+  groupsOf,
+  keyShortcutsOf,
+} from './nph-context-menu';
+import type {
+  NphContextMenuCloseDetail,
+  NphContextMenuEntry,
+  NphContextMenuItemSelectDetail,
+  NphContextMenuOpenDetail,
+} from './nph-context-menu';
 
 /* The default window of the browser run is 414 wide: too narrow for a menu and its submenu side by side. */
 beforeAll(async () => {
@@ -830,6 +843,144 @@ describe('closing', () => {
   });
 });
 
+describe('the events of opening and closing (D-2 of DSA-69)', () => {
+  /** The order of what the menu announced: `open`, `select` and `close:<source>`. */
+  function story(menu: NphContextMenu): string[] {
+    const seen: string[] = [];
+    menu.addEventListener(NPH_CONTEXT_MENU_OPEN_EVENT, () => seen.push('open'));
+    menu.addEventListener('nph-item-select', () => seen.push('select'));
+    menu.addEventListener(NPH_CONTEXT_MENU_CLOSE_EVENT, (event) => seen.push(`close:${(event as CustomEvent<NphContextMenuCloseDetail>).detail.source}`));
+    return seen;
+  }
+  it('the names and the sources of the close are the contract', () => {
+    expect(NPH_CONTEXT_MENU_OPEN_EVENT).toBe('nph-open');
+    expect(NPH_CONTEXT_MENU_CLOSE_EVENT).toBe('nph-close');
+    expect([...NPH_CONTEXT_MENU_CLOSE_SOURCES]).toEqual(['escape', 'outside', 'focus-out', 'tab', 'select', 'scroll']);
+  });
+  it('a right click fires nph-open once, bubbling and not cancelable, with the element under the pointer as origin', async () => {
+    const setup = await mount();
+    const heard: CustomEvent<NphContextMenuOpenDetail>[] = [];
+    document.body.addEventListener(NPH_CONTEXT_MENU_OPEN_EVENT, (event) => heard.push(event as CustomEvent<NphContextMenuOpenDetail>));
+    rightClick(setup.object, 120, 90);
+    await settle(setup.menu);
+    expect(heard).toHaveLength(1);
+    expect([heard[0]?.bubbles, heard[0]?.cancelable, heard[0]?.composed]).toEqual([true, false, false]);
+    expect(heard[0]?.detail.origin).toBe(setup.object);
+  });
+  it('the origin of nph-open is the origin of nph-item-select', async () => {
+    const setup = await mount();
+    let opened: Element | null = null;
+    setup.menu.addEventListener(NPH_CONTEXT_MENU_OPEN_EVENT, (event) => {
+      opened = (event as CustomEvent<NphContextMenuOpenDetail>).detail.origin;
+    });
+    const selected = events(setup.menu);
+    await openAt(setup);
+    await userEvent.click(byText(setup.menu, 'Edit'));
+    await settle(setup.menu);
+    expect(opened).toBe(setup.object);
+    expect(selected[0]?.origin).toBe(opened);
+  });
+  it('opening by keyboard fires it too, with the object as origin', async () => {
+    const { menu, object } = await mount();
+    const seen = story(menu);
+    object.focus();
+    await userEvent.keyboard('{Shift>}{F10}{/Shift}');
+    await settle(menu);
+    expect(seen).toEqual(['open']);
+  });
+  it('a second right click on the open menu moves it and fires no second nph-open', async () => {
+    const setup = await mount();
+    const seen = story(setup.menu);
+    rightClick(setup.object, 100, 80);
+    await settle(setup.menu);
+    rightClick(setup.object, 160, 120);
+    await settle(setup.menu);
+    expect(seen).toEqual(['open']);
+  });
+  it('Esc closes with source escape', async () => {
+    const setup = await mount();
+    setup.object.focus();
+    await openAt(setup);
+    const seen = story(setup.menu);
+    await userEvent.keyboard('{Escape}');
+    await settle(setup.menu);
+    expect(seen).toEqual(['close:escape']);
+  });
+  it('a press outside closes with source outside', async () => {
+    const setup = await mount();
+    const outside = document.createElement('button');
+    outside.textContent = 'Outside';
+    outside.style.cssText = 'position: fixed; left: 400px; top: 300px;';
+    document.body.append(outside);
+    await openAt(setup);
+    const seen = story(setup.menu);
+    await userEvent.click(outside);
+    await settle(setup.menu);
+    expect(seen[0]).toBe('close:outside');
+    expect(seen.filter((entry) => entry.startsWith('close'))).toHaveLength(1);
+  });
+  it('an item that closes the menu fires nph-item-select first, then nph-close with source select', async () => {
+    const setup = await mount();
+    await openAt(setup);
+    const seen = story(setup.menu);
+    await userEvent.click(byText(setup.menu, 'Edit'));
+    await settle(setup.menu);
+    expect(seen).toEqual(['select', 'close:select']);
+  });
+  it('a multiple choice keeps the menu open and fires no close', async () => {
+    const setup = await mount([{ value: 'a', text: 'Archived', selection: 'multiple' }, { value: 'b', text: 'Other' }]);
+    await openAt(setup);
+    const seen = story(setup.menu);
+    await userEvent.click(byText(setup.menu, 'Archived'));
+    await settle(setup.menu);
+    expect(seen).toEqual(['select']);
+  });
+  it('Tab closes with source tab', async () => {
+    const setup = await mount();
+    setup.object.focus();
+    await openAt(setup);
+    const seen = story(setup.menu);
+    await userEvent.keyboard('{Tab}');
+    await settle(setup.menu);
+    expect(seen).toEqual(['close:tab']);
+  });
+  it('a scroll closes with source scroll', async () => {
+    const tall = document.createElement('div');
+    tall.style.cssText = 'height: 3000px;';
+    document.body.append(tall);
+    const setup = await mount();
+    await openAt(setup);
+    const seen = story(setup.menu);
+    window.scrollTo(0, 200);
+    document.dispatchEvent(new Event('scroll'));
+    await vi.waitFor(() => expect(setup.menu.open).toBe(false));
+    expect(seen).toEqual(['close:scroll']);
+    window.scrollTo(0, 0);
+  });
+  it('items set in nph-open are the ones drawn the first time, for the row under the pointer', async () => {
+    const setup = await mount();
+    setup.menu.addEventListener(NPH_CONTEXT_MENU_OPEN_EVENT, () => {
+      setup.menu.items = [{ value: 'only', text: 'Only for this row' }];
+    });
+    await openAt(setup);
+    expect(items(setup.menu).map((element) => element.querySelector('.text')?.textContent)).toEqual(['Only for this row']);
+  });
+  it('a closed menu fires nothing when it is asked to close again', async () => {
+    const setup = await mount();
+    const seen = story(setup.menu);
+    await userEvent.keyboard('{Escape}');
+    expect(seen).toEqual([]);
+  });
+  it('setting open from code, in either direction, fires nothing', async () => {
+    const setup = await mount();
+    const seen = story(setup.menu);
+    setup.menu.open = true;
+    await settle(setup.menu);
+    setup.menu.open = false;
+    await settle(setup.menu);
+    expect(seen).toEqual([]);
+  });
+});
 describe('keyboard in the menu', () => {
   async function opened(): Promise<Setup> {
     const setup = await mount();

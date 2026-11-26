@@ -282,7 +282,7 @@ api:
     default: middle
     reflects: true
     constraint: >-
-      The footer for the width of the table's space (pending decision D-1): wide is the
+      The footer for the width of the table's space (D-1): wide is the
       nph-pagination `tipo tabela`; middle, the label and the nph-select of items per page and
       `tipo intervalo`; narrow, `tipo intervalo` only. A value outside the list leaves the footer
       out and emits console.error in development.
@@ -373,8 +373,9 @@ api:
     reflects: false
     constraint: >-
       Fired when the person sorts, with detail { key, direction }. A column that was not sorted
-      goes ascending, and the sorted one turns around (pending decision D-3). Bubbles, not
-      composed; setting the sort from code fires nothing.
+      goes ascending, then descending, and the third click on the same column takes its sort away
+      (D-3): the detail is then { key: "", direction: "" }, the pair that leaves sort-key and
+      sort-direction empty. Bubbles, not composed; setting the sort from code fires nothing.
   nph-selection-change:
     type: event
     required: false
@@ -382,7 +383,7 @@ api:
     reflects: false
     constraint: >-
       Fired when the person checks or unchecks a box, with detail { selected }. The header box
-      checks or unchecks the rows drawn (pending decision D-4). Bubbles, not composed.
+      checks or unchecks the rows drawn (D-4). Bubbles, not composed.
   nph-row-action:
     type: event
     required: false
@@ -464,13 +465,13 @@ states:
     changes_for_user: "A search that finds nothing shows the nph-empty with the searched term and the button that clears it, with the header visible."
 business_rules:
   - "The data is controlled: the rows arrive already searched, sorted and paged, and the table says what the person chose in events."
-  - "A click on a column that is not sorted sorts it ascending; on the sorted column, it turns the direction around (pending decision D-3)."
-  - "The header box checks and unchecks the rows drawn on the page; rows selected on other pages stay selected (pending decision D-4)."
+  - "A click on a sortable header goes ascending, descending and back to unsorted; the third click on the same column takes its sort away and fires nph-sort-change with an empty key and direction. A click on another column sorts that one ascending (D-3)."
+  - "The header box checks and unchecks the rows drawn on the page; rows selected on other pages stay selected (D-4)."
   - "The bulk bar shows while one row or more is selected, in place of the page bar, with the count."
   - "When the bulk bar leaves, or the footer, with the focus in it, the focus stays in the table: the header box, else a sortable header, the page bar or the scroll area, which takes the focus from code even when it does not scroll."
   - "The footer stays outside the scroll area; with a single page, there is no footer and the total goes to the caption."
-  - "The footer follows pagination-layout, set by the consumer for the width of the space, until the breakpoint tokens exist (pending decision D-1)."
-  - "The `ajuste` column sits at the end of the row, before the actions (pending decision D-6)."
+  - "The footer follows pagination-layout, set by the consumer for the width of the space, until the breakpoint tokens exist (D-1)."
+  - "The `ajuste` column sits at the end of the row, before the actions (D-6)."
 domain_errors: []
 tokens:
   stack: data-table/stack-gap
@@ -587,7 +588,7 @@ rule; so is the row that opens by the chevron (the `expande`), with `detail` and
 | `ações` | `actions` and `actions-label`: the more, an icon-only `nph-button` secondary ghost, opens an `nph-dropdown-menu` |
 | `ajuste` | `switch-header` and `switch-label`, with `switched` in each row |
 
-**The footer:** `pagination-layout`, for the width of the table's space (pending decision D-1):
+**The footer:** `pagination-layout`, for the width of the table's space (D-1):
 
 | Layout | Footer | For |
 |---|---|---|
@@ -623,8 +624,9 @@ bar or the scroll area.
 
 - The data is controlled: the rows arrive already searched, sorted and paged, and the table
   says what the person chose in events.
-- A click on a column that is not sorted sorts it ascending; on the sorted column, it turns
-  the direction around (D-3).
+- A click on a sortable header goes ascending, descending and back to unsorted; the third
+  click on the same column takes its sort away and fires `nph-sort-change` with an empty key
+  and direction. A click on another column sorts that one ascending (D-3).
 - The header box checks and unchecks the rows drawn on the page; rows selected on other pages
   stay selected (D-4).
 - The bulk bar shows while one row or more is selected, in place of the page bar, with the
@@ -735,9 +737,9 @@ the button that clears the filter.
   `data-table/*` tokens are in `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P105, which also records the extension points of
   `nph-table` the table is drawn through.
-- **Pending decisions:** D-1 to D-6 of the task DSA-58: the footer by width without
-  breakpoint tokens, the sort glyphs, the click cycle, the reach of the header box, the
-  skeleton rows and the place of the `ajuste` column.
+- **Decisions:** D-1 to D-6 of the task DSA-58, all answered by Indiane (23/11/2026 and
+  26/11/2026): the footer by width without breakpoint tokens, the sort glyphs, the click
+  cycle, the reach of the header box, the skeleton rows and the place of the `ajuste` column.
 - **Tests:** `src/components/nph-data-table/nph-data-table.test.ts` and
   `nph-data-table.docs.test.ts`.
 - **Usage evidence:** the mandatory examples of the `nph-data-table` Docs page and of the

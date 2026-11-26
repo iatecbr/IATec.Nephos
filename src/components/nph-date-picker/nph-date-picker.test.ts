@@ -71,6 +71,7 @@ const LABELS: NphDatePickerLabels = {
   errorMax: 'The date must be on or before {max}.',
   errorBetween: 'Choose a date between {min} and {max}.',
   errorUnavailable: 'This date is not available, choose another day.',
+  errorPeriodUnavailable: 'The period holds a day that is not available, choose another period.',
   errorEndBeforeStart: 'The end must be on or after the start ({start}).',
 };
 
@@ -1009,26 +1010,98 @@ describe('a period that does not cross an unavailable day (D-10)', () => {
     expect([calendar(picker).start, calendar(picker).end]).toEqual(['2026-10-14', '2026-10-24']);
   });
 
-  it('leaves a shortcut that holds an unavailable day as it is: it fills the period (D-15, provisional)', async () => {
+  const shortcutOption = (picker: NphDatePicker, text: string): HTMLElement & { disabled: boolean } =>
+    all<HTMLElement & { disabled: boolean }>(picker, 'nph-option').find((item) => item.textContent?.trim() === text) as HTMLElement & {
+      disabled: boolean;
+    };
+  const errorOf = (picker: NphDatePicker, index: number): string =>
+    (all<HTMLElement & { error: string }>(picker, 'nph-field')[index] as HTMLElement & { error: string }).error;
+  it('disables a shortcut whose period holds an unavailable day, with the disabled look of nph-option (D-15)', async () => {
     const picker = await openRange({ unavailable: ['2026-10-10'] });
-    const option = all<HTMLElement & { disabled: boolean }>(picker, 'nph-option').find((item) => item.textContent?.trim() === 'Last 7 days');
-    expect(option?.disabled).toBe(false);
-    await userEvent.click(option as HTMLElement);
+    expect(shortcutOption(picker, 'Last 7 days').disabled).toBe(true);
+    expect(shortcutOption(picker, 'Last 30 days').disabled).toBe(true);
+    expect(shortcutOption(picker, 'This month').disabled).toBe(true);
+    expect(shortcutOption(picker, 'Today').disabled).toBe(false);
+    expect(shortcutOption(picker, 'Yesterday').disabled).toBe(false);
+    expect(shortcutOption(picker, 'Last month').disabled).toBe(false);
+    expect(shortcutOption(picker, 'Custom').disabled).toBe(false);
+    expect(shortcutOption(picker, 'Last 7 days').hasAttribute('disabled')).toBe(true);
+    await userEvent.click(shortcutOption(picker, 'Last 7 days'));
+    await settle(picker);
+    expect([calendar(picker).start, calendar(picker).end]).not.toEqual(['2026-10-07', '2026-10-13']);
+  });
+  it('a disabled shortcut is skipped by the arrows, as one outside the limits', async () => {
+    const picker = await openRange({ unavailable: ['2026-10-10'] });
+    const list = q(picker, '.shortcuts') as HTMLElement;
+    list.focus();
+    await press(picker, '{ArrowDown}');
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-yesterday');
+    await press(picker, '{ArrowDown}');
+    expect(list.getAttribute('aria-activedescendant')).toBe('shortcut-last-month');
+  });
+  it('a shortcut that holds no unavailable day still fills the period', async () => {
+    const picker = await openRange({ unavailable: ['2026-10-20'] });
+    expect(shortcutOption(picker, 'Last 7 days').disabled).toBe(false);
+    await userEvent.click(shortcutOption(picker, 'Last 7 days'));
     await settle(picker);
     expect([calendar(picker).start, calendar(picker).end]).toEqual(['2026-10-07', '2026-10-13']);
   });
-
-  it('keeps the rule of today for a typed period: it commits across an unavailable day, and the day itself is still refused', async () => {
+  it('with the property on, a shortcut that holds an unavailable day is accepted and fills the period (D-15)', async () => {
+    const picker = await openRange({ unavailable: ['2026-10-10'], allowsNonContiguousRanges: true });
+    expect(shortcutOption(picker, 'Last 7 days').disabled).toBe(false);
+    await userEvent.click(shortcutOption(picker, 'Last 7 days'));
+    await settle(picker);
+    expect([calendar(picker).start, calendar(picker).end]).toEqual(['2026-10-07', '2026-10-13']);
+  });
+  it('a function rule counts too, called for the days of the period only', async () => {
+    const asked: string[] = [];
+    const picker = await openRange({
+      unavailable: (date: string) => {
+        asked.push(date);
+        return date === '2026-10-10';
+      },
+    });
+    expect(shortcutOption(picker, 'Last 7 days').disabled).toBe(true);
+    expect(asked).toContain('2026-10-10');
+  });
+  it('a typed period that holds an unavailable day says what to fix on the field typed, and is not committed (D-15)', async () => {
     const { picker } = await mount({ mode: 'range', unavailable });
     await typeInto(picker, 'start', '10/14/2026');
     await typeInto(picker, 'end', '10/24/2026');
-    expect([picker.start, picker.end]).toEqual(['2026-10-14', '2026-10-24']);
+    expect([picker.start, picker.end]).toEqual(['2026-10-14', '']);
+    expect(errorOf(picker, 1)).toBe(LABELS.errorPeriodUnavailable);
+    expect(errorOf(picker, 0)).toBe('');
+    await typeInto(picker, 'end', '10/19/2026');
+    expect([picker.start, picker.end]).toEqual(['2026-10-14', '2026-10-19']);
+    expect(errorOf(picker, 1)).toBe('');
+  });
+  it('a typed Start that makes the period hold an unavailable day is refused the same way', async () => {
+    const { picker } = await mount({ mode: 'range', unavailable, start: '2026-10-22', end: '2026-10-25' });
+    await typeInto(picker, 'start', '10/14/2026');
+    expect(picker.start).toBe('2026-10-22');
+    expect(errorOf(picker, 0)).toBe(LABELS.errorPeriodUnavailable);
+  });
+  it('the unavailable day itself still gets its own message, before the one of the period', async () => {
+    const { picker } = await mount({ mode: 'range', unavailable });
+    await typeInto(picker, 'start', '10/14/2026');
     await typeInto(picker, 'end', '10/20/2026');
-    expect(picker.end).toBe('2026-10-24');
-    expect((all<HTMLElement & { error: string }>(picker, 'nph-field')[1] as HTMLElement & { error: string }).error).toBe(LABELS.errorUnavailable);
+    expect(picker.end).toBe('');
+    expect(errorOf(picker, 1)).toBe(LABELS.errorUnavailable);
+  });
+  it('with the property on, a typed period across an unavailable day commits (D-15)', async () => {
+    const { picker } = await mount({ mode: 'range', unavailable, allowsNonContiguousRanges: true });
+    await typeInto(picker, 'start', '10/14/2026');
+    await typeInto(picker, 'end', '10/24/2026');
+    expect([picker.start, picker.end]).toEqual(['2026-10-14', '2026-10-24']);
+    expect(errorOf(picker, 1)).toBe('');
+  });
+  it('a typed period inside the open panel is checked against the draft', async () => {
+    const picker = await openRange({ start: '2026-10-14', end: '2026-10-16' });
+    await typeInto(picker, 'end', '10/24/2026');
+    expect(errorOf(picker, 1)).toBe(LABELS.errorPeriodUnavailable);
+    expect(calendar(picker).end).toBe('2026-10-16');
   });
 });
-
 describe('the footer: Clear, Cancel and Apply (D-8, D-10)', () => {
   async function openRange(props: Partial<NphDatePicker> = {}): Promise<NphDatePicker> {
     const { picker } = await mount({ mode: 'range', ...props });

@@ -71,6 +71,7 @@ export type TypedError =
   | { readonly key: 'max' }
   | { readonly key: 'between' }
   | { readonly key: 'unavailable' }
+  | { readonly key: 'periodUnavailable' }
   | { readonly key: 'endBeforeStart'; readonly start: Day };
 
 export interface TypedContext {
@@ -100,6 +101,20 @@ export function checkTyped(parsed: ParsedText, context: TypedContext): TypedErro
   return null;
 }
 
+/* ----- a period across an unavailable day (D-10, D-15) -------------------------------------------------- */
+/**
+ * Whether a period holds a day unavailable by rule, the two ends included. It is the question of D-15: while a period may not cross
+ * an unavailable day, a shortcut that holds one is off and a typed period that holds one is an error. The scan is bounded by the
+ * period itself, so a rule given as a function is called once per day of it.
+ */
+export function holdsUnavailable(start: Day, end: Day, isUnavailable: (day: Day) => boolean): boolean {
+  for (let day = Math.min(start, end); day <= Math.max(start, end); day += 1) {
+    if (isUnavailable(day)) return true;
+  }
+  return false;
+}
+/** A rule that refuses a whole period: `true` when the period may not be used. `undefined` refuses none. */
+export type PeriodRefusal = ((start: Day, end: Day) => boolean) | undefined;
 /* ----- the shortcuts (D-6) ---------------------------------------------------------------------------------- */
 
 export const SHORTCUTS = ['today', 'yesterday', 'last-7-days', 'last-30-days', 'this-month', 'last-month', 'custom'] as const;
@@ -136,32 +151,34 @@ export function shortcutPeriod(shortcut: Shortcut, today: Day): Range | null {
  * on today it would always be off); it is off only when no day of it is allowed or when the min falls inside it. `custom` is never off
  * and has no period.
  */
-export function shortcutRange(shortcut: Shortcut, today: Day, limits: Limits): Range | null {
+export function shortcutRange(shortcut: Shortcut, today: Day, limits: Limits, refuses?: PeriodRefusal): Range | null {
   const period = shortcutPeriod(shortcut, today);
   if (period === null || period.start === null || period.end === null) return null;
   if (spanDisabled(period.start, period.end, limits)) return null;
   if (limits.min !== null && period.start < limits.min) return null;
   if (shortcut === 'this-month') {
-    return { start: period.start, end: limits.max !== null && period.end > limits.max ? limits.max : period.end };
+    const cut = { start: period.start, end: limits.max !== null && period.end > limits.max ? limits.max : period.end };
+    return refuses?.(cut.start, cut.end) === true ? null : cut;
   }
   if (limits.max !== null && period.end > limits.max) return null;
-  return period;
+  /* D-15: while a period may not cross an unavailable day, a shortcut that holds one is off, as one outside the limits. */
+  return refuses?.(period.start, period.end) === true ? null : period;
 }
 
 /** Whether a shortcut is off: it has a period and the limits do not hold it (D-6). */
-export function shortcutDisabled(shortcut: Shortcut, today: Day, limits: Limits): boolean {
-  return shortcut !== 'custom' && shortcutRange(shortcut, today, limits) === null;
+export function shortcutDisabled(shortcut: Shortcut, today: Day, limits: Limits, refuses?: PeriodRefusal): boolean {
+  return shortcut !== 'custom' && shortcutRange(shortcut, today, limits, refuses) === null;
 }
 
 /**
  * The shortcut that is marked for a period (D-6): the one whose period, cut by the limits, is the same; `custom` when none is; none
  * (`null`) when there is no period at all.
  */
-export function matchShortcut(range: Range, today: Day, limits: Limits): Shortcut | null {
+export function matchShortcut(range: Range, today: Day, limits: Limits, refuses?: PeriodRefusal): Shortcut | null {
   if (range.start === null && range.end === null) return null;
   for (const shortcut of SHORTCUTS) {
     if (shortcut === 'custom') continue;
-    const period = shortcutRange(shortcut, today, limits);
+    const period = shortcutRange(shortcut, today, limits, refuses);
     if (period !== null && period.start === range.start && period.end === range.end) return shortcut;
   }
   return 'custom';

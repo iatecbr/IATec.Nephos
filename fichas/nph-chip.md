@@ -430,7 +430,7 @@ line.
 **Usage restrictions:** the chip draws its own counter as a pill with the `chip/counter-*`
 tokens, and does not use `nph-badge`: the evidence calls the counter an `nph-badge` and gives
 it paint tokens that `nph-badge` does not paint, and `nph-badge` has no color property and no
-`::part` (pending decision D-1 of DSA-57, P100). The avatar is `nph-avatar` in the `sm` size
+`::part` (D-1 of DSA-57, accepted on 23/11/2026, P100). The avatar is `nph-avatar` in the `sm` size
 (D-2). The invalid X takes the error pair on hover and focus (D-4). The order is icon, text,
 counter and X (D-5). The events are `nph-remove` and `nph-selected-change`, not `nph-change`,
 which `nph-togglebutton` already types.
@@ -483,7 +483,7 @@ followed by "Clear filters", an `nph-button` secondary, ghost, compact.
 - **The repository `design.md`:** the tokens named in the evidence. The `chip/*` tokens are in
   `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P100.
-- **Pending decisions:** D-1 to D-5 of the task DSA-57: the counter as a pill of its own instead
+- **Decisions:** D-1 to D-5 of the task DSA-57, all answered by Indiane (D-1 and D-3 on 23/11/2026, the others on 26/11/2026): the counter as a pill of its own instead
   of `nph-badge`, the `sm` size of the avatar, the cut label focusable with its balloon, the
   error pair on the X of the invalid chip, and the order icon, text, counter and X.
 - **Tests:** `src/components/nph-chip/nph-chip.test.ts` and `nph-chip.docs.test.ts`.

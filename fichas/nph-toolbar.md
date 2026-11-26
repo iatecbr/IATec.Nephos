@@ -88,7 +88,7 @@ api:
     constraint: >-
       applied-filters only: the sentence the status region announces after the clear
       button empties the strip, already localized, such as "All filters removed"
-      (pending decision D-4).
+      (D-4).
   slot:
     type: "default slot"
     required: false
@@ -144,7 +144,7 @@ states:
     changes_for_user: "The bar has no state of its own: hover, focus, disabled and loading belong to the pieces. The icon of the ghost buttons becomes solid on hover and when checked."
   bulk-action-hover:
     token: toolbar/bulk-action-background-hover
-    changes_for_user: "In the bulk bar, the hover of the secondary ghost actions uses the bar's own hover background, so it stays visible over the highlighted background (pending decision D-1)."
+    changes_for_user: "In the bulk bar, the hover of the secondary ghost actions uses the bar's own hover background, so it stays visible over the highlighted background (D-1)."
   bulk-danger-action-hover:
     token: toolbar/bulk-danger-action-background-hover
     changes_for_user: "In the bulk bar, the hover of the danger ghost action uses its own hover background, one step darker than the button's, so it stays visible over the highlighted background."
@@ -154,11 +154,11 @@ states:
 business_rules:
   - "The bar controls background, radius and space; each piece controls its own color, state and focus."
   - "The bar is the source of the height: it writes size on every direct child that has one."
-  - "The actions are one Tab stop: the left and right arrows move between them, wrapping at the ends, and Home and End go to the first and the last (pending decision D-2)."
-  - "The search field keeps its own Tab stop and its arrow keys (pending decision D-2)."
+  - "The actions are one Tab stop: the left and right arrows move between them, wrapping at the ends, and Home and End go to the first and the last (D-2)."
+  - "The search field keeps its own Tab stop and its arrow keys (D-2)."
   - "The bar never removes a chip: the consumer takes the filter away on nph-remove and keeps the strip in the page while it is empty."
   - "After a chip leaves by its X, the focus goes to the next chip, else to the previous one, else to trigger; after Clear filters empties the strip, to trigger."
-  - "The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer drops the text of the buttons first, then sends the actions at the back to More (pending decision D-5). A button whose text is a value (the current choice of a menu, such as the block style of the nph-rich-text-editor) keeps its text: on a narrow screen it goes whole to More, as its labeled group with the current value checked, instead of becoming icon only (DSA-106; precedent: nph-rich-text-editor, DSA-105). Only the applied filters strip wraps."
+  - "The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer drops the text of the buttons first, then sends the actions at the back to More (D-5). A button whose text is a value (the current choice of a menu, such as the block style of the nph-rich-text-editor) keeps its text: on a narrow screen it goes whole to More, as its labeled group with the current value checked, instead of becoming icon only (DSA-106; precedent: nph-rich-text-editor, DSA-105). Only the applied filters strip wraps."
 domain_errors: []
 tokens:
   background: toolbar/background
@@ -178,7 +178,7 @@ ai_hints:
   - "Set size on the bar, not on its pieces."
   - "For applied filters, keep the strip in the page, remove the chip on nph-remove, and give trigger, removed-text and cleared-text."
 accessibility:
-  semantics: "The host is role toolbar, named by label; the applied filters strip is role group (pending decision D-3). The divider is decorative. The applied filters strip has a status region that announces removed-text and cleared-text."
+  semantics: "The host is role toolbar, named by label; the applied filters strip is role group (D-3). The divider is decorative. The applied filters strip has a status region that announces removed-text and cleared-text."
   accessible_name: "The bar is named with the area, such as Table actions. Each icon-only button has a label and its own tooltip with the same name. The X of each chip says remove-label and the text of the filter."
   keyboard:
     - "Tab enters the actions once, on the last action reached; the search field is a Tab stop of its own."
@@ -398,7 +398,7 @@ editor, with groups of icon-only actions, the trash apart and More at the end.
 - **The repository `design.md`:** the `toolbar/*` tokens, `elevation/dropdown` and
   `text/label-md`. The `toolbar/*` tokens are in `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P104.
-- **Pending decisions:** D-1 to D-5 of the task DSA-55: the bulk hover on the secondary ghost
+- **Decisions:** D-1 to D-5 of the task DSA-55, all answered by Indiane (D-2 to D-5 on 23/11/2026 and D-1 on 26/11/2026): the bulk hover on the secondary ghost
   actions only, the arrow keys that wrap with the search out of them, the applied filters
   strip as a group with Tab stops, the announcement of Clear filters, and the narrow bar left
   to the consumer.

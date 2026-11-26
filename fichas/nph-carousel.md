@@ -339,7 +339,7 @@ end, the focus moves to the current indicator, or to the other arrow when the in
 Known limits:
 
 - The arrow keeps the native `disabled` of `nph-button`, so it leaves the Tab order at the ends. The APG would keep it
-  focusable; that needs a change to `nph-button` and waits for the design owner (D-1 of DSA-87).
+  focusable; that needs a change to `nph-button`, which Indiane did not ask for: she kept the disabled arrow out of the Tab order on 23/11/2026 (D-1 of DSA-87).
 - The strip moves with a transform, so the new slide enters the accessibility tree when its box stops being `inert`;
   the polite announcement depends on the screen reader reading that change.
 - The track clips the slides along the line only. A control flush against the left or right edge of a slide has its

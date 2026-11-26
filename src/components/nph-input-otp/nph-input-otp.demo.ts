@@ -13,6 +13,7 @@
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import '../nph-button/nph-button';
 import '../nph-field/nph-field';
 import './nph-input-otp';
 
@@ -41,11 +42,12 @@ export interface FieldOptions {
   invalid?: boolean;
   disabled?: boolean;
   masked?: boolean;
+  numeric?: boolean;
 }
 
 /** One field. The tag and the attributes are the contract; the text comes in. */
 export function field(options: FieldOptions): TemplateResult {
-  const { label, value = '', length = 6, size = 'default', invalid = false, disabled = false, masked = false } = options;
+  const { label, value = '', length = 6, size = 'default', invalid = false, disabled = false, masked = false, numeric = false } = options;
   return html`<nph-input-otp
     label=${label}
     value=${value}
@@ -54,6 +56,7 @@ export function field(options: FieldOptions): TemplateResult {
     ?invalid=${invalid}
     ?disabled=${disabled}
     ?masked=${masked}
+    ?numeric=${numeric}
   ></nph-input-otp>`;
 }
 
@@ -71,4 +74,23 @@ export function inField(options: InFieldOptions): TemplateResult {
   return html`<nph-field label=${label} help=${help} error=${error}>
     <nph-input-otp value=${value}></nph-input-otp>
   </nph-field>`;
+}
+
+export interface WithResendOptions extends InFieldOptions {
+  /** The text of the resend action, already localized. */
+  resend: string;
+  /** The action waits for a countdown: it is disabled. */
+  waiting?: boolean;
+}
+
+/**
+ * The code field with the resend action below it (D4 of DSA-41). The action is a common ghost
+ * `nph-button`, with no link color and no underline, and it is not part of the field.
+ */
+export function withResend(options: WithResendOptions): TemplateResult {
+  const { resend, waiting = false, ...rest } = options;
+  return html`<div style="display: flex; flex-direction: column; align-items: flex-start; gap: var(--nph-space-stack);">
+    ${inField(rest)}
+    <nph-button emphasis="ghost" text=${resend} ?disabled=${waiting}></nph-button>
+  </div>`;
 }

@@ -108,12 +108,17 @@
   --_outline: var(--nph-color-primary-border);
 }
 
-/* Hover (only when the piece responds), over the whole piece: the fill goes one step up. */
-.control:not(:disabled):hover .track {
+/*
+ * Hover (only when the piece responds), over the whole piece: the fill goes one step up. `hover`
+ * (DSA-45 D-3) shows the same look from outside, for a host that owns the pointer.
+ */
+.control:not(:disabled):hover .track,
+:host([hover]) .control:not(:disabled) .track {
   --_fill: var(--nph-color-input-hover);
 }
 
-:host([checked]) .control:not(:disabled):hover .track {
+:host([checked]) .control:not(:disabled):hover .track,
+:host([checked][hover]) .control:not(:disabled) .track {
   --_fill: var(--nph-color-primary-hover);
 }
 

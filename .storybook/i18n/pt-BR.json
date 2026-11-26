@@ -1582,7 +1582,7 @@
     "whenToUse": [
       "Para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field.",
       "required=true quando o preenchimento é obrigatório, com o asterisco explicado numa legenda do formulário.",
-      "info=true para mostrar o ícone de informação depois do texto.",
+      "info com info-label para mostrar o ícone de informação depois do texto: info é o texto da ajuda e info-label, o nome acessível.",
       "Manter o rótulo em color/foreground, mesmo com o campo em erro."
     ],
     "examplesTitle": "Exemplos obrigatórios",
@@ -2383,7 +2383,7 @@
       ],
       [
         "Teclado",
-        "Uma parada de Tab por botão, em ordem; um botão desabilitado é pulado. Enter e Espaço alternam. Não há setas: um tabindex móvel entre grupos é de uma barra de ferramentas."
+        "O grupo é uma parada de Tab: o Tab entra no primeiro botão marcado, ou no primeiro quando nenhum está marcado, e o próximo Tab sai. As setas movem o foco entre os botões e dão a volta, Home e End vão ao primeiro e ao último, e um botão desabilitado é pulado. Enter e Espaço alternam. Dentro de uma barra de ferramentas, a barra mantém a única parada para todas as suas ações."
       ],
       [
         "Foco visível",
@@ -4116,6 +4116,10 @@
         "O contorno do trilho vira status/error, ligado ou desligado, e no foco o halo vira focus/halo-error. Refletida no atributo; põe aria-invalid. A frase de erro fica fora da peça. disabled vence."
       ],
       [
+        "hover",
+        "Mostra o visual de hover de fora, para um host que tem o ponteiro, como o item do nph-dropdown-menu: o trilho em color/input-hover desligado e color/primary-hover ligado. Não move estado nem dispara evento; disabled vence."
+      ],
+      [
         "disabled",
         "Desliga a peça: sai da ordem do Tab, não alterna, não dispara nada e fica em state/disabled-opacity. Refletida no atributo. Um fieldset desabilitado em volta faz o mesmo, menos dentro do primeiro legend."
       ],
@@ -5112,16 +5116,17 @@
       "Para confirmar o acesso com um código enviado por SMS ou e-mail: length 6 ou 4, pelo tamanho do código.",
       "Em tela de toque, onde o código costuma ser digitado no celular: size large; nas outras telas, size default.",
       "Quando o código é digitado em lugar público: masked.",
-      "Para um código com letras e números, como A7K2Q9: o campo aceita e a casa não muda."
+      "Para um código com letras e números, como A7K2Q9: o campo aceita e a casa não muda.",
+      "Para um código só com dígitos, como 482913: numeric, para que cada casa aceite só de 0 a 9 e o celular mostre o teclado numérico."
     ],
     "whenNotToUse": [
       "Para texto livre de uma linha: use nph-input.",
       "Sem o nph-field: o rótulo, a ajuda e o erro são do nph-field.",
       "Com casas de tamanhos diferentes: use o mesmo size no campo inteiro.",
-      "Para pintar a ação de reenviar com uma cor solta: o reenviar é um nph-button abaixo do campo, com o rótulo em color/link."
+      "Para pintar a ação de reenviar com visual de link: o reenviar é um nph-button ghost comum abaixo do campo, sem cor de link e sem sublinhado."
     ],
     "whenNotToUseTitle": "Quando não usar",
-    "relationsText": "O nph-field traz o rótulo, a ajuda e o erro, e escreve label, description, invalid e required no campo. A ação de reenviar é um nph-button abaixo do campo, desabilitado durante a contagem: não faz parte do campo. Para texto livre de uma linha, use nph-input.",
+    "relationsText": "O nph-field traz o rótulo, a ajuda e o erro, e escreve label, description, invalid e required no campo. A ação de reenviar é um nph-button ghost comum abaixo do campo, sem cor de link e sem sublinhado, desabilitado durante a contagem: não faz parte do campo. Para texto livre de uma linha, use nph-input.",
     "apiTitle": "API",
     "apiHeader": [
       "Propriedade",
@@ -5147,6 +5152,10 @@
       [
         "masked",
         "Um ponto no lugar de cada caractere, para um código digitado em lugar público. Só visual: o leitor de tela lê o código."
+      ],
+      [
+        "numeric",
+        "Restringe o campo a dígitos: cada casa aceita só de 0 a 9, e o celular mostra o teclado numérico. Sem ela, o campo aceita letras e dígitos."
       ],
       [
         "required",
@@ -5217,6 +5226,9 @@
     "maskedTitle": "Mascarado",
     "maskedText": "masked mostra um ponto no lugar de cada caractere, para um código digitado em lugar público. Nos outros casos, ver o caractere ajuda a pessoa a conferir. O campo aceita letras e números nos dois casos, e a casa não muda.",
     "maskedCaption": "Um código com letras e números, e o mesmo código mascarado.",
+    "numericTitle": "Só dígitos",
+    "numericText": "numeric restringe o campo a dígitos: cada casa aceita só de 0 a 9, e o input interno pede ao celular o teclado numérico. Sem ela, o campo aceita letras e números. Use quando o código tem só dígitos, como a maioria dos códigos enviados por SMS.",
+    "numericCaption": "Um código só com dígitos, com numeric ligado.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
       "Parte",
@@ -5291,6 +5303,10 @@
     "exampleEmail": "Código enviado por e-mail, no nph-field: o rótulo, o campo e o texto de apoio.",
     "exampleWrong": "Código errado: a mensagem de erro do nph-field, e todas as casas no estado de erro.",
     "exampleTouch": "Tela de toque: size large, seis casas.",
+    "exampleResend": "Ação de reenviar: um nph-button ghost comum abaixo do campo, sem cor de link e sem sublinhado.",
+    "exampleCountdown": "Contagem: o mesmo botão desabilitado enquanto a pessoa espera para pedir um novo código.",
+    "resendText": "Reenviar código",
+    "countdownText": "Reenviar código em 30 s",
     "lightCaption": "Modo claro",
     "darkCaption": "Modo escuro",
     "fieldLabel": "Código de verificação",
@@ -5656,6 +5672,10 @@
       [
         "invalid",
         "O estado de erro: borda status/error e aria-invalid. A frase de erro fica fora da peça."
+      ],
+      [
+        "hover",
+        "Mostra o visual de hover de fora, para um host que tem o ponteiro, como o item do nph-dropdown-menu: a borda da caixa em color/input-hover e state/hover-opacity quando marcada. Não move estado nem dispara evento; disabled, foco e invalid vencem."
       ],
       [
         "disabled",
@@ -6403,7 +6423,7 @@
       ],
       [
         "Limites conhecidos",
-        "No hover do item, a caixa e o trilho não tomam o próprio hover. O menu aninhado fica fora de escopo."
+        "O menu aninhado fica fora de escopo."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -6528,7 +6548,7 @@
       ],
       [
         "open",
-        "O estado. O menu o liga e desliga; o consumidor pode defini-lo, e um menu aberto por código fica no canto superior de início do objeto e o acompanha no scroll. Refletida no atributo."
+        "O estado. O menu o liga e desliga; quem usa pode defini-lo, e um menu aberto por código fica no canto superior inicial do objeto e o acompanha na rolagem. Refletido no atributo. Defini-lo por código não dispara evento."
       ],
       [
         "items",
@@ -6549,6 +6569,14 @@
       [
         "nph-item-select",
         "O evento, que borbulha, com detail value, checked e origin: o elemento que estava sob o ponteiro quando o menu abriu. Mudar items ou open por código nunca o dispara."
+      ],
+      [
+        "nph-open",
+        "O evento, que borbulha e não pode ser cancelado, quando a pessoa abre o menu, com detail origin: o elemento que estava sob o ponteiro, como no nph-item-select. Abrir por código, ou mover um menu já aberto, nunca o dispara."
+      ],
+      [
+        "nph-close",
+        "O evento, que borbulha e não pode ser cancelado, quando o menu fecha por ação da pessoa ou da página, com detail source: escape, outside, focus-out, tab, select ou scroll. Fechar por código nunca o dispara."
       ],
       [
         "cor e partes",
@@ -8921,7 +8949,7 @@
     "sourceLabel": "Fonte:",
     "sourceFrame": "Figma, quadro nph-multi-combobox (1467:25660), conjunto 1467:25652, chip 1467:24879",
     "sourceApi": "Ficha do nph-multi-combobox; docs/decisoes-tecnicas.md › P96",
-    "sourceDecisions": "Tarefa DSA-31, decisões D1 a D3 e decisões pendentes D-1 a D-4; docs/decisoes-tecnicas.md › P96",
+    "sourceDecisions": "Tarefa DSA-31, decisões D1 a D3 e D-1 a D-4; docs/decisoes-tecnicas.md › P96",
     "sourceAccessibility": "Figma, quadro nph-multi-combobox (1467:25660); nph-multi-combobox.test.ts",
     "matrixLabel": "size × estado",
     "description": "Use o nph-multi-combobox quando a pessoa escolhe mais de uma opção numa lista conhecida e precisa ver o que já escolheu sem abrir a lista. Cada escolha vira um chip com um botão para removê-la. Ele não substitui o nph-select nem o nph-combobox, que ficam com uma opção só, e não aceita texto fora da lista.",
@@ -9805,11 +9833,11 @@
     "summary": "A barra que leva a pessoa de uma página a outra numa lista longa e mostra onde ela está na lista.",
     "onThisPage": "Nesta página",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-pagination, o design.md para os tokens e os ícones, e a P99 para a API. Quatro decisões esperam a responsável pelo design (D-1 a D-4 da DSA-54) e aparecem aqui no padrão; a D-5 foi respondida em 24/11/2026: a barra não tem contorno (DSA-118).",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-pagination, o design.md para os tokens e os ícones, e a P99 para a API. As quatro decisões da DSA-54 (D-1 a D-4) estão respondidas, a D-1 em 23/11/2026 e as outras em 26/11/2026; a D-5 foi respondida em 24/11/2026: a barra não tem contorno (DSA-118).",
     "sourceLabel": "Fonte:",
     "sourceFrame": "Figma, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
     "sourceApi": "ficha do nph-pagination; docs/decisoes-tecnicas.md › P99",
-    "sourceStates": "Figma, página 2888:87682 e reticências 2888:87798; tarefa DSA-54, decisões pendentes D-1 e D-2",
+    "sourceStates": "Figma, página 2888:87682 e reticências 2888:87798; tarefa DSA-54, decisões D-1 e D-2",
     "sourceFields": "Figma, ir para a página 2888:87805; fichas do nph-select e do nph-input",
     "sourceAccessibility": "Figma, documentação 1640:196; nph-pagination.test.ts",
     "matrixLabel": "type × posição",
@@ -10054,7 +10082,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
       "fichas/nph-pagination.md",
       "docs/decisoes-tecnicas.md › P99",
-      "Tarefa DSA-54, decisões pendentes D-1 a D-4"
+      "Tarefa DSA-54, decisões D-1 a D-4"
     ],
     "labels": {
       "label": "Paginação",
@@ -10177,14 +10205,14 @@
     "summary": "A peça pequena e arredondada que mostra um filtro aplicado, um valor escolhido em um campo ou um filtro rápido que a pessoa marca e desmarca.",
     "onThisPage": "Nesta página",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-chip, o design.md para os tokens e os ícones, e a P100 para a API. Cinco decisões esperam a responsável pelo design (D-1 a D-5 da DSA-57) e aparecem aqui no padrão: o contador desenhado como uma pílula própria, o avatar no tamanho sm, o rótulo cortado focável com seu balão, o X do chip inválido com o par de erro, e a ordem ícone, texto, contador e X.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-chip, o design.md para os tokens e os ícones, e a P100 para a API. As cinco decisões da DSA-57 (D-1 a D-5) estão respondidas, a D-1 e a D-3 em 23/11/2026 e as outras em 26/11/2026: o contador desenhado como uma pílula própria, o avatar no tamanho sm, o rótulo cortado focável com seu balão, o X do chip inválido com o par de erro, e a ordem ícone, texto, contador e X.",
     "sourceLabel": "Fonte:",
     "sourceFrame": "Figma, página NPH — Chip, documentação 3077:2240, conjunto 3076:1439, quadro 3077:807",
     "sourceApi": "ficha do nph-chip; docs/decisoes-tecnicas.md › P100",
     "sourceUsage": "Figma, documentação 3077:2240; docs/decisoes-tecnicas.md › P70",
-    "sourceStates": "Figma, documentação 3077:2240, tokens de cada estado; tarefa DSA-57, decisão pendente D-4",
-    "sourceContent": "Figma, documentação 3077:2240; tarefa DSA-57, decisões pendentes D-1, D-2 e D-5",
-    "sourceLongText": "Figma, documentação 3077:2240; tarefa DSA-57, decisão pendente D-3",
+    "sourceStates": "Figma, documentação 3077:2240, tokens de cada estado; tarefa DSA-57, decisão D-4",
+    "sourceContent": "Figma, documentação 3077:2240; tarefa DSA-57, decisões D-1, D-2 e D-5",
+    "sourceLongText": "Figma, documentação 3077:2240; tarefa DSA-57, decisão D-3",
     "sourceAccessibility": "Figma, documentação 3077:2240; nph-chip.test.ts",
     "matrixLabel": "tipo, severidade, conteúdo e estado",
     "description": "Use o nph-chip para os filtros aplicados na nph-toolbar, para os valores escolhidos dentro de um campo e para filtros rápidos que a pessoa marca e desmarca. Ele não substitui o nph-badge, que mostra um status do sistema sem ação, nem o nph-button, que executa uma ação.",
@@ -10469,7 +10497,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Chip, documentação 3077:2240, conjunto 3076:1439, quadro 3077:807",
       "fichas/nph-chip.md",
       "docs/decisoes-tecnicas.md › P100",
-      "Tarefa DSA-57, decisões pendentes D-1 a D-5"
+      "Tarefa DSA-57, decisões D-1 a D-5"
     ],
     "removeLabel": "Remover filtro",
     "plain": "Situação: Aguardando",
@@ -10526,7 +10554,7 @@
     "summary": "A barra que reúne, em uma só linha, as ações de uma área da tela, e a faixa de filtros aplicados abaixo dela.",
     "matrixLabel": "tipo de barra",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-toolbar, o design.md para os tokens e a P104 para a API. Cinco decisões aguardam a dona do design (D-1 a D-5 da DSA-55) e aparecem aqui no padrão: o hover em massa só nas ações secondary ghost, as setas que dão a volta com a busca fora delas, a faixa de filtros aplicados como grupo com paradas de Tab, o anúncio de Limpar filtros e a barra estreita deixada ao consumidor.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-toolbar, o design.md para os tokens e a P104 para a API. As cinco decisões da DSA-55 (D-1 a D-5) estão respondidas, a D-2 a D-5 em 23/11/2026 e a D-1 em 26/11/2026: o hover em massa só nas ações secondary ghost, as setas que dão a volta com a busca fora delas, a faixa de filtros aplicados como grupo com paradas de Tab, o anúncio de Limpar filtros e a barra estreita deixada ao consumidor.",
     "onThisPage": "Nesta página",
     "whenToUseTitle": "Quando usar",
     "whenNotToUseTitle": "Quando não usar",
@@ -10779,7 +10807,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Toolbar 1626:44, documentação 2944:6528, conjunto 2105:426",
       "fichas/nph-toolbar.md",
       "docs/decisoes-tecnicas.md › P104",
-      "Tarefa DSA-55, decisões pendentes D-1 a D-5",
+      "Tarefa DSA-55, decisões D-1 a D-5",
       "W3C ARIA Authoring Practices, padrão toolbar"
     ],
     "whenToUse": [
@@ -10880,7 +10908,7 @@
     "summary": "A tabela para buscar, ordenar, selecionar e agir sobre registros, com barra de ferramentas acima, ações por linha e paginação.",
     "matrixLabel": "estado da tabela",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-data-table, o design.md para os tokens e a P105 para a API. Seis decisões aguardam a dona do design (D-1 a D-6 da DSA-58) e aparecem aqui no padrão: o rodapé escolhido por quem usa, as setas da ordenação, o clique que inverte a direção, a caixa do cabeçalho sobre as linhas da página, as linhas de skeleton e a coluna de ajuste antes das ações.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-data-table, o design.md para os tokens e a P105 para a API. As seis decisões da DSA-58 (D-1 a D-6) estão respondidas: o rodapé escolhido por quem usa, as setas da ordenação, o clique que vai de ascendente a descendente e volta a sem ordem, a caixa do cabeçalho sobre as linhas da página, as linhas de skeleton e a coluna de ajuste antes das ações.",
     "onThisPage": "Nesta página",
     "whenToUseTitle": "Quando usar",
     "whenNotToUseTitle": "Quando não usar",
@@ -11071,7 +11099,7 @@
       ],
       [
         "nph-sort-change",
-        "A pessoa ordenou: detail key e direction."
+        "A pessoa ordenou: detail com key e direction. O terceiro clique na mesma coluna tira a ordenação: key e direction vêm vazios."
       ],
       [
         "nph-selection-change",
@@ -11164,7 +11192,7 @@
       ]
     ],
     "sortingTitle": "Ordenação",
-    "sortingText": "Um cabeçalho ordenável é um botão do tamanho da célula, com a seta da direção. A tabela só diz o que a pessoa escolheu: quem usa ordena as linhas e as passa de novo.",
+    "sortingText": "Um cabeçalho ordenável é um botão do tamanho da célula, com a seta da direção. Um clique vai de ascendente a descendente e volta a sem ordem. A tabela só informa o que a pessoa escolheu: quem usa ordena as linhas e as passa de novo.",
     "sortingCaption": "O valor em ordem decrescente, alinhado ao fim com o seu cabeçalho.",
     "sortingHeader": [
       "ordenação",
@@ -11237,7 +11265,7 @@
         "Só o nph-pagination do tipo intervalo. Abaixo de 420 px ou no celular."
       ]
     ],
-    "sourceFooter": "Figma, documentação 2875:17577; tarefa DSA-58, decisão pendente D-1",
+    "sourceFooter": "Figma, documentação 2875:17577; tarefa DSA-58, decisão D-1",
     "relationsTitle": "Relações e contexto",
     "relations": [
       "Ela é um nph-table: as células, o chevron e o item expandido mantêm as suas próprias regras.",
@@ -11343,7 +11371,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Data Table 1371:2, documentação 2875:17577, set 2633:69628",
       "fichas/nph-data-table.md",
       "docs/decisoes-tecnicas.md › P105",
-      "Tarefa DSA-58, decisões pendentes D-1 a D-6",
+      "Tarefa DSA-58, decisões D-1 a D-6",
       "W3C ARIA Authoring Practices, tabela ordenável"
     ],
     "whenToUse": [
@@ -17384,6 +17412,7 @@
       "errorMax": "A data deve ser igual ou anterior a {max}.",
       "errorBetween": "Escolha uma data entre {min} e {max}.",
       "errorUnavailable": "Esta data não está disponível, escolha outro dia.",
+      "errorPeriodUnavailable": "O período tem um dia que não está disponível, escolha outro período.",
       "errorEndBeforeStart": "O fim deve ser igual ou posterior ao início ({start})."
     }
   },
@@ -17392,7 +17421,7 @@
     "onThisPage": "Nesta página",
     "matrixLabel": "Matriz do componente",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: as fichas de nph-date-picker e nph-calendar, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P133 e a P135. O Figma DS-IA-NEPHOS 5.0 guarda as decisões visuais. As respostas do design de 18-11-2026 estão na P135; as perguntas ainda abertas estão na tarefa, com a regra provisória que o código segue.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: as fichas de nph-date-picker e nph-calendar, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P133 e a P135. O Figma DS-IA-NEPHOS 5.0 guarda as decisões visuais. As respostas do design de 18-11-2026 estão na P135; as que vieram depois (um atalho ou um período digitado com dia indisponível, as visões do intervalo, Este mês com um min e o dia que não pode ser o fim) estão na DSA-96. As medidas sem token (D-12 da DSA-90) seguem abertas, com a regra que o código segue; a margem da página foi respondida em 26/11/2026 e ainda não está no código.",
     "sourceLabel": "Fonte:",
     "whenToUseTitle": "Quando usar",
     "whenNotToUseTitle": "Quando não usar",
@@ -17440,7 +17469,7 @@
       ],
       [
         "allows-non-contiguous-ranges",
-        "Desligada por padrão: um período não atravessa um dia indisponível por regra. Enquanto só o início está escolhido, os dias depois do primeiro dia indisponível após ele, ou antes do primeiro antes dele, ficam desabilitados e não podem ser o fim. Ligada, um período pode ter dias indisponíveis. A propriedade é allowsNonContiguousRanges. Um período digitado e os atalhos não são verificados."
+        "Desligada por padrão: um período não cruza um dia indisponível por regra. Enquanto só o início está escolhido, os dias depois do primeiro dia indisponível após ele, ou antes do primeiro antes dele, ficam desabilitados e não podem ser o fim. Um atalho cujo período tem um dia indisponível fica desabilitado, e um período digitado que tem um mostra um erro no campo digitado. Ligada, um período pode ter dias indisponíveis, e um atalho e um período digitado que cruzam um são aceitos. A propriedade é allowsNonContiguousRanges."
       ],
       [
         "label, start-label, end-label",

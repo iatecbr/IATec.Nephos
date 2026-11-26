@@ -133,7 +133,7 @@ states:
     changes_for_user: "The whole top item loses opacity; no hover. It takes the focus but does not open."
   open_and_focus:
     token: "pending: the look is not drawn in Figma. The code composes the two accepted looks: the background and the label of hover_open plus the border and the halo of focus"
-    changes_for_user: "While the arrows switch menus, the focus stays on the open top item, so it shows both looks. Waits for the design owner (D-1)."
+    changes_for_user: "While the arrows switch menus, the focus stays on the open top item, so it shows both looks (D-1, answered on 26/11/2026)."
 business_rules:
   - "A menu has value, label, optionally disabled, and items. An item has value and text, both required, and optionally icon, severity, selection, checked, shortcut, submenu and disabled. An invalid entry is left out, with one console.error per cause in development."
   - "An item with a submenu takes no selection and no shortcut, and its submenu holds at least one valid item and no submenu of its own. A label entry opens a group and names it; a separator entry closes the group; a group with no item is dropped, and its separator goes to the next group."
@@ -329,7 +329,7 @@ submenu inside a submenu.
 | Top item | Hover, open | `menubar/trigger-background-hover`, `menubar/trigger-foreground-hover` | The primary surface and its text; the open top item keeps this look, with its panel below |
 | Top item | Focus | border `border/width` in `focus/border`, radius `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, radius `focus/radius-control-with-border`; no background | For keyboard users, a border and a halo outside the item |
 | Top item | Disabled | `state/disabled-opacity` | The whole item loses opacity; no hover; it takes the focus and does not open |
-| Top item | Open and focus | pending (D-1) | The code composes the two looks |
+| Top item | Open and focus | decided (D-1) | The code composes the two looks |
 | Panel item | Rest | no background; text in `color/popover-foreground` | The row is quiet; the start icon is light |
 | Panel item | Hover | `color/primary-surface`; icon in `dropdown/item-hover-icon-foreground`. Destructive: `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in `dropdown/item-destructive-hover-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color. The item whose submenu is open keeps this look |
 | Panel item | Focus | border `border/width` in `focus/border`, radius `dropdown/item-focus-border-radius`; halo `focus/ring-width` in `focus/halo`, radius `dropdown/item-focus-halo-radius` | For keyboard users, a border and a halo outside the row; the start icon turns solid |
@@ -349,7 +349,7 @@ The start icon is light at rest and when disabled, and solid on highlight.
 
 **The open top item in focus.** While the arrows switch menus, the focus stays on the top item, so the
 item is open and focused at once. The Figma draws `hover-aberto` and `foco` apart and does not draw the
-two together. Until the design owner decides (D-1), the code composes the two accepted looks: the
+two together. As Indiane decided on 26/11/2026 (D-1), the code composes the two accepted looks: the
 background and the label of the open item, with the border and the halo of the focus. It adds no third
 look.
 
@@ -521,10 +521,10 @@ that has the `bars` icon opening one panel with the menus as submenus.
 - **Usage evidence:** no screen consumes it yet.
 - **Storybook:** `src/components/nph-menubar/nph-menubar.stories.ts` and `nph-menubar.docs.stories.ts`.
 - **Figma:** `DS-IA-NEPHOS 5.0`, page `1626:15`, documentation frame `6432:8686`, root `6410:7413`.
-- **Pending decisions for the design owner (P126):**
+- **Decisions of the design owner (P126), all answered (D-2 to D-4 on 23/11/2026, D-1 on 26/11/2026):**
   - **D-1 — the open top item in focus.** The arrows switch menus and the focus stays on the top item, so it
     is open and focused at once; the Figma draws the two states apart. The code composes the open look with
-    the focus border and halo, and adds no third look. She confirms it or draws the combined look.
+    the focus border and halo, and adds no third look. Confirmed.
   - **D-2 — Enter, Space and the click on a choice.** Enter closes the menu, also on a checkbox and a radio,
     and Space checks without closing; a click on a multiple choice keeps the menu open. The Figma covers the
     two keys, not the click.

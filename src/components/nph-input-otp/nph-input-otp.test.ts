@@ -26,7 +26,7 @@ import { NPH_INPUT_OTP_LENGTHS, NPH_INPUT_OTP_MASK, NPH_INPUT_OTP_SIZES, NphInpu
 type Props = Partial<
   Pick<
     NphInputOtp,
-    'length' | 'size' | 'invalid' | 'disabled' | 'masked' | 'required' | 'name' | 'value' | 'label' | 'description'
+    'length' | 'size' | 'invalid' | 'disabled' | 'masked' | 'numeric' | 'required' | 'name' | 'value' | 'label' | 'description'
   >
 >;
 
@@ -177,7 +177,7 @@ describe('registration and API', () => {
 
   it('the public API is exactly the one in P85', () => {
     const declared = [...(NphInputOtp as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared).toEqual(['length', 'size', 'invalid', 'disabled', 'masked', 'required', 'name', 'value', 'label', 'description']);
+    expect(declared).toEqual(['length', 'size', 'invalid', 'disabled', 'masked', 'numeric', 'required', 'name', 'value', 'label', 'description']);
   });
 
   it('the lists of length and size are the Figma ones', () => {
@@ -189,7 +189,7 @@ describe('registration and API', () => {
   it('the defaults are six cells, default size, empty, valid and enabled', async () => {
     const element = await mount();
     expect([element.length, element.size, element.value]).toEqual([6, 'default', '']);
-    expect([element.invalid, element.disabled, element.masked, element.required]).toEqual([false, false, false, false]);
+    expect([element.invalid, element.disabled, element.masked, element.numeric, element.required]).toEqual([false, false, false, false, false]);
     expect([element.name, element.description]).toEqual([null, '']);
     expect(element.hasAttribute('name')).toBe(false);
   });
@@ -202,6 +202,7 @@ describe('registration and API', () => {
       invalid: true,
       disabled: true,
       masked: true,
+      numeric: true,
       required: true,
       name: 'code',
       value: '12',
@@ -209,7 +210,7 @@ describe('registration and API', () => {
     });
     expect(element.getAttribute('length')).toBe('4');
     expect(element.getAttribute('size')).toBe('large');
-    for (const name of ['invalid', 'disabled', 'masked', 'required']) {
+    for (const name of ['invalid', 'disabled', 'masked', 'numeric', 'required']) {
       expect(element.hasAttribute(name), name).toBe(true);
     }
     expect(element.getAttribute('name')).toBe('code');
@@ -903,6 +904,68 @@ describe('masked', () => {
   });
 });
 
+describe('numeric (D2 of DSA-41)', () => {
+  it('the inner input asks the phone for the numeric keyboard; without it, it stays text', async () => {
+    const numeric = await mount({ label: 'Code', numeric: true });
+    const plain = await mount({ label: 'Code' });
+    expect(native(numeric).getAttribute('inputmode')).toBe('numeric');
+    expect(native(plain).getAttribute('inputmode')).toBe('text');
+  });
+  it('typing takes only digits, and a letter is dropped and fires nothing', async () => {
+    const element = await mount({ label: 'Code', numeric: true });
+    const heard = vi.fn();
+    element.addEventListener('input', heard);
+    await tabInto(element);
+    await userEvent.keyboard('a1b2-3');
+    expect(element.value).toBe('123');
+    expect(native(element).value).toBe('123');
+    expect(heard).toHaveBeenCalledTimes(3);
+  });
+  it('without it, letters and digits are still taken', async () => {
+    const element = await mount({ label: 'Code' });
+    await tabInto(element);
+    await userEvent.keyboard('a1b2');
+    expect(element.value).toBe('a1b2');
+  });
+  it('a value set from code keeps only digits and warns in development', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const element = await mount({ label: 'Code', numeric: true });
+    element.value = 'A7K2Q9';
+    await element.updateComplete;
+    expect(element.value).toBe('729');
+    expect(texts(element)).toEqual(['7', '2', '9', '', '', '']);
+    expect(warn).toHaveBeenCalledTimes(1);
+  });
+  it('the value attribute is cleaned too, whatever the order of the attributes', async () => {
+    const element = await fromHtml('<nph-input-otp label="Code" value="A7K2Q9" numeric></nph-input-otp>');
+    expect(element.value).toBe('729');
+  });
+  it('turning it on cleans the code already typed, and turning it off keeps what is there', async () => {
+    const element = await mount({ label: 'Code', value: 'A7K2Q9' });
+    expect(element.value).toBe('A7K2Q9');
+    element.numeric = true;
+    await element.updateComplete;
+    expect(element.value).toBe('729');
+    element.numeric = false;
+    await element.updateComplete;
+    expect(element.value).toBe('729');
+  });
+  it('a pasted code keeps only the digits', async () => {
+    const element = await mount({ label: 'Code', numeric: true });
+    await tabInto(element);
+    await paste(element, 'ab12 34-56');
+    expect(element.value).toBe('123456');
+  });
+  it('a paste with no digit changes nothing and fires nothing', async () => {
+    const element = await mount({ label: 'Code', numeric: true, value: '12' });
+    const inputs = vi.fn();
+    element.addEventListener('input', inputs);
+    await tabInto(element);
+    await paste(element, 'abc');
+    expect(element.value).toBe('12');
+    expect(inputs).not.toHaveBeenCalled();
+  });
+});
 describe('form (P80)', () => {
   async function inForm(markup: string): Promise<{ form: HTMLFormElement; element: NphInputOtp }> {
     document.body.innerHTML = `<form>${markup}</form>`;

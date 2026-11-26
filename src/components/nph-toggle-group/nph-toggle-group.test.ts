@@ -25,6 +25,7 @@ import {
   NphToggleGroup,
 } from './nph-toggle-group';
 import type { NphToggleGroupValueChangeDetail } from './nph-toggle-group';
+import '../nph-toolbar/nph-toolbar';
 import type { NphTogglebutton } from '../nph-togglebutton/nph-togglebutton';
 
 interface ButtonSpec {
@@ -435,17 +436,140 @@ describe('semantics', () => {
     group.focus();
     expect(document.activeElement).not.toBe(group);
   });
+});
 
-  it('Tab walks one stop per button, in order, and skips a disabled one', async () => {
+describe('keyboard: one Tab stop and a roving tabindex (D5 of DSA-23)', () => {
+  const THREE: ButtonSpec[] = [
+    { value: 'left', label: 'Left' },
+    { value: 'center', label: 'Center' },
+    { value: 'right', label: 'Right' },
+  ];
+
+  /** The Tab stops of a page with a button before and after the group. */
+  async function mountBetween(spec: GroupSpec): Promise<{ group: NphToggleGroup; before: HTMLButtonElement; after: HTMLButtonElement }> {
+    const before = document.createElement('button');
+    before.textContent = 'before';
+    const after = document.createElement('button');
+    after.textContent = 'after';
+    document.body.append(before);
+    const group = await mount(spec);
+    document.body.append(after);
+    return { group, before, after };
+  }
+
+  it('Tab enters on the first button when none is checked, and the next Tab leaves the group', async () => {
+    const { group, before, after } = await mountBetween({ buttons: THREE });
+    before.focus();
+    await userEvent.tab();
+    expect(document.activeElement).toBe(buttonsOf(group)[0]);
+    await userEvent.tab();
+    expect(document.activeElement).toBe(after);
+    await userEvent.tab({ shift: true });
+    expect(document.activeElement).toBe(buttonsOf(group)[0]);
+  });
+
+  it('Tab enters on the first checked button', async () => {
+    const { group, before, after } = await mountBetween({ buttons: THREE, selection: 'multiple', value: ['center', 'right'] });
+    before.focus();
+    await userEvent.tab();
+    expect(document.activeElement).toBe(buttonsOf(group)[1]);
+    await userEvent.tab();
+    expect(document.activeElement).toBe(after);
+  });
+
+  it('only the button that holds the stop is in the Tab order', async () => {
+    const group = await mount({ buttons: THREE, value: ['center'] });
+    expect(buttonsOf(group).map((child) => child.getAttribute('tabindex'))).toEqual(['-1', null, '-1']);
+  });
+
+  it('the first enabled button holds the stop when the first one is disabled', async () => {
+    const { group, before } = await mountBetween({
+      buttons: [{ value: 'left', label: 'Left', disabled: true }, { value: 'center', label: 'Center' }, { value: 'right', label: 'Right' }],
+    });
+    before.focus();
+    await userEvent.tab();
+    expect(document.activeElement).toBe(buttonsOf(group)[1]);
+  });
+
+  it('the arrow keys move the focus, wrap at the ends and skip a disabled button', async () => {
     const group = await mount({
       buttons: [{ value: 'left', label: 'Left' }, { value: 'center', label: 'Center', disabled: true }, { value: 'right', label: 'Right' }],
     });
-    const stops: (Element | null)[] = [];
-    for (let step = 0; step < 2; step += 1) {
-      await userEvent.tab();
-      stops.push(document.activeElement);
-    }
-    expect(stops).toEqual([buttonsOf(group)[0], buttonsOf(group)[2]]);
+    const [left, , right] = buttonsOf(group);
+    left?.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(document.activeElement).toBe(right);
+    await userEvent.keyboard('{ArrowRight}');
+    expect(document.activeElement).toBe(left);
+    await userEvent.keyboard('{ArrowLeft}');
+    expect(document.activeElement).toBe(right);
+  });
+
+  it('Home and End go to the first and the last enabled button', async () => {
+    const group = await mount({ buttons: THREE });
+    const [left, center, right] = buttonsOf(group);
+    center?.focus();
+    await userEvent.keyboard('{End}');
+    expect(document.activeElement).toBe(right);
+    await userEvent.keyboard('{Home}');
+    expect(document.activeElement).toBe(left);
+  });
+
+  it('the arrows only move the focus: nothing is checked and no event fires', async () => {
+    const group = await mount({ buttons: THREE, value: ['left'] });
+    const seen = listen(group);
+    buttonsOf(group)[0]?.focus();
+    await userEvent.keyboard('{ArrowRight}{ArrowRight}');
+    await settle(group);
+    expect(pressedOf(group)).toEqual([true, false, false]);
+    expect(seen).toEqual([]);
+  });
+
+  it('Enter and Space toggle the focused button, as before', async () => {
+    const group = await mount({ buttons: THREE });
+    const seen = listen(group);
+    buttonsOf(group)[0]?.focus();
+    await userEvent.keyboard('{ArrowRight}{Enter}');
+    await settle(group);
+    expect(pressedOf(group)).toEqual([false, true, false]);
+    await userEvent.keyboard('{ArrowRight} ');
+    await settle(group);
+    expect(pressedOf(group)).toEqual([false, false, true]);
+    expect(seen).toEqual([['center'], ['right']]);
+  });
+
+  it('the stop follows the focus: after an arrow, Tab leaves and Shift+Tab comes back to that button', async () => {
+    const { group, after } = await mountBetween({ buttons: THREE });
+    buttonsOf(group)[0]?.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(buttonsOf(group).map((child) => child.getAttribute('tabindex'))).toEqual(['-1', null, '-1']);
+    await userEvent.tab();
+    expect(document.activeElement).toBe(after);
+    await userEvent.tab({ shift: true });
+    expect(document.activeElement).toBe(buttonsOf(group)[1]);
+  });
+
+  it('a button that becomes disabled gives the stop to the next enabled one', async () => {
+    const group = await mount({ buttons: THREE });
+    expect(buttonsOf(group)[0]?.hasAttribute('tabindex')).toBe(false);
+    const first = buttonsOf(group)[0] as NphTogglebutton;
+    first.disabled = true;
+    await settle(group);
+    await vi.waitFor(() => expect(buttonsOf(group).map((child) => child.getAttribute('tabindex'))).toEqual(['-1', null, '-1']));
+  });
+
+  it('inside an nph-toolbar the group steps aside: no tabindex and no arrow key of its own', async () => {
+    const toolbar = document.createElement('nph-toolbar');
+    toolbar.label = 'Tools';
+    toolbar.type = 'tools';
+    document.body.append(toolbar);
+    const group = await mount({ buttons: THREE }, toolbar);
+    await vi.waitFor(() => expect(buttonsOf(group).filter((child) => child.getAttribute('tabindex') === '-1')).toHaveLength(2));
+    /* The bar holds one stop for the whole bar, on the first action. */
+    expect(buttonsOf(group)[0]?.hasAttribute('tabindex')).toBe(false);
+    buttonsOf(group)[0]?.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(document.activeElement).toBe(buttonsOf(group)[1]);
   });
 });
 
@@ -572,11 +696,10 @@ describe('single selection', () => {
     const group = await mount({ value: ['left'] });
     const seen = listen(group);
     await userEvent.tab();
-    await userEvent.tab();
-    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard('{ArrowRight}{Enter}');
     await settle(group);
     expect(pressedOf(group)).toEqual([false, true, false]);
-    await userEvent.tab();
+    await userEvent.keyboard('{ArrowRight}');
     await userEvent.keyboard(' ');
     await settle(group);
     expect(pressedOf(group)).toEqual([false, false, true]);

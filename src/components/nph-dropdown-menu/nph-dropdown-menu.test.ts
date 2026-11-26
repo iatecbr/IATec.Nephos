@@ -751,6 +751,66 @@ describe('keyboard in the menu', () => {
   });
 });
 
+describe('the pointer shows the hover of the inner box and track (DSA-45 D-3)', () => {
+  const ENTRIES: NphDropdownMenuEntry[] = [
+    { value: 'archived', text: 'Archived', selection: 'multiple' },
+    { value: 'sync', text: 'Sync', switch: true, checked: true },
+    { value: 'plain', text: 'Plain' },
+    { value: 'off', text: 'Off', switch: true, disabled: true },
+  ];
+  async function opened(): Promise<Setup> {
+    const setup = await mount(ENTRIES);
+    setup.trigger.focus();
+    await userEvent.keyboard('{Enter}');
+    await settle(setup.menu);
+    return setup;
+  }
+  const piece = (menu: NphDropdownMenu, value: string, selector: string): HTMLElement =>
+    itemOf(menu, value).querySelector(selector) as HTMLElement;
+  it('the box and the track take hover while the item is hovered, and give it back when the pointer leaves', async () => {
+    const { menu } = await opened();
+    expect(piece(menu, 'archived', 'nph-checkbox').hasAttribute('hover')).toBe(false);
+    await userEvent.hover(itemOf(menu, 'archived'));
+    expect(piece(menu, 'archived', 'nph-checkbox').hasAttribute('hover')).toBe(true);
+    expect(piece(menu, 'sync', 'nph-switch').hasAttribute('hover')).toBe(false);
+    await userEvent.hover(itemOf(menu, 'sync'));
+    expect(piece(menu, 'archived', 'nph-checkbox').hasAttribute('hover')).toBe(false);
+    expect(piece(menu, 'sync', 'nph-switch').hasAttribute('hover')).toBe(true);
+    await userEvent.hover(itemOf(menu, 'plain'));
+    expect(piece(menu, 'sync', 'nph-switch').hasAttribute('hover')).toBe(false);
+    await userEvent.hover(itemOf(menu, 'archived'));
+    await userEvent.unhover(itemOf(menu, 'archived'));
+    expect(piece(menu, 'archived', 'nph-checkbox').hasAttribute('hover')).toBe(false);
+  });
+  it('the unchecked box border is color/input-hover while its item is hovered', async () => {
+    const { menu } = await opened();
+    await userEvent.hover(itemOf(menu, 'archived'));
+    const checkbox = piece(menu, 'archived', 'nph-checkbox');
+    const box = checkbox.shadowRoot?.querySelector('.box') as HTMLElement;
+    await vi.waitFor(() => expect(getComputedStyle(box).borderTopColor).toBe(resolved('color', '--nph-color-input-hover')));
+  });
+  it('a disabled item shows no hover on its track', async () => {
+    const { menu } = await opened();
+    await userEvent.hover(itemOf(menu, 'off'), { force: true });
+    expect(piece(menu, 'off', 'nph-switch').hasAttribute('hover')).toBe(false);
+  });
+  it('toggling the item keeps the hover while the pointer stays, and closing the menu clears it', async () => {
+    const { menu } = await opened();
+    await userEvent.hover(itemOf(menu, 'archived'));
+    await userEvent.click(itemOf(menu, 'archived'));
+    await settle(menu);
+    expect(piece(menu, 'archived', 'nph-checkbox').hasAttribute('hover')).toBe(true);
+    await userEvent.keyboard('{Escape}');
+    await settle(menu);
+    expect(menu.open).toBe(false);
+    expect(piece(menu, 'archived', 'nph-checkbox').hasAttribute('hover')).toBe(false);
+  });
+  it('the pieces move no state of their own by the hover', async () => {
+    const { menu } = await opened();
+    await userEvent.hover(itemOf(menu, 'archived'));
+    expect((piece(menu, 'archived', 'nph-checkbox') as HTMLElement & { checked: boolean }).checked).toBe(false);
+  });
+});
 describe('the pointer moves the focus (DSA-45 D-6)', () => {
   async function opened(entries: NphDropdownMenuEntry[] = ITEMS): Promise<Setup> {
     const setup = await mount(entries);

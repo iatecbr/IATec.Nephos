@@ -1933,11 +1933,17 @@ P74. The names follow P64.
    controls that choose. **Known limit:** the screen reader reads the state of each button and
    does not announce that the choice is exclusive.
 
-7. **Keyboard.** One Tab stop per button, in order, with no arrow keys and no roving tabindex.
-   A disabled button leaves the order. The accepted frame says each button shows its own focus
-   and that the group does not receive focus, and it asks for no arrow keys; a roving tabindex
-   across several groups is the work of a toolbar (WAI-ARIA Authoring Practices, Toolbar). The
-   group has no `tabindex` and no `delegatesFocus`. D5 of the task asks Indiane to confirm.
+7. **Keyboard.** *(Changed by D5 of DSA-23, answered by Indiane on 2026-11-23 and applied in
+   DSA-115: the first version of this item gave one Tab stop per button and no arrow keys.)* The
+   group is one Tab stop, with a roving tabindex, as Radix Toggle Group does. Tab enters on the
+   first checked button, or on the first enabled one when none is checked, and the next Tab
+   leaves the group. The left and right arrows move the focus between the buttons and wrap
+   (mirrored in a right-to-left page), Home and End go to the first and the last, and a disabled
+   button is skipped. The arrows only move the focus; Enter and Space toggle. Inside an
+   `nph-toolbar` the group steps aside: the bar keeps one roving for the whole bar (WAI-ARIA
+   Authoring Practices, Toolbar), so the group writes no `tabindex` and handles no arrow key
+   there. Each button still shows its own focus and the group does not receive focus: it has no
+   `tabindex` of its own and no `delegatesFocus`.
 
 8. **Box.** `display: inline-flex` with `gap` `space/inline` (8 px), `align-items: stretch`,
    no wrap, no background, border, outline, opacity or transition. The height comes from each
@@ -1986,8 +1992,10 @@ no longer holds that choice alone. The code follows D3.
 - **Use and do-not-use lists.** "For a single option, use `nph-togglebutton`, without a
   group" is listed under "When to use" in the accepted frame; the sheet and the page put it in
   "When not to use", where a redirection reads as what it is.
-- **Pending decisions D4 and D5**, with Indiane: what the group does when text and icon only
-  are mixed, and arrow keys. The code follows the defaults above meanwhile.
+- **Decisions D4 and D5**, answered by Indiane on 23/11/2026 (DSA-23), both as recommended: D4,
+  when text and icon-only buttons are mixed the group warns in the console in development and
+  renders; D5, the group is one Tab stop with a roving tabindex and arrow keys (item 7, applied
+  in DSA-115).
 
 **Source.** Frame `nph-toggle-group` (`1580:61`, set `1580:60`) of the Figma file
 `DS-IA-NEPHOS 5.0`, accepted by Indiane on 08/10/2026, with the Figma UX QA and the textual
@@ -1996,7 +2004,7 @@ audit approved; D1 to D3 answered on 19/10/2026. The names `label`, `selection` 
 capture rule for the click and the invalid input and composition rules are a technical proposal
 of this implementation.
 
-**Out of scope.** A toolbar and the roving tabindex across groups. `nph-switch` and
+**Out of scope.** A toolbar and the roving tabindex across groups (the group steps aside inside a toolbar, item 7). `nph-switch` and
 `nph-checkbox`, which are planned. A `size` *(added by the amendment of 29/10/2026, DSA-61)*,
 `disabled` or `invalid` property on the group, a maximum, an orientation, a form association and a color property. Moving `value` into
 `nph-togglebutton`. The Usage section of the page (P70, DSA-35), the page lists read from the
@@ -2220,8 +2228,8 @@ three findings of the last Copilot review of PR #94 that were missed before its 
    (a text field matches `:focus-visible` on a mouse click) does not open the balloon either; the next
    key press makes the keyboard count again. If the balloon opens by focus or by `open` while a wait
    is pending, the wait ends and the pointer hold is taken at once, so a blur does not let the timer
-   open it again. Esc during the wait cancels it too, without being intercepted. Whether a click
-   during the wait should cancel it is open with Indiane (DSA-48, D2), with this as the default.
+   open it again. Esc during the wait cancels it too, without being intercepted. Indiane
+   accepted this on 23/11/2026 (DSA-48, D2, as recommended): nothing changes.
 4. **Only an element that receives focus.** The balloon opens, by hover, focus or `open`, only when
    the element is not disabled (`:disabled`, or a `disabled` attribute on a custom element) and is
    in the Tab order (`tabIndex >= 0`, or a `contenteditable` element that is the editing root and has
@@ -2266,8 +2274,8 @@ balloon; the component that owns it renders the tooltip inside, as item 2 alread
 limits stay.
 
 **Pending for Indiane.** DSA-42 D2 to D6 are unchanged; this amendment answers none of them. Rules 4
-and 5 remove the two cases behind DSA-42 D7, and Indiane confirms whether D7 closes. DSA-48 D2 asks
-whether a click during the wait cancels it.
+and 5 remove the two cases behind DSA-42 D7, and Indiane confirms whether D7 closes. DSA-48 D2, whether
+a click during the wait cancels it, was answered on 23/11/2026: it does.
 
 **Source.** `docs/operacao/tarefas/DSA-48.md` and its `figma-docs-accepted` evidence; the last
 Copilot review of PR #94 on `d82d2c3`, recorded in
@@ -3250,7 +3258,9 @@ ships a raster asset**.
    style query (`@container style(...)`), whose support was not verified in every target browser,
    and reading the scheme in JavaScript, which does not see an attribute change on an ancestor.
 
-4. **The asset ships as a file of the package.** In library mode Vite inlines every imported asset
+4. **The asset ships as a file of the package.** *(Superseded by D4 of DSA-40, answered on
+   23/11/2026 and applied in DSA-115: the illustrations are embedded, see item 8. The original
+   text follows.)* In library mode Vite inlines every imported asset
    as base64, whatever its size. The two PNG files would become about 1 MB of JavaScript. The
    component imports them with `?no-inline`, and `vite.config.lib.ts` changes in two lines:
    `base: './'`, so the emitted URL is `new URL('../assets/<file>', import.meta.url)` and resolves
@@ -3265,22 +3275,35 @@ ships a raster asset**.
    the text group and `space/inline-tight` between the heading and the description, padding
    `space/container-padding` on the four sides, `inline-size` `layout/input-width` with
    `box-sizing: border-box`, no background and no border. `max-inline-size: 100%`: in a narrower
-   container the box shrinks to it and the text wraps (WCAG 1.4.10; D3 of DSA-40 asks Indiane to
-   confirm). The heading is `text/heading-xs` in `color/foreground`, the description `text/body-sm`
+   container the box shrinks to it and the text wraps (WCAG 1.4.10; D3 of DSA-40, answered by
+   Indiane on 26/11/2026, option 1: nothing changes). The heading is `text/heading-xs` in `color/foreground`, the description `text/body-sm`
    in `color/muted-foreground`; a word longer than the line breaks instead of overflowing.
 
 6. **Size of the illustration.** 120 × 87 is the size of the asset, not a token (evidence of
    DSA-40). It is written as the `width` and `height` attributes of the images, not in the CSS,
-   with `object-fit: contain`: the dark file has another proportion (2048 × 1538 against
-   2048 × 1487) and is fitted whole, not cut nor stretched (D2 of DSA-40).
+   with `object-fit: contain`. *(Changed by D1 and D2 of DSA-40, answered on 23/11/2026 and
+   26/11/2026: both files are now 240 × 174, twice the drawing, with the same frame, so the dark
+   one has the proportion of the light one. The first files were 2048 px wide, and the dark one
+   2048 × 1538 against 2048 × 1487 of the light one.)*
 
 7. **Invalid input.** Without `heading`, with an empty one or with only spaces, the piece draws
    nothing, takes no space, leaves `data-nph-rendered` out and emits one `console.error` in
    development. An empty `description` is not an error: it is the heading-only case.
 
+8. **The illustrations are embedded in the package (D4 of DSA-40, option (c)).** *(Added on
+   23/11/2026, applied in DSA-115; it replaces item 4.)* The component imports each PNG with
+   `?inline`, so the library build writes it as a data URI inside the JavaScript of the piece. The
+   product copies no file and sets no base path, and an application published in a subdirectory,
+   such as `/my-app/`, shows them. `vite.config.lib.ts` loses the two lines of item 4 (`base: './'`
+   and `assetFileNames`), because no asset is emitted any more, and `dist/assets/` is not written.
+   No JavaScript of the package reads `import.meta.url` now. The weight stays small because each
+   file is 240 × 174 (about 27 KB, so about 36 KB in base64) and not 2048 px wide: the first files
+   were about 390 KB each (D1 of DSA-40). Carbon ships its pictograms inside its package.
 **Known limits.**
 
-- **Angular application in a subdirectory.** The Angular application builder (checked with
+- **Angular application in a subdirectory.** *(Gone with D4 of DSA-40, applied in DSA-115: the
+  illustrations are embedded, item 8, so an application in a subdirectory shows them and the
+  consumer copies no file. The original text follows.)* The Angular application builder (checked with
   Angular 22 and the installed package) keeps the URL `new URL('../assets/<file>', import.meta.url)`
   and writes its bundles at the root of the browser output. An application published in a
   subdirectory, such as `/my-app/`, therefore resolves the illustrations to `/assets/` at the root
@@ -3288,15 +3311,16 @@ ships a raster asset**.
   the site, the asset glob of `docs/consuming.md` is enough; Blazor with esbuild resolves them inside
   the application (`wwwroot/assets/`). Decided by Elvys on 23/10/2026: the delivery of this decision
   stays, and the limit is recorded here and in the guide.
-- **Follow-up, after D1.** A new task is needed for (b) or (c) once D1 settles the weight of the
-  illustrations: (b) the consumer gives the base of the assets, or (c) the illustrations are
-  embedded in the package. It is recorded in `pending_decisions` of DSA-40 (D4, decider Indiane).
+- **Follow-up, after D1.** *(Done: Indiane chose (c) on 23/11/2026, D4 of DSA-40, item 8.)* A new
+  task was needed for (b) the consumer gives the base of the assets, or (c) the illustrations
+  embedded in the package.
 
 **Points for review.**
 
 - **`vite.config.lib.ts`**, the first change of the library build since P75, and the first file of
   the package that is not code.
-- **Both illustrations downloaded**, until D1 of DSA-40 brings lighter files.
+- **Both illustrations downloaded**, as data URIs in the JavaScript of the piece, each file about
+  27 KB (D1 of DSA-40, 23/11/2026).
 - **The name `heading`**, shared with `nph-dialog` (DSA-44).
 
 **Source.** Board `nph-empty` (`1463:25260`, frame `2003:688`, component `1463:25238`) of the
@@ -3311,10 +3335,10 @@ one by hand. Announcing the result of a search. The `nph-combobox` itself (DSA-4
 Storybook pages show its list in a frame. The Usage section of the page (P70, DSA-35), the page
 lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
-**Pending for Indiane (DSA-40, D1 to D4), none of them blocks.** Lighter illustration files (the
-current ones are 2048 px wide for a drawing of 120); whether the dark illustration is fitted or cut
-in the 120 × 87 box; whether the box shrinks in a narrower container; and, after D1, the new task
-for (b) or (c) of the known limit above.
+**Answered by Indiane (DSA-40, D1 to D4).** D1 and D4 on 23/11/2026: lighter files, 240 × 174 for
+the box of 120 × 87, and the illustrations embedded in the package, option (c). D2 and D3 on
+26/11/2026: the dark illustration exported again with the same frame as the light one, so both
+fill 120 × 87, and the box shrinks with its container, the text wrapping. Nothing is pending.
 
 **Status.** Anatomy and behavior accepted by Indiane on 16/10/2026. API and semantics are reviewed
 in the pull request that brings them; the merge is the approval.
@@ -3396,8 +3420,8 @@ root cannot be described from outside, so the component that owns that root rend
 **Known limits.**
 
 - **Esc inside a dialog.** With keyboard focus on an icon-only button, the balloon is open, and the
-  first Esc closes the balloon, not the dialog around it (P77 item 4). It is pending with Indiane
-  (DSA-43, D2).
+  first Esc closes the balloon, not the dialog around it (P77 item 4). Indiane accepted
+  it on 23/11/2026 (DSA-43, D2, as recommended; the APG tooltip closes first).
 - **No visible name on touch**, by rule 6 of DSA-48: the tooltip never opens there.
 - **The distance of the balloon** is the one of the tooltip, `space/inline`; the DSA-43 evidence
   shows `space/inline-tight`. It is DSA-42 D2, with Indiane; the button does not override it.
@@ -3749,7 +3773,7 @@ rule of P21, adopted here by its own decision, as in P66, P74 and P78. The names
   accessibility rule "loading, empty and error change the drawing, not only the color": the
   parent's text and the `error` event carry the difference. The tokens
   `image/illustration-light` and `image/illustration-dark` stay unconsumed until then, and the
-  files, once they arrive, follow the asset delivery of P84.
+  files, once they arrive, follow the asset delivery of P84 (embedded in the package, item 8).
 - **`design.md` has no usage entry for the `image/*` tokens** (D2 of DSA-51); the component
   consumes them either way.
 - **The loading state of the Validation and Docs pages is held by the demo frame**, which takes
@@ -3799,8 +3823,8 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 
 1. **One native input, cells that only draw.** The shadow root holds one native
    `<input type="text">`, transparent and laid over the row of cells, with
-   `autocomplete="one-time-code"`, `maxlength` equal to `length`, `inputmode="text"` and
-   `autocapitalize`, `autocorrect` and `spellcheck` off. The cells are `aria-hidden` and draw the
+   `autocomplete="one-time-code"`, `maxlength` equal to `length`, `inputmode="text"` (`"numeric"`
+   with `numeric`, item 10) and `autocapitalize`, `autocorrect` and `spellcheck` off. The cells are `aria-hidden` and draw the
    characters of `value`. The board says that the name comes from the field and that "the digit
    is only the value": one input gives one name, one value and one Tab stop, and leaves paste
    and the code the browser offers to the input itself. One input per cell was discarded: it
@@ -3818,6 +3842,7 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    | `state=erro` | `invalid`, Boolean, reflected; `aria-invalid` on the input |
    | `state=disabled` | `disabled`, Boolean, reflected; a disabled `<fieldset>` does the same |
    | `ocultar dígito` (on the cell) | `masked`, Boolean, reflected, on the host |
+   | not in the board *(D2 of DSA-41, DSA-115)* | `numeric`, Boolean, reflected, on the host |
    | `dígito` and `mostrar dígito` (on the cell) | not API: the character comes from `value`, and a cell is empty while the code does not reach it |
    | the code | `value`, String |
    | the name and the description from the field | `label` and `description`, String (P83) |
@@ -3825,8 +3850,8 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    | the form entry | `name`, String, reflected |
 
    `masked` sits on the host because the cells are not public in code: without it, a code typed
-   in a public place, which the board shows, could not be hidden (D3 of DSA-41 asks Indiane to
-   confirm). `form` and `labels` are read-only getters, as in P80.
+   in a public place, which the board shows, could not be hidden (D3 of DSA-41, accepted by
+   Indiane on 23/11/2026). `form` and `labels` are read-only getters, as in P80.
 
 3. **Characters, typing and paste.** The field keeps only ASCII letters and digits, with the case
    as typed: the board says that the field takes a number or a letter, as behavior. Any other
@@ -3897,6 +3922,16 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    development, when `length` is not 4 or 6 and when `size` is not `default` or `large`. The
    check runs again only when `length` or `size` changes.
 
+10. **Digits only (D2 of DSA-41).** *(Added on 23/11/2026, applied in DSA-115.)* `numeric` restricts
+    the field to digits: each cell takes only 0 to 9, a typed character that is not a digit is
+    refused in `beforeinput`, a pasted or offered code keeps only its digits, and the inner input
+    carries `inputmode="numeric"`, so a phone shows the numeric keyboard. Without it, the field
+    keeps letters and digits with `inputmode="text"`, as before. A value set from code or by the
+    `value` attribute is cleaned by the same rule, whatever the order of the attributes, and
+    turning `numeric` on cleans the code already typed; the cut fires no `change`. Turning it off
+    keeps what is there. GOV.UK uses `inputmode="numeric"` for a security code and shadcn has a
+    digits-only mode for codes.
+
 **Written literals, and why.** `transparent` (the input draws no text, caret, background or
 selection), `absolute`, `inset: 0` and `100%` (the input covers the row of cells, and the
 description stays inside the field, so a long text adds no scroll), `:not([hidden])` (an author
@@ -3922,26 +3957,30 @@ clipping). None is a visual value.
   reads the name and the description the field writes from the accessibility tree of Chromium.
 - **The resend action.** The board puts a ghost `nph-button` with the label in `color/link` and
   underlined below the field. The `nph-button` has no color property and no `::part`, and a
-  link-looking button is out of its scope (P68): the delivery does not show the resend action,
-  and D4 of DSA-41 asks Indiane how that look reaches the `nph-button`.
+  link-looking button is out of its scope (P68). Indiane decided on 23/11/2026 (D4 of DSA-41,
+  as recommended): no new look. The resend is an action on the same screen, so it is a common
+  ghost `nph-button`, with no link color and no underline, below the field and disabled during
+  the countdown. The Docs page shows it, with the countdown. The `nph-button` gains no link look.
+  The row of `color/link` in `design.md` still names this action: it is token documentation,
+  which comes from Figma.
 - **Only digits.** The board makes letters and numbers behavior, so a phone shows the text
-  keyboard. D2 of DSA-41 asks Indiane whether a field restricted to digits, with the numeric
-  keyboard, is wanted.
+  keyboard. Indiane decided on 23/11/2026 (D2 of DSA-41, as recommended) that a mode that takes
+  digits only, with the numeric keyboard, is wanted: `numeric`, item 10.
 
 **Source.** Board `nph-input-otp` (`1633:122`, set `1633:120`, cell set `1633:29`) of the Figma
 file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/10/2026, with the Figma UX QA and the textual
 audit approved. The single input, the names `length`, `size`, `invalid`, `disabled`, `masked`,
-`required`, `name`, `value`, `label` and `description`, the character rule, the paste rule, the
+`numeric`, `required`, `name`, `value`, `label` and `description`, the character rule, the paste rule, the
 caret rule, the form behavior and the invalid input rule are a technical proposal of this
 implementation, reviewed with the plan on 22/10/2026.
 
-**Out of scope.** A field restricted to digits, a separator between groups of cells, `readonly`,
-a placeholder, constraint validation, the WebOTP API, the resend action, the Usage section of the
+**Out of scope.** A separator between groups of cells, `readonly`,
+a placeholder, constraint validation, the WebOTP API, the resend action inside the field, the Usage section of the
 page (P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate
 (P72, DSA-32).
 
-**Status.** Anatomy and behavior accepted by Indiane on 16/10/2026; D1 to D4 of DSA-41 are open
-with her and do not block. API and semantics are reviewed in the pull request that brings them;
+**Status.** Anatomy and behavior accepted by Indiane on 16/10/2026; D2 to D4 of DSA-41 answered
+on 23/11/2026 and applied in DSA-115; D1 is still open with her and does not block. API and semantics are reviewed in the pull request that brings them;
 the merge is the approval.
 
 ---
@@ -4362,9 +4401,10 @@ vertical length of its own and a width of its own for the field are not in v1.
 - **The balloon repeats the value in the description**, already given by `aria-valuetext`
   (item 5).
 - **The inner field and buttons inert, not disabled, when the slider is disabled** (item 7).
-- **D1 to D5** are defaults of this implementation, provisional until Indiane answers them: the
+- **D1 to D5** were defaults of this implementation, provisional until Indiane answered them: the
   order of the side parts, the thumb that minus and plus move in `range`, the vertical length,
-  one mark per step and the width of the field.
+  one mark per step and the width of the field. DSA-39 D2 was answered on 23/11/2026 (accepted: the
+  thumb used or focused last) and D1, D3, D4 and D5 on 26/11/2026, all as recommended.
 
 **Source.** Board `nph-slider` (`1636:46`), frame `Documentação` (`1925:642`) and set `1636:44`
 of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 15/10/2026, with the Figma UX QA and
@@ -4472,9 +4512,17 @@ stays as it was. No token is created.
 
 **Known limits.**
 
-- **The inner box and track do not take their own hover** on item hover (D-3): `nph-checkbox` and
-  `nph-switch` hover only through `:hover` in their own shadow root. A follow-up task gives them a
-  way.
+- **The inner box and track and the hover of the item** *(D-3 of DSA-45, answered by Indiane on
+  23/11/2026 and applied in DSA-115)*. `nph-checkbox` and `nph-switch` hover only through `:hover`
+  in their own shadow root, and the item draws them `inert`, so without a way the box border would
+  lose contrast on the item background (WCAG 1.4.11 asks 3:1 for the parts that show the state of a
+  control). Both pieces gain `hover`, a reflected Boolean that draws the same look as their own
+  `:hover` from outside: the box border in `color/input-hover` and `state/hover-opacity` when
+  checked or indeterminate; the track fill in `color/input-hover` off and `color/primary-hover`
+  on. It reads the tokens each piece already reads, creates none, moves no state and fires nothing,
+  and `disabled`, focus and `invalid` still win over it. The menu turns it on in the piece of the
+  item under the pointer, on `pointermove`, and off on `pointerout` and when it closes; a disabled
+  or loading item and a touch pointer never turn it on.
 - **`aria-haspopup` and `aria-expanded` on an `nph-button`** sit on its host and do not reach its
   inner `<button>`, which has the focus. With a native `<button>` as the trigger they work.
 - **A trigger that changes its `id`, or moves, after the lookup** is not followed; setting `for`
@@ -5028,7 +5076,7 @@ rule of P21, as in P80. The names follow P64.
 
 **Pending decisions (Indiane), with the default the code follows.** D-1 the checkbox at the start
 of the option, before its own start. D-2 the counter mode with nothing chosen shows the
-placeholder. D-3 a chip for an option with no icon shows `tag`. D-4 in the counter mode, the text
+placeholder *(accepted by Indiane on 23/11/2026; D-1, D-3 and D-4 were answered on 26/11/2026, see DSA-31)*. D-3 a chip for an option with no icon shows `tag`. D-4 in the counter mode, the text
 field sits after the counter, on the same line.
 
 **Known limits.**
@@ -5182,7 +5230,8 @@ its own `id` already there and adds nothing, so the label is still announced onc
 no balloon, the `aria-label` holds the label and the counter. Reviewed in the pull request that
 brings it; the merge is the approval.
 
-**Status.** Anatomy and behavior accepted by Indiane on 26/10/2026. D-1 to D-4 wait for Indiane.
+**Status.** Anatomy and behavior accepted by Indiane on 26/10/2026. D-1 to D-4 of DSA-53 are answered: D-4 on 23/11/2026
+(confirmed: a subitem with options is a disclosure button) and D-1 to D-3 on 26/11/2026.
 API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -5302,7 +5351,7 @@ scroll. A size, forced colors and right-to-left. A new token. The Usage section 
 DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
 DSA-32).
 
-**Status.** Anatomy and behavior accepted by Indiane on 27/10/2026. D-1 to D-4 wait for Indiane; D-5 was answered on 24/11/2026 (DSA-118).
+**Status.** Anatomy and behavior accepted by Indiane on 27/10/2026. D-1 of DSA-54 was answered on 23/11/2026, D-5 on 24/11/2026 (DSA-118) and D-2 to D-4 on 26/11/2026; none waits for Indiane.
 API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -5440,11 +5489,10 @@ render and the invalid input rules are a technical proposal of this implementati
 `nph-toolbar` and its line of applied filters (DSA-55). A horizontal scroll of the line, which the
 evidence forbids. A size, forced colors and right-to-left. A new token.
 
-**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 of DSA-57 are answered: D-1 and D-3 on
+23/11/2026 (accepted) and D-2, D-4 and D-5 on 26/11/2026. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
-
 ---
-
 ## P101 — `nph-table`: the tree as a treegrid
 
 **Technical conflict.** P97 writes `aria-level` on the rows of a tree, and ARIA 1.2 gives
@@ -5687,9 +5735,9 @@ emits `console.warn` only in development, once while it lasts, as P76. The names
 
 7. **The narrow bar is composition (D-5).** The bar does not collapse by itself: on a narrow screen
    the consumer drops the text of the buttons first, then sends the actions at the back to More,
-   which opens `nph-dropdown-menu`. **Exception (DSA-106):** a button whose text is a value (the current
+   which opens `nph-dropdown-menu`. *(D-5 was kept for v1 by Indiane on 23/11/2026.)* **Exception (DSA-106):** a button whose text is a value (the current
    choice of a menu, such as the block style of the `nph-rich-text-editor`) keeps its text and goes whole
-   to More, as its labeled group with the current value checked. D-5 stays open.
+   to More, as its labeled group with the current value checked.
 
 8. **Tokens.** The fourteen `toolbar/*` tokens of the evidence, each in its part: the bar in
    `toolbar/background`, `toolbar/border` in `toolbar/border-width`, `toolbar/radius` and
@@ -5709,11 +5757,10 @@ implementation.
 **Out of scope.** A vertical bar, which the evidence forbids. A bar that collapses by itself. The
 pagination, a sibling piece. `nph-data-table`, which places the bar above the table. A new token.
 
-**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 of DSA-55 are answered: D-2 to D-5 on
+23/11/2026 (confirmed, and the narrow bar kept as composition) and D-1 on 26/11/2026. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
-
 ---
-
 ## P105 — `nph-data-table`: API and semantics
 
 **Technical conflict.** The accepted documentation (frame `2875:17577`, set `2633:69628`, board
@@ -5761,8 +5808,14 @@ renders nothing, as P97; a cause of its own leaves out only the part it names an
 3. **Sorting (D-2, D-3).** A column with `sortable` draws its header as a native button the size of
    the cell, with the ring `focus/border` in `table/focus-ring-width` inside it; the sorted header
    carries `aria-sort`. The arrow is `arrow-up-arrow-down` while not sorted, `arrow-up` ascending and
-   `arrow-up` turned half a turn descending, as `nph-pagination` turns its last arrow. A click sorts
-   another column ascending and turns the sorted one around.
+   `arrow-up` turned half a turn descending, as `nph-pagination` turns its last arrow. A click cycles
+   a column: ascending, descending and back to unsorted *(D-3, answered by Indiane on 23/11/2026 and
+   applied in DSA-115; the first version turned the sorted column around and never took the sort
+   away)*. A click on another column sorts that one ascending. On the third click `nph-sort-change`
+   carries `{ key: '', direction: '' }`, the pair that leaves `sort-key` and `sort-direction` empty, so
+   a consumer that copies the detail into the table keeps both in step; no header is then drawn
+   sorted and none carries `aria-sort`. MUI and AG Grid cycle this way, and Carbon has the unsorted
+   state.
 
 4. **Selection (D-4).** `selectable` adds a column of `nph-checkbox`, named by `select-all-label` in
    the header and `select-label` with `{name}` in each row. `selected` is the list of row keys; the
@@ -5808,8 +5861,8 @@ technical proposal of this implementation.
 **Out of scope.** Load more and infinite scroll. A tree of records. A footer that switches by
 itself before the breakpoint tokens. A new token.
 
-**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-6 of DSA-58 wait for
-Indiane. API and semantics are reviewed in the pull request that brings them; the merge is the
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-6 of DSA-58 answered by
+Indiane on 23/11/2026 and 26/11/2026; D-3 applied in DSA-115. API and semantics are reviewed in the pull request that brings them; the merge is the
 approval.
 
 ---
@@ -6362,7 +6415,9 @@ as the task says. A new token. A change in `nph-dropdown-menu`, `nph-icon-button
   trigger, Indiane decides.
 - **D-2 — who turns on the current state of a trigger.** The evidence has the state `atual` for the top
   item of both types. The code derives it from the current link in the panel. If a trigger should be
-  marked current on its own, a new field would be needed.
+  marked current on its own, a new field would be needed. **Confirmed by Indiane on 23/11/2026
+  (DSA-62, D-2):** a trigger is current when its panel holds the current link, with no field of its own; only the
+  page carries `aria-current`.
 - **D-3 — motion.** The evidence has no motion for the arrow or the panel. The code has none: the arrow
   does not turn and the panel enters and leaves with no transition.
 - **D-4 — the closing wait.** The evidence says 0.5 s to close and the token `motion/hover-delay` is
@@ -6375,7 +6430,8 @@ as the task says. A new token. A change in `nph-dropdown-menu`, `nph-icon-button
   the dropdown menu did for the same token (DSA-36, D2). **Answered on 2026-11-09:** the token is
   `color/primary-text` and the exception left the story (P114).
 
-**Status.** Anatomy and behavior accepted by Indiane on 03/11/2026. D-1 to D-5 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 03/11/2026. D-1 to D-5 of DSA-62 are answered: D-4 and D-5 and D-1 and
+D-3 on 09/11/2026 (P114) and D-2 on 23/11/2026. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -6539,16 +6595,16 @@ its own. `nph-label` keeps `status/error` on the required asterisk, as `design.m
   are scoped to `aria-haspopup="dialog"`. If the trigger of `nph-dropdown-menu` should look open
   too, she decides, and it belongs to a round of that piece.
 - **D-3 — `aria-controls`.** It points to the popover host, because an id reference does not cross a
-  shadow root. It does not block the pull request.
+  shadow root. It does not block the pull request. **Noted by Indiane on 23/11/2026 (DSA-67, D-3):** it stays
+  so, to be reviewed when the browsers ship a way for a reference to cross a shadow root.
 - **D-4 — the title role.** The title is drawn in `text/label-lg`, which matches the accepted values
   exactly, while `design.md` says that role is not for titles. A role or tokens for the popover title
   is hers to give.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 of DSA-67 are answered: D-1, D-2 and D-4 on
+09/11/2026 (P114) and D-3 on 23/11/2026. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
-
 ---
-
 ## P112 — `nph-hover-card`: API and semantics
 
 **Technical conflict.** The accepted documentation (frame `4422:2418`, component set `4406:1105`) gives the
@@ -6823,8 +6879,10 @@ cause: the rule of P21. The names follow P64.
    `detail: { value, checked, origin }`: `checked` is the new state of a single or multiple choice
    and `null` on a common item; `origin` is the element that was under the pointer when the menu
    opened (`composedPath()[0]`), or `null` when the menu was opened from code. It is what lets a row of
-   a table act only on itself (D-1). Opening and closing fire no event (D-2). The menu then replaces
+   a table act only on itself (D-1). The menu then replaces
    `items` with a new list, also inside a submenu, and never changes the objects of the consumer.
+   *(Opening and closing fired no event in the first version; D-2, answered by Indiane on 23/11/2026,
+   asks for them, and they are applied in DSA-115: see item 13.)*
 
 8. **Choices and closing (Q5, Q8).** Single choice is `menuitemradio` with the check, exclusive inside
    its group; multiple choice is `menuitemcheckbox` with an inert `nph-checkbox`. A common item and a
@@ -6855,6 +6913,22 @@ cause: the rule of P21. The names follow P64.
     the two, no valid item, and the invalid items above each render nothing (or leave the item out)
     and emit `console.error` only in development, once per cause while it lasts.
 
+13. **The events of opening and closing (D-2, DSA-115).** *(Added on 23/11/2026.)* The menu fires
+    `nph-open` when it goes from closed to open and `nph-close` when it goes from open to closed, as
+    Radix (`onOpenChange`) and AG Grid (`contextMenuVisibleChanged`) give a signal. The names follow
+    `nph-close` of `nph-dialog` and `nph-popover` and the `nph-toggle` of the pieces that open and
+    close content; there is no `open` in the detail because the name already says it. Both bubble,
+    are not composed and **cannot be cancelled**: the menu owns its `open` and has already closed
+    when `nph-close` fires (the dialog and the popover only ask to close, and the consumer decides).
+    `nph-open` carries `detail: { origin }`, the element under the pointer, or the object when the
+    menu opened by keyboard, the same `origin` as `nph-item-select` (D-1), so a consumer that
+    prepares the items for the row under the pointer sets `items` in it, before the first draw.
+    `nph-close` carries `detail: { source }`: `escape`, `outside`, `focus-out`, `tab`, `select` or
+    `scroll`, the six ways the menu closes by itself. An item that closes the menu fires
+    `nph-item-select` first. Both fire only for what the person or the page does: setting `open`
+    from code, in either direction, fires nothing, as for every property of the piece, and a menu
+    that is already open and moves to a new point fires no second `nph-open`. Nothing enters
+    `HTMLElementEventMap`, as `nph-item-select`, because `nph-close` is typed by the dialog.
 **Source.** Documentation `4838:27591` and set `4819:15828` of the Figma file `DS-IA-NEPHOS 5.0`,
 accepted by Indiane on 06/11/2026 with the Figma UX QA and the textual audit approved, and the 18
 points of its approval page. The property names, the way the object is bound, the gestures, the
@@ -6875,7 +6949,7 @@ now resolves to `color/border-subtle`, so the outline of the `nph-navigation-men
 loading `nph-notification` changes color with no code change.
 
 **Out of scope.** A second level of submenu. A description, an avatar, a tag, a counter, a switch, a
-loading state or a header on an item. An event of opening or closing. A token. A directive over
+loading state or a header on an item. A token. A directive over
 `nph-dropdown-menu`. A forced-colors mode.
 
 **Pending decisions for Indiane.**
@@ -6884,9 +6958,8 @@ loading state or a header on an item. An event of opening or closing. A token. A
   row and acts only on it" and does not say how the code knows the row. The code names one object with
   `for` and reports the element under the pointer in `detail.origin`. If the menu should instead be
   one per row, or `origin` should be the row itself, it is her call.
-- **D-2 — no event of opening or closing.** The contract has none, so the code fires none; a consumer
-  that must prepare the items for the row under the pointer listens to `contextmenu` on the object
-  before the menu does, or sets `items` on its own `contextmenu`.
+- **D-2 — an event of opening and closing.** *(Answered by Indiane on 23/11/2026, as recommended, and
+  applied in DSA-115: the menu fires them, item 13. The first text said the contract had none.)*
 - **D-3 — the long press.** The evidence says about 700 ms. The code uses 700 ms and a movement limit of
   10 px, which have no token, and cancels the touch `contextmenu` of the browser.
 - **D-4 — the icon color at rest.** `color/muted-foreground` (DSA-69) or the color of the label
@@ -6894,8 +6967,9 @@ loading state or a header on an item. An event of opening or closing. A token. A
 - **D-5 — Esc in the submenu.** The code closes the submenu first and the menu on the second press; the
   evidence says Esc closes the menu.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-5 wait for Indiane. API
-and semantics are reviewed in the pull request that brings them; the merge is the approval.
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-5 answered by Indiane
+(D-4 and D-5 on 09/11/2026, D-1 and D-2 on 23/11/2026; D-3 is the long press, with its tokens since
+the lot of 09/11/2026). API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 
@@ -6974,8 +7048,8 @@ brands and both schemes. The story of `nph-context-menu` keeps it, because its c
 
 **Left out.** The row of `nph-table` that points `table/link-foreground` in dark to `color/link`: it
 changes a token value, and the code agent never creates or changes a token. It waits for Indiane, in
-Figma, and DSA-70 stays open until it comes. DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2
-stay open.
+Figma, and DSA-70 stays open until it comes. DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2
+stay open *(DSA-45 D-3 was answered on 23/11/2026 and is applied in DSA-115; DSA-69 D-2 is applied there too)*.
 
 **Status.** The answers come from Indiane, recorded in the tasks. The technical choices above are
 reviewed in the pull request that brings them; the merge is the approval.
@@ -7605,8 +7679,8 @@ change in `nph-icon`, `nph-tooltip` or `nph-progress`. The contrast of the brand
   focusable span with no role, but a focusable element with a role and `aria-disabled`, so the screen reader names it (APG,
   focusability of disabled controls); the balloon comes from the change in `nph-tooltip` (item 1 of P127). In the code
   since 17/11/2026 (DSA-82, item 4 of P127): the step is a `span` with `role="button"` (`role="link"` when the step has
-  `href`), `aria-disabled="true"` and `tabindex="0"`, only while its label is cut; the role is a choice of the code owner
-  and is recorded as a pending decision of the task.
+  `href`), `aria-disabled="true"` and `tabindex="0"`, only while its label is cut; the role was a choice of the code owner,
+  and Indiane confirmed it on 23/11/2026 (DSA-82, D-1).
 
 **Answered on 16/11/2026 on the Figma previews** (frame `6753:17854`, page `988:6952`, light and dark; the task
 records the other answers):
@@ -9093,7 +9167,8 @@ D-2) and to the ellipsis of `nph-breadcrumb`. A forced-colors mode.
 - **D-4 — the panel is not an instance in code.** The code draws the panel in the bar with the same `dropdown/*`
   tokens, as P113 does for the context menu. She confirms the look is the accepted one.
 
-**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 to D-4 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 to D-4 of DSA-83 are answered: D-2 to D-4 on 23/11/2026
+(confirmed: the keys and the click, the click opens with no item shown, the panel drawn by the bar) and D-1 on 26/11/2026. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -9448,10 +9523,12 @@ token, new or changed. A slide component. Persistence inside the component.
 **Pending decisions for Indiane.**
 
 - **D-1 — the disabled arrow at the ends.** The appendix keeps it focusable (APG, focusability of disabled controls),
-  and that needs a focusable disabled mode in `nph-button`, a change to that component in its own task. Until she
-  decides, the arrow is natively disabled and the focus moves as item 9 says.
+  and that needs a focusable disabled mode in `nph-button`, a change to that component in its own task. **Answered by
+  Indiane on 23/11/2026 (DSA-87, D-1):** the arrow stays natively disabled, out of the Tab order, and the focus moves as
+  item 9 says; `nph-button` gets no focusable disabled mode.
 
-**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 waits for Indiane. API and semantics are
+**Status.** Anatomy and behavior accepted by Indiane on 16/11/2026. D-1 of DSA-87 was answered on 23/11/2026: the disabled arrow at the
+ends stays natively disabled and out of the Tab order, with no focusable disabled mode in `nph-button`. API and semantics are
 reviewed in the pull request that brings them; the merge is the approval.
 
 ---
@@ -9803,11 +9880,11 @@ history in columns, which is `nph-table`. A vertical stepper, which is `nph-step
   exists for it, so the code draws no ring on that `li`. The design owner decides whether a visible mark is wanted and
   which one.
 - **D-3 — the current status on the history.** The contract denies `aria-current` on the history type but does not say how
-  an item with the current status looks there. The code draws the current look with no `aria-current`. The design owner
-  decides whether the history should take the current status at all.
+  an item with the current status looks there. The code draws the current look with no `aria-current`. **Confirmed by
+  Indiane on 23/11/2026 (DSA-89, D-3).**
 
-**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 wait for the design owner and do not
-block the pull request. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+**Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-3 of DSA-89 are answered: D-3 on 23/11/2026
+and D-1 and D-2 on 26/11/2026. API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 
@@ -9946,7 +10023,8 @@ on the End.
 A radius semantic for floating layers. Shortcuts of the product. A mask. A read-only state. Locale-aware parsing beyond the order
 of day, month and year and the slash.
 
-**Pending decisions for the design owner.** D-1 to D-11 were answered on 18/11/2026 (P135). The code added three, which stay open:
+**Pending decisions for the design owner.** D-1 to D-11 were answered on 18/11/2026 (P135). The code added three: D-13 was
+confirmed on 23/11/2026 and D-14 answered on 26/11/2026, and D-12 stays open:
 
 - **D-12 — measures with no token.** The shortcut column is 192 wide, the header 40 high and the month and year cell 84 wide in
   Figma, and no token carries them. The code derives them from tokens, with no literal: 12 steps of `date-picker/panel-padding`,
@@ -9954,12 +10032,13 @@ of day, month and year and the slash.
   they get tokens, through Claude in Figma.
 - **D-13 — a typed Start or End with the panel closed.** The evidence says how typing works with the panel open and what Apply
   does; it says nothing about the panel closed. The code commits each field when the person leaves it, so a Start without an End
-  can stay, and fires `change` for each. The design owner decides whether a range commits only when both fields are valid.
+  can stay, and fires `change` for each. **Confirmed by Indiane on 23/11/2026 (DSA-90, D-13).**
 - **D-14 — the page margin of D-7.** The narrow switch needs a margin around the panel; the code uses `space/container-padding` on
-  each side of the viewport. The design owner confirms or gives the margin.
+  each side of the viewport. **Answered by Indiane on 26/11/2026 (DSA-90, D-14, option 3):** the margin follows the breakpoint,
+  `layout/margin-compact` below 768 and `layout/margin-default` from 768, as `nph-toast-region`; it is not in the code yet.
 
 **Status.** Anatomy and behavior accepted by the design owner on 17/11/2026. D-1 to D-11 were answered on 18/11/2026 (P135);
-D-12 to D-14 wait for the design owner and do not block the pull request. API and semantics are reviewed in the pull request that
+D-13 was confirmed on 23/11/2026 and D-14 answered on 26/11/2026; D-12 waits for the design owner and does not block the pull request. API and semantics are reviewed in the pull request that
 brings them; the merge is the approval.
 
 ---
@@ -10236,11 +10315,23 @@ below; every other rule of P133 stands.
    `max`: the arrows of the months and the month and year cells ignore it, so the navigation is never locked. It is looked for in
    `periodReach` (`nph-calendar.logic.ts`), only as far as the months shown, or the day the keyboard or the pick asks about, so
    a rule given as a function is called a bounded number of times; the rule is not called for a day outside the limits. On, a
-   period may hold unavailable days. A complete period, a typed period and a shortcut are never checked (D-15).
+   period may hold unavailable days. *(A typed period and a shortcut were not checked in the first
+   version; D-15, answered on 23/11/2026, changes that: see item 7.)*
 6. **The header of the large grid is 44.** 40 on default
    (`control/height-default` plus `space/inline-tight`) as before, and `control/height-large` on large, the height of its arrows.
    The large day view is 340 by 392, the large single panel 342 by 394 and the large range panel 874 by 463.
 
+7. **A shortcut or a typed period across an unavailable day (D-15).** *(Added on 23/11/2026, applied in DSA-115.)* D-15
+   follows D-10. While `allowsNonContiguousRanges` is off, a shortcut whose period holds a day unavailable by rule is disabled
+   with the disabled look of `nph-option`, as one outside the limits: it is skipped by the arrows, never marked and never
+   chooses. `This month` is judged cut by the max, as for the limits. A typed Start or End that makes the period hold one
+   shows `errorPeriodUnavailable` on the field typed and is not committed; the unavailable day itself keeps `errorUnavailable`,
+   which comes first. The period is the typed day and the other end, from the draft while the panel is open. A rule given as
+   a function is called once per day of the period. With the property on, both are accepted, as in D-10. `holdsUnavailable` and
+   the `refuses` argument of `shortcutRange`, `shortcutDisabled` and `matchShortcut` carry the rule, and the new label
+   `errorPeriodUnavailable` is the one text the piece gains: a `labels` object written before it renders anyway and says the key
+   is missing, once. React Spectrum asks for an error on a range across an unavailable day, and MUI disables a shortcut that
+   fails validation.
 **Alternatives discarded.** Putting the window of the End in `min` and `max`: the arrows and the cells would lock the navigation
 as soon as a Start is chosen. A `display: flex` on the view rows, or a negative margin on a table with `border-spacing`: the
 first changes the semantics of the table in some browsers, the second would lay a box of one cell over the header, over the
@@ -10249,20 +10340,20 @@ clicks of the arrows. Removing the hidden arrow from the layout: the title would
 **Pending decisions for the design owner.** D-12 to D-14 stay as in P133 and DSA-90. The code adds four, each with the rule it
 follows, recorded in DSA-96:
 
-- **D-15 — a period that is not picked day by day.** A typed period and a shortcut that hold an unavailable day keep the rule of
-  today: they commit and fill their period. The design owner decides whether they follow D-10, a shortcut being disabled and a
-  typed period an error, while `allowsNonContiguousRanges` is off.
-- **D-16 — the views in a range.** The first column is the year of the first month shown, the arrows are only on the outer
+- **D-15 — a period that is not picked day by day.** *(Answered by Indiane on 23/11/2026, as recommended, and applied in
+  DSA-115: item 7.)* The first rule was that a typed period and a shortcut that hold an unavailable day commit and fill their
+  period.
+- **D-16 — the views in a range.** *(Confirmed by Indiane on 23/11/2026.)* The first column is the year of the first month shown, the arrows are only on the outer
   edges and move one unit per click, and the 24 cells are one sequence for the keys. The answer says only that both columns
   switch together and where a chosen month comes back.
-- **D-17 — This month with a min inside the month.** It is disabled by the general rule of D-6; the exception of the answer is
+- **D-17 — This month with a min inside the month.** *(Confirmed by Indiane on 23/11/2026.)* It is disabled by the general rule of D-6; the exception of the answer is
   only for the max.
-- **D-18 — the look of a day that cannot be the End.** It is the disabled look of a day outside the limits; Figma does not draw it.
+- **D-18 — the look of a day that cannot be the End.** *(Answered by Indiane on 26/11/2026, option 1, and drawn in Figma at node 4015:28020.)* It is the disabled look of a day outside the limits.
 
 **Out of scope.** What P133 leaves out, and a token. The `nph-scheduler`, which keeps its own grid until DSA-77 D-1. D-12 to D-14.
 
 **Status.** The answers of the design owner on 18/11/2026. API and semantics are reviewed in the pull request that brings them; the
-merge is the approval. D-12 to D-18 wait for the design owner and do not block the pull request.
+merge is the approval. D-12 waits for the design owner and does not block the pull request; D-13 and D-15 to D-17 were answered later, by Indiane on 23/11/2026, and D-14 and D-18 on 26/11/2026.
 
 ---
 
