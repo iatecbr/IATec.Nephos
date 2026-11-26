@@ -119,6 +119,33 @@
   letter-spacing: var(--nph-text-label-lg-letter-spacing);
 }
 
+/* The title and the tag share a row at `collapsible/tag-gap`; the title hugs its text, as in the accordion item. */
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-collapsible-tag-gap);
+  max-inline-size: 100%;
+}
+
+.title {
+  min-inline-size: 0;
+}
+
+/* The three slots of the row trigger take no room while empty. */
+.start,
+.tag,
+.end {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.start[hidden],
+.tag[hidden],
+.end[hidden] {
+  display: none;
+}
+
 .description {
   inline-size: 100%;
   color: var(--nph-collapsible-description-foreground);
@@ -250,7 +277,7 @@
   padding-block-start: var(--nph-collapsible-content-padding-top);
   padding-block-end: var(--nph-collapsible-content-padding-bottom);
   padding-inline: var(--nph-collapsible-content-padding-x);
-  color: var(--nph-color-foreground);
+  color: var(--nph-collapsible-content-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -290,7 +317,7 @@
 
 .preview-content {
   padding-inline: var(--nph-collapsible-content-padding-x);
-  color: var(--nph-color-foreground);
+  color: var(--nph-collapsible-content-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);

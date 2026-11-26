@@ -4,7 +4,7 @@
  * They prove the contract accepted in Figma (documentation frame `6014:1688`, set `6006:2250`) and P121:
  * the three types (line, button and preview), closed and open; the two appearances; the three sizes of
  * the line type; the indicator at the end and at the start, and the indent of the content to the title;
- * what the trigger turns on (the description and the start icon); the disabled state and open and disabled
+ * what the trigger turns on (the description, the start icon and the start, tag and end slots); the disabled state and open and disabled
  * together; several pieces one under the other with no divider; the right-to-left writing; the event; and
  * the three required examples in light and dark mode, in the same story. Each page opens with what it
  * proves, and the matrix names its rows by attribute, as on the Docs page. All visible text, including
@@ -135,6 +135,8 @@ export const Content: Story = {
         { label: 'description: on', cells: [collapsible(v, { description: v.support })] },
         { label: 'icon: on · description: on', cells: [collapsible(v, { icon: 'gear', description: v.support })] },
         { label: 'description: on · title: long', cells: [collapsible(v, { label: v.longTitle, description: v.longSupport, icon: 'gear', width: '20rem' })] },
+        { label: 'slots: start, tag and end · appearance: flush', cells: [collapsible(v, { description: v.support, slots: true })] },
+        { label: 'slots: start, tag and end · appearance: card', cells: [collapsible(v, { appearance: 'card', description: v.support, slots: true })] },
         {
           label: 'content: a piece',
           cells: [

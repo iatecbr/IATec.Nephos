@@ -27,6 +27,8 @@ import {
 } from './nph-collapsible';
 import type { NphCollapsibleToggleDetail } from './nph-collapsible';
 import type { NphButton } from '../nph-button/nph-button';
+import '../nph-avatar/nph-avatar';
+import '../nph-badge/nph-badge';
 
 beforeAll(async () => {
   await document.fonts.load('400 14px "Noto Sans"');
@@ -155,7 +157,7 @@ describe('registration and API', () => {
 
   it('the public API is exactly P121', () => {
     const declared = [...(NphCollapsible as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()].filter(
-      (name) => name !== 'phase' && name !== 'fits',
+      (name) => name !== 'phase' && name !== 'fits' && name !== 'filled',
     );
     expect(declared.sort()).toEqual(
       ['appearance', 'description', 'disabled', 'icon', 'indicator', 'label', 'open', 'openLabel', 'size', 'type'].sort(),
@@ -822,8 +824,8 @@ describe('the line type', () => {
     const start = await mount({ icon: 'gear', indicator: 'start' });
     const order = (piece: NphCollapsible): string[] =>
       [...trigger(piece).children].map((child) => (child.classList.contains('text') ? 'text' : (child.className as string)));
-    expect(order(end)).toEqual(['icon', 'text', 'indicator']);
-    expect(order(start)).toEqual(['indicator', 'icon', 'text']);
+    expect(order(end)).toEqual(['icon', 'start', 'text', 'end', 'indicator']);
+    expect(order(start)).toEqual(['indicator', 'icon', 'start', 'text', 'end']);
   });
 
   it('the icon and the indicator take their sizes and colors from the component tokens', async () => {
@@ -1288,7 +1290,7 @@ describe('lifecycle', () => {
     const piece = await mount({ open: true });
     piece.innerHTML = '<p id="new">New text</p>';
     await settle(piece);
-    expect(piece.querySelector('#new')?.assignedSlot).toBe(root(piece).querySelector('slot'));
+    expect(piece.querySelector('#new')?.assignedSlot).toBe(root(piece).querySelector('slot:not([name])'));
   });
 
   it('a piece created by script and filled before it enters the page draws as one written in the markup', async () => {
@@ -1385,5 +1387,87 @@ describe('token contract', () => {
     expect(cssWithoutComments).not.toMatch(/\b(rgb|rgba|hsl|hsla)\(/i);
     const measures = [...cssWithoutComments.matchAll(/\d+(\.\d+)?(px|rem|em|ms|s|vh|vw)\b/g)].map((match) => match[0]);
     expect(measures).toEqual([]);
+  });
+});
+describe('the start, tag and end slots of the row trigger (DSA-125)', () => {
+  const START = '<nph-avatar slot="start" name="Ana Souza" size="sm"></nph-avatar>';
+  const TAG = '<nph-badge slot="tag" text="New" severity="primary" emphasis="light"></nph-badge>';
+  const END = '<nph-badge slot="end" text="Done" severity="success" emphasis="light"></nph-badge>';
+  const part = (piece: NphCollapsible, name: string): HTMLElement => root(piece).querySelector(`.${name}`) as HTMLElement;
+  const shown = (element: Element): boolean => element.getClientRects().length > 0;
+  /** Lets the slotchange handler run and the piece render again. */
+  async function filled(piece: NphCollapsible): Promise<void> {
+    await frame();
+    await settle(piece);
+  }
+
+  it('draws no slot while they are empty, and the trigger is as before', async () => {
+    const piece = await mount();
+    for (const name of ['start', 'tag', 'end']) {
+      expect(part(piece, name).hasAttribute('hidden'), name).toBe(true);
+      expect(shown(part(piece, name)), name).toBe(false);
+    }
+    expect(trigger(piece).getAttribute('aria-labelledby')).toBe('title');
+  });
+
+  it('draws each slot when it has content: the start before the title, the tag next to it, the end before the indicator', async () => {
+    const piece = await mount({}, `${START}${TAG}${END}${BODY}`);
+    await filled(piece);
+    for (const name of ['start', 'tag', 'end']) {
+      expect(shown(part(piece, name)), name).toBe(true);
+    }
+    const left = (name: string): number => part(piece, name).getBoundingClientRect().left;
+    const title = root(piece).querySelector('.title') as HTMLElement;
+    expect(left('start')).toBeLessThan(title.getBoundingClientRect().left);
+    expect(title.getBoundingClientRect().right).toBeLessThanOrEqual(left('tag') + 0.5);
+    const indicator = root(piece).querySelector('.indicator') as HTMLElement;
+    expect(part(piece, 'end').getBoundingClientRect().right).toBeLessThanOrEqual(indicator.getBoundingClientRect().left + 0.5);
+  });
+
+  it('the title and the tag are collapsible/tag-gap apart', async () => {
+    const piece = await mount({}, `${TAG}${BODY}`);
+    await filled(piece);
+    const title = (root(piece).querySelector('.title') as HTMLElement).getBoundingClientRect();
+    const tag = part(piece, 'tag').getBoundingClientRect();
+    const gap = Number.parseFloat(resolved(piece, 'width', '--nph-collapsible-tag-gap'));
+    expect(gap).toBeGreaterThan(0);
+    expect(Math.round(tag.left - title.right)).toBe(Math.round(gap));
+  });
+
+  it('the tag and the end content are read in the name of the trigger, after the title; the start is decorative', async () => {
+    const piece = await mount({}, `${START}${TAG}${END}${BODY}`);
+    await filled(piece);
+    expect(trigger(piece).getAttribute('aria-labelledby')).toBe('title tag end');
+    expect(part(piece, 'start').getAttribute('aria-hidden')).toBe('true');
+    expect(part(piece, 'tag').textContent?.trim()).toBe('');
+    expect((part(piece, 'tag').querySelector('slot') as HTMLSlotElement).assignedElements()[0]?.getAttribute('text')).toBe('New');
+  });
+
+  it('a slot filled after the first render is drawn, and drawn no more once emptied', async () => {
+    const piece = await mount();
+    piece.insertAdjacentHTML('beforeend', TAG);
+    await filled(piece);
+    expect(shown(part(piece, 'tag'))).toBe(true);
+    piece.querySelector('[slot="tag"]')?.remove();
+    await filled(piece);
+    expect(shown(part(piece, 'tag'))).toBe(false);
+    expect(trigger(piece).getAttribute('aria-labelledby')).toBe('title');
+  });
+
+  it('the trigger stays the only interactive element and the click on a slot toggles the content', async () => {
+    const piece = await mount({}, `${END}${BODY}`);
+    await filled(piece);
+    expect(root(piece).querySelectorAll('button')).toHaveLength(1);
+    await userEvent.click(part(piece, 'end'));
+    expect(piece.open).toBe(true);
+  });
+
+  it('the button and preview types ignore the three slots', async () => {
+    for (const type of ['button', 'preview'] as const) {
+      const piece = await mount({ type }, `${START}${TAG}${END}${BODY}`);
+      await filled(piece);
+      expect(root(piece).querySelector('slot[name]'), type).toBeNull();
+      document.body.replaceChildren();
+    }
   });
 });
