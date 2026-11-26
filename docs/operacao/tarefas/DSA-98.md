@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 970,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-76",
@@ -48,9 +48,9 @@
     "excerpt": null,
     "converted_decision": "The motion exception of DSA-78 D-3 covers disclosure content that grows in place. The block of the nph-panel-menu is built with the nph-collapsible and its panel-menu/expand-* tokens leave. The decision and its sources are in the evidence of the design-decision gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-98-bloco-panel-menu-collapsible", "commit": "1326cd17", "pr": "205" },
   "context": null,
-  "updated_at": "2026-11-19"
+  "updated_at": "2026-11-26"
 }
 ```
 
