@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 730,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "awaiting-decision",
   "piece": "nph-file-upload",
   "dependencies": [
     "DSA-03",
@@ -72,7 +72,7 @@
   },
   "git_review": { "branch": "feat/dsa-74-file-upload", "commit": "d261d6c", "pr": 168 },
   "context": null,
-  "updated_at": "2026-11-16"
+  "updated_at": "2026-11-26"
 }
 ```
 

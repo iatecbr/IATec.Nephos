@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 930,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-tree-select",
   "dependencies": [
     "DSA-03",
@@ -33,17 +33,18 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec of the nph-tree-select, the tree-select/* tokens, the error row of the nph-tree and the nph-skeleton background pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor b28caca9901ac4f53532be3ffa8cc34918d6600b origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-94/review-and-merge-2026-11-26.md",
+      "result": "passed",
+      "verified_at": "2026-11-26",
+      "verified_by": "helifiora"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-94/figma-docs-accepted-2026-11-18.md"
+    "docs/operacao/evidencias/DSA-94/figma-docs-accepted-2026-11-18.md",
+    "docs/operacao/evidencias/DSA-94/review-and-merge-2026-11-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -61,8 +62,8 @@
     "converted_decision": "The nph-tree-select documentation frame (7145:9081, page 4128:35276) was accepted as the API and behavior specification of the nph-tree-select, with the visual acceptance of the root (6339:6323). COMPONENT_SET nph-tree-select (6339:8107), 42 variants; COMPONENT_SET of the panel (6339:8110), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": "feat/dsa-94-tree-select", "commit": "271c7601", "pr": 193 },
-  "context": "docs/operacao/contextos/DSA-94.md",
-  "updated_at": "2026-11-24"
+  "context": null,
+  "updated_at": "2026-11-26"
 }
 ```
 
