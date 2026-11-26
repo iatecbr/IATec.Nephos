@@ -214,7 +214,7 @@ business_rules:
   - "Go to page takes a whole number; past the end it goes to the last page, and text that is not a number is ignored. The field empties after it."
 domain_errors: []
 tokens:
-  bar: "border pagination/border-width in pagination/border, radius pagination/radius, padding pagination/padding-x and pagination/padding-y, gap pagination/item-gap"
+  bar: "no outer border, radius pagination/radius, padding pagination/padding-x and pagination/padding-y, gap pagination/item-gap"
   groups: "pagination/group-gap between groups, pagination/control-gap between a label and its field"
   page: "at least pagination/item-size, radius pagination/item-radius, space/inline-tight on the sides, text pagination/text-foreground in text/label-md (D-2), tabular figures; every number and ellipsis reserves the width of the widest number"
   page-hover: pagination/item-background-hover
@@ -222,8 +222,8 @@ tokens:
   arrow: "pagination/item-size square, radius pagination/item-radius, background pagination/arrow-background, stroke pagination/arrow-border-width in pagination/arrow-border, icon/size-md; hover pagination/item-background-hover"
   written-arrow: "in numbered, space/control-padding on the sides and space/inline-tight between icon and text, as the nph-button with text"
   disabled: pagination/disabled-opacity
-  items-per-page: "nph-select in pagination/page-size-width"
-  go-to-page: "nph-input in pagination/page-input-width"
+  items-per-page: "nph-select in pagination/page-size-width, height pagination/field-height (36, the height of the buttons)"
+  go-to-page: "nph-input in pagination/page-input-width, height pagination/field-height (36)"
   focus: "border border/width in focus/border, focus/border-radius-control; halo focus/ring-width in focus/halo, focus/radius-control-with-border"
 ai_hints:
   - "Use nph-pagination below a list or table that does not fit on one screen; to filter or search, use the filter or the search."
@@ -384,13 +384,13 @@ built yet; today the consumer places the bar below an `nph-table` or a list.
 
 | Part | Token |
 |---|---|
-| Bar | Border `pagination/border-width` in `pagination/border`, radius `pagination/radius`, padding `pagination/padding-x` and `pagination/padding-y`, gap `pagination/item-gap` |
+| Bar | No outer border, radius `pagination/radius`, padding `pagination/padding-x` and `pagination/padding-y`, gap `pagination/item-gap` |
 | Groups | `pagination/group-gap` between groups; `pagination/control-gap` between a label and its field |
 | Number | At least `pagination/item-size`, radius `pagination/item-radius`, `space/inline-tight` on the sides, `pagination/text-foreground` in `text/label-md` (D-2), tabular figures; every number and ellipsis reserves the width of the widest number; hover `pagination/item-background-hover`; current `pagination/item-background-active` and `text/label-md-strong` |
 | Arrow | `pagination/item-size` square, radius `pagination/item-radius`, `pagination/arrow-background`, stroke `pagination/arrow-border-width` in `pagination/arrow-border`, icon `icon/size-md`; hover `pagination/item-background-hover`. In `numbered`, `space/control-padding` on the sides and `space/inline-tight` between icon and text |
 | Disabled | `pagination/disabled-opacity` |
-| Items per page | `nph-select` in `pagination/page-size-width` |
-| Go to page | `nph-input` in `pagination/page-input-width` |
+| Items per page | `nph-select` in `pagination/page-size-width`, height `pagination/field-height` (36) |
+| Go to page | `nph-input` in `pagination/page-input-width`, height `pagination/field-height` (36) |
 | Focus | Border `border/width` in `focus/border`, `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, `focus/radius-control-with-border` |
 
 **Usage restrictions:** the numbers and the arrows are native buttons painted with the
@@ -444,9 +444,10 @@ last page, type `compact`.
   `text/label-md-strong`. The `pagination/*` tokens are in
   `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P99.
-- **Pending decisions:** D-1 to D-5 of the task DSA-54: the native buttons instead of
-  `nph-button`, the text role of the numbers and the texts, the previous and next icons, the
-  order of the simple, compact and range types, and where the outline of the bar ends.
+- **Pending decisions:** D-1 to D-4 of the task DSA-54: the native buttons instead of
+  `nph-button`, the text role of the numbers and the texts, the previous and next icons, and the
+  order of the simple, compact and range types. D-5, where the outline of the bar ends, was
+  answered on 2026-11-24: the bar has no outline (DSA-118).
 - **Tests:** `src/components/nph-pagination/nph-pagination.test.ts` and
   `nph-pagination.docs.test.ts`.
 - **Usage evidence:** the required examples of the `nph-pagination` Docs page and of the

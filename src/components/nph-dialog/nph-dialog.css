@@ -11,7 +11,7 @@
  * visual decisions. One value is literal by rule: the `md` breakpoint in the media query,
  * because a media query does not accept a custom property (`design.md`, §2f, and P87).
  *
- * One token is redefined in the scope of the window, with no new value (P87): `color/border`,
+ * One token is redefined in the scope of the window, with no new value (P87): `separator/border`,
  * only on the dialog's own `nph-separator`, takes `color/dialog-separator`. The solid secondary
  * `nph-button` keeps its own background inside the window, the same as outside it (DSA-64 D-1):
  * the window no longer redefines `color/secondary` or the solid secondary tokens of the button.
@@ -146,7 +146,7 @@
  * `space/stack` plus `space/stack-snug` from what comes before, with or without the line.
  */
 .line {
-  --nph-color-border: var(--nph-color-dialog-separator);
+  --nph-separator-border: var(--nph-color-dialog-separator);
   margin-block-start: var(--nph-space-stack);
 }
 

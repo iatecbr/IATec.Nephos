@@ -36,8 +36,9 @@ api:
     default: default
     reflects: true
     constraint: >-
-      The height of the field: control/height-default or control/height-large, as the
-      nph-select. The panel and the items do not change with the size. Any other value draws
+      The height of the field: the one of the field it mirrors (select/height in single,
+      combobox/height in search, multi-combobox/height in multiple, as a minimum) or
+      control/height-large. The panel and the items do not change with the size. Any other value draws
       nothing and emits console.error in development.
   items:
     type: array
@@ -290,11 +291,11 @@ variants:
       - "counter where the person needs to check each choice."
 states:
   default:
-    token: color/input
-    changes_for_user: "The resting border, on color/background, with the start icon and the arrow in color/muted-foreground."
+    token: "select/border, select/border-bottom; combobox/* in search; multi-combobox/* in multiple"
+    changes_for_user: "The resting border, on color/background: the top and the sides in <piece>/border, the bottom line in <piece>/border-bottom, with the start icon and the arrow in color/muted-foreground."
   hover:
     token: color/input-hover
-    changes_for_user: "The border goes one step darker under the pointer."
+    changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
     changes_for_user: "Focus on the field: the border takes focus/border with the focus/halo attached outside."
@@ -329,15 +330,15 @@ business_rules:
 domain_errors:
   - "invalid: the choice needs correction, such as a required field with nothing chosen; nph-field writes the sentence and passes it as description."
 tokens:
-  height: "control/height-default or control/height-large; in multiple a minimum that grows with the lines of chips"
+  height: "select/height in single, combobox/height in search or control/height-large; in multiple multi-combobox/height, a minimum that grows with the lines of chips"
   width: "layout/input-width; layout/multi-combobox-width in multiple"
   radius: radius/control
-  border: "border/width, in color/input, color/input-hover, focus/border or status/error"
+  border: "border/width, at rest in select/border and select/border-bottom (single), combobox/border and combobox/border-bottom (search) or multi-combobox/border and multi-combobox/border-bottom (multiple); in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border. By decision, as in Figma, where the field is an instance of those pieces, nph-tree-select reads the tokens of the piece it mirrors: a declared exception to rule T9"
   background: "color/background; color/muted when disabled"
   padding: "space/control-padding on the sides; space/inline-tight above and below in multiple"
   gap: "space/inline between the parts; space/inline-tight between the chips and the text"
   icons: "nph-icon globe, magnifying-glass, chevron-down, chevron-up and xmark, icon/size-sm in color/muted-foreground"
-  arrow_area: "color/accent, with the color/border divider; color/muted when disabled"
+  arrow_area: "no background and no divider, also when disabled; the field background shows through it"
   text: "text/body-md in color/foreground; the placeholder in color/muted-foreground"
   chip: "color/primary-surface, radius/full, horizontal padding space/inline, gap space/inline-tight; the label text/label-sm in color/primary-on-surface; with icons, the nph-icon of the item at icon/size-sm"
   panel_background: tree-select/panel-background
@@ -373,7 +374,7 @@ accessibility:
     - "Open, search: Enter or Alt+ArrowUp choose and close; Home, End and Space are typed in the field. Open, multiple: Enter checks and unchecks and keeps the panel open; Alt+ArrowUp closes without choosing."
     - "Esc closes with the focus on the field; Tab closes without choosing and the focus moves on."
   focus: "DOM focus does not leave the field while the panel is open. The active item draws the focus border of the nph-tree item by a state, when the last input was the keyboard, with no DOM focus on it. The field shows the focus border and the halo while it has the focus and while the panel is open. On a click outside, focus goes where the person clicked."
-  contrast: "The text of the field, the chips and the items meet 4.5:1 in both themes; the border of the field meets 3:1. The outline of the panel is decorative: the elevation/dropdown shadow and the background separate the layer. The skeleton is decorative. The disabled field is exempt."
+  contrast: "The text of the field, the chips and the items meet 4.5:1 in both themes; the bottom line of the border of the field meets 3:1. The outline of the panel is decorative: the elevation/dropdown shadow and the background separate the layer. The skeleton is decorative. The disabled field is exempt."
   color_alternative: "The chosen item has a bar at the start and the weight of the label, besides the background; a parent with part checked shows a dash in the box; the error is said by the sentence of nph-field."
 invalid_combinations:
   - "A mode outside single, search and multiple — the field draws nothing."
@@ -397,7 +398,7 @@ anti_patterns:
   - "Writing the data as children."
   - "Fixing the width in pixels."
 sources:
-  design_md: "design.md, tree-select/*, layout/input-width, layout/multi-combobox-width, layout/max-list-height, color/popover, color/border-subtle, color/skeleton, skeleton/background, color/input, color/input-hover, color/background, color/muted, color/muted-foreground, color/foreground, color/accent, color/primary-surface, color/primary-on-surface, status/error, focus/*, state/disabled-opacity, control/height-*, space/control-padding, space/inline, space/inline-tight, radius/control, radius/container, radius/full, border/width, elevation/dropdown, text/body-md and text/label-sm"
+  design_md: "design.md, tree-select/*, layout/input-width, layout/multi-combobox-width, layout/max-list-height, color/popover, color/border-subtle, color/skeleton, skeleton/background, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/background, color/muted, color/muted-foreground, color/foreground, color/accent, color/primary-surface, color/primary-on-surface, status/error, focus/*, state/disabled-opacity, control/height-*, space/control-padding, space/inline, space/inline-tight, radius/control, radius/container, radius/full, border/width, elevation/dropdown, text/body-md and text/label-sm; select/*, combobox/* and multi-combobox/* border and height in the token source"
   decision: "P138 — API and semantics of nph-tree-select; the tree rows are shared with nph-tree as a module (the same path as P95), the form pattern is P80 and the field contract is P83"
   tests: "src/components/nph-tree-select/nph-tree-select.test.ts"
   usage_evidence: "the Examples story of the nph-tree-select Validation page"
@@ -442,7 +443,7 @@ panel is the rows of `nph-tree`. The label, the help and the error message belon
 
 **By appearance:** the `mode`: `single`, `search` and `multiple`.
 
-**By size:** `default` (`control/height-default`) and `large` (`control/height-large`). The
+**By size:** `default` (the height of the mirrored field: `select/height` in `single`, `combobox/height` in `search`, `multi-combobox/height` in `multiple`) and `large` (`control/height-large`). The
 panel and the items do not change with the size.
 
 **By density:** in `multiple`, the chips, which go down to more lines and make the field
@@ -465,8 +466,8 @@ same form; `counter` where the person needs to check each choice.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `color/input` | The resting border, on `color/background`, with the start icon and the arrow in `color/muted-foreground` |
-| `hover` | `color/input-hover` | The border goes one step darker under the pointer |
+| `default` | `select/border`, `select/border-bottom` (`combobox/*` in `search`, `multi-combobox/*` in `multiple`) | The resting border, on `color/background`: top and sides in `<piece>/border`, the bottom line in `<piece>/border-bottom`, with the start icon and the arrow in `color/muted-foreground` |
+| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | The border takes `focus/border`, with the halo attached outside |
 | `aberto` | `focus/border`, `focus/halo` | The panel is open and the field keeps the focus border; in `multiple`, open is the focus with the chips |
 | `erro` | `status/error` | The border is `status/error`, also on hover |
@@ -530,7 +531,7 @@ field with nothing chosen. `nph-field` writes the sentence and passes it to the 
 | Description | `description`, read when the field takes focus: the help or the error sentence of `nph-field` |
 | Keyboard | Closed: the arrows, Enter and Space (`single`), Home and End (`single`), a letter (`single`) and typing (`search`, `multiple`) open the panel. Open: the arrows move between visible items; Right and Left open and close a branch or go to its first child or parent; in `single`, Home, End, `*` and a letter; Enter, Space or Alt+ArrowUp choose; in `multiple`, Enter checks and the panel stays open; Esc closes; Tab closes without choosing |
 | Focus | DOM focus does not leave the field while the panel is open. The active item draws the focus border of the `nph-tree` item by a state, only when the last input was the keyboard. A press on the panel keeps the focus on the field |
-| Contrast | The text, the chips and the items meet 4.5:1; the border of the field 3:1. The outline of the panel is decorative, as the list of the family. The skeleton is decorative. The disabled field is exempt |
+| Contrast | The text, the chips and the items meet 4.5:1; the bottom line of the border of the field 3:1. The outline of the panel is decorative, as the list of the family. The skeleton is decorative. The disabled field is exempt |
 | Alternative to color | The chosen item has a bar and the weight of the label; a parent with part checked shows a dash; the error is said by the sentence of `nph-field` |
 | Hidden parts | The icons, the box of the item and the arrow are hidden from the screen reader |
 | Touch target | The field has the height of the size; the chevron, the box, the clear and the remove targets are 24 × 24; the item is `tree/item-height` |
@@ -558,9 +559,9 @@ shadow root of another element.
 
 | Part | Token |
 |---|---|
-| Field | `control/height-default` or `control/height-large`; width `layout/input-width`, `layout/multi-combobox-width` in `multiple`; `radius/control`; `border/width`; padding `space/control-padding`; gap `space/inline`; background `color/background` |
+| Field | `select/height` (`single`), `combobox/height` (`search`), `multi-combobox/height` (`multiple`, minimum) or `control/height-large`; border `select/border`, `combobox/border` or `multi-combobox/border` on top and sides and the `-bottom` token below at rest (the tokens of the mirrored field, a declared exception to rule T9); width `layout/input-width`, `layout/multi-combobox-width` in `multiple`; `radius/control`; `border/width`; padding `space/control-padding`; gap `space/inline`; background `color/background` |
 | Icons | `nph-icon` `globe`, `magnifying-glass`, `chevron-down`, `chevron-up` and `xmark`, `icon/size-sm`, `color/muted-foreground` |
-| Arrow area | `color/accent`, with the `color/border` divider; `color/muted` when disabled |
+| Arrow area | No background and no divider, also when disabled; the field background shows through it |
 | Text | `text/body-md`, `color/foreground`; the placeholder in `color/muted-foreground` |
 | Chip | `color/primary-surface`; `radius/full`; horizontal padding `space/inline`; gap `space/inline-tight`; the label `text/label-sm` in `color/primary-on-surface` |
 | Panel | `tree-select/panel-background`, `tree-select/panel-border`, `tree-select/panel-border-width`, `tree-select/panel-radius`, `tree-select/panel-max-height`, `tree-select/panel-offset`, `tree-select/panel-width`, `tree-select/panel-width-multiple`; shadow `elevation/dropdown` |
@@ -624,12 +625,13 @@ ancestors.
 - **The repository `design.md`:** `tree-select/*`, `layout/input-width`,
   `layout/multi-combobox-width`, `layout/max-list-height`, `color/popover`,
   `color/border-subtle`, `color/skeleton`, `skeleton/background`, `color/input`,
-  `color/input-hover`, `color/background`, `color/muted`, `color/muted-foreground`,
+  `color/field-border`, `color/field-border-bottom`, `color/input-hover`, `color/background`, `color/muted`, `color/muted-foreground`,
   `color/foreground`, `color/accent`, `color/primary-surface`, `color/primary-on-surface`,
   `status/error`, `focus/*`, `state/disabled-opacity`, `control/height-*`,
   `space/control-padding`, `space/inline`, `space/inline-tight`, `radius/control`,
   `radius/container`, `radius/full`, `border/width`, `elevation/dropdown`, `text/body-md` and
-  `text/label-sm`.
+  `text/label-sm`. The `border`, `border-bottom` and `height` tokens of `select`, `combobox`
+  and `multi-combobox` are in `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P138, the API and semantics of `nph-tree-select`; the
   form pattern is P80, the field contract is P83, the tree is P118 and the shared rows follow
   the path of P95.

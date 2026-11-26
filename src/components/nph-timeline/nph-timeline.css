@@ -12,9 +12,9 @@
  * the connector line sits). The skeleton lines take the width of their column.
  *
  * THE CONNECTOR LINE — an `nph-separator` vertical. The separator draws its line on its own host in
- * `color/border`; a style of this tree wins over the `:host` rule of its shadow root, so the item paints
- * `timeline/connector-border` on it without any change to the separator, and the pending item leaves it
- * as it is (item 6 of the accepted decisions). It sits at half of the marker column, 12 px of 24, with
+ * `separator/border`; a style of this tree wins over the `:host` rule of its shadow root, so the item paints
+ * `timeline/connector-border` on it without any change to the separator, and the pending item paints
+ * `timeline/connector-border-pending` (item 6 of the accepted decisions, DSA-117). It sits at half of the marker column, 12 px of 24, with
  * no `transform`: a percentage translate makes a half pixel and blurs the 1 px line (item 12).
  *
  * No motion: nothing here transitions, so nothing has to go away under `prefers-reduced-motion`.
@@ -145,13 +145,16 @@
   inset-inline-start: calc(var(--nph-timeline-marker-size) / 2);
 }
 
-/* Every item but the pending one paints the line; the pending item writes nothing, so the separator keeps `color/border`. */
+/* Every item but the pending one paints the line with `timeline/connector-border`; the pending one has its own token. */
 [data-status='neutral'] .connector,
 [data-status='completed'] .connector,
 [data-status='current'] .connector,
 [data-status='error'] .connector,
 [data-status='warning'] .connector {
   background-color: var(--nph-timeline-connector-border);
+}
+[data-status='pending'] .connector {
+  background-color: var(--nph-timeline-connector-border-pending);
 }
 
 /* ----- the content ---------------------------------------------------------- */

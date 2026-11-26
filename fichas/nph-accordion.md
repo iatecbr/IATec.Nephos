@@ -526,7 +526,7 @@ exception to the token layers.
 from a token. The `accordion/title-gap`, `accordion/tile-padding` and `accordion/tile-padding-compact`
 point straight to the core by decision. The text of the content slot is the product's and has no
 component token. The divider is drawn by the accordion with `border/width` in `accordion/divider`, not
-by `nph-separator`, whose line color is fixed at `color/border`. The piece has no `::part` and no color
+by `nph-separator`, whose line color is fixed at `separator/border`. The piece has no `::part` and no color
 property.
 
 **AI hints:**

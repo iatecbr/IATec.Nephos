@@ -26,7 +26,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  border: var(--nph-border-width) solid var(--nph-color-input);
+  border: var(--nph-border-width) solid var(--nph-color-border-subtle);
   border-radius: var(--nph-radius-container);
   background-color: var(--nph-color-popover);
   box-shadow: var(--nph-elevation-dropdown);

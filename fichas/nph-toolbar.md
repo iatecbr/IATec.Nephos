@@ -26,7 +26,7 @@ api:
     constraint: >-
       The Figma property `tipo`: bulk (`em massa`), page (`página`), tools
       (`ferramentas`), floating (`flutuante`) or applied-filters (`filtros aplicados`). It picks the
-      background, the border and the layout. Any other value draws nothing and emits
+      background and the layout. Any other value draws nothing and emits
       console.error in development.
   size:
     type: string
@@ -37,7 +37,8 @@ api:
       The Figma property `tamanho`: compact, default or large. The bar has no height of
       its own: it writes size on every direct child that has one — nph-button,
       nph-togglebutton, nph-toggle-group and nph-input — so they are 28, 36 or 44 px
-      high, and a size set on such a child is overwritten. nph-chip, which has two
+      high (the nph-input search is 28, 38 or 44: the default height of a field is
+      input/height), and a size set on such a child is overwritten. nph-chip, which has two
       sizes, takes compact in the compact bar and default in the other two. Any other
       value draws nothing and emits console.error in development.
   label:
@@ -148,24 +149,23 @@ states:
     token: toolbar/gap
     changes_for_user: "With no chip, the strip is not shown and the page bar keeps its usual height. Clear filters shows from the first chip."
 business_rules:
-  - "The bar controls background, border, radius and space; each piece controls its own color, state and focus."
+  - "The bar controls background, radius and space; each piece controls its own color, state and focus."
   - "The bar is the source of the height: it writes size on every direct child that has one."
   - "The actions are one Tab stop: the left and right arrows move between them, wrapping at the ends, and Home and End go to the first and the last (pending decision D-2)."
   - "The search field keeps its own Tab stop and its arrow keys (pending decision D-2)."
   - "The bar never removes a chip: the consumer takes the filter away on nph-remove and keeps the strip in the page while it is empty."
   - "After a chip leaves by its X, the focus goes to the next chip, else to the previous one, else to trigger; after Clear filters empties the strip, to trigger."
-  - "The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer drops the text of the buttons first, then sends the actions at the back to More (pending decision D-5). Only the applied filters strip wraps."
+  - "The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer drops the text of the buttons first, then sends the actions at the back to More (pending decision D-5). A button whose text is a value (the current choice of a menu, such as the block style of the nph-rich-text-editor) keeps its text: on a narrow screen it goes whole to More, as its labeled group with the current value checked, instead of becoming icon only (DSA-106; precedent: nph-rich-text-editor, DSA-105). Only the applied filters strip wraps."
 domain_errors: []
 tokens:
   background: toolbar/background
-  border: "toolbar/border in toolbar/border-width"
   radius: toolbar/radius
   padding: toolbar/padding
   gap: toolbar/gap
   bulk: "toolbar/bulk-background, toolbar/bulk-count-foreground, toolbar/bulk-padding-x and toolbar/bulk-action-background-hover"
-  floating: "toolbar/floating-background, toolbar/floating-border, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown"
+  floating: "toolbar/floating-background, toolbar/floating-count-foreground, toolbar/floating-radius and elevation/dropdown"
   count: text/label-md
-  height: "from the pieces: control/height-compact, control/height-default or control/height-large"
+  height: "from the pieces: control/height-compact, control/height-default or control/height-large; the search nph-input takes input/height-compact, input/height (38) or control/height-large"
 ai_hints:
   - "Pick type by the situation and size by the density of the screen; on a touch screen, use large."
   - "Name the bar with label, after the area it acts on, such as Table actions."
@@ -276,7 +276,7 @@ The icon of the ghost buttons becomes solid on hover and when checked.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Bar | `toolbar/background` | The pieces sit on the bar's background, border and radius |
+| Bar | `toolbar/background` | The pieces sit on the bar's background and radius |
 | Bulk action hover | `toolbar/bulk-action-background-hover` | The hover of the secondary ghost actions stays visible over the highlighted background (D-1) |
 | Applied filters, empty | `toolbar/gap` | No chip: the strip is not shown and the page bar keeps its height |
 
@@ -284,7 +284,7 @@ The icon of the ghost buttons becomes solid on hover and when checked.
 
 **Business rule the bar carries:**
 
-- The bar controls background, border, radius and space; each piece controls its own color,
+- The bar controls background, radius and space; each piece controls its own color,
   state and focus.
 - The bar is the source of the height: it writes `size` on every direct child that has one.
 - The actions are one Tab stop: the left and right arrows move between them, wrapping at the
@@ -296,6 +296,9 @@ The icon of the ghost buttons becomes solid on hover and when checked.
   else to `trigger`; after Clear filters empties the strip, to `trigger`.
 - The bar does not wrap and does not collapse by itself: on a narrow screen, the consumer
   drops the text of the buttons first, then sends the actions at the back to More (D-5).
+  A button whose text is a value (the current choice of a menu, such as the block style of the
+  `nph-rich-text-editor`) keeps its text: on a narrow screen it goes whole to More, as its labeled group
+  with the current value checked, instead of becoming icon only (DSA-106; precedent: DSA-105).
   Only the applied filters strip wraps.
 
 **Domain error states:** none.
@@ -331,13 +334,13 @@ sits over the content, near the selection, or pinned to the foot of the area.
 
 | Part | Token |
 |---|---|
-| Bar | `toolbar/background`, `toolbar/border` in `toolbar/border-width`, `toolbar/radius`, `toolbar/padding` |
+| Bar | `toolbar/background`, `toolbar/radius`, `toolbar/padding`; no outer border (DSA-118) |
 | Bulk bar | `toolbar/bulk-background`, no border, sides in `toolbar/bulk-padding-x`; actions hover in `toolbar/bulk-action-background-hover` |
-| Floating bar | `toolbar/floating-background`, `toolbar/floating-border`, `toolbar/floating-radius`, `elevation/dropdown` |
+| Floating bar | `toolbar/floating-background`, `toolbar/floating-radius`, `elevation/dropdown`; no outer border (DSA-118) |
 | Count | `text/label-md`, in `toolbar/bulk-count-foreground` or `toolbar/floating-count-foreground` |
 | Space | `toolbar/gap` between the items and between the zones |
 | Applied filters strip | No background and no border; `toolbar/gap` between the items and the lines, `toolbar/padding` at the start only |
-| Height | From the pieces: `control/height-compact`, `control/height-default` or `control/height-large` |
+| Height | From the pieces: `control/height-compact`, `control/height-default` or `control/height-large`; the search `nph-input` takes `input/height-compact`, `input/height` (38) or `control/height-large` |
 
 **Usage restrictions:** the bar consumes only the `toolbar/*` tokens, `elevation/dropdown` and
 `text/label-md`. In the bulk bar it points the secondary ghost hover tokens of `nph-button` at

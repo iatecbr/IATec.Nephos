@@ -198,24 +198,24 @@ describe('the paint of each type', () => {
   });
 
   for (const type of ['page', 'tools']) {
-    it(`${type}: background, border in its width, radius and padding of the bar`, async () => {
+    it(`${type}: background, no border, radius and padding of the bar (DSA-118)`, async () => {
       const bar = await mount(`<nph-toolbar type="${type}" label="Area"></nph-toolbar>`);
       const style = getComputedStyle(part(bar, '.bar'));
       expect(style.backgroundColor).toBe(color('--nph-toolbar-background'));
-      expect(style.borderTopColor).toBe(color('--nph-toolbar-border'));
-      expect(style.borderTopWidth).toBe(length('--nph-toolbar-border-width'));
-      expect(style.borderTopStyle).toBe('solid');
+      expect(style.borderTopWidth).toBe('0px');
+      expect(style.borderTopStyle).toBe('none');
       expect(style.borderTopLeftRadius).toBe(radius('--nph-toolbar-radius'));
       expect(style.paddingLeft).toBe(length('--nph-toolbar-padding'));
       expect(style.boxShadow).toBe('none');
     });
   }
 
-  it('floating: popover background, its border and radius, and the dropdown shadow', async () => {
+  it('floating: popover background, no border, radius, and the dropdown shadow (DSA-118)', async () => {
     const bar = await mount('<nph-toolbar type="floating" label="Selection" count-text="3 of 12 selected"></nph-toolbar>');
     const style = getComputedStyle(part(bar, '.bar'));
     expect(style.backgroundColor).toBe(color('--nph-toolbar-floating-background'));
-    expect(style.borderTopColor).toBe(color('--nph-toolbar-floating-border'));
+    expect(style.borderTopWidth).toBe('0px');
+    expect(style.borderTopStyle).toBe('none');
     expect(style.borderTopLeftRadius).toBe(radius('--nph-toolbar-floating-radius'));
     expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-dropdown'));
   });
@@ -950,11 +950,13 @@ describe('token contract', () => {
     (semanticTokens as unknown as Record<string, Record<string, unknown>>).toolbar ?? {},
   ).map((name) => `--nph-toolbar-${name}`);
 
-  it('the source has the 14 toolbar tokens of the evidence, and each is consumed here', () => {
+  /* The bar has no outer border since DSA-118: these three stay in the source and no CSS reads them. */
+  const notRead = ['--nph-toolbar-border', '--nph-toolbar-border-width', '--nph-toolbar-floating-border'];
+  it('the source has the 14 toolbar tokens of the evidence, and each is consumed here except the 3 of the outer border', () => {
     expect(toolbarTokens).toHaveLength(14);
     for (const property of toolbarTokens) {
       expect(tokensCss, property).toContain(`${property}:`);
-      expect(used.has(property), property).toBe(true);
+      expect(used.has(property), property).toBe(!notRead.includes(property));
     }
   });
 

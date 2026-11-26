@@ -35,6 +35,9 @@ afterEach(async () => {
   vi.restoreAllMocks();
 });
 
+/** The computed value of `transparent`: the arrow area has no background of its own. */
+const TRANSPARENT = 'rgba(0, 0, 0, 0)';
+
 const DEPARTMENTS = ['Finance', 'Legal', 'Marketing', 'Operations', 'People', 'Product', 'Sales', 'Support'];
 
 function options(labels: readonly string[] = DEPARTMENTS): string {
@@ -877,13 +880,13 @@ describe('the list in the top layer', () => {
     expect(inner.bottom - px('--nph-space-inline-tight') - eighth.top).toBeCloseTo(8, 1);
   });
 
-  it('the list: color/popover, border color/input, radius/container, elevation/dropdown', async () => {
+  it('the list: color/popover, border color/border-subtle, radius/container, elevation/dropdown', async () => {
     const element = await mount();
     element.open = true;
     await settle();
     const style = getComputedStyle(list(element));
     expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-popover'));
-    expect(style.borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(style.borderTopColor).toBe(resolved('color', '--nph-color-border-subtle'));
     expect(style.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-container'));
     expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-dropdown'));
     expect(getComputedStyle(scroller(element)).paddingTop).toBe(resolved('padding-top', '--nph-space-inline-tight'));
@@ -1009,10 +1012,10 @@ describe('the list in the top layer', () => {
 });
 
 describe('measures and anatomy', () => {
-  it('width layout/input-width; height control/height-default and large', async () => {
+  it('width layout/input-width; height select/height and control/height-large', async () => {
     const element = await mount();
     expect(element.getBoundingClientRect().width).toBeCloseTo(px('--nph-layout-input-width'), 1);
-    expect(trigger(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 1);
+    expect(trigger(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-select-height'), 1);
     element.size = 'large';
     await element.updateComplete;
     expect(trigger(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-large'), 1);
@@ -1024,10 +1027,11 @@ describe('measures and anatomy', () => {
       const arrow = element.shadowRoot?.querySelector('.arrow') as HTMLElement;
       const style = getComputedStyle(arrow);
       const border = px('--nph-border-width');
-      expect(arrow.getBoundingClientRect().width).toBeCloseTo(px(`--nph-control-height-${size}`) + border, 1);
-      expect(arrow.getBoundingClientRect().height).toBeCloseTo(px(`--nph-control-height-${size}`) - 2 * border, 1);
-      expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
-      expect(style.borderLeftColor).toBe(resolved('color', '--nph-color-border'));
+      const field = size === 'default' ? '--nph-select-height' : '--nph-control-height-large';
+      expect(arrow.getBoundingClientRect().width).toBeCloseTo(px(`--nph-control-height-${size}`), 1);
+      expect(arrow.getBoundingClientRect().height).toBeCloseTo(px(field) - 2 * border, 1);
+      expect(style.backgroundColor).toBe(TRANSPARENT);
+      expect(style.borderLeftWidth).toBe('0px');
       expect(style.borderTopRightRadius).toBe(resolved('border-top-right-radius', '--nph-radius-control-inner'));
       expect(style.borderTopLeftRadius).toBe('0px');
       const right = trigger(element).getBoundingClientRect().right - border;
@@ -1051,7 +1055,7 @@ describe('measures and anatomy', () => {
     expect(style.whiteSpace).toBe('nowrap');
     expect(style.textOverflow).toBe('ellipsis');
     expect(value.scrollWidth).toBeGreaterThan(value.clientWidth);
-    expect(trigger(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 1);
+    expect(trigger(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-select-height'), 1);
   });
 
   it('the value and the options start at the start edge, also inside a centered container', async () => {
@@ -1074,16 +1078,19 @@ describe('measures and anatomy', () => {
 
 describe('states and precedence', () => {
   const border = (element: NphSelect): string => getComputedStyle(trigger(element)).borderTopColor;
+  const borderBottom = (element: NphSelect): string => getComputedStyle(trigger(element)).borderBottomColor;
   const halo = (element: NphSelect): CSSStyleDeclaration => getComputedStyle(trigger(element), '::after');
 
   for (const scheme of ['light', 'dark'] as const) {
-    it(`${scheme}: rest color/input on color/background; hover color/input-hover`, async () => {
+    it(`${scheme}: rest select/border on top and sides and select/border-bottom below, on color/background; hover color/input-hover, whole`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const element = await mount();
-      expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+      expect(border(element)).toBe(resolved('color', '--nph-select-border'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-select-border-bottom'));
       expect(getComputedStyle(trigger(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-background'));
       await userEvent.hover(trigger(element));
       expect(border(element)).toBe(resolved('color', '--nph-color-input-hover'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input-hover'));
     });
   }
 
@@ -1092,6 +1099,7 @@ describe('states and precedence', () => {
     await userEvent.tab();
     expect(element.shadowRoot?.activeElement).toBe(trigger(element));
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
     const ring = halo(element);
     expect(ring.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     expect(ring.borderTopWidth).toBe(resolved('width', '--nph-focus-ring-width'));
@@ -1109,49 +1117,53 @@ describe('states and precedence', () => {
   it('error: status/error at rest, on hover and on focus; focus/halo-error on focus', async () => {
     const element = await mount('label="Department" invalid');
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     await userEvent.hover(trigger(element));
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     await userEvent.tab();
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     expect(halo(element).borderTopColor).toBe(resolved('color', '--nph-focus-halo-error'));
   });
 
   it('disabled wins: color/muted, color/input, state/disabled-opacity on the whole piece', async () => {
     const element = await mount('label="Department" disabled invalid');
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(trigger(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
     await userEvent.hover(trigger(element));
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
   });
 
   for (const scheme of ['light', 'dark'] as const) {
-    it(`${scheme}: disabled, the arrow area takes the background of the field and keeps its divider; enabled keeps color/accent (D-1)`, async () => {
+    it(`${scheme}: disabled, the arrow area has no background of its own and no divider, so the field background shows through (D-1)`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const element = await mount('label="Department"');
       const arrow = element.shadowRoot?.querySelector('.arrow') as HTMLElement;
-      expect(getComputedStyle(arrow).backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
+      expect(getComputedStyle(arrow).backgroundColor).toBe(TRANSPARENT);
       element.disabled = true;
       await element.updateComplete;
       const style = getComputedStyle(arrow);
-      expect(style.backgroundColor).toBe(getComputedStyle(trigger(element)).backgroundColor);
-      expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
-      /* The divider stays, and the opacity stays on the whole piece. */
-      expect(style.borderLeftWidth).toBe(`${px('--nph-border-width')}px`);
-      expect(style.borderLeftStyle).toBe('solid');
-      expect(style.borderLeftColor).toBe(resolved('color', '--nph-color-border'));
+      expect(style.backgroundColor).toBe(TRANSPARENT);
+      expect(getComputedStyle(trigger(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
+      /* No divider, and the opacity stays on the whole piece. */
+      expect(style.borderLeftWidth).toBe('0px');
       expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
       element.disabled = false;
       await element.updateComplete;
-      expect(getComputedStyle(arrow).backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
+      expect(getComputedStyle(arrow).backgroundColor).toBe(TRANSPARENT);
     });
   }
 
-  it('a disabled fieldset drops the color/accent of the arrow area too', async () => {
+  it('a disabled fieldset shows the color/muted of the field through the arrow area too', async () => {
     const holder = await markup(`<fieldset disabled><nph-select label="Department">${options()}</nph-select></fieldset>`);
     const element = holder.querySelector('nph-select') as NphSelect;
     const arrow = element.shadowRoot?.querySelector('.arrow') as HTMLElement;
-    expect(getComputedStyle(arrow).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
+    expect(getComputedStyle(arrow).backgroundColor).toBe(TRANSPARENT);
+    expect(getComputedStyle(trigger(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
   });
 
   it('disabling an invalid select that has the keyboard focus drops the error and focus looks', async () => {
@@ -1270,6 +1282,10 @@ describe('token contract', () => {
         '--nph-layout-input-width',
         '--nph-state-disabled-opacity',
         '--nph-color-input',
+        '--nph-select-border',
+        '--nph-select-border-bottom',
+        '--nph-select-height',
+        '--nph-color-border-subtle',
         '--nph-space-inline',
         '--nph-control-height-default',
         '--nph-control-height-large',
@@ -1284,10 +1300,8 @@ describe('token contract', () => {
         '--nph-text-body-md-font-weight',
         '--nph-text-body-md-line-height',
         '--nph-text-body-md-letter-spacing',
-        '--nph-color-border',
         '--nph-radius-none',
         '--nph-radius-control-inner',
-        '--nph-color-accent',
         '--nph-color-input-hover',
         '--nph-focus-border',
         '--nph-focus-ring-width',

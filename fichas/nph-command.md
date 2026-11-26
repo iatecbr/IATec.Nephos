@@ -421,7 +421,7 @@ the `nph-input` element.
 | Footer | `command/footer-padding`, `command/footer-gap`, `command/hint-gap`, `command/footer-foreground`, `text/caption` |
 | Motion | the entrance and the exit of `nph-dialog` |
 
-**Usage restrictions:** the palette redefines, in its own scope, only `color/border`, on its two lines, as
+**Usage restrictions:** the palette redefines, in its own scope, only `separator/border`, on its two lines, as
 `command/divider`, as the dialog does on its own lines. No token gets a new value and no token is created
 here. The contrast of the destructive command and of the field focus border in dark is in the semantic
 colors themselves, so the palette writes no local override.

@@ -9,16 +9,17 @@
  *
  * No literal design value goes in here. Written box relations and resets: `0`, `none`, `100%`,
  * `nowrap` (a label stays on one line), `ellipsis` (the cut label), `-1` (the mirrored chevron in
- * right-to-left writing), `90deg` (the chevron turns a quarter) and the system colors of forced
+ * right-to-left writing, and the insets of the focus border and halo), `1` (the `z-index` of the focused row), `90deg` (the chevron turns a quarter) and the system colors of forced
  * colors, which the user's palette decides.
  *
  * THE ROW — the `item` is the row and the `treeitem`: its box is only the row, and the group of its
  * children is its sibling, so the focus and the hover are the row's, and a scroll to the focus shows
  * the whole row. The `face` inside it carries the background, the selection bar and the opacity of a
- * disabled item; the focus border is drawn by the `item` over the face, at full opacity, inside the
- * whole row (D-2 of the task). The tree has no background, border or height of its own, and sets no
- * `overflow`: it lives in a container that gives the surface and the scroll, and the border of the
- * item that scrolls to the edge is not clipped by the tree.
+ * disabled item; the focus border and the halo are drawn by the `item` (`::before` and `::after`)
+ * over the face, at full opacity, outside the whole row (DSA-93). The host has no background, border or
+ * height of its own, and sets no `overflow`: it lives in a container that gives the surface and the
+ * scroll. The inner list clips only the inline axis (`overflow-x: clip`), so the outer pixel of the halo
+ * never opens a horizontal scroll, and the item that scrolls to the edge keeps `scroll-margin-block`.
  */
 
 /* Invalid input takes up no space: no visual fallback. */

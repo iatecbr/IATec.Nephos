@@ -588,9 +588,9 @@ describe('events', () => {
 });
 
 describe('growth and scroll', () => {
-  it('empty, the field has layout/textarea-min-height: three lines of text/body-md plus the padding (D-1)', async () => {
+  it('empty, the field has layout/multiline-min-height: three lines of text/body-md plus the padding (D-1)', async () => {
     const element = await mount();
-    const min = px('--nph-layout-textarea-min-height');
+    const min = px('--nph-layout-multiline-min-height');
     expect(field(element).getBoundingClientRect().height).toBeCloseTo(min, 1);
     expect(min).toBe(3 * Number.parseFloat(resolved('line-height', '--nph-text-body-md-line-height')) + 2 * px('--nph-space-inline'));
   });
@@ -608,10 +608,10 @@ describe('growth and scroll', () => {
     expect(field(element).getBoundingClientRect().height).toBeGreaterThan(before);
   });
 
-  it('stops at layout/textarea-max-height, and the text scrolls inside', async () => {
+  it('stops at layout/multiline-max-height, and the text scrolls inside', async () => {
     const element = await mount({ label: 'Notes', value: lines(40) });
     const textarea = field(element);
-    expect(textarea.getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-textarea-max-height'), 1);
+    expect(textarea.getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-multiline-max-height'), 1);
     expect(textarea.scrollHeight).toBeGreaterThan(textarea.clientHeight);
     expect(getComputedStyle(textarea).overflowY).toBe('auto');
   });
@@ -640,7 +640,7 @@ describe('footer: counter and actions', () => {
   it('is not drawn with no counter and no action', async () => {
     const element = await mount();
     expect(shown(footer(element))).toBe(false);
-    expect(container(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-textarea-min-height') + 2 * px('--nph-border-width'), 1);
+    expect(container(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-layout-multiline-min-height') + 2 * px('--nph-border-width'), 1);
   });
 
   it('the counter turns it on and shows its text as it comes', async () => {
@@ -710,7 +710,7 @@ describe('footer: counter and actions', () => {
     expect(getComputedStyle(footer(element)).paddingInlineEnd).toBe(resolved('padding-left', '--nph-space-control-padding'));
   });
 
-  it('counter at the start, actions at the end, space/inline between the actions (D-3)', async () => {
+  it('counter at the start, actions at the end, space/inline-loose between the actions (D-3, DSA-107)', async () => {
     const { element, attach, send } = await withActions({ label: 'Comment', counter: '0/280' });
     const part = footer(element).getBoundingClientRect();
     const count = (counter(element) as HTMLElement).getBoundingClientRect();
@@ -718,7 +718,7 @@ describe('footer: counter and actions', () => {
     const b = send.getBoundingClientRect();
     expect(count.left).toBeCloseTo(part.left + px('--nph-space-control-padding'), 1);
     expect(b.right).toBeCloseTo(part.right - px('--nph-space-control-padding'), 1);
-    expect(b.left - a.right).toBeCloseTo(px('--nph-space-inline'), 1);
+    expect(b.left - a.right).toBeCloseTo(px('--nph-space-inline-loose'), 1);
     expect(a.left).toBeGreaterThan(count.right);
   });
 
@@ -812,16 +812,19 @@ describe('footer: counter and actions', () => {
 
 describe('states and precedence', () => {
   const border = (element: NphTextarea): string => getComputedStyle(container(element)).borderTopColor;
+  const borderBottom = (element: NphTextarea): string => getComputedStyle(container(element)).borderBottomColor;
   const halo = (element: NphTextarea): CSSStyleDeclaration => getComputedStyle(container(element), '::after');
 
   for (const scheme of ['light', 'dark'] as const) {
-    it(`${scheme}: default border color/input on color/background; hover color/input-hover`, async () => {
+    it(`${scheme}: default border textarea/border on top and sides, textarea/border-bottom below, on color/background; hover color/input-hover, whole`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const element = await mount();
-      expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+      expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
       expect(getComputedStyle(container(element)).backgroundColor).toBe(resolved('color', '--nph-color-background'));
       await userEvent.hover(container(element));
       expect(border(element)).toBe(resolved('color', '--nph-color-input-hover'));
+      expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input-hover'));
     });
   }
 
@@ -843,6 +846,7 @@ describe('states and precedence', () => {
     const element = await mount();
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
     const ring = halo(element);
     expect(ring.content).not.toBe('none');
     expect(ring.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
@@ -857,30 +861,37 @@ describe('states and precedence', () => {
     await userEvent.click(field(element));
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
   });
 
   it('focus on an action: the box keeps its border and draws no halo', async () => {
     const { element, attach } = await withActions();
     attach.focus();
-    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
     expect(halo(element).content).toBe('none');
   });
 
   it('error: border status/error, also on hover; with focus, the halo focus/halo-error', async () => {
     const element = await mount({ label: 'Notes', invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-status-error'));
     expect(halo(element).borderTopColor).toBe(resolved('color', '--nph-focus-halo-error'));
   });
 
-  it('readonly: the resting border, also on hover, and no error look', async () => {
+  it('readonly: the resting split border, also on hover, and no error look', async () => {
     const element = await mount({ label: 'Notes', readOnly: true, invalid: true, value: 'x' });
-    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
     await userEvent.hover(container(element));
-    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(border(element)).toBe(resolved('color', '--nph-textarea-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-textarea-border-bottom'));
     expect(getComputedStyle(element).opacity).toBe('1');
   });
 
@@ -888,6 +899,7 @@ describe('states and precedence', () => {
     const element = await mount({ label: 'Notes', readOnly: true, invalid: true, value: 'x' });
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-focus-border'));
     expect(halo(element).borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
   });
 
@@ -896,6 +908,7 @@ describe('states and precedence', () => {
     document.body.append(before);
     const element = await mount({ label: 'Notes', disabled: true, value: 'a' });
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(container(element)).backgroundColor).toBe(resolved('color', '--nph-color-muted'));
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
     expect(field(element).disabled).toBe(true);
@@ -907,11 +920,13 @@ describe('states and precedence', () => {
   it('disabled wins over readonly and invalid', async () => {
     const element = await mount({ label: 'Notes', disabled: true, readOnly: true, invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(container(element)).backgroundColor).toBe(resolved('color', '--nph-color-muted'));
     expect(field(element).disabled).toBe(true);
     expect(field(element).readOnly).toBe(false);
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(borderBottom(element)).toBe(resolved('color', '--nph-color-input'));
   });
 
   it('an enabled piece is at full opacity, with no transition', async () => {
@@ -1038,13 +1053,16 @@ describe('token contract', () => {
         '--nph-layout-input-width',
         '--nph-state-disabled-opacity',
         '--nph-color-input',
+        '--nph-textarea-border',
+        '--nph-textarea-border-bottom',
         '--nph-border-width',
         '--nph-radius-control',
         '--nph-color-background',
         '--nph-color-muted-foreground',
-        '--nph-layout-textarea-min-height',
-        '--nph-layout-textarea-max-height',
+        '--nph-layout-multiline-min-height',
+        '--nph-layout-multiline-max-height',
         '--nph-space-inline',
+        '--nph-space-inline-loose',
         '--nph-space-control-padding',
         '--nph-space-stack',
         '--nph-color-foreground',
@@ -1084,9 +1102,9 @@ describe('token contract', () => {
     expect(cssWithoutComments).not.toMatch(/\btransition/);
   });
 
-  it('design.md says what the two height tokens are for, and only for nph-textarea', () => {
-    expect(designMd).toMatch(/layout\/textarea-min-height:[\s\S]{0,400}DO NOT USE outside nph-textarea/);
-    expect(designMd).toMatch(/layout\/textarea-max-height:[\s\S]{0,400}DO NOT USE outside nph-textarea/);
+  it('design.md says what the two multi-line height tokens are for, and names the nph-textarea', () => {
+    expect(designMd).toMatch(/layout\/multiline-min-height:[\s\S]{0,700}nph-textarea/);
+    expect(designMd).toMatch(/layout\/multiline-max-height:[\s\S]{0,700}nph-textarea/);
   });
 });
 

@@ -7,7 +7,7 @@
  * No literal design value goes in here. Written box relations and resets (P133): `0`, `1`, `auto`, `none`, `100%`, `fixed`,
  * `column`, `flex-start`, `space-between` and `calc(-1 * ...)` (the 4 px slide of the panel). The shortcut column is 12 steps
  * of `date-picker/panel-padding` (192 with the 16 px step, the measure drawn in Figma, which has no token: DSA-90 D-12). The
- * redefinitions in scope use no new value: `color/border` on the divider (as `nph-popover` does with `popover/divider`) and
+ * redefinitions in scope use no new value: `separator/border` on the divider (as `nph-popover` does with `popover/divider`) and
  * `color/secondary-foreground` on the calendar button, which draws the `calendar` icon in `color/muted-foreground`.
  */
 
@@ -27,6 +27,16 @@
   display: flex;
   align-items: flex-start;
   gap: var(--nph-date-picker-trigger-gap);
+}
+
+/*
+ * The text field of each date (one field, or start and end in a range): its split border and its default height are those of
+ * the date picker, set by redefining the three tokens the `nph-input` reads. The calendar button keeps `control/height-default`.
+ */
+.text {
+  --nph-input-border: var(--nph-date-picker-border);
+  --nph-input-border-bottom: var(--nph-date-picker-border-bottom);
+  --nph-input-height: var(--nph-date-picker-height);
 }
 
 /* The calendar icon is `color/muted-foreground`, light, as the icons of the field; the solid icon comes with the button's own hover. */
@@ -120,7 +130,7 @@
 
 /* The divider: edge to edge, above the footer, in `date-picker/divider`. */
 .divider {
-  --nph-color-border: var(--nph-date-picker-divider);
+  --nph-separator-border: var(--nph-date-picker-divider);
   display: block;
 }
 

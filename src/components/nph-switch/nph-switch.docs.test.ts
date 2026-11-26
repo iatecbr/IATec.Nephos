@@ -153,11 +153,11 @@ describe('nph-switch Documentation', () => {
       }
     });
 
-    it(`${locale}: the accessibility section carries the known limit of the focus border`, () => {
+    it(`${locale}: the accessibility section names the focus border and no longer carries the old limit`, () => {
       const target = renderInLocale(locale);
       const text = (target.querySelector('section#accessibility') as HTMLElement).textContent ?? '';
       expect(text).toContain('focus/border');
-      expect(text).toContain(locale === 'en' ? '2.92' : '2,92');
+      expect(text).not.toContain(locale === 'en' ? '2.92' : '2,92');
     });
   }
 

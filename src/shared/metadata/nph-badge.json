@@ -149,7 +149,7 @@
     "accessible_name": "The badge text.",
     "keyboard": [],
     "focus": "The badge receives neither focus nor click.",
-    "contrast": "The text passes 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in the primary light of the light scheme.",
+    "contrast": "The text passes 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.78:1, in the primary light of the light scheme.",
     "color_alternative": "Every badge has text; color is never the only signal, and the icon only reinforces the word."
   },
   "invalid_combinations": [

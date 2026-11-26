@@ -35,7 +35,8 @@
 
 /* The field: border, radius and background. It does not clip, so the halo stays outside. */
 .control {
-  --_border: var(--nph-color-input);
+  --_border: var(--nph-textarea-border);
+  --_border-bottom: var(--nph-textarea-border-bottom);
 
   position: relative;
   box-sizing: border-box;
@@ -44,6 +45,7 @@
   flex-direction: column;
   min-inline-size: 0;
   border: var(--nph-border-width) solid var(--_border);
+  border-block-end-color: var(--_border-bottom);
   border-radius: var(--nph-radius-control);
   background-color: var(--nph-color-background);
   color: var(--nph-color-muted-foreground);
@@ -51,7 +53,7 @@
 
 /*
  * The scroll area is the native field itself. It grows with the text from
- * `layout/textarea-min-height` and stops at `layout/textarea-max-height`; above that, the
+ * `layout/multiline-min-height` and stops at `layout/multiline-max-height`; above that, the
  * text scrolls inside. The heights include the padding of the field (`design.md`).
  * The value is `text/body-md` in `color/foreground`; the placeholder in
  * `color/muted-foreground`.
@@ -60,8 +62,8 @@
   box-sizing: border-box;
   display: block;
   inline-size: 100%;
-  min-block-size: var(--nph-layout-textarea-min-height);
-  max-block-size: var(--nph-layout-textarea-max-height);
+  min-block-size: var(--nph-layout-multiline-min-height);
+  max-block-size: var(--nph-layout-multiline-max-height);
   margin: 0;
   padding-block: var(--nph-space-inline);
   padding-inline: var(--nph-space-control-padding);
@@ -87,7 +89,7 @@
 }
 
 /*
- * The footer: the counter at the start, the actions at the end, `space/inline` apart. It
+ * The footer: the counter at the start, the actions at the end, `space/inline-loose` apart (DSA-107). It
  * sits `space/stack` below the text: the bottom padding of the field is part of that
  * distance.
  */
@@ -119,7 +121,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--nph-space-inline);
+  gap: var(--nph-space-inline-loose);
   margin-inline-start: auto;
 }
 
@@ -137,14 +139,16 @@
   pointer-events: none;
 }
 
-/* Hover: one step above the resting border. */
+/* Hover: the whole border, on all four sides, in `color/input-hover`. */
 .control:hover {
   --_border: var(--nph-color-input-hover);
+  --_border-bottom: var(--nph-color-input-hover);
 }
 
 /* `foco`: focus on the inner field. The border takes `focus/border` and the halo is attached outside it. */
 .control:has(.field:focus) {
   --_border: var(--nph-focus-border);
+  --_border-bottom: var(--nph-focus-border);
 }
 
 .control:has(.field:focus)::after {
@@ -162,30 +166,34 @@
 :host([invalid]) .control:hover,
 :host([invalid]) .control:has(.field:focus) {
   --_border: var(--nph-status-error);
+  --_border-bottom: var(--nph-status-error);
 }
 
 :host([invalid]) .control:has(.field:focus)::after {
   border-color: var(--nph-focus-halo-error);
 }
 
-/* `leitura`: the resting border, also under the pointer, and no error look. The focus stays visible. */
+/* `leitura`: the resting split border, also under the pointer, and no error look. The focus stays visible. */
 :host([readonly]) .control,
 :host([readonly]) .control:hover {
-  --_border: var(--nph-color-input);
+  --_border: var(--nph-textarea-border);
+  --_border-bottom: var(--nph-textarea-border-bottom);
 }
 
 :host([readonly]) .control:has(.field:focus) {
   --_border: var(--nph-focus-border);
+  --_border-bottom: var(--nph-focus-border);
 }
 
 :host([readonly]) .control:has(.field:focus)::after {
   border-color: var(--nph-focus-halo);
 }
 
-/* Disabled wins: the resting border, the `color/muted` background, no hover and no error look. */
+/* Disabled wins: the whole border in `color/input`, the `color/muted` background, no hover and no error look. */
 :host(:disabled) .control,
 :host(:disabled) .control:hover {
   --_border: var(--nph-color-input);
+  --_border-bottom: var(--nph-color-input);
 
   background-color: var(--nph-color-muted);
 }

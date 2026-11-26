@@ -115,12 +115,12 @@ export function inForm(text: FormFieldText): TemplateResult {
 
 export interface LongText {
   label: string;
-  /** A text longer than `layout/textarea-max-height`, so the area scrolls. */
+  /** A text longer than `layout/multiline-max-height`, so the area scrolls. */
   value: string;
   readOnly?: boolean;
 }
 
-/** Long text: the area stops at `layout/textarea-max-height` and the text scrolls inside. */
+/** Long text: the area stops at `layout/multiline-max-height` and the text scrolls inside. */
 export function longText(text: LongText): TemplateResult {
   return html`<nph-textarea label=${text.label} value=${text.value} ?readonly=${text.readOnly ?? false}></nph-textarea>`;
 }

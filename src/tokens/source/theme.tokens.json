@@ -4,7 +4,7 @@
     "com.iatec.nephos": {
       "layer": "theme",
       "expectedCount": 18,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao theme, leitura de 2026-08-24; brand-50, 100, 200, 300, 800, 900, brand-focus e brand-400-hover lidos em 2026-10-05 (DSA-04); brand-text-dark, texto e icone da marca sobre superficie no modo escuro (sistemas, educacao, comercial e financeiro 300; gerencial, igrejas e rh 200), lido variavel a variavel em 2026-11-09 (lote 1 das pendencias do Moses); brand-text-dark no escuro um tom mais claro em gerencial (100), comercial (200), financeiro (200) e rh (100), 4,5:1 sobre color/dialog, lido variavel a variavel em 2026-11-16 (DSA-84); brand-text-light, texto e icone da marca sobre fundo e superficie no modo claro, consumido por color/primary-on-surface (o mesmo tom de brand-600 em sistemas, gerencial, comercial, financeiro, igrejas e rh; educacao 800, porque o 700 mede 4,27:1 sobre color/muted e o 800 mede 7,53:1), lido variavel a variavel em 2026-11-23 (DSA-113); brand-on-400 troca core/neutral/950 por core/slate/950 e brand-text-dark sobe um tom em sistemas (200) e igrejas (100), 4,5:1 sobre color/dialog no escuro com o slate, lidos variavel a variavel em 2026-11-23 (troca da escala cinza; a dona do design decidiu, opcao 3)",
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao theme, leitura de 2026-08-24; brand-50, 100, 200, 300, 800, 900, brand-focus e brand-400-hover lidos em 2026-10-05 (DSA-04); brand-focus em sistemas lido como o tom 600 em 2026-10-26 (DSA-92); brand-text-dark, texto e icone da marca sobre superficie no modo escuro (sistemas, educacao, comercial e financeiro 300; gerencial, igrejas e rh 200), lido variavel a variavel em 2026-11-09 (lote 1 das pendencias do Moses); brand-text-dark no escuro um tom mais claro em gerencial (100), comercial (200), financeiro (200) e rh (100), 4,5:1 sobre color/dialog, lido variavel a variavel em 2026-11-16 (DSA-84); brand-text-light, texto e icone da marca sobre fundo e superficie no modo claro, consumido por color/primary-on-surface (o mesmo tom de brand-600 em sistemas, gerencial, comercial, financeiro, igrejas e rh; educacao 800, porque o 700 mede 4,27:1 sobre color/muted e o 800 mede 7,53:1), lido variavel a variavel em 2026-11-23 (DSA-113); brand-on-400 troca core/neutral/950 por core/slate/950 e brand-text-dark sobe um tom em sistemas (200) e igrejas (100), 4,5:1 sobre color/dialog no escuro com o slate, lidos variavel a variavel em 2026-11-23 (troca da escala cinza; a dona do design decidiu, opcao 3)",
       "modeSet": {
         "name": "brand",
         "modes": [
@@ -215,11 +215,11 @@
     },
     "brand-focus": {
       "$type": "color",
-      "$value": "{core.sistemas.500}",
+      "$value": "{core.sistemas.600}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "sistemas": "{core.sistemas.500}",
+            "sistemas": "{core.sistemas.600}",
             "gerencial": "{core.gerencial.500}",
             "educacao": "{core.educacao.700}",
             "comercial": "{core.comercial.500}",

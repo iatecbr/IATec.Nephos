@@ -37,8 +37,8 @@ api:
     default: default
     reflects: true
     constraint: >-
-      The Figma `tamanho`. The height of the field and of the calendar button: compact 28, default 36 and
-      large 44. The compact field opens the default panel; default opens the default panel and large opens
+      The Figma `tamanho`. The height of the field and of the calendar button: compact 28, default 38 for the field
+      (date-picker/height) and 36 for the calendar button, and large 44. The compact field opens the default panel; default opens the default panel and large opens
       the large panel, whose footer buttons are the default size. Reflects so a selector or the layout of the
       consumer can read the size from the host. A value outside the list draws nothing and emits console.error in
       development.
@@ -526,8 +526,8 @@ variants:
     do_not_combine_with: ["a compact field to get a compact panel: it opens the default panel"]
 states:
   default:
-    token: "color/input, color/background"
-    changes_for_user: "The resting field, by the nph-input, with the label, the hint as help and the calendar button after the text."
+    token: "date-picker/border, date-picker/border-bottom, color/background"
+    changes_for_user: "The resting field, by the nph-input, with its border split: top and sides in date-picker/border, bottom line in date-picker/border-bottom; with the label, the hint as help and the calendar button after the text."
   hover:
     token: "color/input-hover"
     changes_for_user: "On field hover only the field border changes; the calendar button stays without background and with the light icon."
@@ -601,7 +601,7 @@ tokens:
   grid: "calendar/day-radius, calendar/day-focus-radius, space/container-padding, space/inline, control/height-default, control/height-large"
   narrow_rule: "control/height-default, control/height-large, space/container-padding, border/width"
   motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing, motion/hover-duration"
-  field: "layout/field-width, space/stack-tight, status/error-text, color/muted-foreground, color/input, color/input-hover, status/error, state/disabled-opacity"
+  field: "layout/field-width, space/stack-tight, status/error-text, color/muted-foreground, color/input, date-picker/border, date-picker/border-bottom, date-picker/height, color/input-hover, status/error, state/disabled-opacity"
 ai_hints:
   - "Use nph-date-picker for a date or a period in a form; for a grid that stays on the page use nph-calendar, and for events over days nph-scheduler."
   - "Give label for one date, or start-label and end-label with mode range; the label is the name, the hint is only help."
@@ -703,7 +703,7 @@ is the presence of a message, the disabled state is `disabled`, the open state i
 filled is the date. The panel is the inner Figma piece `nph-date-picker / painel`, with the modes
 `data única`, `intervalo` and `intervalo estreito`.
 
-**By size and density:** `compact` is 28, `default` 36 and `large` 44, the height of the field and of the
+**By size and density:** `compact` is 28, `default` 38 for the field (`date-picker/height`) and 36 for the calendar button, and `large` 44, the height of the field and of the
 calendar button. The compact field opens the default panel; `large` opens the large panel, whose footer
 buttons are the default size, and the other panels have compact footer buttons. Density is `not_applicable`.
 The panel measures, with six week rows (D-1), 286 by 334 for one date on default and 342 by 394 on large;
@@ -717,7 +717,7 @@ fields of different sizes in one form; two single date fields for the start and 
 
 | Part | State | Token | What changes for the person |
 |---|---|---|---|
-| Field | Default | `color/input`, `color/background` | The resting field with the label, the hint as help and the calendar button after the text |
+| Field | Default | `date-picker/border`, `date-picker/border-bottom`, `color/background` | The resting field, the top and the sides in `date-picker/border` and the bottom line in `date-picker/border-bottom`, with the label, the hint as help and the calendar button after the text |
 | Field | Hover | `color/input-hover` | Only the border changes; the calendar button stays without background and with the light icon |
 | Field | Focus | `focus/border`, `focus/halo` | The border and the halo on the text, the clear button or the calendar button |
 | Field | Error | `status/error`, `status/error-text` | The border and the message below it, with no icon, only on the field that has the problem |
@@ -821,7 +821,7 @@ missing label renders anyway and says which keys; `labels` with no key at all dr
 | Contrast | The error message in `status/error-text` measures 6.88:1 and 6.96:1. The calendar icon in `color/muted-foreground` measures 6.69:1 and 9.81:1 over the field and 5.76:1 and 5.11:1 over the hover background of the button. The panel border and the divider are decorative: the shadow separates the panel in light and the background in dark. The contrast of the grid is in the sheet of `nph-calendar` |
 | Alternative to color | The error always brings the written message; open, the panel shows below the field and the button carries `aria-expanded` true; today has an outline and the chosen days a fill; the period is announced in words |
 | Announcement | After a choice the live region says the period, from `labels.period` with the two dates in the long form of the language, or the single date for one day |
-| Touch target | The field and the calendar button are 28, 36 and 44. Shortcuts are 36. The footer buttons are 28 and, on `large`, 36. All pass the 24 by 24 minimum; on a touch screen use `large` |
+| Touch target | The field is 28, 38 and 44 and the calendar button 28, 36 and 44. Shortcuts are 36. The footer buttons are 28 and, on `large`, 36. All pass the 24 by 24 minimum; on a touch screen use `large` |
 | Known limits | (a) The shortcut list is the date picker's own listbox, with `nph-option` written directly in it; `nph-option` says it is written only inside the list that owns it, and here the owner is this list. (b) D-7 reads the width of the window, once, when the panel opens, and not the width of the column. (c) The clear button as a Tab stop and its 24 by 24 target on `large` belong to `nph-input` (DSA-16 D2). (d) The rules of the grid in the panel are in the sheet of `nph-calendar` |
 
 ## Relations
@@ -858,7 +858,7 @@ hands it the labels, the limits and the period, and stops its `nph-pick` and `np
 | Grid | `calendar/day-radius`, `calendar/day-focus-radius`, `space/container-padding`, `space/inline`, `control/height-default`, `control/height-large` |
 | Narrow rule | `control/height-default`, `control/height-large`, `space/container-padding`, `border/width` |
 | Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing`, `motion/hover-duration` |
-| Field, by instance | `layout/field-width`, `space/stack-tight`, `status/error-text`, `color/muted-foreground`, `color/input`, `color/input-hover`, `status/error`, `state/disabled-opacity` |
+| Field, by instance | `layout/field-width`, `space/stack-tight`, `status/error-text`, `color/muted-foreground`, `color/input`, `date-picker/border`, `date-picker/border-bottom`, `date-picker/height`, `color/input-hover`, `status/error`, `state/disabled-opacity` |
 
 **Usage restrictions:** the piece does not choose color, radius, size or typography: everything comes from a
 token, and the shadow is the `elevation/dropdown` style, with no token of its own. The panel outline and the

@@ -39,7 +39,7 @@ api:
     default: default
     reflects: true
     constraint: >-
-      The minimum height of the field: control/height-default or control/height-large.
+      The minimum height of the field: multi-combobox/height or control/height-large.
       Any other value draws nothing and emits console.error in development.
   value:
     type: array
@@ -224,17 +224,17 @@ variants:
       - "An icon only to decorate."
 states:
   default:
-    token: color/input
-    changes_for_user: "The resting border, on color/background, with the magnifying glass and the arrow in color/muted-foreground."
+    token: "multi-combobox/border, multi-combobox/border-bottom"
+    changes_for_user: "The resting border, on color/background: the top and the sides in multi-combobox/border, the bottom line in multi-combobox/border-bottom, with the magnifying glass and the arrow in color/muted-foreground."
   hover:
     token: color/input-hover
-    changes_for_user: "The border goes one step darker under the pointer."
+    changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
     changes_for_user: "Focus on the text, and the list open: the border takes focus/border with the focus/halo attached outside."
   focus-remove:
     token: focus/border
-    changes_for_user: "Keyboard focus on a remove button: the ring follows only the button; the field keeps its resting border."
+    changes_for_user: "Keyboard focus on a remove button: the ring follows only the button; the field keeps its resting split border."
   error:
     token: status/error
     changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
@@ -243,7 +243,7 @@ states:
     changes_for_user: "The border stays status/error and the halo is focus/halo-error."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the color/input border; the chips in color/muted, with no remove button; it does not open and wins over the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input; the chips in color/muted, with no remove button; it does not open and wins over the error."
 business_rules:
   - "Typing opens the list, filters it and makes the first match active."
   - "The person checks or unchecks an option by a click on it or by Enter on the active option; the list stays open, the typed text is cleared and the option stays active."
@@ -258,10 +258,10 @@ business_rules:
 domain_errors:
   - "invalid: the choice needs correction, such as a required field with nothing chosen; nph-field writes the sentence and passes it as description."
 tokens:
-  height: "minimum control/height-default or control/height-large; it grows with the lines of chips"
+  height: "minimum multi-combobox/height or control/height-large; it grows with the lines of chips"
   width: layout/multi-combobox-width
   radius: radius/control
-  border: "border/width, in color/input, color/input-hover, focus/border or status/error"
+  border: "border/width, in multi-combobox/border (top and sides) and multi-combobox/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border"
   background: "color/background; color/muted when disabled"
   padding: "space/control-padding on the sides, space/inline-tight above and below"
   gap: "space/inline between the parts; space/inline-tight between the chips and the text, in both directions"
@@ -272,7 +272,7 @@ tokens:
   remove: "nph-icon xmark icon/size-sm with space/inline-tight around it, a 24 × 24 target"
   chip_disabled: "color/muted, the label and the icon in color/muted-foreground, vertical padding space/inline-tight"
   counter: "the subject in text/body-md and color/foreground; nph-badge primary solid"
-  list: "the nph-combobox list: color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height, offset space/inline-tight"
+  list: "the nph-combobox list: color/popover, border/width in color/border-subtle, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height, offset space/inline-tight"
   option: "nph-option with the checkbox marker: the checked nph-checkbox, no selected background"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control and, on the remove button, focus/border-radius-control and focus/radius-control-with-border"
   disabled: state/disabled-opacity
@@ -295,7 +295,7 @@ accessibility:
     - "Tab reaches each remove button, before the text field; Enter or Space removes the option, and the focus goes to the remove button now in its place, or to the text field."
     - "Home and End move the cursor in the text."
   focus: "The focus stays on the text while the list is open; the active option is pointed to by aria-activedescendant, in the same shadow root. Focus on the host, and a click on an associated label, go to the text field. The field shows the focus border and the halo while the text has the focus and while the list is open; each remove button has its own ring."
-  contrast: "The text, the placeholder, the chip label and the remove button meet the minimum contrast and the border 3:1, in light and dark mode. The disabled state is exempt."
+  contrast: "The text, the placeholder, the chip label and the remove button meet the minimum contrast and the bottom line of the border 3:1, in light and dark mode. The disabled state is exempt."
   color_alternative: "The error is said by the sentence of nph-field; a chosen option is checked in the list; the disabled state also fades and loses the remove buttons."
 invalid_combinations:
   - "A size outside default and large — the field draws nothing."
@@ -318,7 +318,7 @@ anti_patterns:
   - "Fixing the width in pixels."
   - "Writing the options as nph-option children of the field."
 sources:
-  design_md: "design.md, layout/multi-combobox-width, color/input, color/input-hover, color/background, color/primary-surface, color/primary-on-surface, color/muted, color/muted-foreground, color/foreground, status/error, focus/*, state/disabled-opacity, control/height-*, space/control-padding, space/inline, space/inline-tight, radius/control, radius/full, text/body-md and text/label-sm"
+  design_md: "design.md, layout/multi-combobox-width, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/background, color/primary-surface, color/primary-on-surface, color/muted, color/muted-foreground, color/foreground, status/error, focus/*, state/disabled-opacity, control/height-*, space/control-padding, space/inline, space/inline-tight, radius/control, radius/full, text/body-md and text/label-sm; multi-combobox/border, multi-combobox/border-bottom and multi-combobox/height in the token source"
   decision: "P96 — API and semantics of nph-multi-combobox; the form pattern is P80, the field contract is P83, the option is P91 with the marker of P96, the list is P95"
   tests: "src/components/nph-multi-combobox/nph-multi-combobox.test.ts"
   usage_evidence: "the Examples section of the nph-multi-combobox Docs page"
@@ -361,7 +361,7 @@ message belong to `nph-field`; the field shows only the `erro` state.
 **By appearance:** `chip-icon`, the icon of the option before the label of each chip, or `tag`
 for an option with no icon.
 
-**By size:** `default` (`control/height-default`) and `large` (`control/height-large`). Only
+**By size:** `default` (`multi-combobox/height`, 38) and `large` (`control/height-large`). Only
 the minimum height changes.
 
 **By density:** the chips, which go down to more lines and make the field grow, or
@@ -382,8 +382,8 @@ person needs to check each choice; `chip-icon` only to decorate.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `color/input` | The resting border, on `color/background`, with the magnifying glass and the arrow in `color/muted-foreground` |
-| `hover` | `color/input-hover` | The border goes one step darker under the pointer |
+| `default` | `multi-combobox/border`, `multi-combobox/border-bottom` | The resting border, on `color/background`: top and sides in `multi-combobox/border`, the bottom line in `multi-combobox/border-bottom`, with the magnifying glass and the arrow in `color/muted-foreground` |
+| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | Focus on the text, and the list open: the border takes `focus/border`, with the halo attached outside |
 | `foco-remover` | `focus/border`, `focus/halo` | Keyboard focus on a remove button: the ring follows only the 24 × 24 target |
 | `erro` | `status/error` | The border is `status/error`, also on hover |
@@ -445,7 +445,7 @@ with nothing chosen. `nph-field` writes the sentence and passes it to the field 
 | Keyboard | Characters write, open, filter and activate the first match. Closed: ArrowDown and ArrowUp open on the first or the last; Alt+ArrowDown opens without moving; Enter submits the form; Escape clears the typed text. Open: the arrows move without wrapping; PageDown and PageUp move ten; Enter checks or unchecks and keeps the list open; Alt+ArrowUp and Escape close; Tab closes without choosing. Tab reaches each remove button before the text field; Enter or Space removes |
 | Focus | The focus stays on the text while the list is open; the active option is pointed to by `aria-activedescendant`. Focus on the host, and a click on an associated label, go to the text field; after a remove button is pressed, the focus goes to the remove button now in its place, or to the text field |
 | Live region | The empty list sits in a `status` region: the person hears that the search found nothing |
-| Contrast | The text, the placeholder, the chip label and the remove button meet the minimum contrast, and the border 3:1, in light and dark mode. The disabled state is exempt |
+| Contrast | The text, the placeholder, the chip label and the remove button meet the minimum contrast, and the bottom line of the border 3:1, in light and dark mode. The disabled state is exempt |
 | Alternative to color | The error is said by the sentence of `nph-field`; a chosen option is checked in the list; the disabled state also loses the remove buttons |
 | Hidden parts | The magnifying glass, the arrow, the chip icon, the remove icon and the box of the option are hidden from the screen reader |
 | Touch target | The whole field opens the list, with the minimum height of the size; each remove button has its own 24 × 24 area inside the chip |
@@ -474,7 +474,7 @@ the groups, the highlight and the style. The `checkbox` marker of the option is 
 
 | Part | Token |
 |---|---|
-| Field | Minimum height `control/height-default` or `control/height-large`; width `layout/multi-combobox-width`; radius `radius/control`; border `border/width`; padding `space/control-padding` on the sides and `space/inline-tight` above and below; gap `space/inline`; background `color/background` |
+| Field | Minimum height `multi-combobox/height` or `control/height-large`; width `layout/multi-combobox-width`; radius `radius/control`; border `border/width`, with `multi-combobox/border` on top and sides and `multi-combobox/border-bottom` below at rest; padding `space/control-padding` on the sides and `space/inline-tight` above and below; gap `space/inline`; background `color/background` |
 | Magnifying glass and arrow | `nph-icon` `magnifying-glass` and `chevron-down`, `icon/size-sm`, `color/muted-foreground` |
 | Chips and text | `space/inline-tight` between them, in both directions |
 | Text | `text/body-md`, `color/foreground`, the caret in `color/foreground`; the placeholder in `color/muted-foreground` |
@@ -483,7 +483,7 @@ the groups, the highlight and the style. The `checkbox` marker of the option is 
 | Remove | `nph-icon` `xmark` `icon/size-sm`, `space/inline-tight` around it: a 24 × 24 target |
 | Disabled chip | `color/muted`; the label and the icon in `color/muted-foreground`; vertical padding `space/inline-tight` |
 | Counter | The subject in `text/body-md`, `color/foreground`; `nph-badge` `primary` `solid` |
-| List | The `nph-combobox` list: `color/popover`, border `border/width` in `color/input`, `radius/container`, `elevation/dropdown`, padding `space/inline-tight`, maximum height `layout/max-list-height`, offset `space/inline-tight` |
+| List | The `nph-combobox` list: `color/popover`, border `border/width` in `color/border-subtle`, `radius/container`, `elevation/dropdown`, padding `space/inline-tight`, maximum height `layout/max-list-height`, offset `space/inline-tight` |
 | Option | `nph-option` with the `checkbox` marker |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control`; on the remove button, `focus/border-radius-control` and `focus/radius-control-with-border` |
 | Disabled | `state/disabled-opacity` on `color/muted` |
@@ -537,11 +537,14 @@ the field grows.
 ## Sources and decisions
 
 - **The repository `design.md`:** `layout/multi-combobox-width`, `color/input`,
+  `color/field-border`, `color/field-border-bottom`,
   `color/input-hover`, `color/background`, `color/primary-surface`,
   `color/primary-on-surface`, `color/muted`, `color/muted-foreground`, `color/foreground`,
   `status/error`, `focus/*`, `state/disabled-opacity`, `control/height-*`,
   `space/control-padding`, `space/inline`, `space/inline-tight`, `radius/control`,
-  `radius/full`, `text/body-md` and `text/label-sm`.
+  `radius/full`, `text/body-md` and `text/label-sm`. `multi-combobox/border`,
+  `multi-combobox/border-bottom` and `multi-combobox/height` are in
+  `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P96, the API and semantics of `nph-multi-combobox`; the
   form pattern is P80, the field contract is P83, the option is P91 with the marker of P96,
   and the list is P95.

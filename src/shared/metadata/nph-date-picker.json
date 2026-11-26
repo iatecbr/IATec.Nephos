@@ -40,7 +40,7 @@
       "required": false,
       "default": "default",
       "reflects": true,
-      "constraint": "The Figma `tamanho`. The height of the field and of the calendar button: compact 28, default 36 and large 44. The compact field opens the default panel; default opens the default panel and large opens the large panel, whose footer buttons are the default size. Reflects so a selector or the layout of the consumer can read the size from the host. A value outside the list draws nothing and emits console.error in development."
+      "constraint": "The Figma `tamanho`. The height of the field and of the calendar button: compact 28, default 38 for the field (date-picker/height) and 36 for the calendar button, and large 44. The compact field opens the default panel; default opens the default panel and large opens the large panel, whose footer buttons are the default size. Reflects so a selector or the layout of the consumer can read the size from the host. A value outside the list draws nothing and emits console.error in development."
     },
     "value": {
       "type": "string",
@@ -486,8 +486,8 @@
   },
   "states": {
     "default": {
-      "token": "color/input, color/background",
-      "changes_for_user": "The resting field, by the nph-input, with the label, the hint as help and the calendar button after the text."
+      "token": "date-picker/border, date-picker/border-bottom, color/background",
+      "changes_for_user": "The resting field, by the nph-input, with its border split: top and sides in date-picker/border, bottom line in date-picker/border-bottom; with the label, the hint as help and the calendar button after the text."
     },
     "hover": {
       "token": "color/input-hover",
@@ -574,7 +574,7 @@
     "grid": "calendar/day-radius, calendar/day-focus-radius, space/container-padding, space/inline, control/height-default, control/height-large",
     "narrow_rule": "control/height-default, control/height-large, space/container-padding, border/width",
     "motion": "motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing, motion/hover-duration",
-    "field": "layout/field-width, space/stack-tight, status/error-text, color/muted-foreground, color/input, color/input-hover, status/error, state/disabled-opacity"
+    "field": "layout/field-width, space/stack-tight, status/error-text, color/muted-foreground, color/input, date-picker/border, date-picker/border-bottom, date-picker/height, color/input-hover, status/error, state/disabled-opacity"
   },
   "ai_hints": [
     "Use nph-date-picker for a date or a period in a form; for a grid that stays on the page use nph-calendar, and for events over days nph-scheduler.",

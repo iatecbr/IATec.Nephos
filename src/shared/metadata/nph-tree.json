@@ -200,8 +200,8 @@
       "changes_for_user": "The row takes the accent background and its label the accent color; the chevron stays muted. Hover neither moves the focus nor selects. The item with focus and the selected item do not take it."
     },
     "focus": {
-      "token": "tree/focus-border, tree/focus-border-width, tree/focus-border-radius",
-      "changes_for_user": "For keyboard users, a border drawn inside the whole row. The item with focus takes no hover background, even with the pointer over it. On the selected item it covers the bar."
+      "token": "tree/focus-border, tree/focus-border-width, tree/focus-border-radius, tree/focus-halo, tree/focus-halo-width, tree/focus-halo-radius",
+      "changes_for_user": "For keyboard users, a border outside the row and a halo outside the border, as the other list items. The item with focus takes no hover background, even with the pointer over it. On the selected item the bar stays visible inside the border."
     },
     "selected": {
       "token": "tree/item-background-selected, tree/item-foreground-selected, tree/toggle-foreground-selected, tree/icon-foreground-selected, tree/indicator-background, tree/indicator-width",
@@ -209,7 +209,7 @@
     },
     "disabled": {
       "token": "tree/item-disabled-opacity",
-      "changes_for_user": "The whole item fades and does nothing, but it takes focus by the arrows. The focus border stays on top at full opacity."
+      "changes_for_user": "The whole item fades and does nothing, but it takes focus by the arrows. The focus border and the halo stay on top at full opacity."
     },
     "loading": {
       "token": "nph-spinner sm, color/primary",
@@ -229,7 +229,7 @@
     "A branch that opens with no loaded children loads: the spinner takes the place of the chevron, the branch is busy and the page is asked once with nph-tree-load. If the load fails, the error row enters the group, aligned to the indent of the children; Enter or a click on it tries again, and the name read is the phrase and the action together.",
     "The first load of the tree shows three skeleton rows in the root group; a branch that opens later uses the spinner of the item.",
     "The label stays on one line and is cut with an ellipsis; the whole text shows in nph-tooltip on the focus of the item, at once, and on hover, after motion/hover-delay, and reaches the screen reader whole.",
-    "The tree has no background, border or height of its own and sets no overflow: it lives in a card, panel or popover that gives the surface and the scroll. With many items the container scrolls and the item does not shrink; the item that scrolls to the edge shows with the focus border whole.",
+    "The tree has no background, border or height of its own and sets no overflow on the host: it lives in a card, panel or popover that gives the surface and the scroll. With many items the container scrolls and the item does not shrink; the item that scrolls to the edge shows with the focus border and the halo whole. The inner list clips only the inline axis, so the outer pixel of the halo never opens a horizontal scroll.",
     "There is no depth limit in the component; above five levels, review the structure.",
     "The chevron turns a quarter in motion/expand-duration and motion/expand-easing; with reduced motion it swaps with no turning.",
     "Combined states: selected + disabled keeps the background, the bar and the label under the disabled opacity, on the whole item. Multiple selection + disabled keeps the checked mark and fades the box once, with the item. Error + disabled does not apply: the item has no error state.",
@@ -248,7 +248,7 @@
     "label": "tree/item-foreground, tree/item-foreground-hover, tree/item-foreground-selected",
     "background": "tree/item-background-hover, tree/item-background-selected, tree/item-disabled-opacity",
     "indicator": "tree/indicator-background, tree/indicator-width",
-    "focus": "tree/focus-border, tree/focus-border-width, tree/focus-border-radius",
+    "focus": "tree/focus-border, tree/focus-border-width, tree/focus-border-radius, tree/focus-halo, tree/focus-halo-width, tree/focus-halo-radius",
     "motion": "motion/expand-duration, motion/expand-easing",
     "typography": "text/body-md, text/label-md"
   },
@@ -272,8 +272,8 @@
       "Enter: single selection chooses; no selection opens or closes the branch; multiple selection opens or closes a branch and checks a leaf; on the error row it tries again. Space: single chooses; multiple checks and unchecks with the cascade; no selection does nothing.",
       "Esc and Tab are not the tree's: inside a popover or a Tree Select, Esc belongs to the container."
     ],
-    "focus": "Keyboard only: a border of tree/focus-border-width in tree/focus-border drawn inside the whole row, over the bar of the selected item, at full opacity even on a disabled item. The item with focus takes no hover background. When the item that holds the focus leaves, the focus goes to the nearest branch that is still drawn.",
-    "contrast": "The label meets 4.5:1 in both themes in every active state; the chevron and the folder and file icon meet 3:1, on color/muted-foreground and on color/primary-text when selected (7.21:1 at least); the bar over the selected surface meets 3:1; the focus border meets 3:1 over the background and over the selected item, and over the popover. Over the hover background in dark in one brand it measures 2.56:1, which is why the focus wins over the hover. The disabled item is exempt.",
+    "focus": "Keyboard only: a border of tree/focus-border-width in tree/focus-border outside the row, with a halo of tree/focus-halo-width in tree/focus-halo outside the border, the bar of the selected item visible inside, at full opacity even on a disabled item. The item with focus takes no hover background. When the item that holds the focus leaves, the focus goes to the nearest branch that is still drawn.",
+    "contrast": "The label meets 4.5:1 in both themes in every active state; the chevron and the folder and file icon meet 3:1, on color/muted-foreground and on color/primary-text when selected (7.21:1 at least); the bar over the selected surface meets 3:1; the focus border meets 3:1 against the halo, its neighbor outside, in every brand and scheme (4.26:1 in the default brand in light mode). The focus wins over the hover. The disabled item is exempt.",
     "color_alternative": "Selected: the background, the bar on the start edge and the label in medium weight, never color alone. Checked and mixed: the checkbox itself. Open and closed: the chevron. Error: the triangle and the phrase."
   },
   "invalid_combinations": [

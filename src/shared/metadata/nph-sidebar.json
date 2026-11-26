@@ -295,7 +295,7 @@
     "panel": "sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius (collapsed: sidebar/rail-radius)",
     "width": "sidebar/panel-width expanded and mobile; layout/sidebar-collapsed collapsed",
     "spacing": "sidebar/panel-spacing on the sides (collapsed: sidebar/rail-padding) and between top, middle and foot; space/section at top and bottom; sidebar/section-gap between the search, the separator and the navigation",
-    "search": "sidebar/search-background, sidebar/search-border",
+    "search": "sidebar/search-background, sidebar/search-border on top and sides (redefines input/border); the bottom line keeps input/border-bottom; height input/height",
     "separator": "sidebar/separator",
     "logo": "sidebar/logo-max-height; sidebar/logo-mark-size in the collapsed mode",
     "group_label": "sidebar/group-label, text/heading-2xs, no uppercase",

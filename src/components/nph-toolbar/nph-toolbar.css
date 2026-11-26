@@ -4,7 +4,7 @@
  * Classes and selectors here are NOT public API (P02). The contract is the token
  * custom properties consumed here.
  *
- * The bar controls background, border, radius and space; every piece inside it keeps its
+ * The bar controls background, radius and space; every piece inside it keeps its
  * own height, color, state and focus. The height of the bar comes from the pieces, never
  * from a toolbar token. No literal design value goes in here.
  */
@@ -50,12 +50,10 @@
 
 :host([type='page']) .bar,
 :host([type='tools']) .bar {
-  border: var(--nph-toolbar-border-width) solid var(--nph-toolbar-border);
   background-color: var(--nph-toolbar-background);
 }
 
 :host([type='floating']) .bar {
-  border: var(--nph-toolbar-border-width) solid var(--nph-toolbar-floating-border);
   border-radius: var(--nph-toolbar-floating-radius);
   background-color: var(--nph-toolbar-floating-background);
   box-shadow: var(--nph-elevation-dropdown);

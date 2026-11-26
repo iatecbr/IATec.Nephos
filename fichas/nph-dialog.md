@@ -411,7 +411,7 @@ and the actions and opens and closes it with `open`. The `nph-alert-dialog` buil
 | Solid secondary | `button/secondary-solid-background` and its hover, `icon-button/secondary-solid-background` and its hover: the same as outside the dialog |
 | Motion | `motion/enter-*`, `motion/exit-*`; `motion/hover-duration` with reduced motion |
 
-**Usage restrictions:** the dialog redefines, in the scope of its window, only `color/border`, on
+**Usage restrictions:** the dialog redefines, in the scope of its window, only `separator/border`, on
 its own lines, as `color/dialog-separator`. The solid secondary `nph-button` keeps its own background
 inside the dialog, the same as outside it: the dialog does not redefine `color/secondary`, its hover
 or the solid secondary tokens of the button, and the label identifies the button (DSA-64 D-1).

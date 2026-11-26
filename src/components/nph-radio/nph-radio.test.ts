@@ -1135,12 +1135,11 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
   });
 
   /*
-   * Known limit, measured and not assumed: design.md says focus/border measures 2.92:1
-   * against the halo in the default brand, in light mode, because no halo tone reaches 3:1; every
-   * other pair meets it. The test pins the exact list: if a token changes, it fails and the
-   * limit is rewritten.
+   * Measured and not assumed: the focus border meets 3:1 against the halo in every brand and
+   * scheme (the default brand uses tone 600 in light mode since DSA-92). The test pins the empty
+   * list: if a token changes, it fails.
    */
-  it('known limit: the focus border under 3:1 against the halo is exactly the light default brand', () => {
+  it('the focus border is at least 3:1 against the halo in every brand and scheme', () => {
     const below: string[] = [];
     for (const scheme of ['light', 'dark'] as const) {
       for (const brand of BRANDS) {
@@ -1149,7 +1148,7 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
         part.remove();
       }
     }
-    expect(below).toEqual([`light ${DEFAULT_BRAND}`]);
+    expect(below).toEqual([]);
   });
 });
 

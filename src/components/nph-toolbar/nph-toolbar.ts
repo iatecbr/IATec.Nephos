@@ -7,7 +7,7 @@
  * `fichas/nph-toolbar.md`, `design.md` and decision P104 — nph-toolbar: API and semantics:
  * - `type` (the Figma `tipo`): `bulk` (default), `page`, `tools`, `floating` or
  *   `applied-filters`, the five types of the set. Reflects,
- *   because the internal CSS selects the background, the border and the layout by it;
+ *   because the internal CSS selects the background and the layout by it;
  * - `size` (the Figma `tamanho`): `compact`, `default` (default) or `large`. The bar has no
  *   height of its own: it writes `size` on every direct child that has one (`nph-button`,
  *   `nph-togglebutton`, `nph-toggle-group` and `nph-input`; `nph-chip` takes `compact` in the

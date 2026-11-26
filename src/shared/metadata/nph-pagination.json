@@ -231,7 +231,7 @@
   ],
   "domain_errors": [],
   "tokens": {
-    "bar": "border pagination/border-width in pagination/border, radius pagination/radius, padding pagination/padding-x and pagination/padding-y, gap pagination/item-gap",
+    "bar": "no outer border, radius pagination/radius, padding pagination/padding-x and pagination/padding-y, gap pagination/item-gap",
     "groups": "pagination/group-gap between groups, pagination/control-gap between a label and its field",
     "page": "at least pagination/item-size, radius pagination/item-radius, space/inline-tight on the sides, text pagination/text-foreground in text/label-md (D-2), tabular figures; every number and ellipsis reserves the width of the widest number",
     "page-hover": "pagination/item-background-hover",
@@ -239,8 +239,8 @@
     "arrow": "pagination/item-size square, radius pagination/item-radius, background pagination/arrow-background, stroke pagination/arrow-border-width in pagination/arrow-border, icon/size-md; hover pagination/item-background-hover",
     "written-arrow": "in numbered, space/control-padding on the sides and space/inline-tight between icon and text, as the nph-button with text",
     "disabled": "pagination/disabled-opacity",
-    "items-per-page": "nph-select in pagination/page-size-width",
-    "go-to-page": "nph-input in pagination/page-input-width",
+    "items-per-page": "nph-select in pagination/page-size-width, height pagination/field-height (36, the height of the buttons)",
+    "go-to-page": "nph-input in pagination/page-input-width, height pagination/field-height (36)",
     "focus": "border border/width in focus/border, focus/border-radius-control; halo focus/ring-width in focus/halo, focus/radius-control-with-border"
   },
   "ai_hints": [

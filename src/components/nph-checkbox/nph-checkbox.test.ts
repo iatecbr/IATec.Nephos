@@ -1295,13 +1295,12 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
     expect(under.map(([brand, scheme]) => `${brand} ${scheme}`)).toEqual(['gerencial dark', 'rh dark']);
   });
 
-  it('known limit: focus/border under 3:1 against the halo is exactly the one design.md names', () => {
+  it('focus/border is at least 3:1 against the halo in every brand and scheme', () => {
     const under = pairs.filter(([brand, scheme]) => {
       const c = palette(brand, scheme);
       return contrast(c['focus-border'] as string, c['focus-halo'] as string) < 3;
     });
-    expect(under.map(([brand, scheme]) => `${brand} ${scheme}`)).toEqual(['sistemas light']);
-    expect(designMd).toContain('in light mode, the border measures 2,92:1 against the halo');
+    expect(under.map(([brand, scheme]) => `${brand} ${scheme}`)).toEqual([]);
   });
 
   it('known limit: the error border against focus/halo-error is under 3:1 in dark, in every brand', () => {
@@ -1388,7 +1387,7 @@ describe('token contract', () => {
   });
 
   it('design.md ties the tokens of the evidence to the checkbox', () => {
-    expect(designMd).toContain('use: "Field border: input, select, textarea, checkbox.');
+    expect(designMd).toMatch(/color\/input:[\s\S]{0,200}use: "Border of a form control with a full outline: nph-checkbox, nph-radio/);
     expect(designMd).toMatch(/radius\/inner[\s\S]{0,200}USE on an element nested inside a control or container \(checkbox/);
     /* The entry of `focus/border` in design.md, from its key to the next key. Other pieces append their own
        sentence to the `use` of a token, so a fixed window after the key goes stale; the sentence of this

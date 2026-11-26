@@ -390,9 +390,9 @@
 
 /* ----- the divider and the footer ------------------------------------------------------------------------- */
 
-/* The separator draws its line with `color/border`; the card gives it the line of its own divider. */
+/* The separator draws its line with `separator/border`; the card gives it the line of its own divider. */
 .divider {
-  --nph-color-border: var(--nph-card-divider);
+  --nph-separator-border: var(--nph-card-divider);
 }
 
 .footer {

@@ -378,7 +378,7 @@ describe('chips (the internal nph-multi-combobox / chip)', () => {
   it('the chips stay on one line while they fit, then go down and the field grows; between them space/inline-tight both ways', async () => {
     const element = await mount(BASE, countries(), ['peru', 'chile']);
     const one = control(element).getBoundingClientRect().height;
-    expect(one).toBeCloseTo(px('--nph-control-height-default'), 0);
+    expect(one).toBeCloseTo(px('--nph-multi-combobox-height'), 0);
     const [first, second] = chips(element) as [HTMLElement, HTMLElement];
     expect(second.getBoundingClientRect().top).toBeCloseTo(first.getBoundingClientRect().top, 0);
     expect(second.getBoundingClientRect().left - first.getBoundingClientRect().right).toBeCloseTo(px('--nph-space-inline-tight'), 0);
@@ -438,7 +438,7 @@ describe('counter', () => {
 
   it('the field stays on one line with many choices', async () => {
     const element = await mount(`${BASE} counter subject="Countries"`, countries(), COUNTRIES.map((country) => country.toLowerCase()));
-    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 0);
+    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-multi-combobox-height'), 0);
   });
 
   it('with nothing chosen, the placeholder (D-2); the typed text sits after the counter (D-4)', async () => {
@@ -1149,10 +1149,10 @@ describe('the list in the top layer', () => {
 });
 
 describe('measures and anatomy', () => {
-  it('width layout/multi-combobox-width; minimum height control/height-default and large', async () => {
+  it('width layout/multi-combobox-width; minimum height multi-combobox/height and control/height-large', async () => {
     const element = await mount();
     expect(element.getBoundingClientRect().width).toBeCloseTo(px('--nph-layout-multi-combobox-width'), 0);
-    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 0);
+    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-multi-combobox-height'), 0);
     element.size = 'large';
     await settle();
     expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-large'), 0);
@@ -1167,11 +1167,12 @@ describe('measures and anatomy', () => {
     expect(element.getBoundingClientRect().width).toBeCloseTo(600, 0);
   });
 
-  it('the field: color/background, border color/input, radius/control, padding space/control-padding and space/inline-tight, gap space/inline', async () => {
+  it('the field: color/background, split border multi-combobox/border and multi-combobox/border-bottom, radius/control, padding space/control-padding and space/inline-tight, gap space/inline', async () => {
     const element = await mount();
     const style = getComputedStyle(control(element));
     expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-background'));
-    expect(style.borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(style.borderTopColor).toBe(resolved('color', '--nph-multi-combobox-border'));
+    expect(style.borderBottomColor).toBe(resolved('color', '--nph-multi-combobox-border-bottom'));
     expect(Number.parseFloat(style.borderTopWidth)).toBeCloseTo(px('--nph-border-width'), 1);
     expect(style.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-control'));
     expect(style.paddingLeft).toBe(resolved('padding-left', '--nph-space-control-padding'));
@@ -1209,21 +1210,23 @@ describe('measures and anatomy', () => {
     await type(element, 'ch');
     const chip = chips(element)[0] as HTMLElement;
     expect(field(element).getBoundingClientRect().left).toBeGreaterThanOrEqual(chip.getBoundingClientRect().right);
-    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 0);
+    expect(control(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-multi-combobox-height'), 0);
   });
 });
 
 describe('states and precedence', () => {
-  it('hover: color/input-hover', async () => {
+  it('hover: color/input-hover, on the bottom line too', async () => {
     const element = await mount();
     await userEvent.hover(control(element));
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-color-input-hover'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-color-input-hover'));
   });
 
   it('focus: focus/border and the focus/halo outside, radius focus/radius-control; open keeps it', async () => {
     const element = await mount();
     await focus(element);
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-focus-border'));
     const halo = getComputedStyle(control(element), '::after');
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     expect(Number.parseFloat(halo.borderTopWidth)).toBeCloseTo(px('--nph-focus-ring-width'), 1);
@@ -1240,7 +1243,8 @@ describe('states and precedence', () => {
     await press(element, '{Tab}');
     const button = removeButtons(element)[0] as HTMLButtonElement;
     expect(button.matches(':focus-visible')).toBe(true);
-    expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-multi-combobox-border'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-multi-combobox-border-bottom'));
     expect(getComputedStyle(control(element), '::after').content).toBe('none');
     const border = getComputedStyle(button, '::before');
     expect(border.borderTopColor).toBe(resolved('color', '--nph-focus-border'));
@@ -1253,8 +1257,10 @@ describe('states and precedence', () => {
   it('error: status/error at rest and on focus; focus/halo-error on focus', async () => {
     const element = await mount(`${BASE} invalid`);
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-status-error'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-status-error'));
     await focus(element);
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-status-error'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-status-error'));
     expect(getComputedStyle(control(element), '::after').borderTopColor).toBe(resolved('color', '--nph-focus-halo-error'));
   });
 
@@ -1262,6 +1268,7 @@ describe('states and precedence', () => {
     const element = await mount(`${BASE} invalid disabled`);
     expect(getComputedStyle(control(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
     expect(field(element).hasAttribute('aria-invalid')).toBe(false);
   });
@@ -1375,9 +1382,11 @@ describe('token contract', () => {
       '--nph-layout-multi-combobox-width',
       '--nph-color-background',
       '--nph-color-input',
+      '--nph-multi-combobox-border',
+      '--nph-multi-combobox-border-bottom',
+      '--nph-multi-combobox-height',
       '--nph-border-width',
       '--nph-radius-control',
-      '--nph-control-height-default',
       '--nph-control-height-large',
       '--nph-space-control-padding',
       '--nph-space-inline-tight',

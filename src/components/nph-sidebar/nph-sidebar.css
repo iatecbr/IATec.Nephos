@@ -226,10 +226,10 @@
 
 /*
  * The search is the `nph-input` as it is. Its background and border are the `sidebar/search-*`
- * tokens, set by redefining the two semantic tokens the field reads, on this instance only.
+ * tokens, set by redefining the tokens the field reads, on this instance only. The bottom line keeps `input/border-bottom`.
  */
 .search {
-  --nph-color-input: var(--nph-sidebar-search-border);
+  --nph-input-border: var(--nph-sidebar-search-border);
   --nph-color-background: var(--nph-sidebar-search-background);
   inline-size: 100%;
   flex: none;
@@ -237,7 +237,7 @@
 
 /* The one line between areas: between the search and the navigation. */
 .separator {
-  --nph-color-border: var(--nph-sidebar-separator);
+  --nph-separator-border: var(--nph-sidebar-separator);
   display: block;
   flex: none;
 }

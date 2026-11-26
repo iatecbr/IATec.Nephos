@@ -31,14 +31,14 @@ variants:
     do_not_combine_with: [text]
 states:
   default:
-    token: color/border
+    token: separator/border
     changes_for_user: "A line separates the items; it does not change with interaction."
 business_rules:
-  - "The thickness is always border/width and the color is always color/border: changing either would turn the divider into a state signal."
+  - "The thickness is always border/width and the color is always separator/border: changing either would turn the divider into a state signal."
   - "The horizontal one fills the width in a block parent or a column flex parent; the vertical one fills the height in a row flex or grid parent. Otherwise, whoever uses it gives the length."
 domain_errors: []
 tokens:
-  color: color/border
+  color: separator/border
   thickness: border/width
 ai_hints:
   - "Use nph-separator to separate sibling items or regions; to space blocks apart, use space/stack or space/section."
@@ -49,7 +49,7 @@ accessibility:
   accessible_name: not_applicable
   keyboard: []
   focus: "The divider does not receive focus."
-  contrast: "It is decorative: color/border does not need to meet 3:1."
+  contrast: "It is decorative: separator/border does not need to meet 3:1."
   color_alternative: "The divider carries no state; the separation is structural."
 invalid_combinations:
   - "Text in the middle of the divider — there is no variant with text."
@@ -66,7 +66,7 @@ anti_patterns:
   - "Putting text in the middle of the divider."
   - "Changing the thickness or the color of the divider."
 sources:
-  design_md: "design.md, color/border, border/width and layout/separator-width and layout/separator-height, which are the length of the master in Figma"
+  design_md: "design.md, separator/border, border/width and layout/separator-width and layout/separator-height, which are the length of the master in Figma"
   decision: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
   tests: "src/components/nph-separator/nph-separator.test.ts"
   usage_evidence: "none in code yet; the accepted frame shows menu, action bar and card"
@@ -108,12 +108,12 @@ decorative line. It separates; it does not space apart.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Default | `color/border` | A line separates the items; it does not change with interaction |
+| Default | `separator/border` | A line separates the items; it does not change with interaction |
 
 **Feedback and focus:** the divider does not receive focus nor react to interaction.
 
 **Business rule the piece carries:** the thickness is always `border/width` and the color
-is always `color/border`. The horizontal one fills the width in a block parent or a column
+is always `separator/border`. The horizontal one fills the width in a block parent or a column
 flex parent; the vertical one fills the height in a row flex or grid parent. Otherwise, whoever
 uses it gives the length.
 
@@ -126,7 +126,7 @@ uses it gives the length.
 | Semantics | The host is `aria-hidden`: the divider is decorative |
 | Accessible name | `not_applicable` |
 | Keyboard and focus | The divider does not receive focus |
-| Contrast | It is decorative: `color/border` does not need to meet 3:1 |
+| Contrast | It is decorative: `separator/border` does not need to meet 3:1 |
 | Alternative to color | The divider carries no state |
 
 ## Relations
@@ -146,7 +146,7 @@ header and content.
 
 | Part | Token |
 |---|---|
-| Color | `color/border` |
+| Color | `separator/border` |
 | Thickness | `border/width` |
 
 **Usage restrictions:** the length comes from the container. `layout/separator-width` and
@@ -178,7 +178,7 @@ the sign-out action.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `color/border`, `border/width`,
+- **The repository `design.md`:** `separator/border`, `border/width`,
   `layout/separator-width` and `layout/separator-height`.
 - **The decision that originated it:** P66, of 05-10-2026.
 - **Tests:** `src/components/nph-separator/nph-separator.test.ts`.

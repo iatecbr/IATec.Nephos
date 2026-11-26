@@ -223,7 +223,7 @@ accessibility:
     - "Enter checks nothing on a checkbox or radio card and toggles a switch card, following the control held; it does not submit the form."
     - "A disabled card is out of the Tab order and the arrow keys skip it."
   focus: "Keyboard only: the outline turns rich-option/focus-border and a halo of rich-option/focus-ring-width shows outside the card; the control inside takes no ring. A mouse click does not show it."
-  contrast: "The title 19.56:1 in light and 12.45:1 in dark over rich-option/background, the second line 6.69:1 and 8.28:1. The resting outline is decorative; the boundary that meets 3:1 is the control inside. Known limit: in light mode of the default brand, focus/border measures 2.92:1 against the halo, as design.md records."
+  contrast: "The title 19.56:1 in light and 12.45:1 in dark over rich-option/background, the second line 6.69:1 and 8.28:1. The resting outline is decorative; the boundary that meets 3:1 is the control inside. focus/border measures at least 3:1 against the halo in every brand and scheme."
   color_alternative: "The control says the choice, never the outline; the error has the sentence of nph-field."
 invalid_combinations:
   - "A control outside checkbox, radio and switch — the card draws nothing."
@@ -371,8 +371,6 @@ message of `nph-field`. `invalid` and `disabled` do not combine: `disabled` wins
   one Tab stop of the group. A follow-up lets the field read the role of the instance (P134).
 - `invalid` is not announced on the card: `aria-invalid` is not supported on the `radio` and
   `switch` roles, and it belongs to the group.
-- In light mode of the default brand, `focus/border` measures 2.92:1 against the halo, as
-  `design.md` records.
 - The piece owns the `tabindex` of the host: a `tabindex` the consumer writes is replaced.
 - The arrow keys are physical; there is no right-to-left mirroring, and `forced-colors` is
   not treated.

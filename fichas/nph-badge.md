@@ -99,7 +99,7 @@ accessibility:
   accessible_name: "The badge text."
   keyboard: []
   focus: "The badge receives neither focus nor click."
-  contrast: "The text passes 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in the primary light of the light scheme."
+  contrast: "The text passes 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.78:1, in the primary light of the light scheme."
   color_alternative: "Every badge has text; color is never the only signal, and the icon only reinforces the word."
 invalid_combinations:
   - "A badge without text, with only an icon — without a word there is no badge."
@@ -197,7 +197,7 @@ words, so the person recognizes the item without reading the detail.
 | Semantics | Text only, without a role. The icon is decorative |
 | Accessible name | The badge text |
 | Keyboard and focus | The badge receives neither focus nor click |
-| Contrast | The text passes 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in the `primary` `light` of the light scheme |
+| Contrast | The text passes 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.78:1, in the `primary` `light` of the light scheme |
 | Alternative to color | Every badge has text; color is never the only signal, and the icon only reinforces the word |
 
 ## Relations

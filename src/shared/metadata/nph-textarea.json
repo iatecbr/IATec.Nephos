@@ -122,12 +122,12 @@
   },
   "states": {
     "default": {
-      "token": "color/input",
-      "changes_for_user": "The resting border, on color/background."
+      "token": "textarea/border, textarea/border-bottom",
+      "changes_for_user": "The resting border, on color/background: the top and the sides in textarea/border, the bottom line in textarea/border-bottom."
     },
     "hover": {
       "token": "color/input-hover",
-      "changes_for_user": "The border goes one step darker under the pointer."
+      "changes_for_user": "The whole border, on all four sides, goes one step darker under the pointer."
     },
     "focus": {
       "token": "focus/border",
@@ -142,16 +142,16 @@
       "changes_for_user": "The border stays status/error and the halo is focus/halo-error."
     },
     "readonly": {
-      "token": "color/input",
-      "changes_for_user": "The resting border, also on hover, with no error look and no footer; the focus stays visible."
+      "token": "textarea/border, textarea/border-bottom",
+      "changes_for_user": "The resting split border, also on hover, with no error look and no footer; the focus stays visible."
     },
     "disabled": {
       "token": "state/disabled-opacity",
-      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the color/input border and the actions disabled; it does not respond and wins over readonly and the error."
+      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input and the actions disabled; it does not respond and wins over readonly and the error."
     }
   },
   "business_rules": [
-    "The field grows with the text from layout/textarea-min-height and stops at layout/textarea-max-height; above it, the text scrolls inside. There is no resize handle.",
+    "The field grows with the text from layout/multiline-min-height and stops at layout/multiline-max-height; above it, the text scrolls inside. There is no resize handle.",
     "Enter writes a new line; it does not submit the form.",
     "The footer shows when there is a counter or an action, and never in readonly.",
     "The piece counts nothing: the consumer writes the counter text on input, and a limit warns without blocking typing.",
@@ -163,14 +163,14 @@
   ],
   "tokens": {
     "width": "layout/input-width",
-    "height": "layout/textarea-min-height to layout/textarea-max-height, on the scroll area",
+    "height": "layout/multiline-min-height to layout/multiline-max-height, on the scroll area",
     "radius": "radius/control",
-    "border": "border/width, in color/input, color/input-hover, focus/border or status/error",
+    "border": "border/width, in textarea/border (top and sides) and textarea/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border",
     "background": "color/background; color/muted when disabled",
     "padding": "space/control-padding on the sides, space/inline at the top and bottom (D-1)",
     "value": "text/body-md in color/foreground",
     "placeholder": "text/body-md in color/muted-foreground",
-    "footer": "space/stack below the text; space/inline between the actions",
+    "footer": "space/stack below the text; space/inline-loose between the actions",
     "counter": "text/caption in color/muted-foreground",
     "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control",
     "disabled": "state/disabled-opacity"
@@ -192,7 +192,7 @@
       "Enter in the field writes a new line; it does not submit the form."
     ],
     "focus": "The field shows the focus border and the halo whenever it has the focus, by pointer or keyboard, also in readonly (D-2).",
-    "contrast": "The color/input border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration.",
+    "contrast": "The bottom line of the resting border, textarea/border-bottom, meets 3:1 against the background (WCAG 1.4.11); the top and the sides are lighter on purpose; the halo is decoration.",
     "color_alternative": "The error is said by the sentence of nph-field, read as the description of the field; the border color is not the only signal."
   },
   "invalid_combinations": [
@@ -226,7 +226,7 @@
     "Using the placeholder as the only label."
   ],
   "sources": {
-    "design_md": "design.md, layout/textarea-min-height, layout/textarea-max-height, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6",
+    "design_md": "design.md, layout/multiline-min-height, layout/multiline-max-height, color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6; textarea/border and textarea/border-bottom in the token source",
     "decision": "P93 — API and semantics of nph-textarea, on the form shape of P80 and the field contract of P83",
     "tests": "src/components/nph-textarea/nph-textarea.test.ts",
     "usage_evidence": "the Examples section of the nph-textarea Docs page",

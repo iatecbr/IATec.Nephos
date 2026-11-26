@@ -11,7 +11,7 @@
  * slide of the surface; the arrow's overlap with the border), `column-reverse`, `flex-start`,
  * `flex-end`, `stretch` and `border-box`. Every measure of the surface comes from the
  * `popconfirm/*` tokens. The tokens the divider reads are redefined in scope with no new value
- * (`color/border` and `border/width`), as `nph-popover` does for its divider.
+ * (`separator/border` and `border/width`), as `nph-popover` does for its divider.
  */
 
 /* The host takes no room in the flow: the surface lives in the top layer. */
@@ -193,7 +193,7 @@
 
 /* The divider: a line from edge to edge, in `popconfirm/divider`, below the content with no gap. */
 .divider {
-  --nph-color-border: var(--nph-popconfirm-divider);
+  --nph-separator-border: var(--nph-popconfirm-divider);
   --nph-border-width: var(--nph-popconfirm-border-width);
   display: block;
 }

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 920,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-tree",
   "dependencies": [
     "DSA-75"
@@ -47,9 +47,9 @@
     "excerpt": null,
     "converted_decision": "In the set nph-tree / item (5485:350), the six variants with focus moved from a 2 px border inside the row to a 1 px border outside the row plus a 4 px halo outside the border; tree/focus-border-width and tree/focus-border-radius point to other semantic tokens, and tree/focus-halo, tree/focus-halo-width and tree/focus-halo-radius are new. The decision, the variants and the token table are in the evidence of the design-decision gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "fix/ajustes-prioridade-3", "commit": "cc528c31", "pr": "199" },
   "context": null,
-  "updated_at": "2026-11-18"
+  "updated_at": "2026-11-26"
 }
 ```
 

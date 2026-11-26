@@ -323,7 +323,7 @@
   --nph-theme-brand-300: var(--nph-core-sistemas-300);
   --nph-theme-brand-800: var(--nph-core-sistemas-800);
   --nph-theme-brand-900: var(--nph-core-sistemas-900);
-  --nph-theme-brand-focus: var(--nph-core-sistemas-500);
+  --nph-theme-brand-focus: var(--nph-core-sistemas-600);
   --nph-theme-brand-halo: var(--nph-core-sistemas-100);
   --nph-theme-brand-halo-dark: var(--nph-core-sistemas-700);
   --nph-theme-brand-400-hover: var(--nph-core-sistemas-300);
@@ -772,7 +772,6 @@
   --nph-tree-indent: var(--nph-core-space-600);
   --nph-tree-item-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-tree-indicator-width: var(--nph-core-focus-width-sm);
-  --nph-tree-focus-border-width: var(--nph-core-focus-width-sm);
   --nph-tree-select-panel-offset: var(--nph-core-space-100);
   --nph-panel-menu-subgroup-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-panel-menu-nest-gap: var(--nph-core-space-300);
@@ -1067,7 +1066,10 @@
   --nph-tree-toggle-icon-size: var(--nph-icon-size-sm);
   --nph-tree-toggle-padding: var(--nph-space-inline-tight);
   --nph-tree-icon-size: var(--nph-icon-size-sm);
-  --nph-tree-focus-border-radius: var(--nph-radius-control);
+  --nph-tree-focus-border-width: var(--nph-border-width);
+  --nph-tree-focus-border-radius: var(--nph-focus-border-radius-control);
+  --nph-tree-focus-halo-width: var(--nph-focus-ring-width);
+  --nph-tree-focus-halo-radius: var(--nph-focus-radius-control-with-border);
   --nph-tree-select-panel-border-width: var(--nph-border-width);
   --nph-tree-select-panel-radius: var(--nph-radius-container);
   --nph-tree-select-panel-max-height: var(--nph-layout-max-list-height);
@@ -1986,6 +1988,7 @@
   --nph-tree-toggle-foreground-selected: var(--nph-color-primary-text);
   --nph-tree-icon-foreground-selected: var(--nph-color-primary-text);
   --nph-tree-focus-border: var(--nph-focus-border);
+  --nph-tree-focus-halo: var(--nph-focus-halo);
   --nph-panel-menu-subgroup-foreground-open: var(--nph-color-primary-text);
   --nph-panel-menu-subgroup-background-hover: var(--nph-color-primary-surface);
   --nph-panel-menu-focus-border: var(--nph-focus-border);

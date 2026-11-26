@@ -417,6 +417,7 @@ describe('the expanded menu', () => {
     expect(search.type).toBe('search');
     const field = (search.shadowRoot as ShadowRoot).querySelector('.control') as HTMLElement;
     expect(getComputedStyle(field).borderTopColor).toBe(resolved('color', '--nph-sidebar-search-border'));
+    expect(getComputedStyle(field).borderBottomColor).toBe(resolved('color', '--nph-input-border-bottom'));
     expect(getComputedStyle(field).backgroundColor).toBe(resolved('background-color', '--nph-sidebar-search-background'));
     expect(search.getBoundingClientRect().width).toBeCloseTo((one(sidebar, '.nav') as HTMLElement).getBoundingClientRect().width, 0);
     const separators = all(sidebar, '.separator');
@@ -2064,7 +2065,7 @@ describe('token contract', () => {
     expect(cssWithoutComments).not.toMatch(/uppercase/);
   });
 
-  it('only redefines the two tokens of the search and the hook of the close button', () => {
-    expect([...defined].filter((name) => !name.startsWith('--_')).sort()).toEqual(['--nph-button-focus-border', '--nph-color-background', '--nph-color-border', '--nph-color-input']);
+  it('only redefines the tokens of the search and the hook of the close button', () => {
+    expect([...defined].filter((name) => !name.startsWith('--_')).sort()).toEqual(['--nph-button-focus-border', '--nph-color-background', '--nph-input-border', '--nph-separator-border']);
   });
 });

@@ -136,7 +136,7 @@
       "Esc closes the open balloon, and focus stays on the icon."
     ],
     "focus": "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard",
-    "contrast": "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 3.68:1 and 8.98:1",
+    "contrast": "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 5.37:1 and 8.98:1",
     "color_alternative": "The asterisk is a shape signal, not a color one — and it is decorative"
   },
   "invalid_combinations": [

@@ -229,14 +229,14 @@ states:
     token: "tree/item-background-hover, tree/item-foreground-hover"
     changes_for_user: "The row takes the accent background and its label the accent color; the chevron stays muted. Hover neither moves the focus nor selects. The item with focus and the selected item do not take it."
   focus:
-    token: "tree/focus-border, tree/focus-border-width, tree/focus-border-radius"
-    changes_for_user: "For keyboard users, a border drawn inside the whole row. The item with focus takes no hover background, even with the pointer over it. On the selected item it covers the bar."
+    token: "tree/focus-border, tree/focus-border-width, tree/focus-border-radius, tree/focus-halo, tree/focus-halo-width, tree/focus-halo-radius"
+    changes_for_user: "For keyboard users, a border outside the row and a halo outside the border, as the other list items. The item with focus takes no hover background, even with the pointer over it. On the selected item the bar stays visible inside the border."
   selected:
     token: "tree/item-background-selected, tree/item-foreground-selected, tree/toggle-foreground-selected, tree/icon-foreground-selected, tree/indicator-background, tree/indicator-width"
     changes_for_user: "In single selection, the chosen item takes the surface, a bar on the start edge, and its label, chevron and icon in the primary text color, with the label in medium weight."
   disabled:
     token: "tree/item-disabled-opacity"
-    changes_for_user: "The whole item fades and does nothing, but it takes focus by the arrows. The focus border stays on top at full opacity."
+    changes_for_user: "The whole item fades and does nothing, but it takes focus by the arrows. The focus border and the halo stay on top at full opacity."
   loading:
     token: "nph-spinner sm, color/primary"
     changes_for_user: "On an open branch whose children come, the spinner takes the place of the chevron and the branch is busy."
@@ -252,7 +252,7 @@ business_rules:
   - "A branch that opens with no loaded children loads: the spinner takes the place of the chevron, the branch is busy and the page is asked once with nph-tree-load. If the load fails, the error row enters the group, aligned to the indent of the children; Enter or a click on it tries again, and the name read is the phrase and the action together."
   - "The first load of the tree shows three skeleton rows in the root group; a branch that opens later uses the spinner of the item."
   - "The label stays on one line and is cut with an ellipsis; the whole text shows in nph-tooltip on the focus of the item, at once, and on hover, after motion/hover-delay, and reaches the screen reader whole."
-  - "The tree has no background, border or height of its own and sets no overflow: it lives in a card, panel or popover that gives the surface and the scroll. With many items the container scrolls and the item does not shrink; the item that scrolls to the edge shows with the focus border whole."
+  - "The tree has no background, border or height of its own and sets no overflow on the host: it lives in a card, panel or popover that gives the surface and the scroll. With many items the container scrolls and the item does not shrink; the item that scrolls to the edge shows with the focus border and the halo whole. The inner list clips only the inline axis, so the outer pixel of the halo never opens a horizontal scroll."
   - "There is no depth limit in the component; above five levels, review the structure."
   - "The chevron turns a quarter in motion/expand-duration and motion/expand-easing; with reduced motion it swaps with no turning."
   - "Combined states: selected + disabled keeps the background, the bar and the label under the disabled opacity, on the whole item. Multiple selection + disabled keeps the checked mark and fades the box once, with the item. Error + disabled does not apply: the item has no error state."
@@ -269,7 +269,7 @@ tokens:
   label: "tree/item-foreground, tree/item-foreground-hover, tree/item-foreground-selected"
   background: "tree/item-background-hover, tree/item-background-selected, tree/item-disabled-opacity"
   indicator: "tree/indicator-background, tree/indicator-width"
-  focus: "tree/focus-border, tree/focus-border-width, tree/focus-border-radius"
+  focus: "tree/focus-border, tree/focus-border-width, tree/focus-border-radius, tree/focus-halo, tree/focus-halo-width, tree/focus-halo-radius"
   motion: "motion/expand-duration, motion/expand-easing"
   typography: "text/body-md, text/label-md"
 ai_hints:
@@ -290,8 +290,8 @@ accessibility:
     - "Home and End go to the first and the last visible item. The asterisk opens all the siblings of the item. A letter goes to the next visible item whose label starts with it."
     - "Enter: single selection chooses; no selection opens or closes the branch; multiple selection opens or closes a branch and checks a leaf; on the error row it tries again. Space: single chooses; multiple checks and unchecks with the cascade; no selection does nothing."
     - "Esc and Tab are not the tree's: inside a popover or a Tree Select, Esc belongs to the container."
-  focus: "Keyboard only: a border of tree/focus-border-width in tree/focus-border drawn inside the whole row, over the bar of the selected item, at full opacity even on a disabled item. The item with focus takes no hover background. When the item that holds the focus leaves, the focus goes to the nearest branch that is still drawn."
-  contrast: "The label meets 4.5:1 in both themes in every active state; the chevron and the folder and file icon meet 3:1, on color/muted-foreground and on color/primary-text when selected (7.21:1 at least); the bar over the selected surface meets 3:1; the focus border meets 3:1 over the background and over the selected item, and over the popover. Over the hover background in dark in one brand it measures 2.56:1, which is why the focus wins over the hover. The disabled item is exempt."
+  focus: "Keyboard only: a border of tree/focus-border-width in tree/focus-border outside the row, with a halo of tree/focus-halo-width in tree/focus-halo outside the border, the bar of the selected item visible inside, at full opacity even on a disabled item. The item with focus takes no hover background. When the item that holds the focus leaves, the focus goes to the nearest branch that is still drawn."
+  contrast: "The label meets 4.5:1 in both themes in every active state; the chevron and the folder and file icon meet 3:1, on color/muted-foreground and on color/primary-text when selected (7.21:1 at least); the bar over the selected surface meets 3:1; the focus border meets 3:1 against the halo, its neighbor outside, in every brand and scheme (4.26:1 in the default brand in light mode). The focus wins over the hover. The disabled item is exempt."
   color_alternative: "Selected: the background, the bar on the start edge and the label in medium weight, never color alone. Checked and mixed: the checkbox itself. Open and closed: the chevron. Error: the triangle and the phrase."
 invalid_combinations:
   - "An items that is not a list, a node with no id or label, a repeated id — the tree draws nothing."
@@ -378,7 +378,7 @@ nodes without icon.
 |---|---|---|---|
 | Item | Rest | `tree/item-foreground`, `tree/toggle-foreground`, `tree/icon-foreground` | The label in the foreground color; the chevron and the icon muted |
 | Item | Hover | `tree/item-background-hover`, `tree/item-foreground-hover` | The row takes the background and the label the accent color; the chevron stays muted. It moves no focus and selects nothing |
-| Item | Focus | `tree/focus-border`, `tree/focus-border-width`, `tree/focus-border-radius` | For keyboard users, a border inside the whole row; no hover background |
+| Item | Focus | `tree/focus-border`, `tree/focus-border-width`, `tree/focus-border-radius` | For keyboard users, a border outside the row and a halo outside the border; no hover background |
 | Item | Selected | `tree/item-background-selected`, `tree/item-foreground-selected`, `tree/toggle-foreground-selected`, `tree/icon-foreground-selected`, `tree/indicator-background`, `tree/indicator-width` | In single selection: the surface, the bar and the label in medium weight |
 | Item | Disabled | `tree/item-disabled-opacity` | The whole item fades and does nothing; it still takes focus |
 | Open branch | Loading | `nph-spinner`, `color/primary` | The spinner takes the place of the chevron; the branch is busy |
@@ -394,17 +394,16 @@ only). Selected with hover stays equal to selected.
   disabled opacity, on the whole item.
 - **Multiple selection + disabled:** the checkbox keeps its checked mark and is never disabled by the
   tree, so only the opacity of the item fades the box, once.
-- **Selected + focus:** the focus border covers the bar; the selection stays by the background, the
+- **Selected + focus:** the bar stays visible inside the focus border; the selection stays by the background, the
   color and the weight of the label.
-- **Focus + disabled:** the disabled item takes focus by the arrows. The border is drawn on top, at
-  full opacity, while the face of the item fades. Whether the border fades with the item is open
-  (D-2).
+- **Focus + disabled:** the disabled item takes focus by the arrows. The border and the halo are
+  drawn on top, at full opacity, while the face of the item fades (D-2, answered on 2026-11-16).
 - **Focus + hover:** the focus wins; the item with focus takes no hover background.
 - **Error + disabled:** does not apply. The item has no error state, and the error row is not
   disabled.
 
-**Feedback and focus:** focus shows only for keyboard users and is not removed: a border drawn inside
-the whole row, because the items stack with no space and a ring outside would be cut by the neighbor.
+**Feedback and focus:** focus shows only for keyboard users and is not removed: a border outside the row
+and a halo outside the border; the focused row stays above the next one, so the neighbor does not cover the halo.
 A mouse click puts the focus on the item with no border. Hover only paints. Only the chevron moves: it
 turns a quarter in `motion/expand-duration`; with reduced motion it swaps with no turning.
 
@@ -424,12 +423,12 @@ development, one per cause. A missing name or text draws and warns once in devel
 | Semantics | The host is `role="tree"`, through `ElementInternals`, so its `aria-label` and `aria-labelledby` name it. Each node is a `treeitem`; each open branch is a `group` joined to its item by `aria-owns`. `aria-expanded` on the branches; `aria-selected` on every item in single selection, `aria-checked` in multiple, never both; `aria-multiselectable` in multiple; `aria-level`, `aria-setsize` and `aria-posinset` on every item; `aria-disabled` on a disabled item; `aria-busy` on a branch that loads and on the tree during the first load. The error row is a `treeitem`. Chevron, icon, box and spinner are hidden |
 | Accessible name | The tree: `aria-label`, `aria-labelledby`, else `label`. An item: its label, children not included. The error row: "Couldn't load. Try again". The cut label reaches the screen reader whole |
 | Keyboard | One Tab stop. Down, Up, Right, Left, Home, End, asterisk and a letter move; Enter and Space act by the selection. The full table is in the sheet YAML. Esc and Tab are not the tree's |
-| Focus | Keyboard only, a border inside the whole row, over the bar, at full opacity even on a disabled item. When the item that holds the focus leaves, the focus goes to the nearest branch still drawn |
-| Contrast | The label meets 4.5:1 in both themes; the chevron, the icons, the bar and the focus border meet 3:1; over `color/accent` the focus border measures 2.56:1 in dark in one brand, which is why the focus wins over the hover. The disabled item is exempt |
+| Focus | Keyboard only, a border outside the row and a halo outside the border, the bar visible inside, at full opacity even on a disabled item. When the item that holds the focus leaves, the focus goes to the nearest branch still drawn |
+| Contrast | The label meets 4.5:1 in both themes; the chevron, the icons, the bar and the focus border meet 3:1; the focus border is measured against the halo, its neighbor outside. The focus wins over the hover. The disabled item is exempt |
 | Alternative to color | Selected: background, bar and weight. Checked and mixed: the checkbox. Open and closed: the chevron. Error: triangle and phrase |
 | Touch target | The whole row is the target, 36 high. The chevron and the box have a target of 24 by 24 |
 | Cut text | The whole label in `nph-tooltip`, at once on focus and after `motion/hover-delay` on hover |
-| Known limits | (a) The box of `nph-checkbox` does not take its own hover when the pointer is over the row: the piece hovers only through `:hover` inside its own shadow root and has no way to be forced, the same limit as DSA-45 D-3 in the dropdown menu; the box is drawn `inert`. (b) The hover of a checked box (`state/hover-opacity`) is not reachable either (DSA-17 D7). (c) `nph-tooltip` opens only on an element in the Tab order, and only the Tab stop is one: so the item takes the stop by hand while the pointer is over a cut label, and gives it back when the pointer goes to another item, leaves the tree or the person presses Tab. (d) The focus border of the disabled item is on top at full opacity until Indiane decides D-2. (e) A branch opened by the code with no children loads, but the load event fires only when the person opens it. (f) The tree does not scroll by itself: it sets no overflow, and the container that holds it gives the scroll. (g) A branch with `branch: true` and `children: []` opens to an empty group. (h) The failure of the first load of the tree has no row in the contract: the page shows its own message. (i) Right-to-left writing is mirrored (indent, bar, closed chevron, Left and Right), but Figma draws only left-to-right. (j) `items` is replaced, never mutated: a change in place is not seen. (k) The Tree Table and the Tree Select are other pieces, and the tree of `nph-table` is not this one (D-1) |
+| Known limits | (a) The box of `nph-checkbox` does not take its own hover when the pointer is over the row: the piece hovers only through `:hover` inside its own shadow root and has no way to be forced, the same limit as DSA-45 D-3 in the dropdown menu; the box is drawn `inert`. (b) The hover of a checked box (`state/hover-opacity`) is not reachable either (DSA-17 D7). (c) `nph-tooltip` opens only on an element in the Tab order, and only the Tab stop is one: so the item takes the stop by hand while the pointer is over a cut label, and gives it back when the pointer goes to another item, leaves the tree or the person presses Tab. (d) The focus border and the halo of the disabled item are on top at full opacity (D-2, answered). (e) A branch opened by the code with no children loads, but the load event fires only when the person opens it. (f) The tree does not scroll by itself: the host sets no overflow, and the container that holds it gives the scroll. The outer pixel of the halo passes the padding at the inline edge and is clipped there. (g) A branch with `branch: true` and `children: []` opens to an empty group. (h) The failure of the first load of the tree has no row in the contract: the page shows its own message. (i) Right-to-left writing is mirrored (indent, bar, closed chevron, Left and Right), but Figma draws only left-to-right. (j) `items` is replaced, never mutated: a change in place is not seen. (k) The Tree Table and the Tree Select are other pieces, and the tree of `nph-table` is not this one (D-1) |
 
 ## Relations
 

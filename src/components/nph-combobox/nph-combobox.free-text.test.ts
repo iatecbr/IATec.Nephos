@@ -193,7 +193,7 @@ describe('free text: API and anatomy', () => {
       const element = await mount(`${FREE} size="${size}" clearable clear-label="Clear" placeholder="Type or pick"`);
       expect(Number.parseFloat(getComputedStyle(control(element)).paddingRight)).toBe(end);
       expect(Number.parseFloat(getComputedStyle(control(element)).paddingLeft)).toBe(start);
-      expect(control(element).getBoundingClientRect().height).toBeCloseTo(px(`--nph-control-height-${size}`), 0);
+      expect(control(element).getBoundingClientRect().height).toBeCloseTo(px(size === 'default' ? '--nph-combobox-height' : '--nph-control-height-large'), 0);
       expect(clearButton(element)).toBeNull();
       await type(element, 'Br');
       const button = clearButton(element) as HTMLButtonElement;
@@ -775,6 +775,7 @@ describe('free text: states and precedence', () => {
     const element = await mount();
     await focus(element);
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-focus-border'));
     expect(getComputedStyle(control(element), '::after').borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     await press(element, '{Alt>}{ArrowDown}{/Alt}');
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
@@ -784,10 +785,12 @@ describe('free text: states and precedence', () => {
     const element = await mount(`${FREE} invalid`);
     await focus(element);
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-status-error'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-status-error'));
     expect(getComputedStyle(control(element), '::after').borderTopColor).toBe(resolved('color', '--nph-focus-halo-error'));
     const disabled = await mount(`${FREE} invalid disabled value="Unity"`);
     expect(getComputedStyle(control(disabled)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
     expect(getComputedStyle(control(disabled)).borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(getComputedStyle(control(disabled)).borderBottomColor).toBe(resolved('color', '--nph-color-input'));
     expect(getComputedStyle(disabled).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
   });
 
@@ -801,12 +804,13 @@ describe('free text: states and precedence', () => {
     expect(getComputedStyle(option).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-surface'));
   });
 
-  it('the focus on the clear button keeps the resting border of the field', async () => {
+  it('the focus on the clear button keeps the resting split border of the field', async () => {
     const element = await mount(`${FREE} clearable clear-label="Clear" value="Unity"`);
     await focus(element);
     await press(element, '{Tab}');
     expect(element.shadowRoot?.activeElement).toBe(clearButton(element));
-    expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-color-input'));
+    expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-combobox-border'));
+    expect(getComputedStyle(control(element)).borderBottomColor).toBe(resolved('color', '--nph-combobox-border-bottom'));
   });
 });
 

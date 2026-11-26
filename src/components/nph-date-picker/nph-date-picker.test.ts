@@ -256,16 +256,32 @@ describe('the field', () => {
     expect(text.top + text.height / 2).toBeCloseTo(button.top + button.height / 2, 0);
     expect(button.height).toBe(36);
     expect(button.width).toBe(36);
-    expect(text.height).toBe(36);
+    expect(text.height).toBe(38);
   });
 
-  it('takes the three sizes: 28, 36 and 44, in the text and in the calendar button', async () => {
-    for (const [size, height] of [['compact', 28], ['default', 36], ['large', 44]] as const) {
+  it('takes the three sizes: the text is 28, 38 and 44, the calendar button 28, 36 and 44', async () => {
+    for (const [size, text, button] of [['compact', 28, 28], ['default', 38, 36], ['large', 44, 44]] as const) {
       const { picker } = await mount({ size });
-      expect((q(picker, 'nph-input') as HTMLElement).getBoundingClientRect().height, size).toBe(height);
-      expect(buttonEl(picker).getBoundingClientRect().height, size).toBe(height);
+      expect((q(picker, 'nph-input') as HTMLElement).getBoundingClientRect().height, size).toBe(text);
+      expect(buttonEl(picker).getBoundingClientRect().height, size).toBe(button);
       picker.remove();
     }
+  });
+
+  it('draws the field with date-picker/border on top and sides and date-picker/border-bottom below', async () => {
+    const { picker } = await mount();
+    const input = q(picker, 'nph-input') as HTMLElement;
+    const box = input.shadowRoot?.querySelector('.control') as HTMLElement;
+    const resolve = (token: string): string => {
+      const probe = document.createElement('span');
+      probe.style.color = `var(${token})`;
+      document.body.append(probe);
+      const value = getComputedStyle(probe).color;
+      probe.remove();
+      return value;
+    };
+    expect(getComputedStyle(box).borderTopColor).toBe(resolve('--nph-date-picker-border'));
+    expect(getComputedStyle(box).borderBottomColor).toBe(resolve('--nph-date-picker-border-bottom'));
   });
 
   it('writes the name and the description on the text, and the label as its accessible name, through the control row', async () => {

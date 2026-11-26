@@ -1066,7 +1066,7 @@
     "accessibility": [
       [
         "Contraste",
-        "O texto passa 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,64:1, no primary light do modo claro."
+        "O texto passa 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,78:1, no primary light do modo claro."
       ],
       [
         "Foco visível",
@@ -1383,7 +1383,7 @@
     "accessibility": [
       [
         "Contraste",
-        "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,64:1, no primary outline e light do modo claro. As bordas do outline de primary e danger passam 3:1; a borda do secondary outline não passa no modo claro (1,93:1), e o texto, ou o ícone com seu label e tooltip, identifica o botão."
+        "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,78:1, no primary outline e light do modo claro. As bordas do outline de primary e danger passam 3:1; a borda do secondary outline não passa no modo claro (1,93:1), e o texto, ou o ícone com seu label e tooltip, identifica o botão."
       ],
       [
         "Foco visível",
@@ -1481,7 +1481,7 @@
     "accessibility": [
       [
         "contraste",
-        "O texto usa color/foreground: 21:1 no claro e 14,73:1 no escuro, acima de 4,5:1 (WCAG 1.4.3). O asterisco, em status/error, tem 6,88:1 e 5,01:1. O ícone de informação, em color/muted-foreground, tem 6,69:1 e 9,81:1, e a borda de foco, em focus/border, 3,68:1 e 8,98:1, acima de 3:1 (WCAG 1.4.11)."
+        "O texto usa color/foreground: 21:1 no claro e 14,73:1 no escuro, acima de 4,5:1 (WCAG 1.4.3). O asterisco, em status/error, tem 6,88:1 e 5,01:1. O ícone de informação, em color/muted-foreground, tem 6,69:1 e 9,81:1, e a borda de foco, em focus/border, 5,37:1 e 8,98:1, acima de 3:1 (WCAG 1.4.11)."
       ],
       [
         "foco visível",
@@ -2663,7 +2663,7 @@
       ],
       [
         "size",
-        "compact (input/height-compact), default (control/height-default) ou large (control/height-large). large muda só a altura; compact muda também o respiro do fim, para input/clear-padding-end. Refletida no atributo."
+        "compact (input/height-compact), default (input/height, 38) ou large (control/height-large). large muda só a altura; compact muda também o respiro do fim, para input/clear-padding-end. Refletida no atributo."
       ],
       [
         "value",
@@ -2739,11 +2739,11 @@
     "states": [
       [
         "default",
-        "A borda é color/input, sobre color/background."
+        "A borda é input/border em cima e nas laterais e input/border-bottom na linha de baixo, sobre color/background."
       ],
       [
         "hover",
-        "A borda vira color/input-hover."
+        "A borda inteira, nos quatro lados, vira color/input-hover."
       ],
       [
         "foco",
@@ -2751,7 +2751,7 @@
       ],
       [
         "foco no limpar",
-        "O contêiner mantém color/input; a borda focus/border e o halo focus/halo ficam em volta do alvo de 24 por 24 do botão de limpar, só pelo teclado. No compact o anel passa do campo enquanto o botão tem o foco; ele não é cortado."
+        "O contêiner mantém a borda dividida de repouso (input/border e input/border-bottom); a borda focus/border e o halo focus/halo ficam em volta do alvo de 24 por 24 do botão de limpar, só pelo teclado. No compact o anel passa do campo enquanto o botão tem o foco; ele não é cortado."
       ],
       [
         "inválido",
@@ -2759,7 +2759,7 @@
       ],
       [
         "desabilitado",
-        "A peça inteira em state/disabled-opacity, sobre color/muted, com a borda color/input. Vence inválido."
+        "A peça inteira em state/disabled-opacity, sobre color/muted, com a borda inteira em color/input. Vence inválido."
       ]
     ],
     "statesCaption": "Valor, inválido, desabilitado e desabilitado com inválido. Passe o mouse sobre um campo para ver o hover, clique para ver o foco e use Tab para chegar ao botão de limpar.",
@@ -2817,7 +2817,7 @@
     "anatomy": [
       [
         "Contêiner",
-        "Altura control/height-default, control/height-large ou input/height-compact, largura layout/input-width, radius/control, border/width, respiro lateral space/control-padding, com o do fim em input/clear-padding-end no compact, espaço space/inline, fundo color/background."
+        "Altura input/height, control/height-large ou input/height-compact, largura layout/input-width, radius/control, border/width com input/border em cima e nas laterais e input/border-bottom embaixo em repouso, respiro lateral space/control-padding, com o do fim em input/clear-padding-end no compact, espaço space/inline, fundo color/background."
       ],
       [
         "Ícone de início",
@@ -2864,7 +2864,7 @@
       ],
       [
         "Contraste",
-        "A borda color/input garante 3:1 contra o fundo (WCAG 1.4.11); o halo é decoração."
+        "A linha de baixo, input/border-bottom, garante 3:1 contra o fundo (WCAG 1.4.11); o topo e as laterais são mais claros de propósito; o halo é decoração."
       ],
       [
         "Cor não é o único sinal",
@@ -2885,7 +2885,7 @@
     "references": [
       "Ficha do nph-input — propósito, variantes, estados, acessibilidade, tokens e antipadrões.",
       "docs/decisoes-tecnicas.md — P80 (API e semântica, a referência dos controles de formulário) e a emenda de 28/10/2026, o tamanho compact, P01, P02 e P03.",
-      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground e color/muted-foreground. input/height-compact e input/clear-padding-end estão em src/tokens/source/semantic.tokens.json.",
+      "design.md — color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground e color/muted-foreground. input/height-compact, input/clear-padding-end, input/border, input/border-bottom e input/height estão em src/tokens/source/semantic.tokens.json.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Input, frame nph-input (1195:532) e set 622:18359.",
       "Storybook — Validação, na pasta ao lado."
     ],
@@ -3032,11 +3032,11 @@
     "states": [
       [
         "default",
-        "A borda é color/input, sobre color/background."
+        "A borda é textarea/border em cima e nas laterais e textarea/border-bottom na linha de baixo, sobre color/background."
       ],
       [
         "hover",
-        "A borda vira color/input-hover."
+        "A borda inteira, nos quatro lados, vira color/input-hover."
       ],
       [
         "focus",
@@ -3048,16 +3048,16 @@
       ],
       [
         "readonly",
-        "A borda de repouso, também no hover, sem aparência de erro e sem rodapé. O foco continua visível."
+        "A borda dividida de repouso, também no hover, sem aparência de erro e sem rodapé. O foco continua visível."
       ],
       [
         "disabled",
-        "A peça inteira em state/disabled-opacity, sobre color/muted, com a borda color/input, e as ações desabilitadas. Vence readonly e invalid."
+        "A peça inteira em state/disabled-opacity, sobre color/muted, com a borda inteira em color/input, e as ações desabilitadas. Vence readonly e invalid."
       ]
     ],
     "statesCaption": "Valor, invalid, readonly e disabled. Passe o mouse sobre um campo para ver o hover e clique para ver o foco.",
     "footerTitle": "Rodapé",
-    "footerText": "O rodapé serve só a um comentário ou a uma mensagem, onde as ações ficam junto do texto. Ele aparece quando há contador ou ação, dentro da caixa, space/stack abaixo do texto: o contador no início e as ações no fim, a space/inline uma da outra.",
+    "footerText": "O rodapé serve só a um comentário ou a uma mensagem, onde as ações ficam junto do texto. Ele aparece quando há contador ou ação, dentro da caixa, space/stack abaixo do texto: o contador no início e as ações no fim, a space/inline-loose uma da outra.",
     "footerCaption": "Um comentário com o contador e as ações Anexar e Enviar.",
     "footerHeader": [
       "Parte",
@@ -3076,7 +3076,7 @@
     "readOnlyTitle": "Sem rodapé em readonly.",
     "readOnlyText": "Um texto que a pessoa não edita não tem o que enviar: em readonly, o contador e as ações não são desenhados, e um aviso diz isso em desenvolvimento. Em um formulário comum, o contador vai na linha de apoio do nph-field.",
     "heightTitle": "Altura",
-    "heightText": "Vazio, o campo tem layout/textarea-min-height, que mostra que um texto longo cabe. Ele cresce com o texto e para em layout/textarea-max-height; acima disso, o texto rola por dentro. Não há alça para redimensionar arrastando.",
+    "heightText": "Vazio, o campo tem layout/multiline-min-height, que mostra que um texto longo cabe. Ele cresce com o texto e para em layout/multiline-max-height; acima disso, o texto rola por dentro. Não há alça para redimensionar arrastando.",
     "heightCaption": "Vazio na altura mínima, e um texto longo que para no máximo e rola por dentro.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
@@ -3090,7 +3090,7 @@
       ],
       [
         "Área de rolagem",
-        "O campo nativo: de layout/textarea-min-height a layout/textarea-max-height, recuo space/control-padding nos lados e space/inline em cima e embaixo; acima do máximo, o texto rola por dentro."
+        "O campo nativo: de layout/multiline-min-height a layout/multiline-max-height, recuo space/control-padding nos lados e space/inline em cima e embaixo; acima do máximo, o texto rola por dentro."
       ],
       [
         "Valor ou placeholder",
@@ -3133,7 +3133,7 @@
       ],
       [
         "Contraste",
-        "A borda color/input cumpre 3:1 contra o fundo (WCAG 1.4.11); o halo é decoração."
+        "A linha de baixo, textarea/border-bottom, cumpre 3:1 contra o fundo (WCAG 1.4.11); o topo e as laterais são mais claros de propósito; o halo é decoração."
       ],
       [
         "A cor não é o único sinal",
@@ -3148,7 +3148,7 @@
     "references": [
       "Ficha do nph-textarea — propósito, estados, rodapé, altura, acessibilidade, tokens e antipadrões.",
       "docs/decisoes-tecnicas.md — P93 (API e semântica), P80 (os controles de formulário), P83 (o contrato campo–controle), P01 e P02.",
-      "design.md — layout/textarea-min-height, layout/textarea-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground e color/muted-foreground.",
+      "design.md — layout/multiline-min-height, layout/multiline-max-height, layout/input-width, color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground e color/muted-foreground.",
       "Figma DS-IA-NEPHOS 5.0 — frame nph-textarea (1632:24), documentação 1922:642 e set 1632:22.",
       "Storybook — Validation, na pasta ao lado."
     ],
@@ -3941,7 +3941,7 @@
       ],
       [
         "Contraste",
-        "O rótulo usa color/foreground, 21:1 no claro e 14,73:1 no escuro; a borda do controle é color/input, que atende 3:1."
+        "O rótulo usa color/foreground, 21:1 no claro e 14,73:1 no escuro; a linha de baixo da borda do controle é input/border-bottom, que atende 3:1."
       ],
       [
         "Foco visível",
@@ -4221,7 +4221,7 @@
       ],
       [
         "Limite conhecido",
-        "focus/border contra focus/halo fica abaixo de 3:1 só na marca padrão no modo claro, com 2,92:1, como o design.md registra; nas outras marcas e esquemas passa. O modo de cores forçadas e a página da direita para a esquerda ainda não são tratados. A frase de erro fora da peça não se liga a ela por aria-describedby através do shadow root."
+        "focus/border contra focus/halo passa 3:1 em todas as marcas e esquemas. O modo de cores forçadas e a página da direita para a esquerda ainda não são tratados. A frase de erro fora da peça não se liga a ela por aria-describedby através do shadow root."
       ],
       [
         "A cor não é o único sinal",
@@ -4649,7 +4649,7 @@
     "api": [
       [
         "size",
-        "default ou large, refletida. Mudam a altura do gatilho e a largura da área da seta."
+        "default ou large, refletida. Mudam a altura do gatilho (select/height, 38, ou control/height-large) e a largura da área da seta."
       ],
       [
         "value",
@@ -4708,7 +4708,7 @@
     "invalidTitle": "Entrada inválida não desenha nada.",
     "invalidText": "Um size fora de default e large, um start fora de none, icon e avatar, ou um icon fora do núcleo: o select não renderiza e emite console.error em desenvolvimento. A lupa renderiza e avisa: a busca pertence ao nph-combobox.",
     "sizesTitle": "Tamanhos",
-    "sizesText": "default no uso geral; large na tela que precisa do alvo de 44 px, para todos os campos do formulário. Mudam a altura do gatilho e a largura da área da seta: control/height-default ou control/height-large.",
+    "sizesText": "default no uso geral; large na tela que precisa do alvo de 44 px, para todos os campos do formulário. Mudam a altura do gatilho e a largura da área da seta: select/height (38) para a altura e control/height-default (36) para a área da seta, ou control/height-large para as duas.",
     "sizesCaption": "default e large, com uma opção escolhida.",
     "statesTitle": "Estados",
     "statesHeader": [
@@ -4718,11 +4718,11 @@
     "states": [
       [
         "default",
-        "Borda color/input sobre color/background; a área da seta em color/accent, depois de um divisor color/border."
+        "Borda select/border em cima e nas laterais e select/border-bottom na linha de baixo, sobre color/background; a área da seta sem fundo e sem divisor."
       ],
       [
         "hover",
-        "A borda vira color/input-hover."
+        "A borda inteira, nos quatro lados, vira color/input-hover."
       ],
       [
         "foco",
@@ -4738,7 +4738,7 @@
       ],
       [
         "disabled",
-        "color/muted, borda color/input e state/disabled-opacity na peça inteira, inclusive a área da seta, que perde o color/accent e mantém o divisor; vence o erro."
+        "color/muted, a borda inteira em color/input e state/disabled-opacity na peça inteira; a área da seta não tem fundo próprio, então o color/muted do campo aparece por ela; vence o erro."
       ]
     ],
     "statesCaption": "Placeholder, valor, erro e desabilitado.",
@@ -4861,7 +4861,7 @@
     "anatomy": [
       [
         "1. Gatilho",
-        "Fundo color/background, borda border/width em color/input, radius/control, largura layout/input-width, altura control/height-*, padding esquerdo space/control-padding, gap space/inline, padding direito 0."
+        "Fundo color/background, borda border/width em select/border (select/border-bottom embaixo), radius/control, largura layout/input-width, altura select/height ou control/height-large, padding esquerdo space/control-padding, gap space/inline, padding direito 0."
       ],
       [
         "2. Início",
@@ -4873,15 +4873,15 @@
       ],
       [
         "4. Divisor",
-        "border/width em color/border, ao lado da área da seta."
+        "Não desenhado: a área da seta não tem divisor."
       ],
       [
         "5. Área da seta",
-        "color/accent, largura control/height-* e a altura do gatilho menos as bordas; radius/none à esquerda e radius/control-inner à direita; chevron-down, ou chevron-up aberta."
+        "Sem fundo, largura control/height-* e a altura do gatilho menos as bordas; radius/none à esquerda e radius/control-inner à direita; chevron-down, ou chevron-up aberta."
       ],
       [
         "6. Lista",
-        "color/popover, borda color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+        "color/popover, borda color/border-subtle, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
       ],
       [
         "7. Opção",
@@ -4912,7 +4912,7 @@
       ],
       [
         "Contraste",
-        "Texto 4,5:1 e a borda 3:1, nos modos claro e escuro; a seta 3:1 sobre color/accent; o check 4,78:1 e 6,26:1 sobre color/primary-surface."
+        "Texto 4,5:1 e a borda 3:1, nos modos claro e escuro; a seta 3:1 sobre o fundo do campo; o check 4,78:1 e 6,26:1 sobre color/primary-surface."
       ],
       [
         "A cor não é o único sinal",
@@ -4920,7 +4920,7 @@
       ],
       [
         "Partes ocultas",
-        "O início, o divisor, a seta, o ponto e o check ficam ocultos do leitor de tela."
+        "O início, a seta, o ponto e o check ficam ocultos do leitor de tela."
       ]
     ],
     "examplesTitle": "Exemplos obrigatórios",
@@ -5806,7 +5806,7 @@
       ],
       [
         "Limites conhecidos",
-        "O preenchimento marcado, color/primary, fica abaixo de 3:1 sobre o fundo no modo escuro nas marcas gerencial e rh; a borda da caixa atinge. focus/border fica abaixo de 3:1 contra o halo no modo claro na marca sistemas, como o design.md registra. Com erro e foco, status/error fica abaixo de 3:1 contra focus/halo-error no modo escuro."
+        "O preenchimento marcado, color/primary, fica abaixo de 3:1 sobre o fundo no modo escuro nas marcas gerencial e rh; a borda da caixa atinge. Com erro e foco, status/error fica abaixo de 3:1 contra focus/halo-error no modo escuro."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -6092,7 +6092,7 @@
       ],
       [
         "Limites conhecidos",
-        "Fora de um radiogroup, o leitor de tela não anuncia o nome do grupo nem a posição. O invalid não é anunciado no rádio: o aria-invalid é do grupo. No Sistemas claro, focus/border mede 2,92:1 contra o halo."
+        "Fora de um radiogroup, o leitor de tela não anuncia o nome do grupo nem a posição. O invalid não é anunciado no rádio: o aria-invalid é do grupo."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -7299,7 +7299,7 @@
       ],
       [
         "size",
-        "default ou large, refletido. Mudam a altura do campo e a largura da área da seta."
+        "default ou large, refletido. Mudam a altura do campo (combobox/height, 38, ou control/height-large) e a largura da área da seta."
       ],
       [
         "value",
@@ -7428,7 +7428,7 @@
     "invalidTitle": "Entrada inválida não desenha nada.",
     "invalidText": "Um size fora de default e large, um start fora de search, icon e avatar, um icon fora do núcleo ou um filter fora de contains e none: o combobox não renderiza e emite console.error em desenvolvimento. clearable sem clear-label, creatable sem create-label e loading sem loading-label emitem um erro cada. free-text com início avatar não desenha nada; free-text sem no-suggestions-label emite um erro e fica em silêncio quando nada sugere o texto.",
     "sizesTitle": "Tamanhos",
-    "sizesText": "default na maioria dos formulários; large quando o formulário usa campos altos. Mudam a altura do campo e a largura da área da seta: control/height-default ou control/height-large.",
+    "sizesText": "default na maioria dos formulários; large quando o formulário usa campos altos. Mudam a altura do campo e a largura da área da seta: combobox/height (38) para a altura e control/height-default (36) para a área da seta, ou control/height-large para as duas.",
     "sizesCaption": "default e large, com uma opção escolhida.",
     "statesTitle": "Estados",
     "statesHeader": [
@@ -7438,11 +7438,11 @@
     "states": [
       [
         "default",
-        "Borda color/input sobre color/background; a área da seta em color/accent, depois de um divisor color/border."
+        "Borda combobox/border em cima e nas laterais e combobox/border-bottom na linha de baixo, sobre color/background; a área da seta sem fundo e sem divisor."
       ],
       [
         "hover",
-        "A borda vira color/input-hover."
+        "A borda inteira, nos quatro lados, vira color/input-hover."
       ],
       [
         "foco",
@@ -7571,15 +7571,15 @@
       ],
       [
         "4. Divisor",
-        "border/width em color/border, logo antes da área da seta, space/inline depois do conteúdo."
+        "Não desenhado: a área da seta não tem divisor."
       ],
       [
         "5. Área da seta",
-        "color/accent, com control/height-* de largura e a altura do campo menos as bordas; radius/none à esquerda e radius/control-inner à direita; chevron-down, ou chevron-up aberta."
+        "Sem fundo, com control/height-* de largura e a altura do campo menos as bordas; radius/none à esquerda e radius/control-inner à direita; chevron-down, ou chevron-up aberta."
       ],
       [
         "6. Lista",
-        "color/popover, borda color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+        "color/popover, borda color/border-subtle, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
       ],
       [
         "7. Anel de foco",
@@ -7606,7 +7606,7 @@
       ],
       [
         "Contraste",
-        "Texto 4,5:1 e a borda 3:1, nos modos claro e escuro; a seta 3:1 sobre color/accent; o resto do texto fora do destaque em color/muted-foreground passa de 4,5:1."
+        "Texto 4,5:1 e a borda 3:1, nos modos claro e escuro; a seta 3:1 sobre o fundo do campo; o resto do texto fora do destaque em color/muted-foreground passa de 4,5:1."
       ],
       [
         "A cor não é o único sinal",
@@ -7618,7 +7618,7 @@
       ],
       [
         "Partes ocultas",
-        "A lupa, o divisor, a seta e o ponto ficam ocultos para o leitor de tela."
+        "A lupa, a seta e o ponto ficam ocultos para o leitor de tela."
       ],
       [
         "Texto livre",
@@ -8506,7 +8506,7 @@
       "components-nph-input-validation--brands": "As sete marcas no claro e no escuro: a borda e o halo de foco seguem a marca do quadro no Tab, no campo e no botão de limpar.",
       "components-nph-textarea-validation--matrix": "Os estados do set: placeholder e valor, erro, readonly, disabled, e a precedência de disabled sobre readonly e de readonly sobre erro. Passe o mouse para o hover, clique para o foco.",
       "components-nph-textarea-validation--footer": "O rodapé aparece com contador ou ação, o contador no início e as ações no fim; disabled chega às ações; readonly não desenha rodapé.",
-      "components-nph-textarea-validation--height": "Vazio, o campo tem layout/textarea-min-height; cresce com o texto e para em layout/textarea-max-height, onde o texto rola por dentro.",
+      "components-nph-textarea-validation--height": "Vazio, o campo tem layout/multiline-min-height; cresce com o texto e para em layout/multiline-max-height, onde o texto rola por dentro.",
       "components-nph-textarea-validation--form-association": "O host participa do formulário: o envio manda name=value com as quebras de linha, Enter quebra a linha e não envia, o reset restaura o atributo value e um fieldset desabilitado o deixa de fora.",
       "components-nph-textarea-validation--in-field": "Dentro do nph-field, o campo dá o rótulo, a ajuda, o erro e o contador da linha de apoio, e o rodapé fica desligado.",
       "components-nph-textarea-validation--width": "A largura é layout/input-width por padrão; estica até o pai, sem mínimo.",
@@ -8545,7 +8545,7 @@
       "components-nph-slider-validation--invalid-input": "Entrada inválida não desenha nada: uma orientation ou um mode que não existem, min que não fica abaixo de max, um step zero. marks na orientação vertical não é desenhado; o resto renderiza.",
       "components-nph-slider-validation--examples": "Os três exemplos obrigatórios do board aceito: Brilho, Faixa de preço e Volume, cada um em modo claro e escuro.",
       "components-nph-slider-validation--brands": "As sete marcas no claro e no escuro: a trilha preenchida e os marcadores, simples e de intervalo, seguem o primary do quadro, e o anel de foco no Tab também.",
-      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta em color/accent (color/muted quando desabilitado). Passe o mouse para o hover, aperte Tab para o foco.",
+      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta sem fundo e sem divisor, e a borda dividida em repouso. Passe o mouse para o hover, aperte Tab para o foco.",
       "components-nph-select-validation--start": "O início do gatilho (D4): none, icon e avatar, antes da escolha e com o início da opção escolhida; o ponto de uma opção nunca vai ao gatilho.",
       "components-nph-select-validation--option": "A opção: os quatro inícios, o texto secundário, ativa com o visual de hover, selecionada com o check vencendo a ativa, desabilitada, e o ponto em cada estado (D5, D6).",
       "components-nph-select-validation--open": "A lista aberta: a space/inline-tight abaixo do gatilho, com a largura dele, a seta para cima e a opção escolhida com o check (D1, D2).",
@@ -8608,7 +8608,7 @@
       "components-nph-menubar-validation--interactive": "Uma barra para testar: clique em um item de topo ou use as setas, Enter, Espaço, Esc e Tab; ativar um comando dispara o nph-item-select, com o valor, o estado marcado e o item de topo, mostrados abaixo.",
       "components-nph-menubar-validation--examples": "Os quatro exemplos obrigatórios, cada um nos modos claro e escuro: o menu Arquivo com atalhos, o menu Exibir com caixas de seleção e rádios, marcado e desabilitado, e o submenu Recentes.",
       "components-nph-menubar-validation--brands": "As sete marcas nos modos claro e escuro: o item de topo aberto usa color/primary-surface-hover com color/primary-on-surface-hover por cima, e a escolha marcada e o foco usam o primário da marca do quadro.",
-      "components-nph-combobox-validation--matrix": "size × estado: placeholder, valor, valor com o botão limpar, erro, desabilitado e os dois, com o divisor e a área da seta em color/accent. Passe o mouse para o hover, aperte Tab para o foco e de novo para o botão limpar.",
+      "components-nph-combobox-validation--matrix": "size × estado: placeholder, valor, valor com o botão limpar, erro, desabilitado e os dois, com a área da seta sem fundo e sem divisor, e a borda dividida em repouso. Passe o mouse para o hover, aperte Tab para o foco e de novo para o botão limpar.",
       "components-nph-combobox-validation--start": "O início do campo: a lupa, um ícone e um avatar, antes de uma escolha e com o início da opção escolhida.",
       "components-nph-combobox-validation--list-states": "Os sete estados da lista, aberta: resultados, busca com o trecho digitado em destaque, status, grupos, carregando, criar e vazio; e o rodapé de atalhos (D-1 a D-3).",
       "components-nph-combobox-validation--form-association": "O host participa do formulário: enviar manda name=value, restaurar volta ao atributo value, uma escolha dispara input e change, e um fieldset desabilitado o desabilita.",
@@ -8656,7 +8656,7 @@
       "components-nph-chip-validation--examples": "Os três exemplos obrigatórios da documentação: filtros aplicados na linha da barra de ferramentas, valores escolhidos em um campo com um inválido, e filtros rápidos que a pessoa marca e desmarca, cada um em modo claro e escuro.",
       "components-nph-chip-validation--brands": "As sete marcas no claro e no escuro: o fundo, a borda, o estado selecionado e o contador do chip seguem a marca do quadro, e o anel de foco no Tab também.",
       "components-nph-label-validation--brands": "As sete marcas no claro e no escuro: o rótulo em si não muda; só o anel de foco do ícone de informação segue a marca do quadro no Tab.",
-      "components-nph-toolbar-validation--matrix": "Os cinco tipos nos três tamanhos, as quinze variantes do conjunto: em massa, página, ferramentas, flutuante e a faixa de filtros aplicados abaixo da barra de página. A barra pinta fundo, borda, raio e espaço; toda peça dentro dela recebe o tamanho da barra, 28, 36 ou 44 px de altura.",
+      "components-nph-toolbar-validation--matrix": "Os cinco tipos nos três tamanhos, as quinze variantes do conjunto: em massa, página, ferramentas, flutuante e a faixa de filtros aplicados abaixo da barra de página. A barra pinta fundo, raio e espaço; toda peça dentro dela recebe o tamanho da barra, 28, 36 ou 44 px de altura.",
       "components-nph-toolbar-validation--options": "Os booleanos do Figma como composição: a barra em massa com e sem a caixa de seleção, com a troca de visualização no centro e com limpar só em ícone; a barra de página com o centro; e a barra flutuante compacta.",
       "components-nph-toolbar-validation--piece-states": "Os estados pertencem às peças: a ação principal da barra de página desabilitada e carregando. Hover e foco são estados de interação: passe o mouse sobre uma ação, entre na barra com Tab e ande com as setas para vê-los.",
       "components-nph-toolbar-validation--applied-filters": "A faixa de filtros aplicados abaixo da barra de página, nos três tamanhos. Tire um chip pelo X: o foco vai para o próximo chip, senão para o anterior, senão para Filtrar, e a remoção é anunciada. Limpar filtros tira todos e manda o foco para Filtrar.",
@@ -9039,7 +9039,7 @@
     "invalidTitle": "Entrada inválida não desenha nada.",
     "invalidText": "Um size fora de default e large: o campo não renderiza e emite console.error em desenvolvimento. Chips sem remove-label ficam sem botão remover, e counter sem subject desenha o contador sozinho, cada um com um erro.",
     "sizesTitle": "Tamanhos",
-    "sizesText": "default na maioria dos formulários; large quando o formulário usa campos altos. Só a altura mínima muda: control/height-default ou control/height-large. O campo cresce quando os chips vão para outra linha.",
+    "sizesText": "default na maioria dos formulários; large quando o formulário usa campos altos. Só a altura mínima muda: multi-combobox/height (38) ou control/height-large. O campo cresce quando os chips vão para outra linha.",
     "sizesCaption": "default e large, com duas opções escolhidas.",
     "statesTitle": "Estados",
     "statesHeader": [
@@ -9049,11 +9049,11 @@
     "states": [
       [
         "default",
-        "Borda color/input sobre color/background; a lupa e a seta em color/muted-foreground."
+        "Borda multi-combobox/border em cima e nas laterais e multi-combobox/border-bottom na linha de baixo, sobre color/background; a lupa e a seta em color/muted-foreground."
       ],
       [
         "hover",
-        "A borda vira color/input-hover."
+        "A borda inteira, nos quatro lados, vira color/input-hover."
       ],
       [
         "foco",
@@ -9154,7 +9154,7 @@
     "anatomy": [
       [
         "Campo",
-        "color/background, borda border/width em color/input, radius/control, largura layout/multi-combobox-width, altura mínima control/height-default ou control/height-large, padding space/control-padding nas laterais e space/inline-tight em cima e embaixo, gap space/inline."
+        "color/background, borda border/width em multi-combobox/border (multi-combobox/border-bottom embaixo), radius/control, largura layout/multi-combobox-width, altura mínima multi-combobox/height ou control/height-large, padding space/control-padding nas laterais e space/inline-tight em cima e embaixo, gap space/inline."
       ],
       [
         "1. Lupa",
@@ -9788,7 +9788,7 @@
     "summary": "A barra que leva a pessoa de uma página a outra numa lista longa e mostra onde ela está na lista.",
     "onThisPage": "Nesta página",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-pagination, o design.md para os tokens e os ícones, e a P99 para a API. Cinco decisões esperam a responsável pelo design (D-1 a D-5 da DSA-54) e aparecem aqui no padrão.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-pagination, o design.md para os tokens e os ícones, e a P99 para a API. Quatro decisões esperam a responsável pelo design (D-1 a D-4 da DSA-54) e aparecem aqui no padrão; a D-5 foi respondida em 24/11/2026: a barra não tem contorno (DSA-118).",
     "sourceLabel": "Fonte:",
     "sourceFrame": "Figma, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
     "sourceApi": "ficha do nph-pagination; docs/decisoes-tecnicas.md › P99",
@@ -9966,7 +9966,7 @@
     "anatomy": [
       [
         "1. Barra",
-        "Contorno pagination/border em pagination/border-width, raio pagination/radius, espaçamento pagination/padding-x e pagination/padding-y (D-5)."
+        "Sem contorno; raio pagination/radius, espaçamento pagination/padding-x e pagination/padding-y (D-5)."
       ],
       [
         "2. Setas",
@@ -10037,7 +10037,7 @@
       "Figma DS-IA-NEPHOS 5.0, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
       "fichas/nph-pagination.md",
       "docs/decisoes-tecnicas.md › P99",
-      "Tarefa DSA-54, decisões pendentes D-1 a D-5"
+      "Tarefa DSA-54, decisões pendentes D-1 a D-4"
     ],
     "labels": {
       "label": "Paginação",
@@ -10524,11 +10524,11 @@
     "api": [
       [
         "type",
-        "bulk (padrão), page, tools, floating ou applied-filters, o tipo do Figma. Refletida: escolhe o fundo, a borda e o layout."
+        "bulk (padrão), page, tools, floating ou applied-filters, o tipo do Figma. Refletida: escolhe o fundo e o layout."
       ],
       [
         "size",
-        "compact, default (padrão) ou large, o tamanho do Figma. Refletida. A barra a escreve em todo filho direto que tem tamanho, que fica com 28, 36 ou 44 px de altura; o nph-chip fica compact na barra compacta e default nas outras duas."
+        "compact, default (padrão) ou large, o tamanho do Figma. Refletida. A barra a escreve em todo filho direto que tem tamanho, que fica com 28, 36 ou 44 px de altura (o campo de busca fica com 38 no tamanho padrão); o nph-chip fica compact na barra compacta e default nas outras duas."
       ],
       [
         "label",
@@ -10580,7 +10580,7 @@
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "sourceUsage": "Figma, documentação 2944:6528; docs/decisoes-tecnicas.md › P70",
     "typesTitle": "Tipos",
-    "typesText": "O tipo é escolhido pela situação. A barra controla fundo, borda, raio e espaço; cada peça mantém a própria cor, estado e foco.",
+    "typesText": "O tipo é escolhido pela situação. A barra controla fundo, raio e espaço; cada peça mantém a própria cor, estado e foco.",
     "typesHeader": [
       "Tipo",
       "O que faz"
@@ -10608,7 +10608,7 @@
       ]
     ],
     "sizesTitle": "Tamanhos",
-    "sizesText": "compact numa tela densa usada com mouse, default em geral, large numa tela de toque. A barra não tem altura própria: suas peças têm 28, 36 ou 44 px.",
+    "sizesText": "compact numa tela densa usada com mouse, default em geral, large numa tela de toque. A barra não tem altura própria: suas peças têm 28, 36 ou 44 px, e o campo de busca tem 38 no tamanho padrão.",
     "sizesCaption": "A barra de página em compact, default e large.",
     "optionsTitle": "Opções",
     "optionsText": "Os booleanos do Figma não são propriedades da barra: são as peças que o consumidor põe nela.",
@@ -10683,7 +10683,7 @@
     "anatomy": [
       [
         "Barra",
-        "toolbar/background, toolbar/border em toolbar/border-width, toolbar/radius e toolbar/padding. Em massa: toolbar/bulk-background, sem borda, laterais em toolbar/bulk-padding-x. Flutuante: toolbar/floating-background, toolbar/floating-border, toolbar/floating-radius e elevation/dropdown."
+        "toolbar/background, toolbar/radius e toolbar/padding, sem borda. Em massa: toolbar/bulk-background, sem borda, laterais em toolbar/bulk-padding-x. Flutuante: toolbar/floating-background, toolbar/floating-radius e elevation/dropdown."
       ],
       [
         "Início",
@@ -10734,7 +10734,7 @@
       ],
       [
         "Alvo de toque",
-        "As ações têm 28, 36 ou 44 px; a caixa de seleção tem 24 px; o X de cada chip tem pelo menos 24 px. Numa tela de toque, use large."
+        "As ações têm 28, 36 ou 44 px, e o campo de busca 28, 38 ou 44; a caixa de seleção tem 24 px; o X de cada chip tem pelo menos 24 px. Numa tela de toque, use large."
       ],
       [
         "Nome acessível",
@@ -13759,7 +13759,7 @@
       ],
       [
         "4. Busca",
-        "nph-input em sidebar/search-background e sidebar/search-border. Só nos modos expandido e móvel."
+        "nph-input em sidebar/search-background e sidebar/search-border em cima e nas laterais, e input/border-bottom na linha de baixo. Só nos modos expandido e móvel."
       ],
       [
         "5. Separador",
@@ -13812,7 +13812,7 @@
       ],
       [
         "Área de toque",
-        "Item e botão do trilho em sidebar/item-height e sidebar/rail-button-size; subitem, opção, busca, botão de recolher e botão do canto em control/height-default."
+        "Item e botão do trilho em sidebar/item-height e sidebar/rail-button-size; subitem, opção, botão de recolher e botão do canto em control/height-default; a busca em input/height (38)."
       ]
     ],
     "examplesTitle": "Exemplos obrigatórios",
@@ -14388,8 +14388,8 @@
         "Uma barra na borda inicial da linha, de cima a baixo, no item escolhido da seleção single."
       ],
       [
-        "Borda de foco",
-        "Uma borda desenhada por dentro da linha inteira, sobre a barra. Num item desabilitado ela fica com a opacidade total."
+        "Borda e halo de foco",
+        "Uma borda por fora da linha e um halo por fora da borda. Num item desabilitado eles ficam com a opacidade total."
       ],
       [
         "Linha de erro",
@@ -14420,7 +14420,7 @@
       ],
       [
         "Foco visível",
-        "Uma borda por dentro da linha inteira, sobre o item escolhido e a barra, com opacidade total até num item desabilitado. O item com foco não recebe fundo de hover, para a borda manter o contraste."
+        "Uma borda por fora da linha e um halo por fora da borda, com a barra do item escolhido visível por dentro, com opacidade total até num item desabilitado. O item com foco não recebe fundo de hover."
       ],
       [
         "A cor não é o único sinal",
@@ -14440,7 +14440,7 @@
       ],
       [
         "Limites conhecidos",
-        "A caixa não recebe o próprio hover quando o ponteiro está sobre a linha, porque o nph-checkbox só reage ao hover dentro do próprio shadow root; a borda de foco do item desabilitado aguarda uma decisão; a árvore não rola sozinha, já que o contêiner dá a rolagem."
+        "A caixa não recebe o próprio hover quando o ponteiro está sobre a linha, porque o nph-checkbox só reage ao hover dentro do próprio shadow root; a borda e o halo de foco do item desabilitado ficam com a opacidade total; a árvore não rola sozinha, já que o contêiner dá a rolagem."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -17403,7 +17403,7 @@
       ],
       [
         "size",
-        "compact (28), default (36, o padrão) ou large (44), a altura do campo e do botão de calendário. Reflete. O campo compact abre o painel padrão."
+        "compact (28), default (o campo 38 e o botão de calendário 36, o padrão) ou large (44), a altura do campo e do botão de calendário. Reflete. O campo compact abre o painel padrão."
       ],
       [
         "value, start, end",
@@ -17485,7 +17485,7 @@
       ],
       [
         "compact, default, large",
-        "28, 36 e 44 px de altura. O campo compact abre o painel padrão; o large abre o grande, com o dia de 44 e os botões do rodapé no tamanho padrão."
+        "28, 38 e 44 px de altura para o campo; o botão de calendário tem 28, 36 e 44. O campo compact abre o painel padrão; o large abre o grande, com o dia de 44 e os botões do rodapé no tamanho padrão."
       ]
     ],
     "sourceModes": "ficha do nph-date-picker; Figma, conjunto nph-date-picker (6666:32)",
@@ -17616,7 +17616,7 @@
       ],
       [
         "Toque",
-        "Campo e botão têm 28, 36 e 44 px de altura; o dia e as setas têm 36 no painel padrão e 44 no grande. Na tela de toque use large."
+        "O campo tem 28, 38 e 44 px de altura e o botão, 28, 36 e 44; o dia e as setas têm 36 no painel padrão e 44 no grande. Na tela de toque use large."
       ]
     ],
     "sourceAccessibility": "ficha do nph-date-picker; nph-date-picker.test.ts",
@@ -17973,7 +17973,7 @@
       ],
       [
         "Contraste",
-        "O título e a segunda linha passam 4,5:1 no claro e no escuro. O limite que atinge 3:1 é o controle dentro do cartão. No modo claro da marca padrão, focus/border mede 2,92:1 contra o halo."
+        "O título e a segunda linha passam 4,5:1 no claro e no escuro. O limite que atinge 3:1 é o controle dentro do cartão. focus/border mede pelo menos 3:1 contra o halo em todas as marcas e esquemas."
       ],
       [
         "Alternativa à cor",

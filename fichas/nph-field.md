@@ -162,7 +162,7 @@ accessibility:
     - "Tab reaches the information icon of the label, when it exists, and then the control."
     - "The keyboard of the control is the control's own."
   focus: "The field takes no focus. The focus shows on the wrapped control; a click on the label text moves the focus to the control. In a group, a click on the label moves no focus."
-  contrast: "The label uses color/foreground, 21:1 in light and 14.73:1 in dark; the control border is color/input, which meets 3:1."
+  contrast: "The label uses color/foreground, 21:1 in light and 14.73:1 in dark; the bottom line of the control border is input/border-bottom, which meets 3:1."
   color_alternative: "The error state always brings the written message; the field is never only red."
 invalid_combinations:
   - "No label — the control has no name; the field renders and emits console.error in development."
@@ -280,7 +280,7 @@ message.
 | State | The field writes `invalid` and `required` on a control. A group carries `aria-invalid`; a group of radios also carries `aria-required` |
 | Keyboard | Tab reaches the information icon of the label, when it exists, and then the control. The keyboard of the control is its own |
 | Focus | The field takes no focus. The focus shows on the wrapped control; a click on the label text moves the focus to it. In a group, a click on the label moves no focus |
-| Contrast | The label uses `color/foreground`, 21:1 in light and 14.73:1 in dark; the control border is `color/input`, which meets 3:1 |
+| Contrast | The label uses `color/foreground`, 21:1 in light and 14.73:1 in dark; the bottom line of the control border is `input/border-bottom`, which meets 3:1 |
 | Alternative to color | The error state always brings the written message; the field is never only red |
 
 ### The field–control contract (P83)

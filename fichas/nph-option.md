@@ -377,7 +377,7 @@ halo, and that clip stays.
 | Focus | `not_applicable`: the focus stays on the trigger of the list, which points to the active option with `aria-activedescendant`. The rich option active by the keyboard draws a 1 px `select/option-focus-border` and a 4 px `select/option-focus-halo` outside it; the layer alone is below 3:1 and the border meets it |
 | Contrast | The label meets 4.5:1 on `color/popover`, `color/accent` and `color/primary-surface`; the check on `color/primary-surface` measures 4.78:1 and 6.26:1 (D8) |
 | Alternative to color | The selected option has the check besides the background; the dot goes with the written state. The selected rich option has no background: the check or the checked box says it |
-| Known limits | Forced colors and right-to-left are not treated yet. In light mode of the default brand, `focus/border` measures 2.92:1 against the halo, as `design.md` records |
+| Known limits | Forced colors and right-to-left are not treated yet |
 
 ## Relations
 

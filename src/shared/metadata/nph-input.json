@@ -43,7 +43,7 @@
       "required": false,
       "default": "default",
       "reflects": true,
-      "constraint": "large changes only the height: control/height-default or control/height-large. compact changes the height, input/height-compact, and the end padding, input/clear-padding-end. Reflects because the internal CSS selects the measures by it. One size per form, the same as the button next to the field."
+      "constraint": "large changes only the height: input/height (default) or control/height-large. compact changes the height, input/height-compact, and the end padding, input/clear-padding-end. Reflects because the internal CSS selects the measures by it. One size per form, the same as the button next to the field."
     },
     "value": {
       "type": "string",
@@ -160,12 +160,12 @@
   },
   "states": {
     "default": {
-      "token": "color/input",
-      "changes_for_user": "The resting border, on color/background."
+      "token": "input/border, input/border-bottom",
+      "changes_for_user": "The resting border, on color/background: the top and the sides in input/border, the bottom line in input/border-bottom."
     },
     "hover": {
       "token": "color/input-hover",
-      "changes_for_user": "The border goes one step darker under the pointer."
+      "changes_for_user": "The whole border, on all four sides, goes one step darker under the pointer."
     },
     "focus": {
       "token": "focus/border",
@@ -173,7 +173,7 @@
     },
     "focus-clear": {
       "token": "focus/border",
-      "changes_for_user": "Keyboard focus on the clear button: the container keeps color/input, and the border and the halo sit around the 24 by 24 target. In compact the ring goes past the field while the button has focus."
+      "changes_for_user": "Keyboard focus on the clear button: the container keeps the resting split border (input/border and input/border-bottom), and the border and the halo sit around the 24 by 24 target. In compact the ring goes past the field while the button has focus."
     },
     "error": {
       "token": "status/error",
@@ -185,7 +185,7 @@
     },
     "disabled": {
       "token": "state/disabled-opacity",
-      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the color/input border; it does not respond and wins over the error."
+      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input; it does not respond and wins over the error."
     }
   },
   "business_rules": [
@@ -199,10 +199,10 @@
     "invalid: the value needs correction; nph-field writes the sentence and passes it as description."
   ],
   "tokens": {
-    "height": "control/height-default, control/height-large or input/height-compact",
+    "height": "input/height, control/height-large or input/height-compact",
     "width": "layout/input-width",
     "radius": "radius/control",
-    "border": "border/width, in color/input, color/input-hover, focus/border or status/error",
+    "border": "border/width, in input/border (top and sides) and input/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border",
     "background": "color/background; color/muted when disabled",
     "padding": "space/control-padding; the end one is input/clear-padding-end in compact",
     "gap": "space/inline",
@@ -232,7 +232,7 @@
       "Enter or Space on the clear button clears the value and brings the focus back to the field."
     ],
     "focus": "The field shows the focus border and the halo whenever it has the focus, by pointer or keyboard; the clear button shows its own only for the keyboard.",
-    "contrast": "The color/input border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration.",
+    "contrast": "The bottom line of the resting border, input/border-bottom, meets 3:1 against the background (WCAG 1.4.11); the top and the sides are lighter on purpose; the halo is decoration.",
     "color_alternative": "The error is said by the sentence of nph-field, read as the description of the field; the border color is not the only signal."
   },
   "invalid_combinations": [
@@ -270,7 +270,7 @@
     "Clipping the overflow of a compact field: the focus ring of the clear button goes past it."
   ],
   "sources": {
-    "design_md": "design.md, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact and input/clear-padding-end in the token source",
+    "design_md": "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact, input/clear-padding-end, input/border, input/border-bottom and input/height in the token source",
     "decision": "P80 — API and semantics of nph-input, the reference of the form controls; its amendment of 28/10/2026 (DSA-59) adds compact",
     "tests": "src/components/nph-input/nph-input.test.ts",
     "usage_evidence": "the Examples section of the nph-icon Docs page",

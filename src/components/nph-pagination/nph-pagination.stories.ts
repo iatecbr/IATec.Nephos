@@ -2,7 +2,7 @@
  * VALIDATION stories of `nph-pagination`.
  *
  * They prove the contract accepted in Figma (page `NPH — Pagination`, documentation
- * `1640:196`, set `1640:194`), the pending decisions D-1 to D-5 of DSA-54 in their default and
+ * `1640:196`, set `1640:194`), the pending decisions D-1 to D-4 of DSA-54 in their default and
  * P99: the `type` × position matrix, with the current page, the disabled arrows and the
  * ellipsis; go to page beside the bar with first and last; the invalid input; and the three
  * required examples of the board — data table footer in the middle of the list, search result
