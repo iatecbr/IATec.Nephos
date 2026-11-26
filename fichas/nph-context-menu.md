@@ -122,8 +122,8 @@ business_rules:
   - "Opening fades in and slides space/inline-tight on motion/enter-duration and motion/enter-easing; closing on motion/exit-duration and motion/exit-easing. Under reduced motion, opacity only, on motion/hover-duration. A submenu opens by pointer after motion/hover-delay."
 domain_errors: []
 tokens:
-  panel: [color/popover, color/popover-foreground, layout/input-width, dropdown/panel-radius, elevation/dropdown]
-  panel_border: [border/width, color/dropdown-border]
+  panel: [context-menu/background, color/popover-foreground, layout/input-width, dropdown/panel-radius, elevation/dropdown]
+  panel_border: [border/width, context-menu/border]
   panel_padding: space/inline-tight
   group_label: [text/label-sm, color/muted-foreground, space/inline, space/inline-tight]
   separator: [dropdown/separator, space/inline-tight]
@@ -320,8 +320,8 @@ not a tag of its own.
 
 | Part | Token |
 |---|---|
-| Panel | `color/popover`, `layout/input-width`, `dropdown/panel-radius`, `elevation/dropdown`, padding `space/inline-tight` |
-| Panel border | `border/width` in `color/dropdown-border`, which resolves to `color/border-subtle` |
+| Panel | `context-menu/background` (alias of `color/popover`), `layout/input-width`, `dropdown/panel-radius`, `elevation/dropdown`, padding `space/inline-tight` |
+| Panel border | `border/width` in `context-menu/border` (alias of `color/dropdown-border`, which resolves to `color/border-subtle`) |
 | Group label | `text/label-sm` in `color/muted-foreground`, `space/inline` on the sides, `space/inline-tight` above and below |
 | Separator | `nph-separator` in `dropdown/separator`, `space/inline-tight` above and below |
 | Item | `space/inline` padding and gap (`space/inline-tight` above and below in compact), `dropdown/item-radius`, `text/body-md` in `color/popover-foreground` |
@@ -335,7 +335,7 @@ not a tag of its own.
 | Motion | `motion/enter-*` and `motion/exit-*`; `motion/hover-delay` for the submenu; `motion/hover-duration` under reduced motion |
 | Long press | `context-menu/long-press-delay` (how long a touch is held) and `context-menu/long-press-tolerance` (how far it may move), read by the code from the computed style |
 
-**Usage restrictions:** the component has only the two tokens of the long press as its own and does
+**Usage restrictions:** the component has as its own the two tokens of the panel, `context-menu/background` and `context-menu/border`, and the two of the long press, and does
 not choose width, height, color, radius or typography: everything comes from a token. The row height comes from its content. In
 a part of the screen with another brand, `data-nph-brand` and `data-nph-color-scheme` go on the same
 element (P67).
