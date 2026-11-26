@@ -783,10 +783,12 @@
   --nph-scheduler-today-indicator-width: var(--nph-core-focus-width-sm);
   --nph-scheduler-now-indicator-width: var(--nph-core-focus-width-sm);
   --nph-scheduler-now-indicator-size: var(--nph-core-space-200);
+  --nph-scheduler-day-radius: var(--nph-core-radius-450);
   --nph-scheduler-hour-height: var(--nph-core-space-900);
   --nph-scheduler-list-time-width: var(--nph-core-space-1500);
   --nph-scheduler-list-time-width-compact: var(--nph-core-layout-width-list-time-compact);
   --nph-scheduler-month-row-min-height: var(--nph-core-space-1200);
+  --nph-collapsible-title-gap: var(--nph-core-space-50);
   --nph-collapsible-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-resizable-focus-border-width: var(--nph-core-focus-width-sm);
   --nph-carousel-indicator-size: var(--nph-core-space-200);
@@ -1107,7 +1109,6 @@
   --nph-scheduler-day-label-padding-y: var(--nph-space-inline-tight);
   --nph-scheduler-day-header-gap: var(--nph-space-inline);
   --nph-scheduler-day-padding: var(--nph-space-inline);
-  --nph-scheduler-day-radius: var(--nph-radius-control);
   --nph-scheduler-month-cell-padding-x: var(--nph-space-inline-tight);
   --nph-scheduler-month-cell-padding-y: var(--nph-space-inline);
   --nph-scheduler-month-cell-gap: var(--nph-space-inline-tight);
@@ -1130,7 +1131,6 @@
   --nph-collapsible-trigger-padding-y: var(--nph-space-inline);
   --nph-collapsible-trigger-padding-y-compact: var(--nph-space-inline-tight);
   --nph-collapsible-trigger-gap: var(--nph-space-inline-tight);
-  --nph-collapsible-title-gap: var(--nph-space-stack-snug);
   --nph-collapsible-trigger-radius: var(--nph-radius-control);
   --nph-collapsible-indicator-size: var(--nph-icon-size-sm);
   --nph-collapsible-icon-size: var(--nph-icon-size-sm);
