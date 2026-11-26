@@ -224,6 +224,18 @@ import { faItalic as lItalic } from '@fortawesome/pro-light-svg-icons/faItalic';
 import { faItalic as sItalic } from '@fortawesome/pro-solid-svg-icons/faItalic';
 import { faUnderline as lUnderline } from '@fortawesome/pro-light-svg-icons/faUnderline';
 import { faUnderline as sUnderline } from '@fortawesome/pro-solid-svg-icons/faUnderline';
+import { faRotateLeft as lRotateLeft } from '@fortawesome/pro-light-svg-icons/faRotateLeft';
+import { faRotateLeft as sRotateLeft } from '@fortawesome/pro-solid-svg-icons/faRotateLeft';
+import { faStrikethrough as lStrikethrough } from '@fortawesome/pro-light-svg-icons/faStrikethrough';
+import { faStrikethrough as sStrikethrough } from '@fortawesome/pro-solid-svg-icons/faStrikethrough';
+import { faListUl as lListUl } from '@fortawesome/pro-light-svg-icons/faListUl';
+import { faListUl as sListUl } from '@fortawesome/pro-solid-svg-icons/faListUl';
+import { faListOl as lListOl } from '@fortawesome/pro-light-svg-icons/faListOl';
+import { faListOl as sListOl } from '@fortawesome/pro-solid-svg-icons/faListOl';
+import { faBlockQuote as lBlockQuote } from '@fortawesome/pro-light-svg-icons/faBlockQuote';
+import { faBlockQuote as sBlockQuote } from '@fortawesome/pro-solid-svg-icons/faBlockQuote';
+import { faTextSlash as lTextSlash } from '@fortawesome/pro-light-svg-icons/faTextSlash';
+import { faTextSlash as sTextSlash } from '@fortawesome/pro-solid-svg-icons/faTextSlash';
 
 /**
  * The core names (`design.md`, block `icones_nucleo`).
@@ -336,6 +348,12 @@ export const NPH_ICON_NAMES = [
   'bold',
   'italic',
   'underline',
+  'rotate-left',
+  'strikethrough',
+  'list-ul',
+  'list-ol',
+  'block-quote',
+  'text-slash',
 ] as const;
 
 export type NphIconName = (typeof NPH_ICON_NAMES)[number];
@@ -468,6 +486,12 @@ const GLYPHS = {
   bold: glyph(lBold, sBold),
   italic: glyph(lItalic, sItalic),
   underline: glyph(lUnderline, sUnderline),
+  'rotate-left': glyph(lRotateLeft, sRotateLeft),
+  'strikethrough': glyph(lStrikethrough, sStrikethrough),
+  'list-ul': glyph(lListUl, sListUl),
+  'list-ol': glyph(lListOl, sListOl),
+  'block-quote': glyph(lBlockQuote, sBlockQuote),
+  'text-slash': glyph(lTextSlash, sTextSlash),
 } satisfies Readonly<Record<NphIconName, IconGlyph>>;
 
 const NAMES = new Set<string>(NPH_ICON_NAMES);
