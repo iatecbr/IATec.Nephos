@@ -10900,7 +10900,7 @@
     "summary": "The table to search, sort, select and act on records, with a toolbar above it, row actions and pagination.",
     "matrixLabel": "estado of the table",
     "derivedTitle": "This page is derived.",
-    "derivedText": "In case of divergence, the canonical sources prevail: the nph-data-table spec sheet, design.md for the tokens and P105 for the API. Six decisions wait for the design owner (D-1 to D-6 of DSA-58) and show here in their default: the footer chosen by the consumer, the sort arrows, the click that turns the direction around, the header box over the rows of the page, the skeleton rows and the switch column before the actions.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-data-table spec sheet, design.md for the tokens and P105 for the API. The six decisions of DSA-58 (D-1 to D-6) are answered: the footer chosen by the consumer, the sort arrows, the click that goes ascending, descending and back to unsorted, the header box over the rows of the page, the skeleton rows and the switch column before the actions.",
     "onThisPage": "On this page",
     "whenToUseTitle": "When to use",
     "whenNotToUseTitle": "When not to use",
@@ -11091,7 +11091,7 @@
       ],
       [
         "nph-sort-change",
-        "The person sorted: detail key and direction."
+        "The person sorted: detail key and direction. The third click on the same column takes the sort away: key and direction come empty."
       ],
       [
         "nph-selection-change",
@@ -11184,7 +11184,7 @@
       ]
     ],
     "sortingTitle": "Sorting",
-    "sortingText": "A sortable header is a button the size of the cell, with the arrow of the direction. The table only says what the person chose: the consumer sorts the rows and passes them again.",
+    "sortingText": "A sortable header is a button the size of the cell, with the arrow of the direction. A click goes ascending, descending and back to unsorted. The table only says what the person chose: the consumer sorts the rows and passes them again.",
     "sortingCaption": "The amount sorted descending, aligned to the end with its header.",
     "sortingHeader": [
       "ordenação",

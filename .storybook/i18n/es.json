@@ -10900,7 +10900,7 @@
     "summary": "La tabla para buscar, ordenar, seleccionar y actuar sobre registros, con barra de herramientas encima, acciones por fila y paginación.",
     "matrixLabel": "estado de la tabla",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-data-table, design.md para los tokens y P105 para la API. Seis decisiones esperan a la responsable del diseño (D-1 a D-6 de DSA-58) y aparecen aquí en su valor predeterminado: el pie elegido por quien lo usa, las flechas de la ordenación, el clic que invierte la dirección, la casilla del encabezado sobre las filas de la página, las filas de skeleton y la columna de ajuste antes de las acciones.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-data-table, design.md para los tokens y P105 para la API. Las seis decisiones de DSA-58 (D-1 a D-6) están respondidas: el pie elegido por quien lo usa, las flechas de la ordenación, el clic que va de ascendente a descendente y vuelve a sin orden, la casilla del encabezado sobre las filas de la página, las filas de skeleton y la columna de ajuste antes de las acciones.",
     "onThisPage": "En esta página",
     "whenToUseTitle": "Cuándo usar",
     "whenNotToUseTitle": "Cuándo no usar",
@@ -11091,7 +11091,7 @@
       ],
       [
         "nph-sort-change",
-        "La persona ordenó: detail key y direction."
+        "La persona ordenó: detail con key y direction. El tercer clic en la misma columna quita la ordenación: key y direction llegan vacíos."
       ],
       [
         "nph-selection-change",
@@ -11184,7 +11184,7 @@
       ]
     ],
     "sortingTitle": "Ordenación",
-    "sortingText": "Un encabezado ordenable es un botón del tamaño de la celda, con la flecha de la dirección. La tabla solo dice lo que la persona eligió: quien la usa ordena las filas y las pasa de nuevo.",
+    "sortingText": "Un encabezado ordenable es un botón del tamaño de la celda, con la flecha de la dirección. Un clic va de ascendente a descendente y vuelve a sin orden. La tabla solo informa lo que la persona eligió: quien la usa ordena las filas y las pasa de nuevo.",
     "sortingCaption": "El valor en orden descendente, alineado al final con su encabezado.",
     "sortingHeader": [
       "ordenação",

@@ -325,7 +325,7 @@ describe('sorting', () => {
     expect(Math.round(button.getBoundingClientRect().right - arrow.getBoundingClientRect().right)).toBe(Math.round(padding));
   });
 
-  it('a click sorts ascending, the next one descending and back, firing nph-sort-change', async () => {
+  it('a click sorts ascending, the next one descending, the third takes the sort away, firing nph-sort-change (D-3)', async () => {
     const element = await mount();
     const events: NphDataTableSortChangeDetail[] = [];
     element.addEventListener('nph-sort-change', (event) => events.push(event.detail));
@@ -336,10 +336,33 @@ describe('sorting', () => {
     expect(events).toEqual([
       { key: 'name', direction: 'ascending' },
       { key: 'name', direction: 'descending' },
-      { key: 'name', direction: 'ascending' },
+      { key: '', direction: '' },
       { key: 'amount', direction: 'ascending' },
     ]);
     expect([element.sortKey, element.sortDirection]).toEqual(['amount', 'ascending']);
+  });
+  it('the third click leaves no header sorted: no aria-sort, the two-way arrow, and the cycle starts again', async () => {
+    const element = await mount();
+    const header = (key: string): HTMLElement => sortButton(element, key)?.closest('th') as HTMLElement;
+    await userEvent.click(sortButton(element, 'name') as HTMLButtonElement);
+    await userEvent.click(sortButton(element, 'name') as HTMLButtonElement);
+    expect(header('name').getAttribute('aria-sort')).toBe('descending');
+    await userEvent.click(sortButton(element, 'name') as HTMLButtonElement);
+    await settle(element);
+    expect([element.sortKey, element.sortDirection]).toEqual(['', '']);
+    expect(header('name').hasAttribute('aria-sort')).toBe(false);
+    expect(element.shadowRoot?.querySelector('th [aria-sort], th[aria-sort]')).toBeNull();
+    await userEvent.click(sortButton(element, 'name') as HTMLButtonElement);
+    expect(header('name').getAttribute('aria-sort')).toBe('ascending');
+  });
+  it('a click on another column while one is sorted sorts that one ascending and keeps the cycle of each', async () => {
+    const element = await mount();
+    const events: NphDataTableSortChangeDetail[] = [];
+    element.addEventListener('nph-sort-change', (event) => events.push(event.detail));
+    await userEvent.click(sortButton(element, 'name') as HTMLButtonElement);
+    await userEvent.click(sortButton(element, 'name') as HTMLButtonElement);
+    await userEvent.click(sortButton(element, 'amount') as HTMLButtonElement);
+    expect(events.at(-1)).toEqual({ key: 'amount', direction: 'ascending' });
   });
 
   it('the event bubbles, is not composed, and setting the sort from code fires nothing', async () => {

@@ -13,8 +13,11 @@
  *   what the person chose — `sort-key` and `sort-direction`, `selected`, `page` and
  *   `page-size` — and says so in events; it never filters, sorts or cuts a list;
  * - sorting: a column with `sortable` draws its header as a button the size of the cell, with
- *   the arrow of the direction; the sorted header carries `aria-sort`. A click sorts another
- *   column ascending and turns the sorted one around (`nph-sort-change`, `{ key, direction }`);
+ *   the arrow of the direction; the sorted header carries `aria-sort`. A click cycles the
+ *   column: ascending, descending and back to unsorted (D-3 of DSA-58, DSA-115). A click on
+ *   another column sorts that one ascending. `nph-sort-change` carries `{ key, direction }`; when
+ *   the third click takes the sort away, it carries `{ key: '', direction: '' }`, the same pair
+ *   that leaves `sort-key` and `sort-direction` empty;
  * - selection: `selectable` adds the column of `nph-checkbox`, the header box named
  *   `select-all-label` and the row box named `select-label` with `{name}` (the row `name`).
  *   `selected` is the list of row keys; the header box checks or unchecks the rows drawn and
@@ -97,8 +100,10 @@ export interface NphDataTableRow extends NphTableRow {
 }
 
 export interface NphDataTableSortChangeDetail {
+  /** The column that is now sorted; empty when the sort was taken away. */
   readonly key: string;
-  readonly direction: NphDataTableSortDirection;
+  /** The direction; empty when the sort was taken away (the third click on the same column). */
+  readonly direction: NphDataTableSortDirection | '';
 }
 
 export interface NphDataTableSelectionChangeDetail {
@@ -448,8 +453,11 @@ export class NphDataTable extends NphTable {
   /* ----- what the person does ------------------------------------------------------ */
 
   private sortBy(column: NphDataTableColumn): void {
-    const key = column.key.trim();
-    const direction: NphDataTableSortDirection = this.sortedKey() === key && this.sortDirection === 'ascending' ? 'descending' : 'ascending';
+    const clicked = column.key.trim();
+    /* Ascending, descending, then unsorted (D-3): the same column goes on in the cycle. */
+    const same = this.sortedKey() === clicked;
+    const direction: NphDataTableSortDirection | '' = !same ? 'ascending' : this.sortDirection === 'ascending' ? 'descending' : '';
+    const key = direction === '' ? '' : clicked;
     this.sortKey = key;
     this.sortDirection = direction;
     this.dispatchEvent(new CustomEvent<NphDataTableSortChangeDetail>('nph-sort-change', { detail: { key, direction }, bubbles: true }));

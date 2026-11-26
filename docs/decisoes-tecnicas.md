@@ -5808,8 +5808,14 @@ renders nothing, as P97; a cause of its own leaves out only the part it names an
 3. **Sorting (D-2, D-3).** A column with `sortable` draws its header as a native button the size of
    the cell, with the ring `focus/border` in `table/focus-ring-width` inside it; the sorted header
    carries `aria-sort`. The arrow is `arrow-up-arrow-down` while not sorted, `arrow-up` ascending and
-   `arrow-up` turned half a turn descending, as `nph-pagination` turns its last arrow. A click sorts
-   another column ascending and turns the sorted one around.
+   `arrow-up` turned half a turn descending, as `nph-pagination` turns its last arrow. A click cycles
+   a column: ascending, descending and back to unsorted *(D-3, answered by Indiane on 23/11/2026 and
+   applied in DSA-115; the first version turned the sorted column around and never took the sort
+   away)*. A click on another column sorts that one ascending. On the third click `nph-sort-change`
+   carries `{ key: '', direction: '' }`, the pair that leaves `sort-key` and `sort-direction` empty, so
+   a consumer that copies the detail into the table keeps both in step; no header is then drawn
+   sorted and none carries `aria-sort`. MUI and AG Grid cycle this way, and Carbon has the unsorted
+   state.
 
 4. **Selection (D-4).** `selectable` adds a column of `nph-checkbox`, named by `select-all-label` in
    the header and `select-label` with `{name}` in each row. `selected` is the list of row keys; the
@@ -5855,8 +5861,8 @@ technical proposal of this implementation.
 **Out of scope.** Load more and infinite scroll. A tree of records. A footer that switches by
 itself before the breakpoint tokens. A new token.
 
-**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-6 of DSA-58 wait for
-Indiane. API and semantics are reviewed in the pull request that brings them; the merge is the
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-6 of DSA-58 answered by
+Indiane on 23/11/2026 and 26/11/2026; D-3 applied in DSA-115. API and semantics are reviewed in the pull request that brings them; the merge is the
 approval.
 
 ---

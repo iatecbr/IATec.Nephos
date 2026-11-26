@@ -10900,7 +10900,7 @@
     "summary": "A tabela para buscar, ordenar, selecionar e agir sobre registros, com barra de ferramentas acima, ações por linha e paginação.",
     "matrixLabel": "estado da tabela",
     "derivedTitle": "Esta página é derivada.",
-    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-data-table, o design.md para os tokens e a P105 para a API. Seis decisões aguardam a dona do design (D-1 a D-6 da DSA-58) e aparecem aqui no padrão: o rodapé escolhido por quem usa, as setas da ordenação, o clique que inverte a direção, a caixa do cabeçalho sobre as linhas da página, as linhas de skeleton e a coluna de ajuste antes das ações.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-data-table, o design.md para os tokens e a P105 para a API. As seis decisões da DSA-58 (D-1 a D-6) estão respondidas: o rodapé escolhido por quem usa, as setas da ordenação, o clique que vai de ascendente a descendente e volta a sem ordem, a caixa do cabeçalho sobre as linhas da página, as linhas de skeleton e a coluna de ajuste antes das ações.",
     "onThisPage": "Nesta página",
     "whenToUseTitle": "Quando usar",
     "whenNotToUseTitle": "Quando não usar",
@@ -11091,7 +11091,7 @@
       ],
       [
         "nph-sort-change",
-        "A pessoa ordenou: detail key e direction."
+        "A pessoa ordenou: detail com key e direction. O terceiro clique na mesma coluna tira a ordenação: key e direction vêm vazios."
       ],
       [
         "nph-selection-change",
@@ -11184,7 +11184,7 @@
       ]
     ],
     "sortingTitle": "Ordenação",
-    "sortingText": "Um cabeçalho ordenável é um botão do tamanho da célula, com a seta da direção. A tabela só diz o que a pessoa escolheu: quem usa ordena as linhas e as passa de novo.",
+    "sortingText": "Um cabeçalho ordenável é um botão do tamanho da célula, com a seta da direção. Um clique vai de ascendente a descendente e volta a sem ordem. A tabela só informa o que a pessoa escolheu: quem usa ordena as linhas e as passa de novo.",
     "sortingCaption": "O valor em ordem decrescente, alinhado ao fim com o seu cabeçalho.",
     "sortingHeader": [
       "ordenação",
