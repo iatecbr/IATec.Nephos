@@ -98,7 +98,7 @@
   "states": {
     "empty": {
       "token": "image/background",
-      "changes_for_user": "No src: the frame with its border. Until the illustrations arrive, the frame shows nothing else."
+      "changes_for_user": "No src: the frame with its border and the image icon on its own background."
     },
     "loading": {
       "token": "image/foreground",
@@ -110,7 +110,7 @@
     },
     "error": {
       "token": "image/background",
-      "changes_for_user": "The image did not load: the frame with its border, as empty, until the illustrations arrive. The parent explains the problem."
+      "changes_for_user": "The image did not load: the frame with its border and the image-slash icon on its own background. The parent explains the problem."
     },
     "hover": {
       "token": "image/overlay",
@@ -129,7 +129,7 @@
     "The area is the same in every state: empty, loading, loaded and error keep the size of the frame.",
     "The content state derives from src and the load; it is not chosen by hand.",
     "Hover, focus and disabled exist only when the parent makes the image clickable with interactive.",
-    "Empty and error draw the frame only until their illustrations arrive; the text that explains a failure belongs to the parent.",
+    "Empty and error draw an icon (image, image-landscape or image-slash); the text that explains a failure belongs to the parent.",
     "The ratio only applies to media; every other size is square."
   ],
   "domain_errors": [],
@@ -169,8 +169,7 @@
     ],
     "disabled": "state/disabled-opacity",
     "illustration": [
-      "image/illustration-light",
-      "image/illustration-dark"
+      "image/illustration-background"
     ]
   },
   "ai_hints": [
@@ -190,7 +189,7 @@
     ],
     "focus": "Only a clickable image receives focus, through its inner button: the ring image/focus-border in focus/ring-width, with the keyboard. Otherwise the piece has no tabindex and the focus belongs to the control that contains it.",
     "contrast": "The spinner, image/foreground on image/background, and the focus ring pass 3:1 in light and dark, in every brand; nph-image.test.ts measures them until the accessibility gate of P72 arrives.",
-    "color_alternative": "Loading changes the drawing to the spinner. Empty and error will change it to their illustrations; until those arrive, the parent's text carries the difference."
+    "color_alternative": "Loading changes the drawing to the spinner. Empty and error change it to an icon; the parent's text still carries the difference."
   },
   "invalid_combinations": [
     "A size outside xs, sm, md, lg, xl, 2xl and media — the piece draws nothing.",
