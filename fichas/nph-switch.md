@@ -67,7 +67,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma error state, with or without focus. The track outline becomes status/error,
+      The Figma error state, with or without focus. The track outline becomes switch/border-error,
       on or off, and on focus the halo becomes focus/halo-error. It sets aria-invalid
       on the native button. The error sentence stays outside the piece, written by
       whoever uses it. disabled wins over it.
@@ -78,7 +78,7 @@ api:
     reflects: true
     constraint: >-
       Shows the hover look from outside, for a host that owns the pointer, such as the item of
-      nph-dropdown-menu: the track takes color/input-hover when off and color/primary-hover
+      nph-dropdown-menu: the track takes switch/track-background-hover when off and switch/track-background-checked-hover
       when on, as on its own hover. It is not state: it moves no value and fires nothing.
       disabled still wins over it.
   disabled:
@@ -95,7 +95,7 @@ api:
 variants:
   checked:
     axis: appearance
-    choose_when: "false for a setting that is off: the knob on the left, the track in color/input. true for a setting that is on: the knob on the right, the track in color/primary with an outline."
+    choose_when: "false for a setting that is off: the knob on the left, the track in switch/track-background. true for a setting that is on: the knob on the right, the track in switch/track-background-checked with an outline."
     do_not_combine_with: []
   size:
     axis: size
@@ -109,25 +109,25 @@ variants:
       - "only the track without label: the screen reader would announce only switch."
 states:
   unchecked:
-    token: "color/input for the track, with no outline; color/background for the knob"
+    token: "switch/track-background for the track, with no outline; switch/thumb-background for the knob"
     changes_for_user: "The knob is on the left and the track is quiet."
   checked:
-    token: "color/primary for the track, with an outline in color/primary-border; color/primary-foreground for the knob"
+    token: "switch/track-background-checked for the track, with an outline in switch/track-border-checked; switch/thumb-background-checked for the knob"
     changes_for_user: "The knob slides to the right and the track takes the brand color."
   hover:
-    token: "color/input-hover when off and color/primary-hover when on"
+    token: "switch/track-background-hover when off and switch/track-background-checked-hover when on"
     changes_for_user: "Over the whole piece, the fill goes one step up; the outline stays."
   focus:
-    token: "outline border/width in focus/border and halo focus/ring-width in focus/halo, both radius/full; when invalid, status/error and focus/halo-error"
+    token: "outline border/width in focus/border and halo focus/ring-width in focus/halo, both radius/full; when invalid, switch/border-error and focus/halo-error"
     changes_for_user: "For keyboard users, the track outline and a halo outside the track mark the focus, without changing the size."
   invalid:
-    token: status/error
-    changes_for_user: "The track outline becomes status/error, on or off; the error sentence stays outside the piece."
+    token: switch/border-error
+    changes_for_user: "The track outline becomes switch/border-error, on or off; the error sentence stays outside the piece."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole piece loses opacity, leaves the Tab order and stops responding."
   hover_from_outside:
-    token: "color/input-hover when off and color/primary-hover when on"
+    token: "switch/track-background-hover when off and switch/track-background-checked-hover when on"
     changes_for_user: "With hover set by the host that owns the pointer, the track looks as it does under the pointer, so it keeps its contrast on the hovered item background."
 business_rules:
   - "The piece holds one boolean, checked. Only a click, Enter or Space by the person toggles it and fires input and then change; setting checked from code fires nothing."
@@ -145,19 +145,19 @@ tokens:
   track_width: switch/track-width
   track_height: icon/size-lg
   track_radius: radius/full
-  track_off: color/input
-  track_on: color/primary
-  track_hover: [color/input-hover, color/primary-hover]
-  track_outline: [border/width, color/primary-border]
+  track_off: switch/track-background
+  track_on: switch/track-background-checked
+  track_hover: [switch/track-background-hover, switch/track-background-checked-hover]
+  track_outline: [border/width, switch/track-border-checked]
   knob: [icon/size-sm, radius/full, space/inline-tight]
   small: [switch/track-width-sm, switch/track-height-sm, switch/thumb-size-sm, switch/track-padding-sm, icon/size-md]
-  knob_color: [color/background, color/primary-foreground]
+  knob_color: [switch/thumb-background, switch/thumb-background-checked]
   label_gap: space/inline
   text: text/label-md
-  text_color: color/foreground
-  invalid: status/error
+  text_color: switch/label-foreground
+  invalid: switch/border-error
   disabled: state/disabled-opacity
-  focus: [border/width, focus/border, focus/ring-width, focus/halo, radius/full, status/error, focus/halo-error]
+  focus: [border/width, focus/border, focus/ring-width, focus/halo, radius/full, switch/border-error, focus/halo-error]
   motion: [motion/state-duration, motion/state-easing]
   motion_reduced: motion/hover-duration
 ai_hints:
@@ -175,8 +175,8 @@ accessibility:
     - "Tab enters and leaves the piece."
     - "Space toggles."
     - "Enter toggles."
-  focus: "Keyboard only: the track outline turns focus/border and a halo in focus/halo shows outside the track, both radius/full, without changing the size; when invalid, status/error and focus/halo-error. The label gets no ring. focus/border against focus/halo passes 3:1 in every brand and scheme, measured in the test."
-  contrast: "The rule is 3:1 for the track edge on the page background and for the knob on its track, in every brand and in both schemes; the test measures both. color/input on color/background measures 3.23:1 in light and 6.58:1 in dark. color/primary-border on color/background measures at least 4.96:1 in light and 4.91:1 in dark. color/background on color/input measures 3.23:1 in light and 6.58:1 in dark, and color/primary-foreground on color/primary at least 4.96:1. The error outline, status/error on color/background, measures 6.88:1 in light and 5.01:1 in dark. The label, color/foreground on color/background, passes 4.5:1."
+  focus: "Keyboard only: the track outline turns focus/border and a halo in focus/halo shows outside the track, both radius/full, without changing the size; when invalid, switch/border-error and focus/halo-error. The label gets no ring. focus/border against focus/halo passes 3:1 in every brand and scheme, measured in the test."
+  contrast: "The rule is 3:1 for the track edge on the page background and for the knob on its track, in every brand and in both schemes; the test measures both. switch/track-background on switch/thumb-background measures 3.23:1 in light and 6.58:1 in dark. switch/track-border-checked on switch/thumb-background measures at least 4.96:1 in light and 4.91:1 in dark. switch/thumb-background on switch/track-background measures 3.23:1 in light and 6.58:1 in dark, and switch/thumb-background-checked on switch/track-background-checked at least 4.96:1. The error outline, switch/border-error on switch/thumb-background, measures 6.88:1 in light and 5.01:1 in dark. The label, switch/label-foreground on switch/thumb-background, passes 4.5:1."
   color_alternative: "On and off show in the knob position, not only in the track color. The invalid piece changes its outline; the error sentence stays outside."
 invalid_combinations:
   - "disabled with invalid — disabled wins, and the error outline is not drawn."
@@ -238,8 +238,8 @@ the track (the Figma property `mostrar rótulo`).
 
 | Variant | Choose when |
 |---|---|
-| `checked` false | The setting is off: the knob on the left, the track in `color/input` |
-| `checked` true | The setting is on: the knob on the right, the track in `color/primary` with an outline |
+| `checked` false | The setting is off: the knob on the left, the track in `switch/track-background` |
+| `checked` true | The setting is on: the knob on the right, the track in `switch/track-background-checked` with an outline |
 | With text | The default, when the name of the setting must be visible |
 | Only the track | The name is already in the context, such as a table cell; the piece takes `label` |
 
@@ -266,11 +266,11 @@ do not change.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Off | `color/input` for the track, with no outline; `color/background` for the knob | The knob is on the left and the track is quiet |
-| On | `color/primary` for the track, with an outline in `color/primary-border` drawn inside; `color/primary-foreground` for the knob | The knob slides to the right and the track takes the brand color |
-| Hover | `color/input-hover` when off and `color/primary-hover` when on | Over the whole piece, the fill goes one step up; the outline stays |
+| Off | `switch/track-background` for the track, with no outline; `switch/thumb-background` for the knob | The knob is on the left and the track is quiet |
+| On | `switch/track-background-checked` for the track, with an outline in `switch/track-border-checked` drawn inside; `switch/thumb-background-checked` for the knob | The knob slides to the right and the track takes the brand color |
+| Hover | `switch/track-background-hover` when off and `switch/track-background-checked-hover` when on | Over the whole piece, the fill goes one step up; the outline stays |
 | Focus | outline `border/width` in `focus/border` and halo `focus/ring-width` in `focus/halo`, both `radius/full` | The track outline and a halo outside the track mark the focus, without changing the size |
-| Invalid | `status/error`, and on focus `status/error` with `focus/halo-error` | The track outline becomes `status/error`, on or off; the sentence stays outside the piece |
+| Invalid | `switch/border-error`, and on focus `switch/border-error` with `focus/halo-error` | The track outline becomes `switch/border-error`, on or off; the sentence stays outside the piece |
 | Disabled | `state/disabled-opacity` | The whole piece loses opacity, leaves the Tab order and stops responding |
 
 **Feedback and focus:** focus appears only for keyboard users, on the track, and **is not
@@ -306,8 +306,8 @@ The piece shows the outline; the sentence is written outside it, by whoever uses
 | Semantics | A native button inside the component, with `type=button`, `role=switch` and `aria-checked` following `checked`; the track is `aria-hidden`. `invalid` sets `aria-invalid`, which `role=switch` supports. The piece is not associated with a form |
 | Accessible name | The label text. Without text, the `label`, mandatory, as the `aria-label` of the native button |
 | Keyboard | Tab enters and leaves; Space and Enter toggle |
-| Focus | Keyboard only: the track outline turns `focus/border` and a halo in `focus/halo` shows outside the track, both `radius/full`, without changing the size; when invalid, `status/error` and `focus/halo-error`. `focus/border` against `focus/halo` passes 3:1 in every brand and scheme, measured in the test |
-| Contrast | 3:1 for the track edge on the page background and for the knob on its track, in every brand and in both schemes; the test measures both. `color/input` on `color/background` measures 3.23:1 in light and 6.58:1 in dark; `color/primary-border` at least 4.96:1 in light and 4.91:1 in dark. `color/background` on `color/input` measures 3.23:1 in light and 6.58:1 in dark, and `color/primary-foreground` on `color/primary` at least 4.96:1. The error outline, `status/error` on `color/background`, measures 6.88:1 in light and 5.01:1 in dark |
+| Focus | Keyboard only: the track outline turns `focus/border` and a halo in `focus/halo` shows outside the track, both `radius/full`, without changing the size; when invalid, `switch/border-error` and `focus/halo-error`. `focus/border` against `focus/halo` passes 3:1 in every brand and scheme, measured in the test |
+| Contrast | 3:1 for the track edge on the page background and for the knob on its track, in every brand and in both schemes; the test measures both. `switch/track-background` on `switch/thumb-background` measures 3.23:1 in light and 6.58:1 in dark; `switch/track-border-checked` at least 4.96:1 in light and 4.91:1 in dark. `switch/thumb-background` on `switch/track-background` measures 3.23:1 in light and 6.58:1 in dark, and `switch/thumb-background-checked` on `switch/track-background-checked` at least 4.96:1. The error outline, `switch/border-error` on `switch/thumb-background`, measures 6.88:1 in light and 5.01:1 in dark |
 | Alternative to color | On and off show in the knob position, not only in the track color. The invalid piece changes its outline |
 | Touch target | The whole track, 40 by 24 px; with a label, the whole piece. The small track, 32 by 16 px, is below 24 by 24 (WCAG 2.5.8): it is only for the `nph-dropdown-menu` item, where the whole row is the target |
 | Motion | Under reduced motion the knob changes side by opacity on `motion/hover-duration`, and the color still changes |
@@ -331,16 +331,16 @@ counts on submission, it is `nph-checkbox`.
 
 | Part | Token |
 |---|---|
-| Track | `switch/track-width` by `icon/size-lg`, `radius/full`; `color/input` off and `color/primary` on |
-| Track hover | `color/input-hover` and `color/primary-hover` |
-| Track outline | `border/width` in `color/primary-border` when on, drawn inside |
+| Track | `switch/track-width` by `icon/size-lg`, `radius/full`; `switch/track-background` off and `switch/track-background-checked` on |
+| Track hover | `switch/track-background-hover` and `switch/track-background-checked-hover` |
+| Track outline | `border/width` in `switch/track-border-checked` when on, drawn inside |
 | Track, small | `switch/track-width-sm` by `switch/track-height-sm`, centered in a piece `icon/size-md` high |
-| Knob | `icon/size-sm`, `radius/full`, `space/inline-tight` from the track edge; `color/background` off and `color/primary-foreground` on |
+| Knob | `icon/size-sm`, `radius/full`, `space/inline-tight` from the track edge; `switch/thumb-background` off and `switch/thumb-background-checked` on |
 | Knob, small | `switch/thumb-size-sm`, `switch/track-padding-sm` from the track edge |
-| Label | `text/label-md` in `color/foreground`, `space/inline` from the track |
-| Invalid | `status/error` |
+| Label | `text/label-md` in `switch/label-foreground`, `space/inline` from the track |
+| Invalid | `switch/border-error` |
 | Disabled | `state/disabled-opacity` |
-| Focus | `border/width`, `focus/border`, `focus/ring-width`, `focus/halo`, `radius/full`, `status/error` and `focus/halo-error` |
+| Focus | `border/width`, `focus/border`, `focus/ring-width`, `focus/halo`, `radius/full`, `switch/border-error` and `focus/halo-error` |
 | Motion | `motion/state-duration` and `motion/state-easing`; `motion/hover-duration` under reduced motion |
 
 **Usage restrictions:** the component does not choose width, height, color, radius or

@@ -53,9 +53,9 @@
   justify-content: center;
   margin-inline-start: var(--nph-avatar-overlap);
   padding-inline: var(--nph-space-inline-tight);
-  border: var(--nph-border-width) solid var(--nph-color-border);
-  background: var(--nph-color-muted);
-  color: var(--nph-color-muted-foreground);
+  border: var(--nph-border-width) solid var(--nph-avatar-stack-overflow-border);
+  background: var(--nph-avatar-stack-overflow-background);
+  color: var(--nph-avatar-stack-overflow-foreground);
   white-space: nowrap;
 }
 

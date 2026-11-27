@@ -1585,7 +1585,7 @@
       "Para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field.",
       "required=true quando o preenchimento é obrigatório, com o asterisco explicado numa legenda do formulário.",
       "info com info-label para mostrar o ícone de informação depois do texto: info é o texto da ajuda e info-label, o nome acessível.",
-      "Manter o rótulo em color/foreground, mesmo com o campo em erro."
+      "Manter o rótulo em label/foreground, mesmo com o campo em erro."
     ],
     "examplesTitle": "Exemplos obrigatórios",
     "examplesCaptions": [
@@ -3686,7 +3686,7 @@
       ]
     ],
     "statesTitle": "Estados",
-    "statesText": "Os estados do conteúdo vêm do src; hover, foco e desabilitada vêm do pai quando a imagem é clicável. Vazio e erro desenham só a moldura até as ilustrações de linha chegarem, então por ora os dois são iguais: o texto que explica o problema é do pai, que ouve o evento error.",
+    "statesText": "Os estados do conteúdo vêm do src; hover, foco e desabilitada vêm do pai quando a imagem é clicável. Vazio e erro desenham um ícone sobre image/illustration-background: image no vazio, image-landscape em media 4:3 e 16:9, e image-slash no erro. O texto que explica o problema é do pai, que ouve o evento error.",
     "statesCaption": "Vazio, carregando, carregada e erro, no tamanho xl.",
     "interactionCaption": "Uma imagem clicável e uma clicável desabilitada. Passe o mouse sobre a primeira para ver o véu e o olho, aperte Tab para ver o anel de foco.",
     "statesHeader": [
@@ -3696,7 +3696,7 @@
     "states": [
       [
         "Vazio",
-        "Sem src: a moldura em image/background com a borda. A ilustração entra quando os arquivos chegarem."
+        "Sem src: a moldura com a borda e o ícone image sobre image/illustration-background."
       ],
       [
         "Carregando",
@@ -3708,7 +3708,7 @@
       ],
       [
         "Erro",
-        "A imagem não carregou: a moldura com a borda, como no vazio. A ilustração entra quando os arquivos chegarem."
+        "A imagem não carregou: a moldura com a borda e o ícone image-slash sobre image/illustration-background."
       ],
       [
         "Hover",
@@ -3742,8 +3742,8 @@
         "O nph-spinner, um arco aberto em image/foreground que gira enquanto a imagem carrega: sm em xs, sm e md; md nos tamanhos maiores."
       ],
       [
-        "Ilustração de vazio e erro",
-        "Um desenho de linha cinza por esquema de cor, trocado por image/illustration-light e image/illustration-dark. Os arquivos ainda não estão no repositório."
+        "Ícone de vazio e erro",
+        "O nph-icon image, image-landscape ou image-slash, em image/foreground sobre image/illustration-background, no estilo light."
       ],
       [
         "Véu e ícone do hover",
@@ -3778,7 +3778,7 @@
       ],
       [
         "A cor não é o único sinal",
-        "O carregamento troca o desenho pelo spinner. Vazio e erro vão trocá-lo pelas ilustrações; até elas chegarem, o texto do pai e o evento error levam a diferença."
+        "O carregamento troca o desenho pelo spinner. Vazio e erro trocam o desenho por um ícone (image ou image-slash); o texto do pai e o evento error continuam dizendo o que aconteceu."
       ],
       [
         "Área de toque",
@@ -8575,7 +8575,7 @@
       "components-nph-empty-validation--invalid-heading": "Sem título a peça não desenha nada e não tem alternativa visual.",
       "components-nph-image-validation--sizes": "Os sete tamanhos, com imagem e sem: quadrados de 24, 32, 48, 64, 96 e 128 px com canto arredondado, e media na largura de conteúdo de 256 px.",
       "components-nph-image-validation--ratios": "media aceita 1:1, 4:3 e 16:9 na mesma largura, 256 por 256, 192 ou 144 px; um tamanho quadrado ignora a proporção e continua quadrado.",
-      "components-nph-image-validation--states": "O estado vem do src: vazio sem ele, o spinner e nenhuma borda enquanto a imagem carrega, a imagem preenchendo a moldura depois de carregada, e a moldura de novo quando falha. Vazio e erro desenham só a moldura até as ilustrações chegarem.",
+      "components-nph-image-validation--states": "O estado vem do src: vazio sem ele, o spinner e nenhuma borda enquanto a imagem carrega, a imagem preenchendo a moldura depois de carregada, e a moldura de novo quando falha. Vazio e erro desenham um ícone sobre image/illustration-background.",
       "components-nph-image-validation--interaction": "Uma imagem clicável é um botão: passe o mouse sobre ela para ver o véu e o olho, aperte Tab para ver o anel de foco. Desabilitada esmaece a peça inteira e tira o botão da ordem do Tab.",
       "components-nph-image-validation--accessibility": "Com alt, a imagem é anunciada pela descrição; com alt vazio, fica oculta do leitor de tela e o texto ao lado fala. Uma imagem clicável dá o alt ao seu botão.",
       "components-nph-image-validation--brands": "As sete marcas no claro e no escuro: a borda de foco da imagem clicável segue a marca do quadro no Tab.",

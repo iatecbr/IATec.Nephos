@@ -250,10 +250,10 @@ variants:
     do_not_combine_with: ["compact on a touch screen"]
 states:
   rest:
-    token: "collapsible/title-foreground, collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground"
+    token: "accordion/title-foreground, accordion/description-foreground, accordion/indicator-foreground, accordion/icon-foreground"
     changes_for_user: "Open and closed are told apart by the direction of the indicator and by the content in view, not by color. The open item does not change its background."
   hover:
-    token: "collapsible/trigger-background-hover"
+    token: "accordion/trigger-background-hover"
     changes_for_user: "The trigger takes a pill with collapsible/trigger-radius, inset by the container padding in grouped and separated and full width in flush. Hover does not move the focus. An item that cannot change takes no hover."
   focus:
     token: "collapsible/focus-border, collapsible/focus-border-width, collapsible/focus-border-radius, collapsible/focus-halo, collapsible/focus-halo-width, collapsible/focus-halo-radius"
@@ -262,7 +262,7 @@ states:
     token: "collapsible/disabled-opacity"
     changes_for_user: "The whole item is faded, does not open and leaves the Tab order. With open it is a locked section: the content and the status stay in view, faded. The divider and the block outline are the accordion and stay at full."
   open_that_does_not_close:
-    token: "collapsible/title-foreground"
+    token: "accordion/title-foreground"
     changes_for_user: "The plain open look with no opacity. The trigger stays in the Tab order and says aria-disabled, and Enter, Space and click do nothing."
 business_rules:
   - "The accordion keeps what few people read together. Each item starts closed; the page sets open on the ones that are the point of the screen."
@@ -283,10 +283,10 @@ tokens:
   container: "accordion/background, accordion/border, accordion/border-width, accordion/radius, accordion/padding, elevation/raised"
   divider: "accordion/divider, accordion/divider-spacing, border/width"
   separated: "accordion/item-gap"
-  text: "accordion/title-gap, accordion/tag-gap, accordion/end-gap, collapsible/title-foreground, collapsible/description-foreground"
-  start: "accordion/media-gap, accordion/tile-background, accordion/tile-foreground, accordion/tile-radius, accordion/tile-padding, accordion/tile-padding-compact, accordion/tile-icon-size, accordion/tile-icon-size-large, accordion/status-success-icon, accordion/status-warning-icon, accordion/status-error-icon, accordion/status-pending-icon, collapsible/icon-size, collapsible/icon-foreground"
-  trigger: "collapsible/trigger-height, collapsible/trigger-height-compact, collapsible/trigger-height-large, collapsible/trigger-padding-x, collapsible/trigger-padding-y, collapsible/trigger-padding-y-compact, collapsible/trigger-gap, collapsible/trigger-radius, collapsible/trigger-background-hover"
-  indicator: "collapsible/indicator-size, collapsible/indicator-foreground"
+  text: "accordion/title-gap, accordion/tag-gap, accordion/end-gap, accordion/title-foreground, accordion/description-foreground"
+  start: "accordion/media-gap, accordion/tile-background, accordion/tile-foreground, accordion/tile-radius, accordion/tile-padding, accordion/tile-padding-compact, accordion/tile-icon-size, accordion/tile-icon-size-large, accordion/status-success-icon, accordion/status-warning-icon, accordion/status-error-icon, accordion/status-pending-icon, collapsible/icon-size, accordion/icon-foreground"
+  trigger: "collapsible/trigger-height, collapsible/trigger-height-compact, collapsible/trigger-height-large, collapsible/trigger-padding-x, collapsible/trigger-padding-y, collapsible/trigger-padding-y-compact, collapsible/trigger-gap, collapsible/trigger-radius, accordion/trigger-background-hover"
+  indicator: "collapsible/indicator-size, accordion/indicator-foreground"
   content: "collapsible/content-padding-x, collapsible/content-padding-top, collapsible/content-padding-bottom, collapsible/content-gap"
   focus: "collapsible/focus-border, collapsible/focus-border-width, collapsible/focus-border-radius, collapsible/focus-halo, collapsible/focus-halo-width, collapsible/focus-halo-radius"
   state: "collapsible/disabled-opacity"
@@ -403,12 +403,12 @@ touch screen; more than one start type in a list.
 
 | Part | State | Token | What changes for the person |
 |---|---|---|---|
-| Item | Rest | `collapsible/title-foreground`, `collapsible/description-foreground`, `collapsible/indicator-foreground` | Open and closed are told apart by the indicator and the content, not by color |
-| Trigger | Hover | `collapsible/trigger-background-hover` | A pill on the trigger, inset by the container padding in grouped and separated, full width in flush |
+| Item | Rest | `accordion/title-foreground`, `accordion/description-foreground`, `accordion/indicator-foreground` | Open and closed are told apart by the indicator and the content, not by color |
+| Trigger | Hover | `accordion/trigger-background-hover` | A pill on the trigger, inset by the container padding in grouped and separated, full width in flush |
 | Trigger | Focus | `collapsible/focus-border`, `collapsible/focus-halo` | For keyboard users, a border and a halo on the trigger |
 | Item | Disabled | `collapsible/disabled-opacity` | The whole item is faded, does not open and leaves the Tab order |
 | Item | Open and disabled | `collapsible/disabled-opacity` | A whole locked section: the content, the indicator and the status stay in view, faded |
-| Item | Open that does not close | `collapsible/title-foreground` | The plain open look; the trigger takes `aria-disabled` and stays in the Tab order |
+| Item | Open that does not close | `accordion/title-foreground` | The plain open look; the trigger takes `aria-disabled` and stays in the Tab order |
 | Indicator | Open | `collapsible/expand-duration`, `collapsible/expand-easing` | It turns 180 degrees at the end and 90 degrees at the start; it never swaps its weight |
 
 In the Figma item set, `state` has the values `default`, `hover`, `foco` (focus) and `disabled`, and
@@ -512,10 +512,10 @@ exception to the token layers.
 | Container | `accordion/background`, `accordion/border`, `accordion/border-width`, `accordion/radius`, `accordion/padding`, `elevation/raised` (grouped only) |
 | Divider | `accordion/divider`, `accordion/divider-spacing`, `border/width` |
 | Separated | `accordion/item-gap` |
-| Text | `accordion/title-gap`, `accordion/tag-gap`, `accordion/end-gap`, `collapsible/title-foreground`, `collapsible/description-foreground` |
-| Start | `accordion/media-gap`, `accordion/tile-*`, `accordion/status-*-icon`, `collapsible/icon-size`, `collapsible/icon-foreground` |
+| Text | `accordion/title-gap`, `accordion/tag-gap`, `accordion/end-gap`, `accordion/title-foreground`, `accordion/description-foreground` |
+| Start | `accordion/media-gap`, `accordion/tile-*`, `accordion/status-*-icon`, `collapsible/icon-size`, `accordion/icon-foreground` |
 | Trigger | `collapsible/trigger-height`, `-height-compact`, `-height-large`, `-padding-x`, `-padding-y`, `-padding-y-compact`, `-gap`, `-radius`, `-background-hover` |
-| Indicator | `collapsible/indicator-size`, `collapsible/indicator-foreground` |
+| Indicator | `collapsible/indicator-size`, `accordion/indicator-foreground` |
 | Content | `collapsible/content-padding-x`, `-padding-top`, `-padding-bottom`, `-gap` |
 | Focus | `collapsible/focus-border`, `-border-width`, `-border-radius`, `collapsible/focus-halo`, `-halo-width`, `-halo-radius` |
 | State | `collapsible/disabled-opacity` |

@@ -57,7 +57,7 @@
   border: 0;
   border-radius: var(--nph-collapsible-trigger-radius);
   background: transparent;
-  color: var(--nph-collapsible-title-foreground);
+  color: var(--nph-accordion-title-foreground);
   font: inherit;
   text-align: start;
   cursor: pointer;
@@ -81,7 +81,7 @@
 
 /* Hover paints the trigger only; an item that cannot change has nothing to offer. Open does not change the background. */
 .trigger:not(:disabled):not([aria-disabled='true']):hover {
-  background-color: var(--nph-collapsible-trigger-background-hover);
+  background-color: var(--nph-accordion-trigger-background-hover);
 }
 
 /* ----- the parts of the trigger, centered on the vertical axis ---------------------------------- */
@@ -109,7 +109,7 @@
 
 .title {
   min-inline-size: 0;
-  color: var(--nph-collapsible-title-foreground);
+  color: var(--nph-accordion-title-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -131,7 +131,7 @@
 }
 
 .description {
-  color: var(--nph-collapsible-description-foreground);
+  color: var(--nph-accordion-description-foreground);
   font-family: var(--nph-text-body-sm-font-family);
   font-size: var(--nph-text-body-sm-font-size);
   font-weight: var(--nph-text-body-sm-font-weight);
@@ -159,7 +159,7 @@
 
 .icon {
   --nph-icon-size-sm: var(--nph-collapsible-icon-size);
-  color: var(--nph-collapsible-icon-foreground);
+  color: var(--nph-accordion-icon-foreground);
 }
 
 .status-icon {
@@ -221,7 +221,7 @@
 .indicator {
   --nph-icon-size-sm: var(--nph-collapsible-indicator-size);
   flex: none;
-  color: var(--nph-collapsible-indicator-foreground);
+  color: var(--nph-accordion-indicator-foreground);
 }
 
 :host([indicator='start']) .indicator {
@@ -281,13 +281,13 @@
 
 .trigger:focus-visible::before {
   inset: calc(-1 * var(--nph-collapsible-focus-border-width));
-  border: var(--nph-collapsible-focus-border-width) solid var(--nph-collapsible-focus-border);
+  border: var(--nph-collapsible-focus-border-width) solid var(--nph-focus-border);
   border-radius: var(--nph-collapsible-focus-border-radius);
 }
 
 .trigger:focus-visible::after {
   inset: calc(-1 * (var(--nph-collapsible-focus-border-width) + var(--nph-collapsible-focus-halo-width)));
-  border: var(--nph-collapsible-focus-halo-width) solid var(--nph-collapsible-focus-halo);
+  border: var(--nph-collapsible-focus-halo-width) solid var(--nph-focus-halo);
   border-radius: var(--nph-collapsible-focus-halo-radius);
 }
 
@@ -336,7 +336,7 @@
   padding-block-start: var(--nph-collapsible-content-padding-top);
   padding-block-end: var(--nph-collapsible-content-padding-bottom);
   padding-inline: var(--nph-collapsible-content-padding-x);
-  color: var(--nph-color-foreground);
+  color: var(--nph-accordion-content-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);

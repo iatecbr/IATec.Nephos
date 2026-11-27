@@ -4,11 +4,13 @@
  * Classes and selectors here are NOT public API (P02). The contract is the token
  * custom properties consumed here. No literal design value goes in: the box is
  * `image/size-*` (or `image/media-width` in `media`), the corner `image/radius-*`, the
- * frame `image/background`, the spinner `image/foreground` (through `currentColor`), the
+ * frame `image/background`, the spinner `image/foreground` (through `currentColor`), the empty and
+ * error icon in `image/foreground` on `image/illustration-background`, the
  * border `image/border-width` in `image/border`, the veil `image/overlay` with the eye in
  * `image/on-overlay`, the focus ring `focus/ring-width` in `image/focus-border` and the
  * disabled look `state/disabled-opacity`. The spinner takes its size from `nph-spinner`;
- * the eye takes `image/icon-size-*`, bridged to the `icon/size-*` that `nph-icon` reads.
+ * the eye and the empty and error icon take `image/icon-size-*`, bridged to the `icon/size-*`
+ * that `nph-icon` reads.
  *
  * The only written quantities are box relations, not visual decisions: `100%` (the image
  * and the button fill the frame), `0` (the overlays cover the frame), `cover` (the image
@@ -154,6 +156,24 @@ img {
   display: flex;
 }
 
+/*
+ * Empty and error: the icon centered on its own background, over the frame and under the border.
+ * The icon takes `image/icon-size-*` as the eye does.
+ */
+.illustration {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background: var(--nph-image-illustration-background);
+  color: var(--nph-image-foreground);
+  pointer-events: none;
+  --nph-icon-size-sm: var(--nph-image-icon-size-sm);
+  --nph-icon-size-md: var(--nph-image-icon-size-md);
+  --nph-icon-size-lg: var(--nph-image-icon-size-lg);
+}
 /*
  * The border is drawn over the image and inside the frame: an overlay that is positioned
  * and comes after the content, so it paints above the `<img>`. It takes the frame corner

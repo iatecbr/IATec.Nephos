@@ -116,17 +116,17 @@ variants:
     do_not_combine_with: []
 states:
   default:
-    token: "color/background fill and color/input border; checked, color/primary fill and color/primary-foreground dot"
-    changes_for_user: "Unchecked is an empty circle; checked is filled, with the dot. The border stays color/input in both."
+    token: "radio/background fill and radio/border border; checked, radio/background-checked fill and radio/dot dot"
+    changes_for_user: "Unchecked is an empty circle; checked is filled, with the dot. The border stays radio/border in both."
   hover:
-    token: "color/input-hover border; checked, state/hover-opacity on the circle"
+    token: "radio/border-hover border; checked, state/hover-opacity on the circle"
     changes_for_user: "The border goes one step up, so the circle responds to the mouse; it has no size change."
   focus:
     token: "focus/border border and focus/halo halo, focus/ring-width, radius/full"
     changes_for_user: "Keyboard only: the border turns focus/border and the halo covers the 24 by 24 touch area."
   error:
-    token: "status/error border; with focus, focus/halo-error halo"
-    changes_for_user: "The border turns status/error, checked or not; the checked fill stays color/primary. The sentence is in nph-field."
+    token: "radio/border-error border; with focus, focus/halo-error halo"
+    changes_for_user: "The border turns radio/border-error, checked or not; the checked fill stays radio/background-checked. The sentence is in nph-field."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole piece, text included, loses opacity and stops responding. It does not combine with error: disabled wins."
@@ -138,15 +138,15 @@ business_rules:
   - "Only the checked radio enters the form, as name=value; form.reset() returns each radio to its checked attribute."
   - "Without a name, or alone in its group, the radio still renders and warns in development: a radio never shows alone. A radio that is inert, a visual indicator inside another piece such as nph-rich-option, is no group and warns nothing."
 domain_errors:
-  - "invalid: the group failed validation. Every radio shows the status/error border; the sentence that says what to fix is the error message of nph-field."
+  - "invalid: the group failed validation. Every radio shows the radio/border-error border; the sentence that says what to fix is the error message of nph-field."
 tokens:
   circle: "icon/size-sm, radius/full, border/width"
-  circle_border: "color/input; hover color/input-hover; error status/error; focus focus/border"
-  fill: "color/background; checked color/primary"
-  dot: "color/primary-foreground; 8 by 8, the circle minus space/inline-tight on each side"
+  circle_border: "radio/border; hover radio/border-hover; error radio/border-error; focus focus/border"
+  fill: "radio/background; checked radio/background-checked"
+  dot: "radio/dot; 8 by 8, the circle minus space/inline-tight on each side"
   touch_area: "the circle plus space/inline-tight on each side: 24 by 24"
   gap: space/inline
-  text: "text/label-md, color/foreground"
+  text: "text/label-md, radio/label-foreground"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width"
   states: "state/hover-opacity, state/disabled-opacity"
   motion: "motion/state-duration and motion/state-easing; reduced, motion/hover-duration"
@@ -166,8 +166,8 @@ accessibility:
     - "Arrow down and arrow right move to the next radio and check it, wrapping; arrow up and arrow left, to the previous one."
     - "Space checks the focused radio."
     - "A disabled radio is out of the Tab order and the arrow keys skip it; so is a radio hidden by display: none, on itself or on an ancestor."
-  focus: "Keyboard only: the circle border turns focus/border and a focus/halo halo covers the 24 by 24 touch area, fully round. With error, the border stays status/error and the halo is focus/halo-error. A mouse click does not show it."
-  contrast: "The circle outline in color/input: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. The test measures the dot on the checked fill and the error border in every brand and scheme. focus/border measures at least 3:1 against the halo in every brand and scheme."
+  focus: "Keyboard only: the circle border turns focus/border and a focus/halo halo covers the 24 by 24 touch area, fully round. With error, the border stays radio/border-error and the halo is focus/halo-error. A mouse click does not show it."
+  contrast: "The circle outline in radio/border: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. The test measures the dot on the checked fill and the error border in every brand and scheme. focus/border measures at least 3:1 against the halo in every brand and scheme."
   color_alternative: "The border says the state and the fill and the dot say the choice; the error has the sentence in nph-field."
 invalid_combinations:
   - "No text, no label, no aria-label and no aria-labelledby — the radio draws nothing."
@@ -254,10 +254,10 @@ The border says the state; the fill and the dot say the choice.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Default | `color/background` fill, `color/input` border; checked: `color/primary` fill, `color/primary-foreground` dot | Unchecked is an empty circle; checked is filled, with the dot |
-| Hover | `color/input-hover` border; checked: `state/hover-opacity` on the circle | The circle responds to the mouse, with no size change |
+| Default | `radio/background` fill, `radio/border` border; checked: `radio/background-checked` fill, `radio/dot` dot | Unchecked is an empty circle; checked is filled, with the dot |
+| Hover | `radio/border-hover` border; checked: `state/hover-opacity` on the circle | The circle responds to the mouse, with no size change |
 | Focus | `focus/border` border, `focus/halo` halo of `focus/ring-width`, `radius/full` | Keyboard only: the halo covers the 24 × 24 touch area |
-| Error | `status/error` border; with focus, `focus/halo-error` halo | The border turns red, checked or not; the checked fill stays |
+| Error | `radio/border-error` border; with focus, `focus/halo-error` halo | The border turns red, checked or not; the checked fill stays |
 | Disabled | `state/disabled-opacity` | The whole piece, text included, loses opacity and stops responding |
 
 **Feedback and focus:** the change from unchecked to checked, and back, animates the fill and
@@ -282,7 +282,7 @@ changes. Width, height and position never animate. The focus shows only for the 
   nothing.
 
 **Domain error states:** `invalid`. The group failed validation: every radio shows the
-`status/error` border, and the sentence that says what to fix is the error message of
+`radio/border-error` border, and the sentence that says what to fix is the error message of
 `nph-field`. `invalid` and `disabled` do not combine: `disabled` wins.
 
 ## Accessibility
@@ -292,8 +292,8 @@ changes. Width, height and position never animate. The focus shows only for the 
 | Semantics | The host is the control: `role` radio with `aria-checked` and `aria-disabled`, through `ElementInternals`. There is no inner input. The group, `role` radiogroup with its name, comes from `nph-field` |
 | Accessible name | The text is the name of the control. Without text, `label` is the name; `aria-label` or `aria-labelledby` on the host also count. A `<label for>` pointing at the radio checks it and is one of its `labels` |
 | Keyboard | Tab enters the group on the checked radio or, with none checked, on the first one that responds. The arrow keys move to the next or previous radio and check it, wrapping, skipping a disabled one. Space checks the focused radio |
-| Focus | Keyboard only: `focus/border` border and a `focus/halo` halo on the 24 × 24 touch area; with error, `status/error` and `focus/halo-error` |
-| Contrast | The circle outline in `color/input`: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. The dot on the checked fill and the error border pass 3:1 in every brand and scheme |
+| Focus | Keyboard only: `focus/border` border and a `focus/halo` halo on the 24 × 24 touch area; with error, `radio/border-error` and `focus/halo-error` |
+| Contrast | The circle outline in `radio/border`: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. The dot on the checked fill and the error border pass 3:1 in every brand and scheme |
 | Alternative to color | The fill and the dot say the choice; the error has its sentence in `nph-field` |
 | Touch target | A 24 × 24 area around the 16 circle; the text next to it also checks the option |
 
@@ -334,12 +334,12 @@ is an exclusive choice. `nph-checkbox`, for options that do not exclude each oth
 | Part | Token |
 |---|---|
 | Circle | `icon/size-sm`, `radius/full`, `border/width` |
-| Circle border | `color/input`; hover `color/input-hover`; error `status/error`; focus `focus/border` |
-| Fill | `color/background`; checked `color/primary` |
-| Dot | `color/primary-foreground`; 8 × 8, the circle minus `space/inline-tight` on each side |
+| Circle border | `radio/border`; hover `radio/border-hover`; error `radio/border-error`; focus `focus/border` |
+| Fill | `radio/background`; checked `radio/background-checked` |
+| Dot | `radio/dot`; 8 × 8, the circle minus `space/inline-tight` on each side |
 | Touch area | The circle plus `space/inline-tight` on each side |
 | Space to the text | `space/inline`, from the edge of the touch area |
-| Text | `text/label-md`, `color/foreground` |
+| Text | `text/label-md`, `radio/label-foreground` |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width` |
 | States | `state/hover-opacity`, `state/disabled-opacity` |
 | Motion | `motion/state-duration`, `motion/state-easing`; reduced, `motion/hover-duration` |

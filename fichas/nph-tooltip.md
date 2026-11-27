@@ -83,7 +83,7 @@ states:
     token: not_applicable
     changes_for_user: "The balloon is not shown. The element is still described, or named, by its text."
   open:
-    token: color/tooltip
+    token: tooltip/background
     changes_for_user: "The balloon is shown next to the element, at space/inline, entering on motion/enter-duration."
 business_rules:
   - "Keyboard focus on the element opens the balloon at once. A mouse or a pen opens it after resting motion/hover-delay on the element; leaving before the wait ends opens nothing. It never opens on touch."
@@ -97,8 +97,8 @@ business_rules:
   - "The text fits entirely in up to two lines, without ellipsis, automatic hyphenation or broken words."
 domain_errors: []
 tokens:
-  background: color/tooltip
-  text: [text/body-sm, color/tooltip-foreground]
+  background: tooltip/background
+  text: [text/body-sm, tooltip/foreground]
   radius: radius/inner
   padding_vertical: space/inline-tight
   padding_horizontal: space/inline
@@ -126,7 +126,7 @@ accessibility:
     - "Enter and Space run the action of the element and neither open nor close the balloon."
     - "Esc closes the balloon and does not reach the page; the focus stays on the element. With the balloon closed, Esc is not intercepted."
   focus: "The balloon never takes focus: focus stays on the element that opened it, with the focus drawing of that element. The balloon stays open while the pointer is over it (WCAG 1.4.13)."
-  contrast: "The text uses color/tooltip-foreground on color/tooltip: 5.85 to 1 in light and 8.98 to 1 in dark, above 4.5 to 1."
+  contrast: "The text uses tooltip/foreground on tooltip/background: 5.85 to 1 in light and 8.98 to 1 in dark, above 4.5 to 1."
   color_alternative: "The explanation is conveyed by the text; color is not the only signal."
 invalid_combinations:
   - "No for, or a for that matches no element in the same root: the balloon is not drawn."
@@ -204,7 +204,7 @@ text balloon.
 | State | Token | What changes for the person |
 |---|---|---|
 | Closed | `not_applicable` | The balloon is not shown |
-| Open | `color/tooltip` | The balloon is shown next to the element, at `space/inline` |
+| Open | `tooltip/background` | The balloon is shown next to the element, at `space/inline` |
 
 **Feedback and focus:** keyboard focus on the element opens the balloon at once. The pointer
 opens it after resting `motion/hover-delay` (300 ms) on the element; leaving before the wait ends
@@ -264,7 +264,7 @@ On any other element it is a description, the default:
 | Criterion | Rule |
 |---|---|
 | Semantics | The host is a `role="tooltip"` from mount, open or closed; the element points to it with `aria-describedby`, or with `aria-labelledby` under `relation="name"` |
-| Contrast | The text uses `color/tooltip-foreground` on `color/tooltip`: 5.85:1 in light and 8.98:1 in dark, above 4.5:1 (WCAG 1.4.3) |
+| Contrast | The text uses `tooltip/foreground` on `tooltip/background`: 5.85:1 in light and 8.98:1 in dark, above 4.5:1 (WCAG 1.4.3) |
 | Visible focus | The balloon never takes focus: focus stays on the element that opened it. The balloon stays open while the pointer is over it (WCAG 1.4.13) |
 | Keyboard | Keyboard focus on the element opens the balloon at once; Enter and Space run the action and neither open nor close it; Esc closes it. Hover opens it after `motion/hover-delay` |
 | Touch target | The balloon is not a touch target and does not open on touch. The touch target is the element, at its own size (WCAG 2.5.8). On touch the icon-only button has no visible name, an accepted exception: the name lives in the accessible name, the icon must be easy to recognize, and an ambiguous action uses a button with text |
@@ -291,8 +291,8 @@ which element it belongs to (`for`) and what it says (`text`). Help text and err
 
 | Part | Token |
 |---|---|
-| Background | `color/tooltip` |
-| Text | `text/body-sm` and `color/tooltip-foreground` |
+| Background | `tooltip/background` |
+| Text | `text/body-sm` and `tooltip/foreground` |
 | Radius | `radius/inner` |
 | Vertical padding | `space/inline-tight` |
 | Horizontal padding | `space/inline` |

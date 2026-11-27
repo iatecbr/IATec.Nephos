@@ -118,10 +118,10 @@ variants:
       - "a second level: a submenu has one level only."
 states:
   rest:
-    token: "no background; text in color/popover-foreground"
+    token: "no background; text in dropdown/item-foreground"
     changes_for_user: "The row is quiet; the start icon is light."
   hover:
-    token: "color/primary-surface; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground"
+    token: "dropdown/item-background-hover; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground"
     changes_for_user: "The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color. The item whose submenu is open keeps this look."
   focus:
     token: "border border/width in focus/border, radius dropdown/item-focus-border-radius; halo focus/ring-width in focus/halo, radius dropdown/item-focus-halo-radius"
@@ -148,16 +148,16 @@ tokens:
   panel: [context-menu/background, color/popover-foreground, layout/input-width, dropdown/panel-radius, elevation/dropdown]
   panel_border: [border/width, context-menu/border]
   panel_padding: space/inline-tight
-  group_label: [text/label-sm, color/muted-foreground, space/inline, space/inline-tight]
+  group_label: [text/label-sm, dropdown/group-label-foreground, space/inline, space/inline-tight]
   separator: [dropdown/separator, space/inline-tight]
-  item: [space/inline, dropdown/item-radius, text/body-md, color/popover-foreground]
+  item: [space/inline, dropdown/item-radius, text/body-md, dropdown/item-foreground]
   item_compact: space/inline-tight
   icon: icon/size-md
-  shortcut: [text/caption, color/muted-foreground]
+  shortcut: [text/caption, dropdown/item-muted-foreground]
   arrow: icon/size-sm
   single_choice: [text/label-md, color/primary-hover]
   destructive: [dropdown/item-destructive-foreground, dropdown/item-destructive-hover-foreground, dropdown/item-destructive-hover-background]
-  hover: [color/primary-surface, dropdown/item-destructive-hover-background, dropdown/item-hover-icon-foreground]
+  hover: [dropdown/item-background-hover, dropdown/item-destructive-hover-background, dropdown/item-hover-icon-foreground]
   submenu_gap: dropdown/submenu-offset
   focus: [border/width, focus/border, dropdown/item-focus-border-radius, focus/ring-width, focus/halo, dropdown/item-focus-halo-radius]
   disabled: state/disabled-opacity
@@ -184,7 +184,7 @@ accessibility:
     - "Esc closes the submenu, then the menu, and gives the focus back to the object."
     - "Tab and Shift+Tab close the menu and move on from the object."
   focus: "The focus moves to the items. Keyboard only, a border of border/width in focus/border and a halo in focus/halo show outside the row; the border carries the focus, the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it. When the menu closes, the focus goes back to the object, which must be focusable for that to happen."
-  contrast: "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, also in focus, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The focus/border border passes 3:1 against color/popover in both themes. The menu outline, the separator and the halo are decorative."
+  contrast: "The item text passes AA on color/popover and on the hover dropdown/item-background-hover, in light and dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, also in focus, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The focus/border border passes 3:1 against color/popover in both themes. The menu outline, the separator and the halo are decorative."
   color_alternative: "The item with a submenu has the arrow, and open it keeps the hover background. Multiple choice shows the checked box and single choice shows the check. The destructive item says the action in its label, besides the color."
 invalid_combinations:
   - "submenu with a selection other than none — a submenu item is not a choice; the item is left out."
@@ -281,8 +281,8 @@ level, opens to the right and opens to the left only when there is no room.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Rest | no background; text in `color/popover-foreground` | The row is quiet; the start icon is light |
-| Hover | `color/primary-surface`; icon in `dropdown/item-hover-icon-foreground`. Destructive: `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in `dropdown/item-destructive-hover-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color. The item whose submenu is open keeps this look |
+| Rest | no background; text in `dropdown/item-foreground` | The row is quiet; the start icon is light |
+| Hover | `dropdown/item-background-hover`; icon in `dropdown/item-hover-icon-foreground`. Destructive: `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in `dropdown/item-destructive-hover-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color. The item whose submenu is open keeps this look |
 | Focus | border `border/width` in `focus/border`, radius `dropdown/item-focus-border-radius`; halo `focus/ring-width` in `focus/halo`, radius `dropdown/item-focus-halo-radius` | For keyboard users, a border and a halo outside the row; the start icon turns solid |
 | Disabled | `state/disabled-opacity` | The whole row loses opacity; it takes the focus but does not activate; its icon stays light |
 
@@ -323,7 +323,7 @@ is light at rest and when disabled, and solid on highlight, in every type, selec
 | Accessible name | The menu: `label`. The item: its `text`. The shortcut goes in `aria-keyshortcuts`. Support icons and the arrow are not read |
 | Keyboard | The menu pattern of the APG: Shift+F10 and the Menu key open on the first item; ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, → opens the submenu and ← closes it (swapped in right-to-left), Esc closes the submenu and then the menu and gives the focus back, Tab closes and moves on |
 | Focus | The `focus/border` border carries the focus; the halo is decorative. Opened by a mouse click, the first item has the focus but does not show it |
-| Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
+| Contrast | The item text passes AA on `color/popover` and on `dropdown/item-background-hover`; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
 | Alternative to color | The item with a submenu has the arrow; multiple choice shows the box and single choice the check; the destructive item says the action in its label |
 | Touch target | The whole row, above 24 by 24 in both sizes; the panel takes the width of `layout/input-width` |
 | Known limits | When the object is not focusable, such as a table row, the focus cannot go back to it on close and stays where the browser leaves it. The menu is not a replacement for the visible path: a person who does not use the right button, a long press or Shift+F10 needs the same action on the screen. A forced-colors mode is not handled. A nested menu beyond one level is out of scope |
@@ -350,13 +350,13 @@ not a tag of its own.
 |---|---|
 | Panel | `context-menu/background` (alias of `color/popover`), `layout/input-width`, `dropdown/panel-radius`, `elevation/dropdown`, padding `space/inline-tight` |
 | Panel border | `border/width` in `context-menu/border` (alias of `color/dropdown-border`, which resolves to `color/border-subtle`) |
-| Group label | `text/label-sm` in `color/muted-foreground`, `space/inline` on the sides, `space/inline-tight` above and below |
+| Group label | `text/label-sm` in `dropdown/group-label-foreground`, `space/inline` on the sides, `space/inline-tight` above and below |
 | Separator | `nph-separator` in `dropdown/separator`, `space/inline-tight` above and below |
-| Item | `space/inline` padding and gap (`space/inline-tight` above and below in compact), `dropdown/item-radius`, `text/body-md` in `color/popover-foreground` |
-| Shortcut | `text/caption` in `color/muted-foreground` |
+| Item | `space/inline` padding and gap (`space/inline-tight` above and below in compact), `dropdown/item-radius`, `text/body-md` in `dropdown/item-foreground` |
+| Shortcut | `text/caption` in `dropdown/item-muted-foreground` |
 | Single choice | `text/label-md` in `color/primary-hover`; check solid at `icon/size-sm` |
 | Destructive | `dropdown/item-destructive-foreground`; hover `dropdown/item-destructive-hover-foreground` on `dropdown/item-destructive-hover-background` |
-| Hover | `color/primary-surface`, `dropdown/item-destructive-hover-background`, `dropdown/item-hover-icon-foreground` |
+| Hover | `dropdown/item-background-hover`, `dropdown/item-destructive-hover-background`, `dropdown/item-hover-icon-foreground` |
 | Submenu gap | `dropdown/submenu-offset` (4 px) between the panel and the open submenu, on the side that faces the panel; read by the code from the computed style, with no literal fallback |
 | Focus | `border/width`, `focus/border`, `dropdown/item-focus-border-radius`, `focus/ring-width`, `focus/halo`, `dropdown/item-focus-halo-radius` |
 | Disabled | `state/disabled-opacity` |

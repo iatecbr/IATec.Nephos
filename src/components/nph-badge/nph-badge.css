@@ -40,60 +40,60 @@
 
 /* solid */
 :host([severity='primary'][emphasis='solid']) {
-  --_bg: var(--nph-color-primary);
-  --_fg: var(--nph-color-primary-foreground);
+  --_bg: var(--nph-badge-primary-solid-background);
+  --_fg: var(--nph-badge-primary-solid-foreground);
 }
 :host([severity='secondary'][emphasis='solid']) {
-  --_bg: var(--nph-color-secondary);
-  --_fg: var(--nph-color-secondary-foreground);
+  --_bg: var(--nph-badge-secondary-solid-background);
+  --_fg: var(--nph-badge-secondary-foreground);
 }
 :host([severity='info'][emphasis='solid']) {
-  --_bg: var(--nph-status-info);
-  --_fg: var(--nph-status-on-solid);
+  --_bg: var(--nph-badge-info-solid-background);
+  --_fg: var(--nph-badge-info-solid-foreground);
 }
 :host([severity='warn'][emphasis='solid']) {
-  --_bg: var(--nph-status-warning);
-  --_fg: var(--nph-status-on-solid);
+  --_bg: var(--nph-badge-warn-solid-background);
+  --_fg: var(--nph-badge-warn-solid-foreground);
 }
 :host([severity='help'][emphasis='solid']) {
-  --_bg: var(--nph-status-help);
-  --_fg: var(--nph-status-on-solid);
+  --_bg: var(--nph-badge-help-solid-background);
+  --_fg: var(--nph-badge-help-solid-foreground);
 }
 :host([severity='danger'][emphasis='solid']) {
-  --_bg: var(--nph-color-destructive);
-  --_fg: var(--nph-color-destructive-foreground);
+  --_bg: var(--nph-badge-danger-solid-background);
+  --_fg: var(--nph-badge-danger-solid-foreground);
 }
 :host([severity='success'][emphasis='solid']) {
-  --_bg: var(--nph-status-success);
-  --_fg: var(--nph-status-on-solid);
+  --_bg: var(--nph-badge-success-solid-background);
+  --_fg: var(--nph-badge-success-solid-foreground);
 }
 
 /* light */
 :host([severity='primary'][emphasis='light']) {
-  --_bg: var(--nph-color-primary-surface);
-  --_fg: var(--nph-color-primary-on-surface);
+  --_bg: var(--nph-badge-primary-light-background);
+  --_fg: var(--nph-badge-primary-light-foreground);
 }
 :host([severity='secondary'][emphasis='light']) {
-  --_bg: var(--nph-color-secondary-light);
-  --_fg: var(--nph-color-secondary-foreground);
+  --_bg: var(--nph-badge-secondary-light-background);
+  --_fg: var(--nph-badge-secondary-foreground);
 }
 :host([severity='info'][emphasis='light']) {
-  --_bg: var(--nph-status-info-surface);
-  --_fg: var(--nph-status-info-foreground);
+  --_bg: var(--nph-badge-info-light-background);
+  --_fg: var(--nph-badge-info-light-foreground);
 }
 :host([severity='warn'][emphasis='light']) {
-  --_bg: var(--nph-status-warning-surface);
-  --_fg: var(--nph-status-warning-foreground);
+  --_bg: var(--nph-badge-warn-light-background);
+  --_fg: var(--nph-badge-warn-light-foreground);
 }
 :host([severity='help'][emphasis='light']) {
-  --_bg: var(--nph-status-help-surface);
-  --_fg: var(--nph-status-help-foreground);
+  --_bg: var(--nph-badge-help-light-background);
+  --_fg: var(--nph-badge-help-light-foreground);
 }
 :host([severity='danger'][emphasis='light']) {
-  --_bg: var(--nph-color-destructive-surface);
-  --_fg: var(--nph-color-destructive-on-surface);
+  --_bg: var(--nph-badge-danger-light-background);
+  --_fg: var(--nph-badge-danger-light-foreground);
 }
 :host([severity='success'][emphasis='light']) {
-  --_bg: var(--nph-status-success-surface);
-  --_fg: var(--nph-status-success-foreground);
+  --_bg: var(--nph-badge-success-light-background);
+  --_fg: var(--nph-badge-success-light-foreground);
 }

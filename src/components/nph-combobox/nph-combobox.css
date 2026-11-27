@@ -60,8 +60,8 @@
   border: var(--nph-border-width) solid var(--_border);
   border-block-end-color: var(--_border-bottom);
   border-radius: var(--nph-radius-control);
-  background-color: var(--nph-color-background);
-  color: var(--nph-color-muted-foreground);
+  background-color: var(--nph-combobox-background);
+  color: var(--nph-combobox-muted-foreground);
   cursor: text;
 }
 
@@ -91,7 +91,7 @@
   padding: 0;
   border: 0;
   background-color: transparent;
-  color: var(--nph-color-foreground);
+  color: var(--nph-combobox-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -103,7 +103,7 @@
 }
 
 .field::placeholder {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-combobox-muted-foreground);
   opacity: 1;
 }
 
@@ -148,7 +148,7 @@
   border-end-start-radius: var(--nph-radius-none);
   border-start-end-radius: var(--nph-radius-control-inner);
   border-end-end-radius: var(--nph-radius-control-inner);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-combobox-muted-foreground);
   cursor: pointer;
 }
 
@@ -183,8 +183,8 @@
 
 /* Hover: the whole border, on all four sides, in `color/input-hover`. */
 .control:hover {
-  --_border: var(--nph-color-input-hover);
-  --_border-bottom: var(--nph-color-input-hover);
+  --_border: var(--nph-combobox-border-hover);
+  --_border-bottom: var(--nph-combobox-border-hover);
 }
 
 /* `foco-limpar`: keep the resting split border, even when the pointer is over it. */
@@ -234,8 +234,8 @@
 :host([invalid]) .control:hover,
 :host([invalid]) .control:has(.field:focus),
 :host([invalid][open]) .control {
-  --_border: var(--nph-status-error);
-  --_border-bottom: var(--nph-status-error);
+  --_border: var(--nph-combobox-border-error);
+  --_border-bottom: var(--nph-combobox-border-error);
 }
 
 :host([invalid]) .control:has(.field:focus)::after,
@@ -250,10 +250,10 @@
 :host(:disabled) .control,
 :host(:disabled) .control:hover,
 :host(:disabled) .control:has(.field:focus) {
-  --_border: var(--nph-color-input);
-  --_border-bottom: var(--nph-color-input);
+  --_border: var(--nph-combobox-border-disabled);
+  --_border-bottom: var(--nph-combobox-border-disabled);
 
-  background-color: var(--nph-color-muted);
+  background-color: var(--nph-combobox-background-disabled);
   cursor: default;
 }
 

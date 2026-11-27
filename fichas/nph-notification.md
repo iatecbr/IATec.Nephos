@@ -528,9 +528,10 @@ reads, set on the element inside the notification and never on the page, as `nph
 `nph-toolbar` do (P108):
 
 - the secondary action is a ghost `nph-button` (primary, and danger on error) whose
-  `color/primary-on-surface` and `color/primary-surface` (or `color/destructive-on-surface` and
-  `color/destructive-surface`) point at `notification/<severity>-action-*`;
-- the close on solid points `color/secondary-foreground`,
+  `button/primary-tinted-foreground` and `button/primary-tinted-background` (or
+  `button/danger-tinted-foreground` and `button/danger-tinted-background`) point at
+  `notification/<severity>-action-*`;
+- the close on solid points `button/secondary-foreground`, `icon-button/secondary-foreground`,
   `icon-button/secondary-ghost-background-hover` (a `color-mix` at the opacity of the contract),
   `focus/border`, `focus/halo` (transparent) and `border/width`, which only the focus border of the
   button reads.

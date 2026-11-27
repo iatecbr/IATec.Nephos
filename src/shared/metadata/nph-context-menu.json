@@ -108,11 +108,11 @@
   },
   "states": {
     "rest": {
-      "token": "no background; text in color/popover-foreground",
+      "token": "no background; text in dropdown/item-foreground",
       "changes_for_user": "The row is quiet; the start icon is light."
     },
     "hover": {
-      "token": "color/primary-surface; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground",
+      "token": "dropdown/item-background-hover; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground",
       "changes_for_user": "The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color. The item whose submenu is open keeps this look."
     },
     "focus": {
@@ -155,7 +155,7 @@
     "panel_padding": "space/inline-tight",
     "group_label": [
       "text/label-sm",
-      "color/muted-foreground",
+      "dropdown/group-label-foreground",
       "space/inline",
       "space/inline-tight"
     ],
@@ -167,13 +167,13 @@
       "space/inline",
       "dropdown/item-radius",
       "text/body-md",
-      "color/popover-foreground"
+      "dropdown/item-foreground"
     ],
     "item_compact": "space/inline-tight",
     "icon": "icon/size-md",
     "shortcut": [
       "text/caption",
-      "color/muted-foreground"
+      "dropdown/item-muted-foreground"
     ],
     "arrow": "icon/size-sm",
     "single_choice": [
@@ -186,7 +186,7 @@
       "dropdown/item-destructive-hover-background"
     ],
     "hover": [
-      "color/primary-surface",
+      "dropdown/item-background-hover",
       "dropdown/item-destructive-hover-background",
       "dropdown/item-hover-icon-foreground"
     ],
@@ -235,7 +235,7 @@
       "Tab and Shift+Tab close the menu and move on from the object."
     ],
     "focus": "The focus moves to the items. Keyboard only, a border of border/width in focus/border and a halo in focus/halo show outside the row; the border carries the focus, the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it. When the menu closes, the focus goes back to the object, which must be focusable for that to happen.",
-    "contrast": "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, also in focus, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The focus/border border passes 3:1 against color/popover in both themes. The menu outline, the separator and the halo are decorative.",
+    "contrast": "The item text passes AA on color/popover and on the hover dropdown/item-background-hover, in light and dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, also in focus, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The focus/border border passes 3:1 against color/popover in both themes. The menu outline, the separator and the halo are decorative.",
     "color_alternative": "The item with a submenu has the arrow, and open it keeps the hover background. Multiple choice shows the checked box and single choice shows the check. The destructive item says the action in its label, besides the color."
   },
   "invalid_combinations": [

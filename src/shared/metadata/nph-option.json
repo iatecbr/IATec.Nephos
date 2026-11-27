@@ -159,16 +159,16 @@
   },
   "states": {
     "default": {
-      "token": "color/popover-foreground",
-      "changes_for_user": "The label in color/popover-foreground on the list background, with no background of its own."
+      "token": "select/option-foreground",
+      "changes_for_user": "The label in select/option-foreground on the list background, with no background of its own."
     },
     "active": {
-      "token": "color/accent",
-      "changes_for_user": "The option the pointer or the keyboard is on: color/accent, with the text in color/accent-foreground (D5)."
+      "token": "select/option-background-hover",
+      "changes_for_user": "The option the pointer or the keyboard is on: select/option-background-hover, with the text in select/option-foreground-hover (D5)."
     },
     "selected": {
-      "token": "color/primary",
-      "changes_for_user": "The chosen option: only the check in color/primary, with no background (DSA-124). Active or not, it has no hover look: only the focus ring when active by the keyboard. With marker=checkbox, the checked box instead, and the hover look stays (P96)."
+      "token": "select/option-marker",
+      "changes_for_user": "The chosen option: only the check in select/option-marker, with no background (DSA-124). Active or not, it has no hover look: only the focus ring when active by the keyboard. With marker=checkbox, the checked box instead, and the hover look stays (P96)."
     },
     "keyboard_active": {
       "token": "select/option-focus-border and select/option-focus-halo",
@@ -209,13 +209,13 @@
     "padding": "space/inline",
     "gap": "space/inline",
     "radius": "radius/inner",
-    "label": "text/label-md in color/popover-foreground; color/accent-foreground when active",
-    "secondary": "text/label-md in color/muted-foreground, space/inline-tight after the label",
+    "label": "text/label-md in select/option-foreground; select/option-foreground-hover when active",
+    "secondary": "text/label-md in select/option-secondary-foreground, space/inline-tight after the label",
     "icon": "nph-icon icon/size-md",
     "avatar": "nph-avatar sm",
     "dot": "space/inline square, radius/full, in an icon/size-md box; status/* or color/muted-foreground",
-    "active": "color/accent with color/accent-foreground",
-    "selected": "no background; the check, icon/size-sm in color/primary",
+    "active": "select/option-background-hover with select/option-foreground-hover",
+    "selected": "no background; the check, icon/size-sm in select/option-marker",
     "keyboard_active": "select/option-focus-border of select/option-focus-border-width, then select/option-focus-halo of select/option-focus-halo-width, both outside the option; select/option-focus-border-radius and select/option-focus-halo-radius",
     "checkbox": "nph-checkbox, inert, at the start of the option (marker=checkbox)",
     "disabled": "state/disabled-opacity",

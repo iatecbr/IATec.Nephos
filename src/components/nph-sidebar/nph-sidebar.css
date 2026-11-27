@@ -233,11 +233,12 @@
 /*
  * The close button of the mobile menu: the focus border is `focus/border` through the hook of
  * `nph-button`, and the X follows the collapse icon (DSA-121 C1): the primary ghost button paints
- * its icon in `color/primary-on-surface`, redefined here on this instance only.
+ * its icon in `button/primary-tinted-foreground`, redefined here on this instance only.
  */
 .close {
   --nph-button-focus-border: var(--nph-focus-border);
-  --nph-color-primary-on-surface: var(--nph-sidebar-toggle-foreground);
+  --nph-button-primary-tinted-foreground: var(--nph-sidebar-toggle-foreground);
+  --nph-icon-button-primary-tinted-foreground: var(--nph-sidebar-toggle-foreground);
   flex: none;
 }
 
@@ -249,7 +250,7 @@
  */
 .search {
   --nph-input-border: var(--nph-sidebar-search-border);
-  --nph-color-background: var(--nph-sidebar-search-background);
+  --nph-input-background: var(--nph-sidebar-search-background);
   inline-size: 100%;
   flex: none;
 }

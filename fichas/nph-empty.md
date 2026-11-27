@@ -39,7 +39,7 @@ api:
 variants: not_applicable
 states:
   default:
-    token: "color/foreground, color/muted-foreground"
+    token: "empty/title-foreground, empty/description-foreground"
     changes_for_user: "The illustration, the heading and, when given, the description; the piece does not change with interaction."
 business_rules:
   - "The heading is always present and says what is missing."
@@ -56,9 +56,9 @@ tokens:
   illustration_to_text: space/section
   heading_to_description: space/inline-tight
   heading_type: text/heading-xs
-  heading_color: color/foreground
+  heading_color: empty/title-foreground
   description_type: text/body-sm
-  description_color: color/muted-foreground
+  description_color: empty/description-foreground
   illustration_light: scheme/is-light
   illustration_dark: scheme/is-dark
 ai_hints:
@@ -138,7 +138,7 @@ presence of a non-empty `description`.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Default | `color/foreground`, `color/muted-foreground` | The illustration, the heading and, when given, the description; it does not change with interaction |
+| Default | `empty/title-foreground`, `empty/description-foreground` | The illustration, the heading and, when given, the description; it does not change with interaction |
 
 **Feedback and focus:** the piece does not receive focus nor react to interaction. It is
 still: there is no motion to reduce.
@@ -190,8 +190,8 @@ gives the background and the position.
 | Box width | `layout/input-width` |
 | Illustration to text group | `space/section` |
 | Heading to description | `space/inline-tight` |
-| Heading | `text/heading-xs`, `color/foreground` |
-| Description | `text/body-sm`, `color/muted-foreground` |
+| Heading | `text/heading-xs`, `empty/title-foreground` |
+| Description | `text/body-sm`, `empty/description-foreground` |
 | Light illustration | `scheme/is-light` |
 | Dark illustration | `scheme/is-dark` |
 

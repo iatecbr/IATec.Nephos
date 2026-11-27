@@ -56,10 +56,10 @@
   justify-content: center;
   inline-size: var(--_size);
   block-size: var(--_size);
-  border: var(--nph-border-width) solid var(--nph-color-input);
+  border: var(--nph-border-width) solid var(--nph-input-otp-border);
   border-radius: var(--nph-radius-control);
-  background-color: var(--nph-color-background);
-  color: var(--nph-color-foreground);
+  background-color: var(--nph-input-otp-background);
+  color: var(--nph-input-otp-foreground);
 }
 
 :host([size='large']) .cell {
@@ -71,12 +71,12 @@
  * border, and the active cell keeps its focus border.
  */
 :host(:hover:not(:disabled):not([invalid])) .cell:not([data-active]) {
-  border-color: var(--nph-color-input-hover);
+  border-color: var(--nph-input-otp-border-hover);
 }
 
 /* Error: every cell takes the error border. Disabled wins: the border stays the resting one. */
 :host([invalid]:not(:disabled)) .cell {
-  border-color: var(--nph-status-error);
+  border-color: var(--nph-input-otp-border-error);
 }
 
 /* The active cell, where the caret is: focus border and a halo outside, out of the layout. */
@@ -86,12 +86,12 @@
 }
 
 :host([invalid]) .cell[data-active] {
-  border-color: var(--nph-status-error);
+  border-color: var(--nph-input-otp-border-error);
   box-shadow: 0 0 0 var(--nph-focus-ring-width) var(--nph-focus-halo-error);
 }
 
 :host(:disabled) .cell {
-  background-color: var(--nph-color-muted);
+  background-color: var(--nph-input-otp-background-disabled);
 }
 
 /* The native input: over the cells, the same size, drawing nothing of its own. */

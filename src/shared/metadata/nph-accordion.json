@@ -246,11 +246,11 @@
   },
   "states": {
     "rest": {
-      "token": "collapsible/title-foreground, collapsible/description-foreground, collapsible/indicator-foreground, collapsible/icon-foreground",
+      "token": "accordion/title-foreground, accordion/description-foreground, accordion/indicator-foreground, accordion/icon-foreground",
       "changes_for_user": "Open and closed are told apart by the direction of the indicator and by the content in view, not by color. The open item does not change its background."
     },
     "hover": {
-      "token": "collapsible/trigger-background-hover",
+      "token": "accordion/trigger-background-hover",
       "changes_for_user": "The trigger takes a pill with collapsible/trigger-radius, inset by the container padding in grouped and separated and full width in flush. Hover does not move the focus. An item that cannot change takes no hover."
     },
     "focus": {
@@ -262,7 +262,7 @@
       "changes_for_user": "The whole item is faded, does not open and leaves the Tab order. With open it is a locked section: the content and the status stay in view, faded. The divider and the block outline are the accordion and stay at full."
     },
     "open_that_does_not_close": {
-      "token": "collapsible/title-foreground",
+      "token": "accordion/title-foreground",
       "changes_for_user": "The plain open look with no opacity. The trigger stays in the Tab order and says aria-disabled, and Enter, Space and click do nothing."
     }
   },
@@ -287,10 +287,10 @@
     "container": "accordion/background, accordion/border, accordion/border-width, accordion/radius, accordion/padding, elevation/raised",
     "divider": "accordion/divider, accordion/divider-spacing, border/width",
     "separated": "accordion/item-gap",
-    "text": "accordion/title-gap, accordion/tag-gap, accordion/end-gap, collapsible/title-foreground, collapsible/description-foreground",
-    "start": "accordion/media-gap, accordion/tile-background, accordion/tile-foreground, accordion/tile-radius, accordion/tile-padding, accordion/tile-padding-compact, accordion/tile-icon-size, accordion/tile-icon-size-large, accordion/status-success-icon, accordion/status-warning-icon, accordion/status-error-icon, accordion/status-pending-icon, collapsible/icon-size, collapsible/icon-foreground",
-    "trigger": "collapsible/trigger-height, collapsible/trigger-height-compact, collapsible/trigger-height-large, collapsible/trigger-padding-x, collapsible/trigger-padding-y, collapsible/trigger-padding-y-compact, collapsible/trigger-gap, collapsible/trigger-radius, collapsible/trigger-background-hover",
-    "indicator": "collapsible/indicator-size, collapsible/indicator-foreground",
+    "text": "accordion/title-gap, accordion/tag-gap, accordion/end-gap, accordion/title-foreground, accordion/description-foreground",
+    "start": "accordion/media-gap, accordion/tile-background, accordion/tile-foreground, accordion/tile-radius, accordion/tile-padding, accordion/tile-padding-compact, accordion/tile-icon-size, accordion/tile-icon-size-large, accordion/status-success-icon, accordion/status-warning-icon, accordion/status-error-icon, accordion/status-pending-icon, collapsible/icon-size, accordion/icon-foreground",
+    "trigger": "collapsible/trigger-height, collapsible/trigger-height-compact, collapsible/trigger-height-large, collapsible/trigger-padding-x, collapsible/trigger-padding-y, collapsible/trigger-padding-y-compact, collapsible/trigger-gap, collapsible/trigger-radius, accordion/trigger-background-hover",
+    "indicator": "collapsible/indicator-size, accordion/indicator-foreground",
     "content": "collapsible/content-padding-x, collapsible/content-padding-top, collapsible/content-padding-bottom, collapsible/content-gap",
     "focus": "collapsible/focus-border, collapsible/focus-border-width, collapsible/focus-border-radius, collapsible/focus-halo, collapsible/focus-halo-width, collapsible/focus-halo-radius",
     "state": "collapsible/disabled-opacity",

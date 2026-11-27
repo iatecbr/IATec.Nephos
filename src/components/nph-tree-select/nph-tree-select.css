@@ -56,8 +56,8 @@
   border: var(--nph-border-width) solid var(--_border);
   border-block-end-color: var(--_border-bottom);
   border-radius: var(--nph-radius-control);
-  background-color: var(--nph-color-background);
-  color: var(--nph-color-muted-foreground);
+  background-color: var(--nph-select-background);
+  color: var(--nph-select-muted-foreground);
   text-align: start;
   cursor: text;
   outline: none;
@@ -97,7 +97,7 @@
   flex: 1;
   min-inline-size: 0;
   overflow: hidden;
-  color: var(--nph-color-foreground);
+  color: var(--nph-select-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -107,7 +107,7 @@
   white-space: nowrap;
 }
 .placeholder {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-select-muted-foreground);
 }
 /* The typed text of the two editable modes. */
 .field {
@@ -118,8 +118,8 @@
   padding: 0;
   border: 0;
   background-color: transparent;
-  color: var(--nph-color-foreground);
-  caret-color: var(--nph-color-foreground);
+  color: var(--nph-combobox-foreground);
+  caret-color: var(--nph-combobox-caret);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -133,7 +133,7 @@
   align-self: auto;
 }
 .field::placeholder {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-combobox-muted-foreground);
   opacity: 1;
 }
 /* The chips and the typed text: on the same line while they fit, then down to the next one. */
@@ -154,7 +154,7 @@
 .subject {
   min-inline-size: 0;
   overflow: hidden;
-  color: var(--nph-color-foreground);
+  color: var(--nph-multi-combobox-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -176,8 +176,8 @@
   max-inline-size: 100%;
   padding-inline: var(--nph-space-inline);
   border-radius: var(--nph-radius-full);
-  background-color: var(--nph-color-primary-surface);
-  color: var(--nph-color-primary-on-surface);
+  background-color: var(--nph-multi-combobox-chip-background);
+  color: var(--nph-multi-combobox-chip-foreground);
 }
 .chip-icon {
   flex: none;
@@ -228,7 +228,7 @@
   border-end-start-radius: var(--nph-radius-none);
   border-start-end-radius: var(--nph-radius-control-inner);
   border-end-end-radius: var(--nph-radius-control-inner);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-select-muted-foreground);
   cursor: pointer;
 }
 :host([size='large']) .arrow {
@@ -266,8 +266,8 @@
   pointer-events: none;
 }
 .control:hover {
-  --_border: var(--nph-color-input-hover);
-  --_border-bottom: var(--nph-color-input-hover);
+  --_border: var(--nph-select-border-hover);
+  --_border-bottom: var(--nph-select-border-hover);
 }
 .control:has(.remove:focus-visible, .clear:focus-visible) {
   --_border: var(--_rest);
@@ -312,8 +312,8 @@
 :host([invalid]) .control:focus-visible,
 :host([invalid]) .control:has(.field:focus),
 :host([invalid][open]) .control {
-  --_border: var(--nph-status-error);
-  --_border-bottom: var(--nph-status-error);
+  --_border: var(--nph-select-border-error);
+  --_border-bottom: var(--nph-select-border-error);
 }
 :host([invalid]) .control:focus-visible::after,
 :host([invalid]) .control:has(.field:focus)::after,
@@ -325,9 +325,9 @@
 :host(:disabled) .control:hover,
 :host(:disabled) .control:focus-visible,
 :host(:disabled) .control:has(.field:focus) {
-  --_border: var(--nph-color-input);
-  --_border-bottom: var(--nph-color-input);
-  background-color: var(--nph-color-muted);
+  --_border: var(--nph-select-border-disabled);
+  --_border-bottom: var(--nph-select-border-disabled);
+  background-color: var(--nph-select-background-disabled);
   cursor: default;
 }
 :host(:disabled) .control::after {
@@ -338,8 +338,8 @@
 }
 :host(:disabled) .chip {
   padding-block: var(--nph-space-inline-tight);
-  background-color: var(--nph-color-muted);
-  color: var(--nph-color-muted-foreground);
+  background-color: var(--nph-multi-combobox-chip-background-disabled);
+  color: var(--nph-multi-combobox-chip-foreground-disabled);
 }
 /* ----- the panel ------------------------------------------------------------------- */
 /*

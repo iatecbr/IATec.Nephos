@@ -14,7 +14,7 @@ use_when:
   - "To give a form control a visible name, on its own or inside an nph-field."
   - "required=true when filling in the field is mandatory, with the asterisk explained in a legend on the form."
   - "info with info-label to show the information icon after the text: info is the help text and info-label its accessible name."
-  - "Keep the label in color/foreground, even when the field has an error."
+  - "Keep the label in label/foreground, even when the field has an error."
 do_not_use_when:
   - "Using it for a sentence with a verb and a period: that is body text."
   - "Using it as a section or group title: that is heading-sm."
@@ -69,7 +69,7 @@ api:
   slots: none
   events: none
   color: >-
-    It is not a property. The text is `color/foreground` and the asterisk is
+    It is not a property. The text is `label/foreground` and the asterisk is
     `label/required-foreground` (`status/error`), always — including when the field is in error.
 
 variants:
@@ -99,11 +99,11 @@ domain_errors: []
 
 tokens:
   text: [text/label-md]
-  text_color: color/foreground
+  text_color: label/foreground
   asterisk_color: label/required-foreground (status/error)
   asterisk_gap: space/inline-tight
   trigger_gap: space/inline-tight
-  trigger: [icon/size-sm, space/inline-tight, color/muted-foreground]
+  trigger: [icon/size-sm, space/inline-tight, label/info-icon]
   trigger_focus: [border/width, focus/border-radius-control, focus/ring-width, focus/radius-control-with-border, focus/border, focus/halo]
   tooltip_gap: space/inline
 
@@ -122,7 +122,7 @@ accessibility:
     - "Keyboard focus on the icon opens the balloon at once; Enter and Space neither open nor close it, and there is no activation that toggles it."
     - "Esc closes the open balloon, and focus stays on the icon."
   focus: "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard"
-  contrast: "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 5.37:1 and 8.98:1"
+  contrast: "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in label/info-icon, 6.69:1 and 9.81:1; the focus border, in focus/border, 5.37:1 and 8.98:1"
   color_alternative: "The asterisk is a shape signal, not a color one — and it is decorative"
 
 invalid_combinations:
@@ -200,7 +200,7 @@ belong to the information icon: **focus**, from the keyboard, and **open**, with
 
 | The situation | Where it appears |
 |---|---|
-| **Error** | **The label does not change.** It stays in `color/foreground`. The error stays in the field and in the message |
+| **Error** | **The label does not change.** It stays in `label/foreground`. The error stays in the field and in the message |
 | **Disabled** | It does not belong to the label. `nph-field` applies `state/disabled-opacity` to the whole control |
 | **Help and error message** | They belong to `nph-field`. The label carries the text, the asterisk and the trigger of the help, not the help (L8) |
 
@@ -233,7 +233,7 @@ asterisk is decorative** — see Accessibility.
 | Description | The balloon describes the icon: the icon points to the `nph-tooltip` with `aria-describedby`. The icon has no `aria-expanded` and no `aria-controls` |
 | Icon name | `info-label`. Without it, the icon does not appear |
 | Touch target | The information icon has a 24 × 24 target, with the 16 px artwork in the center (WCAG 2.5.8) |
-| Contrast | In both modes. Text and asterisk, measured on 27-08-2026, pass the minimum of 4.5:1. The icon, in `color/muted-foreground`, measured on 08-09-2026 (L8): 6.69:1 and 9.81:1. The focus border, in `focus/border`, measured on 01-10-2026 (frame `1194:1482`) and again after the tone 600 of `Sistemas` (DSA-92): 5.37:1 and 8.98:1 |
+| Contrast | In both modes. Text and asterisk, measured on 27-08-2026, pass the minimum of 4.5:1. The icon, in `label/info-icon`, measured on 08-09-2026 (L8): 6.69:1 and 9.81:1. The focus border, in `focus/border`, measured on 01-10-2026 (frame `1194:1482`) and again after the tone 600 of `Sistemas` (DSA-92): 5.37:1 and 8.98:1 |
 | Alternative to color | The asterisk is a **shape signal, not a color one** |
 
 > ⚠️ **The asterisk does not communicate requiredness to a screen reader.** In the code it is output
@@ -269,11 +269,11 @@ trigger, on 06-10-2026:
 | Part | Token |
 |---|---|
 | The text | `text/label-md`, in all the properties of the role |
-| The text color | `color/foreground` |
+| The text color | `label/foreground` |
 | The asterisk color | `label/required-foreground` (`status/error`) |
 | The space before the asterisk | `space/inline-tight` |
 | The space up to the information icon | `space/inline-tight` |
-| The information icon | `circle-info` `solid` in `icon/size-sm`, with `space/inline-tight` around it (24 × 24 target), in `color/muted-foreground` |
+| The information icon | `circle-info` `solid` in `icon/size-sm`, with `space/inline-tight` around it (24 × 24 target), in `label/info-icon` |
 | The icon focus | `border/width` in `focus/border`, radius `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, radius `focus/radius-control-with-border` |
 | The space up to the balloon | `space/inline`, kept by the `nph-tooltip` |
 
@@ -331,7 +331,7 @@ name of the icon, such as `Sobre CPF` (About CPF).
 | The code API | `text`, `required` and `for` — **it is P62.3**, checked property by property in `src/components/nph-label/nph-label.ts`. `info` and `info-label` come in through **P62.6** (DSA-04), under review |
 | `required` and `for` reflect in the DOM | Confirmed in the code |
 | No Shadow DOM | Confirmed, with the reason written in the file itself |
-| Tokens consumed | Checked in `nph-label.css`: `text/label-md` (the properties of the role), `color/foreground`, `label/required-foreground`, `space/inline-tight`; with the trigger, those of the `tokens` block |
+| Tokens consumed | Checked in `nph-label.css`: `text/label-md` (the properties of the role), `label/foreground`, `label/required-foreground`, `space/inline-tight`; with the trigger, those of the `tokens` block |
 | Stories and tests | In `nph-label.stories.ts` and `nph-label.test.ts` |
 | Visual approval | Master set `374:6` on the `NPH — Label` page, in light and dark modes; the `required` × `info` matrix (L8); the icon focus and frame `1194:1482` (L9 and L10) |
 

@@ -1217,11 +1217,12 @@ describe('token contract', () => {
     const set = [...cssWithoutComments.matchAll(/^\s+(--nph-[a-z0-9-]+):/gm)].map((match) => match[1] as string);
     expect(new Set(set)).toEqual(
       new Set([
-        '--nph-color-primary-on-surface',
-        '--nph-color-primary-surface',
-        '--nph-color-destructive-on-surface',
-        '--nph-color-destructive-surface',
-        '--nph-color-secondary-foreground',
+        '--nph-button-primary-tinted-foreground',
+        '--nph-button-primary-tinted-background',
+        '--nph-button-danger-tinted-foreground',
+        '--nph-button-danger-tinted-background',
+        '--nph-button-secondary-foreground',
+        '--nph-icon-button-secondary-foreground',
         '--nph-icon-button-secondary-ghost-background-hover',
         '--nph-focus-border',
         '--nph-focus-halo',

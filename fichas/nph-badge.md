@@ -80,14 +80,14 @@ tokens:
   icon_text_gap: space/inline-tight
   text: text/label-sm
   icon: icon/size-sm
-  solid_primary: [color/primary, color/primary-foreground]
-  solid_secondary: [color/secondary, color/secondary-foreground]
-  solid_status: [status/info, status/warning, status/help, status/success, status/on-solid]
-  solid_danger: [color/destructive, color/destructive-foreground]
-  light_primary: [color/primary-surface, color/primary-on-surface]
-  light_secondary: [color/secondary-light, color/secondary-foreground]
-  light_status: [status/info-surface, status/info-foreground, status/warning-surface, status/warning-foreground, status/help-surface, status/help-foreground, status/success-surface, status/success-foreground]
-  light_danger: [color/destructive-surface, color/destructive-on-surface]
+  solid_primary: [badge/primary-solid-background, badge/primary-solid-foreground]
+  solid_secondary: [badge/secondary-solid-background, badge/secondary-foreground]
+  solid_status: [badge/info-solid-background, badge/info-solid-foreground, badge/warn-solid-background, badge/warn-solid-foreground, badge/help-solid-background, badge/help-solid-foreground, badge/success-solid-background, badge/success-solid-foreground]
+  solid_danger: [badge/danger-solid-background, badge/danger-solid-foreground]
+  light_primary: [badge/primary-light-background, badge/primary-light-foreground]
+  light_secondary: [badge/secondary-light-background, badge/secondary-foreground]
+  light_status: [badge/info-light-background, badge/info-light-foreground, badge/warn-light-background, badge/warn-light-foreground, badge/help-light-background, badge/help-light-foreground, badge/success-light-background, badge/success-light-foreground]
+  light_danger: [badge/danger-light-background, badge/danger-light-foreground]
 ai_hints:
   - "Use nph-badge to label the state or category of an item; for an action, use nph-button."
   - "Choose severity by meaning. A permanent state is secondary or primary; success is the event that has just happened."
@@ -220,8 +220,8 @@ words, so the person recognizes the item without reading the detail.
 | Space between icon and text | `space/inline-tight` |
 | Text | `text/label-sm`, on a single line |
 | Icon | `icon/size-sm`, in the text color |
-| `solid` | `primary`: `color/primary` and `color/primary-foreground`; `secondary`: `color/secondary` and `color/secondary-foreground`; `info`, `warn`, `help` and `success`: `status/<hue>` and `status/on-solid`; `danger`: `color/destructive` and `color/destructive-foreground` |
-| `light` | `primary`: `color/primary-surface` and `color/primary-on-surface`; `secondary`: `color/secondary-light` and `color/secondary-foreground`; `info`, `warn`, `help` and `success`: `status/<hue>-surface` and `status/<hue>-foreground`; `danger`: `color/destructive-surface` and `color/destructive-on-surface` |
+| `solid` | `badge/<type>-solid-background` and `badge/<type>-solid-foreground` for `primary`, `info`, `warn`, `help`, `success` and `danger`; `secondary`: `badge/secondary-solid-background` and `badge/secondary-foreground` |
+| `light` | `badge/<type>-light-background` and `badge/<type>-light-foreground` for `primary`, `info`, `warn`, `help`, `success` and `danger`; `secondary`: `badge/secondary-light-background` and `badge/secondary-foreground` |
 
 **Usage restrictions:** the color comes from `severity` and `emphasis`, in both schemes. In a
 part of the screen with another brand, `data-nph-brand` and `data-nph-color-scheme` go on the same

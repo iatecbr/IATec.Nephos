@@ -1632,7 +1632,17 @@ describe('token contract', () => {
       expect(tokensCss, name).toContain(`${name}:`);
     }
     for (const name of [
-      '--nph-color-dropdown-border',
+      '--nph-dropdown-background',
+      '--nph-dropdown-border',
+      '--nph-dropdown-group-label-foreground',
+      '--nph-dropdown-item-background-hover',
+      '--nph-dropdown-item-counter-background',
+      '--nph-dropdown-item-counter-foreground',
+      '--nph-dropdown-item-foreground',
+      '--nph-dropdown-item-foreground-selected',
+      '--nph-dropdown-item-muted-foreground',
+      '--nph-dropdown-profile-meta-foreground',
+      '--nph-dropdown-profile-name-foreground',
       '--nph-dropdown-panel-radius',
       '--nph-dropdown-item-radius',
       '--nph-dropdown-item-focus-border-radius',

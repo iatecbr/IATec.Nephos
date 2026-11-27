@@ -12,8 +12,8 @@
  * are on the Docs page, each in light and dark mode.
  *
  * Hover and focus are interaction states: they show up by moving the mouse over a clickable
- * image and by pressing Tab, in the Interaction story. Empty and error draw the frame only,
- * until the illustrations arrive (D1 of DSA-51). Each page opens with what it proves, from
+ * image and by pressing Tab, in the Interaction story. Empty and error draw an icon
+ * on `image/illustration-background` (D1 of DSA-51). Each page opens with what it proves, from
  * the dictionary (`validationPages.claims`). The example text and the captions come from the
  * language dictionary, under the key `imageValidation` (`docs/i18n.md`, "Storybook"); the
  * row and column names of the matrices are the technical attributes, the same in any

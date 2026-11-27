@@ -26,9 +26,9 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  border: var(--nph-border-width) solid var(--nph-color-border-subtle);
+  border: var(--nph-border-width) solid var(--nph-combobox-list-border);
   border-radius: var(--nph-combobox-panel-radius);
-  background-color: var(--nph-color-popover);
+  background-color: var(--nph-combobox-list-background);
   box-shadow: var(--nph-elevation-dropdown);
   color: var(--nph-color-popover-foreground);
   /* Leaving: the exit role, as the `nph-select` list. */
@@ -89,7 +89,7 @@
 .group-label {
   padding-block: var(--nph-space-inline-tight);
   padding-inline: var(--nph-space-inline);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-combobox-list-muted-foreground);
   font-family: var(--nph-text-label-sm-font-family);
   font-size: var(--nph-text-label-sm-font-size);
   font-weight: var(--nph-text-label-sm-font-weight);
@@ -109,7 +109,7 @@
 }
 
 .rest {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-combobox-list-muted-foreground);
 }
 
 /* The `carregando` and `vazio` lists: the spinner and the `nph-empty` in the middle of the list. */
@@ -127,7 +127,7 @@
   margin: var(--nph-space-inline-tight);
   padding: var(--nph-space-inline);
   overflow-y: auto;
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-combobox-list-muted-foreground);
 }
 
 .status:empty {
@@ -142,7 +142,7 @@
   gap: var(--nph-space-inline);
   padding: var(--nph-space-inline);
   border-top: var(--nph-border-width) solid var(--nph-color-border);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-combobox-list-muted-foreground);
   font-family: var(--nph-text-label-sm-font-family);
   font-size: var(--nph-text-label-sm-font-size);
   font-weight: var(--nph-text-label-sm-font-weight);

@@ -62,7 +62,7 @@
       "changes_for_user": "The balloon is not shown. The element is still described, or named, by its text."
     },
     "open": {
-      "token": "color/tooltip",
+      "token": "tooltip/background",
       "changes_for_user": "The balloon is shown next to the element, at space/inline, entering on motion/enter-duration."
     }
   },
@@ -79,10 +79,10 @@
   ],
   "domain_errors": [],
   "tokens": {
-    "background": "color/tooltip",
+    "background": "tooltip/background",
     "text": [
       "text/body-sm",
-      "color/tooltip-foreground"
+      "tooltip/foreground"
     ],
     "radius": "radius/inner",
     "padding_vertical": "space/inline-tight",
@@ -120,7 +120,7 @@
       "Esc closes the balloon and does not reach the page; the focus stays on the element. With the balloon closed, Esc is not intercepted."
     ],
     "focus": "The balloon never takes focus: focus stays on the element that opened it, with the focus drawing of that element. The balloon stays open while the pointer is over it (WCAG 1.4.13).",
-    "contrast": "The text uses color/tooltip-foreground on color/tooltip: 5.85 to 1 in light and 8.98 to 1 in dark, above 4.5 to 1.",
+    "contrast": "The text uses tooltip/foreground on tooltip/background: 5.85 to 1 in light and 8.98 to 1 in dark, above 4.5 to 1.",
     "color_alternative": "The explanation is conveyed by the text; color is not the only signal."
   },
   "invalid_combinations": [

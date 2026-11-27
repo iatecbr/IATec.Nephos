@@ -47,7 +47,7 @@
 
 /* The circle: `icon/size-sm`, fully round, border `color/input` on `color/background` (D1, D3). */
 .circle {
-  --_border: var(--nph-color-input);
+  --_border: var(--nph-radio-border);
   --_halo: var(--nph-focus-halo);
 
   box-sizing: border-box;
@@ -57,7 +57,7 @@
   block-size: var(--nph-icon-size-sm);
   border: var(--nph-border-width) solid var(--_border);
   border-radius: var(--nph-radius-full);
-  background-color: var(--nph-color-background);
+  background-color: var(--nph-radio-background);
 }
 
 /*
@@ -68,13 +68,13 @@
   inline-size: calc(var(--nph-icon-size-sm) - 2 * var(--nph-space-inline-tight));
   block-size: calc(var(--nph-icon-size-sm) - 2 * var(--nph-space-inline-tight));
   border-radius: var(--nph-radius-full);
-  background-color: var(--nph-color-primary-foreground);
+  background-color: var(--nph-radio-dot);
   opacity: 0;
 }
 
 /* Checked: `color/primary` fill, the border stays `color/input`, the dot shows (D1). */
 .circle.checked {
-  background-color: var(--nph-color-primary);
+  background-color: var(--nph-radio-background-checked);
 }
 
 .circle.checked .dot {
@@ -83,7 +83,7 @@
 
 /* Hover, only when the piece responds: the border goes one step up; checked also takes the hover opacity (D1). */
 :host(:hover:not(:disabled)) .circle {
-  --_border: var(--nph-color-input-hover);
+  --_border: var(--nph-radio-border-hover);
 }
 
 :host(:hover:not(:disabled)) .circle.checked {
@@ -92,7 +92,7 @@
 
 /* Error: the border is `status/error`, checked or not; the checked fill stays. Disabled wins (D1, D7). */
 :host([invalid]:not(:disabled)) .circle {
-  --_border: var(--nph-status-error);
+  --_border: var(--nph-radio-border-error);
   --_halo: var(--nph-focus-halo-error);
 }
 
@@ -119,7 +119,7 @@
   padding-block-start: calc(
     (var(--nph-icon-size-sm) + 2 * var(--nph-space-inline-tight) - var(--nph-text-label-md-line-height)) / 2
   );
-  color: var(--nph-color-foreground);
+  color: var(--nph-radio-label-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);

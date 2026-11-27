@@ -29,7 +29,7 @@
   position: relative;
   display: inline-block;
   border-radius: var(--nph-radius-inner);
-  color: var(--nph-color-link);
+  color: var(--nph-hover-card-link-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);

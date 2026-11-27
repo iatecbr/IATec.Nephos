@@ -192,7 +192,7 @@
       "required": false,
       "default": "false",
       "reflects": true,
-      "constraint": "The error state: the thumb border becomes status/error and each thumb gets aria-invalid. The sentence belongs to nph-field; never invalid without it."
+      "constraint": "The error state: the thumb border becomes slider/border-error and each thumb gets aria-invalid. The sentence belongs to nph-field; never invalid without it."
     },
     "input": {
       "type": "event",
@@ -235,8 +235,8 @@
   },
   "states": {
     "default": {
-      "token": "color/primary-border",
-      "changes_for_user": "The thumb at rest, with the color/primary-border border on color/background."
+      "token": "slider/thumb-border",
+      "changes_for_user": "The thumb at rest, with the slider/thumb-border border on slider/thumb-background."
     },
     "hover": {
       "token": "color/tooltip",
@@ -247,12 +247,12 @@
       "changes_for_user": "The thumb border takes focus/border with the focus/halo outside, at focus/ring-width; the balloon opens."
     },
     "error": {
-      "token": "status/error",
-      "changes_for_user": "The thumb border is status/error; the inner fields show their error; the sentence is in nph-field."
+      "token": "slider/border-error",
+      "changes_for_user": "The thumb border is slider/border-error; the inner fields show their error; the sentence is in nph-field."
     },
     "error-focus": {
       "token": "focus/halo-error",
-      "changes_for_user": "The border stays status/error and the halo is focus/halo-error; the balloon opens."
+      "changes_for_user": "The border stays slider/border-error and the halo is focus/halo-error; the balloon opens."
     },
     "disabled": {
       "token": "state/disabled-opacity",
@@ -273,14 +273,14 @@
   "tokens": {
     "width": "layout/input-width",
     "gap": "space/stack-tight between the top line, the track and the marks; space/inline between the track and the parts beside it",
-    "track": "color/input empty and color/primary active, space/inline-tight thick, radius/full",
-    "thumb": "icon/size-sm, radius/full, color/background, border/width in color/primary-border",
+    "track": "slider/track-background empty and slider/range-background active, space/inline-tight thick, radius/full",
+    "thumb": "icon/size-sm, radius/full, slider/thumb-background, border/width in slider/thumb-border",
     "touch_target": "control/height-large",
     "balloon": "the nph-tooltip tokens",
-    "value": "text/label-md in color/foreground",
-    "limits_and_marks": "text/caption in color/muted-foreground",
+    "value": "text/label-md in slider/label-foreground",
+    "limits_and_marks": "text/caption in slider/value-foreground",
     "focus": "focus/border, focus/halo, focus/halo-error and focus/ring-width",
-    "error": "status/error",
+    "error": "slider/border-error",
     "disabled": "state/disabled-opacity"
   },
   "ai_hints": [

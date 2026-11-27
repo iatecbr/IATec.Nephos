@@ -179,7 +179,7 @@
     "panel_padding": "space/inline-tight",
     "group_label": [
       "text/label-sm",
-      "color/muted-foreground",
+      "dropdown/group-label-foreground",
       "space/inline",
       "space/inline-tight"
     ],
@@ -191,17 +191,17 @@
       "space/inline",
       "dropdown/item-radius",
       "text/body-md",
-      "color/popover-foreground"
+      "dropdown/item-foreground"
     ],
     "icon": "icon/size-md",
     "shortcut": [
       "text/caption",
-      "color/muted-foreground"
+      "dropdown/item-muted-foreground"
     ],
     "arrow": "icon/size-sm",
     "single_choice": [
       "text/label-md",
-      "color/primary-text"
+      "dropdown/item-foreground-selected"
     ],
     "destructive": [
       "dropdown/item-destructive-foreground",
@@ -209,7 +209,7 @@
       "dropdown/item-destructive-hover-background"
     ],
     "item_hover": [
-      "color/primary-surface",
+      "dropdown/item-background-hover",
       "dropdown/item-destructive-hover-background",
       "dropdown/item-hover-icon-foreground"
     ],

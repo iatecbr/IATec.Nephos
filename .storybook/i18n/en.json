@@ -1585,7 +1585,7 @@
       "To give a form control a visible name, on its own or inside an nph-field.",
       "required=true when filling in the field is mandatory, with the asterisk explained in a legend on the form.",
       "info with info-label to show the information icon after the text: info is the help text and info-label its accessible name.",
-      "Keep the label in color/foreground, even when the field has an error."
+      "Keep the label in label/foreground, even when the field has an error."
     ],
     "examplesTitle": "Required examples",
     "examplesCaptions": [
@@ -3686,7 +3686,7 @@
       ]
     ],
     "statesTitle": "States",
-    "statesText": "The content states derive from src; hover, focus and disabled come from the parent when the image is clickable. Empty and error draw the frame only until their line illustrations arrive, so for now the two look alike: the text that explains the problem belongs to the parent, which hears the error event.",
+    "statesText": "The content states derive from src; hover, focus and disabled come from the parent when the image is clickable. Empty and error draw an icon on image/illustration-background: image when empty, image-landscape in media 4:3 and 16:9, and image-slash on error. The text that explains the problem belongs to the parent, which hears the error event.",
     "statesCaption": "Empty, loading, loaded and error, at size xl.",
     "interactionCaption": "A clickable image and a clickable disabled one. Move the mouse over the first for the veil and the eye, press Tab for the focus ring.",
     "statesHeader": [
@@ -3696,7 +3696,7 @@
     "states": [
       [
         "Empty",
-        "No src: the frame in image/background with its border. The illustration will come in once its files arrive."
+        "No src: the frame with its border and the image icon on image/illustration-background."
       ],
       [
         "Loading",
@@ -3708,7 +3708,7 @@
       ],
       [
         "Error",
-        "The image did not load: the frame with its border, as empty. The illustration will come in once its files arrive."
+        "The image did not load: the frame with its border and the image-slash icon on image/illustration-background."
       ],
       [
         "Hover",
@@ -3742,8 +3742,8 @@
         "The nph-spinner, an open arc in image/foreground that turns while the image loads: sm in xs, sm and md; md in the larger sizes."
       ],
       [
-        "Empty and error illustration",
-        "A gray line drawing per color scheme, switched by image/illustration-light and image/illustration-dark. Its files are not in the repository yet."
+        "Empty and error icon",
+        "The nph-icon image, image-landscape or image-slash, in image/foreground on image/illustration-background, in the light style."
       ],
       [
         "Veil and hover icon",
@@ -3778,7 +3778,7 @@
       ],
       [
         "Color is not the only signal",
-        "Loading changes the drawing to the spinner. Empty and error will change it to their illustrations; until those arrive, the parent's text and the error event carry the difference."
+        "Loading changes the drawing to the spinner. Empty and error change it to an icon (image or image-slash); the parent's text and the error event still say what happened."
       ],
       [
         "Touch target",
@@ -8575,7 +8575,7 @@
       "components-nph-empty-validation--invalid-heading": "Without a heading the piece draws nothing and has no visual fallback.",
       "components-nph-image-validation--sizes": "The seven sizes, with an image and without: squares of 24, 32, 48, 64, 96 and 128 px with a rounded corner, and media on the content width of 256 px.",
       "components-nph-image-validation--ratios": "media takes 1:1, 4:3 and 16:9 on the same width, 256 by 256, 192 or 144 px; a square size ignores the ratio and stays square.",
-      "components-nph-image-validation--states": "The state derives from src: empty without it, the spinner and no border while the image loads, the image filling the frame once loaded, and the frame again when it fails. Empty and error draw the frame only until their illustrations arrive.",
+      "components-nph-image-validation--states": "The state derives from src: empty without it, the spinner and no border while the image loads, the image filling the frame once loaded, and the frame again when it fails. Empty and error draw an icon on image/illustration-background.",
       "components-nph-image-validation--interaction": "A clickable image is a button: move the mouse over it for the veil and the eye, press Tab for the focus ring. Disabled fades the whole piece and takes the button out of the Tab order.",
       "components-nph-image-validation--accessibility": "With alt the image is announced by its description; with an empty alt it is hidden from the screen reader and the text beside it speaks. A clickable image gives the alt to its button.",
       "components-nph-image-validation--brands": "The seven brands in light and dark: the focus border of the clickable image follows the brand of the frame on Tab.",

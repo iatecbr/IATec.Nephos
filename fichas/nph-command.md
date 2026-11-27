@@ -185,13 +185,13 @@ api:
 variants: not_applicable
 states:
   results:
-    token: "command/background, color/primary-surface"
+    token: "command/background, dropdown/item-background-hover"
     changes_for_user: "The commands, with the first one active and filled; the default content."
   groups:
     token: "command/list-max-height, command/list-padding"
     changes_for_user: "Group labels open each group; with more than the ceiling, the list scrolls and the active command scrolls into view."
   search:
-    token: "command/highlight-weight, color/muted-foreground"
+    token: "command/highlight-weight, dropdown/item-muted-foreground"
     changes_for_user: "Only the commands that match, the typed stretch in a heavier weight, the rest muted, and the first one active."
   empty:
     token: "command/state-padding, space/container-padding"
@@ -200,7 +200,7 @@ states:
     token: "command/state-padding, command/status-gap, command/status-foreground"
     changes_for_user: "The spinner and the loading text; the list is busy and nothing runs."
   active:
-    token: "color/primary-surface, color/accent-foreground"
+    token: "dropdown/item-background-hover, dropdown/item-foreground-hover"
     changes_for_user: "The command the keyboard or the pointer is on: filled, its icon solid, its label and shortcut in the accent color."
   disabled:
     token: "state/disabled-opacity"
@@ -227,10 +227,10 @@ tokens:
   search_row: command/search-padding
   field: [control/height-large, radius/control, focus/border, focus/halo, color/background]
   list: [command/list-padding, command/list-max-height]
-  highlight: [command/highlight-weight, color/muted-foreground]
-  item: [color/popover-foreground, color/muted-foreground, color/primary-surface, color/accent-foreground, dropdown/item-hover-icon-foreground, state/disabled-opacity]
+  highlight: [command/highlight-weight, dropdown/item-muted-foreground]
+  item: [dropdown/item-foreground, dropdown/item-muted-foreground, dropdown/item-background-hover, dropdown/item-foreground-hover, dropdown/item-hover-icon-foreground, state/disabled-opacity]
   item_destructive: [dropdown/item-destructive-foreground, dropdown/item-destructive-hover-background, dropdown/item-destructive-hover-foreground]
-  group_label: [text/label-sm, color/muted-foreground]
+  group_label: [text/label-sm, dropdown/group-label-foreground]
   loading: [command/state-padding, command/status-gap, command/status-foreground]
   footer: [command/footer-padding, command/footer-gap, command/hint-gap, command/footer-foreground]
   enter_exit: "from nph-dialog"
@@ -314,12 +314,12 @@ footer off.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Results | `command/background`, `color/primary-surface` | The commands, the first one active and filled. The default content |
+| Results | `command/background`, `dropdown/item-background-hover` | The commands, the first one active and filled. The default content |
 | Groups | `command/list-max-height`, `command/list-padding` | Group labels open each group; above the ceiling the list scrolls and the active command scrolls into view |
-| Search | `command/highlight-weight`, `color/muted-foreground` | Only what matches, the typed stretch heavier, the rest muted, the first command active |
+| Search | `command/highlight-weight`, `dropdown/item-muted-foreground` | Only what matches, the typed stretch heavier, the rest muted, the first command active |
 | Empty | `command/state-padding` | The `nph-empty` with a title and a hint, no active command; the footer stays |
 | Loading | `command/state-padding`, `command/status-gap`, `command/status-foreground` | The spinner and the text; the list is busy and nothing runs |
-| Active | `color/primary-surface`, `color/accent-foreground` | Filled, the icon solid, the label and the shortcut in the accent color |
+| Active | `dropdown/item-background-hover`, `dropdown/item-foreground-hover` | Filled, the icon solid, the label and the shortcut in the accent color |
 | Disabled | `state/disabled-opacity` | Dimmed, skipped by the keys and the pointer, never runs |
 | Footer off | `not_applicable` | The second line and the hints are hidden |
 
@@ -413,10 +413,10 @@ the `nph-input` element.
 | Search row | `command/search-padding` around the field |
 | Field | `control/height-large`, `radius/control`, `focus/border`, `focus/halo`, `color/background` |
 | List | `command/list-padding`, `command/list-max-height` |
-| Command | `color/popover-foreground`; the icon at rest in `color/muted-foreground`; active in `color/primary-surface`, the solid icon in `dropdown/item-hover-icon-foreground`, the label and the shortcut in `color/accent-foreground` |
+| Command | `dropdown/item-foreground`; the icon at rest in `dropdown/item-muted-foreground`; active in `dropdown/item-background-hover`, the solid icon in `dropdown/item-hover-icon-foreground`, the label and the shortcut in `dropdown/item-foreground-hover` |
 | Destructive command | `dropdown/item-destructive-foreground`, `dropdown/item-destructive-hover-background`, `dropdown/item-destructive-hover-foreground` |
-| Searched stretch | `command/highlight-weight`; the rest in `color/muted-foreground` |
-| Group label | `text/label-sm` in `color/muted-foreground` |
+| Searched stretch | `command/highlight-weight`; the rest in `dropdown/item-muted-foreground` |
+| Group label | `text/label-sm` in `dropdown/group-label-foreground` |
 | Loading row | `command/state-padding`, `command/status-gap`, `command/status-foreground`, `text/body-sm` |
 | Footer | `command/footer-padding`, `command/footer-gap`, `command/hint-gap`, `command/footer-foreground`, `text/caption` |
 | Motion | the entrance and the exit of `nph-dialog` |

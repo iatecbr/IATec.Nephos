@@ -996,7 +996,8 @@ describe('token contract', () => {
   it('points only the secondary ghost hover and the danger ghost hover of nph-button at a toolbar token', () => {
     const declared = [...cssWithoutComments.matchAll(/(--nph-[a-z0-9-]+)\s*:/g)].map((match) => match[1]);
     expect(declared).toEqual([
-      '--nph-color-destructive-surface',
+      '--nph-button-danger-tinted-background',
+      '--nph-icon-button-danger-tinted-background',
       '--nph-button-secondary-ghost-background-hover',
       '--nph-icon-button-secondary-ghost-background-hover',
     ]);

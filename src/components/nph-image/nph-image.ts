@@ -33,8 +33,10 @@
  *   `click()` called on the host itself stops too;
  * - the spinner is the `nph-spinner` in `image/foreground`, shown only while loading, and
  *   the loading frame has no border. The Figma `giro` is the spinner's own rotation;
- * - empty and error draw the frame only: the illustrations are image assets that are not
- *   in the repository yet (pending decision D1 of DSA-51), so the two states look alike;
+ * - empty and error draw an `nph-icon` centered on the frame, in `image/foreground` on
+ *   `image/illustration-background`, style light (answer to D1 of DSA-51, there is no image asset):
+ *   `image` when empty (`image-landscape` in `media` 4:3 and 16:9) and `image-slash` when the
+ *   image failed. The icon size follows the image size, as the hover eye does;
  * - no slot, no `::part`, no `nph-*` event, no form association;
  * - invalid `size` or `ratio` does not render and emits `console.error` only in
  *   development, one per cause (P90, same rule as P21, P66 and P74). `interactive`
@@ -72,6 +74,20 @@ export const NPH_IMAGE_EYE_SIZE: Record<NphImageSize, 'sm' | 'md' | 'lg'> = {
   media: 'lg',
 };
 
+/**
+ * The icon of the empty and error states: `image-slash` for the error, `image-landscape` for the
+ * empty `media` in 4:3 and 16:9, and `image` for the other empty ones (DSA-120).
+ */
+export function illustrationIcon(
+  status: NphImageStatus,
+  size: NphImageSize,
+  ratio: NphImageRatio,
+): 'image' | 'image-landscape' | 'image-slash' {
+  if (status === 'error') {
+    return 'image-slash';
+  }
+  return size === 'media' && ratio !== '1:1' ? 'image-landscape' : 'image';
+}
 /** The `nph-spinner` size by image size: the spinner has only `sm` and `md`. */
 export const NPH_IMAGE_SPINNER_SIZE: Record<NphImageSize, 'sm' | 'md'> = {
   xs: 'sm',
@@ -274,11 +290,21 @@ export class NphImage extends LitElement {
           />`;
     const spinner =
       status === 'loading' ? html`<nph-spinner size=${NPH_IMAGE_SPINNER_SIZE[this.size]}></nph-spinner>` : nothing;
+    /* Empty and error: the icon on its own background, over the frame, under the border. */
+    const illustration =
+      status === 'empty' || status === 'error'
+        ? html`<span class="illustration"
+            ><nph-icon
+              name=${illustrationIcon(status, this.size, this.ratio)}
+              size=${NPH_IMAGE_EYE_SIZE[this.size]}
+            ></nph-icon
+          ></span>`
+        : nothing;
     /* The border is an overlay after the content, so it paints over the image. */
     const border = html`<span class=${status === 'loading' ? 'border loading' : 'border'}></span>`;
 
     if (!this.interactive) {
-      return html`${image}${spinner}${border}`;
+      return html`${image}${spinner}${illustration}${border}`;
     }
     const veil =
       status === 'loaded'
@@ -291,7 +317,7 @@ export class NphImage extends LitElement {
       aria-label=${alt === '' ? nothing : alt}
       ?disabled=${this.disabled}
     >
-      ${image}${spinner}${veil}${border}
+      ${image}${spinner}${illustration}${veil}${border}
     </button>`;
   }
 }

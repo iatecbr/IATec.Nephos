@@ -23,6 +23,7 @@ import {
   NPH_IMAGE_SIZES,
   NPH_IMAGE_SPINNER_SIZE,
   NphImage,
+  type NphImageSize,
   isRatio,
   isSize,
 } from './nph-image';
@@ -342,7 +343,7 @@ describe('content states, derived from src', () => {
     expect(error).not.toHaveBeenCalled();
   });
 
-  it('empty and error draw the frame only until the illustrations arrive (D1): no drawing of their own', async () => {
+  it('empty and error draw an icon on the illustration background, under the border (D1 of DSA-51)', async () => {
     const empty = await mount({ size: 'md' });
     const failed = await mount({ size: 'md', src: BROKEN_IMAGE });
     await settled(failed, 'error');
@@ -350,10 +351,41 @@ describe('content states, derived from src', () => {
       [...(element.shadowRoot?.children ?? [])]
         .filter((node) => node.tagName !== 'STYLE' && !(node as HTMLElement).hidden)
         .map((node) => `${node.tagName.toLowerCase()}.${node.className}`);
-    expect(visible(empty)).toEqual(['span.border']);
-    expect(visible(failed)).toEqual(['span.border']);
+    expect(visible(empty)).toEqual(['span.illustration', 'span.border']);
+    expect(visible(failed)).toEqual(['span.illustration', 'span.border']);
+    const background = (element: NphImage) =>
+      getComputedStyle(element.shadowRoot?.querySelector('.illustration') as HTMLElement).backgroundColor;
+    const probe = document.createElement('div');
+    probe.style.backgroundColor = 'var(--nph-image-illustration-background)';
+    document.body.append(probe);
+    const expected = getComputedStyle(probe).backgroundColor;
+    probe.remove();
+    expect(background(empty)).toBe(expected);
+    expect(background(failed)).toBe(expected);
   });
-
+  it('the icon is image when empty, image-landscape in media 4:3 and 16:9, and image-slash on error', async () => {
+    const icon = (element: NphImage) => element.shadowRoot?.querySelector('.illustration nph-icon') as HTMLElement | null;
+    expect(icon(await mount({ size: 'md' }))?.getAttribute('name')).toBe('image');
+    expect(icon(await mount({ size: 'media' }))?.getAttribute('name')).toBe('image');
+    expect(icon(await mount({ size: 'media', ratio: '4:3' }))?.getAttribute('name')).toBe('image-landscape');
+    expect(icon(await mount({ size: 'media', ratio: '16:9' }))?.getAttribute('name')).toBe('image-landscape');
+    expect(icon(await mount({ size: 'md', ratio: '16:9' }))?.getAttribute('name')).toBe('image');
+    const failed = await mount({ size: 'media', ratio: '4:3', src: BROKEN_IMAGE });
+    await settled(failed, 'error');
+    expect(icon(failed)?.getAttribute('name')).toBe('image-slash');
+  });
+  it('the icon size follows the image size, the same map as the hover eye', async () => {
+    for (const [size, iconSize] of Object.entries(NPH_IMAGE_EYE_SIZE)) {
+      const element = await mount({ size: size as NphImageSize });
+      expect(element.shadowRoot?.querySelector('.illustration nph-icon')?.getAttribute('size'), size).toBe(iconSize);
+    }
+  });
+  it('loading and loaded draw no icon', async () => {
+    const element = await mount({ src: IMAGE });
+    expect(element.shadowRoot?.querySelector('.illustration')).toBeNull();
+    await settled(element);
+    expect(element.shadowRoot?.querySelector('.illustration')).toBeNull();
+  });
   it('a new src starts the wait again: the spinner comes back until the new image loads', async () => {
     const element = await mount({ src: IMAGE });
     await settled(element);
@@ -967,6 +999,7 @@ describe('token contract', () => {
         '--nph-image-on-overlay',
         '--nph-image-focus-border',
         '--nph-image-icon-size-sm',
+        '--nph-image-illustration-background',
         '--nph-image-icon-size-md',
         '--nph-image-icon-size-lg',
         '--nph-focus-ring-width',
@@ -1011,9 +1044,11 @@ describe('token contract', () => {
     expect(withoutRelations).not.toMatch(/\b(animation|transition|@keyframes)\b/);
   });
 
-  it('the illustration tokens exist and are left for D1: the CSS does not consume them yet', () => {
+  it('the empty and error icon sits on image/illustration-background; the light and dark switches stay in the source, unread', () => {
+    expect(tokensCss).toContain('--nph-image-illustration-background:');
     expect(tokensCss).toContain('--nph-image-illustration-light:');
     expect(tokensCss).toContain('--nph-image-illustration-dark:');
-    expect(cssWithoutComments).not.toMatch(/illustration/);
+    expect(cssWithoutComments).toContain('var(--nph-image-illustration-background)');
+    expect(cssWithoutComments).not.toMatch(/illustration-(light|dark)/);
   });
 });

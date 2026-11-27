@@ -68,7 +68,7 @@ p {
 }
 
 .heading {
-  color: var(--nph-color-foreground);
+  color: var(--nph-empty-title-foreground);
   font-family: var(--nph-text-heading-xs-font-family);
   font-size: var(--nph-text-heading-xs-font-size);
   font-weight: var(--nph-text-heading-xs-font-weight);
@@ -77,7 +77,7 @@ p {
 }
 
 .description {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-empty-description-foreground);
   font-family: var(--nph-text-body-sm-font-family);
   font-size: var(--nph-text-body-sm-font-size);
   font-weight: var(--nph-text-body-sm-font-weight);

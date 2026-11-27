@@ -92,7 +92,7 @@ slot[hidden],
 }
 
 .select > nph-checkbox {
-  --nph-color-input: var(--nph-data-table-checkbox-border);
+  --nph-checkbox-border: var(--nph-data-table-checkbox-border);
   vertical-align: middle;
 }
 

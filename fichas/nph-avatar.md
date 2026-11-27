@@ -58,8 +58,8 @@ variants:
     do_not_combine_with: []
 states:
   default:
-    token: color/muted
-    changes_for_user: "A square frame with the photo, or with the person icon in color/muted-foreground; the border border/width in color/border stays over the photo. It has no state of its own."
+    token: avatar/background
+    changes_for_user: "A square frame with the photo, or with the person icon in avatar/icon; the border border/width in avatar/border stays over the photo. It has no state of its own."
 business_rules:
   - "The avatar has no state of its own: no hover, no focus, no disabled and no animation."
   - "The frame is never empty: without a photo, while the photo loads and when it fails, the person icon shows."
@@ -70,10 +70,10 @@ domain_errors: []
 tokens:
   size: [avatar/size-sm, avatar/size-md, avatar/size-lg]
   radius: [avatar/radius-sm, avatar/radius-md, avatar/radius-lg]
-  background: color/muted
-  icon_color: color/muted-foreground
+  background: avatar/background
+  icon_color: avatar/icon
   icon_size: [icon/size-sm, icon/size-md, icon/size-lg]
-  border: [border/width, color/border]
+  border: [border/width, avatar/border]
 ai_hints:
   - "Use nph-avatar next to a person's name, so the person is recognized faster; for an action icon, use nph-icon."
   - "Pass src when the person has a photo and leave it out when there is none: the person icon shows, and the frame is never empty."
@@ -86,7 +86,7 @@ accessibility:
   accessible_name: "The label, when it has text. With the person's name next to the avatar, label stays out and the avatar is hidden from the screen reader."
   keyboard: []
   focus: "The piece does not receive focus and has no tabindex. Inside a control, the focus belongs to the control."
-  contrast: "The person icon, color/muted-foreground on color/muted, passes 3:1 in light and dark, in every brand; nph-avatar.test.ts measures it by hand until the accessibility gate of P72 arrives. The photo is the person's image and is not measured."
+  contrast: "The person icon, avatar/icon on avatar/background, passes 3:1 in light and dark, in every brand; nph-avatar.test.ts measures it by hand until the accessibility gate of P72 arrives. The photo is the person's image and is not measured."
   color_alternative: "The avatar does not communicate state, so there is nothing to tell apart by color."
 invalid_combinations:
   - "A size outside sm, md and lg — the piece draws nothing."
@@ -174,7 +174,7 @@ draws `sem foto`.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Default | `color/muted` | A square frame with the photo, or with the person icon in `color/muted-foreground`; the border stays over the photo |
+| Default | `avatar/background` | A square frame with the photo, or with the person icon in `avatar/icon`; the border stays over the photo |
 
 **Feedback and focus:** the piece has no state of its own: no hover, no focus, no disabled
 and no animation. It does not receive focus. The photo has a wait, which is not a state of
@@ -200,7 +200,7 @@ takes the icon's place. No event is emitted.
 | Semantics | Without `label`: `aria-hidden="true"` on the host, no role. With `label`: `role="img"` and `aria-label` on the host. The inner image has an empty `alt`. The avatar is not a button |
 | Accessible name | The `label`, when it has text. With the name next to the avatar, leave `label` out; alone, pass the person's name |
 | Keyboard and focus | The piece does not receive focus and has no `tabindex`. Inside a control, the focus belongs to the control |
-| Contrast | The person icon, `color/muted-foreground` on `color/muted`, passes 3:1 in light and dark, in every brand; the test measures it by hand until the accessibility gate (P72) arrives. The photo is not measured |
+| Contrast | The person icon, `avatar/icon` on `avatar/background`, passes 3:1 in light and dark, in every brand; the test measures it by hand until the accessibility gate (P72) arrives. The photo is not measured |
 | Alternative to color | The avatar does not communicate state |
 | Touch target | It is not interactive and has no touch target. The target is the one of the control that contains it |
 | Motion | None: the avatar has no animation and no transition |
@@ -229,9 +229,9 @@ person's name, set apart by `space/inline`.
 |---|---|
 | Frame size | `avatar/size-sm`, `avatar/size-md`, `avatar/size-lg` |
 | Frame radius | `avatar/radius-sm`, `avatar/radius-md`, `avatar/radius-lg` |
-| Frame background | `color/muted` |
-| Person icon | `color/muted-foreground`, in `icon/size-sm`, `icon/size-md` and `icon/size-lg` by the avatar size |
-| Border | `border/width` in `color/border` |
+| Frame background | `avatar/background` |
+| Person icon | `avatar/icon`, in `icon/size-sm`, `icon/size-md` and `icon/size-lg` by the avatar size |
+| Border | `border/width` in `avatar/border` |
 
 **Usage restrictions:** the component does not choose size, color or radius: everything
 comes from a token. The piece has no motion. The space between the avatar and the name

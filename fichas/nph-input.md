@@ -90,7 +90,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The whole piece at state/disabled-opacity, on color/muted, out of the Tab
+      The whole piece at state/disabled-opacity, on input/background-disabled, out of the Tab
       order and of the form data. A disabled fieldset disables it too. It wins
       over invalid.
   invalid:
@@ -99,7 +99,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The error state: the border becomes status/error and the inner field gets
+      The error state: the border becomes input/border-error and the inner field gets
       aria-invalid. It is not a constraint of the form. The sentence belongs to
       nph-field; never invalid without it.
   label:
@@ -194,9 +194,9 @@ variants:
 states:
   default:
     token: "input/border, input/border-bottom"
-    changes_for_user: "The resting border, on color/background: the top and the sides in input/border, the bottom line in input/border-bottom."
+    changes_for_user: "The resting border, on input/background: the top and the sides in input/border, the bottom line in input/border-bottom."
   hover:
-    token: color/input-hover
+    token: input/border-hover
     changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
@@ -205,14 +205,14 @@ states:
     token: focus/border
     changes_for_user: "Keyboard focus on the clear button: the container keeps the resting split border (input/border and input/border-bottom), and the border and the halo sit around the 24 by 24 target. In compact the ring goes past the field while the button has focus."
   error:
-    token: status/error
-    changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
+    token: input/border-error
+    changes_for_user: "The border is input/border-error, also on hover; the sentence is in nph-field."
   error-focus:
     token: focus/halo-error
-    changes_for_user: "The border stays status/error and the halo is focus/halo-error."
+    changes_for_user: "The border stays input/border-error and the halo is focus/halo-error."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input; it does not respond and wins over the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on input/background-disabled, with the whole border in input/border-disabled; it does not respond and wins over the error."
 business_rules:
   - "The end icon always clears the value; swapping the icon changes only the art."
   - "The clear button shows only when there is a value; after clearing, the focus goes back to the field."
@@ -225,13 +225,13 @@ tokens:
   height: "input/height, control/height-large or input/height-compact"
   width: layout/input-width
   radius: radius/control
-  border: "border/width, in input/border (top and sides) and input/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border"
-  background: "color/background; color/muted when disabled"
+  border: "border/width, in input/border (top and sides) and input/border-bottom (bottom line) at rest, and in input/border-hover, focus/border, input/border-error or input/border-disabled (disabled) on the whole border"
+  background: "input/background; input/background-disabled when disabled"
   padding: "space/control-padding; the end one is input/clear-padding-end in compact"
   gap: space/inline
-  value: "text/body-md in color/foreground"
-  placeholder: "text/body-md in color/muted-foreground"
-  icons: "icon/size-sm in color/muted-foreground"
+  value: "text/body-md in input/foreground"
+  placeholder: "text/body-md in input/muted-foreground"
+  icons: "icon/size-sm in input/muted-foreground"
   affix: "text/body-md in input/affix-foreground, with input/affix-gap to the value"
   clear_target: "icon/size-sm with space/inline-tight around it"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control, focus/border-radius-control and focus/radius-control-with-border"
@@ -269,7 +269,7 @@ relations:
   complements_block: []
   appears_in: []
 anti_patterns:
-  - "Painting the regular field with color/muted: it is the disabled background."
+  - "Painting the regular field with input/background-disabled: it is the disabled background."
   - "Using the halo alone with the gray border: the border is what meets 3:1."
   - "Putting the error message inside the field."
   - "Using the placeholder as the only label."
@@ -340,16 +340,16 @@ the X sits 12 px from the end border, as the start icon does from the start bord
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `input/border`, `input/border-bottom` | The resting border, on `color/background`: top and sides in `input/border`, the bottom line in `input/border-bottom` |
-| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
+| `default` | `input/border`, `input/border-bottom` | The resting border, on `input/background`: top and sides in `input/border`, the bottom line in `input/border-bottom` |
+| `hover` | `input/border-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | The border takes `focus/border`, with the halo attached outside at `focus/radius-control` |
 | `foco-limpar` | `focus/border`, `focus/halo` | The container keeps the resting split border (`input/border`, `input/border-bottom`); the border at `focus/border-radius-control` and the halo at `focus/radius-control-with-border` sit around the 24 × 24 clear target. In `compact` the halo goes 3 px past the top and the bottom of the field, only while the button has focus |
-| `erro` | `status/error` | The border is `status/error`, also on hover |
-| `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the whole border in `color/input` |
+| `erro` | `input/border-error` | The border is `input/border-error`, also on hover |
+| `erro-foco` | `input/border-error`, `focus/halo-error` | The border stays `input/border-error` and the halo is `focus/halo-error` |
+| `disabled` | `state/disabled-opacity`, `input/background-disabled` | The whole piece at `state/disabled-opacity` on `input/background-disabled`, with the whole border in `input/border-disabled` |
 
 **Feedback and focus:** `disabled` wins over everything; `erro` keeps its border on hover and
-on focus; with `erro` and the focus on the clear button, the container is `status/error` and
+on focus; with `erro` and the focus on the clear button, the container is `input/border-error` and
 the target takes the usual focus. The field shows its focus whenever it has it; the clear
 button shows its own only for the keyboard.
 
@@ -399,15 +399,15 @@ which names it on its own with `for`; `nph-icon`, through the start and end icon
 
 | Part | Token |
 |---|---|
-| Container | Height `input/height`, `control/height-large` or `input/height-compact`; width `layout/input-width`; radius `radius/control`; border `border/width`, with `input/border` on top and sides and `input/border-bottom` below at rest; side padding `space/control-padding`, with the end one `input/clear-padding-end` in `compact`; gap `space/inline`; background `color/background` |
-| Value | `text/body-md`, `color/foreground` |
-| Placeholder | `text/body-md`, `color/muted-foreground` |
-| Start and end icons | `icon/size-sm`, `color/muted-foreground` |
+| Container | Height `input/height`, `control/height-large` or `input/height-compact`; width `layout/input-width`; radius `radius/control`; border `border/width`, with `input/border` on top and sides and `input/border-bottom` below at rest; side padding `space/control-padding`, with the end one `input/clear-padding-end` in `compact`; gap `space/inline`; background `input/background` |
+| Value | `text/body-md`, `input/foreground` |
+| Placeholder | `text/body-md`, `input/muted-foreground` |
+| Start and end icons | `icon/size-sm`, `input/muted-foreground` |
 | Clear target | 24 × 24: `icon/size-sm` with `space/inline-tight` around it, no radius of its own |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control`, `focus/border-radius-control`, `focus/radius-control-with-border` |
-| Disabled | `state/disabled-opacity` on `color/muted` |
+| Disabled | `state/disabled-opacity` on `input/background-disabled` |
 
-**Usage restrictions:** `color/muted` is only the disabled background. The width may stretch
+**Usage restrictions:** `input/background-disabled` is only the disabled background. The width may stretch
 to the parent, with no minimum. There is no motion.
 
 **AI hints:**
@@ -435,7 +435,7 @@ with `name` and `autocomplete` for the form.
 
 ## Anti-patterns
 
-- **Do not paint the regular field with `color/muted`** — it is the disabled background.
+- **Do not paint the regular field with `input/background-disabled`** — it is the disabled background.
 - **Do not use the halo alone with the gray border** — the border is what meets 3:1.
 - **Do not put the error message inside the field** — it belongs to `nph-field`.
 - **Do not use the placeholder as the only label** — it disappears when the person types.

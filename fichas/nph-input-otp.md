@@ -40,7 +40,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The error state of the Figma set: every cell takes the border status/error and the inner
+      The error state of the Figma set: every cell takes the border input-otp/border-error and the inner
       input gets aria-invalid. The error sentence belongs to nph-field. disabled wins.
   disabled:
     type: boolean
@@ -48,7 +48,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The disabled state of the Figma set: out of the Tab order, background color/muted and the
+      The disabled state of the Figma set: out of the Tab order, background input-otp/background-disabled and the
       whole field at state/disabled-opacity. A disabled fieldset does the same and
       takes the value out of the form data. It wins over invalid.
   masked:
@@ -151,22 +151,22 @@ variants:
     do_not_combine_with: []
 states:
   default:
-    token: "color/input border, color/background background"
+    token: "input-otp/border border, input-otp/background background"
     changes_for_user: "The empty cells wait for the code."
   hover:
-    token: color/input-hover
+    token: input-otp/border-hover
     changes_for_user: "Every cell border darkens while the pointer is over the field, which is one target. Error and disabled keep their border."
   focus:
     token: "focus/border and focus/halo, focus/ring-width wide"
     changes_for_user: "The cell where the next character goes, the active cell, takes the focus border and a halo outside it, out of the layout. With the code full, it is the last cell."
   error:
-    token: status/error
+    token: input-otp/border-error
     changes_for_user: "Every cell takes the error border; the sentence is written by nph-field."
   error_focus:
-    token: "status/error and focus/halo-error"
+    token: "input-otp/border-error and focus/halo-error"
     changes_for_user: "The active cell keeps the error border and the halo turns to the error tone."
   disabled:
-    token: "color/muted and state/disabled-opacity"
+    token: "input-otp/background-disabled and state/disabled-opacity"
     changes_for_user: "The field cannot be focused or edited and is drawn lighter, on the muted background."
 business_rules:
   - "The field takes only ASCII letters and digits, or only digits with numeric; any other character typed is dropped and fires nothing."
@@ -179,14 +179,14 @@ domain_errors:
   - "invalid: a wrong or expired code. Every cell shows the error border; nph-field writes the sentence and passes it as description."
 tokens:
   gap: space/inline
-  cell: "color/background background, color/input border at border/width, radius/control"
+  cell: "input-otp/background background, input-otp/border border at border/width, radius/control"
   cell_size: "control/height-default or control/height-large, as width and height"
-  character: "text/code, color/foreground"
-  dot: "text/code, color/foreground"
-  hover: color/input-hover
+  character: "text/code, input-otp/foreground"
+  dot: "text/code, input-otp/foreground"
+  hover: input-otp/border-hover
   focus: "focus/border, focus/halo, focus/ring-width"
-  error: "status/error, focus/halo-error"
-  disabled: "color/muted, state/disabled-opacity"
+  error: "input-otp/border-error, focus/halo-error"
+  disabled: "input-otp/background-disabled, state/disabled-opacity"
 ai_hints:
   - "Use nph-input-otp for a short code of known length sent by SMS or e-mail; for free text, use nph-input."
   - "Put it in an nph-field, which writes label, description, invalid and required."
@@ -206,7 +206,7 @@ accessibility:
     - "Arrow Left, Arrow Right, Home and End move the active cell."
     - "Enter submits the form that owns the field."
   focus: "The active cell shows the focus border and the halo, outside the cell and out of the layout; space/inline is wider than the halo, so a neighbor never covers it."
-  contrast: "The character and the dot use color/foreground, at least 4.5:1 on color/background; the border color/input and the error border status/error are at least 3:1, in light and dark in every brand. The disabled state has no minimum contrast."
+  contrast: "The character and the dot use input-otp/foreground, at least 4.5:1 on input-otp/background; the border input-otp/border and the error border input-otp/border-error are at least 3:1, in light and dark in every brand. The disabled state has no minimum contrast."
   color_alternative: "The error always comes with the sentence of nph-field, read as the description; disabled combines opacity with the muted background."
 invalid_combinations:
   - "A length other than 6 or 4 — the field draws nothing."
@@ -290,12 +290,12 @@ cell comes from `value`, and a cell is empty while the code does not reach it.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Default | `color/input` border, `color/background` background | The empty cells wait for the code |
-| Hover | `color/input-hover` | Every cell border darkens while the pointer is over the field, which is one target |
+| Default | `input-otp/border` border, `input-otp/background` background | The empty cells wait for the code |
+| Hover | `input-otp/border-hover` | Every cell border darkens while the pointer is over the field, which is one target |
 | Focus | `focus/border`, `focus/halo`, `focus/ring-width` | The active cell, where the next character goes, takes the focus border and a halo outside it |
-| Error | `status/error` | Every cell takes the error border; the sentence is written by `nph-field` |
-| Error with focus | `status/error`, `focus/halo-error` | The active cell keeps the error border; the halo turns to the error tone |
-| Disabled | `color/muted`, `state/disabled-opacity` | The field cannot be focused or edited and is drawn lighter |
+| Error | `input-otp/border-error` | Every cell takes the error border; the sentence is written by `nph-field` |
+| Error with focus | `input-otp/border-error`, `focus/halo-error` | The active cell keeps the error border; the halo turns to the error tone |
+| Disabled | `input-otp/background-disabled`, `state/disabled-opacity` | The field cannot be focused or edited and is drawn lighter |
 
 **Feedback and focus:** the active cell follows the caret. Focus puts the caret on the next
 empty cell; with the code full, the last cell is active. `disabled` wins over `invalid`.
@@ -321,7 +321,7 @@ border; `nph-field` writes the sentence and passes it as `description`.
 | Description | The help or the error sentence of `nph-field`, written as `description`, read with the name |
 | Keyboard | Tab enters and leaves the field, one stop. Typing fills the active cell; Backspace removes the character before the caret; the arrows, Home and End move the active cell; Enter submits the form |
 | Focus | The active cell shows the focus border and the halo, out of the layout; `space/inline` is wider than the halo |
-| Contrast | The character and the dot, `color/foreground`, at least 4.5:1 on `color/background`; the border `color/input` and the error border `status/error` at least 3:1, in light and dark in every brand. Disabled has no minimum |
+| Contrast | The character and the dot, `input-otp/foreground`, at least 4.5:1 on `input-otp/background`; the border `input-otp/border` and the error border `input-otp/border-error` at least 3:1, in light and dark in every brand. Disabled has no minimum |
 | Alternative to color | The error always comes with the sentence of `nph-field`; disabled combines opacity with the muted background |
 | Touch target | The whole field is the target. Each cell is 36 px in `default` and 44 px in `large`, with no inner padding; on a touch screen, use `large` |
 | Known limits | `masked` is visual only: a screen reader reads the code. The inner input uses `text/code`, 14 px, so iOS Safari may zoom when the field takes focus. That a code received by SMS is offered by iOS through `autocomplete="one-time-code"` in an input inside a shadow root is to be confirmed on a device. Forced colors and right-to-left are not treated |
@@ -345,13 +345,13 @@ the field, disabled during the countdown.
 | Part | Token |
 |---|---|
 | Space between cells | `space/inline` |
-| Cell | `color/background` background, `color/input` border at `border/width`, `radius/control` |
+| Cell | `input-otp/background` background, `input-otp/border` border at `border/width`, `radius/control` |
 | Cell size | `control/height-default` or `control/height-large`, as width and height |
-| Character and dot | `text/code`, `color/foreground` |
-| Hover | `color/input-hover` |
+| Character and dot | `text/code`, `input-otp/foreground` |
+| Hover | `input-otp/border-hover` |
 | Focus | `focus/border`, `focus/halo`, `focus/ring-width` |
-| Error | `status/error`, `focus/halo-error` |
-| Disabled | `color/muted`, `state/disabled-opacity` |
+| Error | `input-otp/border-error`, `focus/halo-error` |
+| Disabled | `input-otp/background-disabled`, `state/disabled-opacity` |
 
 **Usage restrictions:** the resend action is a common ghost `nph-button`: it takes no link
 color and no underline, and the field consumes none of its tokens. In a part of the screen with another brand, `data-nph-brand` and

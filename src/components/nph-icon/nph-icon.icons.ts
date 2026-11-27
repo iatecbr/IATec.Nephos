@@ -236,6 +236,12 @@ import { faBlockQuote as lBlockQuote } from '@fortawesome/pro-light-svg-icons/fa
 import { faBlockQuote as sBlockQuote } from '@fortawesome/pro-solid-svg-icons/faBlockQuote';
 import { faTextSlash as lTextSlash } from '@fortawesome/pro-light-svg-icons/faTextSlash';
 import { faTextSlash as sTextSlash } from '@fortawesome/pro-solid-svg-icons/faTextSlash';
+import { faImage as lImage } from '@fortawesome/pro-light-svg-icons/faImage';
+import { faImage as sImage } from '@fortawesome/pro-solid-svg-icons/faImage';
+import { faImageLandscape as lImageLandscape } from '@fortawesome/pro-light-svg-icons/faImageLandscape';
+import { faImageLandscape as sImageLandscape } from '@fortawesome/pro-solid-svg-icons/faImageLandscape';
+import { faImageSlash as lImageSlash } from '@fortawesome/pro-light-svg-icons/faImageSlash';
+import { faImageSlash as sImageSlash } from '@fortawesome/pro-solid-svg-icons/faImageSlash';
 
 /**
  * The core names (`design.md`, block `icones_nucleo`).
@@ -354,6 +360,9 @@ export const NPH_ICON_NAMES = [
   'list-ol',
   'block-quote',
   'text-slash',
+  'image',
+  'image-landscape',
+  'image-slash',
 ] as const;
 
 export type NphIconName = (typeof NPH_ICON_NAMES)[number];
@@ -492,6 +501,9 @@ const GLYPHS = {
   'list-ol': glyph(lListOl, sListOl),
   'block-quote': glyph(lBlockQuote, sBlockQuote),
   'text-slash': glyph(lTextSlash, sTextSlash),
+  image: glyph(lImage, sImage),
+  'image-landscape': glyph(lImageLandscape, sImageLandscape),
+  'image-slash': glyph(lImageSlash, sImageSlash),
 } satisfies Readonly<Record<NphIconName, IconGlyph>>;
 
 const NAMES = new Set<string>(NPH_ICON_NAMES);

@@ -11,7 +11,7 @@
     "To give a form control a visible name, on its own or inside an nph-field.",
     "required=true when filling in the field is mandatory, with the asterisk explained in a legend on the form.",
     "info with info-label to show the information icon after the text: info is the help text and info-label its accessible name.",
-    "Keep the label in color/foreground, even when the field has an error."
+    "Keep the label in label/foreground, even when the field has an error."
   ],
   "do_not_use_when": [
     "Using it for a sentence with a verb and a period: that is body text.",
@@ -59,7 +59,7 @@
     },
     "slots": "none",
     "events": "none",
-    "color": "It is not a property. The text is `color/foreground` and the asterisk is `label/required-foreground` (`status/error`), always — including when the field is in error."
+    "color": "It is not a property. The text is `label/foreground` and the asterisk is `label/required-foreground` (`status/error`), always — including when the field is in error."
   },
   "variants": {
     "required": {
@@ -101,14 +101,14 @@
     "text": [
       "text/label-md"
     ],
-    "text_color": "color/foreground",
+    "text_color": "label/foreground",
     "asterisk_color": "label/required-foreground (status/error)",
     "asterisk_gap": "space/inline-tight",
     "trigger_gap": "space/inline-tight",
     "trigger": [
       "icon/size-sm",
       "space/inline-tight",
-      "color/muted-foreground"
+      "label/info-icon"
     ],
     "trigger_focus": [
       "border/width",
@@ -136,7 +136,7 @@
       "Esc closes the open balloon, and focus stays on the icon."
     ],
     "focus": "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard",
-    "contrast": "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 5.37:1 and 8.98:1",
+    "contrast": "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in label/info-icon, 6.69:1 and 9.81:1; the focus border, in focus/border, 5.37:1 and 8.98:1",
     "color_alternative": "The asterisk is a shape signal, not a color one — and it is decorative"
   },
   "invalid_combinations": [

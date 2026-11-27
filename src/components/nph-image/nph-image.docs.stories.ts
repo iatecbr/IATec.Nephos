@@ -8,9 +8,7 @@
  * "When to use" are the ones of the sheet. The three required examples of the frame close
  * it, each in light and dark mode.
  *
- * Deferred, not fulfilled here:
- * - the empty and error illustrations: the frame draws them once the files arrive (D1 of
- *   DSA-51); until then the two states show the frame only, and the page says so.
+ * The empty and error states draw an `nph-icon` on `image/illustration-background` (D1 of DSA-51).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the `imageDocs`
  * key. The story is SINGLE: it reads `globals.locale` and looks up the translation.

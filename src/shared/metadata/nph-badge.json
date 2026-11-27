@@ -96,45 +96,48 @@
     "text": "text/label-sm",
     "icon": "icon/size-sm",
     "solid_primary": [
-      "color/primary",
-      "color/primary-foreground"
+      "badge/primary-solid-background",
+      "badge/primary-solid-foreground"
     ],
     "solid_secondary": [
-      "color/secondary",
-      "color/secondary-foreground"
+      "badge/secondary-solid-background",
+      "badge/secondary-foreground"
     ],
     "solid_status": [
-      "status/info",
-      "status/warning",
-      "status/help",
-      "status/success",
-      "status/on-solid"
+      "badge/info-solid-background",
+      "badge/info-solid-foreground",
+      "badge/warn-solid-background",
+      "badge/warn-solid-foreground",
+      "badge/help-solid-background",
+      "badge/help-solid-foreground",
+      "badge/success-solid-background",
+      "badge/success-solid-foreground"
     ],
     "solid_danger": [
-      "color/destructive",
-      "color/destructive-foreground"
+      "badge/danger-solid-background",
+      "badge/danger-solid-foreground"
     ],
     "light_primary": [
-      "color/primary-surface",
-      "color/primary-on-surface"
+      "badge/primary-light-background",
+      "badge/primary-light-foreground"
     ],
     "light_secondary": [
-      "color/secondary-light",
-      "color/secondary-foreground"
+      "badge/secondary-light-background",
+      "badge/secondary-foreground"
     ],
     "light_status": [
-      "status/info-surface",
-      "status/info-foreground",
-      "status/warning-surface",
-      "status/warning-foreground",
-      "status/help-surface",
-      "status/help-foreground",
-      "status/success-surface",
-      "status/success-foreground"
+      "badge/info-light-background",
+      "badge/info-light-foreground",
+      "badge/warn-light-background",
+      "badge/warn-light-foreground",
+      "badge/help-light-background",
+      "badge/help-light-foreground",
+      "badge/success-light-background",
+      "badge/success-light-foreground"
     ],
     "light_danger": [
-      "color/destructive-surface",
-      "color/destructive-on-surface"
+      "badge/danger-light-background",
+      "badge/danger-light-foreground"
     ]
   },
   "ai_hints": [

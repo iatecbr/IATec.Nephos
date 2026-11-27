@@ -101,7 +101,7 @@
   box-sizing: border-box;
   block-size: var(--_cell);
   padding: 0;
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-calendar-weekday-foreground);
   font-family: var(--nph-text-label-sm-font-family);
   font-size: var(--nph-text-label-sm-font-size);
   font-weight: var(--nph-text-label-sm-font-weight);
@@ -127,7 +127,7 @@
   position: absolute;
   inset-block: 0;
   inset-inline: 0;
-  background-color: var(--nph-color-primary-surface);
+  background-color: var(--nph-calendar-range-background);
 }
 
 .cell[data-band='after']::before {
@@ -171,7 +171,7 @@
   border: none;
   border-radius: var(--nph-calendar-day-radius);
   background-color: transparent;
-  color: var(--nph-color-foreground);
+  color: var(--nph-calendar-cell-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -184,21 +184,21 @@
 
 /* A day outside the month: the number in `color/muted-foreground`. */
 .day[data-outside] {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-calendar-cell-foreground-disabled);
 }
 
 /* Hover: `color/accent`. It does not move the focus. */
 .day:hover:not(:disabled),
 .item:hover:not(:disabled) {
-  background-color: var(--nph-color-accent);
-  color: var(--nph-color-accent-foreground);
+  background-color: var(--nph-calendar-cell-background-hover);
+  color: var(--nph-calendar-cell-foreground-hover);
 }
 
 /* Today: the number and a 1 px outline in `color/primary-text`, the number in medium. */
 .day[data-today],
 .item[data-current] {
-  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-color-primary-text);
-  color: var(--nph-color-primary-text);
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-calendar-cell-current-border);
+  color: var(--nph-calendar-cell-current-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -209,9 +209,9 @@
 /* The chosen day, the Start and the End: `color/primary`; the fill wins over the outline of today. */
 .day[data-selected]:not([data-role='middle']),
 .item[data-selected] {
-  background-color: var(--nph-color-primary);
+  background-color: var(--nph-calendar-cell-selected-background);
   box-shadow: none;
-  color: var(--nph-color-primary-foreground);
+  color: var(--nph-calendar-cell-selected-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -221,23 +221,23 @@
 
 .day[data-selected]:not([data-role='middle']):hover:not(:disabled),
 .item[data-selected]:hover:not(:disabled) {
-  background-color: var(--nph-color-primary);
-  color: var(--nph-color-primary-foreground);
+  background-color: var(--nph-calendar-cell-selected-background);
+  color: var(--nph-calendar-cell-selected-foreground);
 }
 
 /* The middle of the period: square, `color/primary-surface`, the number in `color/primary-on-surface`. */
 .day[data-role='middle'] {
   border-radius: var(--nph-radius-none);
-  background-color: var(--nph-color-primary-surface);
-  color: var(--nph-color-primary-on-surface);
+  background-color: var(--nph-calendar-range-background);
+  color: var(--nph-calendar-range-foreground);
 }
 
 .day[data-role='middle'][data-outside] {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-calendar-cell-foreground-disabled);
 }
 
 .day[data-role='middle'][data-today] {
-  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-color-primary-text);
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-calendar-cell-current-border);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -246,34 +246,34 @@
 }
 
 .day[data-role='middle']:hover:not(:disabled) {
-  background-color: var(--nph-color-accent);
-  color: var(--nph-color-accent-foreground);
+  background-color: var(--nph-calendar-cell-background-hover);
+  color: var(--nph-calendar-cell-foreground-hover);
 }
 
 /* The preview: square, `color/accent`, the number in `color/foreground`. */
 .day[data-preview] {
   border-radius: var(--nph-radius-none);
-  background-color: var(--nph-color-accent);
-  color: var(--nph-color-foreground);
+  background-color: var(--nph-calendar-cell-background-hover);
+  color: var(--nph-calendar-cell-foreground);
 }
 
 /* Disabled by the min or the max: the whole day under `state/disabled-opacity`, and out of the focus. */
 .day:disabled,
 .item:disabled {
   opacity: var(--nph-state-disabled-opacity);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-calendar-cell-foreground-disabled);
   cursor: default;
 }
 
 /* Unavailable by rule: the number faded, no opacity on the cell; it takes focus and cannot be chosen (item 9). */
 .day[data-unavailable] {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-calendar-cell-foreground-disabled);
   cursor: default;
 }
 
 .day[data-unavailable]:hover {
   background-color: transparent;
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-calendar-cell-foreground-disabled);
 }
 
 /*
@@ -300,7 +300,7 @@
 
 .day[data-selected]:not([data-role='middle']):focus-visible,
 .item[data-selected]:focus-visible {
-  box-shadow: inset 0 0 0 var(--nph-focus-ring-width) var(--nph-color-primary-foreground);
+  box-shadow: inset 0 0 0 var(--nph-focus-ring-width) var(--nph-calendar-cell-selected-focus-border);
 }
 
 /* ----- the month and year views -------------------------------------------------------------- */

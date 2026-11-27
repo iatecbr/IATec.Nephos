@@ -1953,8 +1953,6 @@ describe('token contract', () => {
   it('consumes exactly the tokens of the accepted board', () => {
     expect(used).toEqual(
       [
-        '--nph-color-tooltip',
-        '--nph-color-tooltip-foreground',
         '--nph-elevation-dropdown',
         '--nph-layout-max-tooltip-height',
         '--nph-layout-max-tooltip-width',
@@ -1971,6 +1969,8 @@ describe('token contract', () => {
         '--nph-text-body-sm-font-weight',
         '--nph-text-body-sm-letter-spacing',
         '--nph-text-body-sm-line-height',
+        '--nph-tooltip-background',
+        '--nph-tooltip-foreground',
       ].sort(),
     );
   });

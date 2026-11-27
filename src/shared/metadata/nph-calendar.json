@@ -251,11 +251,11 @@
   },
   "states": {
     "day-default": {
-      "token": "color/foreground",
+      "token": "calendar/cell-foreground",
       "changes_for_user": "The number of a day of the month, no background."
     },
     "day-hover": {
-      "token": "color/accent, color/accent-foreground",
+      "token": "calendar/cell-background-hover, calendar/cell-foreground-hover",
       "changes_for_user": "The day takes the accent background under the pointer; the hover does not move the focus."
     },
     "day-focus": {
@@ -263,47 +263,47 @@
       "changes_for_user": "A border of border/width in focus/border inside the cell and a halo of focus/ring-width in focus/halo outside it, at the focus radius."
     },
     "day-disabled": {
-      "token": "state/disabled-opacity, color/muted-foreground",
+      "token": "state/disabled-opacity, calendar/cell-foreground-disabled",
       "changes_for_user": "A day outside min or max fades, accepts no choice and the focus skips it. While only the Start of a period is chosen, a day that cannot be the End, past an unavailable day, fades the same way (D-10)."
     },
     "day-unavailable": {
-      "token": "color/muted-foreground, focus/border, focus/halo",
+      "token": "calendar/cell-foreground-disabled, focus/border, focus/halo",
       "changes_for_user": "A date unavailable by rule fades only its number, with no opacity on the cell. It takes the keyboard focus, with the focus border and halo, and Enter does not choose it."
     },
     "day-outside-month": {
-      "token": "color/muted-foreground",
+      "token": "calendar/cell-foreground-disabled",
       "changes_for_user": "A day of the previous or next month shows, with its number muted, and picking it chooses that date (D-11)."
     },
     "day-today": {
-      "token": "color/primary-text, border/width, text/label-md",
-      "changes_for_user": "A 1 px outline and the number in color/primary-text, in medium weight."
+      "token": "calendar/cell-current-foreground, calendar/cell-current-border, border/width, text/label-md",
+      "changes_for_user": "A 1 px outline and the number in calendar/cell-current-foreground, in medium weight."
     },
     "day-selected": {
-      "token": "color/primary, color/primary-foreground, text/label-md",
+      "token": "calendar/cell-selected-background, calendar/cell-selected-foreground, text/label-md",
       "changes_for_user": "The chosen day, or the start or the end of the period, takes the primary fill with the number in medium weight; the fill wins over the outline of today."
     },
     "day-selected-focus": {
-      "token": "color/primary, color/primary-foreground, focus/ring-width, focus/halo",
-      "changes_for_user": "The ring inside the cell is color/primary-foreground over the fill, and the halo marks the focus."
+      "token": "calendar/cell-selected-background, calendar/cell-selected-focus-border, focus/ring-width, focus/halo",
+      "changes_for_user": "The ring inside the cell is calendar/cell-selected-focus-border over the fill, and the halo marks the focus."
     },
     "range-band": {
-      "token": "color/primary-surface",
+      "token": "calendar/range-background",
       "changes_for_user": "A band behind the start and the end joins the middle of the period, straight across the turn of the week; a day outside the month has no band behind it."
     },
     "range-middle": {
-      "token": "color/primary-surface, color/primary-on-surface, radius/none",
-      "changes_for_user": "A day between the start and the end is square, in the surface fill; today in it keeps the outline and the medium number, and a middle day outside the month keeps the fill with the number in color/muted-foreground."
+      "token": "calendar/range-background, calendar/range-foreground, radius/none",
+      "changes_for_user": "A day between the start and the end is square, in the surface fill; today in it keeps the outline and the medium number, and a middle day outside the month keeps the fill with the number in calendar/cell-foreground-disabled."
     },
     "range-preview": {
-      "token": "color/accent, color/foreground, radius/none",
+      "token": "color/accent, calendar/cell-background-hover, calendar/cell-foreground, radius/none",
       "changes_for_user": "With the start chosen and no end, the pointer or the arrow keys on a day draw a square band in the accent fill from the start to that day, in either direction. There is no preview on touch."
     },
     "view-cell": {
-      "token": "color/foreground, color/accent, color/accent-foreground, color/primary, color/primary-foreground, color/primary-text, focus/border, focus/halo, calendar/day-radius, calendar/day-focus-radius",
-      "changes_for_user": "The month or year cell follows the day: hover in the accent fill, the current month or year with the outline and the number in color/primary-text, the chosen one in the primary fill, and the focus border and halo."
+      "token": "calendar/cell-foreground, calendar/cell-background-hover, calendar/cell-foreground-hover, calendar/cell-selected-background, calendar/cell-selected-foreground, calendar/cell-current-foreground, calendar/cell-current-border, focus/border, focus/halo, calendar/day-radius, calendar/day-focus-radius",
+      "changes_for_user": "The month or year cell follows the day: hover in the accent fill, the current month or year with the outline and the number in calendar/cell-current-foreground, the chosen one in the primary fill, and the focus border and halo."
     },
     "view-cell-disabled": {
-      "token": "state/disabled-opacity, color/muted-foreground",
+      "token": "state/disabled-opacity, calendar/cell-foreground-disabled",
       "changes_for_user": "A month or a year with no allowed day fades, accepts no choice and the focus skips it."
     }
   },
@@ -338,10 +338,10 @@
     "A missing label renders anyway and emits console.error in development, once, saying which keys are missing."
   ],
   "tokens": {
-    "day": "calendar/day-radius, control/height-default, control/height-large, text/body-md, text/label-md, color/foreground",
+    "day": "calendar/day-radius, control/height-default, control/height-large, text/body-md, text/label-md, calendar/cell-foreground",
     "day_focus": "calendar/day-focus-radius, focus/border, focus/halo, focus/ring-width, border/width",
-    "day_states": "color/accent, color/accent-foreground, color/muted-foreground, color/primary, color/primary-foreground, color/primary-surface, color/primary-on-surface, color/primary-text, radius/none, state/disabled-opacity",
-    "weekday": "text/label-sm, color/muted-foreground",
+    "day_states": "calendar/cell-background-hover, calendar/cell-foreground-hover, calendar/cell-foreground-disabled, calendar/cell-selected-background, calendar/cell-selected-foreground, calendar/range-background, calendar/range-foreground, calendar/cell-current-foreground, calendar/cell-current-border, radius/none, state/disabled-opacity",
+    "weekday": "text/label-sm, calendar/weekday-foreground",
     "header": "control/height-default, space/inline-tight, control/height-large, space/inline, calendar/title-foreground (color/foreground on the year range), color/secondary-foreground, text/label-md",
     "grid": "space/container-padding, space/inline"
   },
@@ -366,8 +366,8 @@
       "In the month and year views the arrows move one cell or one row, Home and End go to the start and the end of the row, Page Up and Page Down do what the header arrows do, and Enter or Space chooses. A disabled cell is skipped.",
       "Esc in the month or the year view goes back to the days; with the days shown, Esc is not taken."
     ],
-    "focus": "Each day shows a border in focus/border and a halo in focus/halo; a chosen day takes the ring in color/primary-foreground. The focus lands on the chosen date or today, on the nearest allowed day when that one is outside the limit, and on opening a view on the chosen item. Hover paints a day and never moves the focus.",
-    "contrast": "The day number in color/foreground over the surface passes 4.5:1 in both themes. The weekday names and a day outside the month in color/muted-foreground measure 6.69:1 and 6.61:1. The chosen day, the start and the end measure 5.37:1 and 7.05:1. The middle of a range measures 4.78:1 and 13.79:1. The outline and the number of today and of the current month in color/primary-text measure 8.11:1 and 6.05:1 on the default brand, and at least 5.98:1 in dark in every brand. The focus border carries the 3:1.",
+    "focus": "Each day shows a border in focus/border and a halo in focus/halo; a chosen day takes the ring in calendar/cell-selected-focus-border. The focus lands on the chosen date or today, on the nearest allowed day when that one is outside the limit, and on opening a view on the chosen item. Hover paints a day and never moves the focus.",
+    "contrast": "The day number in calendar/cell-foreground over the surface passes 4.5:1 in both themes. The weekday names and a day outside the month in calendar/weekday-foreground and calendar/cell-foreground-disabled measure 6.69:1 and 6.61:1. The chosen day, the start and the end measure 5.37:1 and 7.05:1. The middle of a range measures 4.78:1 and 13.79:1. The outline and the number of today and of the current month in calendar/cell-current-foreground and calendar/cell-current-border measure 8.11:1 and 6.05:1 on the default brand, and at least 5.98:1 in dark in every brand. The focus border carries the 3:1.",
     "color_alternative": "Today has an outline; the chosen day, the start and the end have a fill; the middle of a range has a band; a day unavailable by rule says unavailable in its name; a disabled day fades and takes no choice."
   },
   "invalid_combinations": [

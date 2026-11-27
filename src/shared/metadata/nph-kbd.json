@@ -23,7 +23,7 @@
   "variants": "not_applicable",
   "states": {
     "default": {
-      "token": "color/muted",
+      "token": "kbd/background",
       "changes_for_user": "The key appears in a box; it does not change with interaction."
     }
   },
@@ -32,14 +32,14 @@
   ],
   "domain_errors": [],
   "tokens": {
-    "background": "color/muted",
+    "background": "kbd/background",
     "text": [
       "text/label-sm",
-      "color/muted-foreground"
+      "kbd/foreground"
     ],
     "border": [
       "border/width",
-      "color/border"
+      "kbd/border"
     ],
     "radius": "radius/inner",
     "padding": "space/inline-tight"
@@ -54,7 +54,7 @@
     "accessible_name": "The screen reader announces the key by its text.",
     "keyboard": [],
     "focus": "The piece does not receive focus: it has no interaction.",
-    "contrast": "color/muted-foreground on color/muted passes 4.5:1 in both schemes and in every brand.",
+    "contrast": "kbd/foreground on kbd/background passes 4.5:1 in both schemes and in every brand.",
     "color_alternative": "The key is written in the text; color carries no meaning."
   },
   "invalid_combinations": [

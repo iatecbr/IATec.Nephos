@@ -92,7 +92,7 @@ variants:
 states:
   empty:
     token: image/background
-    changes_for_user: "No src: the frame with its border. Until the illustrations arrive, the frame shows nothing else."
+    changes_for_user: "No src: the frame with its border and the image icon on its own background."
   loading:
     token: image/foreground
     changes_for_user: "The spinner turns at the center and the frame has no border."
@@ -101,7 +101,7 @@ states:
     changes_for_user: "The image fills the frame and crops to keep its proportion; the border stays over it."
   error:
     token: image/background
-    changes_for_user: "The image did not load: the frame with its border, as empty, until the illustrations arrive. The parent explains the problem."
+    changes_for_user: "The image did not load: the frame with its border and the image-slash icon on its own background. The parent explains the problem."
   hover:
     token: image/overlay
     changes_for_user: "Only on a clickable, loaded image: the veil with the eye in image/on-overlay."
@@ -115,7 +115,7 @@ business_rules:
   - "The area is the same in every state: empty, loading, loaded and error keep the size of the frame."
   - "The content state derives from src and the load; it is not chosen by hand."
   - "Hover, focus and disabled exist only when the parent makes the image clickable with interactive."
-  - "Empty and error draw the frame only until their illustrations arrive; the text that explains a failure belongs to the parent."
+  - "Empty and error draw an icon (image, image-landscape or image-slash); the text that explains a failure belongs to the parent."
   - "The ratio only applies to media; every other size is square."
 domain_errors: []
 tokens:
@@ -128,7 +128,7 @@ tokens:
   icon_size: [image/icon-size-sm, image/icon-size-md, image/icon-size-lg]
   focus: [image/focus-border, focus/ring-width]
   disabled: state/disabled-opacity
-  illustration: [image/illustration-light, image/illustration-dark]
+  illustration: [image/illustration-background]
 ai_hints:
   - "Use nph-image for the image of a product, file or content; for a person use nph-avatar, for a symbol nph-icon."
   - "Pass src and let the piece show loading, loaded or error by itself; leave src out for empty."
@@ -142,7 +142,7 @@ accessibility:
   keyboard: ["Tab moves the focus to a clickable image", "Enter and Space click a clickable image"]
   focus: "Only a clickable image receives focus, through its inner button: the ring image/focus-border in focus/ring-width, with the keyboard. Otherwise the piece has no tabindex and the focus belongs to the control that contains it."
   contrast: "The spinner, image/foreground on image/background, and the focus ring pass 3:1 in light and dark, in every brand; nph-image.test.ts measures them until the accessibility gate of P72 arrives."
-  color_alternative: "Loading changes the drawing to the spinner. Empty and error will change it to their illustrations; until those arrive, the parent's text carries the difference."
+  color_alternative: "Loading changes the drawing to the spinner. Empty and error change it to an icon; the parent's text still carries the difference."
 invalid_combinations:
   - "A size outside xs, sm, md, lg, xl, 2xl and media — the piece draws nothing."
   - "A ratio outside 1:1, 4:3 and 16:9 — the piece draws nothing."
@@ -236,10 +236,10 @@ turns by itself.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Empty (`vazio`) | `image/background` | No `src`: the frame with its border. Until the illustrations arrive, nothing else |
+| Empty (`vazio`) | `image/background` | No `src`: the frame with its border and the `image` icon (`image-landscape` in `media` 4:3 and 16:9) on `image/illustration-background` |
 | Loading (`carregando`) | `image/foreground` | The spinner turns at the center; the frame has no border |
 | Loaded (`carregada`) | `image/border` | The image fills the frame and crops to keep its proportion; the border stays over it |
-| Error (`erro`) | `image/background` | The image did not load: the frame with its border, as empty, until the illustrations arrive |
+| Error (`erro`) | `image/background` | The image did not load: the frame with its border and the `image-slash` icon on `image/illustration-background` |
 | Hover | `image/overlay` | Only on a clickable, loaded image: the veil with the eye in `image/on-overlay` |
 | Focus (`foco`) | `image/focus-border` | Only on keyboard focus of a clickable image: the ring in `focus/ring-width`, just outside the frame and never over the photo |
 | Disabled (`desabilitada`) | `state/disabled-opacity` | The whole piece fades; a clickable one takes no focus and no click |
@@ -253,7 +253,7 @@ the state drawn now. Only a clickable image takes the focus.
 - The area is the same in every state.
 - The content state derives from `src`; it is not chosen by hand.
 - Hover, focus and disabled exist only when the parent makes the image clickable.
-- Empty and error draw the frame only until their illustrations arrive. The text that
+- Empty and error draw an icon on `image/illustration-background`. The text that
   explains a failure belongs to the parent.
 - The ratio only applies to `media`.
 
@@ -267,7 +267,7 @@ the state drawn now. Only a clickable image takes the focus.
 | Accessible name | The `alt`, which describes the content. Empty when the text next to it says it all |
 | Keyboard and focus | Only a clickable image receives focus: Tab reaches it, Enter and Space click it, and the ring `image/focus-border` in `focus/ring-width` shows. Otherwise the focus belongs to the control that contains it |
 | Contrast | The spinner, `image/foreground` on `image/background`, and the focus ring pass 3:1 in light and dark, in every brand; the test measures them |
-| Alternative to color | Loading changes the drawing to the spinner. Empty and error will change it to their illustrations; until those arrive, the parent's text carries the difference |
+| Alternative to color | Loading changes the drawing to the spinner. Empty and error change it to an icon; the parent's text still carries the difference |
 | Touch target | Does not apply to the image alone. When it is clickable, the target is the image area or the control that contains it |
 | Motion | The spinner turns and stops with reduced motion (P66). The image itself has no animation |
 
@@ -299,14 +299,14 @@ text, the space is `image/gap`, given by the container.
 | Veil and eye | `image/overlay`, `image/on-overlay`; the eye in `image/icon-size-sm`, `-md` or `-lg` |
 | Focus ring | `image/focus-border` in `focus/ring-width` |
 | Disabled | `state/disabled-opacity` |
-| Illustration | `image/illustration-light`, `image/illustration-dark`, once the files arrive |
+| Empty and error icon | `image/illustration-background` |
 
 **Usage restrictions:** the component does not choose size, color or radius: everything
 comes from a token. The space between the image and the text next to it comes from
 whoever uses it, with `image/gap`. In a part of the screen with another brand,
 `data-nph-brand` and `data-nph-color-scheme` go on the same element (P67). The
-illustrations of empty and error are image assets that are not in the repository yet, and
-`design.md` has no usage entry for the `image/*` tokens: both are pending decisions with
+empty and error draw an `nph-icon` and no image asset (answer to D1 of DSA-51), and
+`design.md` has no usage entry for the `image/*` tokens: that is a pending decision with
 the design owner, recorded in P90.
 
 **AI hints:**

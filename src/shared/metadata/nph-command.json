@@ -157,7 +157,7 @@
   "variants": "not_applicable",
   "states": {
     "results": {
-      "token": "command/background, color/primary-surface",
+      "token": "command/background, dropdown/item-background-hover",
       "changes_for_user": "The commands, with the first one active and filled; the default content."
     },
     "groups": {
@@ -165,7 +165,7 @@
       "changes_for_user": "Group labels open each group; with more than the ceiling, the list scrolls and the active command scrolls into view."
     },
     "search": {
-      "token": "command/highlight-weight, color/muted-foreground",
+      "token": "command/highlight-weight, dropdown/item-muted-foreground",
       "changes_for_user": "Only the commands that match, the typed stretch in a heavier weight, the rest muted, and the first one active."
     },
     "empty": {
@@ -177,7 +177,7 @@
       "changes_for_user": "The spinner and the loading text; the list is busy and nothing runs."
     },
     "active": {
-      "token": "color/primary-surface, color/accent-foreground",
+      "token": "dropdown/item-background-hover, dropdown/item-foreground-hover",
       "changes_for_user": "The command the keyboard or the pointer is on: filled, its icon solid, its label and shortcut in the accent color."
     },
     "disabled": {
@@ -225,13 +225,13 @@
     ],
     "highlight": [
       "command/highlight-weight",
-      "color/muted-foreground"
+      "dropdown/item-muted-foreground"
     ],
     "item": [
-      "color/popover-foreground",
-      "color/muted-foreground",
-      "color/primary-surface",
-      "color/accent-foreground",
+      "dropdown/item-foreground",
+      "dropdown/item-muted-foreground",
+      "dropdown/item-background-hover",
+      "dropdown/item-foreground-hover",
       "dropdown/item-hover-icon-foreground",
       "state/disabled-opacity"
     ],
@@ -242,7 +242,7 @@
     ],
     "group_label": [
       "text/label-sm",
-      "color/muted-foreground"
+      "dropdown/group-label-foreground"
     ],
     "loading": [
       "command/state-padding",

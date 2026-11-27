@@ -48,7 +48,7 @@
   border: var(--nph-border-width) solid transparent;
   border-radius: var(--nph-radius-control);
   background-color: transparent;
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-togglebutton-foreground-unchecked);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -105,13 +105,13 @@
 /* Hover (only when the piece responds): the off piece takes the hover background and foreground. */
 .control:not(:disabled):hover {
   background-color: var(--nph-togglebutton-background-hover);
-  color: var(--nph-color-foreground);
+  color: var(--nph-togglebutton-foreground);
 }
 
 /* On: a flat background and the foreground label; on hover, the checked hover background. */
 :host([pressed]) .control {
   background-color: var(--nph-togglebutton-background-checked);
-  color: var(--nph-color-foreground);
+  color: var(--nph-togglebutton-foreground);
 }
 
 :host([pressed]) .control:not(:disabled):hover {
@@ -120,8 +120,8 @@
 
 /* Invalid: error border over the background of the state. Disabled wins: the border stays the resting one. */
 :host([invalid]:not([disabled])) .control {
-  border-color: var(--nph-status-error);
-  --_focus-border: var(--nph-status-error);
+  border-color: var(--nph-togglebutton-border-error);
+  --_focus-border: var(--nph-togglebutton-border-error);
   --_focus-halo: var(--nph-focus-halo-error);
 }
 

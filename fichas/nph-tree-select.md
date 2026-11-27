@@ -212,7 +212,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The whole piece at state/disabled-opacity, on color/muted, out of the Tab order and of
+      The whole piece at state/disabled-opacity, on <piece>/background-disabled, out of the Tab order and of
       the form data; it does not open. A disabled fieldset disables it too. It wins over
       invalid.
   invalid:
@@ -221,7 +221,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The error state: the border becomes status/error and the field gets aria-invalid. The
+      The error state: the border becomes <piece>/border-error and the field gets aria-invalid. The
       sentence belongs to nph-field.
   label:
     type: string
@@ -292,9 +292,9 @@ variants:
 states:
   default:
     token: "select/border, select/border-bottom; combobox/* in search; multi-combobox/* in multiple"
-    changes_for_user: "The resting border, on color/background: the top and the sides in <piece>/border, the bottom line in <piece>/border-bottom, with the start icon and the arrow in color/muted-foreground."
+    changes_for_user: "The resting border, on <piece>/background: the top and the sides in <piece>/border, the bottom line in <piece>/border-bottom, with the start icon and the arrow in <piece>/muted-foreground."
   hover:
-    token: color/input-hover
+    token: <piece>/border-hover
     changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
@@ -303,14 +303,14 @@ states:
     token: focus/border
     changes_for_user: "The panel is open and the field keeps the focus border; in multiple, open is the focus with the chips."
   error:
-    token: status/error
-    changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
+    token: <piece>/border-error
+    changes_for_user: "The border is <piece>/border-error, also on hover; the sentence is in nph-field."
   error-focus:
     token: focus/halo-error
-    changes_for_user: "The border stays status/error and the halo is focus/halo-error."
+    changes_for_user: "The border stays <piece>/border-error and the halo is focus/halo-error."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted; it keeps the value and the chips, does not open and wins over the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on <piece>/background-disabled; it keeps the value and the chips, does not open and wins over the error."
 business_rules:
   - "DOM focus stays on the field while the panel is open; the active item is the treeitem the field points to by aria-activedescendant."
   - "On opening, the active item is the chosen one, with the path to it open; with no value, the first item."
@@ -333,14 +333,14 @@ tokens:
   height: "select/height in single, combobox/height in search or control/height-large; in multiple multi-combobox/height, a minimum that grows with the lines of chips"
   width: "layout/input-width; layout/multi-combobox-width in multiple"
   radius: radius/control
-  border: "border/width, at rest in select/border and select/border-bottom (single), combobox/border and combobox/border-bottom (search) or multi-combobox/border and multi-combobox/border-bottom (multiple); in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border. By decision, as in Figma, where the field is an instance of those pieces, nph-tree-select reads the tokens of the piece it mirrors: a declared exception to rule T9"
-  background: "color/background; color/muted when disabled"
+  border: "border/width, at rest in select/border and select/border-bottom (single), combobox/border and combobox/border-bottom (search) or multi-combobox/border and multi-combobox/border-bottom (multiple); in <piece>/border-hover, focus/border, <piece>/border-error or <piece>/border-disabled (disabled) on the whole border. By decision, as in Figma, where the field is an instance of those pieces, nph-tree-select reads the tokens of the piece it mirrors: a declared exception to rule T9"
+  background: "<piece>/background; <piece>/background-disabled when disabled"
   padding: "space/control-padding on the sides; space/inline-tight above and below in multiple"
   gap: "space/inline between the parts; space/inline-tight between the chips and the text"
-  icons: "nph-icon globe, magnifying-glass, chevron-down, chevron-up and xmark, icon/size-sm in color/muted-foreground"
+  icons: "nph-icon globe, magnifying-glass, chevron-down, chevron-up and xmark, icon/size-sm in <piece>/muted-foreground"
   arrow_area: "no background and no divider, also when disabled; the field background shows through it"
-  text: "text/body-md in color/foreground; the placeholder in color/muted-foreground"
-  chip: "color/primary-surface, radius/full, horizontal padding space/inline, gap space/inline-tight; the label text/label-sm in color/primary-on-surface; with icons, the nph-icon of the item at icon/size-sm"
+  text: "text/body-md in <piece>/foreground; the placeholder in <piece>/muted-foreground"
+  chip: "multi-combobox/chip-background, radius/full, horizontal padding space/inline, gap space/inline-tight; the label text/label-sm in multi-combobox/chip-foreground; with icons, the nph-icon of the item at icon/size-sm"
   panel_background: tree-select/panel-background
   panel_outline: "tree-select/panel-border and tree-select/panel-border-width"
   panel_radius: tree-select/panel-radius
@@ -466,13 +466,13 @@ same form; `counter` where the person needs to check each choice.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `select/border`, `select/border-bottom` (`combobox/*` in `search`, `multi-combobox/*` in `multiple`) | The resting border, on `color/background`: top and sides in `<piece>/border`, the bottom line in `<piece>/border-bottom`, with the start icon and the arrow in `color/muted-foreground` |
-| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
+| `default` | `select/border`, `select/border-bottom` (`combobox/*` in `search`, `multi-combobox/*` in `multiple`) | The resting border, on `<piece>/background`: top and sides in `<piece>/border`, the bottom line in `<piece>/border-bottom`, with the start icon and the arrow in `<piece>/muted-foreground` |
+| `hover` | `<piece>/border-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | The border takes `focus/border`, with the halo attached outside |
 | `aberto` | `focus/border`, `focus/halo` | The panel is open and the field keeps the focus border; in `multiple`, open is the focus with the chips |
-| `erro` | `status/error` | The border is `status/error`, also on hover |
-| `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece fades on `color/muted`; the value and the chips stay; it does not open; error + disabled shows only the disabled look |
+| `erro` | `<piece>/border-error` | The border is `<piece>/border-error`, also on hover |
+| `erro-foco` | `<piece>/border-error`, `focus/halo-error` | The border stays `<piece>/border-error` and the halo is `focus/halo-error` |
+| `disabled` | `state/disabled-opacity`, `<piece>/background-disabled` | The whole piece fades on `<piece>/background-disabled`; the value and the chips stay; it does not open; error + disabled shows only the disabled look |
 
 **The panel (the Figma `conteúdo`):**
 
@@ -559,16 +559,16 @@ shadow root of another element.
 
 | Part | Token |
 |---|---|
-| Field | `select/height` (`single`), `combobox/height` (`search`), `multi-combobox/height` (`multiple`, minimum) or `control/height-large`; border `select/border`, `combobox/border` or `multi-combobox/border` on top and sides and the `-bottom` token below at rest (the tokens of the mirrored field, a declared exception to rule T9); width `layout/input-width`, `layout/multi-combobox-width` in `multiple`; `radius/control`; `border/width`; padding `space/control-padding`; gap `space/inline`; background `color/background` |
-| Icons | `nph-icon` `globe`, `magnifying-glass`, `chevron-down`, `chevron-up` and `xmark`, `icon/size-sm`, `color/muted-foreground` |
+| Field | `select/height` (`single`), `combobox/height` (`search`), `multi-combobox/height` (`multiple`, minimum) or `control/height-large`; border `select/border`, `combobox/border` or `multi-combobox/border` on top and sides and the `-bottom` token below at rest (the tokens of the mirrored field, a declared exception to rule T9); width `layout/input-width`, `layout/multi-combobox-width` in `multiple`; `radius/control`; `border/width`; padding `space/control-padding`; gap `space/inline`; background `<piece>/background` |
+| Icons | `nph-icon` `globe`, `magnifying-glass`, `chevron-down`, `chevron-up` and `xmark`, `icon/size-sm`, `<piece>/muted-foreground` |
 | Arrow area | No background and no divider, also when disabled; the field background shows through it |
-| Text | `text/body-md`, `color/foreground`; the placeholder in `color/muted-foreground` |
-| Chip | `color/primary-surface`; `radius/full`; horizontal padding `space/inline`; gap `space/inline-tight`; the label `text/label-sm` in `color/primary-on-surface` |
+| Text | `text/body-md`, `<piece>/foreground`; the placeholder in `<piece>/muted-foreground` |
+| Chip | `multi-combobox/chip-background`; `radius/full`; horizontal padding `space/inline`; gap `space/inline-tight`; the label `text/label-sm` in `multi-combobox/chip-foreground` |
 | Panel | `tree-select/panel-background`, `tree-select/panel-border`, `tree-select/panel-border-width`, `tree-select/panel-radius`, `tree-select/panel-max-height`, `tree-select/panel-offset`, `tree-select/panel-width`, `tree-select/panel-width-multiple`; shadow `elevation/dropdown` |
 | Tree | The `tree/*` tokens of `nph-tree`, by the shared rows; the balloon of a cut label is the `nph-tooltip` |
 | First load | `skeleton/background` |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
-| Disabled | `state/disabled-opacity` on `color/muted` |
+| Disabled | `state/disabled-opacity` on `<piece>/background-disabled` |
 
 **Usage restrictions:** the `tree-select/*` tokens are for this panel only. `layout/multi-combobox-width`
 is the width of the field in `multiple`; `nph-select` and `nph-combobox` use

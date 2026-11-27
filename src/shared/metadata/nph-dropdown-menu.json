@@ -84,7 +84,7 @@
     },
     "selection": {
       "axis": "appearance",
-      "choose_when": "none for an action. single when only one option of the group holds at a time: the checked one shows the check at the end and its text and icon in color/primary-text. multiple when several hold together: the nph-checkbox box comes at the start.",
+      "choose_when": "none for an action. single when only one option of the group holds at a time: the checked one shows the check at the end and its text and icon in dropdown/item-foreground-selected. multiple when several hold together: the nph-checkbox box comes at the start.",
       "do_not_combine_with": [
         "switch: a switch is not a choice.",
         "submenu: a submenu item is neither a choice nor a switch."
@@ -103,11 +103,11 @@
   },
   "states": {
     "rest": {
-      "token": "no background; text in color/popover-foreground",
+      "token": "no background; text in dropdown/item-foreground",
       "changes_for_user": "The row is quiet; the start icon is light."
     },
     "hover": {
-      "token": "color/primary-surface; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground",
+      "token": "dropdown/item-background-hover; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground",
       "changes_for_user": "The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color."
     },
     "focus": {
@@ -140,7 +140,7 @@
   "domain_errors": [],
   "tokens": {
     "panel": [
-      "color/popover",
+      "dropdown/background",
       "color/popover-foreground",
       "layout/input-width",
       "dropdown/panel-radius",
@@ -148,7 +148,7 @@
     ],
     "panel_border": [
       "border/width",
-      "color/dropdown-border"
+      "dropdown/border"
     ],
     "panel_padding": "space/inline-tight",
     "trigger_distance": "space/inline-tight",
@@ -156,11 +156,11 @@
       "space/inline",
       "text/body-md",
       "text/caption",
-      "color/muted-foreground"
+      "dropdown/profile-meta-foreground"
     ],
     "group_label": [
       "text/label-sm",
-      "color/muted-foreground",
+      "dropdown/group-label-foreground",
       "space/inline",
       "space/inline-tight"
     ],
@@ -172,21 +172,21 @@
       "space/inline",
       "dropdown/item-radius",
       "text/body-md",
-      "color/popover-foreground"
+      "dropdown/item-foreground"
     ],
     "item_compact": "space/inline-tight",
     "icon": "icon/size-md",
     "description": [
       "text/caption",
-      "color/muted-foreground"
+      "dropdown/item-muted-foreground"
     ],
     "shortcut": [
       "text/caption",
-      "color/muted-foreground"
+      "dropdown/item-muted-foreground"
     ],
     "counter": [
-      "color/primary-hover",
-      "color/primary-foreground",
+      "dropdown/item-counter-background",
+      "dropdown/item-counter-foreground",
       "radius/full",
       "icon/size-md",
       "space/inline",
@@ -201,7 +201,7 @@
     ],
     "single_choice": [
       "text/label-md",
-      "color/primary-text"
+      "dropdown/item-foreground-selected"
     ],
     "destructive": [
       "dropdown/item-destructive-foreground",
@@ -209,7 +209,7 @@
       "dropdown/item-destructive-hover-background"
     ],
     "hover": [
-      "color/primary-surface",
+      "dropdown/item-background-hover",
       "dropdown/item-destructive-hover-background",
       "dropdown/item-hover-icon-foreground"
     ],
@@ -252,7 +252,7 @@
       "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
     ],
     "focus": "The focus moves to the items. Keyboard only, a border of border/width in focus/border and a halo in focus/halo show outside the row; the border carries the focus, the halo is decorative. With `focus/border` the border passes 3:1 on `color/popover` in every brand and in both themes, the lowest being 4.32:1 (light, `Comercial`); `color/primary` is not used for it because it falls below 3:1 in dark in some brands (`Gerencial` 1.83:1, `Recursos Humanos` 1.94:1, `Igrejas` 2.28:1, `Educacao` 2.57:1). Opened by a mouse click, the first item takes the focus without showing it.",
-    "contrast": "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The checked item of single choice reads color/primary-text, at least 4.5:1 on color/popover in the seven brands, light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The menu border, the separator and the halo are decorative.",
+    "contrast": "The item text passes AA on dropdown/background and on the hover dropdown/item-background-hover, in light and dark. The checked item of single choice reads dropdown/item-foreground-selected, at least 4.5:1 on dropdown/background in the seven brands, light and dark. The solid icon in dropdown/item-hover-icon-foreground on dropdown/item-background-hover measures 4.78:1 in light and 6.26:1 in dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The menu border, the separator and the halo are decorative.",
     "color_alternative": "The destructive item is recognized by the icon of the action and by the text. Single choice shows the check; multiple choice shows the checked box; the switch shows the knob position; the tag carries text."
   },
   "invalid_combinations": [
