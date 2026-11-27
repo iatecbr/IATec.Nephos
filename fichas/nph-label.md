@@ -70,7 +70,7 @@ api:
   events: none
   color: >-
     It is not a property. The text is `color/foreground` and the asterisk is
-    `status/error`, always — including when the field is in error.
+    `label/required-foreground` (`status/error`), always — including when the field is in error.
 
 variants:
   required:
@@ -100,7 +100,7 @@ domain_errors: []
 tokens:
   text: [text/label-md]
   text_color: color/foreground
-  asterisk_color: status/error
+  asterisk_color: label/required-foreground (status/error)
   asterisk_gap: space/inline-tight
   trigger_gap: space/inline-tight
   trigger: [icon/size-sm, space/inline-tight, color/muted-foreground]
@@ -270,7 +270,7 @@ trigger, on 06-10-2026:
 |---|---|
 | The text | `text/label-md`, in all the properties of the role |
 | The text color | `color/foreground` |
-| The asterisk color | `status/error` |
+| The asterisk color | `label/required-foreground` (`status/error`) |
 | The space before the asterisk | `space/inline-tight` |
 | The space up to the information icon | `space/inline-tight` |
 | The information icon | `circle-info` `solid` in `icon/size-sm`, with `space/inline-tight` around it (24 × 24 target), in `color/muted-foreground` |
@@ -331,7 +331,7 @@ name of the icon, such as `Sobre CPF` (About CPF).
 | The code API | `text`, `required` and `for` — **it is P62.3**, checked property by property in `src/components/nph-label/nph-label.ts`. `info` and `info-label` come in through **P62.6** (DSA-04), under review |
 | `required` and `for` reflect in the DOM | Confirmed in the code |
 | No Shadow DOM | Confirmed, with the reason written in the file itself |
-| Tokens consumed | Checked in `nph-label.css`: `text/label-md` (the properties of the role), `color/foreground`, `status/error`, `space/inline-tight`; with the trigger, those of the `tokens` block |
+| Tokens consumed | Checked in `nph-label.css`: `text/label-md` (the properties of the role), `color/foreground`, `label/required-foreground`, `space/inline-tight`; with the trigger, those of the `tokens` block |
 | Stories and tests | In `nph-label.stories.ts` and `nph-label.test.ts` |
 | Visual approval | Master set `374:6` on the `NPH — Label` page, in light and dark modes; the `required` × `info` matrix (L8); the icon focus and frame `1194:1482` (L9 and L10) |
 

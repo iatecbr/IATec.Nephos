@@ -22,6 +22,12 @@
  * - `mode`: `expanded` (default), `collapsed` or `mobile`. Reflects. The product chooses it;
  *   the collapse button also switches expanded and collapsed and fires `nph-mode-change`,
  *   `detail: { mode }`, which the product keeps;
+ * - `background`: `neutral` (default) or `brand` (DSA-121). Reflects, because the internal CSS
+ *   selects the token set by it. Neutral: `sidebar/panel-background` and `sidebar/panel-border`
+ *   with `elevation/raised` (mobile `elevation/drawer`), and the collapse and close icons in
+ *   `sidebar/toggle-foreground`. Brand: the `-brand` tokens, no shadow. It picks one of two
+ *   token sets the menu owns, not a free color: the one exception to "no color property" below
+ *   (P116, amended by Indiane on 2026-11-24);
  * - `navigation`: `flyout` (default, the mode above) or `panel-menu` (DSA-76, P124): the same
  *   `items`, with the third level of a child with `options` opening in place, below it, as a
  *   disclosure (the subgroup) instead of in a flyout panel. It changes how the expanded and the
@@ -51,7 +57,7 @@
  * - the events `nph-group-toggle`, `detail: { value, expanded }`, when the person opens or closes
  *   a group or, in the panel menu, a subgroup (the `value` of the child), and `nph-item-select`, the action chosen in the more actions of an item, with
  *   `detail: { value, checked, item }`. Links fire nothing: the click is the native `click`;
- * - no slot, no color property and no `::part`. Invalid input does not render and emits
+ * - no slot, no free color property (`background` picks a token set) and no `::part`. Invalid input does not render and emits
  *   `console.error` only in development, one per cause (P21). An empty list is a mount.
  *
  * FLYOUT — a `popover="manual"` in the top layer (as `nph-dropdown-menu`), drawn right after its
@@ -94,6 +100,9 @@ export type NphSidebarMode = (typeof NPH_SIDEBAR_MODES)[number];
 /** How the third level opens: in a flyout panel at the side (default) or in place, in the panel menu (DSA-76). */
 export const NPH_SIDEBAR_NAVIGATION_MODES = ['flyout', 'panel-menu'] as const;
 export type NphSidebarNavigation = (typeof NPH_SIDEBAR_NAVIGATION_MODES)[number];
+/** The panel background (DSA-121): `neutral` (default) or the active brand color. */
+export const NPH_SIDEBAR_BACKGROUNDS = ['neutral', 'brand'] as const;
+export type NphSidebarBackground = (typeof NPH_SIDEBAR_BACKGROUNDS)[number];
 
 /** The skeleton rows of the loading state: the number of items the list is expected to hold. */
 const SKELETON_ROWS = 6;
@@ -256,6 +265,8 @@ export class NphSidebar extends LitElement {
     mode: { type: String, reflect: true },
     /* `navigation` does not reflect: the CSS reads the markup the panel menu draws, not the host. */
     navigation: { type: String },
+    /* `background` reflects because the internal CSS selects the token set by it (DSA-121). */
+    background: { type: String, reflect: true },
     open: { type: Boolean, reflect: true },
     loading: { type: Boolean, reflect: true },
     items: { attribute: false },
@@ -282,6 +293,7 @@ export class NphSidebar extends LitElement {
 
   declare mode: NphSidebarMode;
   declare navigation: NphSidebarNavigation;
+  declare background: NphSidebarBackground;
   declare open: boolean;
   declare loading: boolean;
   /** The entries, already localized by the consuming application. */
@@ -339,6 +351,7 @@ export class NphSidebar extends LitElement {
     super();
     this.mode = 'expanded';
     this.navigation = 'flyout';
+    this.background = 'neutral';
     this.open = false;
     this.loading = false;
     this.items = [];
@@ -527,6 +540,10 @@ export class NphSidebar extends LitElement {
     if (!oneOf(NPH_SIDEBAR_NAVIGATION_MODES, navigation)) {
       causes.push(`navigation "${navigation}" does not exist. Use ${NPH_SIDEBAR_NAVIGATION_MODES.join(', ')}.`);
     }
+    const background = this.background ?? '';
+    if (!oneOf(NPH_SIDEBAR_BACKGROUNDS, background)) {
+      causes.push(`background "${background}" does not exist. Use ${NPH_SIDEBAR_BACKGROUNDS.join(', ')}.`);
+    }
     const rows = this.validRows(causes);
     this.sections = NphSidebar.sectionsOf(rows);
     this.empty = rows.length === 0;
@@ -542,7 +559,7 @@ export class NphSidebar extends LitElement {
     }
     this.report(causes);
     /* A missing name warns and still draws, as `nph-input`: the label may arrive after the first render. */
-    this.valid = oneOf(NPH_SIDEBAR_MODES, mode) && oneOf(NPH_SIDEBAR_NAVIGATION_MODES, navigation);
+    this.valid = oneOf(NPH_SIDEBAR_MODES, mode) && oneOf(NPH_SIDEBAR_NAVIGATION_MODES, navigation) && oneOf(NPH_SIDEBAR_BACKGROUNDS, background);
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
 
     if (changed.has('mode') || changed.has('items') || changed.has('navigation')) {
@@ -1595,6 +1612,8 @@ export class NphSidebar extends LitElement {
   private renderNav(): TemplateResult {
     const collapsed = this.mode === 'collapsed';
     const name = trimmed(this.label);
+    /* Without the corner button the foot is not drawn, so the navigation takes its room. */
+    const corner = this.renderCorner(collapsed);
     return html`<nav class="nav" aria-label=${name === '' ? nothing : name}>
       <div class="top">
         ${this.renderLogo(collapsed)}${this.renderCollapse()}${this.renderClose()}
@@ -1605,7 +1624,7 @@ export class NphSidebar extends LitElement {
           ${this.renderList(collapsed)}
         </div>
       </div>
-      <div class="foot">${this.renderCorner(collapsed)}</div>
+      ${corner === nothing ? nothing : html`<div class="foot">${corner}</div>`}
     </nav>`;
   }
 

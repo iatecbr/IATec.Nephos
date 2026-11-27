@@ -5197,7 +5197,7 @@ P64.
 9. **The rail button.** A link with `label`, `icon`, `href`, `active`, `disabled` and `counter`, a
    square of `sidebar/rail-button-size` in `radius/container`. The counter sits on the top end
    corner, inside the button (D-1); active, it gains an outline `border/width` in
-   `sidebar/panel-background` (D-2).
+   the color of the panel it sits on, `sidebar/panel-background` or `sidebar/panel-background-brand` (D-2).
 
 10. **Tokens.** The tokens of the evidence, each in its part: the item in `sidebar/item-height`,
     `sidebar/item-padding`, `space/control-padding` and `sidebar/item-radius`; the subitem in
@@ -7381,7 +7381,7 @@ names follow P64.
    against the dark panel in three brands). More actions is the `nph-button` **secondary**, ghost and
    compact (D-3; P98 item 4 said the default severity). The counter of the rail button sits above the top
    end corner: `space/inline-tight` above and `border/width` inside the end edge, the x 19 and y -4 of a 40
-   px button (D-1). The outline of the active counter is 4 px wide in `sidebar/panel-background`, decorative
+   px button (D-1). The outline of the active counter is 4 px wide in the color of the panel it sits on (`sidebar/panel-background`, or `sidebar/panel-background-brand` on the brand panel), decorative
    and not tied to the focus ring (D-2): its width is `space/inline-tight`, which measures 4, not
    `border/width` and not `focus/ring-width`.
 
@@ -7487,6 +7487,18 @@ records the other answers):
 **Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 and D-3 were answered on the previews (16/11/2026) and
 D-2 and D-4 in the chat, as above. The dark logo stays provisional until the brand confirms (D-2). API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+**Amendment of 27/11/2026 (DSA-121): the `background` property.** The decision above says the menu has "no
+color property". `nph-sidebar` gains `background`, `neutral` (default) or `brand`, which reflects. It is the
+one exception, decided by Indiane on 24/11/2026 (Figma preview `8293:27053`, the documentation `4633:27036`
+accepted on 25/11/2026): it picks one of two token sets the menu owns (`sidebar/panel-*` or
+`sidebar/panel-*-brand`, with `sidebar/toggle-foreground` or `sidebar/toggle-foreground-brand`), not a free
+color. The neutral panel lifts with `elevation/raised` (mobile `elevation/drawer`); the brand panel has no
+shadow. The rest of P116 stays: no slot, no `::part`, colors only through tokens. The outline of the active
+counter of the rail button (D-2 of DSA-53) is the color of the panel the rail button sits on:
+`sidebar/panel-background` on the neutral panel and `sidebar/panel-background-brand` on the brand panel; the
+brand panel redefines `--nph-sidebar-panel-background` for what it holds. With the corner button off, the
+foot is not drawn.
 
 ---
 

@@ -254,6 +254,16 @@ describe('colors and measures', () => {
     expect(getComputedStyle(control(rail)).backgroundColor).toBe(resolved('background-color', '--nph-sidebar-rail-background-hover'));
   });
 
+  it('the counter outline takes the panel the rail button sits on: the brand panel redefines sidebar/panel-background (DSA-121)', async () => {
+    const holder = document.createElement('div');
+    holder.style.setProperty('--nph-sidebar-panel-background', 'var(--nph-sidebar-panel-background-brand)');
+    document.body.append(holder);
+    const rail = document.createElement('nph-sidebar-rail-button');
+    Object.assign(rail, { label: 'Inbox', icon: 'inbox', href: '#inbox', counter: 3, active: true });
+    holder.append(rail);
+    await rail.updateComplete;
+    expect(getComputedStyle(counter(rail) as HTMLElement).outlineColor).toBe(resolved('color', '--nph-sidebar-panel-background-brand'));
+  });
   it('active: sidebar/rail-background-active and the icon in sidebar/rail-foreground-active, on hover too', async () => {
     const rail = await mount({ active: true });
     const check = (): void => {

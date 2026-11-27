@@ -22,6 +22,7 @@
     "components-nph-input-validation--matrix": "Matrix",
     "components-nph-input-validation--types": "Types",
     "components-nph-input-validation--icons": "Icons",
+    "components-nph-input-validation--affixes": "Affixes",
     "components-nph-input-validation--clear": "Clear",
     "components-nph-input-validation--form-association": "Form association",
     "components-nph-input-validation--error-and-disabled": "Error and disabled",
@@ -475,6 +476,7 @@
     "components-nph-sidebar-docs--documentation": "Documentation",
     "components-nph-sidebar-validation": "Validation",
     "components-nph-sidebar-validation--modes": "Modes",
+    "components-nph-sidebar-validation--backgrounds": "Backgrounds",
     "components-nph-sidebar-validation--mobile": "Mobile",
     "components-nph-sidebar-validation--loading": "Loading",
     "components-nph-sidebar-validation--flyout": "Flyout",
@@ -2723,6 +2725,14 @@
         "The accessible name of the clear button, already localized. Required with icon-end."
       ],
       [
+        "prefix-text",
+        "A short text before the value, such as R$ or @. Decoration, hidden from screen readers: write the unit in the label too."
+      ],
+      [
+        "suffix-text",
+        "The same, after the value, such as kg."
+      ],
+      [
         "input and change",
         "The native events. input fires when the person types or clears; change when the value is committed or cleared. Read the value from the host."
       ]
@@ -2933,6 +2943,14 @@
     "searchPlaceholder": "Search",
     "searchValue": "desk lamp",
     "clearLabel": "Clear search",
+    "affixMoneyLabel": "Value, in reais",
+    "affixMoneyValue": "1.250,00",
+    "affixWeightLabel": "Weight, in kilograms",
+    "affixWeightValue": "72",
+    "affixUserLabel": "User name",
+    "affixUserValue": "ana.souza",
+    "affixEmptyLabel": "Price, in reais",
+    "affixEmptyPlaceholder": "0,00",
     "statusIdle": "Waiting for an event.",
     "statusEvent": "{event} fired; the value is now \"{value}\".",
     "submitText": "Send",
@@ -8534,6 +8552,7 @@
       "components-nph-input-validation--matrix": "size × state of the set, in compact, default and large: placeholder, value, value with the clear button, error, disabled and disabled with error. Move the mouse over a field for hover, click it for focus and press Tab to the clear button for its focus.",
       "components-nph-input-validation--types": "The five types of D1, each with a value it accepts. Password, number and mask are out of v1.",
       "components-nph-input-validation--icons": "Start and end icons, light, at icon/size-sm: none, start, end and both. The end icon only swaps the art; the action is always to clear.",
+      "components-nph-input-validation--affixes": "A text prefix and suffix inside the field, such as R$, kg and @, in input/affix-foreground. They are decoration, hidden from screen readers: the unit goes in the label. A click on them focuses the field.",
       "components-nph-input-validation--clear": "The clear button shows with a value. A click, Enter or Space empties it, brings the focus back to the field and fires input and change.",
       "components-nph-input-validation--form-association": "The host is labelable and takes part in the form: the label focuses it, submit sends name=value, reset restores the value attribute, and a disabled fieldset leaves it out.",
       "components-nph-input-validation--error-and-disabled": "The precedence of D5: error keeps its border on hover and focus; disabled wins over error.",
@@ -8774,6 +8793,7 @@
       "components-nph-tabs-validation--examples": "The three required examples, each in light and dark mode: requests by step with icon, counter and tag; the request detail inside a panel; and the arrows at both ends when the tabs do not fit.",
       "components-nph-tabs-validation--brands": "The seven brands in light and dark mode: the label and the line of the active tab, the counter, the tag and the focus follow the brand of the frame.",
       "components-nph-sidebar-validation--modes": "The expanded and the collapsed menu, ready, with the current page, a counter, an open group and a disabled page. Move the mouse for hover and press Tab for the focus.",
+      "components-nph-sidebar-validation--backgrounds": "The two backgrounds, neutral (the default) and brand, in the expanded and the collapsed menu: the neutral panel is white with a shadow in light and the card surface with a soft outline in dark, and the collapse icon is gray; the brand panel keeps the brand color with no shadow.",
       "components-nph-sidebar-validation--mobile": "The phone: the button of the product opens the menu over the screen, with the scrim behind and the close button in place of the collapse button. The story opens the light one; Esc, the close button and the scrim close it.",
       "components-nph-sidebar-validation--loading": "The state loading, expanded and collapsed: nph-skeleton rows in place of the items, with the logo, the search and the corner button in place.",
       "components-nph-sidebar-validation--flyout": "The flyout panel: next to the rail button for the second level, next to the option for the third level, and next to the subitem in the expanded menu. It opens on a click, never on hover.",
@@ -13499,6 +13519,7 @@
     "flyoutCollapsed": "Collapsed menu: the panel next to the rail button and the third level next to the option",
     "flyoutExpanded": "Expanded menu: the third level next to the subitem",
     "partsLabel": "hide-collapse-button × hide-corner-button",
+    "backgroundsLabel": "background × mode",
     "invalidLabel": "Invalid input",
     "exampleMain": "Product with many areas, expanded, with the corner button",
     "exampleLoading": "List arriving, expanded, loading",
@@ -13552,6 +13573,10 @@
       [
         "mode",
         "expanded (default), collapsed or mobile. The product chooses it; the collapse button also switches expanded and collapsed."
+      ],
+      [
+        "background",
+        "neutral (default) or brand. The neutral panel is white with a shadow in light and the card surface with a soft outline in dark, and the collapse and close icons are gray; brand paints the panel in the brand color, with no shadow. Use brand only when the product asks for it."
       ],
       [
         "navigation",
@@ -13793,7 +13818,7 @@
     "anatomy": [
       [
         "1. Panel",
-        "sidebar/panel-background, a 1 px border in sidebar/panel-border and the corners of sidebar/panel-radius; collapsed, sidebar/rail-radius. It floats, with no shadow."
+        "sidebar/panel-background, a 1 px border in sidebar/panel-border and the corners of sidebar/panel-radius; collapsed, sidebar/rail-radius. Neutral, the default: it floats with elevation/raised (mobile elevation/drawer), and with no shadow in dark mode. With background brand: sidebar/panel-background-brand, sidebar/panel-border-brand and no shadow."
       ],
       [
         "2. Logo",

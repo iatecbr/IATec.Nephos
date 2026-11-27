@@ -175,7 +175,7 @@ nav {
 .row:focus-visible::before,
 .menu-button:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
-  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border: var(--nph-border-width) solid var(--nph-navigation-menu-focus-border);
   border-radius: var(--nph-focus-border-radius-control);
 }
 
@@ -190,7 +190,7 @@ nav {
 /* Panel link: the radii of the inner item. */
 .link:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
-  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border: var(--nph-border-width) solid var(--nph-navigation-menu-focus-border);
   border-radius: var(--nph-focus-border-radius-inner);
 }
 

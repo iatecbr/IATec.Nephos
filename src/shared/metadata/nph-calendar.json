@@ -342,7 +342,7 @@
     "day_focus": "calendar/day-focus-radius, focus/border, focus/halo, focus/ring-width, border/width",
     "day_states": "color/accent, color/accent-foreground, color/muted-foreground, color/primary, color/primary-foreground, color/primary-surface, color/primary-on-surface, color/primary-text, radius/none, state/disabled-opacity",
     "weekday": "text/label-sm, color/muted-foreground",
-    "header": "control/height-default, space/inline-tight, control/height-large, space/inline, color/secondary-foreground, text/label-md",
+    "header": "control/height-default, space/inline-tight, control/height-large, space/inline, calendar/title-foreground (color/foreground on the year range), color/secondary-foreground, text/label-md",
     "grid": "space/container-padding, space/inline"
   },
   "ai_hints": [

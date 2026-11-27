@@ -133,7 +133,7 @@ states:
     token: "togglebutton/background-hover when off and togglebutton/background-checked-hover when on; the label and the icon use color/foreground"
     changes_for_user: "The box takes the hover background of its pressed value, the label becomes color/foreground and the icon turns solid."
   focus:
-    token: "border border/width in color/primary and halo focus/ring-width in focus/halo; when invalid, status/error and focus/halo-error"
+    token: "border border/width in togglebutton/focus-border and halo focus/ring-width in focus/halo; when invalid, status/error and focus/halo-error"
     changes_for_user: "For keyboard users, a border and a halo outside the piece mark the focus, without changing the size."
   invalid:
     token: status/error
@@ -166,7 +166,7 @@ tokens:
   icon: [icon/size-sm, icon/size-md, icon/size-lg]
   invalid: status/error
   disabled: state/disabled-opacity
-  focus: [border/width, focus/border-radius-control, focus/ring-width, focus/radius-control-with-border, color/primary, focus/halo, status/error, focus/halo-error]
+  focus: [border/width, focus/border-radius-control, focus/ring-width, focus/radius-control-with-border, togglebutton/focus-border, focus/halo, status/error, focus/halo-error]
   motion: [motion/state-duration, motion/state-easing]
   motion_reduced: motion/hover-duration
 ai_hints:
@@ -185,7 +185,7 @@ accessibility:
     - "Tab enters and leaves the piece."
     - "Enter toggles."
     - "Space toggles."
-  focus: "Keyboard only: a border in color/primary and a halo outside, without changing the size; when invalid, status/error and focus/halo-error. The border is color/primary and not focus/border, which design.md says is the only one that guarantees 3:1 against the halo. Known limit, measured in the test: in dark mode, color/primary is below 3:1 against the page background in gerencial (2.71:1) and rh (2.88:1), and against the halo in every brand (1.76:1 to 2.94:1); in light mode it passes, and the lowest value is 3.33:1 against the halo, in educacao."
+  focus: "Keyboard only: a border in togglebutton/focus-border and a halo outside, without changing the size; when invalid, status/error and focus/halo-error. The border is togglebutton/focus-border, which points to focus/border, the one that guarantees 3:1 against the halo and the page background in both modes."
   contrast: "The label and the icon pass 6:1 on the background of each state, in every brand and in both schemes; the test measures every pair: color/muted-foreground on the page at rest, and color/foreground on togglebutton/background-hover, togglebutton/background-checked and togglebutton/background-checked-hover. The error border, status/error on color/background, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses color/muted-foreground, and design.md marks that token as not for text needed to complete the task; the measured ratio passes 6:1 in both schemes."
   color_alternative: "The pressed state shows in the background, in the label color and in the icon, which swaps from xmark to check and turns solid, and aria-pressed exposes it. Known limit, accepted with the board: the checked background is 1.26:1 on the page in light and 1.39:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border; the error message stays outside."
 invalid_combinations:
@@ -282,7 +282,7 @@ with text, `icon-start` and `icon-end` both on.
 | Off, hover | `togglebutton/background-hover`; `color/foreground` for the label and the icon | The box takes the hover background, the label becomes `color/foreground` and the icon turns `solid` |
 | Pressed | `togglebutton/background-checked`; `color/foreground` for the label and the icon | The box takes the checked background, and the icon changes from `xmark` to `check`, `solid`. No semibold label and no stroke |
 | Pressed, hover | `togglebutton/background-checked-hover`; `color/foreground` for the label and the icon | The box takes the checked hover background; the icon stays `solid` |
-| Focus | border `border/width` in `color/primary` and halo `focus/ring-width` in `focus/halo` | A border and a halo outside the piece mark the focus, without changing the size |
+| Focus | border `border/width` in `togglebutton/focus-border` and halo `focus/ring-width` in `focus/halo` | A border and a halo outside the piece mark the focus, without changing the size |
 | Invalid | `status/error`, and on focus `status/error` with `focus/halo-error` | The border becomes `status/error`, over the background of the state; the message stays outside the piece |
 | Disabled | `state/disabled-opacity` | The whole piece loses opacity, in the rest colors of its pressed value and with the `light` icon, leaves the Tab order and stops responding; a pressed piece keeps `togglebutton/background-checked` |
 
@@ -318,7 +318,7 @@ The piece shows the border; the message is written outside it, by whoever uses t
 | Semantics | A native button inside the component, with `type=button` and `aria-pressed` following `pressed`. Never `role` switch or `aria-checked`: the piece is a button that holds a state. `aria-invalid` is not valid on a button, so `invalid` is shown by the border and the message stays outside the piece |
 | Accessible name | The visible text. Icon only, the `label`, mandatory, as the `aria-label` of the native button; the icons are `aria-hidden` |
 | Keyboard | Tab enters and leaves; Enter and Space toggle |
-| Focus | Keyboard only: a border in `color/primary` and a halo outside, without changing the size; when invalid, `status/error` and `focus/halo-error`. The border is `color/primary`, not `focus/border`, which `design.md` says is the only one that guarantees 3:1 against the halo. Known limit, measured in the test: in dark mode, `color/primary` is below 3:1 against the page background in gerencial (2.71:1) and rh (2.88:1), and against the halo in every brand (1.76:1 to 2.94:1); in light mode it passes, and the lowest value is 3.33:1 against the halo, in educacao |
+| Focus | Keyboard only: a border in `togglebutton/focus-border` and a halo outside, without changing the size; when invalid, `status/error` and `focus/halo-error`. The border is `togglebutton/focus-border`, which points to `focus/border`, the one that guarantees 3:1 against the halo and the page background in both modes |
 | Contrast | The label and the icon pass 6:1 on the background of each state, in every brand and in both schemes; the test measures every pair: `color/muted-foreground` on the page at rest, and `color/foreground` on `togglebutton/background-hover`, `togglebutton/background-checked` and `togglebutton/background-checked-hover`. The error border, `status/error` on `color/background`, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses `color/muted-foreground`, and `design.md` marks that token as not for text needed to complete the task; the measured ratio passes 6:1 in both schemes |
 | Alternative to color | The pressed state shows in the background, in the label color and in the icon, which swaps from `xmark` to `check` and turns `solid`, and `aria-pressed` exposes it. Known limit, accepted with the board: the checked background is 1.26:1 on the page in light and 1.39:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border |
 | Touch target | The whole piece is the target: 28, 36 or 44 px high by size, with or without text. On touch screens, use `large` |
@@ -353,7 +353,7 @@ with text and in the icon size of `size` icon only. The piece has no slot.
 | Icon | `icon/size-sm` with text; icon only, `icon/size-sm`, `icon/size-md` or `icon/size-lg` by `size` |
 | Invalid | `status/error` |
 | Disabled | `state/disabled-opacity` |
-| Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `color/primary`, `focus/halo`, `status/error` and `focus/halo-error` |
+| Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `togglebutton/focus-border`, `focus/halo`, `status/error` and `focus/halo-error` |
 | Motion | `motion/state-duration` and `motion/state-easing`; `motion/hover-duration` under reduced motion |
 
 **Usage restrictions:** the component does not choose height, color, radius or

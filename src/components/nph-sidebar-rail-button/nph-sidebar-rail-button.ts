@@ -27,7 +27,7 @@
  * - `counter`: a whole number of pending items, in a pill on the top end corner (D-1). It is
  *   read as text, in the name of the link after the label: the name holds the text one sees
  *   on the button (WCAG 2.5.3; Elvys, 27-10-2026, DSA-32). Active, the pill gains an outline in
- *   `sidebar/panel-background`, decorative, not tied to the focus ring (D-2, answered in P116);
+ *   `sidebar/panel-background` (the brand panel redefines it as `sidebar/panel-background-brand`), decorative, not tied to the focus ring (D-2, answered in P116);
  * - `disabled`: the button at `state/disabled-opacity`, out of the Tab order, with no balloon;
  * - no event of its own: the click is the native `click`, which crosses the shadow root. The
  *   click on the balloon stops at the host (P98). No slot, no color property, no `::part`;

@@ -283,7 +283,7 @@ describe('the label (D1)', () => {
     const text = root(field).querySelector('.nph-label__text') as HTMLElement;
     const asterisk = root(field).querySelector('.nph-label__required') as HTMLElement;
     expect(getComputedStyle(text).color).toBe(colorOf('--nph-color-foreground'));
-    expect(getComputedStyle(asterisk).color).toBe(colorOf('--nph-status-error'));
+    expect(getComputedStyle(asterisk).color).toBe(colorOf('--nph-label-required-foreground'));
   });
 });
 

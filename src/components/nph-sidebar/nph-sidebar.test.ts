@@ -179,6 +179,7 @@ describe('registration and API', () => {
       .map(([name]) => name);
     expect(declared.sort()).toEqual(
       [
+        'background',
         'closeLabel',
         'collapseLabel',
         'cornerLabel',
@@ -407,7 +408,7 @@ describe('the expanded menu', () => {
     expect(style.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-sidebar-panel-radius'));
     expect(style.borderTopColor).toBe(resolved('color', '--nph-sidebar-panel-border'));
     expect(style.backgroundColor).toBe(resolved('background-color', '--nph-sidebar-panel-background'));
-    expect(style.boxShadow).toBe('none');
+    expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-raised'));
     expect(panel.getBoundingClientRect().height).toBeCloseTo(640, 0);
   });
 
@@ -2022,6 +2023,66 @@ describe('the default navigation is untouched by the panel menu', () => {
   });
 });
 
+describe('the background: neutral (default) or brand (DSA-121)', () => {
+  const innerControl = (element: HTMLElement): HTMLElement => (element.shadowRoot as ShadowRoot).querySelector('.control') as HTMLElement;
+  it('is neutral by default and reflects', async () => {
+    const sidebar = await mount();
+    expect(sidebar.background).toBe('neutral');
+    expect(sidebar.getAttribute('background')).toBe('neutral');
+  });
+  it('neutral: the panel lifts with elevation/raised, and the collapse icon is sidebar/toggle-foreground', async () => {
+    const sidebar = await mount();
+    const style = getComputedStyle(one(sidebar, '.panel') as HTMLElement);
+    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-sidebar-panel-background'));
+    expect(style.borderTopColor).toBe(resolved('color', '--nph-sidebar-panel-border'));
+    expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-raised'));
+    expect(getComputedStyle(one(sidebar, '.toggle') as HTMLElement).color).toBe(resolved('color', '--nph-sidebar-toggle-foreground'));
+  });
+  it('brand: the -brand tokens, no shadow, and the collapse icon in sidebar/toggle-foreground-brand', async () => {
+    const sidebar = await mount({ background: 'brand' });
+    const style = getComputedStyle(one(sidebar, '.panel') as HTMLElement);
+    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-sidebar-panel-background-brand'));
+    expect(style.borderTopColor).toBe(resolved('color', '--nph-sidebar-panel-border-brand'));
+    expect(style.boxShadow).toBe('none');
+    expect(getComputedStyle(one(sidebar, '.toggle') as HTMLElement).color).toBe(resolved('color', '--nph-sidebar-toggle-foreground-brand'));
+  });
+  it('collapsed: the rail has the shadow on neutral and none on brand', async () => {
+    const neutral = await mount({ mode: 'collapsed' });
+    expect(getComputedStyle(one(neutral, '.panel') as HTMLElement).boxShadow).toBe(resolved('box-shadow', '--nph-elevation-raised'));
+    const brand = await mount({ mode: 'collapsed', background: 'brand' });
+    expect(getComputedStyle(one(brand, '.panel') as HTMLElement).boxShadow).toBe('none');
+  });
+  it('mobile: elevation/drawer on neutral, none on brand, and the X follows the collapse icon', async () => {
+    const neutral = await mount({ mode: 'mobile', open: true });
+    expect(getComputedStyle(one(neutral, 'dialog.panel') as HTMLElement).boxShadow).toBe(resolved('box-shadow', '--nph-elevation-drawer'));
+    expect(getComputedStyle(innerControl(one(neutral, '.close') as HTMLElement)).color).toBe(resolved('color', '--nph-sidebar-toggle-foreground'));
+    const brand = await mount({ mode: 'mobile', open: true, background: 'brand' });
+    expect(getComputedStyle(one(brand, 'dialog.panel') as HTMLElement).boxShadow).toBe('none');
+    expect(getComputedStyle(innerControl(one(brand, '.close') as HTMLElement)).color).toBe(resolved('color', '--nph-sidebar-toggle-foreground-brand'));
+  });
+  it('the counter outline of the active rail button takes the color of the panel it sits on', async () => {
+    const outline = (sidebar: NphSidebar): string => {
+      const button = rail(sidebar, 0);
+      const pill = (button.shadowRoot as ShadowRoot).querySelector('.counter') as HTMLElement;
+      return getComputedStyle(pill).outlineColor;
+    };
+    const neutral = await mount({ mode: 'collapsed', items: [{ label: 'Inbox', icon: 'inbox', href: '#inbox', active: true, counter: 3 }] });
+    expect(outline(neutral)).toBe(resolved('color', '--nph-sidebar-panel-background'));
+    const brand = await mount({ mode: 'collapsed', background: 'brand', items: [{ label: 'Inbox', icon: 'inbox', href: '#inbox', active: true, counter: 3 }] });
+    expect(outline(brand)).toBe(resolved('color', '--nph-sidebar-panel-background-brand'));
+  });
+  it('an unknown value does not render and emits one console.error in development', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const sidebar = await mount({ background: 'rainbow' as never });
+    expect(sidebar.hasAttribute('data-nph-rendered')).toBe(false);
+    expect(error.mock.calls.some((call) => String(call[0]).includes('background "rainbow"'))).toBe(true);
+  });
+  it('with the corner button off, the foot is not drawn; with it on, it is', async () => {
+    expect(one(await mount({ hideCornerButton: true }), '.foot')).toBeNull();
+    expect(one(await mount({ cornerLabel: '' }), '.foot')).toBeNull();
+    expect(one(await mount({ cornerLabel: 'New' }), '.foot')).not.toBeNull();
+  });
+});
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   /* What the piece reads is its own style and the growth it shares with the nph-collapsible (DSA-98). */
@@ -2043,6 +2104,12 @@ describe('token contract', () => {
     for (const name of [
       '--nph-sidebar-panel-background',
       '--nph-sidebar-panel-border',
+      '--nph-sidebar-panel-background-brand',
+      '--nph-sidebar-panel-border-brand',
+      '--nph-sidebar-toggle-foreground',
+      '--nph-sidebar-toggle-foreground-brand',
+      '--nph-elevation-raised',
+      '--nph-elevation-drawer',
       '--nph-sidebar-panel-radius',
       '--nph-sidebar-panel-spacing',
       '--nph-sidebar-panel-width',
@@ -2098,7 +2165,16 @@ describe('token contract', () => {
     expect(cssWithoutComments).not.toMatch(/uppercase/);
   });
 
-  it('only redefines the tokens of the search and the hook of the close button', () => {
-    expect([...defined].filter((name) => !name.startsWith('--_')).sort()).toEqual(['--nph-button-focus-border', '--nph-color-background', '--nph-input-border', '--nph-separator-border']);
+  it('only redefines the tokens of the search, the hook and the icon color of the close button, and the three the brand panel swaps', () => {
+    expect([...defined].filter((name) => !name.startsWith('--_')).sort()).toEqual([
+      '--nph-button-focus-border',
+      '--nph-color-background',
+      '--nph-color-primary-on-surface',
+      '--nph-input-border',
+      '--nph-separator-border',
+      '--nph-sidebar-panel-background',
+      '--nph-sidebar-panel-border',
+      '--nph-sidebar-toggle-foreground',
+    ]);
   });
 });

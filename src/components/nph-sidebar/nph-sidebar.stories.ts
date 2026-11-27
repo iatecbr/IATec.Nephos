@@ -163,6 +163,27 @@ export const PanelMenu: Story = {
   },
 };
 
+/** The two backgrounds, neutral (default) and brand, in the expanded and the collapsed menu. */
+export const Backgrounds: Story = {
+  name: 'Backgrounds',
+  render: (_args, context: GlobalsContext) => {
+    const s = text(context);
+    return validationPage(
+      context,
+      page('backgrounds'),
+      inBothSchemes(context, 'backgrounds', () =>
+        matrix(
+          t(context).backgroundsLabel,
+          ['background: neutral', 'background: brand'],
+          (['expanded', 'collapsed'] as const).map((mode) => ({
+            label: `mode: ${mode}`,
+            cells: [sidebar(s, { mode, background: 'neutral', height: cellHeight }), sidebar(s, { mode, background: 'brand', height: cellHeight })],
+          })),
+        ),
+      ),
+    );
+  },
+};
 /** The two Figma booleans, the collapse button and the corner button, on and off, in the expanded menu. */
 export const Parts: Story = {
   name: 'Parts',

@@ -102,7 +102,7 @@
       "changes_for_user": "The top item takes a background and the accent text. A trigger whose panel is open keeps this look."
     },
     "top-focus": {
-      "token": "focus/border, focus/halo",
+      "token": "navigation-menu/focus-border, focus/halo",
       "changes_for_user": "For keyboard users, a border and a halo outside the item mark the focus; the item keeps the look of rest."
     },
     "top-disabled": {
@@ -122,7 +122,7 @@
       "changes_for_user": "The link takes a background, the accent title and the accent icon."
     },
     "link-focus": {
-      "token": "focus/border, focus/halo",
+      "token": "navigation-menu/focus-border, focus/halo",
       "changes_for_user": "For keyboard users, a border and a halo outside the link mark the focus."
     },
     "link-disabled": {
@@ -163,7 +163,7 @@
     "panel": "navigation-menu/panel-background, navigation-menu/panel-border, navigation-menu/panel-border-width, navigation-menu/panel-radius, navigation-menu/panel-padding, navigation-menu/panel-width, navigation-menu/panel-offset, navigation-menu/group-gap, elevation/dropdown",
     "panel_link": "navigation-menu/item-background-hover, navigation-menu/item-title-foreground, navigation-menu/item-title-foreground-hover, navigation-menu/item-description-foreground, navigation-menu/item-padding, navigation-menu/item-gap, navigation-menu/item-text-gap, navigation-menu/item-radius, navigation-menu/item-icon-size, navigation-menu/item-icon-foreground, navigation-menu/item-icon-foreground-hover",
     "current": "navigation-menu/current-foreground, navigation-menu/current-indicator-background, navigation-menu/current-indicator-width",
-    "focus": "focus/border, border/width, focus/halo, focus/ring-width, focus/border-radius-control, focus/radius-control-with-border, focus/border-radius-inner, focus/radius-inner-with-border",
+    "focus": "navigation-menu/focus-border (focus/border), border/width, focus/halo, focus/ring-width, focus/border-radius-control, focus/radius-control-with-border, focus/border-radius-inner, focus/radius-inner-with-border",
     "disabled": "state/disabled-opacity",
     "typography": "text/label-md, text/label-sm, text/body-sm",
     "menu_button": "the secondary ghost tokens of nph-icon-button, control/height-default, radius/control"

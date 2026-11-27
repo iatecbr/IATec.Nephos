@@ -42,6 +42,8 @@ type Props = Partial<
     | 'iconStart'
     | 'iconEnd'
     | 'clearLabel'
+    | 'prefixText'
+    | 'suffixText'
   >
 >;
 
@@ -162,8 +164,10 @@ describe('registration and API', () => {
         'label',
         'name',
         'placeholder',
+        'prefixText',
         'required',
         'size',
+        'suffixText',
         'type',
         'value',
       ].sort(),
@@ -1009,7 +1013,9 @@ describe('measures and anatomy', () => {
   it('the order is start icon, value, clear button', async () => {
     const element = await mount({ label: 'Search', iconStart: 'magnifying-glass', iconEnd: 'xmark', clearLabel: 'Clear', value: 'a' });
     const parts = [...container(element).children].map((child) => child.className || child.tagName.toLowerCase());
-    expect(parts).toEqual(['icon-start', 'field', 'clear']);
+    expect(parts).toEqual(['icon-start', 'content', 'clear']);
+    const withAffix = await mount({ label: 'Search', prefixText: 'R$', suffixText: 'kg' });
+    expect([...(container(withAffix).querySelector('.content')?.children ?? [])].map((child) => child.className)).toEqual(['prefix', 'field', 'suffix']);
   });
 
   it('the clear target is 24 x 24: icon/size-sm with space/inline-tight around it, no radius', async () => {
@@ -1218,6 +1224,53 @@ describe('states and precedence (D4, D5)', () => {
   });
 });
 
+describe('prefix and suffix (DSA-129)', () => {
+  function affixes(element: NphInput): { prefix: HTMLElement | null; suffix: HTMLElement | null } {
+    return {
+      prefix: element.shadowRoot?.querySelector<HTMLElement>('.prefix') ?? null,
+      suffix: element.shadowRoot?.querySelector<HTMLElement>('.suffix') ?? null,
+    };
+  }
+  it('draws the prefix before the value and the suffix after it, hidden from screen readers', async () => {
+    const element = await mount({ label: 'Value, in reais', prefixText: 'R$', suffixText: 'kg', value: '1' });
+    const { prefix, suffix } = affixes(element);
+    expect(prefix?.textContent).toBe('R$');
+    expect(suffix?.textContent).toBe('kg');
+    expect(prefix?.getAttribute('aria-hidden')).toBe('true');
+    expect(suffix?.getAttribute('aria-hidden')).toBe('true');
+    const input = field(element).getBoundingClientRect();
+    expect(prefix!.getBoundingClientRect().right).toBeLessThanOrEqual(input.left);
+    expect(suffix!.getBoundingClientRect().left).toBeGreaterThanOrEqual(input.right);
+  });
+  it('reads input/affix-foreground and input/affix-gap', async () => {
+    const element = await mount({ label: 'Value', prefixText: 'R$' });
+    const { prefix } = affixes(element);
+    expect(getComputedStyle(prefix!).color).toBe(resolved('color', '--nph-input-affix-foreground'));
+    const gap = field(element).getBoundingClientRect().left - prefix!.getBoundingClientRect().right;
+    expect(gap).toBeCloseTo(px('--nph-input-affix-gap'), 2);
+  });
+  it('draws no affix element when the text is empty or only spaces, and by default', async () => {
+    const element = await mount({ label: 'Value', prefixText: '', suffixText: '   ' });
+    expect(affixes(element)).toEqual({ prefix: null, suffix: null });
+    expect(affixes(await mount({ label: 'Other' }))).toEqual({ prefix: null, suffix: null });
+  });
+  it('is not focusable, and a click on it focuses the inner field', async () => {
+    const element = await mount({ label: 'Value', prefixText: '@' });
+    await userEvent.click(affixes(element).prefix!);
+    expect(element.shadowRoot?.activeElement).toBe(field(element));
+  });
+  it('follows the opacity of the whole field when disabled', async () => {
+    const element = await mount({ label: 'Value', prefixText: 'R$', disabled: true });
+    expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+    expect(affixes(element).prefix?.getAttribute('aria-hidden')).toBe('true');
+  });
+  it('reads the attributes prefix-text and suffix-text', async () => {
+    const holder = await markup('<nph-input label="Weight" prefix-text="~" suffix-text="kg"></nph-input>');
+    const element = holder.querySelector('nph-input') as NphInput;
+    expect(element.prefixText).toBe('~');
+    expect(element.suffixText).toBe('kg');
+  });
+});
 describe('invalid input', () => {
   const cases: ReadonlyArray<readonly [string, Props, number]> = [
     ['a type out of v1', { label: 'Pin', type: 'password' }, 1],
@@ -1318,6 +1371,8 @@ describe('token contract', () => {
         '--nph-input-border-bottom',
         '--nph-input-height',
         '--nph-space-inline',
+        '--nph-input-affix-foreground',
+        '--nph-input-affix-gap',
         '--nph-control-height-large',
         '--nph-input-height-compact',
         '--nph-input-clear-padding-end',

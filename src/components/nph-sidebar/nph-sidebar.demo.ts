@@ -66,6 +66,7 @@ export interface SidebarText {
 export interface Options {
   mode?: NphSidebarMode;
   navigation?: NphSidebarNavigation;
+  background?: 'neutral' | 'brand';
   loading?: boolean;
   open?: boolean;
   hideCollapseButton?: boolean;
@@ -244,6 +245,7 @@ export function sidebar(text: SidebarText, options: Options = {}, openers: reado
       ${showing(openers)}
       mode=${mode}
       navigation=${navigation}
+      background=${options.background ?? 'neutral'}
       label=${text.label}
       collapse-label=${text.collapseLabel}
       expand-label=${text.expandLabel}

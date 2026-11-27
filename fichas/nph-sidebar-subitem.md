@@ -141,7 +141,7 @@ accessibility:
     - "Enter: follows the link."
     - "Enter and Space: with options, open and close the list."
   focus: "Border focus/border and halo focus/halo around the whole line, keyboard only."
-  contrast: "The label passes 4.5:1 against sidebar/panel-background and sidebar/item-background-hover, in both modes. Disabled is exempt."
+  contrast: "The label passes 4.5:1 against sidebar/panel-background (neutral panel) or sidebar/panel-background-brand (brand panel) and sidebar/item-background-hover, in both modes. Disabled is exempt."
   color_alternative: "Active also switches the label to text/label-md."
 invalid_combinations:
   - "A subitem without href, unless disabled or with options — it leads nowhere."
@@ -240,7 +240,7 @@ ring.
 | Accessible name | The label. The arrow is hidden; the balloon is the description of the line |
 | Keyboard | Tab reaches the line; Enter follows the link; with `options`, Enter and Space open and close the list |
 | Focus | Border `focus/border` and halo `focus/halo` around the whole line, keyboard only |
-| Contrast | The label passes 4.5:1 against `sidebar/panel-background` and `sidebar/item-background-hover`, in both modes. Disabled is exempt |
+| Contrast | The label passes 4.5:1 against `sidebar/panel-background` (neutral panel) or `sidebar/panel-background-brand` (brand panel) and `sidebar/item-background-hover`, in both modes. Disabled is exempt |
 | Alternative to color | Active also switches the label to `text/label-md` |
 | Touch target | The whole line, `control/height-default` |
 | Known limits | Forced colors and right-to-left are not treated yet |

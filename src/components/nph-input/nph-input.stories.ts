@@ -193,6 +193,44 @@ export const Icons: Story = {
   },
 };
 
+/** Text prefix and suffix inside the field, hidden from screen readers; the unit goes in the label. */
+export const Affixes: Story = {
+  name: 'Affixes',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('affixes'),
+      inBothModes(context, 'affixes', (label) =>
+        matrix(
+          label,
+          [],
+          [
+            { label: 'prefix-text: R$', cells: [html`<nph-input label=${v.affixMoneyLabel} value=${v.affixMoneyValue} prefix-text="R$"></nph-input>`] },
+            { label: 'suffix-text: kg', cells: [html`<nph-input label=${v.affixWeightLabel} value=${v.affixWeightValue} suffix-text="kg"></nph-input>`] },
+            { label: 'prefix-text: @', cells: [html`<nph-input label=${v.affixUserLabel} value=${v.affixUserValue} prefix-text="@"></nph-input>`] },
+            { label: 'prefix-text + placeholder', cells: [html`<nph-input label=${v.affixEmptyLabel} placeholder=${v.affixEmptyPlaceholder} prefix-text="R$"></nph-input>`] },
+            {
+              label: 'icon-start + prefix-text + clear',
+              cells: [
+                html`<nph-input
+                  label=${v.affixMoneyLabel}
+                  value=${v.affixMoneyValue}
+                  icon-start="magnifying-glass"
+                  prefix-text="R$"
+                  icon-end="xmark"
+                  clear-label=${v.clearLabel}
+                ></nph-input>`,
+              ],
+            },
+            { label: 'compact', cells: [html`<nph-input size="compact" label=${v.affixWeightLabel} value=${v.affixWeightValue} suffix-text="kg"></nph-input>`] },
+            { label: 'large', cells: [html`<nph-input size="large" label=${v.affixWeightLabel} value=${v.affixWeightValue} suffix-text="kg"></nph-input>`] },
+          ],
+        ),
+      ),
+    );
+  },
+};
 /** The status text under a field: it is replaced by the listeners, and re-rendered only when the language changes. */
 function clearable(context: GlobalsContext | undefined): TemplateResult {
   const v = t(context);

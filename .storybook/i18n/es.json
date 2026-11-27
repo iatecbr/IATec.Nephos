@@ -22,6 +22,7 @@
     "components-nph-input-validation--matrix": "Matriz",
     "components-nph-input-validation--types": "Tipos",
     "components-nph-input-validation--icons": "Íconos",
+    "components-nph-input-validation--affixes": "Afijos",
     "components-nph-input-validation--clear": "Borrar",
     "components-nph-input-validation--form-association": "Asociación al formulario",
     "components-nph-input-validation--error-and-disabled": "Error y deshabilitado",
@@ -475,6 +476,7 @@
     "components-nph-sidebar-docs--documentation": "Documentación",
     "components-nph-sidebar-validation": "Validación",
     "components-nph-sidebar-validation--modes": "Modos",
+    "components-nph-sidebar-validation--backgrounds": "Fondos",
     "components-nph-sidebar-validation--mobile": "Celular",
     "components-nph-sidebar-validation--loading": "Cargando",
     "components-nph-sidebar-validation--flyout": "Flyout",
@@ -2723,6 +2725,14 @@
         "El nombre accesible del botón de borrar, ya localizado. Obligatorio con icon-end."
       ],
       [
+        "prefix-text",
+        "Un texto corto antes del valor, como R$ o @. Decoración, oculta a los lectores de pantalla: escriba la unidad también en la etiqueta."
+      ],
+      [
+        "suffix-text",
+        "Lo mismo, después del valor, como kg."
+      ],
+      [
         "input y change",
         "Los eventos nativos. input se dispara cuando la persona escribe o borra; change cuando el valor se confirma o se borra. Lea el valor en el host."
       ]
@@ -2933,6 +2943,14 @@
     "searchPlaceholder": "Buscar",
     "searchValue": "lámpara de escritorio",
     "clearLabel": "Borrar búsqueda",
+    "affixMoneyLabel": "Valor, en reales",
+    "affixMoneyValue": "1.250,00",
+    "affixWeightLabel": "Peso, en kilogramos",
+    "affixWeightValue": "72",
+    "affixUserLabel": "Nombre de usuario",
+    "affixUserValue": "ana.souza",
+    "affixEmptyLabel": "Precio, en reales",
+    "affixEmptyPlaceholder": "0,00",
     "statusIdle": "Esperando un evento.",
     "statusEvent": "{event} disparado; el valor ahora es \"{value}\".",
     "submitText": "Enviar",
@@ -8534,6 +8552,7 @@
       "components-nph-input-validation--matrix": "size × state del set, en compact, default y large: placeholder, valor, valor con el botón de borrar, error, deshabilitado y deshabilitado con error. Pase el mouse sobre un campo para el hover, haga clic para el foco y pulse Tab hasta el botón de borrar para su foco.",
       "components-nph-input-validation--types": "Los cinco tipos de la D1, cada uno con un valor que acepta. Contraseña, número y máscara están fuera de la v1.",
       "components-nph-input-validation--icons": "Íconos de inicio y de fin, light, en icon/size-sm: ninguno, inicio, fin y los dos. El ícono de fin solo cambia el arte; la acción es siempre borrar.",
+      "components-nph-input-validation--affixes": "Un prefijo y un sufijo de texto dentro del campo, como R$, kg y @, en input/affix-foreground. Son decoración, ocultos a los lectores de pantalla: la unidad va en la etiqueta. Un clic en ellos lleva el foco al campo.",
       "components-nph-input-validation--clear": "El botón de borrar aparece con valor. Clic, Enter o Espacio lo vacían, devuelven el foco al campo y disparan input y change.",
       "components-nph-input-validation--form-association": "El host es etiquetable y participa del formulario: la etiqueta lo enfoca, enviar manda name=value, restablecer recupera el atributo value, y un fieldset deshabilitado lo deja fuera.",
       "components-nph-input-validation--error-and-disabled": "La precedencia de la D5: el error mantiene el borde en hover y en foco; deshabilitado gana sobre el error.",
@@ -8774,6 +8793,7 @@
       "components-nph-tabs-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: pedidos por etapa con icono, contador y tag; el detalle del pedido dentro de un panel; y las flechas en los dos extremos cuando las pestañas no caben.",
       "components-nph-tabs-validation--brands": "Las siete marcas en modo claro y oscuro: la etiqueta y la línea de la pestaña activa, el contador, la tag y el foco siguen la marca del marco.",
       "components-nph-sidebar-validation--modes": "El menú expandido y el contraído, listos, con la página actual, un contador, un grupo abierto y una página deshabilitada. Pase el mouse para el hover y presione Tab para el foco.",
+      "components-nph-sidebar-validation--backgrounds": "Los dos fondos, neutro (el predeterminado) y marca, en el menú expandido y en el contraído: el panel neutro es blanco con sombra en claro y la superficie de la tarjeta con contorno suave en oscuro, y el ícono de contraer es gris; el panel de marca mantiene el color de la marca, sin sombra.",
       "components-nph-sidebar-validation--mobile": "El celular: el botón del producto abre el menú sobre la pantalla, con el scrim detrás y el botón de cerrar en lugar del botón de contraer. La story abre el claro; Esc, el botón de cerrar y el scrim lo cierran.",
       "components-nph-sidebar-validation--loading": "El estado loading, expandido y contraído: filas de nph-skeleton en lugar de los ítems, con el logo, la búsqueda y el botón de la esquina en su lugar.",
       "components-nph-sidebar-validation--flyout": "El panel flyout: junto al botón del riel en el segundo nivel, junto a la opción en el tercer nivel y junto al subítem en el menú expandido. Se abre con un clic, nunca con el hover.",
@@ -13499,6 +13519,7 @@
     "flyoutCollapsed": "Menú contraído: el panel junto al botón del riel y el tercer nivel junto a la opción",
     "flyoutExpanded": "Menú expandido: el tercer nivel junto al subítem",
     "partsLabel": "hide-collapse-button × hide-corner-button",
+    "backgroundsLabel": "background × mode",
     "invalidLabel": "Entrada no válida",
     "exampleMain": "Producto con muchas áreas, expandido, con el botón de la esquina",
     "exampleLoading": "Lista llegando, expandido, en carga",
@@ -13552,6 +13573,10 @@
       [
         "mode",
         "expanded (predeterminado), collapsed o mobile. El producto lo elige; el botón de contraer también alterna expanded y collapsed."
+      ],
+      [
+        "background",
+        "neutral (predeterminado) o brand. El panel neutro es blanco con sombra en claro y la superficie de la tarjeta con contorno suave en oscuro, y los íconos de contraer y cerrar son grises; brand pinta el panel en el color de la marca, sin sombra. Use brand solo cuando el producto lo pida."
       ],
       [
         "navigation",
@@ -13793,7 +13818,7 @@
     "anatomy": [
       [
         "1. Panel",
-        "sidebar/panel-background, borde de 1 px en sidebar/panel-border y esquinas de sidebar/panel-radius; contraído, sidebar/rail-radius. Flota, sin sombra."
+        "sidebar/panel-background, borde de 1 px en sidebar/panel-border y esquinas de sidebar/panel-radius; contraído, sidebar/rail-radius. Neutro, el predeterminado: flota con elevation/raised (mobile elevation/drawer), y sin sombra en modo oscuro. Con background brand: sidebar/panel-background-brand, sidebar/panel-border-brand y sin sombra."
       ],
       [
         "2. Logo",

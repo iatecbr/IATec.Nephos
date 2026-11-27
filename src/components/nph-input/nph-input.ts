@@ -29,6 +29,13 @@
  *   button, which ALWAYS clears the value; the name only swaps the art (D2). The
  *   button shows only when there is a value, and `clear-label` is its accessible
  *   name;
+ * - `prefix-text` and `suffix-text`: an optional short text (`R$`, `kg`, `@`) drawn inside
+ *   the field, before and after the value, in `input/affix-foreground`, with
+ *   `input/affix-gap` to the value. It is decoration, hidden from screen readers
+ *   (`aria-hidden`): the unit goes in the label or the description. It is not focusable
+ *   or interactive, and a click on it focuses the inner field. Empty or only spaces
+ *   draws nothing. The names carry `-text` because `prefix` is a native property of
+ *   every `Element` (DSA-129);
  * - events: the native ones. `input` from the inner field crosses the shadow root;
  *   `change` does not, so the host fires it again. Clearing fires both. Setting
  *   `value` from code never fires them. These are form controls, so they do not
@@ -136,6 +143,8 @@ export class NphInput extends LitElement {
     iconStart: { type: String, attribute: 'icon-start' },
     iconEnd: { type: String, attribute: 'icon-end' },
     clearLabel: { type: String, attribute: 'clear-label' },
+    prefixText: { type: String, attribute: 'prefix-text' },
+    suffixText: { type: String, attribute: 'suffix-text' },
   };
 
   declare type: string;
@@ -159,6 +168,10 @@ export class NphInput extends LitElement {
   declare iconEnd: string;
   /** Accessible name of the clear button. Required with `icon-end`. */
   declare clearLabel: string;
+  /** Short decorative text before the value, such as `R$` or `@`. Hidden from screen readers. */
+  declare prefixText: string;
+  /** Short decorative text after the value, such as `kg`. Hidden from screen readers. */
+  declare suffixText: string;
 
   private readonly internals: ElementInternals;
   private readonly labelObserver = new MutationObserver(() => this.syncName());
@@ -187,6 +200,8 @@ export class NphInput extends LitElement {
     this.iconStart = NPH_INPUT_NO_ICON;
     this.iconEnd = NPH_INPUT_NO_ICON;
     this.clearLabel = '';
+    this.prefixText = '';
+    this.suffixText = '';
     this.addEventListener('focusin', () => this.syncName());
     this.addEventListener('input', this.onInput, { capture: true });
   }
@@ -497,6 +512,12 @@ export class NphInput extends LitElement {
     return name === NPH_INPUT_NO_ICON ? nothing : html`<nph-icon class=${className} name=${name} size="sm"></nph-icon>`;
   }
 
+  /** The affix: plain text, decorative, so it is out of the accessibility tree. Empty draws nothing. */
+  private affix(text: string | null | undefined, className: string): TemplateResult | typeof nothing {
+    const value = (text ?? '').trim();
+    return value === '' ? nothing : html`<span class=${className} aria-hidden="true">${value}</span>`;
+  }
+
   protected override render(): TemplateResult | typeof nothing {
     if (!this.valid) {
       return nothing;
@@ -509,19 +530,23 @@ export class NphInput extends LitElement {
 
     return html`<div class="control">
       ${this.glyph(iconValue(this.iconStart), 'icon-start')}
-      <input
-        class="field"
-        type=${(this.type ?? '').trim()}
-        .value=${this.current}
-        placeholder=${placeholder === '' ? nothing : placeholder}
-        autocomplete=${autocomplete === '' ? nothing : autocomplete}
-        ?required=${this.required}
-        ?disabled=${inactive}
-        aria-invalid=${this.invalid && !inactive ? 'true' : nothing}
-        aria-describedby=${description === '' ? nothing : 'description'}
-        @change=${this.onChange}
-        @keydown=${this.onKeydown}
-      />
+      <div class="content">
+        ${this.affix(this.prefixText, 'prefix')}
+        <input
+          class="field"
+          type=${(this.type ?? '').trim()}
+          .value=${this.current}
+          placeholder=${placeholder === '' ? nothing : placeholder}
+          autocomplete=${autocomplete === '' ? nothing : autocomplete}
+          ?required=${this.required}
+          ?disabled=${inactive}
+          aria-invalid=${this.invalid && !inactive ? 'true' : nothing}
+          aria-describedby=${description === '' ? nothing : 'description'}
+          @change=${this.onChange}
+          @keydown=${this.onKeydown}
+        />
+        ${this.affix(this.suffixText, 'suffix')}
+      </div>
       ${showClear
         ? html`<button class="clear" type="button" aria-label=${(this.clearLabel ?? '').trim()} @click=${this.clear}>
             ${this.glyph(iconValue(this.iconEnd), 'icon-end')}

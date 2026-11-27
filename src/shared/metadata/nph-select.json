@@ -203,7 +203,7 @@
     "start": "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm",
     "divider": "none: the arrow area has no divider",
     "arrow_area": "no background, control/height-default or control/height-large wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground",
-    "list": "color/popover, border/width in color/border-subtle, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height",
+    "list": "color/popover, border/width in color/border-subtle, select/panel-radius (radius/overlay-anchored), elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height",
     "list_offset": "space/inline-tight",
     "motion": "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion",
     "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control",

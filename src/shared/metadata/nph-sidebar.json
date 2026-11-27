@@ -35,6 +35,17 @@
       "reflects": true,
       "constraint": "The Figma `modo`. expanded shows the full logo, the search and the names; collapsed shows the logo mark, the collapse button, the rail buttons and the corner button as an icon; mobile is the expanded menu over the screen. The product chooses it and switches to mobile below the md breakpoint; the collapse button also switches expanded and collapsed. Reflects because the CSS reads it. Any other value draws nothing and emits console.error in development."
     },
+    "background": {
+      "type": "enum",
+      "values": [
+        "neutral",
+        "brand"
+      ],
+      "required": false,
+      "default": "neutral",
+      "reflects": true,
+      "constraint": "The Figma `fundo` (DSA-121). neutral is the default: a white panel in light and the card surface in dark, with elevation/raised (mobile elevation/drawer) and the collapse and close icons in sidebar/toggle-foreground. brand paints the panel in the active brand color, with the -brand tokens, no shadow, and the icons in sidebar/toggle-foreground-brand. It picks one of two token sets the menu owns, not a free color. Reflects because the CSS selects the token set by it. Any other value draws nothing and emits console.error in development."
+    },
     "navigation": {
       "type": "enum",
       "values": [
@@ -223,6 +234,13 @@
     }
   },
   "variants": {
+    "background": {
+      "axis": "appearance",
+      "choose_when": "neutral, the default, in every case; brand only when the product asks for the menu in its brand color.",
+      "do_not_combine_with": [
+        "A free color of the panel: the menu has only these two backgrounds."
+      ]
+    },
     "mode": {
       "axis": "appearance",
       "choose_when": "expanded on a wide screen; collapsed when the content needs the width; mobile on a narrow screen.",
@@ -254,7 +272,7 @@
   "states": {
     "rest": {
       "token": "sidebar/panel-background",
-      "changes_for_user": "The panel floats on sidebar/panel-background, with a 1 px border in sidebar/panel-border and no shadow."
+      "changes_for_user": "The panel floats on sidebar/panel-background, with a 1 px border in sidebar/panel-border and elevation/raised (mobile elevation/drawer); in dark mode the shadow goes away and the card surface and the soft border separate the panel. With background brand: sidebar/panel-background-brand, sidebar/panel-border-brand and no shadow."
     },
     "loading": {
       "token": "sidebar/item-height",
@@ -292,7 +310,8 @@
   ],
   "domain_errors": [],
   "tokens": {
-    "panel": "sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius (collapsed: sidebar/rail-radius)",
+    "panel": "sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius (collapsed: sidebar/rail-radius), elevation/raised (mobile elevation/drawer); brand: sidebar/panel-background-brand, sidebar/panel-border-brand, no shadow",
+    "toggle": "sidebar/toggle-foreground on the collapse icon and the mobile close X; brand: sidebar/toggle-foreground-brand",
     "width": "sidebar/panel-width expanded and mobile; layout/sidebar-collapsed collapsed",
     "spacing": "sidebar/panel-spacing on the sides (collapsed: sidebar/rail-padding) and between top, middle and foot; space/section at top and bottom; sidebar/section-gap between the search, the separator and the navigation",
     "search": "sidebar/search-background, sidebar/search-border on top and sides (redefines input/border); the bottom line keeps input/border-bottom; height input/height",

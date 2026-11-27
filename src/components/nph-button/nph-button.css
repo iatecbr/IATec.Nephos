@@ -168,7 +168,7 @@
 
 /* Focus color per severity (the same in all emphases). */
 :host([severity='primary']) {
-  --_focus-border: var(--nph-color-primary);
+  --_focus-border: var(--nph-button-primary-focus-border);
   --_focus-halo: var(--nph-focus-halo);
 }
 :host([severity='secondary']) {

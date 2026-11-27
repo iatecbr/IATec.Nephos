@@ -73,6 +73,32 @@
   padding-inline-end: var(--nph-input-clear-padding-end);
 }
 
+/*
+ * The row that holds prefix, value and suffix, between the start icon and the clear
+ * target. The gap between the affix and the value is `input/affix-gap`.
+ */
+.content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  align-self: stretch;
+  gap: var(--nph-input-affix-gap);
+  min-inline-size: 0;
+}
+
+/* The affix: one line, `text/body-md`, in `input/affix-foreground`; it keeps its width and does not wrap. */
+.prefix,
+.suffix {
+  flex: none;
+  color: var(--nph-input-affix-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  white-space: nowrap;
+}
+
 /* The value: `text/body-md` in `color/foreground`; the placeholder in `color/muted-foreground`. */
 .field {
   flex: 1;

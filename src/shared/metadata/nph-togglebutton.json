@@ -111,7 +111,7 @@
       "changes_for_user": "The box takes the hover background of its pressed value, the label becomes color/foreground and the icon turns solid."
     },
     "focus": {
-      "token": "border border/width in color/primary and halo focus/ring-width in focus/halo; when invalid, status/error and focus/halo-error",
+      "token": "border border/width in togglebutton/focus-border and halo focus/ring-width in focus/halo; when invalid, status/error and focus/halo-error",
       "changes_for_user": "For keyboard users, a border and a halo outside the piece mark the focus, without changing the size."
     },
     "invalid": {
@@ -170,7 +170,7 @@
       "focus/border-radius-control",
       "focus/ring-width",
       "focus/radius-control-with-border",
-      "color/primary",
+      "togglebutton/focus-border",
       "focus/halo",
       "status/error",
       "focus/halo-error"
@@ -199,7 +199,7 @@
       "Enter toggles.",
       "Space toggles."
     ],
-    "focus": "Keyboard only: a border in color/primary and a halo outside, without changing the size; when invalid, status/error and focus/halo-error. The border is color/primary and not focus/border, which design.md says is the only one that guarantees 3:1 against the halo. Known limit, measured in the test: in dark mode, color/primary is below 3:1 against the page background in gerencial (2.71:1) and rh (2.88:1), and against the halo in every brand (1.76:1 to 2.94:1); in light mode it passes, and the lowest value is 3.33:1 against the halo, in educacao.",
+    "focus": "Keyboard only: a border in togglebutton/focus-border and a halo outside, without changing the size; when invalid, status/error and focus/halo-error. The border is togglebutton/focus-border, which points to focus/border, the one that guarantees 3:1 against the halo and the page background in both modes.",
     "contrast": "The label and the icon pass 6:1 on the background of each state, in every brand and in both schemes; the test measures every pair: color/muted-foreground on the page at rest, and color/foreground on togglebutton/background-hover, togglebutton/background-checked and togglebutton/background-checked-hover. The error border, status/error on color/background, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses color/muted-foreground, and design.md marks that token as not for text needed to complete the task; the measured ratio passes 6:1 in both schemes.",
     "color_alternative": "The pressed state shows in the background, in the label color and in the icon, which swaps from xmark to check and turns solid, and aria-pressed exposes it. Known limit, accepted with the board: the checked background is 1.26:1 on the page in light and 1.39:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border; the error message stays outside."
   },

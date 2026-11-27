@@ -38,6 +38,19 @@ api:
       the expanded menu over the screen. The product chooses it and switches to mobile below the md
       breakpoint; the collapse button also switches expanded and collapsed. Reflects because the CSS
       reads it. Any other value draws nothing and emits console.error in development.
+  background:
+    type: enum
+    values: [neutral, brand]
+    required: false
+    default: neutral
+    reflects: true
+    constraint: >-
+      The Figma `fundo` (DSA-121). neutral is the default: a white panel in light and the card surface in
+      dark, with elevation/raised (mobile elevation/drawer) and the collapse and close icons in
+      sidebar/toggle-foreground. brand paints the panel in the active brand color, with the -brand tokens,
+      no shadow, and the icons in sidebar/toggle-foreground-brand. It picks one of two token sets the menu
+      owns, not a free color. Reflects because the CSS selects the token set by it. Any other value draws
+      nothing and emits console.error in development.
   navigation:
     type: enum
     values: [flyout, panel-menu]
@@ -262,6 +275,11 @@ api:
       The action the person chose in the more actions of an item, fired again on the host with
       detail.value, detail.checked and detail.item, the value of the item. It bubbles.
 variants:
+  background:
+    axis: appearance
+    choose_when: "neutral, the default, in every case; brand only when the product asks for the menu in its brand color."
+    do_not_combine_with:
+      - "A free color of the panel: the menu has only these two backgrounds."
   mode:
     axis: appearance
     choose_when: "expanded on a wide screen; collapsed when the content needs the width; mobile on a narrow screen."
@@ -285,7 +303,7 @@ variants:
 states:
   rest:
     token: sidebar/panel-background
-    changes_for_user: "The panel floats on sidebar/panel-background, with a 1 px border in sidebar/panel-border and no shadow."
+    changes_for_user: "The panel floats on sidebar/panel-background, with a 1 px border in sidebar/panel-border and elevation/raised (mobile elevation/drawer); in dark mode the shadow goes away and the card surface and the soft border separate the panel. With background brand: sidebar/panel-background-brand, sidebar/panel-border-brand and no shadow."
   loading:
     token: sidebar/item-height
     changes_for_user: "nph-skeleton rows in place of the items; the logo, the search and the corner button stay; the list is aria-busy."
@@ -315,7 +333,8 @@ business_rules:
   - "The menu does not write words of its own: every visible text and accessible name comes from the product."
 domain_errors: []
 tokens:
-  panel: "sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius (collapsed: sidebar/rail-radius)"
+  panel: "sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius (collapsed: sidebar/rail-radius), elevation/raised (mobile elevation/drawer); brand: sidebar/panel-background-brand, sidebar/panel-border-brand, no shadow"
+  toggle: "sidebar/toggle-foreground on the collapse icon and the mobile close X; brand: sidebar/toggle-foreground-brand"
   width: "sidebar/panel-width expanded and mobile; layout/sidebar-collapsed collapsed"
   spacing: "sidebar/panel-spacing on the sides (collapsed: sidebar/rail-padding) and between top, middle and foot; space/section at top and bottom; sidebar/section-gap between the search, the separator and the navigation"
   search: "sidebar/search-background, sidebar/search-border on top and sides (redefines input/border); the bottom line keeps input/border-bottom; height input/height"
@@ -449,7 +468,7 @@ link.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| rest | `sidebar/panel-background` | The panel floats, with a 1 px border in `sidebar/panel-border` and no shadow |
+| rest | `sidebar/panel-background` | The panel floats, with a 1 px border in `sidebar/panel-border` and `elevation/raised` (mobile `elevation/drawer`); in dark mode the shadow goes away. With `background="brand"`: `sidebar/panel-background-brand`, `sidebar/panel-border-brand` and no shadow |
 | `loading` | `sidebar/item-height` | `nph-skeleton` rows in place of the items; the logo, the search and the corner button stay |
 | flyout open | `sidebar/flyout-background` | The panel opens next to its opener, with its name as the title; the opener shows `aria-expanded` |
 | panel menu open | `panel-menu/subgroup-foreground-open` | The subgroup shows `text/label-md` and the arrow up; its options grow in place below it, behind a group line |
@@ -529,13 +548,13 @@ left; in the mobile mode it floats over the screen.
 
 | Part | Token |
 |---|---|
-| Panel | `sidebar/panel-background`, `sidebar/panel-border`, `sidebar/panel-radius`; collapsed `sidebar/rail-radius` |
+| Panel | `sidebar/panel-background`, `sidebar/panel-border`, `sidebar/panel-radius`, `elevation/raised` (mobile `elevation/drawer`); collapsed `sidebar/rail-radius`; brand: `sidebar/panel-background-brand`, `sidebar/panel-border-brand`, no shadow |
 | Width | `sidebar/panel-width`; collapsed `layout/sidebar-collapsed` |
 | Spacing | `sidebar/panel-spacing`, `sidebar/rail-padding`, `space/section`, `sidebar/section-gap` |
 | Search | `sidebar/search-background`, `sidebar/search-border` on top and sides, `input/border-bottom` on the bottom line, `input/height`, `sidebar/separator` |
 | Logo | `sidebar/logo-max-height`, `sidebar/logo-mark-size` |
 | Group label | `sidebar/group-label`, `text/heading-2xs` |
-| Collapse button | `control/height-default`, `icon/size-md`, `focus/border` |
+| Collapse button | `control/height-default`, `icon/size-md`, `focus/border`, `sidebar/toggle-foreground` (brand: `sidebar/toggle-foreground-brand`); the mobile close X follows it |
 | Flyout panel | `sidebar/flyout-background`, `sidebar/flyout-border`, `sidebar/flyout-radius`, `elevation/dropdown`, `sidebar/flyout-title` |
 | Panel menu subgroup | `panel-menu/subgroup-height`, `panel-menu/subgroup-padding-x`, `panel-menu/subgroup-padding-y`, `panel-menu/subgroup-gap`, `panel-menu/subgroup-radius`, `panel-menu/subgroup-icon-size`, `panel-menu/subgroup-foreground`, `panel-menu/subgroup-foreground-open`, `panel-menu/subgroup-background-hover`, `panel-menu/subgroup-disabled-opacity`; `text/body-md` closed, `text/label-md` open |
 | Panel menu focus | `panel-menu/focus-border`, `panel-menu/focus-border-width`, `panel-menu/focus-border-radius`, `panel-menu/focus-ring`, `panel-menu/focus-ring-width`, `panel-menu/focus-radius` |
@@ -546,7 +565,7 @@ left; in the mobile mode it floats over the screen.
 | Focus | `focus/border`, `focus/halo`, `focus/ring-width`, `focus/border-radius-sidebar-item`, `focus/radius-sidebar-item` |
 | Motion | `motion/expand-*`, `motion/enter-*`, `motion/exit-*` |
 
-**Usage restrictions:** the menu has no shadow; the flyout panel has `elevation/dropdown`. The
+**Usage restrictions:** the neutral menu has `elevation/raised` (mobile `elevation/drawer`) and the brand menu has none; the flyout panel has `elevation/dropdown`. The
 width of the flyout panel has no token: it takes what its options need, at least a line of the
 expanded menu and at most `layout/input-width`.
 
