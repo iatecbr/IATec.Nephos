@@ -1217,7 +1217,8 @@ describe('the narrow width', () => {
     const steps: NphStep[] = [{ label: 'Account' }, { label: 'Address' }, { label: 'Payment', status: 'error', description: 'The card was refused' }, { label: 'Review' }];
     const stepper = await mount({ steps, current: 2 }, '20rem');
     expect(narrow(stepper).status).toBe('error');
-    expect(narrow(stepper).step).toBe(3);
+    expect(narrow(stepper).step).toBe(2);
+    expect(narrow(stepper).errorStep).toBe(3);
     expect(narrow(stepper).help).toBe('With error: Payment. The card was refused');
     expect(narrow(stepper).valueText).toBe('Step 2 of 4');
     expect(narrow(stepper).label).toBe('Address');
@@ -1226,23 +1227,25 @@ describe('the narrow width', () => {
     expect(segments).toEqual(['done', 'done', 'error', 'pending']);
   });
 
-  it('an error before the current step: the bar marks the error step, and the text and the label stay those of the current step', async () => {
+  it('an error before the current step: the bar shows the current step and the error step, and the text and the label stay those of the current step', async () => {
     const steps: NphStep[] = [{ label: 'Account' }, { label: 'Address', status: 'error', description: 'The postal code is missing' }, { label: 'Payment' }, { label: 'Review' }];
     const stepper = await mount({ steps, current: 3 }, '20rem');
     expect(narrow(stepper).status).toBe('error');
-    expect(narrow(stepper).step).toBe(2);
+    expect(narrow(stepper).step).toBe(3);
+    expect(narrow(stepper).errorStep).toBe(2);
     expect(narrow(stepper).help).toBe('With error: Address. The postal code is missing');
     expect(narrow(stepper).valueText).toBe('Step 3 of 4');
     expect(narrow(stepper).label).toBe('Payment');
     const segments = [...(narrow(stepper).shadowRoot?.querySelectorAll<HTMLElement>('.segment') ?? [])].map((segment) => segment.dataset.state);
-    expect(segments).toEqual(['done', 'error', 'pending', 'pending']);
-    expect(narrow(stepper).shadowRoot?.querySelector('[role="progressbar"]')?.getAttribute('aria-valuenow')).toBe('50');
+    expect(segments).toEqual(['done', 'error', 'done', 'pending']);
+    expect(narrow(stepper).shadowRoot?.querySelector('[role="progressbar"]')?.getAttribute('aria-valuenow')).toBe('75');
   });
 
   it('with two errors the bar marks the first one', async () => {
     const steps: NphStep[] = [{ label: 'Account', status: 'error' }, { label: 'Address' }, { label: 'Payment', status: 'error' }, { label: 'Review' }];
     const stepper = await mount({ steps, current: 2 }, '20rem');
-    expect(narrow(stepper).step).toBe(1);
+    expect(narrow(stepper).step).toBe(2);
+    expect(narrow(stepper).errorStep).toBe(1);
     expect(narrow(stepper).help).toBe('With error: Account');
   });
 
