@@ -58,8 +58,21 @@
   border: var(--nph-border-width) solid var(--nph-sidebar-panel-border);
   border-radius: var(--nph-sidebar-panel-radius);
   background-color: var(--nph-sidebar-panel-background);
+  box-shadow: var(--nph-elevation-raised);
   color: var(--nph-sidebar-item-foreground);
   overflow: visible;
+}
+/*
+ * The brand background (DSA-121): the panel takes the `-brand` tokens by redefining, on this
+ * element, the names the panel, the rail button counter outline and the toggle read. The
+ * neutral panel is the default and lifts with `elevation/raised`; the brand panel has no shadow.
+ */
+:host([background='brand']) .panel {
+  --nph-sidebar-panel-background: var(--nph-sidebar-panel-background-brand);
+  --nph-sidebar-panel-border: var(--nph-sidebar-panel-border-brand);
+  --nph-sidebar-toggle-foreground: var(--nph-sidebar-toggle-foreground-brand);
+
+  box-shadow: none;
 }
 
 :host([mode='collapsed']) .panel {
@@ -183,7 +196,7 @@
   border: none;
   border-radius: var(--nph-radius-control);
   background-color: transparent;
-  color: var(--nph-color-primary-on-surface);
+  color: var(--nph-sidebar-toggle-foreground);
   outline: none;
 }
 
@@ -217,9 +230,14 @@
   border-radius: var(--nph-focus-radius-control-with-border);
 }
 
-/* The close button of the mobile menu: the focus border is `focus/border` through the hook of `nph-button`. */
+/*
+ * The close button of the mobile menu: the focus border is `focus/border` through the hook of
+ * `nph-button`, and the X follows the collapse icon (DSA-121 C1): the primary ghost button paints
+ * its icon in `color/primary-on-surface`, redefined here on this instance only.
+ */
 .close {
   --nph-button-focus-border: var(--nph-focus-border);
+  --nph-color-primary-on-surface: var(--nph-sidebar-toggle-foreground);
   flex: none;
 }
 
@@ -395,6 +413,12 @@ dialog.panel {
   transition-timing-function: var(--nph-motion-exit-easing);
 }
 
+dialog.panel {
+  box-shadow: var(--nph-elevation-drawer);
+}
+:host([background='brand']) dialog.panel {
+  box-shadow: none;
+}
 dialog.panel::backdrop {
   background-color: var(--nph-sidebar-scrim);
   opacity: 0;

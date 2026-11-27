@@ -215,7 +215,7 @@ accessibility:
     - "Enter: follows the link."
     - "Enter and Space: open and close a group."
   focus: "Border focus/border and halo focus/halo around the whole line, keyboard only."
-  contrast: "Label, number and icon pass 4.5:1 and 3:1 against the line background, sidebar/panel-background at rest and focus and sidebar/item-background-hover on hover, and the number against sidebar/item-badge-background, in both modes; the focus border passes 3:1 against sidebar/panel-background. Disabled is exempt."
+  contrast: "Label, number and icon pass 4.5:1 and 3:1 against the line background, sidebar/panel-background (neutral panel) or sidebar/panel-background-brand (brand panel) at rest and focus and sidebar/item-background-hover on hover, and the number against sidebar/item-badge-background, in both modes; the focus border passes 3:1 against sidebar/panel-background (neutral panel) or sidebar/panel-background-brand (brand panel). Disabled is exempt."
   color_alternative: "Active also switches the icon to solid and the label to text/label-md; an open group shows the arrow up; the counter carries the number as text."
 invalid_combinations:
   - "A type outside link and group — the item draws nothing."
@@ -335,7 +335,7 @@ ring. More actions shows on hover and focus.
 | Accessible name | The label; the counter number is read as text inside the name of the link. The icon and the arrow are hidden. More actions is named by `actions-label`; the balloon is the description of the line |
 | Keyboard | Tab reaches the line and then the more actions button; Enter follows the link; Enter and Space open and close a group |
 | Focus | Border `focus/border` and halo `focus/halo` around the whole line, keyboard only |
-| Contrast | Label, number and icon pass 4.5:1 and 3:1 against `sidebar/panel-background` and `sidebar/item-background-hover`, and the number against `sidebar/item-badge-background`, in both modes. Disabled is exempt |
+| Contrast | Label, number and icon pass 4.5:1 and 3:1 against `sidebar/panel-background` (neutral panel) or `sidebar/panel-background-brand` (brand panel) and `sidebar/item-background-hover`, and the number against `sidebar/item-badge-background`, in both modes. Disabled is exempt |
 | Alternative to color | Active also switches the icon to solid and the label to `text/label-md`; an open group shows the arrow up |
 | Touch target | The whole line, `sidebar/item-height`. More actions is small and serves mouse and keyboard only |
 | Known limits | Forced colors and right-to-left are not treated yet |

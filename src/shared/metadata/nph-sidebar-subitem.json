@@ -141,7 +141,7 @@
       "Enter and Space: with options, open and close the list."
     ],
     "focus": "Border focus/border and halo focus/halo around the whole line, keyboard only.",
-    "contrast": "The label passes 4.5:1 against sidebar/panel-background and sidebar/item-background-hover, in both modes. Disabled is exempt.",
+    "contrast": "The label passes 4.5:1 against sidebar/panel-background (neutral panel) or sidebar/panel-background-brand (brand panel) and sidebar/item-background-hover, in both modes. Disabled is exempt.",
     "color_alternative": "Active also switches the label to text/label-md."
   },
   "invalid_combinations": [

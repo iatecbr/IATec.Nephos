@@ -68,7 +68,7 @@ api:
     constraint: >-
       A whole number from zero up, in a pill above the top end corner (D-1), read in the
       name of the link, after the label (WCAG 2.5.3; Elvys, 27-10-2026). When active, the
-      pill gains a 4 px outline in sidebar/panel-background, decorative (D-2). Only on a
+      pill gains a 4 px outline in sidebar/panel-background (neutral panel) or sidebar/panel-background-brand (brand panel), decorative (D-2). Only on a
       link. Anything else draws nothing and emits console.error in development.
   disabled:
     type: boolean
@@ -142,7 +142,7 @@ tokens:
   icon: "nph-icon icon/size-md in sidebar/item-foreground, light; solid in sidebar/rail-foreground-active when active"
   hover: sidebar/rail-background-hover
   active: sidebar/rail-background-active
-  counter: "text/label-sm in sidebar/item-badge-foreground on sidebar/item-badge-background, icon/size-md high, space/inline on the sides, radius/full, space/inline-tight above the top end corner and border/width inside the end edge; outline space/inline-tight in sidebar/panel-background when active"
+  counter: "text/label-sm in sidebar/item-badge-foreground on sidebar/item-badge-background, icon/size-md high, space/inline on the sides, radius/full, space/inline-tight above the top end corner and border/width inside the end edge; outline space/inline-tight in sidebar/panel-background (neutral panel) or sidebar/panel-background-brand (brand panel) when active"
   focus: "border border/width in focus/border, focus/border-radius-container; halo focus/ring-width in focus/halo, focus/radius-container"
   disabled: state/disabled-opacity
 ai_hints:
@@ -158,7 +158,7 @@ accessibility:
     - "Enter and Space: open and close the flyout panel of a group."
     - "Esc: closes the balloon."
   focus: "Border focus/border and halo focus/halo around the button, keyboard only."
-  contrast: "The icon passes 3:1 against sidebar/panel-background, sidebar/rail-background-hover on hover and sidebar/rail-background-active when active, and the number passes 4.5:1 against sidebar/item-badge-background, in both modes. Disabled is exempt."
+  contrast: "The icon passes 3:1 against sidebar/panel-background (neutral panel) or sidebar/panel-background-brand (brand panel), sidebar/rail-background-hover on hover and sidebar/rail-background-active when active, and the number passes 4.5:1 against sidebar/item-badge-background, in both modes. Disabled is exempt."
   color_alternative: "Active also gains its background and switches the icon to solid; the counter carries the number as text."
 invalid_combinations:
   - "A rail button without label — it would have no name."
@@ -233,7 +233,7 @@ corner (D-1).
 |---|---|---|
 | `rest` | `sidebar/item-foreground` | No background; the light icon |
 | `hover` | `sidebar/rail-background-hover` | The button background; the balloon opens after the wait |
-| `active` | `sidebar/rail-background-active`, `sidebar/rail-foreground-active` | The background and the solid icon; the counter gains a 4 px outline in `sidebar/panel-background` (D-2) |
+| `active` | `sidebar/rail-background-active`, `sidebar/rail-foreground-active` | The background and the solid icon; the counter gains a 4 px outline in `sidebar/panel-background` (neutral panel) or `sidebar/panel-background-brand` (brand panel) (D-2) |
 | open group | `sidebar/rail-background-hover` | The hover background and the solid icon while its flyout panel is open |
 | group with the current page | `sidebar/rail-background-active`, `sidebar/rail-foreground-active` | The active background and the solid icon, with no `aria-current`; it wins over the open look |
 | `focus` | `focus/border`, `focus/halo` | Border `border/width` and halo `focus/ring-width` around the button; the balloon opens at once |
@@ -262,7 +262,7 @@ corner (D-1).
 | Accessible name | The label and then the counter number: `aria-labelledby` reads the balloon, whose text is the label (as the icon-only `nph-button`), and the counter, so the name holds the number one sees (WCAG 2.5.3; Elvys, 27-10-2026, DSA-32). The `aria-label` is the label, the fallback; disabled, with no balloon, it holds the label and the counter. The icon is hidden |
 | Keyboard | Tab reaches the button and opens the balloon; Enter follows the link; Enter and Space open and close a group; Esc closes the balloon |
 | Focus | Border `focus/border` and halo `focus/halo` around the button, keyboard only |
-| Contrast | The icon passes 3:1 against `sidebar/panel-background`, `sidebar/rail-background-hover` and `sidebar/rail-background-active`, and the number 4.5:1 against `sidebar/item-badge-background`, in both modes. Disabled is exempt |
+| Contrast | The icon passes 3:1 against `sidebar/panel-background` (neutral panel) or `sidebar/panel-background-brand` (brand panel), `sidebar/rail-background-hover` and `sidebar/rail-background-active`, and the number 4.5:1 against `sidebar/item-badge-background`, in both modes. Disabled is exempt |
 | Alternative to color | Active also gains its background and switches the icon to solid |
 | Touch target | The whole button, `sidebar/rail-button-size`. On touch the balloon does not open: the name is read by the screen reader, an accepted exception (P77) |
 | Known limits | Forced colors and right-to-left are not treated yet |
@@ -289,7 +289,7 @@ group.
 | Icon | `nph-icon` `icon/size-md` in `sidebar/item-foreground`, light; solid in `sidebar/rail-foreground-active` when active |
 | Hover | `sidebar/rail-background-hover` |
 | Active | `sidebar/rail-background-active` |
-| Counter | `text/label-sm` in `sidebar/item-badge-foreground` on `sidebar/item-badge-background`, `icon/size-md` high, `space/inline` on the sides, `radius/full`, `space/inline-tight` above the top end corner and `border/width` inside the end edge; a `space/inline-tight` outline in `sidebar/panel-background` when active |
+| Counter | `text/label-sm` in `sidebar/item-badge-foreground` on `sidebar/item-badge-background`, `icon/size-md` high, `space/inline` on the sides, `radius/full`, `space/inline-tight` above the top end corner and `border/width` inside the end edge; a `space/inline-tight` outline in `sidebar/panel-background` (neutral panel) or `sidebar/panel-background-brand` (brand panel) when active |
 | Focus | Border `border/width` in `focus/border`, `focus/border-radius-container`; halo `focus/ring-width` in `focus/halo`, `focus/radius-container` |
 | Disabled | `state/disabled-opacity` |
 

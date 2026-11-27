@@ -320,8 +320,8 @@ describe('nph-sidebar Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-sidebar-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the ten pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'Flyout', 'InvalidInput', 'Loading', 'Messages', 'Mobile', 'Modes', 'PanelMenu', 'Parts']);
+  it('the stories are the eleven pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual(['Backgrounds', 'Brands', 'Examples', 'Flyout', 'InvalidInput', 'Loading', 'Messages', 'Mobile', 'Modes', 'PanelMenu', 'Parts']);
   });
 
   for (const [name, story] of stories) {
