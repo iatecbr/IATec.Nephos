@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 840,
   "owner": "elvys",
-  "state": "ready",
+  "state": "blocked",
   "piece": null,
   "dependencies": [
     "DSA-03",
@@ -29,7 +29,15 @@
       "verified_by": null
     }
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "id": "B1",
+      "what_blocks": "The two offset tokens are not in the source.",
+      "owner": "claude-figma",
+      "what_resolves": "Claude brings core.layout-offset.top and command.offset-top; then this task moves to ready.",
+      "opened_at": "2026-11-27"
+    }
+  ],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-85/review-and-merge-partial-2026-11-17.md"
@@ -45,7 +53,7 @@
   "external_origin": null,
   "git_review": { "branch": "feat/dsa-85-respostas", "commit": "fbe57196cdaa9835820fa70dabf3224820abf7bf", "pr": "179" },
   "context": "docs/operacao/contextos/DSA-85.md",
-  "updated_at": "2026-11-26"
+  "updated_at": "2026-11-27"
 }
 ```
 
