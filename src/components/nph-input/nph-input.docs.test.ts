@@ -238,8 +238,9 @@ describe('nph-input Validation: text only from the dictionary', () => {
     return target;
   }
 
-  it('the stories are the ten pages of the contract', () => {
+  it('the stories are the eleven pages of the contract', () => {
     expect(stories.map(([name]) => name).sort()).toEqual([
+      'Affixes',
       'Brands',
       'Clear',
       'ErrorAndDisabled',

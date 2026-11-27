@@ -129,6 +129,20 @@
       "reflects": false,
       "constraint": "The accessible name of the clear button, already localized. Required with icon-end: without it, the field renders without the button and emits console.error in development."
     },
+    "prefix-text": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "A short text before the value, such as R$ or @, in input/affix-foreground with input/affix-gap to the value. Decoration: aria-hidden, not focusable and not interactive; a click on it focuses the field. Empty or only spaces draws nothing. The name carries -text because prefix is a native property of every Element. The unit goes in the label or the description."
+    },
+    "suffix-text": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "A short text after the value, such as kg, with the same rules as prefix-text. It sits at the end of the value, before the clear button."
+    },
     "input": {
       "type": "event",
       "required": false,
@@ -209,6 +223,7 @@
     "value": "text/body-md in color/foreground",
     "placeholder": "text/body-md in color/muted-foreground",
     "icons": "icon/size-sm in color/muted-foreground",
+    "affix": "text/body-md in input/affix-foreground, with input/affix-gap to the value",
     "clear_target": "icon/size-sm with space/inline-tight around it",
     "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control, focus/border-radius-control and focus/radius-control-with-border",
     "disabled": "state/disabled-opacity"
@@ -220,6 +235,7 @@
     "To show an error, set the error of nph-field; do not set invalid on the input alone.",
     "Read the value from the host on input or change; do not listen for an nph-* event.",
     "Use icon-end with clear-label only when the person will often clear the value.",
+    "Use prefix-text and suffix-text for a short unit or symbol (R$, kg, @), and write the unit also in the label ('Value, in reais'): the affix is hidden from screen readers. A longer text belongs in the label or the hint. A button or a select glued to the field is not an affix.",
     "Use the same size for every field and the button of one form.",
     "Use compact only for the search of the compact nph-toolbar and the compact table, never on a touch screen; never wrap it in a box that clips overflow, or the focus ring of its clear button is cut."
   ],
@@ -270,7 +286,7 @@
     "Clipping the overflow of a compact field: the focus ring of the clear button goes past it."
   ],
   "sources": {
-    "design_md": "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact, input/clear-padding-end, input/border, input/border-bottom and input/height in the token source",
+    "design_md": "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact, input/clear-padding-end, input/border, input/border-bottom, input/height, input/affix-foreground and input/affix-gap in the token source",
     "decision": "P80 — API and semantics of nph-input, the reference of the form controls; its amendment of 28/10/2026 (DSA-59) adds compact",
     "tests": "src/components/nph-input/nph-input.test.ts",
     "usage_evidence": "the Examples section of the nph-icon Docs page",
