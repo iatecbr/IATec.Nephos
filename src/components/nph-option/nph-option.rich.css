@@ -7,8 +7,8 @@
  * It sits after `nph-option.css` in the same shadow root and every rule needs `[rich]`, so a
  * plain option never reads it. It differs from the plain option in four things: the hover is
  * a layer at the opacity `select/option-background-hover-opacity` under the content, the
- * selected option has no background, the option active by the keyboard draws the focus border
- * and the halo of the list items, and there is a description below the label.
+ * selected option has no background, and there is a description below the label. The focus border
+ * and the halo of the list items are in `nph-option.css`, shared with the plain option (DSA-124).
  *
  * No literal design value goes in here. Written relations: `-1` and `1` (the layer under the
  * content and the active option over its neighbors), `isolate` (the layer stays inside the
@@ -27,15 +27,14 @@
 :host([data-nph-rendered][rich]) {
   position: relative;
   isolation: isolate;
+  align-items: flex-start;
   padding: var(--nph-select-option-padding);
   gap: var(--nph-select-option-gap);
   border-radius: var(--nph-select-option-radius);
   color: var(--nph-select-option-foreground);
 }
 
-:host([rich]) .layer,
-:host([rich]) .focus-border,
-:host([rich]) .focus-halo {
+:host([rich]) .layer {
   position: absolute;
   box-sizing: border-box;
   display: none;
@@ -51,19 +50,6 @@
   opacity: var(--nph-select-option-background-hover-opacity);
 }
 
-/* The focus border, 1 px outside the option, and the halo outside it: the focus of the list items. */
-:host([rich]) .focus-border {
-  inset: calc(-1 * var(--nph-select-option-focus-border-width));
-  border: var(--nph-select-option-focus-border-width) solid var(--nph-select-option-focus-border);
-  border-radius: var(--nph-select-option-focus-border-radius);
-}
-
-:host([rich]) .focus-halo {
-  inset: calc(-1 * (var(--nph-select-option-focus-border-width) + var(--nph-select-option-focus-halo-width)));
-  border: var(--nph-select-option-focus-halo-width) solid var(--nph-select-option-focus-halo);
-  border-radius: var(--nph-select-option-focus-halo-radius);
-}
-
 /* Active, by the pointer or by the keyboard: the layer and the hover colors. Selected has no background of its own. */
 :host([rich]:state(active):not([disabled])) {
   background-color: transparent;
@@ -74,15 +60,6 @@
   display: block;
 }
 
-/* Only the option active by the keyboard has the focus border and the halo, and sits over its neighbors. */
-:host([rich]:state(active):state(keyboard):not([disabled])) {
-  z-index: 1;
-}
-
-:host([rich]:state(active):state(keyboard):not([disabled])) :is(.focus-border, .focus-halo) {
-  display: block;
-}
-
 /* Selected, with `marker=check` or `checkbox`: no background; the label keeps its color, also in hover. */
 :host([rich]:state(selected)) {
   background-color: transparent;
@@ -90,14 +67,27 @@
 }
 
 :host([rich]) .check {
+  box-sizing: content-box;
   inline-size: var(--nph-select-option-marker-size);
   block-size: var(--nph-select-option-marker-size);
+  /* The check is centered in a box of `select/option-icon-size`, so it sits on the first line. */
+  padding-block: calc((var(--nph-select-option-icon-size) - var(--nph-select-option-marker-size)) / 2);
   color: var(--nph-select-option-marker);
 }
-
 :host([rich]) .start.dot-box {
   inline-size: var(--nph-select-option-icon-size);
   block-size: var(--nph-select-option-icon-size);
+}
+/*
+ * The parts align to the top (DSA-128). The start icon, the dot, the texts and the check drop by
+ * `select/option-content-offset`, so the first line centers on the 24 px avatar or checkbox,
+ * which stay at the top and do not drop.
+ */
+:host([rich]) :is(nph-icon.start, .dot-box.start, .check) {
+  margin-block-start: var(--nph-select-option-content-offset);
+}
+:host([rich]) .body {
+  padding-block-start: var(--nph-select-option-content-offset);
 }
 
 :host([rich]) .dot {

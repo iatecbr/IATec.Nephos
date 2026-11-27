@@ -233,7 +233,7 @@ accessibility:
     - "Open: ArrowDown and ArrowUp move without wrapping; Home, End, PageUp and PageDown jump; typing moves to the option that starts with the typed text."
     - "Open: Enter, Space and Alt+ArrowUp choose the active option and close; Escape closes without choosing; Tab closes without choosing and the focus moves on."
   focus: "The focus stays on the trigger; the active option is pointed to by aria-activedescendant. The trigger shows the focus border and the halo for the keyboard and while the list is open."
-  contrast: "The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger meets 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, select/border-bottom, is the one that meets 3:1 (the top and the sides are lighter on purpose); the check on color/primary-surface measures 4.78:1 and 6.26:1 (D8). The disabled state is exempt."
+  contrast: "The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger meets 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, select/border-bottom, is the one that meets 3:1 (the top and the sides are lighter on purpose); the check on color/popover measures 5.37:1 and 3.91:1 (DSA-124). The disabled state is exempt."
   color_alternative: "The error is said by the sentence of nph-field; the selected option has a background and the check; the dot goes with the written state; the arrow turns up when the list opens."
 invalid_combinations:
   - "A size outside default and large — the select draws nothing."
@@ -255,7 +255,7 @@ anti_patterns:
   - "Changing the color of the arrow area: for an error, use invalid."
   - "Using the status dot without a written state."
 sources:
-  design_md: "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/accent, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, elevation/dropdown and motion/*; select/border, select/border-bottom and select/height in the token source"
+  design_md: "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/accent, color/popover, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, elevation/dropdown and motion/*; select/border, select/border-bottom and select/height in the token source"
   decision: "P91 — API and semantics of nph-select and nph-option; the form pattern is P80 and the field contract is P83"
   tests: "src/components/nph-select/nph-select.test.ts and src/components/nph-option/nph-option.test.ts"
   usage_evidence: "the Examples section of the nph-select Docs page"
@@ -357,7 +357,7 @@ with no choice. `nph-field` writes the sentence and passes it to the select as `
 | Description | `description`, read when the trigger takes focus: the help or the error sentence of `nph-field` |
 | Keyboard | Closed: Enter, Space, ArrowDown, ArrowUp and Alt+ArrowDown open on the chosen option, or on the first; Home and End open on the first and the last; a character opens on the option that starts with it. Open: the arrows move without wrapping; Home, End, PageUp and PageDown jump; typing moves to the matching option; Enter, Space and Alt+ArrowUp choose and close; Escape closes without choosing; Tab closes without choosing and the focus moves on |
 | Focus | The focus stays on the trigger; the active option is pointed to by `aria-activedescendant` |
-| Contrast | The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, `select/border-bottom`, meets 3:1; the check on `color/primary-surface` measures 4.78:1 and 6.26:1 (D8). The disabled state is exempt |
+| Contrast | The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, `select/border-bottom`, meets 3:1; the check on `color/popover` measures 5.37:1 and 3.91:1 (DSA-124). The disabled state is exempt |
 | Alternative to color | The error is said by the sentence of `nph-field`; the selected option has a background and the check; the dot goes with the written state; the arrow turns up when the list opens |
 | Hidden parts | The start, the arrow, the dot and the check are hidden from the screen reader: the text says the option |
 | Touch target | The whole trigger, arrow area included; `large` guarantees 44 px. The option takes the width of the list |
@@ -438,7 +438,7 @@ writes the error and the select shows `erro`.
 
 - **The repository `design.md`:** `color/input`, `color/field-border`,
   `color/field-border-bottom`, `color/input-hover`, `color/accent`,
-  `color/popover`, `color/primary-surface`, `status/*`, `focus/*`,
+  `color/popover`, `status/*`, `focus/*`,
   `state/disabled-opacity`, `control/height-*`, `layout/input-width`,
   `layout/max-list-height`, `radius/control-inner`, `elevation/dropdown` and `motion/*`.
   `select/border`, `select/border-bottom` and `select/height` are in

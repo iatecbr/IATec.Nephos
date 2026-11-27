@@ -18,7 +18,7 @@
  * - `disabled`: the option cannot be chosen; the whole option loses opacity;
  * - `marker`: `check` (default) or `checkbox` (the Figma `marcador`, `marca` or
  *   `checkbox`). Reflects. `check` is the single choice: the selected option takes the
- *   `color/primary-surface` background and the check. `checkbox` is the multiple choice
+ *   check, with no background of its own (DSA-124). `checkbox` is the multiple choice
  *   of `nph-multi-combobox` (amendment of P91 in P96): an `nph-checkbox` at the start,
  *   checked while selected, and no selected background and no check. The box is `inert`
  *   and hidden from the screen reader, as in `nph-dropdown-menu` (P92): the option
@@ -36,11 +36,10 @@
  * - `value`: the value the option gives the form. Reflects. Without the attribute,
  *   it is the label text with its white space collapsed, as in `<option>`;
  * - `selected`, `active` and `keyboard`: written by the list that owns the option, not by the
- *   consumer, and never reflected. `selected` draws the `color/primary-surface`
- *   background and the check; `active` is the option the pointer or the keyboard is
- *   on, with the hover look (D5). The selected background wins over `active`. `keyboard`
- *   says the active option got there by the keyboard: only then the rich option draws the
- *   focus border and the halo of the list items (DSA-91, item 9), never on a pointer hover;
+ *   consumer, and never reflected. `selected` draws the check, with no background; `active`
+ *   is the option the pointer or the keyboard is on, with the hover look (D5). `keyboard`
+ *   says the active option got there by the keyboard: only then the option draws the
+ *   focus border and the halo of the list items (DSA-91, item 9, and DSA-124), never on a pointer hover;
  * - role `option`, `aria-selected` and `aria-disabled` through `ElementInternals`, so
  *   the option writes no attribute on its own host. The start, the dot and the check
  *   are hidden from the screen reader: the text says the option;
@@ -343,7 +342,9 @@ export class NphOption extends LitElement {
         <span class="body">${text}${description === '' ? nothing : html`<span class="description" aria-hidden="true">${description}</span>`}</span>
         ${check}`;
     }
-    return html`${checkbox ? this.box() : nothing}${this.startArt()}
+    /* The focus border and the halo of the list items, drawn only while the option is active by the keyboard (DSA-124). */
+    return html`<span class="focus-border" aria-hidden="true"></span><span class="focus-halo" aria-hidden="true"></span
+      >${checkbox ? this.box() : nothing}${this.startArt()}
       ${text}
       ${check}`;
   }

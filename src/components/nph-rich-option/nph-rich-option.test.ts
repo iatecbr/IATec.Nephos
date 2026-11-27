@@ -1063,7 +1063,7 @@ describe('token contract', () => {
         '--nph-rich-option-focus-halo',
         '--nph-rich-option-focus-radius',
         '--nph-rich-option-icon-size',
-        '--nph-icon-size-sm',
+        '--nph-rich-option-content-offset',
         '--nph-space-inline-tight',
         '--nph-rich-option-text-gap',
         '--nph-rich-option-description-foreground',

@@ -85,13 +85,13 @@
 
 /*
  * The icon is a `rich-option/icon-size` box in the color of the title, and it and the texts are
- * lowered so the first line of the title is centered on the 24 touch area of the control, as
- * the text of `nph-checkbox` is (DSA-17 D5).
+ * lowered by `rich-option/content-offset` so the first line of the title is centered on the 24
+ * touch area of the control, as the text of `nph-checkbox` is (DSA-17 D5 and DSA-128).
  */
 .icon {
   inline-size: var(--nph-rich-option-icon-size);
   block-size: var(--nph-rich-option-icon-size);
-  margin-block-start: calc((var(--nph-icon-size-sm) + 2 * var(--nph-space-inline-tight) - var(--nph-rich-option-icon-size)) / 2);
+  margin-block-start: var(--nph-rich-option-content-offset);
   color: var(--nph-rich-option-foreground);
 }
 
@@ -101,9 +101,7 @@
   flex-direction: column;
   gap: var(--nph-rich-option-text-gap);
   min-inline-size: 0;
-  padding-block-start: calc(
-    (var(--nph-icon-size-sm) + 2 * var(--nph-space-inline-tight) - var(--nph-text-label-md-line-height)) / 2
-  );
+  padding-block-start: var(--nph-rich-option-content-offset);
 }
 
 /* The title wraps, with no cut. */

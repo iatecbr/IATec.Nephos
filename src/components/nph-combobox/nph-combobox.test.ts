@@ -1266,12 +1266,12 @@ describe('states and precedence', () => {
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
   });
 
-  it('the selected option keeps color/primary-surface and the check in color/primary', async () => {
+  it('the selected option has no background and keeps the check in color/primary (DSA-124)', async () => {
     const element = await mount('label="Country" value="peru"');
     element.open = true;
     await settle();
     const option = row(element, 'Peru');
-    expect(getComputedStyle(option).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-surface'));
+    expect(getComputedStyle(option).backgroundColor).toBe('rgba(0, 0, 0, 0)');
     expect(getComputedStyle(option.shadowRoot?.querySelector('.check') as HTMLElement).color).toBe(resolved('color', '--nph-color-primary'));
   });
 

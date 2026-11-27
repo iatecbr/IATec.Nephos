@@ -794,14 +794,14 @@ describe('free text: states and precedence', () => {
     expect(getComputedStyle(disabled).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
   });
 
-  it('a disabled suggestion equal to the text keeps color/primary-surface and the check (DSA-29 D-3)', async () => {
+  it('a disabled suggestion equal to the text keeps the check and has no background (DSA-29 D-3, DSA-124)', async () => {
     const element = await mount(`${FREE} value="Unity"`, [{ value: 'u', text: 'Unity', disabled: true }]);
     await focus(element);
     await press(element, '{Alt>}{ArrowDown}{/Alt}');
     const option = row(element, 'Unity');
     expect(option.selected).toBe(true);
     expect(option.hasAttribute('disabled')).toBe(true);
-    expect(getComputedStyle(option).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-surface'));
+    expect(getComputedStyle(option).backgroundColor).toBe('rgba(0, 0, 0, 0)');
   });
 
   it('the focus on the clear button keeps the resting split border of the field', async () => {

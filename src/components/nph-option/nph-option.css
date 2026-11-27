@@ -9,8 +9,9 @@
  * at the start edge in any container) and `currentColor` (the dot with no state
  * follows the text, D6).
  *
- * The order of the state rules is the precedence of D5: active (the hover look),
- * then selected, which wins over it. Disabled only adds the opacity.
+ * The selected option has no background: the check says the choice (DSA-124). The option active
+ * by the keyboard draws the focus border and the halo of the list items, outside it, over its
+ * neighbors; the pointer hover has the hover look only. Disabled only adds the opacity.
  *
  * The rich option (`rich`, DSA-91 and P134) has its own file, `nph-option.rich.css`: a plain
  * option never reads a rule of it, so the look of the plain option does not move.
@@ -21,8 +22,9 @@
   display: none;
 }
 
-/* The option: padding and gap `space/inline`, radius `radius/inner`, the width of the list. */
+/* The option: the box of the focus border and the halo; padding and gap `space/inline`, radius `radius/inner`, the width of the list. */
 :host([data-nph-rendered]) {
+  position: relative;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -123,14 +125,32 @@
 }
 
 /*
- * Selected: `color/primary-surface`, which wins over active (D5). The text keeps its rest color.
- * With the `checkbox` marker, the checked box says it, without the selected background (P96).
+ * The focus border, 1 px outside the option, and the halo outside it: the focus of the list items
+ * (DSA-124). Only the option active by the keyboard draws them, and it sits over its neighbors.
  */
-:host(:not([marker='checkbox']):state(selected)) {
-  background-color: var(--nph-color-primary-surface);
-  color: var(--nph-color-popover-foreground);
+.focus-border,
+.focus-halo {
+  position: absolute;
+  box-sizing: border-box;
+  display: none;
+  pointer-events: none;
 }
-
+.focus-border {
+  inset: calc(-1 * var(--nph-select-option-focus-border-width));
+  border: var(--nph-select-option-focus-border-width) solid var(--nph-select-option-focus-border);
+  border-radius: var(--nph-select-option-focus-border-radius);
+}
+.focus-halo {
+  inset: calc(-1 * (var(--nph-select-option-focus-border-width) + var(--nph-select-option-focus-halo-width)));
+  border: var(--nph-select-option-focus-halo-width) solid var(--nph-select-option-focus-halo);
+  border-radius: var(--nph-select-option-focus-halo-radius);
+}
+:host(:state(active):state(keyboard):not([disabled])) {
+  z-index: 1;
+}
+:host(:state(active):state(keyboard):not([disabled])) :is(.focus-border, .focus-halo) {
+  display: block;
+}
 /* Disabled: the whole option loses opacity. The list never makes it active. */
 :host([disabled]) {
   opacity: var(--nph-state-disabled-opacity);
