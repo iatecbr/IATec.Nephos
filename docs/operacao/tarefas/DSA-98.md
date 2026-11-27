@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 970,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "blocked",
   "piece": "nph-sidebar",
   "dependencies": [
     "DSA-76",
@@ -31,7 +31,15 @@
       "verified_by": null
     }
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "id": "B1",
+      "what_blocks": "The tokens panel-menu/expand-duration and panel-menu/expand-easing are still in the token source and in tokens.css (item 6 of this task is Claude's), and the token contract test of nph-sidebar fails on those two names.",
+      "owner": "claude-figma",
+      "what_resolves": "Claude removes panel-menu/expand-duration and panel-menu/expand-easing from the source, the generated CSS and the motion/expand-* texts of design.md; then the nph-sidebar contract test passes and this task moves to done.",
+      "opened_at": "2026-11-27"
+    }
+  ],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-98/design-decision-2026-11-19.md"
@@ -50,7 +58,7 @@
   },
   "git_review": { "branch": "feat/dsa-98-bloco-panel-menu-collapsible", "commit": "1326cd17", "pr": "205" },
   "context": null,
-  "updated_at": "2026-11-26"
+  "updated_at": "2026-11-27"
 }
 ```
 
