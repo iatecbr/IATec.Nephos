@@ -2075,7 +2075,7 @@ describe('token contract', () => {
     }
     expect(NAVIGATION_MENU_TOKENS).toHaveLength(31);
     for (const name of [
-      '--nph-focus-border',
+      '--nph-navigation-menu-focus-border',
       '--nph-border-width',
       '--nph-focus-halo',
       '--nph-focus-ring-width',

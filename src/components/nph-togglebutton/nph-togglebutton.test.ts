@@ -460,7 +460,7 @@ describe('focus', () => {
     const button = control(element);
     const border = getComputedStyle(button, '::before');
     const halo = getComputedStyle(button, '::after');
-    expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-togglebutton-focus-border'));
     expect(border.borderTopWidth).toBe(resolved('width', '--nph-border-width'));
     expect(border.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-border-radius-control'));
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
@@ -481,7 +481,7 @@ describe('focus', () => {
 
   it('on the on piece, the focus is the same pair', async () => {
     const element = await focused({ text: 'Bold', pressed: true });
-    expect(getComputedStyle(control(element), '::before').borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(getComputedStyle(control(element), '::before').borderTopColor).toBe(resolved('color', '--nph-togglebutton-focus-border'));
     expect(getComputedStyle(control(element), '::after').borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
   });
 
@@ -511,7 +511,7 @@ describe('focus', () => {
     before.focus();
     await userEvent.tab();
     expect(getComputedStyle(control(element), '::after').borderTopColor).toBe(halo);
-    expect(getComputedStyle(control(element), '::before').borderTopColor).toBe(resolved('color', '--nph-color-primary', part));
+    expect(getComputedStyle(control(element), '::before').borderTopColor).toBe(resolved('color', '--nph-togglebutton-focus-border', part));
   });
 
   it('a mouse click draws no focus ring', async () => {
@@ -1284,7 +1284,7 @@ describe('token contract', () => {
         '--nph-text-label-md-letter-spacing',
         '--nph-color-muted-foreground',
         '--nph-color-foreground',
-        '--nph-color-primary',
+        '--nph-togglebutton-focus-border',
         '--nph-focus-halo',
         '--nph-focus-halo-error',
         '--nph-focus-border-radius-control',

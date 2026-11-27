@@ -79,7 +79,7 @@
 
 /* The twelve-year span of the year view is plain text, not a button. */
 .title-text {
-  color: var(--nph-color-secondary-foreground);
+  color: var(--nph-calendar-title-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);

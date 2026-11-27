@@ -59,7 +59,7 @@
     },
     "slots": "none",
     "events": "none",
-    "color": "It is not a property. The text is `color/foreground` and the asterisk is `status/error`, always — including when the field is in error."
+    "color": "It is not a property. The text is `color/foreground` and the asterisk is `label/required-foreground` (`status/error`), always — including when the field is in error."
   },
   "variants": {
     "required": {
@@ -102,7 +102,7 @@
       "text/label-md"
     ],
     "text_color": "color/foreground",
-    "asterisk_color": "status/error",
+    "asterisk_color": "label/required-foreground (status/error)",
     "asterisk_gap": "space/inline-tight",
     "trigger_gap": "space/inline-tight",
     "trigger": [

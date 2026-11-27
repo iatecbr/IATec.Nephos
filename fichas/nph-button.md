@@ -237,7 +237,7 @@ accessibility:
     - "Space activates."
     - "In the icon-only button, keyboard focus opens the tooltip at once and Esc closes it; Enter and Space leave it alone."
     - "In the icon-only button that opens a menu (aria-haspopup menu), the tooltip stays hidden while the menu is open and does not reopen when the focus returns; it comes back on a new hover or a new keyboard focus."
-  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item. One public hook, the custom property --nph-button-focus-border, sets the color of the border where a piece needs focus/border on its surface (nph-sidebar, DSA-72); unset, it changes nothing. Sibling hooks: --nph-button-focus-halo for the halo color and, per logical side, --nph-button-radius-inline-start|end, --nph-button-focus-border-radius-inline-start|end and --nph-button-focus-halo-radius-inline-start|end for the corners at a junction (P142, DSA-110); unset, they change nothing."
+  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. The primary type reads button/primary-focus-border (icon-only: icon-button/primary-focus-border), which points to focus/border, so it keeps 3:1 in dark mode. One public hook, the custom property --nph-button-focus-border, sets the color of the border where a piece needs focus/border on its surface (nph-sidebar, DSA-72); unset, it changes nothing. Sibling hooks: --nph-button-focus-halo for the halo color and, per logical side, --nph-button-radius-inline-start|end, --nph-button-focus-border-radius-inline-start|end and --nph-button-focus-halo-radius-inline-start|end for the corners at a junction (P142, DSA-110); unset, they change nothing."
   contrast: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.78:1, in primary outline and light of the light scheme. The primary and danger outline borders pass 3:1; the secondary outline border is 1.93:1 in the light scheme and 4.18:1 in the dark one, an accepted exception because the text, or the icon with its label and tooltip, identifies the button. The focus border of primary has the limit described in `focus`."
   color_alternative: "The text says what happens on click; color is never the only sign of intent, focus or state."
 invalid_combinations:
@@ -366,9 +366,8 @@ target on a touch screen; a size different from the field beside it.
 | Description | none | `description`, a text, is drawn hidden inside the shadow root and the native button carries an `aria-describedby` to it, because an id of the page cannot reach it. Empty by default; without it the button draws and behaves exactly as before. It adds no size, no focus stop and no event (P127, amends P68; DSA-74 D-2, DSA-82) |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
-border is the indicator; the halo is the second layer. Known limit: in dark mode,
-`color/primary` falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and
-`Igrejas`, an open item. The one public hook is the custom property `--nph-button-focus-border`
+border is the indicator; the halo is the second layer. The primary type reads
+`button/primary-focus-border` (`focus/border`), so it keeps 3:1 in dark mode. The one public hook is the custom property `--nph-button-focus-border`
 (DSA-72, P116): a piece that hosts a button on a surface where the color of the type falls below
 3:1 sets it on that button to `focus/border`, as `nph-sidebar` does on its close button. Unset, the
 border is the one of the type, as always; the halo does not change. Set it on the button, never on

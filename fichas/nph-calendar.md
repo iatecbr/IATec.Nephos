@@ -355,7 +355,7 @@ tokens:
   day_focus: "calendar/day-focus-radius, focus/border, focus/halo, focus/ring-width, border/width"
   day_states: "color/accent, color/accent-foreground, color/muted-foreground, color/primary, color/primary-foreground, color/primary-surface, color/primary-on-surface, color/primary-text, radius/none, state/disabled-opacity"
   weekday: "text/label-sm, color/muted-foreground"
-  header: "control/height-default, space/inline-tight, control/height-large, space/inline, color/secondary-foreground, text/label-md"
+  header: "control/height-default, space/inline-tight, control/height-large, space/inline, calendar/title-foreground (color/foreground on the year range), color/secondary-foreground, text/label-md"
   grid: "space/container-padding, space/inline"
 ai_hints:
   - "Use nph-calendar when a date or a period is picked in a grid; for a field the person types in and a panel that opens, use nph-date-picker, which already holds this grid."
@@ -604,7 +604,7 @@ part of this piece.
 | Day size | `control/height-default`, `control/height-large` |
 | Day and month label | `text/body-md`, `text/label-md` where the day is today or chosen |
 | Weekday names | `text/label-sm`, `color/muted-foreground` (D-3) |
-| Header | `control/height-default` plus `space/inline-tight` on default, `control/height-large` on large, `space/inline`, `color/secondary-foreground`, `text/label-md` |
+| Header | `control/height-default` plus `space/inline-tight` on default, `control/height-large` on large, `space/inline`, `color/secondary-foreground`, `calendar/title-foreground` on the year range, `text/label-md` |
 | Grid | `space/container-padding`, `space/inline` |
 | Day colors | `color/foreground`, `color/muted-foreground`, `color/accent`, `color/accent-foreground`, `color/primary`, `color/primary-foreground`, `color/primary-surface`, `color/primary-on-surface`, `color/primary-text`, `radius/none` |
 | Focus | `focus/border`, `focus/halo`, `focus/ring-width`, `border/width` |

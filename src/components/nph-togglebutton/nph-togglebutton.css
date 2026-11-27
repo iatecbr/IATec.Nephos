@@ -34,7 +34,7 @@
  * content, so there is no width token and the icon-only piece is not square.
  */
 .control {
-  --_focus-border: var(--nph-color-primary);
+  --_focus-border: var(--nph-togglebutton-focus-border);
   --_focus-halo: var(--nph-focus-halo);
 
   position: relative;

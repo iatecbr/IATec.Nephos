@@ -38,7 +38,7 @@ nph-label .nph-label__text {
 }
 
 /*
- * The required-field asterisk. The color is `status/error`, whose use was
+ * The required-field asterisk. The color is `label/required-foreground` (`status/error`), whose use was
  * widened on 27-08-2026 to cover this case. NEVER use `color/destructive`:
  * A5 forbids it, and it would confuse a required field with a field in error.
  *
@@ -48,7 +48,7 @@ nph-label .nph-label__text {
  */
 nph-label .nph-label__required {
   margin-inline-start: var(--nph-space-inline-tight);
-  color: var(--nph-status-error);
+  color: var(--nph-label-required-foreground);
 }
 
 /*

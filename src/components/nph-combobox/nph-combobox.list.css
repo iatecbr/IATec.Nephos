@@ -27,7 +27,7 @@
   padding: 0;
   overflow: hidden;
   border: var(--nph-border-width) solid var(--nph-color-border-subtle);
-  border-radius: var(--nph-radius-container);
+  border-radius: var(--nph-combobox-panel-radius);
   background-color: var(--nph-color-popover);
   box-shadow: var(--nph-elevation-dropdown);
   color: var(--nph-color-popover-foreground);
