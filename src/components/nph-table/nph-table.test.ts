@@ -673,14 +673,14 @@ describe('composite cells', () => {
     expect(getComputedStyle(link).color).toBe(color('--nph-table-link-foreground'));
   });
 
-  it('link in dark mode: theme/brand-200 through table/link-foreground', async () => {
+  it('link in dark mode: theme/brand-text-dark through table/link-foreground', async () => {
     const frame = document.createElement('div');
     frame.setAttribute('data-nph-color-scheme', 'dark');
     document.body.append(frame);
     const element = await mount({ columns: [{ key: 'c', header: 'C' }], rows: [{ key: 'a', cells: { c: { type: 'link', text: 'Receipt', href: '#r' } } }] }, frame);
     const link = root(element).querySelector('a') as HTMLElement;
     expect(getComputedStyle(link).color).toBe(color('--nph-table-link-foreground', frame));
-    expect(color('--nph-table-link-foreground', frame)).toBe(color('--nph-theme-brand-200', frame));
+    expect(color('--nph-table-link-foreground', frame)).toBe(color('--nph-theme-brand-text-dark', frame));
   });
 
   it('truncated: the cell is focusable, cut at the column width, with the whole text in the tooltip and in the name', async () => {
