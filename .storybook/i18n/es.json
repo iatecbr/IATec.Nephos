@@ -3686,7 +3686,7 @@
       ]
     ],
     "statesTitle": "Estados",
-    "statesText": "Los estados del contenido vienen del src; hover, foco y deshabilitada vienen del padre cuando la imagen es clicable. Vacío y error dibujan solo el marco hasta que lleguen sus ilustraciones de línea, así que por ahora los dos se ven iguales: el texto que explica el problema es del padre, que escucha el evento error.",
+    "statesText": "Los estados del contenido vienen del src; hover, foco y deshabilitada vienen del padre cuando la imagen es clicable. Vacío y error dibujan un icono sobre image/illustration-background: image en vacío, image-landscape en media 4:3 y 16:9, e image-slash en error. El texto que explica el problema es del padre, que escucha el evento error.",
     "statesCaption": "Vacío, cargando, cargada y error, en el tamaño xl.",
     "interactionCaption": "Una imagen clicable y una clicable deshabilitada. Pase el ratón por encima de la primera para ver el velo y el ojo, pulse Tab para ver el anillo de foco.",
     "statesHeader": [
@@ -3696,7 +3696,7 @@
     "states": [
       [
         "Vacío",
-        "Sin src: el marco en image/background con su borde. La ilustración entrará cuando lleguen sus archivos."
+        "Sin src: el marco con su borde y el icono image sobre image/illustration-background."
       ],
       [
         "Cargando",
@@ -3708,7 +3708,7 @@
       ],
       [
         "Error",
-        "La imagen no cargó: el marco con su borde, como en vacío. La ilustración entrará cuando lleguen sus archivos."
+        "La imagen no cargó: el marco con su borde y el icono image-slash sobre image/illustration-background."
       ],
       [
         "Hover",
@@ -3742,8 +3742,8 @@
         "El nph-spinner, un arco abierto en image/foreground que gira mientras la imagen carga: sm en xs, sm y md; md en los tamaños mayores."
       ],
       [
-        "Ilustración de vacío y error",
-        "Un dibujo de línea gris por esquema de color, cambiado por image/illustration-light e image/illustration-dark. Sus archivos aún no están en el repositorio."
+        "Icono de vacío y error",
+        "El nph-icon image, image-landscape o image-slash, en image/foreground sobre image/illustration-background, en el estilo light."
       ],
       [
         "Velo e icono del hover",
@@ -3778,7 +3778,7 @@
       ],
       [
         "El color no es la única señal",
-        "La carga cambia el dibujo por el spinner. Vacío y error lo cambiarán por sus ilustraciones; hasta que lleguen, el texto del padre y el evento error llevan la diferencia."
+        "La carga cambia el dibujo por el spinner. Vacío y error lo cambian por un icono (image o image-slash); el texto del padre y el evento error siguen diciendo lo que pasó."
       ],
       [
         "Área táctil",
@@ -8575,7 +8575,7 @@
       "components-nph-empty-validation--invalid-heading": "Sin título la pieza no dibuja nada y no tiene alternativa visual.",
       "components-nph-image-validation--sizes": "Los siete tamaños, con imagen y sin ella: cuadrados de 24, 32, 48, 64, 96 y 128 px con esquina redondeada, y media en el ancho de contenido de 256 px.",
       "components-nph-image-validation--ratios": "media acepta 1:1, 4:3 y 16:9 en el mismo ancho, 256 por 256, 192 o 144 px; un tamaño cuadrado ignora la proporción y sigue cuadrado.",
-      "components-nph-image-validation--states": "El estado viene del src: vacío sin él, el spinner y ningún borde mientras la imagen carga, la imagen llenando el marco una vez cargada, y el marco de nuevo cuando falla. Vacío y error dibujan solo el marco hasta que lleguen sus ilustraciones.",
+      "components-nph-image-validation--states": "El estado viene del src: vacío sin él, el spinner y ningún borde mientras la imagen carga, la imagen llenando el marco una vez cargada, y el marco de nuevo cuando falla. Vacío y error dibujan un icono sobre image/illustration-background.",
       "components-nph-image-validation--interaction": "Una imagen clicable es un botón: pase el ratón por encima para ver el velo y el ojo, pulse Tab para ver el anillo de foco. Deshabilitada atenúa la pieza entera y saca el botón del orden del Tab.",
       "components-nph-image-validation--accessibility": "Con alt, la imagen se anuncia por su descripción; con alt vacío, queda oculta al lector de pantalla y habla el texto de al lado. Una imagen clicable da el alt a su botón.",
       "components-nph-image-validation--brands": "Las siete marcas en claro y oscuro: el borde de foco de la imagen clicable sigue la marca del marco con Tab.",
