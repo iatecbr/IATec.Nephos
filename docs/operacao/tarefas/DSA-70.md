@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 690,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-27",
@@ -23,17 +23,18 @@
     {
       "id": "review-and-merge",
       "description": "Each change in the table of this task is in the code, with tests, stories and specs updated, passes the proof commands and is merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor e9de12293d13a2c1f29629f6d126917a7f2ded65 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-70/review-and-merge-2026-11-27.md",
+      "result": "passed",
+      "verified_at": "2026-11-27",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-70/review-and-merge-partial-2026-11-09.md"
+    "docs/operacao/evidencias/DSA-70/review-and-merge-partial-2026-11-09.md",
+    "docs/operacao/evidencias/DSA-70/review-and-merge-2026-11-27.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p114",
@@ -50,9 +51,9 @@
     "excerpt": null,
     "converted_decision": "The previews of lot 2 (frame 5404:10452, draft page) and of lot 1 (frame 5374:10420) were answered by Indiane on 2026-11-09. Each answer is written, in text, in the section 'Decisions answered on 2026-11-09' of its own task; the table below lists only the answers that change the code. There is no need to open Figma."
   },
-  "git_review": { "branch": "feat/dsa-70-d-itens", "commit": "2984ec2ecaad43884a882d45b8ef8fa791bdb248", "pr": "163" },
-  "context": "docs/operacao/contextos/DSA-70.md",
-  "updated_at": "2026-11-26"
+  "git_review": { "branch": "feat/dsa-70-d-itens", "commit": "e9de12293d13a2c1f29629f6d126917a7f2ded65", "pr": "212" },
+  "context": null,
+  "updated_at": "2026-11-27"
 }
 ```
 
@@ -82,7 +83,7 @@ Each change in the table below is in the code of its piece, with its tests, stor
 
 
 ## Status of the rows
-All the rows are in the code, merged into `v/5.0.0` by PR #163 (evidence `review-and-merge-partial-2026-11-09.md`), except the `nph-table` one. The token part of that row is on `v/5.0.0` since 2026-11-26 (T-1 closed): `table/link-foreground` is `{color.link}` in light and dark, as in Figma, so in dark it reads `theme/brand-text-dark`. What is left is the test: `link in dark mode` in `nph-table.test.ts` still names and compares `theme/brand-200`. It still passes, because the test runs in the `Sistemas` brand, where both are `core/sistemas/200`; in Gerencial, Igrejas and Recursos Humanos `theme/brand-text-dark` is tone 100, and in `Educacao` tone 300. The code owner renames the test and compares `--nph-theme-brand-text-dark`; then the task can close. It does not go to `done` before. The technical choices of the other rows are in P114 (`docs/decisoes-tecnicas.md`). The open items DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2 stay open.
+All the rows are in the code and merged into `v/5.0.0`: PR #163 for every row except `nph-table` (evidence `review-and-merge-partial-2026-11-09.md`), and PR #212 for the `nph-table` one (evidence `review-and-merge-2026-11-27.md`). The token part of that row has been on `v/5.0.0` since 2026-11-26 (T-1 closed): `table/link-foreground` is `{color.link}` in light and dark. PR #212 renamed the test `link in dark mode` in `nph-table.test.ts` to compare `--nph-theme-brand-text-dark`. The technical choices of the other rows are in P114 (`docs/decisoes-tecnicas.md`). The open items DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2 stay open.
 
 ## How it is proved
 **`review-and-merge`** passes when each row of the table is in the code, with the tests and stories of each piece updated and its spec in `fichas/` saying the same; the proof commands in `docs/operacao/component-handoff.md` exit 0; and the work is merged into `v/5.0.0`.
