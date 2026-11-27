@@ -1266,7 +1266,9 @@ describe('token contract', () => {
     expect(used).toEqual(
       new Set([
         '--nph-border-width',
-        '--nph-status-error',
+        '--nph-togglebutton-border-error',
+        '--nph-togglebutton-foreground',
+        '--nph-togglebutton-foreground-unchecked',
         '--nph-radius-control',
         '--nph-space-inline-tight',
         '--nph-control-height-compact',
@@ -1282,8 +1284,6 @@ describe('token contract', () => {
         '--nph-text-label-md-line-height',
         '--nph-text-label-md-font-weight',
         '--nph-text-label-md-letter-spacing',
-        '--nph-color-muted-foreground',
-        '--nph-color-foreground',
         '--nph-togglebutton-focus-border',
         '--nph-focus-halo',
         '--nph-focus-halo-error',

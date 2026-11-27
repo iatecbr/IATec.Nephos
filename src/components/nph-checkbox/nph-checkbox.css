@@ -35,7 +35,7 @@
   align-items: flex-start;
   gap: var(--nph-space-inline);
   min-inline-size: 0;
-  color: var(--nph-color-foreground);
+  color: var(--nph-checkbox-label-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -75,10 +75,10 @@
   flex: none;
   inline-size: var(--nph-icon-size-sm);
   block-size: var(--nph-icon-size-sm);
-  border: var(--nph-border-width) solid var(--nph-color-input);
+  border: var(--nph-border-width) solid var(--nph-checkbox-border);
   border-radius: var(--nph-radius-inner);
-  background-color: var(--nph-color-background);
-  color: var(--nph-color-primary-foreground);
+  background-color: var(--nph-checkbox-background);
+  color: var(--nph-checkbox-icon-checked);
 }
 
 /* Both marks share one cell; opacity shows only the active one (D1). */
@@ -89,7 +89,7 @@
 
 /* Checked and indeterminate: the box is filled with `color/primary` (D2). */
 .native:is(:checked, :indeterminate) + .box {
-  background-color: var(--nph-color-primary);
+  background-color: var(--nph-checkbox-background-checked);
 }
 
 .native:checked:not(:indeterminate) + .box .mark-check,
@@ -108,7 +108,7 @@
  */
 :host(:not(:disabled)) .control:hover .box,
 :host([hover]:not(:disabled)) .box {
-  border-color: var(--nph-color-input-hover);
+  border-color: var(--nph-checkbox-border-hover);
 }
 
 /* Hover on a checked or indeterminate box also takes `state/hover-opacity`, on the box (D2, D7). */
@@ -124,7 +124,7 @@
 :host([invalid]:not(:disabled)) .control .native + .box {
   --_halo: var(--nph-focus-halo-error);
 
-  border-color: var(--nph-status-error);
+  border-color: var(--nph-checkbox-border-error);
 }
 
 /*

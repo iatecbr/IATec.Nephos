@@ -78,7 +78,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--nph-color-popover-foreground);
+  color: var(--nph-dropdown-item-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -87,7 +87,7 @@
 }
 
 .shortcut {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-dropdown-item-muted-foreground);
   font-family: var(--nph-text-caption-font-family);
   font-size: var(--nph-text-caption-font-size);
   font-weight: var(--nph-text-caption-font-weight);
@@ -100,7 +100,7 @@
 .group-label {
   padding-block: var(--nph-space-inline-tight);
   padding-inline: var(--nph-space-inline);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-dropdown-group-label-foreground);
   font-family: var(--nph-text-label-sm-font-family);
   font-size: var(--nph-text-label-sm-font-size);
   font-weight: var(--nph-text-label-sm-font-weight);
@@ -117,7 +117,7 @@
   gap: var(--nph-space-inline);
   padding: var(--nph-space-inline);
   border-radius: var(--nph-dropdown-item-radius);
-  color: var(--nph-color-popover-foreground);
+  color: var(--nph-dropdown-item-foreground);
   outline: none;
   cursor: default;
 }
@@ -197,7 +197,7 @@
  */
 .item:not([aria-disabled]):hover,
 .item:not([aria-disabled])[aria-expanded='true'] {
-  background-color: var(--nph-color-primary-surface);
+  background-color: var(--nph-dropdown-item-background-hover);
 }
 
 .item[data-severity='destructive']:not([aria-disabled]):hover,

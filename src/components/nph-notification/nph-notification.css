@@ -280,13 +280,13 @@ p {
  * type are pointed at the notification ones, on this element only.
  */
 .secondary[severity='primary'] {
-  --nph-color-primary-on-surface: var(--_action-foreground);
-  --nph-color-primary-surface: var(--_action-background-hover);
+  --nph-button-primary-tinted-foreground: var(--_action-foreground);
+  --nph-button-primary-tinted-background: var(--_action-background-hover);
 }
 
 .secondary[severity='danger'] {
-  --nph-color-destructive-on-surface: var(--_action-foreground);
-  --nph-color-destructive-surface: var(--_action-background-hover);
+  --nph-button-danger-tinted-foreground: var(--_action-foreground);
+  --nph-button-danger-tinted-background: var(--_action-background-hover);
 }
 
 /*
@@ -295,7 +295,8 @@ p {
  * halo and the border width are read by the focus of the button only (`nph-button.css`).
  */
 :host([emphasis='solid']) .close nph-button {
-  --nph-color-secondary-foreground: var(--_on-solid);
+  --nph-button-secondary-foreground: var(--_on-solid);
+  --nph-icon-button-secondary-foreground: var(--_on-solid);
   --nph-icon-button-secondary-ghost-background-hover: color-mix(
     in srgb,
     var(--_close-hover) calc(var(--nph-notification-close-background-hover-opacity) * 100%),

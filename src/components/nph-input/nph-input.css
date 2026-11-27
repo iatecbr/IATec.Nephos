@@ -53,8 +53,8 @@
   border: var(--nph-border-width) solid var(--_border);
   border-block-end-color: var(--_border-bottom);
   border-radius: var(--nph-radius-control);
-  background-color: var(--nph-color-background);
-  color: var(--nph-color-muted-foreground);
+  background-color: var(--nph-input-background);
+  color: var(--nph-input-muted-foreground);
 }
 
 /* `large` changes only the height. */
@@ -108,7 +108,7 @@
   padding: 0;
   border: 0;
   background-color: transparent;
-  color: var(--nph-color-foreground);
+  color: var(--nph-input-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -119,7 +119,7 @@
 }
 
 .field::placeholder {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-input-muted-foreground);
   opacity: 1;
 }
 
@@ -179,8 +179,8 @@
 
 /* Hover: the whole border, on all four sides, in `color/input-hover`. */
 .control:hover {
-  --_border: var(--nph-color-input-hover);
-  --_border-bottom: var(--nph-color-input-hover);
+  --_border: var(--nph-input-border-hover);
+  --_border-bottom: var(--nph-input-border-hover);
 }
 
 /* `foco-limpar`: keep the resting split border, even when the pointer is over it. */
@@ -227,8 +227,8 @@
 :host([invalid]) .control,
 :host([invalid]) .control:hover,
 :host([invalid]) .control:has(.field:focus) {
-  --_border: var(--nph-status-error);
-  --_border-bottom: var(--nph-status-error);
+  --_border: var(--nph-input-border-error);
+  --_border-bottom: var(--nph-input-border-error);
 }
 
 :host([invalid]) .control:has(.field:focus)::after {
@@ -238,8 +238,8 @@
 /* Disabled wins: the whole border in `color/input`, the `color/muted` background, no hover and no error look. */
 :host(:disabled) .control,
 :host(:disabled) .control:hover {
-  --_border: var(--nph-color-input);
-  --_border-bottom: var(--nph-color-input);
+  --_border: var(--nph-input-border-disabled);
+  --_border-bottom: var(--nph-input-border-disabled);
 
-  background-color: var(--nph-color-muted);
+  background-color: var(--nph-input-background-disabled);
 }

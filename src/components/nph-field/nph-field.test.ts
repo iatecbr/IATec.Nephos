@@ -768,8 +768,8 @@ describe('token contract', () => {
         '--nph-layout-field-width',
         ...typography('caption'),
         ...typography('body-md'),
-        '--nph-color-muted-foreground',
-        '--nph-status-error-text',
+        '--nph-field-description-foreground',
+        '--nph-field-error-foreground',
       ]),
     );
     for (const name of used) {

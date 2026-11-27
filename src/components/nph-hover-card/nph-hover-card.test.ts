@@ -278,7 +278,7 @@ describe('the link', () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       expect(getComputedStyle(linkOf(card)).color, scheme).toBe(paint('--nph-color-link', scheme));
     }
-    expect(componentCss).toContain('color: var(--nph-color-link)');
+    expect(componentCss).toContain('color: var(--nph-hover-card-link-foreground)');
     expect(componentCss).not.toContain('--nph-color-primary');
   });
 

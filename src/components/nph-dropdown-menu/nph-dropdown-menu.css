@@ -36,9 +36,9 @@
   margin: 0;
   padding: var(--nph-space-inline-tight);
   overflow: visible;
-  border: var(--nph-border-width) solid var(--nph-color-dropdown-border);
+  border: var(--nph-border-width) solid var(--nph-dropdown-border);
   border-radius: var(--nph-dropdown-panel-radius);
-  background-color: var(--nph-color-popover);
+  background-color: var(--nph-dropdown-background);
   box-shadow: var(--nph-elevation-dropdown);
   color: var(--nph-color-popover-foreground);
   text-align: start;
@@ -113,7 +113,7 @@
 
 .header-name,
 .text {
-  color: var(--nph-color-popover-foreground);
+  color: var(--nph-dropdown-item-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -124,7 +124,7 @@
 .header-status,
 .description,
 .shortcut {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-dropdown-item-muted-foreground);
   font-family: var(--nph-text-caption-font-family);
   font-size: var(--nph-text-caption-font-size);
   font-weight: var(--nph-text-caption-font-weight);
@@ -132,11 +132,19 @@
   letter-spacing: var(--nph-text-caption-letter-spacing);
 }
 
-/* Group label: `text/label-sm` in `color/muted-foreground`; `space/inline` on the sides, `space/inline-tight` above and below. */
+/* The profile header has its own text colors; the font of the two rules above is shared. */
+.header-name {
+  color: var(--nph-dropdown-profile-name-foreground);
+}
+.header-status {
+  color: var(--nph-dropdown-profile-meta-foreground);
+}
+
+/* Group label: `text/label-sm` in `dropdown/group-label-foreground`; `space/inline` on the sides, `space/inline-tight` above and below. */
 .group-label {
   padding-block: var(--nph-space-inline-tight);
   padding-inline: var(--nph-space-inline);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-dropdown-group-label-foreground);
   font-family: var(--nph-text-label-sm-font-family);
   font-size: var(--nph-text-label-sm-font-size);
   font-weight: var(--nph-text-label-sm-font-weight);
@@ -153,7 +161,7 @@
   gap: var(--nph-space-inline);
   padding: var(--nph-space-inline);
   border-radius: var(--nph-dropdown-item-radius);
-  color: var(--nph-color-popover-foreground);
+  color: var(--nph-dropdown-item-foreground);
   outline: none;
   cursor: default;
 }
@@ -204,8 +212,8 @@
   block-size: var(--nph-icon-size-md);
   padding-inline: var(--nph-space-inline);
   border-radius: var(--nph-radius-full);
-  background-color: var(--nph-color-primary-hover);
-  color: var(--nph-color-primary-foreground);
+  background-color: var(--nph-dropdown-item-counter-background);
+  color: var(--nph-dropdown-item-counter-foreground);
   font-family: var(--nph-text-label-sm-font-family);
   font-size: var(--nph-text-label-sm-font-size);
   font-weight: var(--nph-text-label-sm-font-weight);
@@ -229,7 +237,7 @@
 
 .item[data-selection='single'][data-checked],
 .item[data-selection='single'][data-checked] .text {
-  color: var(--nph-color-primary-text);
+  color: var(--nph-dropdown-item-foreground-selected);
 }
 
 /* Destructive: text, icon and shortcut in `dropdown/item-destructive-foreground`, at rest, in focus and disabled. */
@@ -245,7 +253,7 @@
  * the icon in `dropdown/item-destructive-hover-foreground`.
  */
 .item:not([aria-disabled]):hover {
-  background-color: var(--nph-color-primary-surface);
+  background-color: var(--nph-dropdown-item-background-hover);
 }
 
 .item[data-severity='destructive']:not([aria-disabled]):hover {

@@ -34,8 +34,8 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: var(--nph-color-muted);
-  color: var(--nph-color-muted-foreground);
+  background: var(--nph-avatar-background);
+  color: var(--nph-avatar-icon);
 }
 
 :host([data-nph-rendered][size='sm']) {
@@ -74,7 +74,7 @@ img {
   position: absolute;
   inset: 0;
   box-sizing: border-box;
-  border: var(--nph-border-width) solid var(--nph-color-border);
+  border: var(--nph-border-width) solid var(--nph-avatar-border);
   border-radius: inherit;
   pointer-events: none;
 }

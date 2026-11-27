@@ -650,9 +650,9 @@ describe('token contract', () => {
         '--nph-avatar-radius-sm',
         '--nph-avatar-radius-md',
         '--nph-avatar-radius-lg',
-        '--nph-color-muted',
-        '--nph-color-muted-foreground',
-        '--nph-color-border',
+        '--nph-avatar-background',
+        '--nph-avatar-border',
+        '--nph-avatar-icon',
         '--nph-border-width',
       ]),
     );

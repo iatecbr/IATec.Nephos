@@ -44,9 +44,9 @@
   padding-block: var(--nph-space-inline-tight);
   padding-inline: var(--nph-space-inline);
   border-radius: var(--nph-radius-inner);
-  background-color: var(--nph-color-tooltip);
+  background-color: var(--nph-tooltip-background);
   box-shadow: var(--nph-elevation-dropdown);
-  color: var(--nph-color-tooltip-foreground);
+  color: var(--nph-tooltip-foreground);
   font-family: var(--nph-text-body-sm-font-family);
   font-size: var(--nph-text-body-sm-font-size);
   font-weight: var(--nph-text-body-sm-font-weight);

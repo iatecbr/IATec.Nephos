@@ -34,7 +34,7 @@ nph-label .nph-label__text {
   font-weight: var(--nph-text-label-md-font-weight);
   line-height: var(--nph-text-label-md-line-height);
   letter-spacing: var(--nph-text-label-md-letter-spacing);
-  color: var(--nph-color-foreground);
+  color: var(--nph-label-foreground);
 }
 
 /*
@@ -84,7 +84,7 @@ nph-label .nph-label__info {
   padding: var(--nph-space-inline-tight);
   border: 0;
   background: transparent;
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-label-info-icon);
   font: inherit;
   cursor: pointer;
   outline: none;

@@ -47,7 +47,7 @@
   padding: 0;
   border: 0;
   background-color: transparent;
-  color: var(--nph-color-foreground);
+  color: var(--nph-switch-label-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -83,7 +83,7 @@
   --_track-height: var(--nph-icon-size-lg);
   --_thumb: var(--nph-icon-size-sm);
   --_gap: var(--nph-space-inline-tight);
-  --_fill: var(--nph-color-input);
+  --_fill: var(--nph-switch-track-background);
   --_outline: transparent;
   --_focus-border: var(--nph-focus-border);
   --_focus-halo: var(--nph-focus-halo);
@@ -114,8 +114,8 @@
 }
 
 :host([checked]) .track {
-  --_fill: var(--nph-color-primary);
-  --_outline: var(--nph-color-primary-border);
+  --_fill: var(--nph-switch-track-background-checked);
+  --_outline: var(--nph-switch-track-border-checked);
 }
 
 /*
@@ -124,18 +124,18 @@
  */
 .control:not(:disabled):hover .track,
 :host([hover]) .control:not(:disabled) .track {
-  --_fill: var(--nph-color-input-hover);
+  --_fill: var(--nph-switch-track-background-hover);
 }
 
 :host([checked]) .control:not(:disabled):hover .track,
 :host([checked][hover]) .control:not(:disabled) .track {
-  --_fill: var(--nph-color-primary-hover);
+  --_fill: var(--nph-switch-track-background-checked-hover);
 }
 
 /* Invalid: error outline, on or off. Disabled wins: the outline stays the resting one. */
 :host([invalid]:not([data-nph-inactive])) .track {
-  --_outline: var(--nph-status-error);
-  --_focus-border: var(--nph-status-error);
+  --_outline: var(--nph-switch-border-error);
+  --_focus-border: var(--nph-switch-border-error);
   --_focus-halo: var(--nph-focus-halo-error);
 }
 
@@ -157,11 +157,11 @@
 }
 
 .knob-off {
-  background-color: var(--nph-color-background);
+  background-color: var(--nph-switch-thumb-background);
 }
 
 .knob-on {
-  background-color: var(--nph-color-primary-foreground);
+  background-color: var(--nph-switch-thumb-background-checked);
   opacity: 0;
 }
 

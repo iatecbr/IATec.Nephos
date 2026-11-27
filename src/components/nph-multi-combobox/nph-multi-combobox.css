@@ -59,8 +59,8 @@
   border: var(--nph-border-width) solid var(--_border);
   border-block-end-color: var(--_border-bottom);
   border-radius: var(--nph-radius-control);
-  background-color: var(--nph-color-background);
-  color: var(--nph-color-muted-foreground);
+  background-color: var(--nph-multi-combobox-background);
+  color: var(--nph-multi-combobox-muted-foreground);
   cursor: text;
 }
 
@@ -105,7 +105,7 @@
 .subject {
   min-inline-size: 0;
   overflow: hidden;
-  color: var(--nph-color-foreground);
+  color: var(--nph-multi-combobox-foreground);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -131,8 +131,8 @@
   padding: 0;
   border: 0;
   background-color: transparent;
-  color: var(--nph-color-foreground);
-  caret-color: var(--nph-color-foreground);
+  color: var(--nph-multi-combobox-foreground);
+  caret-color: var(--nph-multi-combobox-caret);
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
@@ -144,7 +144,7 @@
 }
 
 .field::placeholder {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-multi-combobox-muted-foreground);
   opacity: 1;
 }
 
@@ -162,8 +162,8 @@
   max-inline-size: 100%;
   padding-inline: var(--nph-space-inline);
   border-radius: var(--nph-radius-full);
-  background-color: var(--nph-color-primary-surface);
-  color: var(--nph-color-primary-on-surface);
+  background-color: var(--nph-multi-combobox-chip-background);
+  color: var(--nph-multi-combobox-chip-foreground);
 }
 
 .chip-icon {
@@ -227,8 +227,8 @@
 
 /* Hover: the whole border, on all four sides, in `color/input-hover`. */
 .control:hover {
-  --_border: var(--nph-color-input-hover);
-  --_border-bottom: var(--nph-color-input-hover);
+  --_border: var(--nph-multi-combobox-border-hover);
+  --_border-bottom: var(--nph-multi-combobox-border-hover);
 }
 
 /* `foco-remover`: keep the resting split border of the field, even when the pointer is over it. */
@@ -278,8 +278,8 @@
 :host([invalid]) .control:hover,
 :host([invalid]) .control:has(.field:focus),
 :host([invalid][open]) .control {
-  --_border: var(--nph-status-error);
-  --_border-bottom: var(--nph-status-error);
+  --_border: var(--nph-multi-combobox-border-error);
+  --_border-bottom: var(--nph-multi-combobox-border-error);
 }
 
 :host([invalid]) .control:has(.field:focus)::after,
@@ -295,10 +295,10 @@
 :host(:disabled) .control,
 :host(:disabled) .control:hover,
 :host(:disabled) .control:has(.field:focus) {
-  --_border: var(--nph-color-input);
-  --_border-bottom: var(--nph-color-input);
+  --_border: var(--nph-multi-combobox-border-disabled);
+  --_border-bottom: var(--nph-multi-combobox-border-disabled);
 
-  background-color: var(--nph-color-muted);
+  background-color: var(--nph-multi-combobox-background-disabled);
   cursor: default;
 }
 
@@ -312,6 +312,6 @@
 
 :host(:disabled) .chip {
   padding-block: var(--nph-space-inline-tight);
-  background-color: var(--nph-color-muted);
-  color: var(--nph-color-muted-foreground);
+  background-color: var(--nph-multi-combobox-chip-background-disabled);
+  color: var(--nph-multi-combobox-chip-foreground-disabled);
 }

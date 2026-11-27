@@ -85,7 +85,7 @@
   font-weight: var(--nph-text-caption-font-weight);
   line-height: var(--nph-text-caption-line-height);
   letter-spacing: var(--nph-text-caption-letter-spacing);
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-field-description-foreground);
 }
 
 /* Error: `text/body-md` in `status/error-text`, with no icon (D2 to D4; DSA-67). */
@@ -95,7 +95,7 @@
   font-weight: var(--nph-text-body-md-font-weight);
   line-height: var(--nph-text-body-md-line-height);
   letter-spacing: var(--nph-text-body-md-letter-spacing);
-  color: var(--nph-status-error-text);
+  color: var(--nph-field-error-foreground);
 }
 
 /* The counter never takes the error color, and it keeps to the end of its line. */

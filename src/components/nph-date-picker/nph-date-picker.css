@@ -41,7 +41,8 @@
 
 /* The calendar icon is `color/muted-foreground`, light, as the icons of the field; the solid icon comes with the button's own hover. */
 .calendar-button {
-  --nph-color-secondary-foreground: var(--nph-color-muted-foreground);
+  --nph-button-secondary-foreground: var(--nph-date-picker-icon);
+  --nph-icon-button-secondary-foreground: var(--nph-date-picker-icon);
 }
 
 /*
@@ -58,7 +59,7 @@
   overflow: visible;
   border: var(--nph-border-width) solid var(--nph-date-picker-panel-border);
   border-radius: var(--nph-date-picker-panel-radius);
-  background-color: var(--nph-color-popover);
+  background-color: var(--nph-date-picker-panel-background);
   box-shadow: var(--nph-elevation-dropdown);
   color: var(--nph-color-popover-foreground);
   text-align: start;

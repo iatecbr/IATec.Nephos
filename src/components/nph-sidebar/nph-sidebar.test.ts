@@ -2168,8 +2168,9 @@ describe('token contract', () => {
   it('only redefines the tokens of the search, the hook and the icon color of the close button, and the three the brand panel swaps', () => {
     expect([...defined].filter((name) => !name.startsWith('--_')).sort()).toEqual([
       '--nph-button-focus-border',
-      '--nph-color-background',
-      '--nph-color-primary-on-surface',
+      '--nph-button-primary-tinted-foreground',
+      '--nph-icon-button-primary-tinted-foreground',
+      '--nph-input-background',
       '--nph-input-border',
       '--nph-separator-border',
       '--nph-sidebar-panel-background',

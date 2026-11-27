@@ -67,7 +67,7 @@
 
 .current {
   flex: none;
-  color: var(--nph-color-foreground);
+  color: var(--nph-slider-label-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -115,7 +115,7 @@
 /* Minimum and maximum: `text/caption` in `color/muted-foreground`. */
 .limit,
 .mark {
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-slider-value-foreground);
   font-family: var(--nph-text-caption-font-family);
   font-size: var(--nph-text-caption-font-size);
   font-weight: var(--nph-text-caption-font-weight);
@@ -158,14 +158,14 @@
   inset-block-start: 50%;
   block-size: var(--nph-space-inline-tight);
   transform: translateY(-50%);
-  background-color: var(--nph-color-input);
+  background-color: var(--nph-slider-track-background);
 }
 
 .fill {
   inset-block-start: 50%;
   block-size: var(--nph-space-inline-tight);
   transform: translateY(-50%);
-  background-color: var(--nph-color-primary);
+  background-color: var(--nph-slider-range-background);
 }
 
 :host([orientation='vertical']) .rail {
@@ -190,7 +190,7 @@
  * border inside in `color/primary-border`. Its box is the one the balloon sits on.
  */
 .thumb {
-  --_border: var(--nph-color-primary-border);
+  --_border: var(--nph-slider-thumb-border);
   --_halo: var(--nph-focus-halo);
 
   position: absolute;
@@ -200,7 +200,7 @@
   block-size: var(--nph-icon-size-sm);
   border: var(--nph-border-width) solid var(--_border);
   border-radius: var(--nph-radius-full);
-  background-color: var(--nph-color-background);
+  background-color: var(--nph-slider-thumb-background);
   transform: translate(-50%, -50%);
   outline: none;
   touch-action: none;
@@ -247,14 +247,14 @@
 /* `erro` and `erro-foco`: the border stays `status/error`; on focus, the halo is the error one. */
 :host([invalid]) .thumb,
 :host([invalid]) .thumb:focus-visible {
-  --_border: var(--nph-status-error);
+  --_border: var(--nph-slider-border-error);
   --_halo: var(--nph-focus-halo-error);
 }
 
 /* Disabled wins: the resting border, no error look and no halo, even on a thumb that kept the focus. */
 :host(:disabled) .thumb,
 :host(:disabled) .thumb:focus-visible {
-  --_border: var(--nph-color-primary-border);
+  --_border: var(--nph-slider-thumb-border);
 }
 
 :host(:disabled) .thumb:focus-visible::after {
