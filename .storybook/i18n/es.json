@@ -4759,7 +4759,7 @@
     "startText": "El start decide el tipo y la opción elegida da el arte: con icon, el icono de la opción elegida, o globe antes de la elección; con avatar, la foto de la persona elegida, o el avatar vacío antes de la elección. Mantén el mismo inicio en todas las opciones de la lista.",
     "startCaption": "start=icon y start=avatar, antes y después de la elección.",
     "optionTitle": "Opción",
-    "optionText": "Cada opción es un nph-option: la etiqueta es el texto que contiene, y puede tener un inicio, un texto secundario y el punto de un estado. La lista escribe selected y active en ella; la opción elegida tiene el fondo color/primary-surface y el check, que ganan sobre el aspecto de hover.",
+    "optionText": "Cada opción es un nph-option: la etiqueta es el texto que contiene, y puede tener un inicio, un texto secundario y el punto de un estado. La lista escribe selected y active en ella; la opción elegida no tiene fondo, solo el check; la opción activa por el teclado también dibuja el borde de foco y el halo de los elementos de lista.",
     "optionCaption": "Los cuatro inicios, activa, seleccionada, el punto en cada estado y deshabilitada.",
     "optionApiHeader": [
       "Propiedad",
@@ -4800,7 +4800,7 @@
       ],
       [
         "rich, description",
-        "Activa el aspecto rico: una descripción debajo de la etiqueta, una capa de hover más suave, ningún fondo de seleccionada y el borde de foco y el halo de los elementos de lista en la opción activa por el teclado. Una opción simple al lado no cambia. description es el texto debajo de la etiqueta, dibujado solo con rich."
+        "Activa el aspecto rico: una descripción debajo de la etiqueta, una capa de hover más suave, ningún fondo de seleccionada y el borde de foco y el halo de los elementos de lista en la opción activa por el teclado. Una opción simple al lado mantiene el hover completo. description es el texto debajo de la etiqueta, dibujado solo con rich."
       ],
       [
         "selected, active, keyboard",
@@ -4822,7 +4822,7 @@
       ],
       [
         "seleccionada",
-        "color/primary-surface y el check en color/primary; gana sobre el hover."
+        "Sin fondo, solo el check en color/primary; tampoco tiene aspecto de hover."
       ],
       [
         "disabled",
@@ -4925,7 +4925,7 @@
       ],
       [
         "Contraste",
-        "Texto 4,5:1 y el borde 3:1, en los modos claro y oscuro; la flecha 3:1 sobre el fondo del campo; el check 4,78:1 y 6,26:1 sobre color/primary-surface."
+        "Texto 4,5:1 y el borde 3:1, en los modos claro y oscuro; la flecha 3:1 sobre el fondo del campo; el check 5,37:1 y 3,91:1 sobre color/popover."
       ],
       [
         "El color no es la única señal",
@@ -17937,7 +17937,7 @@
     "richOptionRules": [
       [
         "rich, description",
-        "rich activa el aspecto; description es el texto debajo del rótulo, dibujado solo con rich. La opción simple no cambia."
+        "rich activa el aspecto; description es el texto debajo del rótulo, dibujado solo con rich. La opción simple mantiene el hover completo."
       ],
       [
         "hover",

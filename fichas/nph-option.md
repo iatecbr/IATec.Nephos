@@ -82,8 +82,8 @@ api:
     default: check
     reflects: true
     constraint: >-
-      check is the single choice: the selected option takes the selected background and
-      the check. checkbox is the multiple choice of nph-multi-combobox: an inert
+      check is the single choice: the selected option shows the check, with no background
+      (DSA-124). checkbox is the multiple choice of nph-multi-combobox: an inert
       nph-checkbox at the start, checked while selected, with no selected background and
       no check (P96). Any other value draws nothing and emits console.error in
       development.
@@ -95,7 +95,8 @@ api:
     constraint: >-
       Turns on the rich look of the option: a description below the label, a softer hover
       that is a layer at select/option-background-hover-opacity, no selected background,
-      and the focus border and halo of the list items on the option active by the keyboard.
+      and the parts aligned to the top (DSA-128). The focus border and halo of the list items
+      are drawn by the plain option too, when active by the keyboard (DSA-124).
       It reflects because the internal CSS selects the look by it. The plain option is the
       default and does not change; a list may hold both, such as the create row of
       nph-combobox, which is plain.
@@ -166,8 +167,11 @@ states:
     token: color/accent
     changes_for_user: "The option the pointer or the keyboard is on: color/accent, with the text in color/accent-foreground (D5)."
   selected:
-    token: color/primary-surface
-    changes_for_user: "The chosen option: color/primary-surface and the check in color/primary. It wins over active (D5). With marker=checkbox, the checked box instead, with no background (P96)."
+    token: color/primary
+    changes_for_user: "The chosen option: only the check in color/primary, with no background (DSA-124). Active or not, it has no hover look: only the focus ring when active by the keyboard. With marker=checkbox, the checked box instead, and the hover look stays (P96)."
+  keyboard_active:
+    token: "select/option-focus-border and select/option-focus-halo"
+    changes_for_user: "The plain option active by the keyboard: the hover look (a selected option with the check has none), a 1 px focus border outside the option and a halo outside it (DSA-124). The pointer hover has no border."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole option at state/disabled-opacity; it cannot be chosen."
@@ -186,11 +190,11 @@ states:
 business_rules:
   - "The option never chooses itself: the list that owns it writes selected and active."
   - "Without the value attribute, the value is the label text."
-  - "The selected background wins over the active one."
+  - "The selected option has no background, plain or rich; the check says the choice."
   - "With marker=checkbox, the checked box says the choice, without the selected background."
   - "The rich look is a choice of the option, not of the list: rich turns it on, and the plain option next to it does not change."
   - "The rich option has no selected background, whatever the marker."
-  - "Only the rich option active by the keyboard draws the focus border and the halo; the list tells the option with keyboard."
+  - "Only the option active by the keyboard, plain or rich, draws the focus border and the halo; the list tells the option with keyboard."
 domain_errors: []
 tokens:
   padding: space/inline
@@ -202,7 +206,8 @@ tokens:
   avatar: "nph-avatar sm"
   dot: "space/inline square, radius/full, in an icon/size-md box; status/* or color/muted-foreground"
   active: "color/accent with color/accent-foreground"
-  selected: "color/primary-surface with the check, icon/size-sm in color/primary"
+  selected: "no background; the check, icon/size-sm in color/primary"
+  keyboard_active: "select/option-focus-border of select/option-focus-border-width, then select/option-focus-halo of select/option-focus-halo-width, both outside the option; select/option-focus-border-radius and select/option-focus-halo-radius"
   checkbox: "nph-checkbox, inert, at the start of the option (marker=checkbox)"
   disabled: state/disabled-opacity
   rich_padding_gap_radius: "select/option-padding, select/option-gap, select/option-radius"
@@ -228,8 +233,8 @@ accessibility:
   keyboard:
     - "not_applicable: the option never takes the focus; the list that owns it handles the keyboard."
   focus: "not_applicable: the focus stays on the trigger of the list, which points to the active option with aria-activedescendant. The rich option active by the keyboard draws the focus border and the halo of the list items."
-  contrast: "The label meets 4.5:1 on color/popover, color/accent and color/primary-surface, in light and dark mode; the check on color/primary-surface measures 4.78:1 and 6.26:1 (D8)."
-  color_alternative: "The selected option has the check besides the background; the dot goes with the written state. The selected rich option has no background: the check or the checked box says it."
+  contrast: "The label meets 4.5:1 on color/popover and color/accent, in light and dark mode (D8). The check in color/primary on color/popover measures 5.37:1 in light and 3.91:1 in dark (default brand, measured in DSA-124)."
+  color_alternative: "The selected option has no background: the check or the checked box says it; the dot goes with the written state."
 invalid_combinations:
   - "A start outside none, icon, avatar and dot — the option draws nothing."
   - "A status outside the six — the option draws nothing."
@@ -252,7 +257,7 @@ anti_patterns:
   - "A long description on the rich option."
   - "Writing nph-rich-option inside a list."
 sources:
-  design_md: "design.md, color/popover-foreground, color/accent, color/accent-foreground, color/primary-surface, color/primary, color/muted-foreground, status/*, text/label-md, radius/inner, radius/full, icon/size-md and state/disabled-opacity"
+  design_md: "design.md, color/popover-foreground, color/accent, color/accent-foreground, color/primary, select/option-focus-*, color/muted-foreground, status/*, text/label-md, radius/inner, radius/full, icon/size-md and state/disabled-opacity"
   decision: "P91 — API and semantics of nph-select and nph-option; P96 amends it with marker; P134 adds the rich look"
   tests: "src/components/nph-option/nph-option.test.ts, nph-option.rich.test.ts, src/components/nph-rich-option/nph-rich-option.lists.test.ts and src/components/nph-select/nph-select.test.ts"
   usage_evidence: "the Option section of the nph-select Docs page"
@@ -293,8 +298,12 @@ never stands alone; its reading page is the one of `nph-select`.
 turned on by `secondary`, and the rich look, turned on by `rich`.
 
 **By size:** `not_applicable`: the option takes the width of the list; it measures 36 px, or
-40 px with an avatar. The rich option grows with its description: the label line, a gap and
-the caption line, which wraps.
+40 px with an avatar. The rich option aligns its parts to the top: the start icon, the dot,
+the texts and the check drop by `select/option-content-offset` (2 px), so the first line
+centers on the 24 px avatar or checkbox, which stay at the top. It measures 38 px with an icon
+or a dot and no description, and 40 px with an avatar or a checkbox. It grows with its
+description: the offset, the label line, a gap and the caption line, which wraps (58 px with
+one line of description).
 
 **By density:** `not_applicable`.
 
@@ -334,7 +343,8 @@ option in four things:
 |---|---|---|
 | `default` | `color/popover-foreground` | The label on the list background, with no background of its own |
 | `hover` / active | `color/accent`, `color/accent-foreground` | The option the pointer or the keyboard is on (D5) |
-| `selecionada` | `color/primary-surface`, `color/primary` | The chosen option, with the check; it wins over active (D5). With `marker="checkbox"`, the checked box instead, with no background (P96) |
+| `selecionada` | `color/primary` | The chosen option: only the check, with no background (DSA-124). Active or not, it has no hover look. With `marker="checkbox"`, the checked box instead, and the hover look stays (P96) |
+| `ativa` by the keyboard | `select/option-focus-border`, `select/option-focus-halo` | The hover look, a 1 px focus border outside the option and the halo outside it; the active option sits over its neighbors. The pointer hover has no border (DSA-124) |
 | `disabled` | `state/disabled-opacity` | The whole option fades; it cannot be chosen. Selected and disabled keeps the selected look (D-3, open) |
 
 The same states of the rich option, with the tokens of the rich look:
@@ -358,12 +368,12 @@ halo, and that clip stays.
 
 - The option never chooses itself: the list that owns it writes `selected` and `active`.
 - Without the `value` attribute, the value is the label text.
-- The selected background wins over the active one.
+- The selected option has no background, plain or rich; the check says the choice.
 - With `marker="checkbox"`, the checked box says the choice, without the selected background.
 - The rich look is a choice of the option: `rich` turns it on, and the plain option next to it
   does not change.
 - The rich option has no selected background, whatever the marker.
-- Only the rich option active by the keyboard draws the focus border and the halo.
+- Only the option active by the keyboard, plain or rich, draws the focus border and the halo.
 
 **Domain error states:** `not_applicable`.
 
@@ -375,8 +385,8 @@ halo, and that clip stays.
 | Accessible name | The label text and the secondary text. The start, the dot, the check and the box of `marker="checkbox"` are hidden from the screen reader; the box is also `inert`. On a rich option the description is the accessible description of the option, through `ElementInternals` because an id does not cross a shadow root, and its line is hidden from the screen reader |
 | Keyboard | `not_applicable`: the list that owns the option handles the keyboard |
 | Focus | `not_applicable`: the focus stays on the trigger of the list, which points to the active option with `aria-activedescendant`. The rich option active by the keyboard draws a 1 px `select/option-focus-border` and a 4 px `select/option-focus-halo` outside it; the layer alone is below 3:1 and the border meets it |
-| Contrast | The label meets 4.5:1 on `color/popover`, `color/accent` and `color/primary-surface`; the check on `color/primary-surface` measures 4.78:1 and 6.26:1 (D8) |
-| Alternative to color | The selected option has the check besides the background; the dot goes with the written state. The selected rich option has no background: the check or the checked box says it |
+| Contrast | The label meets 4.5:1 on `color/popover` and `color/accent` (D8). The check in `color/primary` on `color/popover` measures 5.37:1 in light and 3.91:1 in dark (default brand, DSA-124) |
+| Alternative to color | The selected option has no background: the check or the checked box says it; the dot goes with the written state |
 | Known limits | Forced colors and right-to-left are not treated yet |
 
 ## Relations
@@ -405,7 +415,8 @@ that a property of an option changed through the `NPH_OPTION_CHANGED` symbol (P9
 | Avatar | `nph-avatar` `sm` |
 | Dot | `space/inline` square, `radius/full`, in an `icon/size-md` box; `status/*`, `color/muted-foreground` for neutral, or the text color (D6) |
 | Active | `color/accent`, `color/accent-foreground` |
-| Selected | `color/primary-surface`; the check `icon/size-sm` in `color/primary` |
+| Selected | No background; the check `icon/size-sm` in `color/primary` |
+| Keyboard focus | `select/option-focus-border` of `select/option-focus-border-width`, then `select/option-focus-halo` of `select/option-focus-halo-width`, both outside the option |
 | Box | `nph-checkbox`, inert, at the start, with `marker="checkbox"` |
 | Disabled | `state/disabled-opacity` |
 | Rich option | `select/option-padding`, `select/option-gap`, `select/option-radius`; label `text/label-md` in `select/option-foreground`, in `select/option-foreground-hover` when active; secondary `select/option-secondary-foreground`, `select/option-label-gap` after the label |
@@ -415,8 +426,8 @@ that a property of an option changed through the `NPH_OPTION_CHANGED` symbol (P9
 | Rich check, start and dot | `select/option-marker` in `select/option-marker-size`; `select/option-icon-size`; the dot `select/option-dot-size` |
 | Rich disabled | `select/option-disabled-opacity` |
 
-**Usage restrictions:** `color/primary-surface` is the selected background of the plain
-option only; the rich option has no selected background. The option has no motion.
+**Usage restrictions:** neither the plain nor the rich option has a selected background: the
+check says the choice (DSA-124). The option has no motion.
 
 **AI hints:**
 
@@ -460,7 +471,7 @@ option only; the rich option has no selected background. The option has no motio
 ## Sources and decisions
 
 - **The repository `design.md`:** `color/popover-foreground`, `color/accent`,
-  `color/accent-foreground`, `color/primary-surface`, `color/primary`,
+  `color/accent-foreground`, `color/primary`, `select/option-focus-*`,
   `color/muted-foreground`, `status/*`, `text/label-md`, `radius/inner`, `radius/full`,
   `icon/size-md` and `state/disabled-opacity`.
 - **The decision that originated it:** P91, the API and semantics of `nph-select` and

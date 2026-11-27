@@ -229,7 +229,7 @@ describe('nph-select with rich options', () => {
     expect(node.description).toBe('For one person and one project.');
   });
 
-  it('a plain option in the same list keeps the full accent when active, with no ring, even by the keyboard', async () => {
+  it('a plain option in the same list keeps the full accent when active, and the keyboard brings it the ring (DSA-124)', async () => {
     const select = await mount();
     trigger(select).focus();
     await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}');
@@ -238,10 +238,10 @@ describe('nph-select with rich options', () => {
     expect(plain.active).toBe(true);
     expect(plain.keyboard).toBe(true);
     expect(getComputedStyle(plain).backgroundColor).toBe(colorOf('--nph-color-accent'));
-    expect(plain.shadowRoot?.querySelector('.focus-border')).toBeNull();
+    expect(getComputedStyle(plain.shadowRoot?.querySelector('.focus-border') as HTMLElement).display).toBe('block');
   });
 
-  it('the chosen rich option has the check and no selected background; the plain one keeps the surface', async () => {
+  it('the chosen rich option and the chosen plain one have the check and no selected background', async () => {
     const select = await mount();
     select.value = 'free';
     await settle();
@@ -251,7 +251,9 @@ describe('nph-select with rich options', () => {
     expect(rich.shadowRoot?.querySelector('.check')).not.toBeNull();
     select.value = 'plain';
     await settle();
-    expect(getComputedStyle(optionAt(select, 3)).backgroundColor).toBe(colorOf('--nph-color-primary-surface'));
+    expect(optionAt(select, 3).selected).toBe(true);
+    expect(getComputedStyle(optionAt(select, 3)).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(optionAt(select, 3).shadowRoot?.querySelector('.check')).not.toBeNull();
   });
 
   it('the list keeps the halo clipped at its edge: the scroll box is the one of the select', async () => {
@@ -322,7 +324,7 @@ describe('nph-combobox with rich options', () => {
     expect(ringOf(match).border).toBe('block');
   });
 
-  it('the create row stays a plain option with no ring, even by the keyboard', async () => {
+  it('the create row stays a plain option: no layer, and the ring of the plain option by the keyboard', async () => {
     const element = await mount('creatable');
     field(element).focus();
     await userEvent.keyboard('Zed');
@@ -332,7 +334,7 @@ describe('nph-combobox with rich options', () => {
     expect(create.rich).toBe(false);
     await userEvent.keyboard('{ArrowDown}');
     await settle();
-    expect(create.shadowRoot?.querySelector('.focus-border')).toBeNull();
+    expect(create.shadowRoot?.querySelector('.layer')).toBeNull();
   });
 
   it('the description is the description of the option the field points to', async () => {

@@ -157,19 +157,23 @@ describe('the rich API', () => {
 });
 
 describe('measures and parts', () => {
-  it('the option with a description is the padding, the label line, the gap and the caption line', async () => {
+  it('the option with a description is the padding, the content offset, the label line, the gap and the caption line (58, DSA-128)', async () => {
     const element = await mount(`<nph-option ${RICH}>Finance</nph-option>`);
     const expected =
-      2 * px('--nph-select-option-padding') + px('--nph-text-label-md-line-height') + px('--nph-select-option-text-gap') + px('--nph-text-caption-line-height');
+      2 * px('--nph-select-option-padding') +
+      px('--nph-select-option-content-offset') +
+      px('--nph-text-label-md-line-height') +
+      px('--nph-select-option-text-gap') +
+      px('--nph-text-caption-line-height');
     expect(element.getBoundingClientRect().height).toBeCloseTo(expected, 1);
   });
 
-  it('the rich option with no description measures what the plain option measures', async () => {
+  it('the rich option with no description measures what the plain option measures plus the content offset (38, DSA-128)', async () => {
     const plain = await mount('<nph-option>Finance</nph-option>');
     const plainHeight = plain.getBoundingClientRect().height;
     document.body.replaceChildren();
     const rich = await mount('<nph-option rich>Finance</nph-option>');
-    expect(rich.getBoundingClientRect().height).toBeCloseTo(plainHeight, 1);
+    expect(rich.getBoundingClientRect().height).toBeCloseTo(plainHeight + px('--nph-select-option-content-offset'), 1);
   });
 
   it('the description is caption text in the description color, and it wraps', async () => {
@@ -197,11 +201,18 @@ describe('measures and parts', () => {
     expect(getComputedStyle(part(element, '.secondary') as HTMLElement).color).toBe(colorOf('--nph-select-option-secondary-foreground'));
   });
 
-  it('the parts are centered on the vertical axis: start, texts and check', async () => {
-    const element = await mount(`<nph-option ${RICH} start="icon">Finance</nph-option>`);
+  it('the parts align to the top: start, texts and check drop by the content offset (DSA-128)', async () => {
+    const element = await mount('<nph-option rich start="icon">Finance</nph-option>');
     element.selected = true;
     await element.updateComplete;
-    expect(getComputedStyle(element).alignItems).toBe('center');
+    expect(getComputedStyle(element).alignItems).toBe('flex-start');
+    const top = element.getBoundingClientRect().top + px('--nph-select-option-padding');
+    const offset = px('--nph-select-option-content-offset');
+    expect(part(element, '.start')?.getBoundingClientRect().top).toBe(top + offset);
+    expect(part(element, '.label')?.getBoundingClientRect().top).toBe(top + offset);
+    const check = part(element, '.check')?.getBoundingClientRect() as DOMRect;
+    expect(check.top + check.height / 2).toBe(top + offset + px('--nph-select-option-icon-size') / 2);
+    expect(element.getBoundingClientRect().height).toBe(2 * px('--nph-select-option-padding') + offset + px('--nph-select-option-icon-size'));
     expect(getComputedStyle(element).columnGap).toBe(`${px('--nph-select-option-gap')}px`);
     expect(part(element, '.start')?.getBoundingClientRect().width).toBe(px('--nph-select-option-icon-size'));
     expect(part(element, '.check')?.getBoundingClientRect().width).toBe(px('--nph-select-option-marker-size'));
@@ -218,6 +229,20 @@ describe('measures and parts', () => {
     const element = await mount(`<nph-option ${RICH} start="avatar" marker="checkbox">Finance</nph-option>`);
     expect(part(element, 'nph-avatar')).not.toBeNull();
     expect(part(element, 'nph-checkbox')?.hasAttribute('inert')).toBe(true);
+  });
+
+  it('the avatar and the checkbox stay at the top and do not drop; the texts drop by the content offset (DSA-128)', async () => {
+    const element = await mount(`<nph-option ${RICH} start="avatar" marker="checkbox">Finance</nph-option>`);
+    const top = element.getBoundingClientRect().top + px('--nph-select-option-padding');
+    expect(part(element, 'nph-avatar')?.getBoundingClientRect().top).toBe(top);
+    expect(part(element, 'nph-checkbox')?.getBoundingClientRect().top).toBe(top);
+    expect(part(element, '.label')?.getBoundingClientRect().top).toBe(top + px('--nph-select-option-content-offset'));
+  });
+
+  it('the dot box drops by the content offset', async () => {
+    const element = await mount(`<nph-option ${RICH} start="dot">Finance</nph-option>`);
+    const top = element.getBoundingClientRect().top + px('--nph-select-option-padding');
+    expect(part(element, '.dot-box')?.getBoundingClientRect().top).toBe(top + px('--nph-select-option-content-offset'));
   });
 });
 
@@ -438,7 +463,7 @@ describe('what the screen reader hears', () => {
 });
 
 describe('what the rich look does not change', () => {
-  it('a plain option keeps the full accent when active, with no layer and no ring, even with the keyboard state', async () => {
+  it('a plain option keeps the full accent when active, with no layer, and draws the ring only with the keyboard state (DSA-124)', async () => {
     const element = await mount('<nph-option>Finance</nph-option>');
     element.active = true;
     element.keyboard = true;
@@ -446,17 +471,19 @@ describe('what the rich look does not change', () => {
     expect(getComputedStyle(element).backgroundColor).toBe(colorOf('--nph-color-accent'));
     expect(getComputedStyle(element).color).toBe(colorOf('--nph-color-accent-foreground'));
     expect(part(element, '.layer')).toBeNull();
-    expect(part(element, '.focus-border')).toBeNull();
-    expect(part(element, '.focus-halo')).toBeNull();
+    expect(getComputedStyle(part(element, '.focus-border') as HTMLElement).display).toBe('block');
+    expect(getComputedStyle(part(element, '.focus-halo') as HTMLElement).display).toBe('block');
+    expect(getComputedStyle(element).zIndex).toBe('1');
+    element.keyboard = false;
+    await element.updateComplete;
+    expect(getComputedStyle(part(element, '.focus-border') as HTMLElement).display).toBe('none');
     expect(getComputedStyle(element).zIndex).toBe('auto');
-    expect(getComputedStyle(element).position).toBe('static');
   });
-
-  it('a plain selected option keeps the primary surface and the check in the primary color', async () => {
+  it('a plain selected option has no background and keeps the check in the primary color (DSA-124)', async () => {
     const element = await mount('<nph-option>Finance</nph-option>');
     element.selected = true;
     await element.updateComplete;
-    expect(getComputedStyle(element).backgroundColor).toBe(colorOf('--nph-color-primary-surface'));
+    expect(getComputedStyle(element).backgroundColor).toBe('rgba(0, 0, 0, 0)');
     expect(getComputedStyle(part(element, '.check') as HTMLElement).color).toBe(colorOf('--nph-color-primary'));
   });
 
@@ -499,12 +526,7 @@ describe('token contract of the rich look', () => {
         '--nph-select-option-marker-size',
         '--nph-select-option-icon-size',
         '--nph-select-option-dot-size',
-        '--nph-select-option-focus-border',
-        '--nph-select-option-focus-border-width',
-        '--nph-select-option-focus-border-radius',
-        '--nph-select-option-focus-halo',
-        '--nph-select-option-focus-halo-width',
-        '--nph-select-option-focus-halo-radius',
+        '--nph-select-option-content-offset',
         '--nph-text-caption-font-family',
         '--nph-text-caption-font-size',
         '--nph-text-caption-font-weight',

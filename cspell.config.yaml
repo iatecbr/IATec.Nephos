@@ -304,6 +304,7 @@ dictionaryDefinitions:
       - blocos
       - tarefas
       - rascunho
+      - ativa
       - operacao
       - revisado
       - acessibilidade

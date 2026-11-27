@@ -428,7 +428,7 @@ anti_patterns:
   - "Using the status dot without a written state."
   - "Writing the options as nph-option children of the combobox."
 sources:
-  design_md: "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/accent, color/border, color/popover, color/primary-surface, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, text/highlight-weight, elevation/dropdown, motion/* and, for free-text, combobox/free-text-padding-end; combobox/border, combobox/border-bottom and combobox/height in the token source"
+  design_md: "design.md, color/input, color/field-border, color/field-border-bottom, color/input-hover, color/accent, color/border, color/popover, status/*, focus/*, state/disabled-opacity, control/height-*, layout/input-width, layout/max-list-height, radius/control-inner, text/highlight-weight, elevation/dropdown, motion/* and, for free-text, combobox/free-text-padding-end; combobox/border, combobox/border-bottom and combobox/height in the token source"
   decision: "P95 — API and semantics of nph-combobox and its list; the form pattern is P80, the field contract is P83, the option and the layer are P91; P122 — the free text variant"
   tests: "src/components/nph-combobox/nph-combobox.test.ts and nph-combobox.free-text.test.ts"
   usage_evidence: "the Examples section of the nph-combobox Docs page"
@@ -697,7 +697,7 @@ leaving the field.
 
 - **The repository `design.md`:** `color/input`, `color/field-border`,
   `color/field-border-bottom`, `color/input-hover`, `color/accent`,
-  `color/border`, `color/popover`, `color/primary-surface`, `status/*`, `focus/*`,
+  `color/border`, `color/popover`, `status/*`, `focus/*`,
   `state/disabled-opacity`, `control/height-*`, `layout/input-width`,
   `layout/max-list-height`, `radius/control-inner`, `text/highlight-weight`,
   `elevation/dropdown`, `motion/*` and, for `free-text`, `combobox/free-text-padding-end`.

@@ -197,6 +197,7 @@ tokens:
   title: "text/label-md in rich-option/foreground"
   description: "text/caption in rich-option/description-foreground, rich-option/text-gap below the title"
   icon: "nph-icon light in a rich-option/icon-size box, rich-option/foreground"
+  content_offset: "rich-option/content-offset: the icon and the first line of the title drop by it, to center on the 24 px touch area of the control"
   control: "nph-checkbox, nph-radio or nph-switch at the default size, inert"
   shortcut: "nph-kbd"
   hover: "rich-option/background-hover at rich-option/background-hover-opacity, a layer under the content"
@@ -403,6 +404,7 @@ icon; `nph-kbd`, the shortcut. In a list, the rich option is `nph-option` with `
 | Title | `text/label-md`, `rich-option/foreground` |
 | Second line | `text/caption`, `rich-option/description-foreground`, `rich-option/text-gap` below the title |
 | Icon | `nph-icon` `light` in a `rich-option/icon-size` box, `rich-option/foreground` |
+| Content offset | `rich-option/content-offset`: the icon and the texts drop by it, so the first line of the title centers on the 24 px touch area |
 | Control | `nph-checkbox`, `nph-radio` or `nph-switch` at the default size, inert |
 | Shortcut | `nph-kbd` |
 | Hover | `rich-option/background-hover` at `rich-option/background-hover-opacity`, a layer under the content |

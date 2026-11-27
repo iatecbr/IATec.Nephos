@@ -4759,7 +4759,7 @@
     "startText": "start decides the kind and the chosen option gives the art: with icon, the icon of the chosen option, or globe before a choice; with avatar, the photo of the chosen person, or the empty avatar before a choice. Keep the same start on every option of the list.",
     "startCaption": "start=icon and start=avatar, before and after a choice.",
     "optionTitle": "Option",
-    "optionText": "Each option is an nph-option: its label is the text it holds, and it may have a start, a secondary text and the dot of a state. The list writes selected and active on it; the selected option has the color/primary-surface background and the check, which win over the hover look.",
+    "optionText": "Each option is an nph-option: its label is the text it holds, and it may have a start, a secondary text and the dot of a state. The list writes selected and active on it; the selected option has no background, only the check; the option active by the keyboard also draws the focus border and the halo of the list items.",
     "optionCaption": "The four starts, active, selected, the dot in every state and disabled.",
     "optionApiHeader": [
       "Property",
@@ -4800,7 +4800,7 @@
       ],
       [
         "rich, description",
-        "Turns on the rich look: a description below the label, a softer hover layer, no selected background and the focus border and halo of the list items on the option active by the keyboard. A plain option next to it does not change. description is the text below the label, drawn only with rich."
+        "Turns on the rich look: a description below the label, a softer hover layer, no selected background and the focus border and halo of the list items on the option active by the keyboard. A plain option next to it keeps the full hover look. description is the text below the label, drawn only with rich."
       ],
       [
         "selected, active, keyboard",
@@ -4822,7 +4822,7 @@
       ],
       [
         "selected",
-        "color/primary-surface and the check in color/primary; it wins over hover."
+        "No background, only the check in color/primary; it has no hover look either."
       ],
       [
         "disabled",
@@ -4925,7 +4925,7 @@
       ],
       [
         "Contrast",
-        "Text 4.5:1 and the border 3:1, in light and dark mode; the arrow 3:1 on the field background; the check 4.78:1 and 6.26:1 on color/primary-surface."
+        "Text 4.5:1 and the border 3:1, in light and dark mode; the arrow 3:1 on the field background; the check 5.37:1 and 3.91:1 on color/popover."
       ],
       [
         "Color is not the only signal",
@@ -17937,7 +17937,7 @@
     "richOptionRules": [
       [
         "rich, description",
-        "rich turns the look on; description is the text below the label, drawn only with rich. The plain option does not change."
+        "rich turns the look on; description is the text below the label, drawn only with rich. The plain option keeps the full hover look."
       ],
       [
         "hover",

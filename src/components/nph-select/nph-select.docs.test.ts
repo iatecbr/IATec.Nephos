@@ -167,7 +167,7 @@ describe('nph-select Documentation', () => {
       const text = (target.querySelector('section#accessibility') as HTMLElement).textContent ?? '';
       expect(text).toContain('combobox');
       expect(text).toContain('aria-activedescendant');
-      expect(text).toMatch(/4[.,]78:1/);
+      expect(text).toMatch(/5[.,]37:1/);
     });
   }
 

@@ -229,13 +229,14 @@ describe('states and precedence (D5)', () => {
       expect(getComputedStyle(element).color).toBe(resolved('color', '--nph-color-accent-foreground'));
     });
 
-    it(`${scheme}: selected is color/primary-surface with the check in color/primary, and wins over active`, async () => {
+    it(`${scheme}: selected has no background, only the check in color/primary; active over it shows no hover look (DSA-124)`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const element = await mount('<nph-option>Finance</nph-option>');
       element.selected = true;
       element.active = true;
       await element.updateComplete;
-      expect(getComputedStyle(element).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-surface'));
+      expect(getComputedStyle(element).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      expect(getComputedStyle(element).color).toBe(resolved('color', '--nph-color-popover-foreground'));
       const check = part(element, 'nph-icon.check') as HTMLElement;
       expect(check.getAttribute('name')).toBe('check');
       expect(check.getAttribute('size')).toBe('sm');
@@ -255,12 +256,56 @@ describe('states and precedence (D5)', () => {
     expect(part(element, '.check')).toBeNull();
   });
 
-  it('disabled: state/disabled-opacity on the whole option; selected and disabled keeps the selected look (D-3)', async () => {
+  it('disabled: state/disabled-opacity on the whole option; selected and disabled keeps the check and no background (D-3)', async () => {
     const element = await mount('<nph-option disabled>Finance</nph-option>');
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
     element.selected = true;
     await element.updateComplete;
-    expect(getComputedStyle(element).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-surface'));
+    expect(getComputedStyle(element).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(part(element, '.check')).not.toBeNull();
+  });
+});
+describe('the focus of the list items (DSA-124)', () => {
+  it('at rest and in pointer hover there is no border and no halo; only active by the keyboard draws them', async () => {
+    const element = await mount('<nph-option>Finance</nph-option>');
+    const border = part(element, '.focus-border') as HTMLElement;
+    const halo = part(element, '.focus-halo') as HTMLElement;
+    expect(getComputedStyle(border).display).toBe('none');
+    expect(getComputedStyle(halo).display).toBe('none');
+    element.active = true;
+    await element.updateComplete;
+    expect(getComputedStyle(border).display).toBe('none');
+    element.keyboard = true;
+    await element.updateComplete;
+    expect(getComputedStyle(border).display).toBe('block');
+    expect(getComputedStyle(halo).display).toBe('block');
+    expect(getComputedStyle(element).zIndex).toBe('1');
+  });
+  it('the border sits outside the option with select/option-focus-border, and the halo outside the border', async () => {
+    const element = await mount('<nph-option>Finance</nph-option>');
+    element.active = true;
+    element.keyboard = true;
+    await element.updateComplete;
+    const option = element.getBoundingClientRect();
+    const borderWidth = px('--nph-select-option-focus-border-width');
+    const haloWidth = px('--nph-select-option-focus-halo-width');
+    const border = part(element, '.focus-border') as HTMLElement;
+    const halo = part(element, '.focus-halo') as HTMLElement;
+    expect(getComputedStyle(border).borderTopColor).toBe(resolved('border-top-color', '--nph-select-option-focus-border'));
+    expect(getComputedStyle(border).borderTopWidth).toBe(`${borderWidth}px`);
+    expect(getComputedStyle(border).borderTopLeftRadius).toBe(`${px('--nph-select-option-focus-border-radius')}px`);
+    expect(border.getBoundingClientRect().top).toBe(option.top - borderWidth);
+    expect(getComputedStyle(halo).borderTopColor).toBe(resolved('border-top-color', '--nph-select-option-focus-halo'));
+    expect(getComputedStyle(halo).borderTopWidth).toBe(`${haloWidth}px`);
+    expect(getComputedStyle(halo).borderTopLeftRadius).toBe(`${px('--nph-select-option-focus-halo-radius')}px`);
+    expect(halo.getBoundingClientRect().top).toBe(option.top - borderWidth - haloWidth);
+  });
+  it('a disabled option never draws the ring', async () => {
+    const element = await mount('<nph-option disabled>Finance</nph-option>');
+    element.active = true;
+    element.keyboard = true;
+    await element.updateComplete;
+    expect(getComputedStyle(part(element, '.focus-border') as HTMLElement).display).toBe('none');
   });
 });
 
@@ -407,7 +452,12 @@ describe('token contract', () => {
         '--nph-color-primary',
         '--nph-color-accent',
         '--nph-color-accent-foreground',
-        '--nph-color-primary-surface',
+        '--nph-select-option-focus-border',
+        '--nph-select-option-focus-border-width',
+        '--nph-select-option-focus-border-radius',
+        '--nph-select-option-focus-halo',
+        '--nph-select-option-focus-halo-width',
+        '--nph-select-option-focus-halo-radius',
         '--nph-state-disabled-opacity',
       ]),
     );
