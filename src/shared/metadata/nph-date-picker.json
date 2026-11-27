@@ -517,7 +517,7 @@
       "changes_for_user": "The field and the calendar button fade and do not open the panel; the error is hidden, so disabled wins over error."
     },
     "open": {
-      "token": "icon-button/secondary-ghost-background-hover, date-picker/panel-border, date-picker/panel-radius, color/popover, elevation/dropdown",
+      "token": "icon-button/secondary-ghost-background-hover, date-picker/panel-border, date-picker/panel-radius, date-picker/panel-background, elevation/dropdown",
       "changes_for_user": "The calendar button keeps the hover-active look with the solid icon and aria-expanded true, and the panel shows below the field."
     },
     "closed": {
@@ -572,12 +572,12 @@
   ],
   "tokens": {
     "trigger": "date-picker/trigger-gap",
-    "panel_surface": "date-picker/panel-radius, date-picker/panel-border, border/width, color/popover, color/popover-foreground, elevation/dropdown",
+    "panel_surface": "date-picker/panel-radius, date-picker/panel-border, border/width, date-picker/panel-background, color/popover-foreground, elevation/dropdown",
     "panel_padding": "date-picker/panel-padding",
     "panel_offset": "date-picker/panel-offset",
     "divider": "date-picker/divider, border/width",
     "footer": "date-picker/footer-gap, date-picker/panel-padding",
-    "calendar_button_icon": "color/muted-foreground",
+    "calendar_button_icon": "date-picker/icon",
     "grid": "calendar/day-radius, calendar/day-focus-radius, space/container-padding, space/inline, control/height-default, control/height-large",
     "narrow_rule": "control/height-default, control/height-large, space/container-padding, border/width",
     "motion": "motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing, motion/hover-duration",
@@ -605,7 +605,7 @@
       "Esc closes the panel without change; with the month or the year view open, the first Esc goes back to the days and the second closes."
     ],
     "focus": "Each piece shows the focus border and the halo of its own component; the shortcut active by keyboard takes the hover look of nph-option. On opening the focus goes to a day, and on closing back to the calendar button, the End one in a range.",
-    "contrast": "The label, the text, the hint and the error message pass 4.5:1 in both themes; the error message in status/error-text measures 6.88:1 and 6.96:1. The calendar icon in color/muted-foreground measures 6.69:1 and 9.81:1 over the field, and 5.76:1 and 5.11:1 over the hover background of the button. The panel border and the divider are decorative: the shadow separates the panel in light and the background in dark. The grid contrast is in the sheet of nph-calendar.",
+    "contrast": "The label, the text, the hint and the error message pass 4.5:1 in both themes; the error message in status/error-text measures 6.88:1 and 6.96:1. The calendar icon in date-picker/icon measures 6.69:1 and 9.81:1 over the field, and 5.76:1 and 5.11:1 over the hover background of the button. The panel border and the divider are decorative: the shadow separates the panel in light and the background in dark. The grid contrast is in the sheet of nph-calendar.",
     "color_alternative": "The error always brings the written message; open, the panel shows below the field and the button carries aria-expanded true; today has an outline and the chosen days a fill; the period is announced in words."
   },
   "invalid_combinations": [

@@ -179,7 +179,7 @@
       "changes_for_user": "Rest. The color communicates the type of the action."
     },
     "hover-active": {
-      "token": "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. Secondary solid takes button/secondary-solid-background-hover with text and icon-button/secondary-solid-background-hover in the icon only; secondary outline changes the border (button/secondary-outline-border-hover, icon-button/secondary-outline-border-hover) and the background (button/secondary-outline-background-hover, icon-button/secondary-outline-background-hover). The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)",
+      "token": "the hover token of the pair: button/<type>-solid-background-hover in solid; button/<type>-tinted-background-hover and button/<type>-tinted-foreground-hover in outline and light, and button/<type>-outline-border-hover for the outline border; button/<type>-tinted-background in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. Secondary solid takes button/secondary-solid-background-hover with text and icon-button/secondary-solid-background-hover in the icon only; secondary outline changes the border (button/secondary-outline-border-hover, icon-button/secondary-outline-border-hover) and the background (button/secondary-outline-background-hover, icon-button/secondary-outline-background-hover). The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)",
       "changes_for_user": "The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds."
     },
     "focus": {
@@ -238,54 +238,86 @@
       "focus/halo-success"
     ],
     "solid_primary": [
-      "color/primary",
-      "color/primary-hover",
-      "color/primary-foreground"
+      "button/primary-solid-background",
+      "icon-button/primary-solid-background",
+      "button/primary-solid-background-hover",
+      "icon-button/primary-solid-background-hover",
+      "button/primary-solid-foreground",
+      "icon-button/primary-solid-foreground"
     ],
     "solid_secondary": [
       "button/secondary-solid-background",
       "button/secondary-solid-background-hover",
       "icon-button/secondary-solid-background",
       "icon-button/secondary-solid-background-hover",
-      "color/secondary-foreground"
+      "button/secondary-foreground",
+      "icon-button/secondary-foreground"
     ],
     "solid_status": [
-      "status/info",
-      "status/info-hover",
-      "status/warning",
-      "status/warning-hover",
-      "status/help",
-      "status/help-hover",
-      "status/success",
-      "status/success-hover",
-      "status/on-solid"
+      "button/info-solid-background",
+      "icon-button/info-solid-background",
+      "button/info-solid-background-hover",
+      "icon-button/info-solid-background-hover",
+      "button/info-solid-foreground",
+      "icon-button/info-solid-foreground",
+      "button/warn-solid-background",
+      "icon-button/warn-solid-background",
+      "button/warn-solid-background-hover",
+      "icon-button/warn-solid-background-hover",
+      "button/warn-solid-foreground",
+      "icon-button/warn-solid-foreground",
+      "button/help-solid-background",
+      "icon-button/help-solid-background",
+      "button/help-solid-background-hover",
+      "icon-button/help-solid-background-hover",
+      "button/help-solid-foreground",
+      "icon-button/help-solid-foreground",
+      "button/success-solid-background",
+      "icon-button/success-solid-background",
+      "button/success-solid-background-hover",
+      "icon-button/success-solid-background-hover",
+      "button/success-solid-foreground",
+      "icon-button/success-solid-foreground"
     ],
     "solid_danger": [
-      "color/destructive",
-      "color/destructive-hover",
-      "color/destructive-foreground"
+      "button/danger-solid-background",
+      "icon-button/danger-solid-background",
+      "button/danger-solid-background-hover",
+      "icon-button/danger-solid-background-hover",
+      "button/danger-solid-foreground",
+      "icon-button/danger-solid-foreground"
     ],
     "light_primary": [
-      "color/primary-surface",
-      "color/primary-surface-hover",
-      "color/primary-on-surface",
-      "color/primary-on-surface-hover"
+      "button/primary-tinted-background",
+      "icon-button/primary-tinted-background",
+      "button/primary-tinted-background-hover",
+      "icon-button/primary-tinted-background-hover",
+      "button/primary-tinted-foreground",
+      "icon-button/primary-tinted-foreground",
+      "button/primary-tinted-foreground-hover",
+      "icon-button/primary-tinted-foreground-hover"
     ],
     "outline_secondary": [
-      "color/muted",
+      "button/secondary-outline-background",
+      "icon-button/secondary-outline-background",
       "button/secondary-outline-border",
       "button/secondary-outline-border-hover",
       "button/secondary-outline-background-hover",
       "icon-button/secondary-outline-border",
       "icon-button/secondary-outline-border-hover",
       "icon-button/secondary-outline-background-hover",
-      "color/secondary-foreground"
+      "button/secondary-foreground",
+      "icon-button/secondary-foreground"
     ],
     "light_danger": [
-      "color/destructive-surface",
-      "color/destructive-surface-hover",
-      "color/destructive-on-surface",
-      "color/destructive-on-surface-hover"
+      "button/danger-tinted-background",
+      "icon-button/danger-tinted-background",
+      "button/danger-tinted-background-hover",
+      "icon-button/danger-tinted-background-hover",
+      "button/danger-tinted-foreground",
+      "icon-button/danger-tinted-foreground",
+      "button/danger-tinted-foreground-hover",
+      "icon-button/danger-tinted-foreground-hover"
     ],
     "ghost_secondary_hover": [
       "button/secondary-ghost-background-hover",

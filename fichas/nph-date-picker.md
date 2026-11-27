@@ -553,7 +553,7 @@ states:
     token: "state/disabled-opacity"
     changes_for_user: "The field and the calendar button fade and do not open the panel; the error is hidden, so disabled wins over error."
   open:
-    token: "icon-button/secondary-ghost-background-hover, date-picker/panel-border, date-picker/panel-radius, color/popover, elevation/dropdown"
+    token: "icon-button/secondary-ghost-background-hover, date-picker/panel-border, date-picker/panel-radius, date-picker/panel-background, elevation/dropdown"
     changes_for_user: "The calendar button keeps the hover-active look with the solid icon and aria-expanded true, and the panel shows below the field."
   closed:
     token: "none"
@@ -601,12 +601,12 @@ domain_errors:
   - "A missing label renders anyway and emits console.error in development, once, saying which keys are missing."
 tokens:
   trigger: "date-picker/trigger-gap"
-  panel_surface: "date-picker/panel-radius, date-picker/panel-border, border/width, color/popover, color/popover-foreground, elevation/dropdown"
+  panel_surface: "date-picker/panel-radius, date-picker/panel-border, border/width, date-picker/panel-background, color/popover-foreground, elevation/dropdown"
   panel_padding: "date-picker/panel-padding"
   panel_offset: "date-picker/panel-offset"
   divider: "date-picker/divider, border/width"
   footer: "date-picker/footer-gap, date-picker/panel-padding"
-  calendar_button_icon: "color/muted-foreground"
+  calendar_button_icon: "date-picker/icon"
   grid: "calendar/day-radius, calendar/day-focus-radius, space/container-padding, space/inline, control/height-default, control/height-large"
   narrow_rule: "control/height-default, control/height-large, space/container-padding, border/width"
   motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing, motion/hover-duration"
@@ -631,7 +631,7 @@ accessibility:
     - "The shortcut list is one Tab stop; Up and Down move through the enabled shortcuts, Home and End go to the first and the last, Enter and Space choose."
     - "Esc closes the panel without change; with the month or the year view open, the first Esc goes back to the days and the second closes."
   focus: "Each piece shows the focus border and the halo of its own component; the shortcut active by keyboard takes the hover look of nph-option. On opening the focus goes to a day, and on closing back to the calendar button, the End one in a range."
-  contrast: "The label, the text, the hint and the error message pass 4.5:1 in both themes; the error message in status/error-text measures 6.88:1 and 6.96:1. The calendar icon in color/muted-foreground measures 6.69:1 and 9.81:1 over the field, and 5.76:1 and 5.11:1 over the hover background of the button. The panel border and the divider are decorative: the shadow separates the panel in light and the background in dark. The grid contrast is in the sheet of nph-calendar."
+  contrast: "The label, the text, the hint and the error message pass 4.5:1 in both themes; the error message in status/error-text measures 6.88:1 and 6.96:1. The calendar icon in date-picker/icon measures 6.69:1 and 9.81:1 over the field, and 5.76:1 and 5.11:1 over the hover background of the button. The panel border and the divider are decorative: the shadow separates the panel in light and the background in dark. The grid contrast is in the sheet of nph-calendar."
   color_alternative: "The error always brings the written message; open, the panel shows below the field and the button carries aria-expanded true; today has an outline and the chosen days a fill; the period is announced in words."
 invalid_combinations:
   - "A mode, a size or a week-start outside the lists — the piece draws nothing."
@@ -733,12 +733,12 @@ fields of different sizes in one form; two single date fields for the start and 
 | Field | Disabled | `state/disabled-opacity` | The field and the calendar button fade and do not open the panel; disabled wins over error |
 | Calendar button | Open | `icon-button/secondary-ghost-background-hover` | The hover-active look with the solid icon, and `aria-expanded` true |
 | Panel | Closed | none | Only the field shows |
-| Panel | Open | `color/popover`, `date-picker/panel-border`, `date-picker/panel-radius`, `elevation/dropdown` | The panel shows below the field, the focus goes to a day |
+| Panel | Open | `date-picker/panel-background`, `date-picker/panel-border`, `date-picker/panel-radius`, `elevation/dropdown` | The panel shows below the field, the focus goes to a day |
 | Shortcut | Active | `color/accent`, `color/accent-foreground` | The shortcut on the arrows or under the pointer takes the hover look of `nph-option` |
 | Shortcut | Selected | `color/primary-surface`, `color/primary` | The fill and the check marker; kept under the opacity when also disabled |
 
 The field states come by instance from `nph-field`, `nph-input` and `nph-button`. The calendar icon is
-`color/muted-foreground`, light, and goes solid on the hover of the button itself and when open. The panel
+`date-picker/icon`, light, and goes solid on the hover of the button itself and when open. The panel
 enters with opacity and a slide of `date-picker/panel-offset` and leaves with the exit role of motion; with
 reduced motion only the opacity changes, in `motion/hover-duration`.
 
@@ -828,7 +828,7 @@ missing label renders anyway and says which keys; `labels` with no key at all dr
 | Accessible name | The text: the label of its field; the hint is help, never a name. The calendar button: `openCalendar`, also its tooltip. The clear button: `clearDate`. The panel: `dialogDate` or `dialogPeriod`. The shortcut list: `shortcuts`. The grid and its arrows: the labels of `nph-calendar` |
 | Keyboard | Tab goes through the text, the clear button when there is a value and the calendar button; in a range, the Start and then the End. Enter or Space on the button opens the panel with the focus on a day, and again closes it. In the grid the arrows, Page Up, Page Down with Shift, Home and End are those of `nph-calendar`. In the panel Tab goes through the shortcuts, the header, the grid, Clear, Cancel and Apply, and after the last it closes the panel like Cancel. The shortcut list is one Tab stop with Up, Down, Home, End, Enter and Space. Esc closes without change; in a month or year view the first Esc goes back to the days |
 | Focus | Each piece shows the focus border and the halo of its own component; the shortcut active by keyboard takes the hover look of `nph-option`. On opening the focus goes to a day; on closing, back to the calendar button, the End one in a range |
-| Contrast | The error message in `status/error-text` measures 6.88:1 and 6.96:1. The calendar icon in `color/muted-foreground` measures 6.69:1 and 9.81:1 over the field and 5.76:1 and 5.11:1 over the hover background of the button. The panel border and the divider are decorative: the shadow separates the panel in light and the background in dark. The contrast of the grid is in the sheet of `nph-calendar` |
+| Contrast | The error message in `status/error-text` measures 6.88:1 and 6.96:1. The calendar icon in `date-picker/icon` measures 6.69:1 and 9.81:1 over the field and 5.76:1 and 5.11:1 over the hover background of the button. The panel border and the divider are decorative: the shadow separates the panel in light and the background in dark. The contrast of the grid is in the sheet of `nph-calendar` |
 | Alternative to color | The error always brings the written message; open, the panel shows below the field and the button carries `aria-expanded` true; today has an outline and the chosen days a fill; the period is announced in words |
 | Announcement | After a choice the live region says the period, from `labels.period` with the two dates in the long form of the language, or the single date for one day |
 | Touch target | The field is 28, 38 and 44 and the calendar button 28, 36 and 44. Shortcuts are 36. The footer buttons are 28 and, on `large`, 36. All pass the 24 by 24 minimum; on a touch screen use `large` |
@@ -859,12 +859,12 @@ hands it the labels, the limits and the period, and stops its `nph-pick` and `np
 | Part | Token |
 |---|---|
 | Between the text and the calendar button, and between Start and End | `date-picker/trigger-gap` |
-| Panel surface | `color/popover`, `color/popover-foreground`, `date-picker/panel-border`, `border/width`, `date-picker/panel-radius`, `elevation/dropdown` |
+| Panel surface | `date-picker/panel-background`, `color/popover-foreground`, `date-picker/panel-border`, `border/width`, `date-picker/panel-radius`, `elevation/dropdown` |
 | Panel padding | `date-picker/panel-padding`, on the shortcut column and the footer; the grid brings its own `space/container-padding` |
 | Panel offset | `date-picker/panel-offset` |
 | Divider | `date-picker/divider`, `border/width` |
 | Footer gap | `date-picker/footer-gap` |
-| Calendar icon | `color/muted-foreground` |
+| Calendar icon | `date-picker/icon` |
 | Grid | `calendar/day-radius`, `calendar/day-focus-radius`, `space/container-padding`, `space/inline`, `control/height-default`, `control/height-large` |
 | Narrow rule | `control/height-default`, `control/height-large`, `space/container-padding`, `border/width` |
 | Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing`, `motion/hover-duration` |

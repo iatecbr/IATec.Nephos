@@ -1585,7 +1585,7 @@
       "Para dar un nombre visible a un control de formulario, solo o dentro de un nph-field.",
       "required=true cuando completar el campo es obligatorio, con el asterisco explicado en una leyenda del formulario.",
       "info con info-label para mostrar el icono de información después del texto: info es el texto de la ayuda e info-label, su nombre accesible.",
-      "Mantener la etiqueta en color/foreground, incluso con el campo en error."
+      "Mantener la etiqueta en label/foreground, incluso con el campo en error."
     ],
     "examplesTitle": "Ejemplos obligatorios",
     "examplesCaptions": [

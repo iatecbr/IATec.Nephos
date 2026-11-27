@@ -225,7 +225,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The whole piece at state/disabled-opacity, on color/muted, out of the Tab order
+      The whole piece at state/disabled-opacity, on combobox/background-disabled, out of the Tab order
       and of the form data; the list does not open and the clear button hides. A
       disabled fieldset disables it too. It wins over invalid.
   invalid:
@@ -234,7 +234,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The error state: the border becomes status/error and the field gets aria-invalid.
+      The error state: the border becomes combobox/border-error and the field gets aria-invalid.
       It is not a constraint of the form. The sentence belongs to nph-field.
   label:
     type: string
@@ -319,9 +319,9 @@ variants:
 states:
   default:
     token: "combobox/border, combobox/border-bottom"
-    changes_for_user: "The resting border, on color/background: the top and the sides in combobox/border, the bottom line in combobox/border-bottom; the arrow area has no background and no divider."
+    changes_for_user: "The resting border, on combobox/background: the top and the sides in combobox/border, the bottom line in combobox/border-bottom; the arrow area has no background and no divider."
   hover:
-    token: color/input-hover
+    token: combobox/border-hover
     changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
@@ -333,14 +333,14 @@ states:
     token: focus/border
     changes_for_user: "Keyboard focus on the clear button: the ring follows only the button; the field keeps its resting border."
   error:
-    token: status/error
-    changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
+    token: combobox/border-error
+    changes_for_user: "The border is combobox/border-error, also on hover; the sentence is in nph-field."
   error-focus:
     token: focus/halo-error
-    changes_for_user: "The border stays status/error and the halo is focus/halo-error."
+    changes_for_user: "The border stays combobox/border-error and the halo is focus/halo-error."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input; the arrow area has no background of its own, so the color/muted of the field shows through it; it does not open and wins over the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on combobox/background-disabled, with the whole border in combobox/border-disabled; the arrow area has no background of its own, so the combobox/background-disabled of the field shows through it; it does not open and wins over the error."
 business_rules:
   - "Typing opens the list, filters it and makes the first match active; Enter chooses it (D-5)."
   - "The person chooses by a click on an option, or by Enter or Alt+ArrowUp on the active option; the list closes, the field shows the option text and the focus stays on it."
@@ -362,22 +362,22 @@ tokens:
   height: "combobox/height or control/height-large"
   width: layout/input-width
   radius: radius/control
-  border: "border/width, in combobox/border (top and sides) and combobox/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border"
-  background: "color/background; color/muted when disabled"
+  border: "border/width, in combobox/border (top and sides) and combobox/border-bottom (bottom line) at rest, and in combobox/border-hover, focus/border, combobox/border-error or combobox/border-disabled (disabled) on the whole border"
+  background: "combobox/background; combobox/background-disabled when disabled"
   padding: "space/control-padding on the left; 0 on the right; with free-text, combobox/free-text-padding-end on the right, with and without the clear button"
   gap: space/inline
-  text: "text/body-md in color/foreground; the placeholder in color/muted-foreground"
-  start: "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm"
+  text: "text/body-md in combobox/foreground; the placeholder in combobox/muted-foreground"
+  start: "nph-icon icon/size-sm in combobox/muted-foreground, or nph-avatar sm"
   clear: "nph-icon xmark icon/size-sm with space/inline-tight around it"
   divider: "none: the arrow area has no divider"
 
-  arrow_area: "no background, control/height-default or control/height-large wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground"
-  list: "color/popover, border/width in color/border-subtle, combobox/panel-radius (radius/overlay-anchored), elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
+  arrow_area: "no background, control/height-default or control/height-large wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in combobox/muted-foreground"
+  list: "combobox/list-background, border/width in combobox/list-border, combobox/panel-radius (radius/overlay-anchored), elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
   list_offset: space/inline-tight
-  highlight: "text/highlight-weight on the typed stretch; color/muted-foreground on the rest"
-  group_label: "text/label-sm in color/muted-foreground, space/inline on the sides and space/inline-tight above and below"
+  highlight: "text/highlight-weight on the typed stretch; combobox/list-muted-foreground on the rest"
+  group_label: "text/label-sm in combobox/list-muted-foreground, space/inline on the sides and space/inline-tight above and below"
   separator: "nph-separator with space/inline-tight above and below"
-  footer: "border/width in color/border above, space/inline around, text/label-sm in color/muted-foreground"
+  footer: "border/width in color/border above, space/inline around, text/label-sm in combobox/list-muted-foreground"
   motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control and, on the clear button, focus/border-radius-control and focus/radius-control-with-border"
   disabled: state/disabled-opacity
@@ -401,7 +401,7 @@ accessibility:
     - "Home and End move the cursor in the text."
     - "With free-text: typing opens the list with none active; ArrowDown activates the first and, closed, opens; ArrowUp closed opens on the last; Alt+ArrowDown opens without activating; Enter picks the active suggestion or, with none, keeps the text and closes; Escape closes and, with the list closed, clears the text; Tab, leaving the field and an outside click close the list and keep the text."
   focus: "The focus stays on the text; the active option is pointed to by aria-activedescendant, in the same shadow root. The field shows the focus border and the halo while it has the focus and while the list is open; the clear button has its own ring."
-  contrast: "The text of the field and of the option meets 4.5:1 and the border 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the rest of the text outside the highlight, in color/muted-foreground, passes 4.5:1. The disabled state is exempt."
+  contrast: "The text of the field and of the option meets 4.5:1 and the border 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the rest of the text outside the highlight, in combobox/list-muted-foreground, passes 4.5:1. The disabled state is exempt."
   color_alternative: "The error is said by the sentence of nph-field; the dot goes with the written state; the highlight changes the weight of the text; the arrow turns up when the list opens."
 invalid_combinations:
   - "A size outside default and large — the combobox draws nothing."
@@ -502,21 +502,21 @@ list.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `combobox/border`, `combobox/border-bottom` | The resting border, on `color/background`: top and sides in `combobox/border`, the bottom line in `combobox/border-bottom`; the arrow area has no background and no divider |
-| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
+| `default` | `combobox/border`, `combobox/border-bottom` | The resting border, on `combobox/background`: top and sides in `combobox/border`, the bottom line in `combobox/border-bottom`; the arrow area has no background and no divider |
+| `hover` | `combobox/border-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | Focus on the text: the border takes `focus/border`, with the halo attached outside |
 | `aberto` | `focus/border`, `focus/halo` | The focus look with the list open below the field and the arrow up |
 | `foco-limpar` | `focus/border`, `focus/halo` | Keyboard focus on the clear button: the field keeps the resting split border and the ring follows only the button |
-| `erro` | `status/error` | The border is `status/error`, also on hover |
-| `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the whole border in `color/input`; the arrow area shows the `color/muted` of the field through it; it does not open |
+| `erro` | `combobox/border-error` | The border is `combobox/border-error`, also on hover |
+| `erro-foco` | `combobox/border-error`, `focus/halo-error` | The border stays `combobox/border-error` and the halo is `focus/halo-error` |
+| `disabled` | `state/disabled-opacity`, `combobox/background-disabled` | The whole piece at `state/disabled-opacity` on `combobox/background-disabled`, with the whole border in `combobox/border-disabled`; the arrow area shows the `combobox/background-disabled` of the field through it; it does not open |
 
 **The list, by state:**
 
 | State | What it shows |
 |---|---|
 | `resultados` | The options that match, as `nph-option` |
-| `busca` | The typed stretch in `text/highlight-weight`; the rest of the text in `color/muted-foreground`, also on the active option (D-3) |
+| `busca` | The typed stretch in `text/highlight-weight`; the rest of the text in `combobox/list-muted-foreground`, also on the active option (D-3) |
 | `status` | Options with the dot of `nph-option` (`start="dot"`) and the written label |
 | `grupos` | Results under group labels, with the `nph-separator` between groups, in the look of `nph-dropdown-menu` |
 | `carregando` | The `nph-spinner`, named by `loading-label`, while the search answers |
@@ -583,7 +583,7 @@ does not change.
 | Keyboard | Characters write, open, filter and activate the first match. Closed: ArrowDown and ArrowUp open on the chosen option, or the first or the last; Alt+ArrowDown opens without moving; Enter submits the form; Escape clears the typed text. Open: the arrows move without wrapping; PageDown and PageUp move ten; Enter and Alt+ArrowUp choose and close; Escape closes; Tab closes without choosing and the focus moves on. Home and End move the cursor. With `free-text`: see the Free text section |
 | Focus | The focus stays on the text; the active option is pointed to by `aria-activedescendant`, in the same shadow root |
 | Live region | The waiting and the empty lists sit in a `status` region: the person hears that the search found nothing |
-| Contrast | The text meets 4.5:1 and the border 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, `combobox/border-bottom`, meets 3:1; the rest of the text outside the highlight, in `color/muted-foreground`, passes 4.5:1. The disabled state is exempt |
+| Contrast | The text meets 4.5:1 and the border 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, `combobox/border-bottom`, meets 3:1; the rest of the text outside the highlight, in `combobox/list-muted-foreground`, passes 4.5:1. The disabled state is exempt |
 | Alternative to color | The error is said by the sentence of `nph-field`; the dot goes with the written state; the highlight changes the weight; the arrow turns up when the list opens |
 | Hidden parts | The start, the arrow, the dot and the check are hidden from the screen reader |
 | Touch target | The whole field opens the list, arrow area included; the clear button has its own area, `icon/size-sm` with `space/inline-tight` around it |
@@ -612,20 +612,20 @@ entries, the search, the groups, the highlight and the style — instead of buil
 
 | Part | Token |
 |---|---|
-| Field | Height `combobox/height` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`, with `combobox/border` on top and sides and `combobox/border-bottom` below at rest; left padding `space/control-padding`, right 0 (with `free-text`, `combobox/free-text-padding-end`); gap `space/inline`; background `color/background` |
-| Text | `text/body-md`, `color/foreground`; the placeholder in `color/muted-foreground` |
-| Start | `nph-icon` `icon/size-sm` in `color/muted-foreground`, or `nph-avatar` `sm` |
+| Field | Height `combobox/height` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`, with `combobox/border` on top and sides and `combobox/border-bottom` below at rest; left padding `space/control-padding`, right 0 (with `free-text`, `combobox/free-text-padding-end`); gap `space/inline`; background `combobox/background` |
+| Text | `text/body-md`, `combobox/foreground`; the placeholder in `combobox/muted-foreground` |
+| Start | `nph-icon` `icon/size-sm` in `combobox/muted-foreground`, or `nph-avatar` `sm` |
 | Clear | `nph-icon` `xmark` `icon/size-sm`, `space/inline-tight` around it |
 | Divider | None: the arrow area has no divider (replaced by DSA-119) |
-| Arrow area | No background and no divider; `control/height-*` wide, the field height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `color/muted-foreground` |
-| List | `color/popover`; border `border/width` in `color/border-subtle`; `combobox/panel-radius` (`radius/overlay-anchored`); `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it; offset `space/inline-tight` |
-| Highlight | `text/highlight-weight` on the typed stretch; `color/muted-foreground` on the rest |
-| Group label | `text/label-sm` in `color/muted-foreground`; `space/inline` on the sides, `space/inline-tight` above and below |
+| Arrow area | No background and no divider; `control/height-*` wide, the field height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `combobox/muted-foreground` |
+| List | `combobox/list-background`; border `border/width` in `combobox/list-border`; `combobox/panel-radius` (`radius/overlay-anchored`); `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it; offset `space/inline-tight` |
+| Highlight | `text/highlight-weight` on the typed stretch; `combobox/list-muted-foreground` on the rest |
+| Group label | `text/label-sm` in `combobox/list-muted-foreground`; `space/inline` on the sides, `space/inline-tight` above and below |
 | Separator | `nph-separator`, `space/inline-tight` above and below |
-| Footer | `border/width` in `color/border` above; `space/inline` around; `text/label-sm` in `color/muted-foreground` |
+| Footer | `border/width` in `color/border` above; `space/inline` around; `text/label-sm` in `combobox/list-muted-foreground` |
 | Motion | `motion/enter-*` and `motion/exit-*`; with reduced motion, opacity only in `motion/hover-duration` |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control`; on the clear button, `focus/border-radius-control` and `focus/radius-control-with-border` |
-| Disabled | `state/disabled-opacity` on `color/muted` |
+| Disabled | `state/disabled-opacity` on `combobox/background-disabled` |
 
 **Usage restrictions:** the arrow area has no background and no divider of its own; do not
 give it one, also not for an error. `text/highlight-weight` goes only on the stretch that

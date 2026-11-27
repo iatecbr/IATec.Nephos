@@ -160,15 +160,15 @@ tokens:
   panel: [color/popover, color/popover-foreground, layout/input-width, dropdown/panel-radius, elevation/dropdown]
   panel_border: [border/width, color/dropdown-border]
   panel_padding: space/inline-tight
-  group_label: [text/label-sm, color/muted-foreground, space/inline, space/inline-tight]
+  group_label: [text/label-sm, dropdown/group-label-foreground, space/inline, space/inline-tight]
   separator: [dropdown/separator, space/inline-tight]
-  item: [space/inline, dropdown/item-radius, text/body-md, color/popover-foreground]
+  item: [space/inline, dropdown/item-radius, text/body-md, dropdown/item-foreground]
   icon: icon/size-md
-  shortcut: [text/caption, color/muted-foreground]
+  shortcut: [text/caption, dropdown/item-muted-foreground]
   arrow: icon/size-sm
-  single_choice: [text/label-md, color/primary-text]
+  single_choice: [text/label-md, dropdown/item-foreground-selected]
   destructive: [dropdown/item-destructive-foreground, dropdown/item-destructive-hover-foreground, dropdown/item-destructive-hover-background]
-  item_hover: [color/primary-surface, dropdown/item-destructive-hover-background, dropdown/item-hover-icon-foreground]
+  item_hover: [dropdown/item-background-hover, dropdown/item-destructive-hover-background, dropdown/item-hover-icon-foreground]
   item_focus: [border/width, focus/border, dropdown/item-focus-border-radius, focus/ring-width, focus/halo, dropdown/item-focus-halo-radius]
   disabled: state/disabled-opacity
   motion: [motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing, motion/hover-delay]
@@ -330,8 +330,8 @@ submenu inside a submenu.
 | Top item | Focus | border `border/width` in `focus/border`, radius `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, radius `focus/radius-control-with-border`; no background | For keyboard users, a border and a halo outside the item |
 | Top item | Disabled | `state/disabled-opacity` | The whole item loses opacity; no hover; it takes the focus and does not open |
 | Top item | Open and focus | decided (D-1) | The code composes the two looks |
-| Panel item | Rest | no background; text in `color/popover-foreground` | The row is quiet; the start icon is light |
-| Panel item | Hover | `color/primary-surface`; icon in `dropdown/item-hover-icon-foreground`. Destructive: `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in `dropdown/item-destructive-hover-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color. The item whose submenu is open keeps this look |
+| Panel item | Rest | no background; text in `dropdown/item-foreground` | The row is quiet; the start icon is light |
+| Panel item | Hover | `dropdown/item-background-hover`; icon in `dropdown/item-hover-icon-foreground`. Destructive: `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in `dropdown/item-destructive-hover-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color. The item whose submenu is open keeps this look |
 | Panel item | Focus | border `border/width` in `focus/border`, radius `dropdown/item-focus-border-radius`; halo `focus/ring-width` in `focus/halo`, radius `dropdown/item-focus-halo-radius` | For keyboard users, a border and a halo outside the row; the start icon turns solid |
 | Panel item | Disabled | `state/disabled-opacity` | The whole row loses opacity; it takes the focus but does not activate; its icon stays light |
 
@@ -447,13 +447,13 @@ item is not a tag of its own.
 | Submenu gap | `dropdown/submenu-offset` between the panel and the open submenu, on the side that faces the panel; read by the code from the computed style |
 | Panel | `color/popover`, `layout/input-width`, `dropdown/panel-radius`, `elevation/dropdown`, padding `space/inline-tight` |
 | Panel border | `border/width` in `color/dropdown-border`, which resolves to `color/border-subtle` |
-| Group label | `text/label-sm` in `color/muted-foreground`, `space/inline` on the sides, `space/inline-tight` above and below |
+| Group label | `text/label-sm` in `dropdown/group-label-foreground`, `space/inline` on the sides, `space/inline-tight` above and below |
 | Separator | `nph-separator` in `dropdown/separator`, `space/inline-tight` above and below |
-| Item | `space/inline` padding and gap, `dropdown/item-radius`, `text/body-md` in `color/popover-foreground` |
-| Shortcut | `text/caption` in `color/muted-foreground` |
-| Single choice | `text/label-md` in `color/primary-text`; check solid at `icon/size-sm` |
+| Item | `space/inline` padding and gap, `dropdown/item-radius`, `text/body-md` in `dropdown/item-foreground` |
+| Shortcut | `text/caption` in `dropdown/item-muted-foreground` |
+| Single choice | `text/label-md` in `dropdown/item-foreground-selected`; check solid at `icon/size-sm` |
 | Destructive | `dropdown/item-destructive-foreground`; hover `dropdown/item-destructive-hover-foreground` on `dropdown/item-destructive-hover-background` |
-| Item hover | `color/primary-surface`, `dropdown/item-destructive-hover-background`, `dropdown/item-hover-icon-foreground` |
+| Item hover | `dropdown/item-background-hover`, `dropdown/item-destructive-hover-background`, `dropdown/item-hover-icon-foreground` |
 | Item focus | `border/width`, `focus/border`, `dropdown/item-focus-border-radius`, `focus/ring-width`, `focus/halo`, `dropdown/item-focus-halo-radius` |
 | Item disabled | `state/disabled-opacity` |
 | Icons | `icon/size-md` at the start, `icon/size-sm` for the arrow and the check |
