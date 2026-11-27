@@ -161,14 +161,14 @@ variants:
       - "checkbox in a list of one choice."
 states:
   default:
-    token: color/popover-foreground
-    changes_for_user: "The label in color/popover-foreground on the list background, with no background of its own."
+    token: select/option-foreground
+    changes_for_user: "The label in select/option-foreground on the list background, with no background of its own."
   active:
-    token: color/accent
-    changes_for_user: "The option the pointer or the keyboard is on: color/accent, with the text in color/accent-foreground (D5)."
+    token: select/option-background-hover
+    changes_for_user: "The option the pointer or the keyboard is on: select/option-background-hover, with the text in select/option-foreground-hover (D5)."
   selected:
-    token: color/primary
-    changes_for_user: "The chosen option: only the check in color/primary, with no background (DSA-124). Active or not, it has no hover look: only the focus ring when active by the keyboard. With marker=checkbox, the checked box instead, and the hover look stays (P96)."
+    token: select/option-marker
+    changes_for_user: "The chosen option: only the check in select/option-marker, with no background (DSA-124). Active or not, it has no hover look: only the focus ring when active by the keyboard. With marker=checkbox, the checked box instead, and the hover look stays (P96)."
   keyboard_active:
     token: "select/option-focus-border and select/option-focus-halo"
     changes_for_user: "The plain option active by the keyboard: the hover look (a selected option with the check has none), a 1 px focus border outside the option and a halo outside it (DSA-124). The pointer hover has no border."
@@ -200,13 +200,13 @@ tokens:
   padding: space/inline
   gap: space/inline
   radius: radius/inner
-  label: "text/label-md in color/popover-foreground; color/accent-foreground when active"
-  secondary: "text/label-md in color/muted-foreground, space/inline-tight after the label"
+  label: "text/label-md in select/option-foreground; select/option-foreground-hover when active"
+  secondary: "text/label-md in select/option-secondary-foreground, space/inline-tight after the label"
   icon: "nph-icon icon/size-md"
   avatar: "nph-avatar sm"
   dot: "space/inline square, radius/full, in an icon/size-md box; status/* or color/muted-foreground"
-  active: "color/accent with color/accent-foreground"
-  selected: "no background; the check, icon/size-sm in color/primary"
+  active: "select/option-background-hover with select/option-foreground-hover"
+  selected: "no background; the check, icon/size-sm in select/option-marker"
   keyboard_active: "select/option-focus-border of select/option-focus-border-width, then select/option-focus-halo of select/option-focus-halo-width, both outside the option; select/option-focus-border-radius and select/option-focus-halo-radius"
   checkbox: "nph-checkbox, inert, at the start of the option (marker=checkbox)"
   disabled: state/disabled-opacity
@@ -341,9 +341,9 @@ option in four things:
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `color/popover-foreground` | The label on the list background, with no background of its own |
-| `hover` / active | `color/accent`, `color/accent-foreground` | The option the pointer or the keyboard is on (D5) |
-| `selecionada` | `color/primary` | The chosen option: only the check, with no background (DSA-124). Active or not, it has no hover look. With `marker="checkbox"`, the checked box instead, and the hover look stays (P96) |
+| `default` | `select/option-foreground` | The label on the list background, with no background of its own |
+| `hover` / active | `select/option-background-hover`, `select/option-foreground-hover` | The option the pointer or the keyboard is on (D5) |
+| `selecionada` | `select/option-marker` | The chosen option: only the check, with no background (DSA-124). Active or not, it has no hover look. With `marker="checkbox"`, the checked box instead, and the hover look stays (P96) |
 | `ativa` by the keyboard | `select/option-focus-border`, `select/option-focus-halo` | The hover look, a 1 px focus border outside the option and the halo outside it; the active option sits over its neighbors. The pointer hover has no border (DSA-124) |
 | `disabled` | `state/disabled-opacity` | The whole option fades; it cannot be chosen. Selected and disabled keeps the selected look (D-3, open) |
 
@@ -409,13 +409,13 @@ that a property of an option changed through the `NPH_OPTION_CHANGED` symbol (P9
 | Part | Token |
 |---|---|
 | Option | Padding and gap `space/inline`; radius `radius/inner`; the width of the list |
-| Label | `text/label-md`, `color/popover-foreground`; `color/accent-foreground` when active; one line with an ellipsis (D3) |
-| Secondary text | `text/label-md`, `color/muted-foreground`, `space/inline-tight` after the label; one line with an ellipsis (D3) |
+| Label | `text/label-md`, `select/option-foreground`; `select/option-foreground-hover` when active; one line with an ellipsis (D3) |
+| Secondary text | `text/label-md`, `select/option-secondary-foreground`, `space/inline-tight` after the label; one line with an ellipsis (D3) |
 | Icon | `nph-icon` `icon/size-md` |
 | Avatar | `nph-avatar` `sm` |
 | Dot | `space/inline` square, `radius/full`, in an `icon/size-md` box; `status/*`, `color/muted-foreground` for neutral, or the text color (D6) |
-| Active | `color/accent`, `color/accent-foreground` |
-| Selected | No background; the check `icon/size-sm` in `color/primary` |
+| Active | `select/option-background-hover`, `select/option-foreground-hover` |
+| Selected | No background; the check `icon/size-sm` in `select/option-marker` |
 | Keyboard focus | `select/option-focus-border` of `select/option-focus-border-width`, then `select/option-focus-halo` of `select/option-focus-halo-width`, both outside the option |
 | Box | `nph-checkbox`, inert, at the start, with `marker="checkbox"` |
 | Disabled | `state/disabled-opacity` |

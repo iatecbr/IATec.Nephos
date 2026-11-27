@@ -32,7 +32,7 @@
   min-inline-size: 0;
   padding: var(--nph-space-inline);
   border-radius: var(--nph-radius-inner);
-  color: var(--nph-color-popover-foreground);
+  color: var(--nph-select-option-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -110,18 +110,18 @@
 
 .secondary {
   flex: 0 1 auto;
-  color: var(--nph-color-muted-foreground);
+  color: var(--nph-select-option-secondary-foreground);
 }
 
 /* The check of the selected option: `color/primary`. */
 .check {
-  color: var(--nph-color-primary);
+  color: var(--nph-select-option-marker);
 }
 
 /* Active, by the pointer or by the keyboard: the hover look (D5). */
 :host(:state(active)) {
-  background-color: var(--nph-color-accent);
-  color: var(--nph-color-accent-foreground);
+  background-color: var(--nph-select-option-background-hover);
+  color: var(--nph-select-option-foreground-hover);
 }
 
 /*
@@ -131,7 +131,7 @@
  */
 :host(:not([marker='checkbox']):state(selected)) {
   background-color: transparent;
-  color: var(--nph-color-popover-foreground);
+  color: var(--nph-select-option-foreground);
 }
 /*
  * The focus border, 1 px outside the option, and the halo outside it: the focus of the list items
