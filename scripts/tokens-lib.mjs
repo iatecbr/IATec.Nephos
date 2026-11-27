@@ -12,6 +12,11 @@ export const NS = 'com.iatec.nephos';
  * already ships the `fontFamily/css` transform in the `css` group: it joins the
  * list with commas and quotes the name that needs quotes.
  *
+ * `strokeStyle` was added on 27-11-2026 (DSA-74): the dashed border of the file
+ * upload drop zone. The source writes the keyword (`dashed`) as a string, and
+ * the build emits it as it is (`--nph-core-border-style-dashed: dashed;`). The
+ * object form of DTCG (`dashArray`, `lineCap`) is not used by Nephos.
+ *
  * Font weight stays a `number`, not `fontWeight`: DTCG accepts a word or a
  * number for that type, and the Nephos source always writes a number.
  *
@@ -21,7 +26,7 @@ export const NS = 'com.iatec.nephos';
  * in - the type just had to be on this list.
  */
 export const HANDLED_TYPES = new Set([
-  'color', 'dimension', 'duration', 'cubicBezier', 'number', 'fontFamily', 'shadow',
+  'color', 'dimension', 'duration', 'cubicBezier', 'number', 'fontFamily', 'shadow', 'strokeStyle',
 ]);
 
 /**

@@ -215,7 +215,34 @@ for (const [n, ok] of unitChecks) {
   console.log((ok ? 'PASSED ' : 'FAILED ') + n);
 }
 
+/*
+ * The strokeStyle type (DSA-74): the build writes the keyword as it is. The fixture lives in a group that does not
+ * exist in the source (`fixture-stroke`), so it never replaces the real `border-style` group and keeps passing when
+ * the real tokens come in. A token of another, unknown type still stops the build.
+ */
+const stroke = buildCopy((core) => {
+  core.core['fixture-stroke'] = {
+    dashed: { $type: 'strokeStyle', $value: 'dashed' },
+    alias: { $type: 'strokeStyle', $value: '{core.fixture-stroke.dashed}' },
+  };
+  core.$extensions[NS].expectedCount += 2;
+});
+const unknownType = buildCopy((core) => {
+  core.core['fixture-stroke'] = { dashed: { $type: 'borderStyle', $value: 'dashed' } };
+  core.$extensions[NS].expectedCount += 1;
+});
+const strokeChecks = [
+  ['the build accepts a strokeStyle token', stroke.status === 0],
+  ['a strokeStyle comes out as the keyword, with no conversion', /--nph-core-fixture-stroke-dashed: dashed;/.test(stroke.css)],
+  ['a strokeStyle reference keeps its reference', /--nph-core-fixture-stroke-alias: var\(--nph-core-fixture-stroke-dashed\);/.test(stroke.css)],
+  ['the build stops on a type it does not handle and names the token', unknownType.status !== 0 && /core\.fixture-stroke\.dashed/.test(unknownType.log) && /not handled/.test(unknownType.log)],
+];
+console.log('\n=== PROOF: the strokeStyle type ===');
+for (const [n, ok] of strokeChecks) {
+  if (!ok) failures++;
+  console.log((ok ? 'PASSED ' : 'FAILED ') + n);
+}
 console.log('\n' + (failures === 0
-  ? 'RESULT: ' + (Object.keys(EXPECTED).length + Object.keys(EXPECTED_DEPENDENTS).length + guards.length + unitChecks.length) + ' checks, all passed.'
+  ? 'RESULT: ' + (Object.keys(EXPECTED).length + Object.keys(EXPECTED_DEPENDENTS).length + guards.length + unitChecks.length + strokeChecks.length) + ' checks, all passed.'
   : 'RESULT: ' + failures + ' failure(s).'));
 process.exit(failures === 0 ? 0 : 1);

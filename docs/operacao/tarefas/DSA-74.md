@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 730,
   "owner": "elvys",
-  "state": "ready",
+  "state": "blocked",
   "piece": "nph-file-upload",
   "dependencies": [
     "DSA-03",
@@ -43,7 +43,15 @@
       "verified_by": "claude-code"
     }
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "id": "B1",
+      "what_blocks": "The two border-style tokens are not in the source.",
+      "owner": "claude-figma",
+      "what_resolves": "Claude brings core.border-style.dashed and file-upload.border-style; then this task moves to ready.",
+      "opened_at": "2026-11-27"
+    }
+  ],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-74/figma-docs-accepted-2026-11-10.md",
@@ -66,7 +74,7 @@
   },
   "git_review": { "branch": "feat/dsa-74-file-upload", "commit": "d261d6c", "pr": 168 },
   "context": null,
-  "updated_at": "2026-11-26"
+  "updated_at": "2026-11-27"
 }
 ```
 
@@ -126,7 +134,7 @@ Indiane chose the recommended option 1 on the previews in Figma (parent frame `6
 ## What is left (2026-11-26)
 D-1 is closed. On 2026-11-26 Claude read both tokens in Figma (`core/border-style/dashed`, string `dashed`, VariableID `5734:32`; `file-upload/border-style` pointing to it in light and dark, VariableID `5734:45`). The build stops on them: `strokeStyle` is not in `HANDLED_TYPES` (defined in `scripts/tokens-lib.mjs`, checked in `scripts/build-tokens.mjs`, "$type not handled"). The build script is code, so the order is:
 
-1. **Code owner:** add `strokeStyle` to `HANDLED_TYPES` in `scripts/tokens-lib.mjs`, so the build writes the string as it is (`--nph-core-border-style-dashed: dashed;`), and add its check to `scripts/test-invariance.mjs`. The check writes its fixture in a group that does not exist in the source (for example `core.core['fixture-stroke']`), never replacing the `border-style` group, so it still passes when the real tokens come in (the same trap as the percentage fixture of DSA-85). Create no token. Then move this task to `blocked`, with one blocker: `what_blocks` "the two border-style tokens are not in the source", `owner` `claude-figma`, `what_resolves` "Claude brings core.border-style.dashed and file-upload.border-style; then this task moves to ready".
+1. **Code owner** (done on 2026-11-27, in the batch pull request of DSA-126 and DSA-74): add `strokeStyle` to `HANDLED_TYPES` in `scripts/tokens-lib.mjs`, so the build writes the string as it is (`--nph-core-border-style-dashed: dashed;`), and add its check to `scripts/test-invariance.mjs`. The check writes its fixture in a group that does not exist in the source (for example `core.core['fixture-stroke']`), never replacing the `border-style` group, so it still passes when the real tokens come in (the same trap as the percentage fixture of DSA-85). Create no token. Then move this task to `blocked`, with one blocker: `what_blocks` "the two border-style tokens are not in the source", `owner` `claude-figma`, `what_resolves` "Claude brings core.border-style.dashed and file-upload.border-style; then this task moves to ready".
 2. **Claude:** brings the two tokens to the source, as in Figma: `core.border-style.dashed` (`{ "$type": "strokeStyle", "$value": "dashed" }`) and `file-upload.border-style` (`{ "$type": "strokeStyle", "$value": "{core.border-style.dashed}" }`), with the counts per layer, and moves this task back to `ready`.
 3. **Code owner:** the drop zone reads `var(--nph-file-upload-border-style)` instead of the literal `dashed`; the gate `stroke-style-token` passes and the task can close.
 
