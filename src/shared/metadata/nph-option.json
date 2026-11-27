@@ -168,11 +168,11 @@
     },
     "selected": {
       "token": "color/primary",
-      "changes_for_user": "The chosen option: only the check in color/primary, with no background (DSA-124). With marker=checkbox, the checked box instead (P96). In active, it takes the hover look."
+      "changes_for_user": "The chosen option: only the check in color/primary, with no background (DSA-124). Active or not, it has no hover look: only the focus ring when active by the keyboard. With marker=checkbox, the checked box instead, and the hover look stays (P96)."
     },
     "keyboard_active": {
       "token": "select/option-focus-border and select/option-focus-halo",
-      "changes_for_user": "The plain option active by the keyboard: the hover look, a 1 px focus border outside the option and a halo outside it (DSA-124). The pointer hover has no border."
+      "changes_for_user": "The plain option active by the keyboard: the hover look (a selected option with the check has none), a 1 px focus border outside the option and a halo outside it (DSA-124). The pointer hover has no border."
     },
     "disabled": {
       "token": "state/disabled-opacity",
@@ -245,7 +245,7 @@
       "not_applicable: the option never takes the focus; the list that owns it handles the keyboard."
     ],
     "focus": "not_applicable: the focus stays on the trigger of the list, which points to the active option with aria-activedescendant. The rich option active by the keyboard draws the focus border and the halo of the list items.",
-    "contrast": "The label meets 4.5:1 on color/popover and color/accent, in light and dark mode (D8). The check in color/primary on color/popover measures 5.37:1 in light and 3.91:1 in dark, and on color/accent, in hover, 5.05:1 and 2.91:1 (default brand, measured in DSA-124). The label says the choice with it.",
+    "contrast": "The label meets 4.5:1 on color/popover and color/accent, in light and dark mode (D8). The check in color/primary on color/popover measures 5.37:1 in light and 3.91:1 in dark (default brand, measured in DSA-124).",
     "color_alternative": "The selected option has no background: the check or the checked box says it; the dot goes with the written state."
   },
   "invalid_combinations": [

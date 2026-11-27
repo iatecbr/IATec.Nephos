@@ -168,10 +168,10 @@ states:
     changes_for_user: "The option the pointer or the keyboard is on: color/accent, with the text in color/accent-foreground (D5)."
   selected:
     token: color/primary
-    changes_for_user: "The chosen option: only the check in color/primary, with no background (DSA-124). With marker=checkbox, the checked box instead (P96). In active, it takes the hover look."
+    changes_for_user: "The chosen option: only the check in color/primary, with no background (DSA-124). Active or not, it has no hover look: only the focus ring when active by the keyboard. With marker=checkbox, the checked box instead, and the hover look stays (P96)."
   keyboard_active:
     token: "select/option-focus-border and select/option-focus-halo"
-    changes_for_user: "The plain option active by the keyboard: the hover look, a 1 px focus border outside the option and a halo outside it (DSA-124). The pointer hover has no border."
+    changes_for_user: "The plain option active by the keyboard: the hover look (a selected option with the check has none), a 1 px focus border outside the option and a halo outside it (DSA-124). The pointer hover has no border."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole option at state/disabled-opacity; it cannot be chosen."
@@ -233,7 +233,7 @@ accessibility:
   keyboard:
     - "not_applicable: the option never takes the focus; the list that owns it handles the keyboard."
   focus: "not_applicable: the focus stays on the trigger of the list, which points to the active option with aria-activedescendant. The rich option active by the keyboard draws the focus border and the halo of the list items."
-  contrast: "The label meets 4.5:1 on color/popover and color/accent, in light and dark mode (D8). The check in color/primary on color/popover measures 5.37:1 in light and 3.91:1 in dark, and on color/accent, in hover, 5.05:1 and 2.91:1 (default brand, measured in DSA-124). The label says the choice with it."
+  contrast: "The label meets 4.5:1 on color/popover and color/accent, in light and dark mode (D8). The check in color/primary on color/popover measures 5.37:1 in light and 3.91:1 in dark (default brand, measured in DSA-124)."
   color_alternative: "The selected option has no background: the check or the checked box says it; the dot goes with the written state."
 invalid_combinations:
   - "A start outside none, icon, avatar and dot — the option draws nothing."
@@ -343,7 +343,7 @@ option in four things:
 |---|---|---|
 | `default` | `color/popover-foreground` | The label on the list background, with no background of its own |
 | `hover` / active | `color/accent`, `color/accent-foreground` | The option the pointer or the keyboard is on (D5) |
-| `selecionada` | `color/primary` | The chosen option: only the check, with no background (DSA-124). With `marker="checkbox"`, the checked box instead (P96). In active, it takes the hover look |
+| `selecionada` | `color/primary` | The chosen option: only the check, with no background (DSA-124). Active or not, it has no hover look. With `marker="checkbox"`, the checked box instead, and the hover look stays (P96) |
 | `ativa` by the keyboard | `select/option-focus-border`, `select/option-focus-halo` | The hover look, a 1 px focus border outside the option and the halo outside it; the active option sits over its neighbors. The pointer hover has no border (DSA-124) |
 | `disabled` | `state/disabled-opacity` | The whole option fades; it cannot be chosen. Selected and disabled keeps the selected look (D-3, open) |
 
@@ -385,7 +385,7 @@ halo, and that clip stays.
 | Accessible name | The label text and the secondary text. The start, the dot, the check and the box of `marker="checkbox"` are hidden from the screen reader; the box is also `inert`. On a rich option the description is the accessible description of the option, through `ElementInternals` because an id does not cross a shadow root, and its line is hidden from the screen reader |
 | Keyboard | `not_applicable`: the list that owns the option handles the keyboard |
 | Focus | `not_applicable`: the focus stays on the trigger of the list, which points to the active option with `aria-activedescendant`. The rich option active by the keyboard draws a 1 px `select/option-focus-border` and a 4 px `select/option-focus-halo` outside it; the layer alone is below 3:1 and the border meets it |
-| Contrast | The label meets 4.5:1 on `color/popover` and `color/accent` (D8). The check in `color/primary` on `color/popover` measures 5.37:1 in light and 3.91:1 in dark; on `color/accent`, in hover, 5.05:1 and 2.91:1 (default brand, DSA-124) |
+| Contrast | The label meets 4.5:1 on `color/popover` and `color/accent` (D8). The check in `color/primary` on `color/popover` measures 5.37:1 in light and 3.91:1 in dark (default brand, DSA-124) |
 | Alternative to color | The selected option has no background: the check or the checked box says it; the dot goes with the written state |
 | Known limits | Forced colors and right-to-left are not treated yet |
 

@@ -9,7 +9,7 @@
  * at the start edge in any container) and `currentColor` (the dot with no state
  * follows the text, D6).
  *
- * The selected option has no background: the check says the choice (DSA-124). The option active
+ * The selected option (marker `check`) has no background, active or not: the check says the choice (DSA-124). The option active
  * by the keyboard draws the focus border and the halo of the list items, outside it, over its
  * neighbors; the pointer hover has the hover look only. Disabled only adds the opacity.
  *
@@ -124,6 +124,15 @@
   color: var(--nph-color-accent-foreground);
 }
 
+/*
+ * Selected with the `check` marker: no background, and no hover layer either: Figma hides it on the
+ * selected variants, so the active one shows only the focus ring (DSA-124). The text keeps its rest
+ * color. With the `checkbox` marker, the checked box says the choice and the hover look stays (P96).
+ */
+:host(:not([marker='checkbox']):state(selected)) {
+  background-color: transparent;
+  color: var(--nph-color-popover-foreground);
+}
 /*
  * The focus border, 1 px outside the option, and the halo outside it: the focus of the list items
  * (DSA-124). Only the option active by the keyboard draws them, and it sits over its neighbors.

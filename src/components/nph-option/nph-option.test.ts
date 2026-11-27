@@ -229,15 +229,14 @@ describe('states and precedence (D5)', () => {
       expect(getComputedStyle(element).color).toBe(resolved('color', '--nph-color-accent-foreground'));
     });
 
-    it(`${scheme}: selected has no background, only the check in color/primary; active over it keeps the hover look (DSA-124)`, async () => {
+    it(`${scheme}: selected has no background, only the check in color/primary; active over it shows no hover look (DSA-124)`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const element = await mount('<nph-option>Finance</nph-option>');
       element.selected = true;
       element.active = true;
       await element.updateComplete;
-      expect(getComputedStyle(element).backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
-      element.active = false;
       expect(getComputedStyle(element).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      expect(getComputedStyle(element).color).toBe(resolved('color', '--nph-color-popover-foreground'));
       const check = part(element, 'nph-icon.check') as HTMLElement;
       expect(check.getAttribute('name')).toBe('check');
       expect(check.getAttribute('size')).toBe('sm');

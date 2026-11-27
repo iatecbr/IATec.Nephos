@@ -711,5 +711,22 @@
       "Rascunho"
     ],
     "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-124.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho",
+      "ativa"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`) and the Figma variant value state=ativa of the nph-select option, quoted as they are in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-128.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
   }
 ]

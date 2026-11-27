@@ -4822,7 +4822,7 @@
       ],
       [
         "selecionada",
-        "Sem fundo, só o check em color/primary; no hover recebe o visual de hover."
+        "Sem fundo, só o check em color/primary; também não tem visual de hover."
       ],
       [
         "disabled",
