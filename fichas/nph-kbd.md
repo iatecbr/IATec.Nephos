@@ -23,15 +23,15 @@ api:
 variants: not_applicable
 states:
   default:
-    token: color/muted
+    token: kbd/background
     changes_for_user: "The key appears in a box; it does not change with interaction."
 business_rules:
   - "One piece per key: the combination puts the pieces side by side."
 domain_errors: []
 tokens:
-  background: color/muted
-  text: [text/label-sm, color/muted-foreground]
-  border: [border/width, color/border]
+  background: kbd/background
+  text: [text/label-sm, kbd/foreground]
+  border: [border/width, kbd/border]
   radius: radius/inner
   padding: space/inline-tight
 ai_hints:
@@ -43,7 +43,7 @@ accessibility:
   accessible_name: "The screen reader announces the key by its text."
   keyboard: []
   focus: "The piece does not receive focus: it has no interaction."
-  contrast: "color/muted-foreground on color/muted passes 4.5:1 in both schemes and in every brand."
+  contrast: "kbd/foreground on kbd/background passes 4.5:1 in both schemes and in every brand."
   color_alternative: "The key is written in the text; color carries no meaning."
 invalid_combinations:
   - "The whole combination in a single piece — use one piece per key."
@@ -95,7 +95,7 @@ triggers. The piece is static.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Default | `color/muted` | The key appears in a box; it does not change with interaction |
+| Default | `kbd/background` | The key appears in a box; it does not change with interaction |
 
 **Feedback and focus:** the piece does not receive focus nor react to interaction.
 
@@ -111,7 +111,7 @@ pieces side by side.
 | Semantics | The text sits inside `<kbd>`; the host has no extra role |
 | Accessible name | The screen reader announces the key by its text |
 | Keyboard and focus | The piece does not receive focus |
-| Contrast | `color/muted-foreground` on `color/muted` passes 4.5:1 in both schemes and in every brand |
+| Contrast | `kbd/foreground` on `kbd/background` passes 4.5:1 in both schemes and in every brand |
 | Alternative to color | The key is written in the text; color carries no meaning |
 
 ## Relations
@@ -131,9 +131,9 @@ action that has a shortcut.
 
 | Part | Token |
 |---|---|
-| Background | `color/muted` |
-| Text | `text/label-sm` and `color/muted-foreground` |
-| Border | `border/width` and `color/border`, as an inside stroke |
+| Background | `kbd/background` |
+| Text | `text/label-sm` and `kbd/foreground` |
+| Border | `border/width` and `kbd/border`, as an inside stroke |
 | Radius | `radius/inner` |
 | Padding | `space/inline-tight` on all four sides |
 

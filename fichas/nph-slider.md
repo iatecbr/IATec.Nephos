@@ -215,7 +215,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The error state: the thumb border becomes status/error and each thumb gets
+      The error state: the thumb border becomes slider/border-error and each thumb gets
       aria-invalid. The sentence belongs to nph-field; never invalid without it.
   input:
     type: event
@@ -253,8 +253,8 @@ variants:
       - "text inside nph-field."
 states:
   default:
-    token: color/primary-border
-    changes_for_user: "The thumb at rest, with the color/primary-border border on color/background."
+    token: slider/thumb-border
+    changes_for_user: "The thumb at rest, with the slider/thumb-border border on slider/thumb-background."
   hover:
     token: color/tooltip
     changes_for_user: "The value balloon opens above the thumb under the pointer."
@@ -262,11 +262,11 @@ states:
     token: focus/border
     changes_for_user: "The thumb border takes focus/border with the focus/halo outside, at focus/ring-width; the balloon opens."
   error:
-    token: status/error
-    changes_for_user: "The thumb border is status/error; the inner fields show their error; the sentence is in nph-field."
+    token: slider/border-error
+    changes_for_user: "The thumb border is slider/border-error; the inner fields show their error; the sentence is in nph-field."
   error-focus:
     token: focus/halo-error
-    changes_for_user: "The border stays status/error and the halo is focus/halo-error; the balloon opens."
+    changes_for_user: "The border stays slider/border-error and the halo is focus/halo-error; the balloon opens."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole slider at state/disabled-opacity, once; it does not respond, shows no balloon and wins over the error."
@@ -282,14 +282,14 @@ domain_errors:
 tokens:
   width: layout/input-width
   gap: "space/stack-tight between the top line, the track and the marks; space/inline between the track and the parts beside it"
-  track: "color/input empty and color/primary active, space/inline-tight thick, radius/full"
-  thumb: "icon/size-sm, radius/full, color/background, border/width in color/primary-border"
+  track: "slider/track-background empty and slider/range-background active, space/inline-tight thick, radius/full"
+  thumb: "icon/size-sm, radius/full, slider/thumb-background, border/width in slider/thumb-border"
   touch_target: control/height-large
   balloon: "the nph-tooltip tokens"
-  value: "text/label-md in color/foreground"
-  limits_and_marks: "text/caption in color/muted-foreground"
+  value: "text/label-md in slider/label-foreground"
+  limits_and_marks: "text/caption in slider/value-foreground"
   focus: "focus/border, focus/halo, focus/halo-error and focus/ring-width"
-  error: status/error
+  error: slider/border-error
   disabled: state/disabled-opacity
 ai_hints:
   - "Use nph-slider when the position on the scale matters more than the exact number; when the exact number matters, turn on inputs or use nph-input."
@@ -402,16 +402,16 @@ with `marks`; `text` inside `nph-field`.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `color/primary-border` | The thumb at rest, on `color/background` |
+| `default` | `slider/thumb-border` | The thumb at rest, on `slider/thumb-background` |
 | `hover` | `nph-tooltip` | The value balloon opens above the thumb |
 | `foco` | `focus/border`, `focus/halo` | The thumb border takes `focus/border` and the halo sits outside, at `focus/ring-width`; the balloon opens |
-| `erro` | `status/error` | The thumb border is `status/error`; the inner fields show their error |
-| `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error`; the balloon opens |
+| `erro` | `slider/border-error` | The thumb border is `slider/border-error`; the inner fields show their error |
+| `erro-foco` | `slider/border-error`, `focus/halo-error` | The border stays `slider/border-error` and the halo is `focus/halo-error`; the balloon opens |
 | `disabled` | `state/disabled-opacity` | The whole slider at `state/disabled-opacity`, once; no balloon |
 
 **Feedback and focus:** `disabled` wins over everything; `erro` keeps its border on focus. The
-track does not change with the state: the active part stays `color/primary` and the empty part
-`color/input`. The balloon opens on hover and on keyboard focus, by the rules of `nph-tooltip`,
+track does not change with the state: the active part stays `slider/range-background` and the empty part
+`slider/track-background`. The balloon opens on hover and on keyboard focus, by the rules of `nph-tooltip`,
 and stays open while a thumb is dragged. When the slider is disabled, the inner field and buttons
 keep `state=default`: they become inert, so the slider fades only once.
 
@@ -463,14 +463,14 @@ shadow root.
 | Part | Token |
 |---|---|
 | Root | Width `layout/input-width`; `space/stack-tight` between the top line, the track and the marks |
-| Track | `color/input` empty and `color/primary` active, `space/inline-tight` thick, `radius/full` |
-| Thumb | `icon/size-sm`, `radius/full`, `color/background`, `border/width` in `color/primary-border`; touch target `control/height-large` |
+| Track | `slider/track-background` empty and `slider/range-background` active, `space/inline-tight` thick, `radius/full` |
+| Thumb | `icon/size-sm`, `radius/full`, `slider/thumb-background`, `border/width` in `slider/thumb-border`; touch target `control/height-large` |
 | Value balloon | The `nph-tooltip` tokens |
-| Label and value | `nph-label`; the value in `text/label-md`, `color/foreground` |
-| Minimum, maximum and marks | `text/caption`, `color/muted-foreground` |
+| Label and value | `nph-label`; the value in `text/label-md`, `slider/label-foreground` |
+| Minimum, maximum and marks | `text/caption`, `slider/value-foreground` |
 | Parts beside the track | `space/inline` from the track |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width` |
-| Error | `status/error` |
+| Error | `slider/border-error` |
 | Disabled | `state/disabled-opacity` |
 
 **Usage restrictions:** the width may stretch to the parent, with no minimum. A field shares the

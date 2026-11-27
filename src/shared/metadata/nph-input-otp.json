@@ -36,14 +36,14 @@
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "The error state of the Figma set: every cell takes the border status/error and the inner input gets aria-invalid. The error sentence belongs to nph-field. disabled wins."
+      "constraint": "The error state of the Figma set: every cell takes the border input-otp/border-error and the inner input gets aria-invalid. The error sentence belongs to nph-field. disabled wins."
     },
     "disabled": {
       "type": "boolean",
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "The disabled state of the Figma set: out of the Tab order, background color/muted and the whole field at state/disabled-opacity. A disabled fieldset does the same and takes the value out of the form data. It wins over invalid."
+      "constraint": "The disabled state of the Figma set: out of the Tab order, background input-otp/background-disabled and the whole field at state/disabled-opacity. A disabled fieldset does the same and takes the value out of the form data. It wins over invalid."
     },
     "masked": {
       "type": "boolean",
@@ -135,11 +135,11 @@
   },
   "states": {
     "default": {
-      "token": "color/input border, color/background background",
+      "token": "input-otp/border border, input-otp/background background",
       "changes_for_user": "The empty cells wait for the code."
     },
     "hover": {
-      "token": "color/input-hover",
+      "token": "input-otp/border-hover",
       "changes_for_user": "Every cell border darkens while the pointer is over the field, which is one target. Error and disabled keep their border."
     },
     "focus": {
@@ -147,15 +147,15 @@
       "changes_for_user": "The cell where the next character goes, the active cell, takes the focus border and a halo outside it, out of the layout. With the code full, it is the last cell."
     },
     "error": {
-      "token": "status/error",
+      "token": "input-otp/border-error",
       "changes_for_user": "Every cell takes the error border; the sentence is written by nph-field."
     },
     "error_focus": {
-      "token": "status/error and focus/halo-error",
+      "token": "input-otp/border-error and focus/halo-error",
       "changes_for_user": "The active cell keeps the error border and the halo turns to the error tone."
     },
     "disabled": {
-      "token": "color/muted and state/disabled-opacity",
+      "token": "input-otp/background-disabled and state/disabled-opacity",
       "changes_for_user": "The field cannot be focused or edited and is drawn lighter, on the muted background."
     }
   },
@@ -172,14 +172,14 @@
   ],
   "tokens": {
     "gap": "space/inline",
-    "cell": "color/background background, color/input border at border/width, radius/control",
+    "cell": "input-otp/background background, input-otp/border border at border/width, radius/control",
     "cell_size": "control/height-default or control/height-large, as width and height",
-    "character": "text/code, color/foreground",
-    "dot": "text/code, color/foreground",
-    "hover": "color/input-hover",
+    "character": "text/code, input-otp/foreground",
+    "dot": "text/code, input-otp/foreground",
+    "hover": "input-otp/border-hover",
     "focus": "focus/border, focus/halo, focus/ring-width",
-    "error": "status/error, focus/halo-error",
-    "disabled": "color/muted, state/disabled-opacity"
+    "error": "input-otp/border-error, focus/halo-error",
+    "disabled": "input-otp/background-disabled, state/disabled-opacity"
   },
   "ai_hints": [
     "Use nph-input-otp for a short code of known length sent by SMS or e-mail; for free text, use nph-input.",
@@ -202,7 +202,7 @@
       "Enter submits the form that owns the field."
     ],
     "focus": "The active cell shows the focus border and the halo, outside the cell and out of the layout; space/inline is wider than the halo, so a neighbor never covers it.",
-    "contrast": "The character and the dot use color/foreground, at least 4.5:1 on color/background; the border color/input and the error border status/error are at least 3:1, in light and dark in every brand. The disabled state has no minimum contrast.",
+    "contrast": "The character and the dot use input-otp/foreground, at least 4.5:1 on input-otp/background; the border input-otp/border and the error border input-otp/border-error are at least 3:1, in light and dark in every brand. The disabled state has no minimum contrast.",
     "color_alternative": "The error always comes with the sentence of nph-field, read as the description; disabled combines opacity with the muted background."
   },
   "invalid_combinations": [

@@ -91,12 +91,12 @@
       "avatar/radius-lg"
     ],
     "count_padding": "space/inline-tight",
-    "count_background": "color/muted",
+    "count_background": "avatar-stack/overflow-background",
     "count_border": [
       "border/width",
-      "color/border"
+      "avatar-stack/overflow-border"
     ],
-    "count_text": "color/muted-foreground",
+    "count_text": "avatar-stack/overflow-foreground",
     "count_typography": [
       "text/label-sm",
       "text/label-md"
@@ -115,7 +115,7 @@
     "accessible_name": "The label: the names and the total, such as Ana, Bruno, Carla and 3 more, written by whoever uses the group, in its language. aria-label or aria-labelledby on the host also count.",
     "keyboard": [],
     "focus": "The piece does not receive focus and has no tabindex. When the group opens the list of people, the focus belongs to the control around it.",
-    "contrast": "The +N text, color/muted-foreground on color/muted, passes 4.5:1 in light and dark, in every brand; nph-avatar-stack.test.ts measures it by hand until the accessibility gate of P72 arrives.",
+    "contrast": "The +N text, avatar-stack/overflow-foreground on avatar-stack/overflow-background, passes 4.5:1 in light and dark, in every brand; nph-avatar-stack.test.ts measures it by hand until the accessibility gate of P72 arrives.",
     "color_alternative": "Each person shows by photo or person icon, and the total shows as text."
   },
   "invalid_combinations": [

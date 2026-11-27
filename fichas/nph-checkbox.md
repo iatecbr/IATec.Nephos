@@ -61,7 +61,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The error state of the Figma. The box border becomes status/error, checked or not, and the
+      The error state of the Figma. The box border becomes checkbox/border-error, checked or not, and the
       inner checkbox takes aria-invalid. Reflects because the internal CSS selects the
       border by it. The error sentence stays outside the piece. disabled wins over it.
   hover:
@@ -71,7 +71,7 @@ api:
     reflects: true
     constraint: >-
       Shows the hover look from outside, for a host that owns the pointer, such as the item of
-      nph-dropdown-menu: the box takes color/input-hover for the border, and state/hover-opacity
+      nph-dropdown-menu: the box takes checkbox/border-hover for the border, and state/hover-opacity
       when checked or indeterminate, as on its own hover. It is not state: it moves no value
       and fires nothing. disabled, focus and invalid still win over it.
   disabled:
@@ -112,28 +112,28 @@ variants:
       - "the box alone without label: the screen reader would announce only checkbox."
 states:
   unchecked:
-    token: "color/background for the fill and color/input for the border"
+    token: "checkbox/background for the fill and checkbox/border for the border"
     changes_for_user: "An empty box, with the text next to it."
   checked:
-    token: "color/primary for the fill and color/primary-foreground for the check mark; the border stays color/input"
+    token: "checkbox/background-checked for the fill and checkbox/icon-checked for the check mark; the border stays checkbox/border"
     changes_for_user: "The box is filled and shows the check mark."
   indeterminate:
-    token: "color/primary for the fill and color/primary-foreground for the minus mark"
+    token: "checkbox/background-checked for the fill and checkbox/icon-checked for the minus mark"
     changes_for_user: "The box is filled and shows the minus mark: the group is checked only in part."
   hover:
-    token: "color/input-hover for the border; a checked or indeterminate box also takes state/hover-opacity"
+    token: "checkbox/border-hover for the border; a checked or indeterminate box also takes state/hover-opacity"
     changes_for_user: "The whole piece responds, text included: the border gets one step darker."
   focus:
-    token: "focus/border for the box border and a focus/halo band of focus/ring-width, radius focus/radius-inner; with error, status/error and focus/halo-error"
+    token: "focus/border for the box border and a focus/halo band of focus/ring-width, radius focus/radius-inner; with error, checkbox/border-error and focus/halo-error"
     changes_for_user: "For keyboard users, the box border changes color and a halo fills the 24 by 24 touch area, without changing the size."
   invalid:
-    token: status/error
-    changes_for_user: "The box border becomes status/error, checked or not; the error sentence stays outside the piece."
+    token: checkbox/border-error
+    changes_for_user: "The box border becomes checkbox/border-error, checked or not; the error sentence stays outside the piece."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole piece loses opacity, leaves the Tab order, stops responding and is not submitted."
   hover_from_outside:
-    token: "color/input-hover; state/hover-opacity when checked or indeterminate"
+    token: "checkbox/border-hover; state/hover-opacity when checked or indeterminate"
     changes_for_user: "With hover set by the host that owns the pointer, the box looks as it does under the pointer, so the border keeps its contrast on the hovered item background."
 business_rules:
   - "Only a click on the box or on the text, or Space, by the person toggles the piece; Enter does not. The native input event crosses the shadow root and the host fires change, which bubbles and is not composed. Setting checked or indeterminate from code fires nothing. click() on the host dispatches one cancelable click and toggles only when nothing cancels it."
@@ -148,17 +148,17 @@ domain_errors:
 tokens:
   box_size: icon/size-sm
   box_radius: radius/inner
-  box_border: [border/width, color/input]
-  box_fill: [color/background, color/primary]
-  mark: [icon/size-sm, color/primary-foreground]
+  box_border: [border/width, checkbox/border]
+  box_fill: [checkbox/background, checkbox/background-checked]
+  mark: [icon/size-sm, checkbox/icon-checked]
   touch_area_padding: space/inline-tight
   text_gap: space/inline
   text: text/label-md
-  text_color: color/foreground
-  hover: [color/input-hover, state/hover-opacity]
-  invalid: status/error
+  text_color: checkbox/label-foreground
+  hover: [checkbox/border-hover, state/hover-opacity]
+  invalid: checkbox/border-error
   disabled: state/disabled-opacity
-  focus: [focus/border, focus/halo, focus/ring-width, focus/radius-inner, status/error, focus/halo-error]
+  focus: [focus/border, focus/halo, focus/ring-width, focus/radius-inner, checkbox/border-error, focus/halo-error]
   motion: [motion/state-duration, motion/state-easing]
   motion_reduced: motion/hover-duration
 ai_hints:
@@ -176,8 +176,8 @@ accessibility:
     - "Tab enters and leaves the piece."
     - "Space toggles."
     - "Enter does nothing, as on the native checkbox."
-  focus: "Keyboard only: the box border turns focus/border and a band of focus/ring-width in focus/halo fills the 24 by 24 touch area, with the radius focus/radius-inner; with error, the border stays status/error and the halo is focus/halo-error. Focus wins over hover; error wins over focus. Known limit, measured in the test: status/error is below 3:1 against focus/halo-error in dark, in every brand (1.96:1)."
-  contrast: "The rule is 3:1 for the box border against the background (WCAG 1.4.11), 3:1 for the mark on the checked fill and 4.5:1 for the text; the test measures the seven brands in both schemes. The box border, color/input, measures 3.23:1 in light and 6.58:1 in dark. The mark, color/primary-foreground on color/primary, is at least 4.96:1. The error border, status/error, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the checked fill, color/primary, is below 3:1 against the background in dark gerencial (2.71:1) and dark rh (2.88:1); the box border, which meets 3:1, keeps the box visible."
+  focus: "Keyboard only: the box border turns focus/border and a band of focus/ring-width in focus/halo fills the 24 by 24 touch area, with the radius focus/radius-inner; with error, the border stays checkbox/border-error and the halo is focus/halo-error. Focus wins over hover; error wins over focus. Known limit, measured in the test: checkbox/border-error is below 3:1 against focus/halo-error in dark, in every brand (1.96:1)."
+  contrast: "The rule is 3:1 for the box border against the background (WCAG 1.4.11), 3:1 for the mark on the checked fill and 4.5:1 for the text; the test measures the seven brands in both schemes. The box border, checkbox/border, measures 3.23:1 in light and 6.58:1 in dark. The mark, checkbox/icon-checked on checkbox/background-checked, is at least 4.96:1. The error border, checkbox/border-error, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the checked fill, checkbox/background-checked, is below 3:1 against the background in dark gerencial (2.71:1) and dark rh (2.88:1); the box border, which meets 3:1, keeps the box visible."
   color_alternative: "Checked and indeterminate show a mark, check or minus. The invalid piece changes its border and takes aria-invalid; the error sentence is written outside it."
 invalid_combinations:
   - "disabled with invalid — disabled wins, and the error border is not drawn."
@@ -261,18 +261,18 @@ other, the piece is `nph-radio`.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Unchecked | fill `color/background`, border `color/input` | An empty box, with the text next to it |
-| Checked | fill `color/primary`, mark `check` in `color/primary-foreground`; the border stays `color/input` | The box is filled and shows the check mark |
-| Indeterminate | fill `color/primary`, mark `minus` in `color/primary-foreground` | The box is filled and shows the minus mark |
-| Hover | border `color/input-hover`; checked or indeterminate, the box also takes `state/hover-opacity` | The whole piece responds, text included |
-| Focus | border `focus/border` and a `focus/halo` band of `focus/ring-width`, radius `focus/radius-inner`; with error, `status/error` and `focus/halo-error` | The halo fills the 24 × 24 touch area, without changing the size |
-| Invalid | `status/error` | The box border becomes `status/error`, checked or not; the sentence stays outside |
+| Unchecked | fill `checkbox/background`, border `checkbox/border` | An empty box, with the text next to it |
+| Checked | fill `checkbox/background-checked`, mark `check` in `checkbox/icon-checked`; the border stays `checkbox/border` | The box is filled and shows the check mark |
+| Indeterminate | fill `checkbox/background-checked`, mark `minus` in `checkbox/icon-checked` | The box is filled and shows the minus mark |
+| Hover | border `checkbox/border-hover`; checked or indeterminate, the box also takes `state/hover-opacity` | The whole piece responds, text included |
+| Focus | border `focus/border` and a `focus/halo` band of `focus/ring-width`, radius `focus/radius-inner`; with error, `checkbox/border-error` and `focus/halo-error` | The halo fills the 24 × 24 touch area, without changing the size |
+| Invalid | `checkbox/border-error` | The box border becomes `checkbox/border-error`, checked or not; the sentence stays outside |
 | Disabled | `state/disabled-opacity` | The whole piece loses opacity, text included, leaves the Tab order and is not submitted |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 border follows a strict precedence: error, then focus, then hover, then rest. `disabled`
 **always wins** over `invalid`: a disabled piece draws no error border and has no
-`aria-invalid`, and that is not an error case. The text is `color/foreground` in every
+`aria-invalid`, and that is not an error case. The text is `checkbox/label-foreground` in every
 state. With text that wraps, the box sits at the top, centered on the first line. The change
 between unchecked, checked and indeterminate animates the fill, the border and the opacity
 of the mark on `motion/state-duration` and `motion/state-easing`; width, height and position
@@ -306,8 +306,8 @@ by `nph-field`.
 | Semantics | A native `input` of type `checkbox` inside the component, in a `label` with the box and the text: role `checkbox`, with the state unchecked, checked or mixed. `aria-invalid` on the inner checkbox when invalid and not disabled |
 | Accessible name | The visible text. The box alone, the `label`, mandatory, as the `aria-label` of the inner checkbox; the box and the marks are `aria-hidden`. Known limit: a `label` element outside, pointing to the host, does not name the inner checkbox, because an id does not cross the shadow root; the piece brings its own text |
 | Keyboard | Tab enters and leaves; Space toggles; Enter does nothing, as on the native checkbox |
-| Focus | Keyboard only: the box border turns `focus/border` and a band of `focus/ring-width` in `focus/halo` fills the 24 × 24 touch area, with the radius `focus/radius-inner`; with error, the border stays `status/error` and the halo is `focus/halo-error`. Known limit, measured in the test: `status/error` is below 3:1 against `focus/halo-error` in dark, in every brand (1.96:1) |
-| Contrast | 3:1 for the box border against the background (WCAG 1.4.11), 3:1 for the mark on the checked fill and 4.5:1 for the text; the test measures the seven brands in both schemes. The box border, `color/input`, measures 3.23:1 in light and 6.58:1 in dark. The mark is at least 4.96:1. The error border measures 6.88:1 in light and 5.01:1 in dark. Known limit: the checked fill, `color/primary`, is below 3:1 against the background in dark gerencial (2.71:1) and dark rh (2.88:1); the box border keeps the box visible |
+| Focus | Keyboard only: the box border turns `focus/border` and a band of `focus/ring-width` in `focus/halo` fills the 24 × 24 touch area, with the radius `focus/radius-inner`; with error, the border stays `checkbox/border-error` and the halo is `focus/halo-error`. Known limit, measured in the test: `checkbox/border-error` is below 3:1 against `focus/halo-error` in dark, in every brand (1.96:1) |
+| Contrast | 3:1 for the box border against the background (WCAG 1.4.11), 3:1 for the mark on the checked fill and 4.5:1 for the text; the test measures the seven brands in both schemes. The box border, `checkbox/border`, measures 3.23:1 in light and 6.58:1 in dark. The mark is at least 4.96:1. The error border measures 6.88:1 in light and 5.01:1 in dark. Known limit: the checked fill, `checkbox/background-checked`, is below 3:1 against the background in dark gerencial (2.71:1) and dark rh (2.88:1); the box border keeps the box visible |
 | Alternative to color | Checked and indeterminate show a mark, `check` or `minus`. The invalid piece changes its border and takes `aria-invalid`; the error sentence is written outside it |
 | Touch target | 24 × 24 around the 16 × 16 box (WCAG 2.5.8); the text is part of the click area |
 | Motion | Under reduced motion the change takes `motion/hover-duration`, and the fill still changes |
@@ -333,16 +333,16 @@ carries the error message. The text is part of the piece, not an `nph-label`. `n
 
 | Part | Token |
 |---|---|
-| Box | `icon/size-sm`, radius `radius/inner`, border `border/width` in `color/input` |
-| Fill | `color/background`; checked and indeterminate `color/primary` |
-| Mark | `icon/size-sm` in `color/primary-foreground` |
+| Box | `icon/size-sm`, radius `radius/inner`, border `border/width` in `checkbox/border` |
+| Fill | `checkbox/background`; checked and indeterminate `checkbox/background-checked` |
+| Mark | `icon/size-sm` in `checkbox/icon-checked` |
 | Touch area | the box plus `space/inline-tight` on each side |
 | Space to the text | `space/inline`, from the edge of the touch area |
-| Text | `text/label-md` in `color/foreground` |
-| Hover | `color/input-hover`; `state/hover-opacity` on a checked or indeterminate box |
-| Invalid | `status/error` |
+| Text | `text/label-md` in `checkbox/label-foreground` |
+| Hover | `checkbox/border-hover`; `state/hover-opacity` on a checked or indeterminate box |
+| Invalid | `checkbox/border-error` |
 | Disabled | `state/disabled-opacity` |
-| Focus | `focus/border`, `focus/halo`, `focus/ring-width`, `focus/radius-inner`, `status/error` and `focus/halo-error` |
+| Focus | `focus/border`, `focus/halo`, `focus/ring-width`, `focus/radius-inner`, `checkbox/border-error` and `focus/halo-error` |
 | Motion | `motion/state-duration` and `motion/state-easing`; `motion/hover-duration` under reduced motion |
 
 **Usage restrictions:** the component does not choose size, color, radius or typography:

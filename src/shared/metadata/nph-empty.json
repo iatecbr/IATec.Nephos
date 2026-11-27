@@ -34,7 +34,7 @@
   "variants": "not_applicable",
   "states": {
     "default": {
-      "token": "color/foreground, color/muted-foreground",
+      "token": "empty/title-foreground, empty/description-foreground",
       "changes_for_user": "The illustration, the heading and, when given, the description; the piece does not change with interaction."
     }
   },
@@ -54,9 +54,9 @@
     "illustration_to_text": "space/section",
     "heading_to_description": "space/inline-tight",
     "heading_type": "text/heading-xs",
-    "heading_color": "color/foreground",
+    "heading_color": "empty/title-foreground",
     "description_type": "text/body-sm",
-    "description_color": "color/muted-foreground",
+    "description_color": "empty/description-foreground",
     "illustration_light": "scheme/is-light",
     "illustration_dark": "scheme/is-dark"
   },

@@ -100,7 +100,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The whole piece at state/disabled-opacity, on color/muted, out of the Tab order
+      The whole piece at state/disabled-opacity, on select/background-disabled, out of the Tab order
       and of the form data; the list does not open. A disabled fieldset disables it
       too. It wins over invalid.
   invalid:
@@ -109,7 +109,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The error state: the border becomes status/error and the trigger gets
+      The error state: the border becomes select/border-error and the trigger gets
       aria-invalid. It is not a constraint of the form. The sentence belongs to
       nph-field; never invalid without it.
   label:
@@ -170,9 +170,9 @@ variants:
 states:
   default:
     token: "select/border, select/border-bottom"
-    changes_for_user: "The resting border, on color/background: the top and the sides in select/border, the bottom line in select/border-bottom; the arrow area has no background and no divider."
+    changes_for_user: "The resting border, on select/background: the top and the sides in select/border, the bottom line in select/border-bottom; the arrow area has no background and no divider."
   hover:
-    token: color/input-hover
+    token: select/border-hover
     changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
@@ -181,14 +181,14 @@ states:
     token: focus/border
     changes_for_user: "The focus look with the list open below the trigger and the arrow up (chevron-up)."
   error:
-    token: status/error
-    changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
+    token: select/border-error
+    changes_for_user: "The border is select/border-error, also on hover; the sentence is in nph-field."
   error-focus:
     token: focus/halo-error
-    changes_for_user: "The border stays status/error and the halo is focus/halo-error."
+    changes_for_user: "The border stays select/border-error and the halo is focus/halo-error."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input; the arrow area has no background of its own, so the color/muted of the field shows through it; it does not open and wins over the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on select/background-disabled, with the whole border in select/border-disabled; the arrow area has no background of its own, so the select/background-disabled of the field shows through it; it does not open and wins over the error."
 business_rules:
   - "The person chooses by a click on an option, or by Enter, Space or Alt+ArrowUp on the active option; the list closes and the focus stays on the trigger."
   - "A choice of a different value fires input and then change; choosing the option already chosen, Escape, Tab, a click outside and code fire nothing."
@@ -202,17 +202,17 @@ tokens:
   height: "select/height or control/height-large"
   width: layout/input-width
   radius: radius/control
-  border: "border/width, in select/border (top and sides) and select/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border"
-  background: "color/background; color/muted when disabled"
+  border: "border/width, in select/border (top and sides) and select/border-bottom (bottom line) at rest, and in select/border-hover, focus/border, select/border-error or select/border-disabled (disabled) on the whole border"
+  background: "select/background; select/background-disabled when disabled"
   padding: "space/control-padding on the left; 0 on the right"
   gap: space/inline
-  value: "text/body-md in color/foreground"
-  placeholder: "text/body-md in color/muted-foreground"
-  start: "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm"
+  value: "text/body-md in select/foreground"
+  placeholder: "text/body-md in select/muted-foreground"
+  start: "nph-icon icon/size-sm in select/muted-foreground, or nph-avatar sm"
   divider: "none: the arrow area has no divider"
 
-  arrow_area: "no background, control/height-default or control/height-large wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground"
-  list: "color/popover, border/width in color/border-subtle, select/panel-radius (radius/overlay-anchored), elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
+  arrow_area: "no background, control/height-default or control/height-large wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in select/muted-foreground"
+  list: "select/list-background, border/width in select/list-border, select/panel-radius (radius/overlay-anchored), elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
   list_offset: space/inline-tight
   motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control"
@@ -233,7 +233,7 @@ accessibility:
     - "Open: ArrowDown and ArrowUp move without wrapping; Home, End, PageUp and PageDown jump; typing moves to the option that starts with the typed text."
     - "Open: Enter, Space and Alt+ArrowUp choose the active option and close; Escape closes without choosing; Tab closes without choosing and the focus moves on."
   focus: "The focus stays on the trigger; the active option is pointed to by aria-activedescendant. The trigger shows the focus border and the halo for the keyboard and while the list is open."
-  contrast: "The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger meets 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, select/border-bottom, is the one that meets 3:1 (the top and the sides are lighter on purpose); the check on color/popover measures 5.37:1 and 3.91:1 (DSA-124). The disabled state is exempt."
+  contrast: "The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger meets 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, select/border-bottom, is the one that meets 3:1 (the top and the sides are lighter on purpose); the check on select/list-background measures 5.37:1 and 3.91:1 (DSA-124). The disabled state is exempt."
   color_alternative: "The error is said by the sentence of nph-field; the selected option has a background and the check; the dot goes with the written state; the arrow turns up when the list opens."
 invalid_combinations:
   - "A size outside default and large — the select draws nothing."
@@ -316,13 +316,13 @@ without a start in the same list; the magnifying glass as the start icon.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `select/border`, `select/border-bottom` | The resting border, on `color/background`: top and sides in `select/border`, the bottom line in `select/border-bottom`; the arrow area has no background and no divider |
-| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
+| `default` | `select/border`, `select/border-bottom` | The resting border, on `select/background`: top and sides in `select/border`, the bottom line in `select/border-bottom`; the arrow area has no background and no divider |
+| `hover` | `select/border-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | Keyboard focus: the border takes `focus/border`, with the halo attached outside at `focus/radius-control` |
 | `aberto` | `focus/border`, `focus/halo` | The focus look with the list open below the trigger and the arrow up |
-| `erro` | `status/error` | The border is `status/error`, also on hover |
-| `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the whole border in `color/input`; the arrow area has no background of its own, so the `color/muted` of the field shows through it |
+| `erro` | `select/border-error` | The border is `select/border-error`, also on hover |
+| `erro-foco` | `select/border-error`, `focus/halo-error` | The border stays `select/border-error` and the halo is `focus/halo-error` |
+| `disabled` | `state/disabled-opacity`, `select/background-disabled` | The whole piece at `state/disabled-opacity` on `select/background-disabled`, with the whole border in `select/border-disabled`; the arrow area has no background of its own, so the `select/background-disabled` of the field shows through it |
 
 **Feedback and focus:** `disabled` wins over everything; `erro` keeps its border on hover, on
 focus and open. The focus look shows for the keyboard and while the list is open; a click
@@ -357,7 +357,7 @@ with no choice. `nph-field` writes the sentence and passes it to the select as `
 | Description | `description`, read when the trigger takes focus: the help or the error sentence of `nph-field` |
 | Keyboard | Closed: Enter, Space, ArrowDown, ArrowUp and Alt+ArrowDown open on the chosen option, or on the first; Home and End open on the first and the last; a character opens on the option that starts with it. Open: the arrows move without wrapping; Home, End, PageUp and PageDown jump; typing moves to the matching option; Enter, Space and Alt+ArrowUp choose and close; Escape closes without choosing; Tab closes without choosing and the focus moves on |
 | Focus | The focus stays on the trigger; the active option is pointed to by `aria-activedescendant` |
-| Contrast | The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, `select/border-bottom`, meets 3:1; the check on `color/popover` measures 5.37:1 and 3.91:1 (DSA-124). The disabled state is exempt |
+| Contrast | The text of the trigger and of the option meets 4.5:1 and the bottom line of the border of the trigger 3:1, in light and dark mode; the arrow keeps 3:1 on the field background; the bottom line of the border, `select/border-bottom`, meets 3:1; the check on `select/list-background` measures 5.37:1 and 3.91:1 (DSA-124). The disabled state is exempt |
 | Alternative to color | The error is said by the sentence of `nph-field`; the selected option has a background and the check; the dot goes with the written state; the arrow turns up when the list opens |
 | Hidden parts | The start, the arrow, the dot and the check are hidden from the screen reader: the text says the option |
 | Touch target | The whole trigger, arrow area included; `large` guarantees 44 px. The option takes the width of the list |
@@ -381,19 +381,19 @@ its options; `nph-icon` and `nph-avatar`, in the start, the arrow and the check;
 
 | Part | Token |
 |---|---|
-| Trigger | Height `select/height` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`, with `select/border` on top and sides and `select/border-bottom` below at rest; left padding `space/control-padding`, right 0; gap `space/inline`; background `color/background` |
-| Value | `text/body-md`, `color/foreground`, one line with an ellipsis (D3) |
-| Placeholder | `text/body-md`, `color/muted-foreground` |
-| Start | `nph-icon` `icon/size-sm` in `color/muted-foreground`, or `nph-avatar` `sm` |
+| Trigger | Height `select/height` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`, with `select/border` on top and sides and `select/border-bottom` below at rest; left padding `space/control-padding`, right 0; gap `space/inline`; background `select/background` |
+| Value | `text/body-md`, `select/foreground`, one line with an ellipsis (D3) |
+| Placeholder | `text/body-md`, `select/muted-foreground` |
+| Start | `nph-icon` `icon/size-sm` in `select/muted-foreground`, or `nph-avatar` `sm` |
 | Divider | None: the arrow area has no divider (D7, replaced by DSA-119) |
-| Arrow area | No background and no divider; `control/height-*` wide, the trigger height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `color/muted-foreground` |
-| List | `color/popover`; border `border/width` in `color/border-subtle`; `select/panel-radius` (`radius/overlay-anchored`); `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it (D9); offset `space/inline-tight` (D1) |
+| Arrow area | No background and no divider; `control/height-*` wide, the trigger height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `select/muted-foreground` |
+| List | `select/list-background`; border `border/width` in `select/list-border`; `select/panel-radius` (`radius/overlay-anchored`); `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it (D9); offset `space/inline-tight` (D1) |
 | Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing`; with reduced motion, opacity only in `motion/hover-duration` (D2, `design.md` 2g) |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
-| Disabled | `state/disabled-opacity` on `color/muted` |
+| Disabled | `state/disabled-opacity` on `select/background-disabled` |
 
 **Usage restrictions:** the arrow area has no background and no divider of its own: the
-field background shows through it, `color/muted` when disabled. Do not give it a background,
+field background shows through it, `select/background-disabled` when disabled. Do not give it a background,
 also not for an error. The width may
 stretch to the parent.
 

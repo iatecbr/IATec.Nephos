@@ -28,7 +28,7 @@
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "The Figma invalid property. The border becomes status/error and, on focus, the halo becomes focus/halo-error. Reflects because the internal CSS selects the border by it. The error message stays outside the piece, written by whoever uses it. It does not set aria-invalid, which is not valid on a button. disabled wins over it."
+      "constraint": "The Figma invalid property. The border becomes togglebutton/border-error and, on focus, the halo becomes focus/halo-error. Reflects because the internal CSS selects the border by it. The error message stays outside the piece, written by whoever uses it. It does not set aria-invalid, which is not valid on a button. disabled wins over it."
     },
     "disabled": {
       "type": "boolean",
@@ -99,24 +99,24 @@
   },
   "states": {
     "unpressed": {
-      "token": "color/muted-foreground",
-      "changes_for_user": "No background and no visible border; the label and the icon use color/muted-foreground, and the icon is light."
+      "token": "togglebutton/foreground-unchecked",
+      "changes_for_user": "No background and no visible border; the label and the icon use togglebutton/foreground-unchecked, and the icon is light."
     },
     "pressed": {
-      "token": "togglebutton/background-checked for the box; the label and the icon use color/foreground",
-      "changes_for_user": "The box takes the checked background, the label becomes color/foreground and the icon changes from xmark to check, solid. No semibold label and no stroke."
+      "token": "togglebutton/background-checked for the box; the label and the icon use togglebutton/foreground",
+      "changes_for_user": "The box takes the checked background, the label becomes togglebutton/foreground and the icon changes from xmark to check, solid. No semibold label and no stroke."
     },
     "hover": {
-      "token": "togglebutton/background-hover when off and togglebutton/background-checked-hover when on; the label and the icon use color/foreground",
-      "changes_for_user": "The box takes the hover background of its pressed value, the label becomes color/foreground and the icon turns solid."
+      "token": "togglebutton/background-hover when off and togglebutton/background-checked-hover when on; the label and the icon use togglebutton/foreground",
+      "changes_for_user": "The box takes the hover background of its pressed value, the label becomes togglebutton/foreground and the icon turns solid."
     },
     "focus": {
-      "token": "border border/width in togglebutton/focus-border and halo focus/ring-width in focus/halo; when invalid, status/error and focus/halo-error",
+      "token": "border border/width in togglebutton/focus-border and halo focus/ring-width in focus/halo; when invalid, togglebutton/border-error and focus/halo-error",
       "changes_for_user": "For keyboard users, a border and a halo outside the piece mark the focus, without changing the size."
     },
     "invalid": {
-      "token": "status/error",
-      "changes_for_user": "The border becomes status/error, over the background of the state; the error message stays outside the piece."
+      "token": "togglebutton/border-error",
+      "changes_for_user": "The border becomes togglebutton/border-error, over the background of the state; the error message stays outside the piece."
     },
     "disabled": {
       "token": "state/disabled-opacity",
@@ -155,15 +155,15 @@
     "icon_text_gap": "space/inline-tight",
     "text": "text/label-md",
     "text_color": [
-      "color/muted-foreground",
-      "color/foreground"
+      "togglebutton/foreground-unchecked",
+      "togglebutton/foreground"
     ],
     "icon": [
       "icon/size-sm",
       "icon/size-md",
       "icon/size-lg"
     ],
-    "invalid": "status/error",
+    "invalid": "togglebutton/border-error",
     "disabled": "state/disabled-opacity",
     "focus": [
       "border/width",
@@ -172,7 +172,7 @@
       "focus/radius-control-with-border",
       "togglebutton/focus-border",
       "focus/halo",
-      "status/error",
+      "togglebutton/border-error",
       "focus/halo-error"
     ],
     "motion": [

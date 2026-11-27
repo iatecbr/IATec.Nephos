@@ -122,7 +122,7 @@ variants:
     do_not_combine_with: ["a side outside the list"]
 states:
   link-rest:
-    token: "color/link"
+    token: "hover-card/link-foreground"
     changes_for_user: "The link shows in the link color, underlined, in the label-md text role."
   link-focus:
     token: "hover-card/focus-border, hover-card/focus-halo"
@@ -163,7 +163,7 @@ tokens:
   title: "hover-card/foreground, text/label-lg"
   description: "hover-card/description-foreground, text/body-sm"
   meta: "hover-card/meta-foreground, hover-card/meta-icon-foreground, hover-card/icon-size, text/caption"
-  link: "color/link, text/label-md, radius/inner"
+  link: "hover-card/link-foreground, text/label-md, radius/inner"
   arrow: "hover-card/arrow-width, hover-card/arrow-height, hover-card/arrow-inset, hover-card/background, hover-card/border"
   distance: hover-card/offset
   delay: "hover-card/open-delay, hover-card/close-delay"
@@ -187,7 +187,7 @@ accessibility:
     - "Esc closes the card and does not reach a dialog around it; the focus stays on the link."
     - "Tab away from the link closes the card with no wait."
   focus: "Keyboard only, on the link: a border of hover-card/border-width in hover-card/focus-border and a halo of focus/ring-width in hover-card/focus-halo outside the box, as nph-button. The card takes no focus and has no focus state."
-  contrast: "The title, the description and the meta pass 4.5 to 1 over the card in both themes, and the meta is never below that floor. The link in color/link passes 4.5 to 1 in both themes and in the seven brands, (D-3). The card border is decorative and the shadow separates the card from the page in light."
+  contrast: "The title, the description and the meta pass 4.5 to 1 over the card in both themes, and the meta is never below that floor. The link in hover-card/link-foreground passes 4.5 to 1 in both themes and in the seven brands, (D-3). The card border is decorative and the shadow separates the card from the page in light."
   color_alternative: "The link is underlined, not told only by color. The meta stands apart by its icon and its place at the end of the card, not only by its shade."
 invalid_combinations:
   - "An action, a link or a field inside the card: the card is read only; use nph-popover."
@@ -277,7 +277,7 @@ variant.
 
 | Part | State | Token | What changes for the person |
 |---|---|---|---|
-| Link | Rest | `color/link` | The link shows in the link color, underlined, in the label-md text role |
+| Link | Rest | `hover-card/link-foreground` | The link shows in the link color, underlined, in the label-md text role |
 | Link | Focus | `hover-card/focus-border`, `hover-card/focus-halo` | For keyboard users, a border and a halo outside the link, and the card opens with no wait |
 | Card | Closed | `not_applicable` | The card is not shown |
 | Card | Open | `hover-card/background` | The card is shown next to the link, at `hover-card/offset` |
@@ -331,7 +331,7 @@ loaded) makes the card open and close with no wait and reports it once.
 | Keyboard | Tab moves focus to the link and opens the card with no wait. Enter follows the link. Esc closes the card and does not reach a dialog around it; the focus stays on the link. Tab away closes it with no wait |
 | Visible focus | Keyboard only, on the link: a border of `hover-card/border-width` in `hover-card/focus-border` and a halo of `focus/ring-width` in `hover-card/focus-halo` outside the box. The border carries the focus; the halo is reinforcement. The card takes no focus |
 | Pointer (WCAG 1.4.13) | The pointer may go from the link to the card without closing it, the card stays open while the pointer is over it, and Esc dismisses it |
-| Contrast | The title, the description and the meta pass 4.5:1 over the card in both themes; the meta is one step softer than the description, never below the floor. The link in `color/link` passes 4.5:1 in both themes and in the seven brands (D-3) |
+| Contrast | The title, the description and the meta pass 4.5:1 over the card in both themes; the meta is one step softer than the description, never below the floor. The link in `hover-card/link-foreground` passes 4.5:1 in both themes and in the seven brands (D-3) |
 | Alternative to color | The link is underlined, not told only by color. The meta stands apart by its icon and its place at the end of the card |
 | Touch target | The link is a text link as tall as its line. It meets the target size rule by the spacing exception, when no other target sits closer than the minimum, or, inside a sentence, by the inline link exception. The card has no target. On touch there is no hover: the content of the card must exist at the destination |
 | Known limits | (a) The link is an `a` of the shadow root of the piece, not the link of the consumer: it has no `target`, `rel` or `download`, and a click on it reaches the document as a composed event whose `target` is the host, not the anchor: a router that listens to the click on the document must find the anchor in `event.composedPath()`, and one that looks for it with `event.target.closest('a[href]')` does not see it and may leave a full page navigation to happen. (b) The width is `hover-card/width` in every variant; only a window narrower than the card makes it shrink, to the width of the window. (c) The focus of the link is drawn by two pseudo-element layers, and the link is inline-block, so a link that breaks across lines draws the ring around the whole box instead of around each line. (d) In a window too short for the card and its link, the card stays beside the link, never over it, and the window cuts what does not fit: the card does not scroll. (e) The card is a preview with no action: on touch it never opens, so it is never the only way to the content |
@@ -372,7 +372,7 @@ goes (`href`), what it reads (the default slot), what the card says (`heading`, 
 | Width | `hover-card/width` |
 | Link to card, or to the arrow tip | `hover-card/offset` |
 | Arrow | `hover-card/arrow-width`, `hover-card/arrow-height` and `hover-card/arrow-inset` |
-| Link | `color/link`, `text/label-md` and `radius/inner` |
+| Link | `hover-card/link-foreground`, `text/label-md` and `radius/inner` |
 | Link focus | `hover-card/focus-border`, `hover-card/focus-halo`, `focus/ring-width`, `focus/border-radius-inner` and `focus/radius-inner-with-border` |
 | Wait before opening | `hover-card/open-delay` |
 | Wait before closing | `hover-card/close-delay` |

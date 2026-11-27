@@ -61,7 +61,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The whole piece at state/disabled-opacity, on color/muted, out of the Tab
+      The whole piece at state/disabled-opacity, on textarea/background-disabled, out of the Tab
       order and of the form data, and the footer actions disabled; the piece gives
       back only the disabled it turned on. A disabled fieldset disables it too. It
       wins over readonly and invalid.
@@ -82,7 +82,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The error state: the border becomes status/error and the inner field gets
+      The error state: the border becomes textarea/border-error and the inner field gets
       aria-invalid. It is not a constraint of the form. The sentence belongs to
       nph-field; never invalid without it.
   label:
@@ -148,25 +148,25 @@ variants:
 states:
   default:
     token: "textarea/border, textarea/border-bottom"
-    changes_for_user: "The resting border, on color/background: the top and the sides in textarea/border, the bottom line in textarea/border-bottom."
+    changes_for_user: "The resting border, on textarea/background: the top and the sides in textarea/border, the bottom line in textarea/border-bottom."
   hover:
-    token: color/input-hover
+    token: textarea/border-hover
     changes_for_user: "The whole border, on all four sides, goes one step darker under the pointer."
   focus:
     token: focus/border
     changes_for_user: "The border takes focus/border with the focus/halo attached outside, at focus/radius-control and focus/ring-width."
   error:
-    token: status/error
-    changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
+    token: textarea/border-error
+    changes_for_user: "The border is textarea/border-error, also on hover; the sentence is in nph-field."
   error-focus:
     token: focus/halo-error
-    changes_for_user: "The border stays status/error and the halo is focus/halo-error."
+    changes_for_user: "The border stays textarea/border-error and the halo is focus/halo-error."
   readonly:
     token: "textarea/border, textarea/border-bottom"
     changes_for_user: "The resting split border, also on hover, with no error look and no footer; the focus stays visible."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the whole border in color/input and the actions disabled; it does not respond and wins over readonly and the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on textarea/background-disabled, with the whole border in textarea/border-disabled and the actions disabled; it does not respond and wins over readonly and the error."
 business_rules:
   - "The field grows with the text from layout/multiline-min-height and stops at layout/multiline-max-height; above it, the text scrolls inside. There is no resize handle."
   - "Enter writes a new line; it does not submit the form."
@@ -180,13 +180,13 @@ tokens:
   width: layout/input-width
   height: "layout/multiline-min-height to layout/multiline-max-height, on the scroll area"
   radius: radius/control
-  border: "border/width, in textarea/border (top and sides) and textarea/border-bottom (bottom line) at rest, and in color/input-hover, focus/border, status/error or color/input (disabled) on the whole border"
-  background: "color/background; color/muted when disabled"
+  border: "border/width, in textarea/border (top and sides) and textarea/border-bottom (bottom line) at rest, and in textarea/border-hover, focus/border, textarea/border-error or textarea/border-disabled (disabled) on the whole border"
+  background: "textarea/background; textarea/background-disabled when disabled"
   padding: "space/control-padding on the sides, space/inline at the top and bottom (D-1)"
-  value: "text/body-md in color/foreground"
-  placeholder: "text/body-md in color/muted-foreground"
+  value: "text/body-md in textarea/foreground"
+  placeholder: "text/body-md in textarea/muted-foreground"
   footer: "space/stack below the text; space/inline-loose between the actions"
-  counter: "text/caption in color/muted-foreground"
+  counter: "text/caption in textarea/muted-foreground"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control"
   disabled: state/disabled-opacity
 ai_hints:
@@ -221,7 +221,7 @@ anti_patterns:
   - "Turning the footer on in readonly."
   - "Using the footer counter in a common form."
   - "Blocking typing at the limit with maxlength."
-  - "Painting the regular field with color/muted: it is the disabled background."
+  - "Painting the regular field with textarea/background-disabled: it is the disabled background."
   - "Using it for a one-line value."
   - "Using the placeholder as the only label."
 sources:
@@ -284,13 +284,13 @@ counter for the same text.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| `default` | `textarea/border`, `textarea/border-bottom` | The resting border, on `color/background`: top and sides in `textarea/border`, the bottom line in `textarea/border-bottom` |
-| `hover` | `color/input-hover` | The whole border goes one step darker under the pointer |
+| `default` | `textarea/border`, `textarea/border-bottom` | The resting border, on `textarea/background`: top and sides in `textarea/border`, the bottom line in `textarea/border-bottom` |
+| `hover` | `textarea/border-hover` | The whole border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | The border takes `focus/border`, with the halo attached outside at `focus/radius-control` |
-| `erro` | `status/error` | The border is `status/error`, also on hover |
-| `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
+| `erro` | `textarea/border-error` | The border is `textarea/border-error`, also on hover |
+| `erro-foco` | `textarea/border-error`, `focus/halo-error` | The border stays `textarea/border-error` and the halo is `focus/halo-error` |
 | `leitura` (`readonly`) | `textarea/border`, `textarea/border-bottom` | The resting split border, also on hover, with no error look and no footer; the focus stays visible |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the whole border in `color/input` and the actions disabled |
+| `disabled` | `state/disabled-opacity`, `textarea/background-disabled` | The whole piece at `state/disabled-opacity` on `textarea/background-disabled`, with the whole border in `textarea/border-disabled` and the actions disabled |
 
 **Feedback and focus:** `disabled` wins over everything; `readonly` wins over `invalid`;
 `erro` keeps its border on hover and on focus. The field shows its focus whenever it has it,
@@ -342,17 +342,17 @@ in the footer actions.
 
 | Part | Token |
 |---|---|
-| Box | Width `layout/input-width`; radius `radius/control`; border `border/width`, with `textarea/border` on top and sides and `textarea/border-bottom` below at rest; background `color/background` |
+| Box | Width `layout/input-width`; radius `radius/control`; border `border/width`, with `textarea/border` on top and sides and `textarea/border-bottom` below at rest; background `textarea/background` |
 | Scroll area | From `layout/multiline-min-height` to `layout/multiline-max-height`; padding `space/control-padding` on the sides and `space/inline` at the top and bottom (D-1) |
-| Value | `text/body-md`, `color/foreground` |
-| Placeholder | `text/body-md`, `color/muted-foreground` |
+| Value | `text/body-md`, `textarea/foreground` |
+| Placeholder | `text/body-md`, `textarea/muted-foreground` |
 | Footer | `space/stack` below the text, inside the box; counter at the start, actions at the end, `space/inline-loose` apart (D-3, DSA-107) |
-| Counter | `text/caption`, `color/muted-foreground` |
+| Counter | `text/caption`, `textarea/muted-foreground` |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
-| Disabled | `state/disabled-opacity` on `color/muted` |
+| Disabled | `state/disabled-opacity` on `textarea/background-disabled` |
 
 **Usage restrictions:** `layout/multiline-min-height` and `layout/multiline-max-height` serve
-only this piece. `color/muted` is only the disabled background. The width may stretch to the
+only this piece. `textarea/background-disabled` is only the disabled background. The width may stretch to the
 parent, with no minimum (D-4). There is no motion.
 
 **AI hints:**
@@ -384,7 +384,7 @@ and `solid` "Send".
 - **Do not turn the footer on in `readonly`** — there is nothing to send.
 - **Do not use the footer counter in a common form** — use the counter of `nph-field`.
 - **Do not block typing at the limit with `maxlength`** — the limit warns.
-- **Do not paint the regular field with `color/muted`** — it is the disabled background.
+- **Do not paint the regular field with `textarea/background-disabled`** — it is the disabled background.
 - **Do not use it for a one-line value.**
 - **Do not use the placeholder as the only label.**
 - **Invalid combinations:** `readonly` with a counter or an action; `invalid` without the

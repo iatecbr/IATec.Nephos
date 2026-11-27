@@ -89,9 +89,9 @@ tokens:
   count_size: [avatar/size-sm, avatar/size-md, avatar/size-lg]
   count_radius: [avatar/radius-sm, avatar/radius-md, avatar/radius-lg]
   count_padding: space/inline-tight
-  count_background: color/muted
-  count_border: [border/width, color/border]
-  count_text: color/muted-foreground
+  count_background: avatar-stack/overflow-background
+  count_border: [border/width, avatar-stack/overflow-border]
+  count_text: avatar-stack/overflow-foreground
   count_typography: [text/label-sm, text/label-md]
 ai_hints:
   - "Use nph-avatar-stack to show who takes part without listing everyone; for a single person, use nph-avatar."
@@ -105,7 +105,7 @@ accessibility:
   accessible_name: "The label: the names and the total, such as Ana, Bruno, Carla and 3 more, written by whoever uses the group, in its language. aria-label or aria-labelledby on the host also count."
   keyboard: []
   focus: "The piece does not receive focus and has no tabindex. When the group opens the list of people, the focus belongs to the control around it."
-  contrast: "The +N text, color/muted-foreground on color/muted, passes 4.5:1 in light and dark, in every brand; nph-avatar-stack.test.ts measures it by hand until the accessibility gate of P72 arrives."
+  contrast: "The +N text, avatar-stack/overflow-foreground on avatar-stack/overflow-background, passes 4.5:1 in light and dark, in every brand; nph-avatar-stack.test.ts measures it by hand until the accessibility gate of P72 arrives."
   color_alternative: "Each person shows by photo or person icon, and the total shows as text."
 invalid_combinations:
   - "A size outside sm, md and lg — the group draws nothing."
@@ -216,7 +216,7 @@ and no animation. It does not receive focus.
 | Semantics | The host is one image, `role` img, named by `label`. The slot and the count sit in one `aria-hidden` wrapper, so the avatars and the count are not read, even an avatar with a `label` of its own |
 | Accessible name | The `label`: the names and the total, such as "Ana, Bruno, Carla and 3 more", already localized. `aria-label` or `aria-labelledby` on the host also count |
 | Keyboard and focus | The piece does not receive focus and has no `tabindex`. When the group opens the list of people, the focus belongs to the control around it |
-| Contrast | The "+N" text, `color/muted-foreground` on `color/muted`, passes 4.5:1 in light and dark, in every brand; the test measures it by hand until the accessibility gate (P72) arrives |
+| Contrast | The "+N" text, `avatar-stack/overflow-foreground` on `avatar-stack/overflow-background`, passes 4.5:1 in light and dark, in every brand; the test measures it by hand until the accessibility gate (P72) arrives |
 | Alternative to color | Each person shows by photo or person icon, and the total shows as text |
 | Touch target | It is not interactive and has no touch target |
 | Motion | None: the group has no animation and no transition |
@@ -242,7 +242,7 @@ such as the team name, the space is `space/inline`, given by whoever uses the gr
 | Overlap | `avatar/overlap`, between every two neighbors, the count included |
 | Avatar | Every token from `nph-avatar`, in the size of the group |
 | Count box | `avatar/size-*` high and at least as wide, `avatar/radius-*`, side padding `space/inline-tight` |
-| Count colors | Background `color/muted`; border `border/width` in `color/border`, inside; text `color/muted-foreground` |
+| Count colors | Background `avatar-stack/overflow-background`; border `border/width` in `avatar-stack/overflow-border`, inside; text `avatar-stack/overflow-foreground` |
 | Count text | `text/label-sm` in `sm` and `md`, `text/label-md` in `lg` |
 
 **Usage restrictions:** the group chooses no color, size or radius of its own: everything

@@ -73,7 +73,7 @@ api:
     constraint: >-
       The Figma `mensagem de erro`. Filling it in is what makes the field invalid:
       there is no state property. The message replaces the help, in text/body-md and
-      status/error-text, with no icon, and the field writes invalid on the control. A
+      field/error-foreground, with no icon, and the field writes invalid on the control. A
       disabled field hides it.
   counter:
     type: string
@@ -126,7 +126,7 @@ states:
     token: "space/stack-tight between the label row, the control and the message line"
     changes_for_user: "The label, the control and, when filled in, the help line. With no help, no error and no counter, the message line is not drawn and keeps no height."
   error:
-    token: "text/body-md and status/error-text on the message"
+    token: "text/body-md and field/error-foreground on the message"
     changes_for_user: "The error message replaces the help and the control shows its error state. The label does not change."
   disabled:
     token: "state/disabled-opacity, drawn by the control"
@@ -143,9 +143,9 @@ tokens:
   stack_gap: space/stack-tight
   option_gap: space/stack-tight
   label_to_icon: "space/inline-tight, from the nph-label"
-  help: [text/caption, color/muted-foreground]
-  error: [text/body-md, status/error-text]
-  counter: [text/caption, color/muted-foreground]
+  help: [text/caption, field/description-foreground]
+  error: [text/body-md, field/error-foreground]
+  counter: [text/caption, field/description-foreground]
   counter_gap: space/inline
   disabled: "state/disabled-opacity, drawn by the control"
 ai_hints:
@@ -248,7 +248,7 @@ property.
 | State | Token | What changes for the person |
 |---|---|---|
 | Default | `space/stack-tight` | The label, the control and, when filled in, the help line. With no help, no error and no counter, the message line is not drawn and keeps no height |
-| Error | `text/body-md`, `status/error-text` | The error message replaces the help and the control shows its error state. The label does not change |
+| Error | `text/body-md`, `field/error-foreground` | The error message replaces the help and the control shows its error state. The label does not change |
 | Disabled | `state/disabled-opacity`, drawn by the control | The control fades and does not respond. The error is hidden and the help comes back |
 
 **The counter** sits at the end of the help line, at least `space/inline` from the help
@@ -327,9 +327,9 @@ the default slot.
 | Label row | `space/inline-tight` between the label and the information icon, from the `nph-label` |
 | Control | Fills the width of the field |
 | Options of a group | `space/stack-tight` between them |
-| Help text | `text/caption`, `color/muted-foreground` |
-| Error message | `text/body-md`, `status/error-text`, no icon |
-| Counter | `text/caption`, `color/muted-foreground`; `space/inline` from the help text |
+| Help text | `text/caption`, `field/description-foreground` |
+| Error message | `text/body-md`, `field/error-foreground`, no icon |
+| Counter | `text/caption`, `field/description-foreground`; `space/inline` from the help text |
 | Disabled | `state/disabled-opacity`, drawn by the control |
 
 **Usage restrictions:** the field has no background, border or focus of its own and draws
