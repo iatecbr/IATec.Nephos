@@ -21,6 +21,10 @@
  *   guidance asks to avoid more than 7 steps, and the bar draws any count. On active the steps up to the
  *   current one are done and the rest pending; on error, the done ones, the step with the error and
  *   the rest pending; on success, all in success;
+ * - `error-step` (DSA-85 D-1), read on `steps` with `status="error"`: the step with the error, from 1 to
+ *   `steps`. `step` stays the current step, so the bar shows both: the current segment in
+ *   `progress/segment-background` and this one in `progress/segment-background-error`. Without it the current
+ *   step is the one with the error. With a status other than `error`, or outside 1 to `steps`, the bar draws nothing;
  * - `label`, `value-text` and `help`: the optional texts, already localized. The label is the
  *   accessible name; the value text is the percentage, the "N of M" or the state word; the help
  *   text says what is going on or, on error, what failed;
@@ -106,6 +110,7 @@ export class NphProgress extends LitElement {
     value: { type: Number },
     steps: { type: Number },
     step: { type: Number },
+    errorStep: { type: Number, attribute: 'error-step' },
     label: { type: String },
     valueText: { type: String, attribute: 'value-text' },
     help: { type: String },
@@ -132,6 +137,13 @@ export class NphProgress extends LitElement {
   /** The current step, from 1 to `steps`, read on `steps`. 1 by default. */
   declare step: number;
 
+  /**
+   * The step with the error, an integer from 1 to `steps`, read on `steps` with `status="error"` (DSA-85 D-1).
+   * Without it the current step is the one with the error. With it, `step` stays the current step, drawn in
+   * `progress/segment-background`, and this one is drawn in `progress/segment-background-error`.
+   */
+  declare errorStep: number | null;
+
   /** The visible label above the bar and the accessible name. Already localized. */
   declare label: string | null;
 
@@ -157,6 +169,7 @@ export class NphProgress extends LitElement {
     this.value = 0;
     this.steps = null;
     this.step = 1;
+    this.errorStep = null;
     this.label = null;
     this.valueText = null;
     this.help = null;
@@ -219,6 +232,14 @@ export class NphProgress extends LitElement {
       if (!Number.isInteger(step) || step < 1 || step > (steps as number)) {
         return `step ${String(step)} is outside 1 to ${String(steps)}.`;
       }
+      if (this.errorStep !== null && this.errorStep !== undefined) {
+        if (this.status !== 'error') {
+          return `error-step ${String(this.errorStep)} needs status "error", and the status is ${quote(this.status)}.`;
+        }
+        if (!Number.isInteger(this.errorStep) || this.errorStep < 1 || this.errorStep > (steps as number)) {
+          return `error-step ${String(this.errorStep)} is outside 1 to ${String(steps)}.`;
+        }
+      }
       return null;
     }
     const value = this.value;
@@ -271,6 +292,9 @@ export class NphProgress extends LitElement {
     const count = this.steps as number;
     const states = Array.from({ length: count }, (_, index) => {
       if (this.status === 'success') return 'success';
+      if (this.status === 'error' && this.errorStep !== null && this.errorStep !== undefined) {
+        return index + 1 === this.errorStep ? 'error' : index + 1 <= this.step ? 'done' : 'pending';
+      }
       if (this.status === 'error') {
         return index + 1 < this.step ? 'done' : index + 1 === this.step ? 'error' : 'pending';
       }

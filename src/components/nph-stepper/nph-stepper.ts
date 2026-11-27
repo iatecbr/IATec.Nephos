@@ -560,7 +560,8 @@ export class NphStepper extends LitElement {
           type="steps"
           status="error"
           steps=${String(this.steps.length)}
-          step=${String(failed + 1)}
+          step=${String(this.current)}
+          error-step=${String(failed + 1)}
           label=${label}
           value-text=${this.progressText()}
           help=${this.errorHelp(failed)}

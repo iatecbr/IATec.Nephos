@@ -81,9 +81,20 @@ api:
     reflects: false
     constraint: >-
       The current step, an integer from 1 to steps, read on steps. On active, the steps up
-      to the current one are done and the rest pending; on error, the current step is the
-      one with the error. Outside 1 to steps, the bar draws nothing and emits console.error
-      in development.
+      to the current one are done and the rest pending; on error with no error-step, the
+      current step is the one with the error. Outside 1 to steps, the bar draws nothing and
+      emits console.error in development.
+  error-step:
+    type: number
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      The step with the error, an integer from 1 to steps, read on steps with status error
+      (DSA-85 D-1, answered 26/11/2026). step stays the current step, so the bar shows both:
+      the current segment in progress/segment-background and this one in
+      progress/segment-background-error. With a status other than error, or outside 1 to
+      steps, the bar draws nothing and emits console.error in development. No new token.
   label:
     type: string
     required: false

@@ -22,6 +22,7 @@ type Props = Partial<{
   value: number | null;
   steps: number | null;
   step: number;
+  errorStep: number | null;
   label: string | null;
   valueText: string | null;
   help: string | null;
@@ -64,7 +65,7 @@ describe('registration and API', () => {
   it('the public API is exactly the contract', () => {
     const declared = [...(NphProgress as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
     expect(new Set(declared)).toEqual(
-      new Set(['type', 'size', 'status', 'value', 'steps', 'step', 'label', 'valueText', 'help', 'hostName']),
+      new Set(['type', 'size', 'status', 'value', 'steps', 'step', 'errorStep', 'label', 'valueText', 'help', 'hostName']),
     );
   });
 
@@ -447,6 +448,19 @@ describe('steps', () => {
     expect(states(progress)).toEqual(['done', 'done', 'error', 'pending', 'pending']);
   });
 
+  it('error-step (DSA-85 D-1): the current step and the step with the error are both drawn', async () => {
+    const progress = await mount({ type: 'steps', steps: 5, step: 3, errorStep: 2, status: 'error', label: 'Sign-up', help: 'Check your data.' });
+    expect(states(progress)).toEqual(['done', 'error', 'done', 'pending', 'pending']);
+    expect(progress.errorStep).toBe(2);
+  });
+  it('error-step beyond the current step leaves the steps between pending', async () => {
+    const progress = await mount({ type: 'steps', steps: 5, step: 2, errorStep: 4, status: 'error', label: 'Sign-up', help: 'Check your data.' });
+    expect(states(progress)).toEqual(['done', 'done', 'pending', 'error', 'pending']);
+  });
+  it('error-step on the current step is the same as no error-step', async () => {
+    const progress = await mount({ type: 'steps', steps: 5, step: 3, errorStep: 3, status: 'error', label: 'Sign-up', help: 'Check your data.' });
+    expect(states(progress)).toEqual(['done', 'done', 'error', 'pending', 'pending']);
+  });
   it('the segment colors come from the segment tokens', async () => {
     const progress = await mount({ type: 'steps', steps: 5, step: 3, status: 'error', label: 'Sign-up', help: 'Check your data.' });
     const color = (state: string) => getComputedStyle(part(progress, `.segment[data-state="${state}"]`)!).backgroundColor;
@@ -614,6 +628,9 @@ describe('invalid input', () => {
     ['step 0', { type: 'steps', steps: 4, step: 0 }, 'step 0'],
     ['step beyond the count', { type: 'steps', steps: 4, step: 5 }, 'step 5'],
     ['step not an integer', { type: 'steps', steps: 4, step: 1.5 }, 'step 1.5'],
+    ['error-step with a status that is not error', { type: 'steps', steps: 4, step: 2, errorStep: 1 }, 'error-step 1 needs status "error"'],
+    ['error-step 0', { type: 'steps', steps: 4, step: 2, errorStep: 0, status: 'error', help: 'Failed.' }, 'error-step 0'],
+    ['error-step beyond the count', { type: 'steps', steps: 4, step: 2, errorStep: 5, status: 'error', help: 'Failed.' }, 'error-step 5'],
   ];
 
   for (const [name, properties, message] of INVALID) {
