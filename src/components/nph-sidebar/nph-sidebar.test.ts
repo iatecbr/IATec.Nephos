@@ -685,9 +685,25 @@ describe('the flyout panel of the collapsed menu', () => {
     expect(option.getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 0);
     expect(getComputedStyle(option).color).toBe(resolved('color', '--nph-sidebar-flyout-foreground'));
     expect(Number.parseFloat(getComputedStyle(option).paddingLeft)).toBeCloseTo(px('--nph-sidebar-item-padding'), 0);
-    expect(getComputedStyle(option).borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-sidebar-item-radius'));
+    expect(getComputedStyle(option).borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-sidebar-flyout-item-radius'));
+    expect(getComputedStyle(option).borderTopLeftRadius).toBe(style.borderTopLeftRadius);
   });
 
+  it('the option has its own corner, equal to the panel, and its focus border and halo follow it; the item of the fixed menu keeps 12', async () => {
+    const sidebar = await mount({ mode: 'collapsed' });
+    innerControl(rail(sidebar, 3)).focus();
+    await userEvent.keyboard('{Enter}');
+    await entered(sidebar);
+    const [panel] = flyouts(sidebar) as [HTMLElement];
+    const option = panel.querySelector('.option') as HTMLElement;
+    option.focus();
+    expect(option.matches(':focus-visible')).toBe(true);
+    const border = getComputedStyle(option, '::before');
+    const halo = getComputedStyle(option, '::after');
+    expect(border.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-sidebar-flyout-item-focus-border-radius'));
+    expect(halo.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-sidebar-flyout-item-focus-halo-radius'));
+    expect(getComputedStyle(option).borderTopLeftRadius).not.toBe(resolved('border-top-left-radius', '--nph-sidebar-item-radius'));
+  });
   it('hover does not open it; Enter and Space do, with aria-expanded and aria-controls, and the focus stays on the opener', async () => {
     const sidebar = await mount({ mode: 'collapsed' });
     const opener = rail(sidebar, 3);
@@ -2050,6 +2066,9 @@ describe('token contract', () => {
       '--nph-sidebar-item-foreground-open',
       '--nph-sidebar-item-padding',
       '--nph-sidebar-item-radius',
+      '--nph-sidebar-flyout-item-radius',
+      '--nph-sidebar-flyout-item-focus-border-radius',
+      '--nph-sidebar-flyout-item-focus-halo-radius',
       '--nph-sidebar-scrim',
       '--nph-sidebar-mobile-offset',
       '--nph-focus-border',
