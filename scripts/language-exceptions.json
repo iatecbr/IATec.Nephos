@@ -14,9 +14,12 @@
       "margem",
       "estilo",
       "conteudo",
-      "fonte"
+      "fonte",
+      "faixa",
+      "moldura",
+      "com"
     ],
-    "reason": "Keys of the design.md contract, outside the DSA-15 scope; they stay as they are."
+    "reason": "Keys of the design.md contract, outside the DSA-15 scope; they stay as they are; and the Figma names quoted in the descriptions of the tokens (faixa, moldura com), as in the accepted board (P64: Figma is in Portuguese)."
   },
   {
     "file": "docs/consuming.md",
@@ -459,7 +462,6 @@
       "ajuste",
       "ações",
       "cabeçalho",
-      "carregando",
       "Documentação",
       "estado",
       "foco",
@@ -723,6 +725,51 @@
   },
   {
     "file": "docs/operacao/tarefas/DSA-128.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-122.md",
+    "class": "prose-text",
+    "names": [
+      "mês",
+      "compacto",
+      "Ter",
+      "Rascunho"
+    ],
+    "reason": "Figma variant and node names of nph-scheduler (mês compacto, dia Ter) and the name of the Figma page (Rascunho, `988:6952`), quoted as they are in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-123.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-125.md",
+    "class": "prose-text",
+    "names": [
+      "Novo",
+      "Concluído",
+      "Rascunho"
+    ],
+    "reason": "The visible labels of the accepted board (Novo, Concluído) and the name of the Figma page (Rascunho, `988:6952`), quoted as they are in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-126.md",
+    "class": "prose-text",
+    "names": [
+      "Rascunho"
+    ],
+    "reason": "Name of the Figma page (Rascunho, `988:6952`), a proper name, quoted as it is in Figma (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-127.md",
     "class": "prose-text",
     "names": [
       "Rascunho"
