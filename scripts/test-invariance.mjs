@@ -196,7 +196,7 @@ function buildCopy(edit) {
 }
 
 const addDimension = (unit) => (core) => {
-  core.core['layout-offset'] = { top: { $type: 'dimension', $value: { value: 16, unit } } };
+  core.core['fixture-offset'] = { top: { $type: 'dimension', $value: { value: 16, unit } } };
   core.$extensions[NS].expectedCount += 1;
 };
 
@@ -204,9 +204,9 @@ const percent = buildCopy(addDimension('%'));
 const vh = buildCopy(addDimension('vh'));
 unitChecks.push(
   ['the build accepts a percentage', percent.status === 0],
-  ['a percentage comes out as 16%, with no conversion', /--nph-core-layout-offset-top: 16%;/.test(percent.css)],
+  ['a percentage comes out as 16%, with no conversion', /--nph-core-fixture-offset-top: 16%;/.test(percent.css)],
   ['a px dimension still comes out in rem next to it', /--nph-core-space-400: 1rem;/.test(percent.css)],
-  ['the build stops on a vh dimension and names the token', vh.status !== 0 && /core\.layout-offset\.top/.test(vh.log) && /unit "vh" is not handled/.test(vh.log)],
+  ['the build stops on a vh dimension and names the token', vh.status !== 0 && /core\.fixture-offset\.top/.test(vh.log) && /unit "vh" is not handled/.test(vh.log)],
 );
 
 console.log('\n=== PROOF: the units of a dimension ===');
