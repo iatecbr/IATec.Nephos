@@ -326,7 +326,7 @@ tokens:
   corner_button: "nph-button primary solid; nph-button icon-only plus when collapsed"
   panel_menu: "panel-menu/subgroup-height, panel-menu/subgroup-padding-x and -y, panel-menu/subgroup-gap, panel-menu/subgroup-radius, panel-menu/subgroup-icon-size, panel-menu/subgroup-foreground and -open, panel-menu/subgroup-background-hover, panel-menu/subgroup-disabled-opacity; panel-menu/focus-border, -border-width, -border-radius, panel-menu/focus-ring, -ring-width, panel-menu/focus-radius; panel-menu/nest-padding, panel-menu/nest-gap, panel-menu/guide-background, panel-menu/guide-width; panel-menu/item-gap, panel-menu/section-gap, panel-menu/label-gap; collapsible/expand-duration and -easing (the growth of the block, shared with nph-collapsible); panel-menu/skeleton-row-height, -row-padding, -gap and -icon-size; text/body-md closed and text/label-md open"
   flyout: "sidebar/flyout-background, sidebar/flyout-border, sidebar/flyout-radius, elevation/dropdown, sidebar/flyout-title, sidebar/flyout-foreground, sidebar/flyout-option-hover"
-  flyout_option: "control/height-default, sidebar/item-padding, sidebar/item-radius, sidebar/item-foreground-active, sidebar/item-foreground-open, state/disabled-opacity"
+  flyout_option: "control/height-default, sidebar/item-padding, sidebar/flyout-item-radius, sidebar/flyout-item-focus-border-radius, sidebar/flyout-item-focus-halo-radius, sidebar/item-foreground-active, sidebar/item-foreground-open, state/disabled-opacity"
   mobile: "sidebar/mobile-offset, sidebar/scrim"
   focus: "focus/border, focus/halo, focus/ring-width, focus/border-radius-sidebar-item, focus/radius-sidebar-item"
   motion: "motion/expand-duration and motion/expand-easing for the width; motion/enter-* and motion/exit-* for the panels"
@@ -541,7 +541,7 @@ left; in the mobile mode it floats over the screen.
 | Panel menu focus | `panel-menu/focus-border`, `panel-menu/focus-border-width`, `panel-menu/focus-border-radius`, `panel-menu/focus-ring`, `panel-menu/focus-ring-width`, `panel-menu/focus-radius` |
 | Panel menu levels | `panel-menu/nest-padding`, `panel-menu/nest-gap`, `panel-menu/guide-background`, `panel-menu/guide-width`, `panel-menu/item-gap`, `panel-menu/section-gap`, `panel-menu/label-gap` |
 | Panel menu motion and loading | `collapsible/expand-duration`, `collapsible/expand-easing` (the growth of the block, shared with the `nph-collapsible`); `panel-menu/skeleton-row-height`, `panel-menu/skeleton-row-padding`, `panel-menu/skeleton-gap`, `panel-menu/skeleton-icon-size` |
-| Flyout option | `sidebar/flyout-foreground`, `sidebar/flyout-option-hover`, `sidebar/item-foreground-active`, `sidebar/item-foreground-open`, `sidebar/item-padding`, `sidebar/item-radius` |
+| Flyout option | `sidebar/flyout-foreground`, `sidebar/flyout-option-hover`, `sidebar/item-foreground-active`, `sidebar/item-foreground-open`, `sidebar/item-padding`, `sidebar/flyout-item-radius`, `sidebar/flyout-item-focus-border-radius`, `sidebar/flyout-item-focus-halo-radius` |
 | Mobile | `sidebar/mobile-offset`, `sidebar/scrim` |
 | Focus | `focus/border`, `focus/halo`, `focus/ring-width`, `focus/border-radius-sidebar-item`, `focus/radius-sidebar-item` |
 | Motion | `motion/expand-*`, `motion/enter-*`, `motion/exit-*` |

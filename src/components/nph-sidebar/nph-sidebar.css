@@ -489,7 +489,7 @@ dialog.panel[data-open] {
   padding-block: 0;
   padding-inline: var(--nph-sidebar-item-padding);
   border: none;
-  border-radius: var(--nph-sidebar-item-radius);
+  border-radius: var(--nph-sidebar-flyout-item-radius);
   background-color: transparent;
   color: var(--nph-sidebar-flyout-foreground);
   font-family: var(--nph-text-body-md-font-family);
@@ -556,13 +556,13 @@ dialog.panel[data-open] {
 .option:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
   border: var(--nph-border-width) solid var(--nph-focus-border);
-  border-radius: var(--nph-focus-border-radius-sidebar-item);
+  border-radius: var(--nph-sidebar-flyout-item-focus-border-radius);
 }
 
 .option:focus-visible::after {
   inset: calc(-1 * var(--_ring));
   border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
-  border-radius: var(--nph-focus-radius-sidebar-item);
+  border-radius: var(--nph-sidebar-flyout-item-focus-halo-radius);
 }
 
 /* ----- the panel menu (DSA-76, P124) --------------------------------------------- */
